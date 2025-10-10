@@ -12,7 +12,7 @@ const AboutSection = () => {
     <>
     <div className="relative py-16 overflow-hidden">
       {/* Background Image di sebelah kanan */}
-      <div className="absolute inset-y-0 right-0 w-1/2 bg-[url('images/partikel01.png')] bg-no-repeat bg-right bg-contain opacity-20 pointer-events-none"></div>
+      <div className="absolute inset-y-0 right-0 w-1/2 bg-[url('images/particle01.png')] bg-no-repeat bg-right bg-contain opacity-20 pointer-events-none"></div>
      
 
       {/* Pengguna TEFA */}

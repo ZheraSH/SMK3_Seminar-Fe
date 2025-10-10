@@ -2,20 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
-import Branda from "./assets/Pages/Branda.jsx";
-import TentangKami from "./assets/Pages/TentangKami.jsx";
-import Berita from "./assets/Pages/Berita.jsx";
-import Ap from "./assets/components/Fragments/TESTTO.jsx";
-import Loginn from "./assets/components/Fragments/testlogin.jsx";
-import Appp from "./assets/components/Fragments/TESTTO.jsx";
-import Login from "./assets/components/Fragments/Login/MainLogin.jsx";
-import SidebarSection from "./assets/components/Fragments/SideBar/SidebarSection.jsx";
-import DashbordLayouth from "./assets/components/Layouts/DashbordLayouth.jsx";
+import TentangKami from "./assets/Pages/LandingPage/AboutUSPage.jsx";
+import Berita from "./assets/Pages/LandingPage/NewsPage.jsx";
+import Login from "./assets/components/Elements/Login/MainLogin.jsx";
+import BodyTeachers from "./assets/components/Fragments/Dashbord/Teachers/BodyTeachers.jsx";
+import DashbordLayouth from "./assets/Layouts/DashbordLayouth.jsx";
+import HomeLandingPage from "./assets/Pages/LandingPage/HomeLandingPage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Branda />,
+    element: <HomeLandingPage />,
   },
   {
     path: "/tentangkami",
@@ -30,19 +27,13 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/test",
-    element: <Appp />,
-  },
-  {
-    path: "/testlogin",
-    element: <Loginn />,
-  },
-  {
     path: "/side",
-    element: <DashbordLayouth/>,
+    element: <DashbordLayouth />,
   },
-  
-
+  {
+    path: "/guru",
+    element: <BodyTeachers />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

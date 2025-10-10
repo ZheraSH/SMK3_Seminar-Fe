@@ -21,7 +21,7 @@ const SecondAbout = () => {
             className="flex justify-center"
           >
             <img
-              src="/images/ppl/02.png"
+              src="/images/people/02.png"
               alt="Tentang TEFA"
               className="max-w-sm lg:max-w-md"
             />

@@ -46,7 +46,7 @@ const SectionTentangKami = () => {
                     {/* Right Image */}
                     <div data-aos="fade-up" data-aos-duration="3000" className="flex justify-center lg:justify-end">
                         <img
-                            src="/images/ppl/02.png"
+                            src="/images/people/02.png"
                             alt="Student"
                             className="w-80 lg:w-[400px] object-contain"
                         />

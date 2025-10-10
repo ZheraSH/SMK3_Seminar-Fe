@@ -7,20 +7,20 @@ const SidebarSection = () => {
         <div className="flex justify-center items-center px-10 gap-3">
             <img className="w-10 h-10 "  src="images/SMKNLOGO1.png" alt="" />
             <div className="flex flex-col items-center justify-center h-20 text-white font-bold">
-                SMKN Negri 3 Pamekasan
+                SMK Negri 3 Pamekasan
             </div>
         </div>
       
 
       <div className="p-6 text-white">
-        <div className="flex items-center gap-3 duration-300 hover:bg-white hover:rounded hover:text-[#1E3A8A] p-2 font-bold mb-3 cursor-pointer">
+        <div className="flex items-center gap-3 duration-300 hover:bg-white hover:rounded-full hover:text-[#1E3A8A] p-2 font-bold mb-3 cursor-pointer">
           <Home size={20} />
-          <span><a href="">Home</a></span>
+          <span><a href="/Dashbord">Home</a></span>
         </div>
 
         <div className="flex items-center gap-3 duration-300 hover:bg-white hover:rounded hover:text-[#1E3A8A] p-2 font-bold mb-3 cursor-pointer">
           <Contact size={20} />
-          <span><a href="">Guru</a></span>
+          <span><a href="/guru">Guru</a></span>
         </div>
 
         <div className="flex items-center gap-3 duration-300 hover:bg-white hover:rounded hover:text-[#1E3A8A] p-2 font-bold mb-3 cursor-pointer">

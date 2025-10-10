@@ -8,7 +8,7 @@ const newsData = [
     id: 1,
     title: "Judul Berita 1",
     category: "Kegiatan Siswa",
-    image: "/images/ppl/06.png",
+    image: "/images/people/06.png",
     content:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi unde, repellat facere fugiat eos libero harum consequatur ipsa ducimus vero aliquam, voluptatum magnam architecto nemo debitis. Eos consequuntur, asperiores tempora rem iure doloribus laudantium veniam tempore facilis, sequi fuga magni sed aperiam, minima eius corrupti sint voluptatibus ducimus voluptates odio nesciunt beatae maiores fugit deleniti! Corporis reiciendis culpa corrupti neque voluptatum temporibus. Quidem aut accusamus aperiam tenetur odio commodi suscipit in maiores debitis nam, quos non dolorum excepturi, totam asperiores. Eveniet quo quis veritatis vel minima aperiam adipisci ullam rem nostrum? Incidunt sit molestiae voluptas doloremque magni necessitatibus eveniet non?",
   },

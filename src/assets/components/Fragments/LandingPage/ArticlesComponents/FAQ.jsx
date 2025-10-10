@@ -49,7 +49,7 @@ const FAQ = () => {
       <section id="FAQ" className="relative py-16 bg-[#001D3D]">
         {/* Background + Overlay */}
         <div className="absolute inset-0">
-          <div className="w-full h-full bg-[url('/images/bg/VectorHD.jpg')] bg-cover bg-center"></div>
+          <div className="w-full h-full bg-[url('/images/background/VectorHD.jpg')] bg-cover bg-center"></div>
           <div className="absolute inset-0 bg-[#001D3D]/85"></div>
         </div>
 

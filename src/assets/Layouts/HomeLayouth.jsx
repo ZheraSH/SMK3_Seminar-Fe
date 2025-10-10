@@ -14,7 +14,7 @@ const MainHomeLayouth = (props) => {
     return (
       <div className=" w-full relative">
 
-        <div className="absolute inset-0 bg-[url('/images/bg/bgnew.png')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-[url('/images/background/bgnew.png')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#003566]/82 to-[#001D3D]/98"></div>
   
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white mx-16">

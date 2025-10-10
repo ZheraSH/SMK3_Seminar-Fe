@@ -1,8 +1,6 @@
-
-import BodyDashboard from "../Fragments/Dashbord/Home/BodyDashbord";
-import MainDashboard from "../Fragments/Dashbord/Home/MainDashbord";
-
-import SidebarSection from "../Fragments/SideBar/SidebarSection";
+import BodyDashboard from "../components/Fragments/Dashbord/Home/BodyDashbord";
+import MainDashboard from "../components/Fragments/Dashbord/Home/MainDashbord";
+import SidebarSection from "../components/Elements/SideBar/SidebarSection";
 
 const DashbordLayouth = () => {
   return (
