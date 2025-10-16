@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { data, aktivitas } from "../../../../../core/Data/DashboardData";
+
+
 import {
   UsersRound,
   ContactRound,
@@ -19,22 +22,6 @@ import {
   Legend,
 } from "recharts";
 
-const data = [
-  { hari: "Senin", hadir: 100, izin: 10 },
-  { hari: "Selasa", hadir: 80, izin: 70 },
-  { hari: "Rabu", hadir: 100, izin: 60 },
-  { hari: "Kamis", hadir: 30, izin: 35 },
-  { hari: "Jum'at", hadir: 40, izin: 45 },
-];
-
-const aktivitas = [
-  { nama: "Valen Abdul", kelas: "XII PPLG 3", jam: "07.30", status: "Terlambat" },
-  { nama: "Budi Santoso", kelas: "XII PPLG 2", jam: "07.00", status: "Masuk" },
-  { nama: "Rina Kartika", kelas: "XII PPLG 1", jam: "07.05", status: "Masuk" },
-  { nama: "Dewi Lestari", kelas: "XII PPLG 4", jam: "07.15", status: "Masuk" },
-  { nama: "Eka Saputra", kelas: "XII PPLG 3", jam: "07.00", status: "Masuk" },
-  { nama: "Tono Hadi", kelas: "XII PPLG 1", jam: "07.10", status: "Masuk" },
-];
 
 const BodyDashboard = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -64,7 +51,7 @@ const BodyDashboard = () => {
               className="text-green-500 mx-auto mb-4 animate-bounceOnce"
             />
             <h2 className="text-3xl font-bold text-gray-800 mb-1">
-              Login Berhasil 🎉
+              Login Berhasil!
             </h2>
             <p className="text-gray-600 text-sm">
               Selamat datang di SEMINAR Dashboard
@@ -126,41 +113,41 @@ const BodyDashboard = () => {
 
         <div className="rounded-2xl bg-white border border-gray-200 shadow p-5 flex-1">
         <div className="rounded-t-2xl border border-gray-200 overflow-hidden">
-  <table className="w-full text-left border-collapse rounded-2xl overflow-hidden shadow-sm">
-    <thead>
-      <tr className="bg-[#0475B0] text-white">
-        <th className="py-3 px-6 text-sm font-semibold">Nama</th>
-        <th className="py-3 px-6 text-sm font-semibold">Kelas</th>
-        <th className="py-3 px-6 text-sm font-semibold">Jam</th>
-        <th className="py-3 px-6 text-sm font-semibold text-center">Status</th>
-      </tr>
-    </thead>
+        <table className="w-full text-left border-collapse rounded-2xl overflow-hidden shadow-sm">
+          <thead>
+            <tr className="bg-[#0475B0] text-white">
+              <th className="py-3 px-6 text-sm font-semibold">Nama</th>
+              <th className="py-3 px-6 text-sm font-semibold">Kelas</th>
+              <th className="py-3 px-6 text-sm font-semibold">Jam</th>
+              <th className="py-3 px-6 text-sm font-semibold text-center">Status</th>
+            </tr>
+          </thead>
 
-    <tbody>
-      {aktivitas.map((a, i) => (
-        <tr
-          key={i}
-          className="border-b border-gray-200 hover:bg-gray-50 transition"
-        >
-          <td className="py-3 px-6 text-gray-800">{a.nama}</td>
-          <td className="py-3 px-6 text-gray-700">{a.kelas}</td>
-          <td className="py-3 px-6 text-gray-700">{a.jam}</td>
-          <td className="py-3 px-6 text-center">
-            {a.status === "Masuk" ? (
-              <span className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium">
-                Masuk
-              </span>
-            ) : (
-              <span className="bg-red-100 text-red-600 px-4 py-1 rounded-full text-sm font-medium">
-                Telat
-              </span>
-            )}
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+          <tbody>
+            {aktivitas.map((a, i) => (
+              <tr
+                key={i}
+                className="border-b border-gray-200 hover:bg-gray-50 transition"
+              >
+                <td className="py-3 px-6 text-gray-800">{a.nama}</td>
+                <td className="py-3 px-6 text-gray-700">{a.kelas}</td>
+                <td className="py-3 px-6 text-gray-700">{a.jam}</td>
+                <td className="py-3 px-6 text-center">
+                  {a.status === "Masuk" ? (
+                    <span className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium">
+                      Masuk
+                    </span>
+                  ) : (
+                    <span className="bg-red-100 text-red-600 px-4 py-1 rounded-full text-sm font-medium">
+                      Telat
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
         </div>
       </div>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Eye, EyeOff, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import api from "../../../../api/index";
+import api from "@api/index";
+
 
 const loginUser = async ({ email, password }) => {
   try {
@@ -21,7 +22,7 @@ const loginUser = async ({ email, password }) => {
     console.error("Error login:", error);
     throw new Error("Gagal login. Periksa email/password atau server API.");
   }
-}
+};
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -30,7 +31,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [generalError, setGeneralError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleLoginn = async (e) => {
     e.preventDefault();
@@ -59,9 +60,7 @@ export default function Login() {
       localStorage.setItem("userData", JSON.stringify(userData));
       setTimeout(() => {
         localStorage.setItem("loginSuccess", "true");
-        navigate("/side");
-        
-        
+        navigate("/dashbord");
       }, 1000);
     } catch (error) {
       setGeneralError("Email atau password salah. Silakan coba lagi.");
@@ -70,24 +69,37 @@ export default function Login() {
 
   return (
     <>
-
       <div className="relative flex justify-center items-center min-h-screen w-full bg-gray-100 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="bubble absolute w-56 h-56 rounded-full opacity-30 blur-lg 
-            bg-gradient-to-br from-cyan-300 via-cyan-400 to-teal-600 top-0 left-0 animate-[bubble1_24s_ease-in-out_infinite_alternate]"></div>
-          <div className="bubble absolute w-64 h-64 rounded-full opacity-30 blur-lg 
-            bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600 top-1/4 right-0 animate-[bubble2_28s_ease-in-out_infinite_alternate-reverse]"></div>
-          <div className="bubble absolute w-60 h-60 rounded-full opacity-30 blur-lg 
-            bg-gradient-to-br from-orange-300 via-orange-400 to-yellow-500 bottom-0 left-1/2 animate-[bubble3_20s_linear_infinite_alternate]"></div>
-          <div className="bubble absolute w-56 h-56 rounded-full opacity-30 blur-lg 
-            bg-gradient-to-br from-green-300 via-green-400 to-emerald-600 bottom-1/4 left-0 animate-[bubble4_32s_ease-in-out_infinite_alternate]"></div>
-          <div className="bubble absolute w-64 h-64 rounded-full opacity-30 blur-lg 
-            bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-700 top-0 right-1/4 animate-[bubble5_22s_linear_infinite_alternate-reverse]"></div>
+          <div
+            className="bubble absolute w-56 h-56 rounded-full opacity-30 blur-lg 
+            bg-gradient-to-br from-cyan-300 via-cyan-400 to-teal-600 top-0 left-0 animate-[bubble1_24s_ease-in-out_infinite_alternate]"
+          ></div>
+          <div
+            className="bubble absolute w-64 h-64 rounded-full opacity-30 blur-lg 
+            bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600 top-1/4 right-0 animate-[bubble2_28s_ease-in-out_infinite_alternate-reverse]"
+          ></div>
+          <div
+            className="bubble absolute w-60 h-60 rounded-full opacity-30 blur-lg 
+            bg-gradient-to-br from-orange-300 via-orange-400 to-yellow-500 bottom-0 left-1/2 animate-[bubble3_20s_linear_infinite_alternate]"
+          ></div>
+          <div
+            className="bubble absolute w-56 h-56 rounded-full opacity-30 blur-lg 
+            bg-gradient-to-br from-green-300 via-green-400 to-emerald-600 bottom-1/4 left-0 animate-[bubble4_32s_ease-in-out_infinite_alternate]"
+          ></div>
+          <div
+            className="bubble absolute w-64 h-64 rounded-full opacity-30 blur-lg 
+            bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-700 top-0 right-1/4 animate-[bubble5_22s_linear_infinite_alternate-reverse]"
+          ></div>
         </div>
 
         <div className="flex backdrop-blur-md rounded-2xl shadow-xl overflow-hidden max-w-4xl w-full mx-4 relative z-10 border border-white/40">
           <div className="py-6 hidden md:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-[#0095FF]/100 via-[#62BDFF]/100 to-[#8BCFFF]/100 backdrop-blur-md rounded-tr-[40%]">
-            <img src="/images/ppl/07.png" alt="Ilustrasi Seminar" className="w-6xl" />
+            <img
+              src="/Images/People/07.png"
+              alt="Ilustrasi Seminar"
+              className="w-6xl"
+            />
           </div>
 
           <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-10">
@@ -101,21 +113,29 @@ export default function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${emailError ? 'border-red-500' : 'border-white/50'} 
+                  className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${
+                    emailError ? "border-red-500" : "border-white/50"
+                  } 
                     focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-500`}
                   placeholder="Masukkan email"
                 />
-                {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+                {emailError && (
+                  <p className="text-red-500 text-sm mt-1">{emailError}</p>
+                )}
               </div>
 
               <div className="mb-2">
-                <label className="block text-black text-sm mb-1">Password</label>
+                <label className="block text-black text-sm mb-1">
+                  Password
+                </label>
                 <div className="relative">
                   <input
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type={showPassword ? "text" : "password"}
-                    className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${passwordError ? 'border-red-500' : 'border-white/50'} 
+                    className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${
+                      passwordError ? "border-red-500" : "border-white/50"
+                    } 
                       focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-500 pr-10`}
                     placeholder="Masukkan password"
                   />
@@ -127,7 +147,9 @@ export default function Login() {
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+                {passwordError && (
+                  <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+                )}
               </div>
 
               {generalError && (

@@ -1,8 +1,5 @@
-import MainHomeLayouth from "../../../../Layouts/HomeLayouth";
+import MainHomeLayouth from "../../../../layouts/HomeLayouth";
 const SectionHead = () => {
-
-
-
   return (
     <>
       <MainHomeLayouth
