@@ -2,7 +2,7 @@ import Footer from "../../components/Fragments/LandingPage/ArticlesComponents/Ma
 import MainNavbar from "../../components/Fragments/LandingPage/Navbar/MainNavbar";
 import SecondAbout from "../../components/Fragments/LandingPage/AboutUSComponents/AboutUS";
 import SecondMain from "../../components/Fragments/LandingPage/AboutUSComponents/HeroAboutUS";
-import PageWrapper from "../../components/Elements/PageWrapper";
+import PageWrapper from "../../layouts/landingpage/PageWrapper";
 
 const TentangKami = () => {
   return (

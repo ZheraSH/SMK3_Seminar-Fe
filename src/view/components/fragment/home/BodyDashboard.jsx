@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { data, aktivitas } from "../../../../../core/Data/DashboardData";
+import { data, aktivitas } from "../../../../core/data/dashboardData";
 
 
 import {

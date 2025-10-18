@@ -28,7 +28,7 @@ export default function MainDashboard() {
           </div>
           <img
             className="w-10 h-10 rounded-full object-cover"
-            src="Images/Team/valen.jpg"
+            src="images/team/valen.jpg"
             alt="User"
           />
         </div>

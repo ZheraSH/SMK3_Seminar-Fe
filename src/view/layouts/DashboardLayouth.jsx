@@ -1,13 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
-import { menuItems } from "@data/DashboardData";
+import { menuItems } from "@data/dashboardData";
+import { Outlet } from "react-router-dom";
 
-const SidebarSection = () => {
+
+
+export const DashboardLayouth = (props) => {
+  const {children} = props;
   const location = useLocation();
-
   return (
-    <div className="bg-[#1E3A8A] w-[250px] h-screen fixed">
+    <>
+      <div className="flex">
+      <div className="bg-[#1E3A8A] w-[250px] h-screen fixed">
       <div className="flex justify-center items-center px-10 gap-3 py-6">
-        <img className="w-10 h-10" src="../Images/SMKNLOGO1.png" alt="Logo" />
+        <img className="w-10 h-10" src="../images/SMKNLOGO1.png" alt="Logo" />
         <div className="flex flex-col justify-center text-white font-bold">
           SMK Negri 3 Pamekasan
         </div>
@@ -29,7 +34,12 @@ const SidebarSection = () => {
         ))}
       </div>
     </div>
+
+        <div className="ml-[250px] flex-1 h-screen overflow-y-auto bg-gray-50">
+          <Outlet/>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default SidebarSection;

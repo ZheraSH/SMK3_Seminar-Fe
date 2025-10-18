@@ -96,7 +96,7 @@ export default function Login() {
         <div className="flex backdrop-blur-md rounded-2xl shadow-xl overflow-hidden max-w-4xl w-full mx-4 relative z-10 border border-white/40">
           <div className="py-6 hidden md:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-[#0095FF]/100 via-[#62BDFF]/100 to-[#8BCFFF]/100 backdrop-blur-md rounded-tr-[40%]">
             <img
-              src="/Images/People/07.png"
+              src="/images/people/07.png"
               alt="Ilustrasi Seminar"
               className="w-6xl"
             />
