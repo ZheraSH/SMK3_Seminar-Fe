@@ -39,7 +39,7 @@ export function DetailModal({ isOpen, onClose, student }) {
               <span className="font-medium">Kelas :</span> {student.levelclass || "-"}
             </p>
             <p>
-              <span className="font-medium">Agama :</span> {student.religion?.name || "-"}
+              <span className="font-medium">Agama :</span> {student.religion || "-"}
             </p>
             <p>
               <span className="font-medium">Tanggal Lahir :</span> {student.birth_date || "-"}
@@ -58,7 +58,7 @@ export function DetailModal({ isOpen, onClose, student }) {
             </p>
             <p>
               <span className="font-medium">Jenis Kelamin :</span>{" "}
-              {student.gender === "male" ? "Laki - laki" : student.gender === "female" ? "Perempuan" : "-"}
+              {student.gender || "-"}
             </p>
             <p>
               <span className="font-medium">Tempat Lahir :</span> {student.birth_place || "-"}
