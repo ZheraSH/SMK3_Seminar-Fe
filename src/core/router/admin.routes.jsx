@@ -1,11 +1,13 @@
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import BodyDashboard from "../../view/pages/operator/dashboard/BodyDashboard";
-import TeachersMain from "../../view/pages/operator/teachers/PageTeachers";
+import TeachersMain from "../../view/pages/PageTeachers";
 import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 import Login from "../../view/components/elements/login/MainLogin";
 import { MainClass } from "../../view/pages/operator/class/MainClass";
-import { MainStudent } from "../../view/pages/operator/student/MainStudent";
 import NotFound from "../../view/pages/NotFound";
+import { MainStudent } from "../../view/pages/operator/student/components/MainStudent";
+import { TeachersBoy } from "../../view/pages/operator/teachers/components/MainTeachers";
+import { TeacherMainyuyu } from "../../view/pages/operator/teachers/wawa";
 
 export const AdminRoutes = [
   {
@@ -14,10 +16,12 @@ export const AdminRoutes = [
     children: [
       { index: true, element: <BodyDashboard /> },
       { path: "dashboard", element: <MainDashboard /> },
-      { path: "guru", element: <TeachersMain /> },
+      { path: "guru", element: <TeacherMainyuyu></TeacherMainyuyu> },
       { path: "guru/software", element: <TeachersMain /> },
       { path: "kelas", element: <MainClass /> },
       { path: "siswa", element: <MainStudent /> },
+      { path: "coba", element: <TeachersBoy /> },
+      { path: "wawa", element: <TeacherMainyuyu></TeacherMainyuyu> },
     ],
   },
   {
@@ -26,6 +30,6 @@ export const AdminRoutes = [
   },
   {
     path: "*",
-    element: <NotFound /> 
+    element: <NotFound />,
   },
 ];

@@ -28,10 +28,10 @@ export function SearchFilter({
   }, [onOpenCategory, onOpenSubMenu])
 
   return (
-    <div className="flex gap-4 mb-5 items-center">
-      {/* Search Input */}
-      <div className="flex items-center w-[320px] border rounded-full px-3 py-1.5 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-1">
-        <Search size={20} className="text-gray-500" />
+    <div className="flex flex-col sm:flex-row gap-3 mb-5 w-full items-start sm:items-center">
+      {/* Search Input - Fixed Width */}
+      <div className="flex items-center w-full sm:w-[320px] border rounded-full px-3 py-2 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-2 flex-shrink-0">
+        <Search size={20} className="text-gray-500 flex-shrink-0" />
         <input
           type="text"
           placeholder="Cari nama / NIS / Kelas..."
@@ -41,8 +41,8 @@ export function SearchFilter({
         />
       </div>
 
-      {/* Filter Dropdown */}
-      <div className="relative" ref={categoryRef}>
+      {/* Filter Dropdown - Fixed Width */}
+      <div className="relative flex-shrink-0" ref={categoryRef}>
         <button
           onClick={() => {
             onOpenCategory(!openCategory)
@@ -52,7 +52,9 @@ export function SearchFilter({
         >
           <span className="text-black truncate">{category}</span>
           <ChevronDown
-            className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${openCategory ? "rotate-180" : ""}`}
+            className={`w-4 h-4 text-gray-500 transition-transform duration-200 flex-shrink-0 ${
+              openCategory ? "rotate-180" : ""
+            }`}
           />
         </button>
 
@@ -76,7 +78,7 @@ export function SearchFilter({
               >
                 Jenis Kelamin
                 <ChevronRight
-                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 flex-shrink-0 ${
                     openSubMenu === "gender" ? "rotate-90" : ""
                   }`}
                 />
@@ -108,7 +110,7 @@ export function SearchFilter({
               >
                 Jurusan
                 <ChevronRight
-                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 flex-shrink-0 ${
                     openSubMenu === "majors" ? "rotate-90" : ""
                   }`}
                 />
@@ -140,7 +142,7 @@ export function SearchFilter({
               >
                 Tingkatan
                 <ChevronRight
-                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 flex-shrink-0 ${
                     openSubMenu === "levelclasses" ? "rotate-90" : ""
                   }`}
                 />
@@ -174,12 +176,11 @@ export function SearchFilter({
       {onAddData && (
         <button
           onClick={onAddData}
-          className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap flex-shrink-0 w-[140px] flex items-center justify-center gap-1"
+          className="bg-[#3B82F6] text-white px-4 py-3 rounded-[6px] hover:bg-blue-700 ml-9 transition text-sm font-medium whitespace-nowrap flex-shrink-0 w-[159px] h-[40px]"
         >
-          <span>+</span>
-          <span>Tambah Data</span>
+          + Tambah Data
         </button>
       )}
-    </div>  
+    </div>
   )
 }

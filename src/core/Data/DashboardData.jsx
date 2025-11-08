@@ -56,3 +56,14 @@ export const teacherDummy = [
   { id: 14, name: "Putri Amanda", gender: "Perempuan", nip: "199301052018082004", mapel: "Sejarah", role: "Pengajar", nik: "3512345678901247", tanggalLahir: "1993-01-05", tempatLahir: "Jakarta", noTelepon: "081234567014", agama: "Islam", alamat: "Jl. Rajawali No. 4, Jakarta, DKI Jakarta" },
   { id: 15, name: "Rizky Firmansyah", gender: "Laki - laki", nip: "198704202010041006", mapel: "Geografi", role: "Waka Kurikulum", nik: "3512345678901248", tanggalLahir: "1987-04-20", tempatLahir: "Medan", noTelepon: "081234567015", agama: "Islam", alamat: "Jl. Kakaktua No. 5, Medan, Sumatera Utara" },
 ];
+
+export const studentDummy = [
+  { id: 1, name: "Valen abdul Ibrahim", nisn: "008663667170", class: "XII PPLG 3", year: "2024/2025", rfid: "12356737g" },
+  { id: 2, name: "Hilman kIidal Imron", nisn: "008663667173", class: "XII PPLG 3", year: "2024/2025", rfid: "12356737g" },
+  { id: 3, name: "Abdul Kamarun", nisn: "008663667174", class: "XI RPL 1", year: "2024/2025", rfid: "Tambahkan RFID" },
+  { id: 4, name: "Citra Dewi", nisn: "008663667175", class: "X AKL 2", year: "2024/2025", rfid: "12356738h" },
+  { id: 5, name: "Dani Setiawan", nisn: "008663667176", class: "XII PPLG 3", year: "2024/2025", rfid: "Tambahkan RFID" },
+  { id: 6, name: "Eka Pramana", nisn: "008663667177", class: "XI RPL 1", year: "2024/2025", rfid: "Tambahkan RFID" },
+  { id: 7, name: "Fifi Anggraini", nisn: "008663667178", class: "X AKL 2", year: "2024/2025", rfid: "12356739i" },
+  { id: 8, name: "Gita Lestari", nisn: "008663667179", class: "XII PPLG 3", year: "2024/2025", rfid: "Tambahkan RFID" },
+];

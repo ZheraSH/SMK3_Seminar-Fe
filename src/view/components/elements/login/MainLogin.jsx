@@ -3,17 +3,18 @@ import { Eye, EyeOff, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "@api/index";
 
-
 const loginUser = async ({ email, password }) => {
   try {
     const response = await api.post("/login", { email, password });
 
     console.log("Respon backend:", response.data);
-    const result = response.data.data;
-    if (result && result.user && result.token) {
+
+    // Ambil data sesuai struktur sebenarnya
+    const result = response.data;
+    if (result && result.token && result.data) {
       return {
         token: result.token,
-        user: result.user,
+        user: result.data,
       };
     } else {
       throw new Error("Format respons dari server tidak sesuai");
@@ -60,7 +61,7 @@ export default function Login() {
       localStorage.setItem("userData", JSON.stringify(userData));
       setTimeout(() => {
         localStorage.setItem("loginSuccess", "true");
-        navigate("/dashbord");
+        navigate("/home");
       }, 1000);
     } catch (error) {
       setGeneralError("Email atau password salah. Silakan coba lagi.");
