@@ -5,12 +5,12 @@ import { getIconBySubject, getBgColorBySubject } from "../../../../../Core/utils
 
 export function SubjectCard({ subject, onEdit, onDelete, openMenu, setOpenMenu, index }) {
   return (
-    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-md transition-all duration-200 p-7 w-full flex flex-col justify-between">
+    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-md transition-all duration-200 p-5 w-[250px] flex flex-col justify-between">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <div
-            className={`w-12 h-12 p-2 rounded-[12px] flex items-center justify-center ${getBgColorBySubject(
+            className={`w-10 h-10 p-2 rounded-[12px] flex items-center justify-center ${getBgColorBySubject(
               subject.name,
             )}`}
           >
@@ -48,7 +48,7 @@ export function SubjectCard({ subject, onEdit, onDelete, openMenu, setOpenMenu, 
       </div>
 
       {/* Body */}
-      <h2 className="text-[24px] font-extrabold text-gray-900 mt-4">{subject.name}</h2>
+      <h2 className="text-[20px] font-semibold text-gray-900 mt-4">{subject.name}</h2>
     </div>
   )
 }
