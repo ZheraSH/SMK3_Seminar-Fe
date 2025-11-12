@@ -8,6 +8,7 @@ import {
     Calendar1,
     ChartColumnBig,
     CalendarDays,
+    Clock,
   } from "lucide-react";
   
 export const data = [
@@ -29,14 +30,15 @@ export const aktivitas = [
 
   //data sidebar
 export const menuItems = [
-    { name: "Home", icon: <Home size={25} />, path: "/home" },
-    { name: "Guru", icon: <Contact size={25} />, path: "/home/guru" },
-    { name: "Siswa", icon: <UsersRound size={25} />, path: "/home/siswa" },
-    { name: "Kelas & Jurusan", icon: <DoorOpen size={25} />, path: "/home/kelas" },
-    { name: "Mata Pelajaran", icon: <ChartColumnBig size={25} />, path: "/home/maple" },
-    { name: "Jadwal Pelajaran", icon: <CalendarDays size={25} />, path: "/home/jadwal" },
-    { name: "Tahun Ajaran", icon: <Calendar1 size={25} />, path: "/home/tahun-ajaran" },
-    { name: "RFID", icon: <IdCardLanyard size={25} />, path: "/home/rfid" },
+    { name: "Home", icon: <Home size={24} />, path: "/home" },
+    { name: "Guru", icon: <Contact size={24} />, path: "/home/guru" },
+    { name: "Siswa", icon: <UsersRound size={24} />, path: "/home/siswa" },
+    { name: "Kelas & Jurusan", icon: <DoorOpen size={24} />, path: "/home/kelas" },
+    { name: "Mata Pelajaran", icon: <ChartColumnBig size={24} />, path: "/home/maple" },
+    { name: "Jadwal Pelajaran", icon: <CalendarDays size={24} />, path: "/home/jadwal" },
+    { name: "Tahun Ajaran", icon: <Calendar1 size={24} />, path: "/home/tahun-ajaran" },
+    { name: "Pengaturan Jam", icon: <Clock size={24} />, path: "/home/pengaturan-jam" },
+    { name: "RFID", icon: <IdCardLanyard size={24} />, path: "/home/rfid" },
     
   ];
 
