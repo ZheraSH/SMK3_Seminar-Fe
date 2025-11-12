@@ -178,7 +178,7 @@ export function SearchFilter({
           onClick={onAddData}
           className="bg-[#3B82F6] text-white px-4 py-3 rounded-[6px] hover:bg-blue-700 ml-9 transition text-sm font-medium whitespace-nowrap flex-shrink-0 w-[159px] h-[40px]"
         >
-          + Tambah Data
+          + Tambah Datas
         </button>
       )}
     </div>

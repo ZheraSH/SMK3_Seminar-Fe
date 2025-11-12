@@ -1,15 +1,15 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import TeacherFilter from "./operator/teachers/components/lama/TeacherFilter";
-import TeachersTable from "./operator/teachers/components/lama/TeacherTable";
-import TeacherCreateForm from "./operator/teachers/components/lama/TeacherCreateForm";
-import TeacherEditForm from "./operator/teachers/components/lama/TeacherEditForm";
-import TeacherDetail from "./operator/teachers/components/lama/TeacherDetail";
+import TeacherFilter from "./components/lama/TeacherFilter";
+import TeachersTable from "./components/lama/TeacherTable";
+import TeacherCreateForm from "./components/lama/TeacherCreateForm";
+import TeacherEditForm from "./components/lama/TeacherEditForm";
+import TeacherDetail from "./components/lama/TeacherDetail";
 
-import { useTeacher } from "../../Core/hooks/employee/useTeacher";
-import { useTeacherFilter } from "../../Core/hooks/employee/useTeacherFilter";
-import { useTeacherForm } from "../../Core/hooks/employee/useTeacherForm";
+import { useTeacher } from "../../../../Core/hooks/employee/useTeacher";
+import { useTeacherFilter } from "../../../../Core/hooks/employee/useTeacherFilter";
+import { useTeacherForm } from "../../../../Core/hooks/employee/useTeacherForm";
 
 export default function TeachersMain() {
   // 🔹 Hook utama

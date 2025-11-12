@@ -1,5 +1,5 @@
 import MainDashboard from "../../view/components/elements/MainDashboard";
-import TeachersMain from "../../view/pages/PageTeachers";
+import TeachersMain from "../../view/pages/operator/teachers/PageTeachers";
 import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 import Login from "../../view/components/elements/login/MainLogin";
 import { MainClass } from "../../view/pages/operator/class/MainClass";
@@ -7,7 +7,7 @@ import NotFound from "../../view/pages/NotFound";
 import { MainStudent } from "../../view/pages/operator/student/components/MainStudent";
 import { TeachersBoy } from "../../view/pages/operator/teachers/components/MainTeachers";
 import { TeacherMainyuyu } from "../../view/pages/operator/teachers/wawa";
-import BodyDashboard from "../../view/components/fragment/home/BodyDashboard";
+import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
 import MainMaple from "../../view/pages/operator/maple/MainMaple";
 
 export const AdminRoutes = [
