@@ -41,7 +41,7 @@ export const DashboardLayouth = (props) => {
             md:translate-x-0`}
         >
           {/* Logo */}
-          <div className="flex justify-center items-center px-10 gap-3 py-6 border-b border-blue-700">
+          <div className="flex justify-center items-center px-10 gap-3 py-6 ">
             <img className="w-10 h-10" src="../images/SMKNLOGO1.png" alt="Logo" />
             <div className="flex flex-col justify-center text-white font-bold text-center">
               SMK Negeri 3 Pamekasan
