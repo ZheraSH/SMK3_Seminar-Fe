@@ -7,11 +7,11 @@ export function StudentsTable({ students, startIndex, onDetail, onEdit, onDelete
   const [openItemId, setOpenItemId] = useState(null)
 
   return (
-    <>
-      <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+    <div className="w-full overflow-x-auto rounded-lg shadow-sm border border-gray-200">
+      <table className="min-w-[800px] w-full text-sm text-gray-700">
         <thead>
           <tr className="bg-[#3B82F6] text-white text-sm">
-            <th className="px-4 py-4.5 text-center font-semibold border-r border-[#3B82F6]">No</th>
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">No</th>
             <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">Nama</th>
             <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">NISN</th>
             <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">Kelas</th>
@@ -21,10 +21,13 @@ export function StudentsTable({ students, startIndex, onDetail, onEdit, onDelete
           </tr>
         </thead>
 
-        <tbody className="text-sm text-gray-700">
+        <tbody className="text-gray-800">
           {students.length > 0 ? (
             students.map((student, index) => (
-              <tr key={student.id} className="border-t border-gray-200 hover:bg-gray-50 transition text-black font-medium text-[14px] ">
+              <tr
+                key={student.id}
+                className="border-t border-gray-200 hover:bg-gray-50 transition text-[14px]"
+              >
                 <td className="px-4 py-5 text-center">{startIndex + index + 1}</td>
                 <td className="px-4 py-5">{student.name}</td>
                 <td className="px-4 py-5">{student.nisn}</td>
@@ -33,66 +36,63 @@ export function StudentsTable({ students, startIndex, onDetail, onEdit, onDelete
 
                 <td className="px-4 py-3">
                   {student.rfid ? (
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="text"
-                        value={student.rfid}
-                        disabled
-                        className="border border-gray-300 rounded-md px-2 py-1 w-[100px] text-center text-gray-600"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      value={student.rfid}
+                      disabled
+                      className="border border-gray-300 rounded-md px-2 py-1 w-[100px] text-center text-gray-600"
+                    />
                   ) : (
                     <span className="text-gray-500">-</span>
                   )}
                 </td>
 
-                <td className="px-4 py-3 text-center">
-                  <div className="relative inline-block text-left">
-                    <button
-                      onClick={() => setOpenItemId(openItemId === student.id ? null : student.id)}
-                      className="text-gray-700 hover:text-gray-900"
-                    >
-                      <i className="fa-solid fa-ellipsis-vertical text-lg"></i>
-                    </button>
+                <td className="px-4 py-3 text-center relative">
+                  <button
+                    onClick={() =>
+                      setOpenItemId(openItemId === student.id ? null : student.id)
+                    }
+                    className="text-gray-700 hover:text-gray-900"
+                  >
+                    <i className="fa-solid fa-ellipsis-vertical text-lg"></i>
+                  </button>
 
-                    {/* Dropdown menu */}
-                    {openItemId === student.id && (
-                      <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
-                        <button
-                          onClick={() => {
-                            onDetail(student)
-                            setOpenItemId(null)
-                          }}
-                          className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          <Eye className="w-4 h-4 text-blue-500 mr-2" />
-                          Detail
-                        </button>
+                  {openItemId === student.id && (
+                    <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
+                      <button
+                        onClick={() => {
+                          onDetail(student)
+                          setOpenItemId(null)
+                        }}
+                        className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <Eye className="w-4 h-4 text-blue-500 mr-2" />
+                        Detail
+                      </button>
 
-                        <button
-                          onClick={() => {
-                            onEdit(student)
-                            setOpenItemId(null)
-                          }}
-                          className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          <Edit3 className="w-4 h-4 text-yellow-500 mr-2" />
-                          Edit
-                        </button>
+                      <button
+                        onClick={() => {
+                          onEdit(student)
+                          setOpenItemId(null)
+                        }}
+                        className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <Edit3 className="w-4 h-4 text-yellow-500 mr-2" />
+                        Edit
+                      </button>
 
-                        <button
-                          onClick={() => {
-                            onDelete(student.id)
-                            setOpenItemId(null)
-                          }}
-                          className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          <Trash2 className="w-4 h-4 text-red-500 mr-2" />
-                          Hapus
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                      <button
+                        onClick={() => {
+                          onDelete(student.id)
+                          setOpenItemId(null)
+                        }}
+                        className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <Trash2 className="w-4 h-4 text-red-500 mr-2" />
+                        Hapus
+                      </button>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))
@@ -105,6 +105,6 @@ export function StudentsTable({ students, startIndex, onDetail, onEdit, onDelete
           )}
         </tbody>
       </table>
-    </>
+    </div>
   )
 }
