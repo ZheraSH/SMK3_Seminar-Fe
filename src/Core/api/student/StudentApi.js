@@ -6,7 +6,7 @@ export const fetchStudents = async () => {
   try {
     const res = await axios.get(`${API_BASE_URL}/students`)
     const data = Array.isArray(res.data.data) ? res.data.data : res.data
-    console.log("✅ Data siswa:", data)
+    console.log("Data siswa:", data)
     console.log("Total data dari backend:", res.data.data.length)
     return data
   } catch (err) {

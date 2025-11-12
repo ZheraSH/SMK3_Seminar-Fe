@@ -1,5 +1,4 @@
 import MainDashboard from "../../view/components/elements/MainDashboard";
-import BodyDashboard from "../../view/pages/operator/dashboard/BodyDashboard";
 import TeachersMain from "../../view/pages/PageTeachers";
 import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 import Login from "../../view/components/elements/login/MainLogin";
@@ -8,6 +7,8 @@ import NotFound from "../../view/pages/NotFound";
 import { MainStudent } from "../../view/pages/operator/student/components/MainStudent";
 import { TeachersBoy } from "../../view/pages/operator/teachers/components/MainTeachers";
 import { TeacherMainyuyu } from "../../view/pages/operator/teachers/wawa";
+import BodyDashboard from "../../view/components/fragment/home/BodyDashboard";
+import MainMaple from "../../view/pages/operator/maple/MainMaple";
 
 export const AdminRoutes = [
   {
@@ -19,9 +20,10 @@ export const AdminRoutes = [
       { path: "guru", element: <TeacherMainyuyu></TeacherMainyuyu> },
       { path: "guru/software", element: <TeachersMain /> },
       { path: "kelas", element: <MainClass /> },
+      { path: "maple", element: <MainMaple /> },
       { path: "siswa", element: <MainStudent /> },
-      { path: "coba", element: <TeachersBoy /> },
-      { path: "wawa", element: <TeacherMainyuyu></TeacherMainyuyu> },
+      // { path: "coba", element: <TeachersBoy /> },
+      // { path: "wawa", element: <TeacherMainyuyu></TeacherMainyuyu> },
     ],
   },
   {
