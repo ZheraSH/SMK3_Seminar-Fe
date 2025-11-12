@@ -5,7 +5,7 @@ import { getIconBySubject, getBgColorBySubject } from "../../../../../Core/utils
 
 export function SubjectCard({ subject, onEdit, onDelete, openMenu, setOpenMenu, index }) {
   return (
-    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-md transition-all duration-200 p-5 w-[250px] flex flex-col justify-between">
+    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-md transition-all duration-200  p-4 flex flex-col justify-between">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
