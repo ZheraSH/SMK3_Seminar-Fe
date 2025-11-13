@@ -9,6 +9,7 @@ import { TeachersBoy } from "../../view/pages/operator/teachers/components/MainT
 import { TeacherMainyuyu } from "../../view/pages/operator/teachers/wawa";
 import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
 import MainMaple from "../../view/pages/operator/maple/MainMaple";
+import MainScheduleStudent from "../../view/pages/operator/schedule/student/MainSchedule";
 
 export const AdminRoutes = [
   {
@@ -22,6 +23,7 @@ export const AdminRoutes = [
       { path: "kelas", element: <MainClass /> },
       { path: "maple", element: <MainMaple /> },
       { path: "siswa", element: <MainStudent /> },
+      { path : "jadwal/siswa", element: <MainScheduleStudent />},
       // { path: "coba", element: <TeachersBoy /> },
       // { path: "wawa", element: <TeacherMainyuyu></TeacherMainyuyu> },
     ],

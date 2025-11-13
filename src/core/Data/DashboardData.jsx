@@ -1,15 +1,5 @@
 
-import {
-    Contact,
-    Home,
-    UsersRound,
-    DoorOpen,
-    IdCardLanyard,
-    Calendar1,
-    ChartColumnBig,
-    CalendarDays,
-    Clock,
-  } from "lucide-react";
+
   
 export const data = [
     { hari: "Senin", hadir: 100, izin: 10 },
@@ -28,19 +18,7 @@ export const aktivitas = [
     { nama: "Tono Hadi", kelas: "XII PPLG 1", jam: "07.10", status: "Masuk" },
   ];
 
-  //data sidebar
-export const menuItems = [
-    { name: "Home", icon: <Home size={20} />, path: "/home" },
-    { name: "Guru", icon: <Contact size={20} />, path: "/home/guru" },
-    { name: "Siswa", icon: <UsersRound size={20} />, path: "/home/siswa" },
-    { name: "Kelas & Jurusan", icon: <DoorOpen size={20} />, path: "/home/kelas" },
-    { name: "Mata Pelajaran", icon: <ChartColumnBig size={20} />, path: "/home/maple" },
-    { name: "Jadwal Pelajaran", icon: <CalendarDays size={20} />, path: "/home/jadwal" },
-    { name: "Tahun Ajaran", icon: <Calendar1 size={20} />, path: "/home/tahun-ajaran" },
-    { name: "Pengaturan Jam", icon: <Clock size={20} />, path: "/home/pengaturan-jam" },
-    { name: "RFID", icon: <IdCardLanyard size={20} />, path: "/home/rfid" },
-    
-  ];
+  
 
   //data guru
 

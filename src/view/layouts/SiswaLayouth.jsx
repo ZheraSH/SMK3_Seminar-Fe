@@ -1,11 +1,11 @@
 import { Link, useLocation } from "react-router-dom"
-import { menuItemsOperator } from "@data/SidebarData"
+import { menuItemSiswa } from "@data/SidebarData"
 import { Outlet } from "react-router-dom"
 import { useRef, useState, useEffect } from "react"
 import MainDashboard from "../components/elements/MainDashboard"
 import { ChevronDown, Menu, X } from "lucide-react"
 
-export const DashboardLayouth = () => {
+export const LayouthSiswa = () => {
   const location = useLocation()
   const scrollRef = useRef(null)
   const [showScrollButton, setShowScrollButton] = useState(false)
@@ -55,7 +55,7 @@ export const DashboardLayouth = () => {
               [-ms-overflow-style:'none'] 
               [scrollbar-width:'none']"
           >
-            {menuItemsOperator.map((item, index) => (
+            {menuItemSiswa.map((item, index) => (
               <Link
                 key={index}
                 to={item.path}
