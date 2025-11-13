@@ -12,7 +12,7 @@ export function SearchBar({ search, onSearchChange, onAddClick }) {
           placeholder="Cari Mata Pelajaran"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full outline-none text-[14px] bg-transparent placeholder:text-black pl16pxaceholder:text-[]"
+          className="w-full outline-none text-[14px] bg-transparent placeholder:text-black"
         />
       </div>
       <button

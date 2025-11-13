@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useSubjects } from "../../../../Core/hooks/subjects/useSubjects"
-import { addSubject, updateSubject, deleteSubject } from "../../.././../Core/api/maple/Subjects"
+import { addSubject, updateSubject, deleteSubject } from "../../../../Core/api/maple/Subjects"
 
 import { SubjectModal } from "./components/SubjectModal"
 import { SearchBar } from "./components/SearchBar"
