@@ -7,21 +7,22 @@ import Login from "../../view/components/elements/login/MainLogin";
 // import { MainClass } from "../../view/pages/operator/class/MainClass";
 import NotFound from "../../view/pages/NotFound";
 import { MainStudent } from "../../view/pages/operator/student/MainStudent";
-import { TeachersBoy } from "../../view/pages/operator/teachers/components/MainTeachers";
 import { TeacherMainyuyu } from "../../view/pages/operator/teachers/wawa";
 import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
 import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
 import MainScheduleStudent from "../../view/pages/operator/schedule/student/MainSchedule";
 import MainClass from "../../view/pages/operator/class-major/MainClass";
 import MainMajor from "../../view/pages/operator/class-major/MainMajor";
-import MainShedule from "../../view/pages/operator/schedule-clock/MainLayout";
+import { RfidManagement } from "../../view/pages/operator/rfid/MainRfid";
+
+// import MainShedule from "../../view/pages/operator/schedule-clock/MainLayout";
 
 export const AdminRoutes = [
   {
     path: "/home",
     element: <DashboardLayouth />,
     children: [
-      // { index: true, element: <BodyDashboard /> },
+      { index: true, element: <BodyDashboard /> },
       { path: "dashboard", element: <MainDashboard /> },
       { path: "guru", element: <TeacherMainyuyu></TeacherMainyuyu> },
       // { path: "guru/software", element: <TeachersMain /> },
@@ -30,9 +31,9 @@ export const AdminRoutes = [
       { path: "maple", element: <MainMaple /> },
       { path: "siswa", element: <MainStudent /> },
       { path : "jadwal/siswa", element: <MainScheduleStudent />},
-      { path : "jadwalpelajaran", element: <MainShedule />},
-      // { path: "coba", element: <TeachersBoy /> },
-      // { path: "wawa", element: <TeacherMainyuyu></TeacherMainyuyu> },
+      { path : "rfid", element: <RfidManagement />},
+
+
     ],
   },
   {

@@ -21,7 +21,7 @@ export default function TableSchedule ({activeDay}) {
                 return (
                   <tr
                     key={index}
-                    className="border-t  border-gray-200 hover:bg-gray-50 transition text-sm font-semibold"
+                    className="border-t border-gray-200 hover:bg-gray-50 transition text-sm font-semibold"
                   >
                     <td className="px-4 py-3 text-left ">
                       {index + 1}.
