@@ -7,7 +7,7 @@ export default function TableSchedule ({activeDay}) {
           <thead>
             <tr className="bg-[#3B82F6] text-white text-base">
               <th className="px-4 py-3 text-left font-light border-r border-[#3B82F6]">No</th>
-              <th className="px-4 py-3 text-left font-light border-r border-[#3B82F6]">Jam</th>
+              <th className="px-4 py-3 text-center font-light border-r border-[#3B82F6]">Jam</th>
               <th className="px-4 py-3 text-left font-light border-r border-[#3B82F6]">Penempatan</th>
               <th className="px-4 py-3 text-left font-light border-r border-[#3B82F6]">Mata Pelajaran</th>
               <th className="px-4 py-3 text-left font-light">Guru</th>
@@ -21,22 +21,27 @@ export default function TableSchedule ({activeDay}) {
                 return (
                   <tr
                     key={index}
-                    className="border-t border-gray-200 hover:bg-gray-50 transition text-sm font-semibold"
+                    className="border-t border-gray-200 hover:bg-gray-50 transition text-sm font-medium"
                   >
                     <td className="px-4 py-3 text-left ">
                       {index + 1}.
                     </td>
-                    <td className="px-4 py-3 ">
+                    <td className="px-4 py-3 text-center">
                       <span
-                        className={`px-2 py-1 rounded-md font-medium ${
-                          isIstirahat
-                            ? "bg-yellow-200/40 text-yellow-400"
-                            : "bg-emerald-500/30 text-emerald-500"
-                        }`}
+                        className={`
+                          inline-flex items-center justify-center
+                          w-[119px] h-[27px]
+                          rounded-md font-medium text-sm
+                          ${isIstirahat 
+                            ? "bg-yellow-200/40 text-yellow-500" 
+                            : "bg-emerald-500/20 text-emerald-600"
+                          }
+                        `}
                       >
                         {item.jam}
                       </span>
                     </td>
+
                     <td className="px-4 py-3">{item.penetapan}</td>
                     <td className="px-4 py-3 ">{item.mata_pelajaran}</td>
                     <td className="px-4 py-3">{item.guru}</td>

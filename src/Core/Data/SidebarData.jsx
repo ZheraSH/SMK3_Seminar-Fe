@@ -31,13 +31,21 @@ export const menuItemsOperator = [
 
 
 
-//data sidebar user
+//data sidebar student
 
 export const menuItemSiswa = [
-    {name: "Home", icon: <Home size={20} />, path: "/home-siswa" },
-    {name: "Kelas Saya", icon : <UserRound size={20}/>, path: "/home-siswa/kelas-student"},
-    {name: "Absensi", icon: <CircleCheckBig size={20} />, path: "home-siswa/absen"},
-    {name: "Jadwal Pelajaran", icon: <CalendarDays size={20} />, path: "/home-siswa/jadwal-student" },
-    {name: "Izin", icon: <FileText size={20}/>, path:"/home-siswa/izin" },
+    {name: "Home", icon: <Home size={20} />, path: "/student-home" },
+    {name: "Kelas Saya", icon : <UserRound size={20}/>, path: "/student-home/student-class"},
+    {name: "Absensi", icon: <CircleCheckBig size={20} />, path: "/student-home/student-attendance"},
+    {name: "Jadwal Pelajaran", icon: <CalendarDays size={20} />, path: "/student-home/student-schedule" },
+    {name: "Izin", icon: <FileText size={20}/>, path:"/student-home/student-license" },
 ];
 
+
+//data sidebar teacher
+
+export const menuItemTeacher = [
+    {name: "Home", icon:<Home size={20} />, path: "/teacher-home"},
+    {name: "Absensi Kelas " , icon: <CircleCheckBig size={20} />, path: "/teacher-home/attendance-teacher"},
+    {name: "Jadwal Mengajar",icon: <CalendarDays size={20} />, path: "/teacher-home/teacher-schedule" },
+];
