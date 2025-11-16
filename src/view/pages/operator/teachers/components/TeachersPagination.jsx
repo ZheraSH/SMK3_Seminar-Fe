@@ -1,56 +1,27 @@
-"use client"
+import React from 'react';
 
-import React from "react"
-
-export function Pagination({ currentPage, totalPages, onPageChange }) {
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page)
-    }
-  }
-
+export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
-    <div className="flex justify-center items-center gap-2 mt-6 select-none">
-      {/* Tombol Sebelumnya */}
+    <div className="flex justify-center mt-6 items-center gap-4">
       <button
-        onClick={() => handlePageChange(currentPage - 1)}
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-3 py-1 rounded-md ${
-          currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "hover:bg-gray-100 text-blue-600"
-        }`}
+        className="px-3 py-1 rounded disabled:opacity-50 hover:bg-gray-100"
       >
         &lt;
       </button>
 
-      {/* Nomor Halaman */}
-      {Array.from({ length: totalPages }, (_, i) => i + 1)
-        .filter((page) => page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1))
-        .map((page, i, arr) => (
-          <React.Fragment key={page}>
-            {i > 0 && arr[i - 1] !== page - 1 && <span className="px-2 text-gray-400">...</span>}
-            <button
-              onClick={() => handlePageChange(page)}
-              className={`px-3 py-1 rounded-md transition ${
-                page === currentPage
-                  ? "bg-blue-600 text-white border-blue-600 font-medium"
-                  : "hover:bg-gray-100 text-blue-600 font-medium"
-              }`}
-            >
-              {page}
-            </button>
-          </React.Fragment>
-        ))}
+      <span className="text-white font-light bg-blue-600 px-3 py-1 rounded">
+        {currentPage}
+      </span>
 
-      {/* Tombol Berikutnya */}
       <button
-        onClick={() => handlePageChange(currentPage + 1)}
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-3 py-1 rounded-md ${
-          currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "hover:bg-gray-100 text-blue-600"
-        }`}
+        className="px-3 py-1 rounded disabled:opacity-50 hover:bg-gray-100"
       >
         &gt;
       </button>
     </div>
-  )
-}
+  );
+};

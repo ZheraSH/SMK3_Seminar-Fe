@@ -1,84 +1,87 @@
-import axios from "axios"
+import axios from 'axios';
 
-const API_BASE_URL = "http://127.0.0.1:8000/api"
-
-export const fetchTeachers = async () => {
+export const fetchTeachersApi = async (page = 1) => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/employees`)
-    const data = Array.isArray(res.data.data) ? res.data.data : res.data
-    console.log("✅ Data Guru:", data)
-    console.log("Total data dari backend:", res.data.data.length)
-    return data
+    const res = await axios.get(
+      `http://127.0.0.1:8000/api/employees?page=${page}`
+    );
+    const data = Array.isArray(res.data.data) ? res.data.data : [];
+    console.log(data);
+    return data;
   } catch (err) {
-    console.error("Gagal ambil data:", err)
-    throw err
+    console.error("Gagal ambil employees:", err);
+    return [];
   }
-}
+};
 
-export const fetchlevelclasses = async () => {
+export const fetchReligionsApi = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/levelclasses`)
-    console.log(res.data.data)
-    return res.data.data
+    const res = await axios.get("http://127.0.0.1:8000/api/religions");
+    console.log("📦 Data agama dari API:", res.data);
+    return res.data.data;
   } catch (err) {
-    console.error("Gagal ambil data:", err)
-    throw err
+    console.error("gagal", err);
+    return [];
   }
-}
+};
 
-export const fetchMajors = async () => {
-  try {
-    const res = await axios.get(`${API_BASE_URL}/majors`)
-    console.log(res.data.data)
-    return res.data.data
-  } catch (err) {
-    console.error("Gagal ambil majors:", err)
-    throw err
-  }
-}
-
-export const fetchReligions = async () => {
-  try {
-    const res = await axios.get(`${API_BASE_URL}/religions`)
-    console.log("📦 Data agama dari API:", res.data)
-    return res.data.data
-  } catch (err) {
-    console.error("gagal", err)
-    throw err
-  }
-}
-
-export const submitTeachers = async (post, editingId) => {
-  const formData = new FormData()
+export const submitTeacherApi = async (editingId, post) => {
+  const formData = new FormData();
   Object.entries(post).forEach(([key, value]) => {
-    if (value !== null) formData.append(key, value)
-  })
+    if (key === "roles") {
+      post.roles.forEach((r) => {
+        formData.append("roles[]", r);
+      });
+    } else {
+      formData.append(key, value);
+    }
+  });
 
   try {
     if (editingId) {
-      await axios.post(`${API_BASE_URL}/employees/${editingId}?_method=PUT`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      alert("Data siswa berhasil diperbarui!")
+      const updatedPost = { ...post };
+      if (post.email === "") {
+        delete updatedPost.email;
+      }
+      await axios.post(
+        `http://127.0.0.1:8000/api/employees/${editingId}?_method=PUT`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      alert("Data guru berhasil diperbarui!");
     } else {
-      await axios.post(`${API_BASE_URL}/employees`, formData, {
+      await axios.post("http://127.0.0.1:8000/api/employees", formData, {
         headers: { "Content-Type": "multipart/form-data" },
-      })
-      alert("Data Guru berhasil ditambahkan!")
-    }
-  } catch (err) {
-    console.log("🔥 ERROR RESPONSE:", err.response?.data)
-    throw err
-  }
-}
+      });
 
-export const deleteTeachers = async (id) => {
-  try {
-    await axios.delete(`${API_BASE_URL}/employees/${id}`)
-    alert("Data siswa berhasil dihapus!")
+      alert("Data guru berhasil ditambahkan!");
+    }
+    return { success: true };
   } catch (err) {
-    console.error(err)
-    alert("Gagal menghapus data Guru")
-    throw err
+    console.log("🔥 ERROR RESPONSE:", err.response?.data);
+    if (err.response?.data?.errors) {
+      return { success: false, errors: err.response.data.errors };
+    } else {
+      console.log("⚠️ Tidak ada field 'errors' di response");
+      return { success: false };
+    }
   }
-}
+};
+
+export const deleteTeacherApi = async (id) => {
+  if (!window.confirm("Yakin ingin menghapus guru ini?")) return false;
+  try {
+    await axios.delete(`http://127.0.0.1:8000/api/employees/${id}`);
+    alert("Data guru berhasil dihapus!");
+    return true;
+  } catch (err) {
+    console.error(err);
+    alert("Gagal menghapus data guru");
+    return false;
+  }
+};
+
+export const submitTeacher = submitTeacherApi;
+export const deleteTeacher = deleteTeacherApi;

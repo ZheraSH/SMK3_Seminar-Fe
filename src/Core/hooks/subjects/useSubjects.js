@@ -1,48 +1,83 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { getSubjects } from "../../../Core/api/maple/Subjects"
+import { useState, useEffect } from "react";
+import { getSubjects, addSubject } from "../../api/maple/Subjects";
 
-export function useSubjects() {
-  const [subjects, setSubjects] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
+export default function useSubjects() {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  async function fetchSubjects(page = 1) {
-    try {
-      const { data, meta } = await getSubjects(page)
+    // pagination states
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
 
-      if (page === 1) {
-        setSubjects(data || [])
-      } else {
-        setSubjects((prev) => [...prev, ...(data || [])])
-      }
+    const fetchSubjects = async (pageNumber = currentPage) => {
+        try {
+            setLoading(true);
+            const res = await getSubjects(pageNumber);
+            
+            console.log('API Response:', res); // Debug: lihat response API
+            
+            // Jika API mengembalikan response terstruktur dengan pagination info
+            if (res && typeof res === 'object' && !Array.isArray(res)) {
+                setData(res.data || []);
+                setTotalPages(res.totalPages || 1);
+                setTotalItems(res.totalItems || 0);
+            } 
+            // Jika API hanya mengembalikan array biasa
+            else if (Array.isArray(res)) {
+                setData(res);
+                // Untuk testing, kita asumsikan setiap page punya 9 items
+                // Jika di page 2 dapat data, berarti totalPages minimal 2
+                if (pageNumber > 1 && res.length > 0) {
+                    setTotalPages(Math.max(totalPages, pageNumber + 1));
+                } else if (pageNumber === 1) {
+                    // Jika di page 1 dapat data kurang dari 9, berarti hanya 1 page
+                    // Jika dapat 9 data, mungkin ada page 2
+                    setTotalPages(res.length < 9 ? 1 : 2);
+                }
+                setTotalItems(res.length);
+            }
+            
+            setCurrentPage(pageNumber);
 
-      setTotalPages(meta.last_page || 1)
-    } catch (error) {
-      console.error("Error fetching subjects:", error)
-    }
-  }
+        } catch (error) {
+            console.error("Error fetching Subjects:", error);
+            setData([]);
+            setTotalPages(1);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  useEffect(() => {
-    fetchSubjects(currentPage)
-  }, [currentPage])
+    const addSubjects = async (formData) => {
+        setLoading(true);
+        try {
+            const result = await addSubject(formData);
+            await fetchSubjects(1); // refresh ke halaman pertama
+            return { success: true, data: result };
+        } catch (error) {
+            console.error("Error adding subject:", error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  useEffect(() => {
-    if (subjects.length >= 12 && currentPage < totalPages) {
-      const timer = setTimeout(() => {
-        setCurrentPage((prev) => prev + 1)
-      }, 400)
-      return () => clearTimeout(timer)
-    }
-  }, [subjects, currentPage, totalPages])
+    useEffect(() => {
+        fetchSubjects(1);
+    }, []);
 
-  return {
-    subjects,
-    setSubjects,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    fetchSubjects,
-  }
+    return { 
+        subjects: data, 
+        setSubjects: setData,
+        loading, 
+        addSubjects, 
+        fetchSubjects,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        totalItems
+    }; 
 }
