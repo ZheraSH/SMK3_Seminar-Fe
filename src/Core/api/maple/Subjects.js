@@ -5,21 +5,14 @@ const API_BASE_URL = "http://127.0.0.1:8000/api"
 export const getSubjects = async (page = 1) => {
   try {
     const res = await axios.get(`${API_BASE_URL}/subjects?page=${page}`)
-    const payload = res.data?.data || res.data
-    const data = payload?.data || payload
-    const meta = payload?.meta || res.data?.meta || {}
-
-    console.log(`✅ Page ${page} loaded (${data?.length || 0} items)`)
-
-    return {
-      data: data || [],
-      meta: meta,
-    }
-  } catch (error) {
-    console.error("❌ Gagal mengambil data:", error)
-    throw error
+    console.log(res.data.data)
+    return res.data.data
+  } catch (err) {
+    console.error("Gagal ambil classroom:", err)
+    throw err
   }
 }
+
 
 export const addSubject = async (subject) => {
   try {

@@ -1,21 +1,35 @@
 "use client"
 
-import { useState } from "react"
-import { useSubjects } from "../../../../Core/hooks/subjects/useSubjects"
+import { useState, useEffect } from "react"
 import { addSubject, updateSubject, deleteSubject } from "../../../../Core/api/maple/Subjects"
 
 import { SubjectModal } from "./components/SubjectModal"
 import { SearchBar } from "./components/SearchBar"
 import { Pagination } from "./components/Pagination"
 import { SubjectCard } from "./components/SubjectCard"
+import useSubjects from "../../../../Core/hooks/subjects/useSubjects"
 
 export default function MainMaple() {
-  const { subjects, setSubjects, currentPage, setCurrentPage, totalPages, fetchSubjects } = useSubjects()
+  const { 
+    subjects, 
+    setSubjects, 
+    currentPage, 
+    setCurrentPage, 
+    totalPages, 
+    fetchSubjects,
+    loading 
+  } = useSubjects()
+  
   const [newSubject, setNewSubject] = useState({ name: "" })
   const [editSubject, setEditSubject] = useState({ id: null, name: "" })
   const [openMenu, setOpenMenu] = useState(null)
   const [openModal, setOpenModal] = useState(null)
   const [search, setSearch] = useState("")
+
+  // Filter subjects based on search - hanya untuk display
+  const filteredSubjects = subjects.filter((s) => 
+    s.name.toLowerCase().includes(search.toLowerCase())
+  )
 
   const handleAddSubject = async (e) => {
     e.preventDefault()
@@ -23,7 +37,7 @@ export default function MainMaple() {
       await addSubject(newSubject)
       setOpenModal(null)
       setNewSubject({ name: "" })
-      fetchSubjects()
+      fetchSubjects(currentPage) // reload current page
     } catch (err) {
       console.error("Error adding subject:", err)
     }
@@ -36,7 +50,7 @@ export default function MainMaple() {
         await updateSubject(editSubject.id, editSubject.name)
         setOpenModal(null)
         setEditSubject({ id: null, name: "" })
-        fetchSubjects()
+        fetchSubjects(currentPage) // reload current page
       }
     } catch (err) {
       console.error("Error updating subject:", err)
@@ -47,13 +61,27 @@ export default function MainMaple() {
     if (!confirm("Yakin ingin menghapus mapel ini?")) return
     try {
       await deleteSubject(id)
-      setSubjects(subjects.filter((s) => s.id !== id))
+      // Jika halaman terakhir hanya memiliki 1 item, kembali ke halaman sebelumnya
+      if (subjects.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1)
+        fetchSubjects(currentPage - 1)
+      } else {
+        fetchSubjects(currentPage)
+      }
     } catch (error) {
       console.error("Error deleting subject:", error)
     }
   }
 
-  const filtered = subjects.filter((s) => s.name.toLowerCase().includes(search.toLowerCase()))
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage)
+    fetchSubjects(newPage)
+    setSearch("") // reset search ketika ganti page
+  }
+
+  if (loading && subjects.length === 0) {
+    return <div className="flex justify-center mt-8">Loading...</div>
+  }
 
   return (
     <div className="justify-center mt-8 mx-7">
@@ -68,7 +96,7 @@ export default function MainMaple() {
           </div>
         </div>
       </div>
-
+    
       {/* CONTENT */}
       <div className="py-8">
         {/* Search & Button */}
@@ -102,9 +130,9 @@ export default function MainMaple() {
 
         {/* CARD GRID */}
         <div className="grid grid-cols-4 gap-6">
-          {filtered.map((subject, index) => (
+          {filteredSubjects.map((subject, index) => (
             <SubjectCard
-              key={index}
+              key={subject.id || index}
               subject={subject}
               index={index}
               openMenu={openMenu}
@@ -118,13 +146,22 @@ export default function MainMaple() {
           ))}
         </div>
 
-        {/* PAGINATION */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPrevious={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-          onNext={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-        />
+        {/* Show message when no results */}
+        {filteredSubjects.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            {search ? "Tidak ada mata pelajaran yang sesuai dengan pencarian." : "Tidak ada mata pelajaran."}
+          </div>
+        )}
+
+        {/* PAGINATION - hanya tampil jika totalPages > 1 */}
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrevious={() => handlePageChange(Math.max(currentPage - 1, 1))}
+            onNext={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+          />
+        )}
       </div>
     </div>
   )
