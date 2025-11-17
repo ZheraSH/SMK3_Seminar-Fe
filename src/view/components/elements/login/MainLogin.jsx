@@ -9,12 +9,19 @@ const loginUser = async ({ email, password }) => {
 
     console.log("Respon backend:", response.data);
 
-    // Ambil data sesuai struktur sebenarnya
     const result = response.data;
-    if (result && result.token && result.data) {
+
+    // Validasi sesuai struktur backend
+    if (
+      result &&
+      result.data &&
+      result.data.token &&
+      result.data.user
+    ) {
       return {
-        token: result.token,
-        user: result.data,
+        token: result.data.token,
+        user: result.data.user,
+        role: result.data.role,
       };
     } else {
       throw new Error("Format respons dari server tidak sesuai");
