@@ -10,14 +10,14 @@ export const fetchStudents = async () => {
     console.log("Total data dari backend:", res.data.data.length)
     return data
   } catch (err) {
-    console.error("Gagal ambil data:", err)
+    console.error("Gagal ambil data coy:", err)
     throw err
   }
 }
 
 export const fetchlevelclasses = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/levelclasses`)
+    const res = await axios.get(`${API_BASE_URL}/levelClass`)
     console.log(res.data.data)
     return res.data.data
   } catch (err) {
