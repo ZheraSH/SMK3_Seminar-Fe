@@ -2,6 +2,7 @@ import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import { LayouthSiswa } from "../../view/layouts/SiswaLayouth";
 import MainScheduleStudent from "../../view/pages/student/schedule/MainSchedule";
+import PermissionManagement from "../../view/pages/student/permission-management/PermissionManagement";
 
 export const StudentRoutes =[
     {
@@ -13,7 +14,7 @@ export const StudentRoutes =[
             // { path: "kelas-student", element: <MainClassStudent /> },
             // { path: "absen-student", element: <AbsentStudentMain /> },
             { path: "student-schedule", element: <MainScheduleStudent  /> },
-            // { path: "izin-student", element: <MainPermitStudent /> },
+            { path: "student-license", element: <PermissionManagement/> },
         ]
     },
 
