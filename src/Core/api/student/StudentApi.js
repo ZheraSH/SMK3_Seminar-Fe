@@ -1,4 +1,5 @@
 import axios from "axios"
+import { notify } from "../../hooks/notification/notify"
 
 const API_BASE_URL = "http://127.0.0.1:8000/api"
 
@@ -59,12 +60,12 @@ export const submitStudent = async (post, editingId) => {
       await axios.post(`${API_BASE_URL}/students/${editingId}?_method=PUT`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      alert("Data siswa berhasil diperbarui!")
+      notify("Data siswa berhasil diperbarui!");
     } else {
       await axios.post(`${API_BASE_URL}/students`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      alert("Data siswa berhasil ditambahkan!")
+      notify("Data siswa berhasil ditambahkan!");
     }
   } catch (err) {
     console.log("🔥 ERROR RESPONSE:", err.response?.data)
