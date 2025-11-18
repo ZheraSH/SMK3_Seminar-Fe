@@ -1,5 +1,5 @@
-import React from 'react';
-import { Edit3, Trash2, Eye } from 'lucide-react';
+import React from "react";
+import { Edit3, Trash2, Eye } from "lucide-react";
 
 export const TeacherTable = ({
   currentTeachers,
@@ -41,9 +41,9 @@ export const TeacherTable = ({
             >
               <td className="pl-4 py-3 text-center">
                 <img
-                  src={teacher.image || "/placeholder.svg"}
-                  alt=""
-                  className="border border-gray-500 rounded-full w-[38px] h-[38px]"
+                  src={teacher.image}
+                  alt={teacher.name}
+                  className="border border-gray-500 rounded-full w-[38px] h-[38px] object-cover"
                 />
               </td>
               <td className="py-3">
@@ -59,8 +59,9 @@ export const TeacherTable = ({
 
               <td className="px-4 py-3 font-medium">{teacher.NIP}</td>
               <td className="px-4 py-3 font-medium">
-                {teacher.maple || "-"}
+                {teacher.subjects?.[0]?.name || "-"}
               </td>
+
               <td>
                 {Array.isArray(teacher.roles)
                   ? teacher.roles.map((r) => r.label).join(", ")

@@ -1,27 +1,17 @@
-import React from 'react';
+"use client"
 
-export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+export function PaginationEmployee({ currentPage, totalPages, onPrevious, onNext }) {
   return (
     <div className="flex justify-center mt-6 items-center gap-4">
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="px-3 py-1 rounded disabled:opacity-50 hover:bg-gray-100"
-      >
+      <button onClick={onPrevious} disabled={currentPage === 1} className="px-3 py-1 rounded disabled:opacity-50">
         &lt;
       </button>
 
-      <span className="text-white font-light bg-blue-600 px-3 py-1 rounded">
-        {currentPage}
-      </span>
+      <span className="text-white font-light bg-blue-600 px-3 py-1 rounded">{currentPage}</span>
 
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="px-3 py-1 rounded disabled:opacity-50 hover:bg-gray-100"
-      >
+      <button onClick={onNext} disabled={currentPage === totalPages} className="disabled:opacity-50">
         &gt;
       </button>
     </div>
-  );
-};
+  )
+}

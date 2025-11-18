@@ -1,32 +1,70 @@
-// core/data/usePagination.js
-import { useMemo } from 'react';
+"use client"
 
-export const usePagination = (data, currentPage, itemsPerPage) => {
-  const pagination = useMemo(() => {
-    if (!data || !Array.isArray(data)) {
-      return {
-        currentPageData: [],
-        totalPages: 1,
-        totalItems: 0,
-        startIndex: 0,
-        endIndex: 0
-      };
+import { useState, useEffect } from "react";
+import { fetchTeachersApi, submitTeacherApi } from "../../api/maple/Subjects";
+
+export default function useSubjects() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
+  const fetchSubjects = async (pageNumber = currentPage) => {
+    try {
+      setLoading(true);
+      const res = await fetchTeachersApi(pageNumber);
+
+      console.log("API Response:", res);
+
+      if (res?.data) {
+        setData(res.data);
+        setTotalPages(res.last_page || 1);
+        setTotalItems(res.total || 0);
+      } else {
+        setData([]);
+        setTotalPages(1);
+        setTotalItems(0);
+      }
+
+      setCurrentPage(pageNumber);
+    } catch (error) {
+      console.error("Error fetching Subjects:", error);
+      setData([]);
+      setTotalPages(1);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const totalItems = data.length;
-    const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentPageData = data.slice(startIndex, endIndex);
+  const addSubjects = async (post) => {
+    setLoading(true);
+    try {
+      const result = await submitTeacherApi(null, post);
+      await fetchSubjects(1);
+      return { success: true, data: result };
+    } catch (error) {
+      console.error("Error adding teacher:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return {
-      currentPageData,
-      totalPages,
-      totalItems,
-      startIndex: startIndex + 1,
-      endIndex: Math.min(endIndex, totalItems)
-    };
-  }, [data, currentPage, itemsPerPage]);
+  useEffect(() => {
+    fetchSubjects(1);
+  }, []);
 
-  return pagination;
-};
+  return {
+    subjects: data,
+    setSubjects: setData,
+    loading,
+    addSubjects,
+    fetchSubjects,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    totalItems,
+  };
+}

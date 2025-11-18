@@ -15,7 +15,7 @@ import { FilterDropdown } from "./components/FilterDropdown";
 import { DetailModal } from "./components/TeacherDetailModal.jsx.jsx";
 import { TeacherForm } from "./components/TeacherFormModal";
 import { TeacherTable } from "./components/TeacherTable";
-import { Pagination } from "./components/TeachersPagination";
+import { PaginationEmployee } from "./components/TeachersPagination";
 
 export const TeacherMain = () => {
   const [allTeachers, setAllTeachers] = useState([]);
@@ -40,7 +40,7 @@ export const TeacherMain = () => {
   });
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors] = useState({});
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
 
   const {
@@ -147,10 +147,9 @@ export const TeacherMain = () => {
       gender: teacher.gender || "",
       religion_id: teacher.religion_id || "",
       roles: Array.isArray(teacher.roles)
-        ? teacher.roles.map((r) => ({
-            value: r.value || r.name || r,
-            label: r.label || r.name || r,
-          }))
+        ? teacher.roles
+            .map((r) => r.value || r.name || r)
+            .filter((item) => item) // hapus nilai kosong
         : [],
     });
     setEditingId(teacher.id);
@@ -256,11 +255,14 @@ export const TeacherMain = () => {
         handleDelete={handleDelete}
       />
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {totalPages > 1 && (
+        <PaginationEmployee
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrevious={() => handlePageChange(currentPage - 1)}
+          onNext={() => handlePageChange(currentPage + 1)}
+        />
+      )}
     </div>
   );
 };

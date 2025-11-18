@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { RoleLabels, RoleEnum } from "../../../../../Core/enums/RoleEnum";
 
 export const TeacherForm = ({
   isOpen,
@@ -42,9 +43,7 @@ export const TeacherForm = ({
               onChange={handleInput}
             />
             {errors.name && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.name[0]}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.name[0]}</p>
             )}
           </div>
 
@@ -62,9 +61,7 @@ export const TeacherForm = ({
               onChange={handleInput}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email[0]}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>
             )}
           </div>
 
@@ -79,9 +76,7 @@ export const TeacherForm = ({
               className="border border-gray-300 rounded-lg p-2 w-full bg-gray-50"
             />
             {errors.image && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.image[0]}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.image[0]}</p>
             )}
           </div>
 
@@ -98,13 +93,11 @@ export const TeacherForm = ({
               value={post.gender}
             >
               <option value="">Pilih jenis kelamin</option>
-              <option value="Laki-laki">Laki-laki</option>
-              <option value="Perempuan">Perempuan</option>
+              <option value="male">Laki-laki</option>
+              <option value="female">Perempuan</option>
             </select>
             {errors.gender && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.gender[0]}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.gender[0]}</p>
             )}
           </div>
 
@@ -232,31 +225,55 @@ export const TeacherForm = ({
               </p>
             )}
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-600">
-              Role *
-            </label>
-            <select
-              name="roles"
-              value={post.roles[0] || ""}
-              onChange={(e) =>
+          <div className="relative">
+            {/* BUTTON DROPDOWN */}
+            <button
+              type="button"
+              onClick={() =>
                 setPost((prev) => ({
                   ...prev,
-                  roles: [e.target.value],
+                  showRoleDropdown: !prev.showRoleDropdown,
                 }))
               }
-              className="border px-3 py-2 rounded-md w-full"
+              className="w-full border border-gray-300 px-3 py-2 rounded-md text-left bg-white"
             >
-              <option value="">Pilih Role</option>
-              <option value="Guru">Guru</option>
-              <option value="Admin">Admin</option>
-              <option value="Wali Kelas">Wali Kelas</option>
-            </select>
-            {errors.roles && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.roles[0]}
-              </p>
+              {post.roles.length > 0
+                ? post.roles
+                    .filter((key) => key && RoleLabels[key])
+                    .map((key) => RoleLabels[key])
+                    .join(", ")
+                : "Pilih Role (bisa lebih dari 1)"}
+            </button>
+
+            {/* DROPDOWN */}
+            {post.showRoleDropdown && (
+              <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-20 max-h-40 overflow-y-auto p-2">
+                {Object.keys(RoleLabels).map((key) => (
+                  <label
+                    key={key}
+                    className="flex items-center gap-2 p-1 hover:bg-gray-100 rounded"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={post.roles.includes(key)}
+                      onChange={(e) => {
+                        setPost((prev) => {
+                          let updated = prev.roles.filter((r) => r); // hapus nilai kosong
+
+                          if (e.target.checked) {
+                            updated.push(key);
+                          } else {
+                            updated = updated.filter((r) => r !== key);
+                          }
+
+                          return { ...prev, roles: updated };
+                        });
+                      }}
+                    />
+                    <span>{RoleLabels[key]}</span>
+                  </label>
+                ))}
+              </div>
             )}
           </div>
 
@@ -274,9 +291,7 @@ export const TeacherForm = ({
               onChange={handleInput}
             />
             {errors.address && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.address[0]}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.address[0]}</p>
             )}
           </div>
 
