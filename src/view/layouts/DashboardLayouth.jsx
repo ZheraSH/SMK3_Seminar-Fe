@@ -63,9 +63,9 @@ export const DashboardLayouth = () => {
           >
             {menuItemsOperator.map((item, index) => {
               const isActive =
-                item.path === "/home/major"
-                  ? ["/home/major", "/home/kelas"].includes(location.pathname)
-                  : location.pathname === item.path;
+                  item.path === "/home/major"
+                    ? ["/home/major", "/home/kelas"].includes(location.pathname)
+                    : location.pathname === item.path;
 
               return (
                 <Link

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import useMasterData from "../../../../../Core/hooks/class-major/useMasterData";
 
-export default function Form({ onClassAdded, addClass }) {
+export default function Form({ onClassAdded, addClass,onSuccess,onError }) {
     const [majorId, setMajorId] = useState("");
     const [classNameInput, setClassNameInput] = useState("");
     const [schoolYearId, setSchoolYearId] = useState("");
@@ -10,6 +10,7 @@ export default function Form({ onClassAdded, addClass }) {
     const [teacherId, setTeacherId] = useState("");
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     const { majors, schoolYears, levelClass, teachers, loading: loadingMaster } = useMasterData();
     function Dropdown({ label, value, placeholder, data = [], onChange, error }) {
@@ -58,30 +59,35 @@ export default function Form({ onClassAdded, addClass }) {
         return Object.keys(newErr).length === 0;
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validateForm()) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-        setIsSubmitting(true);
+    setIsSubmitting(true);
 
-        const payload = {
-            major_id: majorId,
-            school_year_id: schoolYearId,
-            level_class_id: levelClassId,
-            teacher_id: teacherId,
-            name: classNameInput,
-        };
+    const payload = {
+        major_id: majorId,
+        school_year_id: schoolYearId,
+        level_class_id: levelClassId,
+        teacher_id: teacherId,
+        name: classNameInput,
+    };
 
-        await addClass(payload);
-        if (onClassAdded) onClassAdded();
+   try {
+   await addClass(payload);
 
-        setMajorId("");
-        setSchoolYearId("");
-        setLevelClassId("");
-        setTeacherId("");
-        setClassNameInput("");
+    if (onSuccess) onSuccess("Berhasil menambahkan kelas!");  
+    if (onClassAdded) onClassAdded();
 
-        setIsSubmitting(false);
+} catch (err) {
+    const msg = err?.response?.data?.message || "Maaf kelas yang anda buat telah ada ";
+
+    if (onError) onError(msg); // kirim error ke MainClass
+
+    return; // hentikan proses, form tidak reset
+} finally {
+    setIsSubmitting(false);
+}
     };
 
     if (loadingMaster) return <div>Memuat...</div>;

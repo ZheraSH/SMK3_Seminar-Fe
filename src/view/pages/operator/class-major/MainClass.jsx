@@ -23,22 +23,35 @@ const ChevronDownIcon = () => (
 
 
 const MainClass = () => {
-  const { classesData, addClass, loading, fetchClass, page,  setPage, isLastPage} = useClasses();
-  const [isOpenForm, setIsOpenForm] = useState(false);
+    const { classesData, addClass, loading, fetchClass, page,  setPage, isLastPage} = useClasses();
+    const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const toggleForm = () => {
-    setIsOpenForm(!isOpenForm);
-  }
-
+    const toggleForm = () => {
+       setIsOpenForm(!isOpenForm);
+    }
 
     const { isDropdownOpen, selectedFilter, openCategoryKey, searchTerm, handleFilterSelect, toggleDropdown, toggleCategory, setSearchTerm, filterMenuOptions, filteredClasses} = useClassFilter(classesData);
     
     const handleFormClose = () => {
         setIsOpenForm(false);
     };
+    //ini untuk menghadle sukses
+    const [successMessage, setSuccessMessage] = useState("");
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const handleSuccess = (msg) => {
+    setSuccessMessage(msg);
+    setShowSuccessModal(true);
+    setIsOpenForm(false); 
+    };
 
-
-
+    // ini untuk menghadle error
+    const [errorMessage, setErrorMessage] = useState("");
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const handleError = (msg) => {
+        setErrorMessage(msg);
+        setShowErrorModal(true);
+        setIsOpenForm(false);
+    };
 
     return (
         <div className="p-4 sm:p-8 bg-gray-50 min-h-screen mb-20">
@@ -115,19 +128,57 @@ const MainClass = () => {
                                 <h2 className="text-lg font-semibold text-gray-800">Tambah Kelas</h2>
                                 <button onClick={() => handleFormClose()}><X className='text-gray-400 hover:text-red-900'/></button>
                             </div>
-                            {/* Meneruskan handleFormClose ke prop onClassAdded */}
-                            <Form onClassAdded={handleFormClose} addClass={addClass} /> 
+                            <Form onClassAdded={handleFormClose} addClass={addClass} onError={handleError}   onSuccess={handleSuccess} /> 
                         </div>
                     </div>
                    )
              }
-            <hr className="mb-6"/>        
-{/*             {currentClasses.length === 0 && searchTerm && (
+            {/* modal sukses */}
+            {showSuccessModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-xl shadow-xl w-80">
+                        <h2 className="text-lg font-semibold text-green-600 mb-2">
+                            Berhasil
+                        </h2>
+
+                        <p className="text-gray-700 mb-4">{successMessage}</p>
+
+                        <button
+                            onClick={() => setShowSuccessModal(false)}
+                            className="w-full py-2 bg-green-600 text-white rounded-lg"
+                        >
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            )}
+            {/* modal error */}
+                {showErrorModal && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-xl shadow-xl w-80">
+                            <h2 className="text-lg font-semibold text-red-600 mb-2">
+                                Peringatan
+                            </h2>
+
+                            <p className="text-gray-700 mb-4">{errorMessage}</p>
+
+                            <button
+                                onClick={() => setShowErrorModal(false)}
+                                className="w-full py-2 bg-blue-600 text-white rounded-lg"
+                            >
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+       
+            {filteredClasses.length === 0 && searchTerm && (
                 <p className="text-center text-gray-500 text-lg">Tidak ada kelas yang cocok dengan "{searchTerm}".</p>
             )}
-            {currentClasses.length === 0 && !searchTerm && (
+            {filteredClasses.length === 0 && !searchTerm && (
                 <p className="text-center text-gray-500 text-lg">Belum ada data kelas yang ditambahkan.</p>
-            )} */}
+            )}
             {
                loading ? (
                     <div className="flex justify-center items-center h-screen bg-gray-50">

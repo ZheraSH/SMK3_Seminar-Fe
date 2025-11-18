@@ -36,7 +36,7 @@ export const getMajors = async () => {
 
 export const getSchoolYears = async () => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/school-years`);
+        const res = await axios.get(`${API_BASE_URL}/schoolYears`);
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil Tahun Ajaran:", err);
@@ -46,7 +46,7 @@ export const getSchoolYears = async () => {
 
 export const getLevelClass = async () => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/levelclasses`);
+        const res = await axios.get(`${API_BASE_URL}/levelClass`);
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil class Ajaran:", err);
