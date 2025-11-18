@@ -9,7 +9,7 @@ export default function MainScheduleStudent() {
   
 
   return (
-    <div className="justify-center mx-7 mb-10">
+    <div className="justify-center mx-7 mb-10 mt-5">
       <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px]">
         <div className="absolute inset-0 items-center justify-center rounded-[6px]">
           <div className="ml-5 mt-2">

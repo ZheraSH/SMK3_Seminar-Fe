@@ -1,42 +1,31 @@
-import React, { useState } from 'react';
 
 import CardList from './components/CardShedule';
 import ClockSchedule from './components/ClockShedule';
 import FilterDropdown from './components/FilterData';
-
-const DEFAULT_CLASS_NAME = 'XII PPLG 3';
+import useSchedule from '../../../../Core/hooks/schedule/useSchedule';
 
 function ClassScheduleManager() {
+    const {
+        selectedFilter,
+        schedule,
+        activeTab,
+        setActiveTab,
+        setSelectedFilter,
+        handleViewSchedule,
+    } = useSchedule();
     
-    // STATE UTAMA
-    const [activeTab, setActiveTab] = useState('kelas');
-    const [selectedClass, setSelectedClass] = useState(DEFAULT_CLASS_NAME);
-
-    // STATE FILTER
-    const [selectedFilter, setSelectedFilter] = useState("Show all");
-
-    // DATA KELAS
-    const classData = [
-        { className: 'XII PPLG 3', year: '2024/2025', homeroom: 'Deddy Setiawan', students: 36 },
-        { className: 'XI PPLG 2', year: '2024/2025', homeroom: 'Budi Santoso', students: 30 },
-        { className: 'X TKJ 1', year: '2024/2025', homeroom: 'Siska Dewi', students: 32 },
-        { className: 'XII AKL 4', year: '2024/2025', homeroom: 'Herman P.', students: 35 },
-    ];
+    
 
     // FILTER LOGIC
     const filteredClassData =
         selectedFilter === "Show all"
-            ? classData
-            : classData.filter((item) =>
+            ? schedule
+            : schedule.filter((item) =>
                 item.className.includes(selectedFilter) ||
                 item.year === selectedFilter
             );
 
-    // HANDLER MELIHAT JADWAL
-    const handleViewSchedule = (className, mode) => {
-        setSelectedClass(className);
-        setActiveTab(mode);
-    };
+    
 
     const isMainTabActive = activeTab === 'kelas' || activeTab === 'jam';
 
@@ -132,15 +121,23 @@ function ClassScheduleManager() {
             {/* LIST KELAS */}
             {activeTab === 'kelas' && (
                 <>
-                    <CardList
-                        classes={filteredClassData}
-                        handleViewSchedule={handleViewSchedule}
-                    />
+                    {schedule.length === 0 ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <>
+                            <CardList
+                                handleViewSchedule={handleViewSchedule}
+                                schedule={filteredClassData}
+                            />
 
-                    {/* PAGINATION (Placeholder) */}
-                    <div className="flex justify-center mt-8">
-                        {/* Pagination jika dibutuhkan */}
-                    </div>
+                            
+                            <div className="flex justify-center mt-8">
+                                {/* Pagination jika dibutuhkan */}
+                            </div>
+                        </>
+
+                    ) }
+                    
                 </>
             )}
 
@@ -148,7 +145,7 @@ function ClassScheduleManager() {
             {(activeTab === 'jam' || activeTab === 'jadwal-kelas') && (
                 <ClockSchedule
                     mode={activeTab}
-                    selectedClassName={selectedClass}
+                    schedule={schedule}
                     setSelectedTab={setActiveTab}
                 />
             )}

@@ -12,6 +12,7 @@ export const scheduleData = [
      // Selasa
     { day: "Selasa", jam: "07.00 - 08.30", penetapan: "Jam ke-1-2", mata_pelajaran: "Bahasa Inggris", guru: "Bu Lilis" },
     { day: "Selasa", jam: "08.30 - 10.00", penetapan: "Jam ke-3-4", mata_pelajaran: "IPA", guru: "Bu Ratna" },
+    { day: "Selasa", jam: "12.15 - 13.00", penetapan: "Istirahat Kedua", mata_pelajaran: "-", guru: "-" },
     { day: "Selasa", jam: "10.15 - 11.45", penetapan: "Jam ke-5-6", mata_pelajaran: "IPS", guru: "Pak Rudi" },
 
     // Rabu
@@ -29,6 +30,27 @@ export const scheduleData = [
     { day: "Jumat",  jam: "08.00 - 09.00", penetapan: "Jam ke-2", mata_pelajaran: "Matematika", guru: "Pak Budi" },
     { day: "Jumat",  jam: "09.15 - 10.15", penetapan: "Jam ke-3", mata_pelajaran: "Penjas", guru: "Pak Andi" },
   ];
+
+
+    export const students = [
+      { id: 1, name: "Valen Abdul Ibrahim", img: "/images/team/valen.jpg" },
+      { id: 2, name: "Ega Cannn", img: "/images/team/ega3.jpg" },
+      { id: 3, name: "Fairouz huy", img: "/images/team/fairouz.png" },
+      { id: 4, name: "Giat", img: "/images/team/giat.png" },
+      { id: 5, name: "Valen Abdul Ibrahim", img: "/images/team/valen.jpg" },
+      { id: 6, name: "Ega Cannn", img: "/images/team/ega3.jpg" },
+      { id: 7, name: "Fairouz huy", img: "/images/team/fairouz.png" },
+      { id: 8, name: "Giat", img: "/images/team/giat.png" },
+      { id: 9, name: "Valen Abdul Ibrahim", img: "/images/team/valen.jpg" },
+      { id: 10, name: "Ega Cannn", img: "/images/team/ega3.jpg" },
+      { id: 11, name: "Fairouz huy", img: "/images/team/fairouz.png" },
+      { id: 12, name: "Giat", img: "/images/team/giat.png" },
+      { id: 13, name: "Valen Abdul Ibrahim", img: "/images/team/valen.jpg" },
+      { id: 14, name: "Ega Cannn", img: "/images/team/ega3.jpg" },
+      { id: 15, name: "Fairouz huy", img: "/images/team/fairouz.png" },
+      { id: 16, name: "Giat", img: "/images/team/giat.png" },
+    ];
+
 
 
   export const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
