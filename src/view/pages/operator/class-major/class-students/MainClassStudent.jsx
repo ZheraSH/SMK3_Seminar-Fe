@@ -1,0 +1,151 @@
+import React from 'react';
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { Search, Users, UserCheck2, Calendar, GraduationCap, RefreshCw, Plus, ArrowLeft, X } from 'lucide-react'; 
+import DataTable from './components/TableClassStudent';
+import useClassroomDetail from "../../../../../Core/hooks/class-major/useClassroomDetail";
+import FormStudents from "./components/FormClassStudent";
+
+ function ModalAddStudent({ open, onClose, classroom,availableStudents,addStudents }) {
+    if (!open) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white rounded-xl w-[418px]  shadow-xl p-6 animate-scaleIn relative">
+
+                <button className="absolute right-6 top-6 text-gray-600" onClick={onClose}>
+                    <X size={26} className='text-gray-300' />
+                </button>
+
+                <h2 className="text-start text-lg font-semibold mb-4">
+                    Tambah Siswa Ke Kelas <br />
+                    <span>“ {classroom?.name} ”</span>
+                </h2>
+                <FormStudents classroom={classroom} onClose={onClose} availableStudents={availableStudents} addStudents={addStudents}  />
+            </div>
+        </div>
+    );
+}
+
+
+const ClassStudents = () => {
+    const { id } = useParams();           
+    const navigate = useNavigate();
+    const [openModal, setOpenModal] = useState(false);
+    const [search, setSearch] = useState("");
+
+  
+
+
+    // const [syncing, setSyncing] = useState(false);
+
+    // untuk mengreflesh data
+    // const handleSync = async () => {
+    // setSyncing(true);
+
+    // try {
+    //     await refetch();   // 🔄 refresh data
+    // } catch (err) {
+    //     console.error("Gagal sync:", err);
+    // }
+
+    // setTimeout(() => setSyncing(false), 600);
+    // };
+
+    const { classroom, students, loading,availableStudents, actionLoading,addStudents,removeStudent  } = useClassroomDetail(id);  // <-- Fetch API
+
+    // if (loading) return <div className="p-10">Loading...</div>;
+    //if (!classroom) return <div>Data tidak ditemukan</div>;
+      const filteredStudents = students.filter((s) =>
+    s.name.toLowerCase().includes(search.toLowerCase()) ||
+    s.nisn.toString().includes(search)
+);
+
+    return (
+        <>
+         {/* <style>
+        {`
+        @keyframes spin360 {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .spin {
+          animation: spin360 0.6s linear;
+        }
+        `}
+    </style> */}
+        <div className="min-h-screen p-8">
+            <div className="max-w-7xl mx-auto">
+
+                <div className="relative w-full h-[142px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
+                    <div className="flex justify-between items-center mb-6 text-white">
+                        <div>
+                            <span className='text-center flex flex-row gap-3 text-xl font-semibold ml-4 mt-4'>
+                                <GraduationCap size={25}/>
+                                {classroom?.name}
+                            </span>
+                            <p className="ml-5 text-sm">Kelas - {classroom?.name}</p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center space-x-8 text-blue-200 mt-10 ml-4">
+                        <div className="flex items-center space-x-2">
+                            <UserCheck2 size={20}/>
+                            <span className='text-sm text-center'>{classroom?.homeroom_teacher?.name}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Users size={20}/>
+                            <span className='text-sm text-center'>{classroom?.statistics.total_students}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                                <Calendar size={20}/>
+                                <span className='text-sm text-center'>{classroom?.school_year?.name}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between space-x-4 pt-4">
+                    <div className="relative flex-grow max-w-sm">
+                        <input
+                            type="text"
+                            placeholder="Cari Nama/NISN"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full py-2 pl-10 pr-4 rounded-full text-gray-700 border border-gray-800 "
+                        />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-700" />
+                    </div>
+
+                    <div className="flex space-x-3">
+                       <button 
+                            // onClick={handleSync}
+                            className="flex items-center px-4 py-2 bg-[#FACC15] rounded-lg transition text-sm text-white gap-2 shadow-md"
+                        >
+                            <RefreshCw size={16}  />
+                            Sync Data
+                        </button>
+
+
+                        <button onClick={() => setOpenModal(true)} className="flex items-center px-4 py-2 bg-[#3B82F6] rounded-lg transition duration-150 text-sm text-white gap-2 shadow-md">
+                            <Plus size={16}/> Tambah Siswa
+                        </button>
+
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="flex items-center px-4 py-2 border border-[#FF5E53] rounded-lg transition duration-150 text-sm text-[#FF5E53] gap-2 shadow-md"
+                        >
+                            <ArrowLeft size={16}/> Kembali
+                        </button>
+                    </div>
+                </div>
+
+                <div className="h-4"></div> 
+
+                <DataTable students={filteredStudents} loading={loading} removeStudent={removeStudent}/>
+                <ModalAddStudent open={openModal} onClose={() => setOpenModal(false)} classroom={classroom} availableStudents={availableStudents}addStudents={addStudents}/>
+            </div>
+        </div>
+    </>
+    );
+};
+export default ClassStudents;

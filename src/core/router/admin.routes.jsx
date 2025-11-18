@@ -13,10 +13,14 @@ import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
 
 import MainClass from "../../view/pages/operator/class-major/MainClass";
 import MainMajor from "../../view/pages/operator/class-major/MainMajor";
+
 import { RfidManagement } from "../../view/pages/operator/rfid/MainRfid";
 import ClassScheduleManager from "../../view/pages/operator/schedule-clock/MainLayout";
 
 // import MainShedule from "../../view/pages/operator/schedule-clock/MainLayout";
+import MainShedule from "../../view/pages/operator/schedule-clock/MainLayout";
+import ClassStudents from "../../view/pages/operator/class-major/class-students/MainClassStudent";
+import Shcedule from "../../view/pages/operator/schedule-clock/MainLayout";
 
 export const AdminRoutes = [
   {
@@ -29,10 +33,12 @@ export const AdminRoutes = [
       // { path: "guru", element: <TeacherMainyuyu></TeacherMainyuyu> },
       // { path: "guru/software", element: <TeachersMain /> },
       { path: "Major", element: <MainMajor /> },
-      { path: "kelas", element: <MainClass /> },
+      { path: "class", element: <MainClass /> },
+      { path: "classStudents/:id", element: <ClassStudents /> },
       { path: "maple", element: <MainMaple /> },
       { path: "siswa", element: <MainStudent /> },
       { path : "rfid", element: <RfidManagement />},
+      { path : "Shedule", element: <Shcedule />},
 
 
     ],
