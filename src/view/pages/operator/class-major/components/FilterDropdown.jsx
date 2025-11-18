@@ -66,7 +66,7 @@ export const useClassFilter = (classesDataFromApi) => {
       result = result.filter(
         (c) =>
           c.name?.toLowerCase().includes(term) ||
-           c.teacher?.toLowerCase().includes(term)
+           c.homeroom_teacher?.toLowerCase().includes(term)
       );
     }
 

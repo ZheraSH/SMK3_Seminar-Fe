@@ -1,4 +1,6 @@
 import { Users, GraduationCap, Search, ChevronDown, X } from "lucide-react";
+import {Link} from "react-router-dom";
+
 const ClassCard = ({ classData }) => {
   const teacherName = classData.teacher?.name || classData.teacher || 'Wali Kelas belum diatur';
   const schoolYear = classData.school_year?.name || classData.school_year || '-';
@@ -19,16 +21,18 @@ const ClassCard = ({ classData }) => {
       <div className="space-y-2 mb-4 flex justify-between items-center">
         <div className="text-sm text-gray-600">
           <p className="font-medium">Wali Kelas:</p>
-          <p className="font-semibold text-gray-700">{teacherName}</p>
+          <p className="font-semibold text-gray-700">{ classData.homeroom_teacher }</p>
         </div>
         <div className="flex items-center text-sm text-gray-600">
           <span className="mr-1 text-lg"><Users className="w-5 h-5 mr-1" /></span>
-          <span className="font-semibold text-gray-700">{studentCount}</span>
+          <span className="font-semibold text-gray-700">{classData.total_students}</span>
         </div>
       </div>
-      <button className="w-full py-2 px-4 bg-[#3B82F6] text-white font-semibold rounded-lg transition duration-150 shadow-md cursor-pointer">
+      <Link to={`/home/classStudents/${classData.id}`}>
+        <button className="w-full py-2 px-4 bg-[#3B82F6] text-white font-semibold rounded-lg transition duration-150 shadow-md cursor-pointer">
         Lihat Detail
       </button>
+      </Link>
     </div>
   );
 };

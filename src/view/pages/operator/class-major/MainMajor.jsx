@@ -43,7 +43,7 @@ const MajorCardGrid = () => {
     const handleViewDetail = (majorFullName) => {
         //untuk melindungi simbol '&' dan spasi
         const encodedName = encodeURIComponent(majorFullName);
-        navigate(`/home/kelas?major=${encodedName}`);
+        navigate(`/home/class?major=${encodedName}`);
     };
 
     const renderedMajors = majors.map(major => {

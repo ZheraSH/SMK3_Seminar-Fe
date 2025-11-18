@@ -6,7 +6,7 @@ function Header() {
     const currentPath = location.pathname;
 
     let headerTitle = "Daftar Jurusan";
-    if (currentPath.includes('/kelas')) {
+    if (currentPath.includes('/class')) {
         headerTitle = "Daftar Kelas";
     }
 
@@ -27,8 +27,8 @@ function Header() {
                             Jurusan
                         </button>
                     </Link>
-                     <Link to="/home/kelas">
-                        <button className={`${getButtonClass('kelas')} px-3 py-2 rounded-lg transition duration-150`}>
+                     <Link to="/home/class">
+                        <button className={`${getButtonClass('class')} px-3 py-2 rounded-lg transition duration-150`}>
                             Kelas
                         </button>
                     </Link>

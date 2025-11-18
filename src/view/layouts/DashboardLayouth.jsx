@@ -55,11 +55,19 @@ export const DashboardLayouth = () => {
               [-ms-overflow-style:'none'] 
               [scrollbar-width:'none']"
           >
-            {menuItemsOperator.map((item, index) => {
-              const isActive =
-                  item.path === "/home/major"
-                    ? ["/home/major", "/home/kelas"].includes(location.pathname)
-                    : location.pathname === item.path;
+           {menuItemsOperator.map((item, index) => {
+            
+            const isClassJurusanMenu = item.path === "/home/major";
+      
+            const activePathsForClassJurusan = [
+              "/home/major", 
+              "/home/class", 
+              "/home/classstudents" 
+            ];
+
+            const isActive = isClassJurusanMenu
+              ? activePathsForClassJurusan.some(path => location.pathname.startsWith(path))
+              : location.pathname === item.path;
 
                 return (
                   <Link
