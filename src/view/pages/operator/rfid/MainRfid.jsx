@@ -6,6 +6,8 @@ import { RfidTable } from "./components/rfid-table";
 import { RfidAddModal } from "./components/rfid-add-modal";
 import { RfidEditModal } from "./components/rfid-edit-modal";
 import { RfidSearchBar } from "./components/rfid-search-bar";
+import { useState,useEffect } from "react";
+import axios from "axios";
 
 
 export function RfidManagement() {
@@ -27,6 +29,8 @@ export function RfidManagement() {
     handleDelete,
     handleEdit,
   } = useRfidManagement();
+
+
 
   return (
     <div className="min-h-screen bg-gray-50 px-6">

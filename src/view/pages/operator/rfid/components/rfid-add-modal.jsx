@@ -1,14 +1,46 @@
 "use client";
-import { X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
+import axios from "axios";
 
-export function RfidAddModal({
-  show,
-  newData,
-  onDataChange,
-  onAdd,
-  onClose,
-}) {
+export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
   if (!show) return null;
+
+  const [AddRfids, setAddRfids] = useState([]);
+
+  const addRfid = async () => {
+    try {
+      const payload = {
+        rfid: newData.idCard,
+        student_id: newData.studentId,
+        status: newData.status,
+      };
+
+      const res = await axios.post("http://127.0.0.1:8000/api/rfids", payload);
+      console.log("Success:", res.data);
+
+      onAdd?.(); // biar parent refresh
+      onClose?.();
+    } catch (err) {
+      console.error("Error:", err.response?.data || err);
+    }
+  };
+
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:8000/api/students");
+        console.log("Data siswa:", res.data.data);
+        setStudents(res.data.data);
+      } catch (error) {
+        console.error("Gagal fetch students:", error);
+      }
+    };
+    fetchStudents();
+  }, []);
+  
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/40 flex items-center justify-center z-50">
@@ -26,15 +58,21 @@ export function RfidAddModal({
           <label className="block text-[14px] text-gray-600 mb-1">
             Pengguna
           </label>
-          <input
-            type="text"
-            placeholder="Masukkan nama pengguna"
-            value={newData.nama}
+          <select
+            value={newData.studentId}
             onChange={(e) =>
-              onDataChange({ ...newData, nama: e.target.value })
+              onDataChange({ ...newData, studentId: e.target.value })
             }
-            className="w-full border border-gray-400 px-3 py-2 rounded-lg placeholder:text-[12px]"
-          />
+            className="w-full border border-gray-400 px-3 py-2 rounded-lg text-[12px]"
+          >
+            <option value="">-- Pilih Siswa --</option>
+
+            {students.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name} ({s.nisn})
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="mb-3">
@@ -44,9 +82,9 @@ export function RfidAddModal({
           <input
             type="text"
             placeholder="Masukkan id kartu"
-            value={newData.idKartu}
+            value={newData.idCard}
             onChange={(e) =>
-              onDataChange({ ...newData, idKartu: e.target.value })
+              onDataChange({ ...newData, idCard: e.target.value })
             }
             className="w-full border border-gray-400 px-3 py-2 rounded-lg placeholder:text-[12px]"
           />
@@ -66,14 +104,13 @@ export function RfidAddModal({
             }
             className="w-full border border-gray-400 px-3 py-2 rounded-lg text-[12px]"
           >
-            <option value="Aktif">Aktif</option>
-            <option value="Nonaktif">Nonaktif</option>
+            <option value="active">Aktif</option>
           </select>
         </div>
 
         <div className="flex justify-end gap-2">
           <button
-            onClick={onAdd}
+            onClick={addRfid}
             className="bg-[#3B82F6] text-white text-[14px] px-4 py-2 h-[37px] w-[90px] rounded-[10px] hover:bg-blue-700"
           >
             Tambah
