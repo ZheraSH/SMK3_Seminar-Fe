@@ -16,6 +16,8 @@ import MainMajor from "../../view/pages/operator/class-major/MainMajor";
 
 import { RfidManagement } from "../../view/pages/operator/rfid/MainRfid";
 import ClassScheduleManager from "../../view/pages/operator/schedule-clock/MainLayout";
+import { TeacherMain } from "../../view/pages/operator/teachers/TeachersMain";
+import AbsenRfid from "../../view/pages/operator/absenrfid/AbsenRfid";
 
 // import MainShedule from "../../view/pages/operator/schedule-clock/MainLayout";
 import MainShedule from "../../view/pages/operator/schedule-clock/MainLayout";
@@ -30,13 +32,14 @@ export const AdminRoutes = [
       { index: true, element: <BodyDashboard /> },
       { path: "dashboard", element: <MainDashboard /> },
       { path: "jadwalpelajaran", element: <ClassScheduleManager/>},
-      // { path: "guru", element: <TeacherMainyuyu></TeacherMainyuyu> },
+      { path: "guru", element: <TeacherMain/> },
       // { path: "guru/software", element: <TeachersMain /> },
       { path: "Major", element: <MainMajor /> },
       { path: "class", element: <MainClass /> },
       { path: "classStudents/:id", element: <ClassStudents /> },
       { path: "maple", element: <MainMaple /> },
       { path: "siswa", element: <MainStudent /> },
+      { path : "absen-rfid", element: <AbsenRfid />},
       { path : "rfid", element: <RfidManagement />},
       { path : "Shedule", element: <Shcedule />},
 
