@@ -54,3 +54,52 @@ export const scheduleData = [
 
 
   export const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
+
+
+
+
+  export const studentData = [
+    {
+      nama: "Valen Irwandy Mustabir",
+      nisn: "006736837827",
+      status: "Hadir",
+      color: "bg-green-100 text-green-600",
+    },
+    {
+      nama: "Valen Irwandy Mustabir",
+      nisn: "006736837827",
+      status: "Sakit",
+      color: "bg-yellow-100 text-yellow-600",
+    },
+    {
+      nama: "Valen Irwandy Mustabir",
+      nisn: "006736837827",
+      status: "Hadir",
+      color: "bg-green-100 text-green-600",
+    },
+    {
+      nama: "Valen Irwandy Mustabir",
+      nisn: "006736837827",
+      status: "Izin",
+      color: "bg-blue-100 text-blue-600",
+    },
+    {
+      nama: "Valen Irwandy Mustabir",
+      nisn: "006736837827",
+      status: "Alpha",
+      color: "bg-red-100 text-red-600",
+    },
+    {
+      nama: "Valen Irwandy Mustabir",
+      nisn: "006736837827",
+      status: "Hadir",
+      color: "bg-green-100 text-green-600",
+    },
+    {
+      nama: "Valen Irwandy Mustabir",
+      nisn: "006736837827",
+      status: "Hadir",
+      color: "bg-green-100 text-green-600",
+    },
+  ];
+  

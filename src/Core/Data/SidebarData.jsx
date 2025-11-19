@@ -49,3 +49,10 @@ export const menuItemTeacher = [
     {name: "Absensi Kelas " , icon: <CircleCheckBig size={20} />, path: "/teacher-home/attendance-teacher"},
     {name: "Jadwal Mengajar",icon: <CalendarDays size={20} />, path: "/teacher-home/teacher-schedule" },
 ];
+
+export const menuItemHomeRoom = [
+    // {name: "Home", icon:<Home size={20} />, path: "/teacher-home"},
+    // {name: "Absensi Kelas " , icon: <CircleCheckBig size={20} />, path: "/teacher-home/attendance-teacher"},
+    // {name: "Jadwal Mengajar",icon: <CalendarDays size={20} />, path: "/teacher-home/teacher-schedule" },
+    {name: "Rekap Kelas",icon: <CalendarDays size={20} />, path: "/homeroom-home/class-recap" },
+];
