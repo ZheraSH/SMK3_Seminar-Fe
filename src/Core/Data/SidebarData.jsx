@@ -24,7 +24,7 @@ export const menuItemsOperator = [
     { name: "Mata Pelajaran", icon: <ChartColumnBig size={20} />, path: "/home/maple" },
     { name: "Jadwal Pelajaran", icon: <CalendarDays size={20} />, path: "/home/Shedule" },
     { name: "Tahun Ajaran", icon: <Calendar1 size={20} />, path: "/home/tahun-ajaran" },
-    { name: "Pengaturan Jam", icon: <Clock size={20} />, path: "/home/pengaturan-jam" },
+    { name: "Pengaturan Jam", icon: <Clock size={20} />, path: "/home/absen-rfid" },
     { name: "RFID", icon: <IdCardLanyard size={20} />, path: "/home/rfid" },
     
   ];
