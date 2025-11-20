@@ -16,7 +16,7 @@ export function StudentsTable({
     <div className="w-full overflow-x-auto rounded-lg shadow-sm border border-gray-200">
       <table className="min-w-[800px] w-full text-sm text-gray-700">
         <thead>
-          <tr className="bg-[#3B82F6] text-white text-sm">
+          <tr className="bg-[#3B82F6] text-white">
             <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
               No
             </th>
