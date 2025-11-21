@@ -57,6 +57,7 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
         const res = await axios.get(
           "http://127.0.0.1:8000/api/rfid/available-students"
         );
+        console.log(res.data);
         setStudents(res.data.data);
       } catch (error) {
         console.error("Gagal fetch students:", error);

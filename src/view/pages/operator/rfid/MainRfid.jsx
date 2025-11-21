@@ -1,71 +1,81 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { RfidHeader } from "./components/rfid-header";
-import { RfidSearchBar } from "./components/rfid-search-bar";
-import { RfidTable } from "./components/rfid-table";
-import { RfidAddModal } from "./components/rfid-add-modal";
-import { RfidEditModal } from "./components/rfid-edit-modal";
+"use client"
+import { useRfidManagement } from "../../../../Core/hooks/rfid/use-rfid-management"
+
+import { RfidHeader } from "./components/rfid-header"
+import { RfidTable } from "./components/rfid-table"
+import { RfidAddModal } from "./components/rfid-add-modal"
+import { RfidEditModal } from "./components/rfid-edit-modal"
+import { RfidSearchBar } from "./components/rfid-search-bar"
+import { PaginationRfid } from "./components/rfid-pagination"
+import { useRfid } from "../../../../Core/hooks/rfid/usePagination"
 
 export function RfidManagement() {
-  const [rfids, setRfids] = useState([]);
-  const [search, setSearch] = useState("");
-  const [openMenu, setOpenMenu] = useState(-1);
+  const { rfid, meta, page, setPage, search, setSearch, loading } = useRfid()
 
-  const [showAdd, setShowAdd] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [selected, setSelected] = useState(null);
-
-  // Fetch data
-  const fetchRfid = async () => {
-    const res = await axios.get("http://127.0.0.1:8000/api/rfids");
-    setRfids(res.data.data);
-  };
-
-  useEffect(() => {
-    fetchRfid();
-  }, []);
-
-  // Search filter (inti fitur search)
-  const filtered = rfids.filter((item) => {
-    const q = search.toLowerCase();
-    return (
-      item.student?.name.toLowerCase().includes(q) ||
-      item.rfid.toLowerCase().includes(q)
-    );
-  });
+  const {
+    showAdd,
+    setShowAdd,
+    showEdit,
+    setShowEdit,
+    selected,
+    setSelected,
+    newData,
+    setNewData,
+    openMenu,
+    setOpenMenu,
+    handleAdd,
+    handleDelete,
+    handleEdit,
+  } = useRfidManagement()
 
   return (
     <div className="min-h-screen bg-gray-50 px-6">
       <RfidHeader />
 
-      <RfidSearchBar
-        search={search}
-        onSearchChange={setSearch}
-        onAddClick={() => setShowAdd(true)}
-      />
+      {/* SEARCH */}
+      <RfidSearchBar search={search} onSearchChange={setSearch} onAddClick={() => setShowAdd(true)} />
 
+      {/* TABLE */}
       <RfidTable
-        filtered={filtered}
+        filtered={rfid}
         openMenu={openMenu}
-        onMenuClick={setOpenMenu}
+        onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
         onEditClick={(item) => {
-          setSelected(item);
-          setShowEdit(true);
+          setSelected(item)
+          setShowEdit(true)
         }}
-        onDeleteClick={(id) => console.log("delete", id)}
+        onDeleteClick={handleDelete}
       />
 
+      {/* PAGINATION */}
+      <PaginationRfid
+        page={meta.current_page || 1}
+        lastPage={meta.last_page || 1}
+        onPrev={() => setPage(page - 1)}
+        onNext={() => setPage(page + 1)}
+        onPageClick={setPage}
+      />
+
+      {/* ADD */}
       <RfidAddModal
         show={showAdd}
-        onClose={() => setShowAdd(false)}
+        newData={newData}
+        onDataChange={setNewData}
+        onAdd={handleAdd}
+        onClose={() => {
+          setShowAdd(false)
+          setNewData({ nama: "", idKartu: "", status: "Aktif" })
+        }}
       />
 
+      {/* EDIT */}
       <RfidEditModal
         show={showEdit}
         selected={selected}
+        onDataChange={setSelected}
+        onSave={handleEdit}
         onClose={() => setShowEdit(false)}
       />
     </div>
-  );
+  )
 }
