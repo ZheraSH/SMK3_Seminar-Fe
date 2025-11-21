@@ -1,6 +1,6 @@
 "use client";
-import { X } from 'lucide-react';
-
+import { X } from "lucide-react";
+import axios from "axios";
 export function RfidEditModal({
   show,
   selected,
@@ -9,6 +9,31 @@ export function RfidEditModal({
   onClose,
 }) {
   if (!show || !selected) return null;
+
+  const updateRfidStatus = async (rfidId, status) => {
+    try {
+      const payload = { status }; // cuma status yang dikirim
+      const res = await axios.put(
+        `http://127.0.0.1:8000/api/rfids/${rfidId}`,
+        payload
+      );
+      console.log("Update sukses:", res.data);
+      return res.data;
+    } catch (err) {
+      console.error("Update error:", err.response?.data || err);
+      throw err;
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      await updateRfidStatus(selected.id, selected.status);
+      onSave?.(); // refresh parent table
+      onClose?.();
+    } catch (err) {
+      // bisa tampilkan error di UI kalau mau
+    }
+  };
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/40 flex items-center justify-center z-50">
@@ -24,48 +49,37 @@ export function RfidEditModal({
 
         <div className="mb-3">
           <label className="block text-[14px] text-gray-600 mb-1">
-            Pengguna
+            Nama Siswa
           </label>
           <input
-            type="text"
-            value={selected.nama}
-            onChange={(e) =>
-              onDataChange({ ...selected, nama: e.target.value })
-            }
-            className="w-full border border-gray-400 px-3 py-2 rounded-lg placeholder:text-[12px]"
+            value={selected.student.name}
+            readOnly
+            className="w-full border border-gray-300 px-3 py-2 rounded-lg bg-gray-100 text-[14px] cursor-not-allowed"
           />
         </div>
 
         <div className="mb-3">
           <label className="block text-[14px] text-gray-600 mb-1">
-            Id Kartu
+            ID Kartu
           </label>
           <input
-            type="text"
-            value={selected.idKartu}
-            onChange={(e) =>
-              onDataChange({ ...selected, idKartu: e.target.value })
-            }
-            className="w-full border border-gray-400 px-3 py-2 rounded-lg placeholder:text-[12px]"
+            value={selected.rfid} // pastikan field-nya memang ini
+            readOnly
+            className="w-full border border-gray-300 px-3 py-2 rounded-lg bg-gray-100 text-[14px] cursor-not-allowed"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-[14px] text-gray-600 mb-1">
-            Status
-          </label>
+          <label className="block text-[14px] text-gray-600 mb-1">Status</label>
           <select
             value={selected.status}
             onChange={(e) =>
-              onDataChange({
-                ...selected,
-                status: e.target.value,
-              })
+              onDataChange({ ...selected, status: e.target.value })
             }
             className="w-full border border-gray-400 px-3 py-2 rounded-lg text-[14px]"
           >
-            <option value="Aktif">Aktif</option>
-            <option value="Nonaktif">Nonaktif</option>
+            <option value="active">Aktif</option>
+            <option value="inactive">Tidak Aktif</option>
           </select>
         </div>
 
@@ -77,7 +91,7 @@ export function RfidEditModal({
             Batal
           </button>
           <button
-            onClick={onSave}
+            onClick={handleSave}
             className="bg-[#3B82F6] text-white text-[14px] px-4 py-2 h-[37px] w-[90px] rounded-[10px] hover:bg-blue-700"
           >
             Simpan

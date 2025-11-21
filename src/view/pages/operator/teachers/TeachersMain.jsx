@@ -40,8 +40,14 @@ export const TeacherMain = () => {
   });
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors] = useState({});
-  const [rowsPerPage, setRowsPerPage] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [rowsPerPage, setRowsPerPage] = useState(6);
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  // const filteredTeachers = filterTeachers(allTeachers)
+
+
+  //paginate
+  
 
   const {
     searchTerm,
@@ -65,6 +71,8 @@ export const TeacherMain = () => {
     return data;
   };
 
+
+  
   useEffect(() => {
     fetchTeachers();
     const loadReligions = async () => {
@@ -169,18 +177,18 @@ export const TeacherMain = () => {
   };
 
   const filteredTeachers = filterTeachers(allTeachers);
-  const totalPages = Math.ceil(filteredTeachers.length / rowsPerPage);
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const currentTeachers = filteredTeachers.slice(
-    startIndex,
-    startIndex + rowsPerPage
-  );
+  // const totalPages = Math.ceil(filteredTeachers.length / rowsPerPage);
+  // const startIndex = (currentPage - 1) * rowsPerPage;
+  // const currentTeachers = filteredTeachers.slice(
+  //   startIndex,
+  //   startIndex + rowsPerPage
+  // );
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+  // const handlePageChange = (page) => {
+  //   if (page >= 1 && page <= totalPages) {
+  //     setCurrentPage(page);
+  //   }
+  // };
 
   const handleAddNewTeacher = () => {
     setEditingId(null);
@@ -246,23 +254,16 @@ export const TeacherMain = () => {
         handleSubmit={handleSubmit}
       />
 
-      <TeacherTable
-        currentTeachers={currentTeachers}
-        openItemId={openItemId}
-        setOpenItemId={setOpenItemId}
-        handleDetail={handleDetail}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-      />
+<TeacherTable
+  currentTeachers={filteredTeachers} // semua data sudah difilter
+  openItemId={openItemId}
+  setOpenItemId={setOpenItemId}
+  handleDetail={handleDetail}
+  handleEdit={handleEdit}
+  handleDelete={handleDelete}
+/>
 
-      {totalPages > 1 && (
-        <PaginationEmployee
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPrevious={() => handlePageChange(currentPage - 1)}
-          onNext={() => handlePageChange(currentPage + 1)}
-        />
-      )}
+    
     </div>
   );
 };

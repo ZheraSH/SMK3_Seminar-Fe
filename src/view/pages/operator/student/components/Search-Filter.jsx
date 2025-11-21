@@ -1,7 +1,7 @@
 "use client"
 
 import { Search, ChevronDown, ChevronRight } from "lucide-react"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect,useState } from "react"
 
 export function SearchFilter({
   searchTerm,
@@ -15,6 +15,7 @@ export function SearchFilter({
   onAddData
 }) {
   const categoryRef = useRef(null)
+   
 
   useEffect(() => {
     const handleClickOutside = (e) => {
