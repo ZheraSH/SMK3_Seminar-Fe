@@ -1,11 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import { SearchFilter } from "./components/Search-Filter";
 import { FormModal } from "./components/FormModal";
 import { DetailModal } from "./components/DetailModal";
 import { StudentsTable } from "./components/StudentTable";
-import { Pagination } from "./components/Pagination";
+
 import {
   fetchStudents,
   fetchlevelclasses,
@@ -14,21 +15,23 @@ import {
   submitStudent,
   deleteStudent,
 } from "../../../../Core/api/student/StudentApi";
+import { Pagination } from "./components/Pagination";
 
 export const MainStudent = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openItemId, setOpenItemId] = useState(null);
-  const [students, setStudents] = useState([]);
-  const [allStudents, setAllStudents] = useState([]);
-  const [Majors, setMajors] = useState([]);
-  const [levelclasses, setlevelclasses] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [openCategory, setOpenCategory] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState("");
   const [category, setCategory] = useState("Pilih Kategori");
-  const [errors, setErrors] = useState({});
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [openItemId, setOpenItemId] = useState(null);
+
+  // DATA
+  const [students, setStudents] = useState([]);
+  const [majors, setMajors] = useState([]);
+  const [levelclasses, setLevelclasses] = useState([]);
+  const [religions, setReligions] = useState([]);
+
+  // FORM
   const [post, setPost] = useState({
     name: "",
     email: "",
@@ -45,33 +48,42 @@ export const MainStudent = () => {
   });
 
   const [editingId, setEditingId] = useState(null);
-  const [religions, setReligions] = useState([]);
+  const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [studentsData, religionsData, majorsData, levelclassesData] =
-          await Promise.all([
-            fetchStudents(),
-            fetchReligions(),
-            fetchMajors(),
-            fetchlevelclasses(),
-          ]);
+  // DETAIL
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-        setStudents(studentsData);
-        setAllStudents(studentsData);
-        setReligions(religionsData);
-        setMajors(majorsData);
-        setlevelclasses(levelclassesData);
-      } catch (err) {
-        console.error("Error loading data:", err);
-      }
-    };
+  // SEARCH & PAGINATION API
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const perPage = 8;
+  const startIndex = (page - 1) * perPage;
+  const [meta, setMeta] = useState({
+    current_page: 1,
+    last_page: 1,
+    total: 0,
+  });
 
-    loadData();
-  }, []);
+  // FETCH DATA
 
-  // Handle input
+  const loadOtherData = async () => {
+    try {
+      const [religionsData, majorsData, levelclassesData] = await Promise.all([
+        fetchReligions(),
+        fetchMajors(),
+        fetchlevelclasses(),
+      ]);
+
+      setReligions(religionsData);
+      setMajors(majorsData);
+      setLevelclasses(levelclassesData);
+    } catch (err) {
+      console.error("Gagal load lainnya:", err);
+    }
+  };
+
+  // HANDLE FORM INPUT
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
     setPost({
@@ -80,7 +92,7 @@ export const MainStudent = () => {
     });
   };
 
-  // Tambah atau update data
+  // SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -107,42 +119,31 @@ export const MainStudent = () => {
         order_child: "",
         count_siblings: "",
         address: "",
-        religion_id: "",
-        gender: "",
-        majors: "",
-        levelclasses: "",
+        religion_id: 1,
       });
-      setEditingId(null);
-      const updatedStudents = await fetchStudents();
-      setStudents(updatedStudents);
-      setAllStudents(updatedStudents);
 
-      if (!editingId) {
-        setTimeout(() => {
-          const totalItems = updatedStudents.length;
-          const newTotalPages = Math.ceil(totalItems / rowsPerPage);
-          setCurrentPage(newTotalPages);
-        }, 100);
-      }
+      setEditingId(null);
+
+      // Refresh data dari page terakhir
+      setPage(meta.last_page);
+      loadStudents();
+
+      setIsOpen(false);
     } catch (err) {
       if (err.response?.data?.errors) {
         setErrors(err.response.data.errors);
-      } else {
-        console.log("⚠️ Tidak ada field 'errors' di response");
       }
     }
   };
 
-  // Edit
+  // EDIT
   const handleEdit = (student) => {
-    console.log("🔍 Student data for edit:", student);
     let normalizedGender = student.gender || "";
 
-    if (student.gender === "L" || student.gender === "laki-laki") {
+    if (student.gender === "L" || student.gender === "laki-laki")
       normalizedGender = "male";
-    } else if (student.gender === "P" || student.gender === "perempuan") {
+    if (student.gender === "P" || student.gender === "perempuan")
       normalizedGender = "female";
-    }
 
     setPost({
       name: student.name || "",
@@ -161,24 +162,22 @@ export const MainStudent = () => {
       majors: student.major?.id || "",
       levelclasses: student.levelclass?.id || "",
     });
+
     setEditingId(student.id);
     setIsOpen(true);
   };
 
-  // Tampilkan modal detail
   const handleDetail = (student) => {
     setSelectedStudent(student);
     setIsDetailOpen(true);
   };
 
-  // Hapus
+  // DELETE
   const handleDelete = async (id) => {
     if (!window.confirm("Yakin ingin menghapus siswa ini?")) return;
     try {
       await deleteStudent(id);
-      const updatedStudents = await fetchStudents();
-      setStudents(updatedStudents);
-      setAllStudents(updatedStudents);
+      loadStudents();
     } catch (err) {
       console.error(err);
     }
@@ -186,7 +185,6 @@ export const MainStudent = () => {
 
   const validateForm = () => {
     const newErrors = {};
-
     if (!post.name) newErrors.name = ["Nama wajib diisi."];
     if (!post.email) newErrors.email = ["Email wajib diisi."];
     if (!post.gender) newErrors.gender = ["Jenis kelamin wajib dipilih."];
@@ -204,134 +202,80 @@ export const MainStudent = () => {
     if (!post.majors) newErrors.majors = ["Jurusan wajib dipilih."];
     if (!post.levelclasses)
       newErrors.levelclasses = ["Tingkatan wajib dipilih."];
-
     return newErrors;
   };
 
-  // Filter pencarian dan kategori
-  const [currentFilter, setCurrentFilter] = useState({
-    type: null,
-    value: null,
-  });
+  const [currentFilter, setCurrentFilter] = useState({ type: null, value: null });
 
-  const filteredStudents = allStudents.filter((student) => {
-    const keyword = searchTerm.toLowerCase();
-    const matchesSearch =
-      student.name?.toLowerCase().includes(keyword) ||
-      student.nisn?.toLowerCase().includes(keyword) ||
-      student.gender?.toLowerCase().includes(keyword);
-
-    let matchesFilter = true;
-    if (currentFilter.type && currentFilter.value) {
-      switch (currentFilter.type) {
-        case "gender":
-          matchesFilter =
-            student.gender?.toLowerCase() === currentFilter.value.toLowerCase();
-          break;
-        case "majors":
-          matchesFilter =
-            student.majors?.toLowerCase() === currentFilter.value.toLowerCase();
-          break;
-        case "levelclasses":
-          matchesFilter =
-            student.levelclasses?.toLowerCase() ===
-            currentFilter.value.toLowerCase();
-          break;
-        default:
-          matchesFilter = true;
+  const loadStudents = async () => {
+    try {
+      const filters = {};
+      if (currentFilter.type && currentFilter.value) {
+        filters[currentFilter.type] = currentFilter.value;
       }
-    }
-
-    return matchesSearch && matchesFilter;
-  });
-
-  // Handle filter
-  const handleCategorySelect = (selected) => {
-    setCategory(selected);
-    setOpenCategory(false);
-    setOpenSubMenu("");
-
-    if (selected === "Semua Kategori") {
-      setCurrentFilter({ type: null, value: null });
-      return;
-    }
-
-    let filterType = null;
-    let filterValue = null;
-
-    if (selected.startsWith("Gender: ")) {
-      const genderLabel = selected.split(": ")[1];
-      filterValue = genderLabel;
-      filterType = "gender";
-    } else if (selected.startsWith("majors: ")) {
-      filterValue = selected.split(": ")[1];
-      filterType = "majors";
-    } else if (selected.startsWith("levelclasses: ")) {
-      filterValue = selected.split(": ")[1];
-      filterType = "levelclasses";
-    }
-
-    setCurrentFilter({ type: filterType, value: filterValue });
-  };
-
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 7;
-
-  const totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
-
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const currentStudents = filteredStudents.slice(
-    startIndex,
-    startIndex + rowsPerPage
-  );
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+      const res = await fetchStudents(page, searchTerm, filters);
+      setStudents(res.data);
+      setMeta(res.meta);
+    } catch (err) {
+      console.error("Gagal load students:", err);
     }
   };
+  
 
+  useEffect(() => {
+    loadStudents();
+  }, [page, searchTerm, currentFilter]); // <- penting
+
+  useEffect(() => {
+    loadOtherData();
+  }, []);
+
+  
   return (
     <div className="p-6">
+      {/* SEARCH */}
       <SearchFilter
         searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        category={category}
+        onSearchChange={(v) => {
+          setPage(1);
+          setSearchTerm(v);
+        }}
         openCategory={openCategory}
         onOpenCategory={setOpenCategory}
         openSubMenu={openSubMenu}
         onOpenSubMenu={setOpenSubMenu}
-        onCategorySelect={handleCategorySelect}
+        category={category}
+        onCategorySelect={(selected) => {
+          setCategory(selected);
+        
+          if (selected === "Semua Kategori") {
+            setCurrentFilter({ type: null, value: null });
+          } else if (selected.startsWith("Gender: ")) {
+            const label = selected.split(": ")[1]; // "Laki-laki" atau "Perempuan"
+            const value = label === "Laki-laki" ? "male" : "female"; // mapping
+            setCurrentFilter({ type: "gender", value });
+          } else if (selected.startsWith("majors: ")) {
+            setCurrentFilter({ type: "majors", value: selected.split(": ")[1] });
+          } else if (selected.startsWith("levelclasses: ")) {
+            setCurrentFilter({ type: "levelclasses", value: selected.split(": ")[1] });
+          }
+        }}
+        
         onAddData={() => {
           setEditingId(null);
-          setPost({
-            name: "",
-            email: "",
-            image: null,
-            nisn: "",
-            birth_place: "",
-            birth_date: "",
-            number_kk: "",
-            number_akta: "",
-            order_child: "",
-            count_siblings: "",
-            address: "",
-            religion_id: "",
-            gender: "",
-            majors: "",
-            levelclasses: "",
-          });
           setIsOpen(true);
         }}
       />
 
+
+      {/* DETAIL */}
       <DetailModal
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}
         student={selectedStudent}
       />
 
+      {/* FORM */}
       <FormModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -341,24 +285,26 @@ export const MainStudent = () => {
         editingId={editingId}
         errors={errors}
         religions={religions}
-        majors={Majors}
+        majors={majors}
         levelclasses={levelclasses}
       />
 
-      <div className="clear-both"></div>
-
+      {/* TABLE */}
       <StudentsTable
-        students={currentStudents}
+        students={students}
         startIndex={startIndex}
         onDetail={handleDetail}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
 
+      {/* PAGINATION BUTTONS */}
       <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
+        page={page}
+        lastPage={meta.last_page}
+        onPrev={() => setPage(page - 1)}
+        onNext={() => setPage(page + 1)}
+        onPageClick={(p) => setPage(p)}
       />
     </div>
   );

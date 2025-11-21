@@ -3,18 +3,31 @@ import { notify } from "../../hooks/notification/notify"
 
 const API_BASE_URL = "http://127.0.0.1:8000/api"
 
-export const fetchStudents = async () => {
+
+export const fetchStudents = async (page = 1, search = "", filter = {}) => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/students`)
-    const data = Array.isArray(res.data.data) ? res.data.data : res.data
-    console.log("Data siswa:", data)
-    console.log("Total data dari backend:", res.data.data.length)
-    return data
+    const res = await axios.get(`${API_BASE_URL}/students`, {
+      params: {
+        page,
+        search,
+        gender: filter.gender || "",
+        major: filter.major || "",
+        levelclass: filter.levelclass || "",
+      },
+    });
+
+    console.log(res.data.data);
+
+    return {
+      data: res.data.data ?? [],
+      meta: res.data.meta ?? {},
+    };
   } catch (err) {
-    console.error("Gagal ambil data coy:", err)
-    throw err
+    console.error("Gagal ambil data siswa:", err);
+    throw err;
   }
-}
+};
+
 
 export const fetchlevelclasses = async () => {
   try {
