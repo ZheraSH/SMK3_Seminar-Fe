@@ -11,6 +11,9 @@ import {
     UserRound,
     CircleCheckBig ,
     FileText,
+    Activity,
+    ClipboardCheck,
+    
   } from "lucide-react";
 
 
@@ -56,3 +59,12 @@ export const menuItemHomeRoom = [
     // {name: "Jadwal Mengajar",icon: <CalendarDays size={20} />, path: "/teacher-home/teacher-schedule" },
     {name: "Rekap Kelas",icon: <CalendarDays size={20} />, path: "/homeroom-home/class-recap" },
 ];
+
+
+//data sidebar bk 
+export const menuItemBk = [
+  {name: "Home", icon:<Home size={20}/>, path: "/bk-home"},
+  {name: "Monitoring Absen", icon:  <Activity size={20} />, path: "/bk-home/monitoring-absen"},
+  {name: "Statistik Global", icon: <ChartColumnBig size={20} />, path: "bk-home/statistik-global"},
+  {name: "Verifikasi Izin", icon: <ClipboardCheck  size={20} />, path: "bk-home/verifikasi-izin"},
+]
