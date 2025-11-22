@@ -1,8 +1,9 @@
-
+import { useState } from 'react';
 import CardList from './components/CardShedule';
 import ClockSchedule from './components/ClockShedule';
 import FilterDropdown from './components/FilterData';
 import useSchedule from '../../../../Core/hooks/schedule/useSchedule';
+import ScheduleDetailPage from './SheduleDetail';
 
 function ClassScheduleManager() {
     const {
@@ -12,18 +13,29 @@ function ClassScheduleManager() {
         setActiveTab,
         setSelectedFilter,
         handleViewSchedule,
+        selectedClassroomData,
+        // detailSchedule,   // <-- Data Jadwal Detail (Penting!)
+        // isLoadingDetail,
+        handleBackToClasses,
     } = useSchedule();
-    
-    
+    const [searchText, setSearchText] = useState("");
 
-    // FILTER LOGIC
-    const filteredClassData =
-        selectedFilter === "Show all"
-            ? schedule
-            : schedule.filter((item) =>
-                item.className.includes(selectedFilter) ||
-                item.year === selectedFilter
-            );
+
+  const filteredClassData = schedule.filter(item => {
+    const matchFilter =
+        selectedFilter === "Show all" ||
+        item.classroom.major === selectedFilter ||
+        item.classroom.level_class === selectedFilter ||
+        item.classroom.school_year === selectedFilter;
+
+    const matchSearch =
+        (item.classroom.name?.toLowerCase() ?? "").includes(searchText.toLowerCase()) ||
+        (item.classroom.homeroom_teacher?.toLowerCase() ?? "").includes(searchText.toLowerCase())
+
+
+    return matchFilter && matchSearch;
+    });
+
 
     
 
@@ -31,8 +43,7 @@ function ClassScheduleManager() {
 
     return (
         <div className="p-6 bg-gray-50 min-h-screen font-sans">
-
-            {/* HEADER BLUE BANNER */}
+            {activeTab !== 'jadwal-kelas' && (
             <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
                 <div className="absolute inset-0 items-center justify-center rounded-[6px]">
                     <div className="ml-5 mt-2">
@@ -47,8 +58,8 @@ function ClassScheduleManager() {
                     </div>
                 </div>
             </div>
+            )}
 
-            {/* NAVIGASI: KELAS / JAM */}
             {isMainTabActive && (
                 <>
                     <div className="flex justify-between items-center mb-6 bg-white p-3 rounded-lg drop-shadow-md">
@@ -58,7 +69,6 @@ function ClassScheduleManager() {
 
                         <div className="flex gap-4 p-1">
 
-                            {/* TAB KELAS */}
                             <button
                                 onClick={() => setActiveTab('kelas')}
                                 className={`px-4 py-2 text-sm font-semibold rounded-lg shadow-md transition-colors ${
@@ -70,7 +80,6 @@ function ClassScheduleManager() {
                                 Kelas
                             </button>
 
-                            {/* TAB JAM */}
                             <button
                                 onClick={() => setActiveTab('jam')}
                                 className={`px-4 py-2 text-sm font-semibold rounded-lg shadow-md transition-colors ${
@@ -85,12 +94,10 @@ function ClassScheduleManager() {
                         </div>
                     </div>
 
-                    {/* FILTER AREA (Hanya jika tab 'kelas') */}
                     {activeTab === 'kelas' && (
                         <>
                             <div className="flex justify-start items-center mb-6">
 
-                                {/* SEARCH */}
                                 <div className="relative flex items-center w-80 mr-4">
                                     <svg className="absolute left-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -98,55 +105,42 @@ function ClassScheduleManager() {
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
                                         </path>
                                     </svg>
-                                    <input
-                                        type="text"
-                                        placeholder="Cari Kelas/Wali Kelas..."
-                                        className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
+                                   <input type="text" placeholder="Cari Kelas/Wali Kelas..." value={searchText} onChange={(e) => setSearchText(e.target.value)} className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                                 </div>
 
-                                {/* FILTER DROPDOWN (NEW!) */}
-                                <FilterDropdown
-                                    selected={selectedFilter}
-                                    onSelect={(value) => setSelectedFilter(value)}
-                                />
+                                <FilterDropdown selected={selectedFilter} onSelect={(value) => setSelectedFilter(value)} schedule={schedule}/>
                             </div>
 
-                            <hr className="mb-6 border-gray-300" />
                         </>
                     )}
                 </>
             )}
 
-            {/* LIST KELAS */}
-            {activeTab === 'kelas' && (
+           {activeTab === 'kelas' && (
                 <>
                     {schedule.length === 0 ? (
                         <p>Loading...</p>
                     ) : (
-                        <>
-                            <CardList
-                                handleViewSchedule={handleViewSchedule}
-                                schedule={filteredClassData}
-                            />
-
-                            
-                            <div className="flex justify-center mt-8">
-                                {/* Pagination jika dibutuhkan */}
-                            </div>
-                        </>
-
-                    ) }
-                    
+                        <CardList
+                            handleViewSchedule={handleViewSchedule} 
+                            schedule={filteredClassData}
+                        />
+                    )}
                 </>
             )}
 
-            {/* DETAIL JAM & JADWAL */}
-            {(activeTab === 'jam' || activeTab === 'jadwal-kelas') && (
+            {activeTab === 'jam' && (
                 <ClockSchedule
-                    mode={activeTab}
-                    schedule={schedule}
-                    setSelectedTab={setActiveTab}
+                    // setSelectedTab={setActiveTab}
+                />
+            )}
+
+            {activeTab === 'jadwal-kelas' && (
+                <ScheduleDetailPage
+                    selectedClassroomData={selectedClassroomData} 
+                    handleBackToClasses={handleBackToClasses} 
+                    // detailSchedule={detailSchedule}
+                    // isLoadingDetail={isLoadingDetail}
                 />
             )}
         </div>

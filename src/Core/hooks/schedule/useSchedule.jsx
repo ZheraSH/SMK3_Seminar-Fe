@@ -1,36 +1,46 @@
-import { useState,useEffect } from 'react';
-import { fetchClass } from '../../api/lesson-shedule/lessonApi';
+import { useState, useEffect } from 'react';
+import { fetchClass} from '../../api/lesson-shedule/lessonApi'; 
 
 export default function useSchedule () {
     const [activeTab, setActiveTab] = useState('kelas');
-    
-    // STATE FILTER
     const [selectedFilter, setSelectedFilter] = useState("Show all");
+    const [schedule, setSchedule] = useState ([]); 
     
-    const [schedule,setSchedule] = useState ([]);
+    const [selectedClassroomData, setSelectedClassroomData] = useState(null); 
+
 
     useEffect(() => {
         const loadData = async () => {
-            const data = await fetchClass();
-            setSchedule(data);
+            try {
+                const data = await fetchClass();
+                setSchedule(data);
+            } catch (error) {
+                console.error("Gagal mengambil data kelas:", error);
+            }
         };
 
         loadData();
     }, []);
 
-    // HANDLER MELIHAT JADWAL
-    const handleViewSchedule = (className, mode) => {
-        setSchedule(className);
-        setActiveTab(mode);
+    const handleViewSchedule = (classroomData) => {
+        setSelectedClassroomData(classroomData); 
+        setActiveTab('jadwal-kelas'); 
     };
+
+    const handleBackToClasses = () => {
+        setSelectedClassroomData(null); 
+        setActiveTab('kelas'); 
+    };
+
 
     return {
         activeTab,
         setActiveTab,
         schedule,
-        setSchedule,
         selectedFilter,
         setSelectedFilter,
         handleViewSchedule,
+         handleBackToClasses,
+        selectedClassroomData,
     }
 }
