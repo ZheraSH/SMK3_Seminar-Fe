@@ -61,26 +61,34 @@ export const DashboardLayouth = () => {
               [-ms-overflow-style:'none'] 
               [scrollbar-width:'none']"
           >
-            {menuItemsOperator.map((item, index) => {
-              const isActive =
-                  item.path === "/home/major"
-                    ? ["/home/major", "/home/kelas"].includes(location.pathname)
-                    : location.pathname === item.path;
+           {menuItemsOperator.map((item, index) => {
+              
+              let finalIsActive = location.pathname === item.path;
 
-              return (
-                <Link
-                  key={index}
-                  to={item.path}
-                  className={`flex items-center gap-3 p-2 text-[14px] font-semibold mb-3 cursor-pointer duration-300 
-                      hover:bg-white hover:rounded-[12px] hover:text-[#1E3A8A] ${
-                        isActive ? "bg-white text-[#1E3A8A] rounded-[12px]" : ""
-                      }`}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
+              // Logika Khusus untuk 'Kelas & Jurusan' (asumsi path-nya /home/major)
+              if (item.path === "/home/major") {
+                // Aktif jika path adalah /home/major, /home/class, ATAU dimulai dengan /home/classStudents
+                finalIsActive = ["/home/major", "/home/class"].includes(location.pathname) || 
+                                location.pathname.startsWith("/home/classStudents");
+              } 
+              
+              // Untuk item 'Siswa' dan lainnya, gunakan logika default
+              // (Pastikan Anda MENGHAPUS logika khusus untuk /home/siswa yang mungkin Anda tambahkan sebelumnya)
+
+              return (
+                <Link
+                  key={index}
+                  to={item.path}
+                  className={`flex items-center gap-3 p-2 text-[14px] font-semibold mb-3 cursor-pointer duration-300 
+                      hover:bg-white hover:rounded-[12px] hover:text-[#1E3A8A] ${
+                        finalIsActive ? "bg-white text-[#1E3A8A] rounded-[12px]" : ""
+                      }`}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </Link>
+              );
+            })}
 
             {/* Tombol scroll ke bawah */}
             {showScrollButton && (

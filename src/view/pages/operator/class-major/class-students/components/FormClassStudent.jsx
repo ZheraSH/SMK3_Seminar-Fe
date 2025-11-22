@@ -18,6 +18,7 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
     }, [availableStudents]);
 
     const [selectedStudents, setSelectedStudents] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleCheckboxChange = (id) => {
         if (selectedStudents.includes(id)) {
@@ -33,14 +34,25 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
     );
 
     const handleSubmit = async () => {
-        if (selectedStudents.length === 0) return;
+    if (selectedStudents.length === 0) return;
 
+    setIsLoading(true); // Mulai loading
+    
+    try {
         const result = await addStudents(selectedStudents);
 
         if (result.success) {
-            onClose();
+            alert('Data berhasil di tambah yaa ......');
+            onClose(); 
+        } else {
+            alert("Gagal menambahkan siswa: " + (result.error || "Terjadi kesalahan."));
         }
-    };
+    } catch (error) {
+        alert("Terjadi kesalahan jaringan.");
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     return (
         <div className="space-y-3 mt-4">
@@ -97,8 +109,13 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                 )}
             </div>
             <div className="text-end">
-                <button onClick={handleSubmit} className="px-4 bg-[#3B82F6] text-white py-2 rounded-lg mt-3 hover:bg-blue-700">
-                    Tambah
+                <button onClick={handleSubmit} disabled={isLoading || selectedStudents.length === 0} 
+                    className={`px-4 text-white py-2 rounded-lg mt-3 
+                        ${isLoading || selectedStudents.length === 0 
+                            ? 'bg-gray-400 cursor-not-allowed' 
+                            : 'bg-[#3B82F6] hover:bg-blue-700'}`
+                    }>
+                {isLoading ? "Memproses..." : "Tambah"}
                 </button>
             </div>
         </div>

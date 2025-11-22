@@ -13,7 +13,6 @@ export const getClass = async (page = 1) => {
 
 export const createClass = async (formData) => {
     try {
-        // Pastikan formData berisi ID (major_id, school_year_id, teacher_id)
         const res = await axios.post(`${API_BASE_URL}/classrooms`, formData)
         return res.data; 
     } catch (err) {
@@ -22,7 +21,6 @@ export const createClass = async (formData) => {
     }
 }
 
-// --- FUNGSI BARU UNTUK DATA MASTER ---
 
 export const getMajors = async () => {
     try {
@@ -36,7 +34,7 @@ export const getMajors = async () => {
 
 export const getSchoolYears = async () => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/schoolYears`);
+        const res = await axios.get(`${API_BASE_URL}/school-years`);
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil Tahun Ajaran:", err);
@@ -46,7 +44,7 @@ export const getSchoolYears = async () => {
 
 export const getLevelClass = async () => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/levelClass`);
+        const res = await axios.get(`${API_BASE_URL}/level-classes`);
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil class Ajaran:", err);
