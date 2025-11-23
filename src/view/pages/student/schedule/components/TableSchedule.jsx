@@ -1,9 +1,14 @@
-import { scheduleData } from "../../../../../Core/Data/SiswaData";
 
-
-export default function TableSchedule ({activeDay}) {
+export default function TableSchedule ({scheduleData,loading}) {
+  if (loading) {
     return (
-        <table className="w-full text-sm text-gray-800">
+      <div className="p-4 md:p-8 text-center text-blue-600">
+        <p>Memuat data Schedule...</p>
+      </div>
+    );
+  }
+  return (
+      <table className="w-full text-sm text-gray-800">
           <thead>
             <tr className="bg-[#3B82F6] text-white text-base">
               <th className="px-4 py-3 text-left font-light border-r border-[#3B82F6]">No</th>
@@ -14,17 +19,15 @@ export default function TableSchedule ({activeDay}) {
             </tr>
           </thead>
           <tbody>
-            {scheduleData
-              .filter((item) => item.day === activeDay)
-              .map((item, index) => {
-                const isIstirahat = item.penetapan.toLowerCase().includes("istirahat");
+            {scheduleData.map((item, index) => {
+                const isIstirahat = item.penempatan.toLowerCase().includes("istirahat");
                 return (
                   <tr
                     key={index}
-                    className="border-t border-gray-200 hover:bg-gray-50 transition text-sm font-medium"
+                    className="border-t border-gray-200 hover:bg-gray-50 transition text-[16px] font-medium"
                   >
                     <td className="px-4 py-3 text-left ">
-                      {index + 1}.
+                      {item.no}.
                     </td>
                     <td className="px-4 py-3 text-center">
                       <span
@@ -41,10 +44,21 @@ export default function TableSchedule ({activeDay}) {
                         {item.jam}
                       </span>
                     </td>
-
-                    <td className="px-4 py-3">{item.penetapan}</td>
-                    <td className="px-4 py-3 ">{item.mata_pelajaran}</td>
-                    <td className="px-4 py-3">{item.guru}</td>
+                    {isIstirahat ? (
+                      <td
+                        colSpan="2"
+                        className="px-1 py-3 text-[16px] font-medium text-center pr-15"
+                      >
+                        {item.penempatan} 
+                      </td>
+                    ) : 
+                    (
+                    <> 
+                      <td className="px-4 py-3 text-left">{item.penempatan}</td>
+                      <td className="px-4 py-3  ">{item.mata_pelajaran}</td>
+                      <td className="px-4 py-3">{item.guru}</td>
+                    </>
+                  )}
                   </tr>
                 );
               })}
