@@ -87,10 +87,13 @@ export default function Login() {
             redirectPath = "/teacher-home";
             break;
           case 'homeroom_teacher':
-            redirectPath = "/homeroom-home";
+            redirectPath = "/homeroom-home/class-recap";
             break;
           case 'guest':
             redirectPath = "/guest/dashboard";
+            break;
+          case 'counselor' :
+            redirectPath = "/bk-home";
             break;
           default:
             redirectPath = "/";
