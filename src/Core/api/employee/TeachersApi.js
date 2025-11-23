@@ -1,16 +1,23 @@
 import axios from 'axios';
+import { notify } from '../../hooks/notification/notify';
 
 export const fetchTeachersApi = async (page = 1) => {
   try {
-    const res = await axios.get(
-      `http://127.0.0.1:8000/api/employees?page=${page}`
-    );
-    const data = Array.isArray(res.data.data) ? res.data.data : [];
-    console.log(data);
-    return data;
+    const res = await axios.get("http://127.0.0.1:8000/api/employees", {
+
+      params: {
+        page,
+      }
+      
+    });
+
+    return {
+      data: res.data.data || [],
+      meta: res.data.meta || {}
+    };
   } catch (err) {
-    console.error("Gagal ambil employees:", err);
-    return [];
+    console.error("Gagal mengambil RFID:", err);
+    throw err;
   }
 };
 
@@ -50,13 +57,13 @@ export const submitTeacherApi = async (editingId, post) => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      alert("Data guru berhasil diperbarui!");
+      notify("Guru Berhasil Di Perbarui")
     } else {
       await axios.post("http://127.0.0.1:8000/api/employees", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Data guru berhasil ditambahkan!");
+      notify("Guru Berhasil Di Perbarui")
     }
     return { success: true };
   } catch (err) {
@@ -74,7 +81,7 @@ export const deleteTeacherApi = async (id) => {
   if (!window.confirm("Yakin ingin menghapus guru ini?")) return false;
   try {
     await axios.delete(`http://127.0.0.1:8000/api/employees/${id}`);
-    alert("Data guru berhasil dihapus!");
+    notify("Guru Berhasil Di Perbarui")
     return true;
   } catch (err) {
     console.error(err);

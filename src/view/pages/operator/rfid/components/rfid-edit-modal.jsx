@@ -1,6 +1,7 @@
 "use client";
 import { X } from "lucide-react";
 import axios from "axios";
+import { notify } from "../../../../../Core/hooks/notification/notify";
 export function RfidEditModal({
   show,
   selected,
@@ -17,6 +18,7 @@ export function RfidEditModal({
         `http://127.0.0.1:8000/api/rfids/${rfidId}`,
         payload
       );
+      notify("Berhasil Update Rfid")
       console.log("Update sukses:", res.data);
       return res.data;
     } catch (err) {

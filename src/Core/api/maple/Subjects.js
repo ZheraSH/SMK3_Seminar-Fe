@@ -17,14 +17,14 @@ export const getSubjects = async (page = 1) => {
 
 export const addSubject = async (subject) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/subjects`, subject)
-    notify("Subjects Berhasil Di Tambahkan!")
-    return response.data
+    const response = await axios.post(`${API_BASE_URL}/subjects`, subject);
+    notify("Subjects Berhasil Di Tambahkan!");
+    return response.data;
   } catch (err) {
-    console.error("Gagal tambah mapel:", err)
-    throw err
+    throw err; // lempar ke komponen
   }
-}
+};
+
 
 export const updateSubject = async (id, name) => {
   try {

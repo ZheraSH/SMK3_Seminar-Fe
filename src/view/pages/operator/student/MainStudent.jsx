@@ -15,7 +15,8 @@ import {
   submitStudent,
   deleteStudent,
 } from "../../../../Core/api/student/StudentApi";
-import { Pagination } from "./components/Pagination";
+import { PaginationStudent } from "./components/Pagination";
+
 
 export const MainStudent = () => {
   const [openCategory, setOpenCategory] = useState(false);
@@ -299,7 +300,7 @@ export const MainStudent = () => {
       />
 
       {/* PAGINATION BUTTONS */}
-      <Pagination
+      <PaginationStudent
         page={page}
         lastPage={meta.last_page}
         onPrev={() => setPage(page - 1)}

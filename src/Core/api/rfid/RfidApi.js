@@ -1,12 +1,15 @@
 import axios from "axios";
+import { notify } from "../../hooks/notification/notify";
 
 export const fetchRfid = async (page = 1, search = "") => {
   try {
     const res = await axios.get("http://127.0.0.1:8000/api/rfids", {
+
       params: {
         page,
         search
       }
+      
     });
 
     return {

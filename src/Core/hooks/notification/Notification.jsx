@@ -1,14 +1,29 @@
 "use client";
 import { useEffect, useState } from "react";
 import { on } from "../../utils/eventBus";
+import { CircleCheckBig } from "lucide-react"; // 1 ikon konsisten
 
 export const Notification = () => {
   const [notif, setNotif] = useState(null);
+  const [closing, setClosing] = useState(false);
+  const [progress, setProgress] = useState(100);
 
   useEffect(() => {
     const off = on("notify", (data) => {
       setNotif(data);
-      setTimeout(() => setNotif(null), 2000);
+      setClosing(false);
+      setProgress(100);
+
+      const interval = setInterval(() => {
+        setProgress((p) => (p <= 0 ? 0 : p - 1.7));
+      }, 30);
+
+      setTimeout(() => setClosing(true), 1250);
+
+      setTimeout(() => {
+        setNotif(null);
+        clearInterval(interval);
+      }, 2000);
     });
 
     return () => off();
@@ -16,51 +31,65 @@ export const Notification = () => {
 
   if (!notif) return null;
 
-  const isModal = notif.type === "modal";
-
   return (
-    <>
-      {/* ======== MODAL CARD BESAR DI TENGAH ======== */}
-      {isModal && (
+    <div
+      className={`
+        fixed top-6 right-6 z-[9999]
+        ${closing ? "animate-slideOutRight" : "animate-slideInRight"}
+      `}
+    >
+      {/* WRAPPER DENGAN OVERFLOW-HIDDEN BIAR PROGRESS TIDAK KELUAR */}
+      <div className="bg-white rounded-xl shadow-md border border-gray-200 px-4 py-3 flex items-center gap-3 w-[260px] relative overflow-hidden">
+        {/* ICON */}
+        {/* ICON WRAPPER — fix ukuran, fix background */}
+        <div className="flex items-center justify-center min-w-10 h-10 rounded-xl bg-green-600">
+          <CircleCheckBig size={22} strokeWidth={2.4} className="text-white" />
+        </div>
+
+        {/* TEXT */}
+        <span className="font-semibold text-gray-800 text-[14px]">
+          {notif.message}
+        </span>
+
+        {/* PROGRESS BAR — SEKARANG DI DALAM WRAPPER */}
         <div
-          className="fixed inset-0 z-[9998] flex items-center justify-center
-            bg-black/40 backdrop-blur-sm
-            opacity-0 animate-[fadeIn_0.25s_ease-out_forwards]"
-        >
-          <div
-            className="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full
-              text-center opacity-0 animate-[scaleIn_0.25s_ease-out_forwards]"
-          >
-            <div className="text-lg font-semibold text-gray-800">
-              {notif.message}
-            </div>
-          </div>
-        </div>
-      )}
+          className="absolute left-0 bottom-0 h-[3px] bg-green-500 transition-all"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
 
-      {/* ======== NOTIF KECIL (KANAN ATAS) ======== */}
-      {!isModal && (
-        <div className="fixed top-4 right-4 z-[9999] opacity-0 animate-[fadeIn_0.25s_ease-out_forwards]">
-          <div
-            className={`px-4 py-2 rounded shadow text-white
-            ${notif.type === "error" ? "bg-red-600" : "bg-green-600"}`}
-          >
-            {notif.message}
-          </div>
-        </div>
-      )}
-
-      {/* ANIMASI KEYFRAMES */}
+      {/* KEYFRAMES */}
       <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
         }
-        @keyframes scaleIn {
-          0% { opacity: 0; transform: scale(0.9); }
-          100% { opacity: 1; transform: scale(1); }
+
+        @keyframes slideOutRight {
+          from {
+            opacity: 1;
+            transform: translateX(0);
+          }
+          to {
+            opacity: 0;
+            transform: translateX(40px);
+          }
+        }
+
+        .animate-slideInRight {
+          animation: slideInRight 0.25s ease-out forwards;
+        }
+
+        .animate-slideOutRight {
+          animation: slideOutRight 0.35s ease-in forwards;
         }
       `}</style>
-    </>
+    </div>
   );
 };

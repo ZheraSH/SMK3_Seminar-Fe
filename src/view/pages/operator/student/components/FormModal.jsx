@@ -153,6 +153,7 @@ export function FormModal({
             <label className="block text-sm font-medium text-gray-600">No KK *</label>
             <input
               className={`border rounded-lg p-2 w-full ${errors.number_kk ? "border-red-500" : "border-gray-300"}`}
+              placeholder="-"
               type="number"
               name="number_kk"
               value={post.number_kk}
@@ -182,6 +183,7 @@ export function FormModal({
             <label className="block text-sm font-medium text-gray-600">No Akta *</label>
             <input
               className={`border rounded-lg p-2 w-full ${errors.number_akta ? "border-red-500" : "border-gray-300"}`}
+              placeholder="-"
               type="number"
               name="number_akta"
               value={post.number_akta}
