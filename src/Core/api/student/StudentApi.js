@@ -31,7 +31,7 @@ export const fetchStudents = async (page = 1, search = "", filter = {}) => {
 
 export const fetchlevelclasses = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/levelClass`)
+    const res = await axios.get(`${API_BASE_URL}/level-classes`)
     console.log(res.data.data)
     return res.data.data
   } catch (err) {
@@ -89,7 +89,7 @@ export const submitStudent = async (post, editingId) => {
 export const deleteStudent = async (id) => {
   try {
     await axios.delete(`${API_BASE_URL}/students/${id}`)
-    alert("Data siswa berhasil dihapus!")
+    notify("Berhasil Menghapus siswa")
   } catch (err) {
     console.error(err)
     alert("Gagal menghapus data siswa")

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { notify } from '../../hooks/notification/notify';
 
 export const fetchTeachersApi = async (page = 1) => {
   try {
@@ -50,13 +51,13 @@ export const submitTeacherApi = async (editingId, post) => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      alert("Data guru berhasil diperbarui!");
+      notify("Guru Berhasil Di Perbarui")
     } else {
       await axios.post("http://127.0.0.1:8000/api/employees", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Data guru berhasil ditambahkan!");
+      notify("Guru Berhasil Di Perbarui")
     }
     return { success: true };
   } catch (err) {
@@ -74,7 +75,7 @@ export const deleteTeacherApi = async (id) => {
   if (!window.confirm("Yakin ingin menghapus guru ini?")) return false;
   try {
     await axios.delete(`http://127.0.0.1:8000/api/employees/${id}`);
-    alert("Data guru berhasil dihapus!");
+    notify("Guru Berhasil Di Perbarui")
     return true;
   } catch (err) {
     console.error(err);

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import axios from "axios";
+import { notify } from "../../../../../Core/hooks/notification/notify";
 
 export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
   if (!show) return null;
@@ -34,6 +35,7 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
 
       const res = await axios.post("http://127.0.0.1:8000/api/rfids", payload);
       console.log("Success:", res.data);
+      notify("Berhasil Menambahkan Rfid")
 
       onAdd?.();
       onClose?.();
@@ -55,8 +57,9 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
     const fetchRfidavailable = async () => {
       try {
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/rfid/available-students"
+          "http://127.0.0.1:8000/api/rfids/available-students"
         );
+        
         console.log(res.data);
         setStudents(res.data.data);
       } catch (error) {
@@ -130,6 +133,7 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
           <div className="w-full">
             <input
               readOnly
+              placeholder="Auto Aktif"
               className="w-full border border-gray-400 py-3 px-3 rounded-lg text-[14px] bg-gray-100 text-gray-700 cursor-not-allowed"
             />
           </div>
