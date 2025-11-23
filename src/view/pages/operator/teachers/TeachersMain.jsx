@@ -15,7 +15,9 @@ import { FilterDropdown } from "./components/FilterDropdown";
 import { DetailModal } from "./components/TeacherDetailModal.jsx.jsx";
 import { TeacherForm } from "./components/TeacherFormModal";
 import { TeacherTable } from "./components/TeacherTable";
-import { PaginationEmployee } from "./components/TeachersPagination";
+import { useTeacher } from "../../../../Core/hooks/employee/usePagination";
+import {PaginationEmployee} from "./components/TeachersPagination"
+
 
 export const TeacherMain = () => {
   const [allTeachers, setAllTeachers] = useState([]);
@@ -45,10 +47,6 @@ export const TeacherMain = () => {
 
   // const filteredTeachers = filterTeachers(allTeachers)
 
-
-  //paginate
-  
-
   const {
     searchTerm,
     setSearchTerm,
@@ -71,8 +69,6 @@ export const TeacherMain = () => {
     return data;
   };
 
-
-  
   useEffect(() => {
     fetchTeachers();
     const loadReligions = async () => {
@@ -176,7 +172,7 @@ export const TeacherMain = () => {
     }
   };
 
-  const filteredTeachers = filterTeachers(allTeachers);
+  // const filteredTeachers = filterTeachers(allTeachers);
   // const totalPages = Math.ceil(filteredTeachers.length / rowsPerPage);
   // const startIndex = (currentPage - 1) * rowsPerPage;
   // const currentTeachers = filteredTeachers.slice(
@@ -208,6 +204,9 @@ export const TeacherMain = () => {
     });
     setIsOpen(true);
   };
+
+  const { Teacher, meta, page, setPage,  } =
+    useTeacher();
 
   return (
     <div className="p-6">
@@ -254,16 +253,23 @@ export const TeacherMain = () => {
         handleSubmit={handleSubmit}
       />
 
-<TeacherTable
-  currentTeachers={filteredTeachers} // semua data sudah difilter
-  openItemId={openItemId}
-  setOpenItemId={setOpenItemId}
-  handleDetail={handleDetail}
-  handleEdit={handleEdit}
-  handleDelete={handleDelete}
-/>
+      <TeacherTable
+        currentTeachers={filterTeachers(Teacher)} 
+        openItemId={openItemId}
+        setOpenItemId={setOpenItemId}
+        handleDetail={handleDetail}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
 
-    
+      <PaginationEmployee
+        page={page}
+        lastPage={meta.last_page}
+        onPrev={() => setPage(page - 1)}
+        onNext={() => setPage(page + 1)}
+        onPageClick={(p) => setPage(p)}
+      />
+      
     </div>
   );
 };

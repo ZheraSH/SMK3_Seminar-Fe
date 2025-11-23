@@ -1,70 +1,36 @@
 "use client"
 
-import { useState, useEffect } from "react";
-import { fetchTeachersApi, submitTeacherApi } from "../../api/maple/Subjects";
+import { useState, useEffect } from "react"
+import { fetchTeachersApi } from "../../api/employee/TeachersApi"
 
-export default function useSubjects() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+export function useTeacher() {
+  const [Teacher, setTeacher] = useState([])
+  const [meta, setMeta] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(1)
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
 
-  const fetchSubjects = async (pageNumber = currentPage) => {
+  const load = async () => {
+    setLoading(true)
     try {
-      setLoading(true);
-      const res = await fetchTeachersApi(pageNumber);
-
-      console.log("API Response:", res);
-
-      if (res?.data) {
-        setData(res.data);
-        setTotalPages(res.last_page || 1);
-        setTotalItems(res.total || 0);
-      } else {
-        setData([]);
-        setTotalPages(1);
-        setTotalItems(0);
-      }
-
-      setCurrentPage(pageNumber);
-    } catch (error) {
-      console.error("Error fetching Subjects:", error);
-      setData([]);
-      setTotalPages(1);
-    } finally {
-      setLoading(false);
+      const res = await fetchTeachersApi(page)
+      setTeacher(res.data)
+      setMeta(res.meta)
+    } catch (err) {
+      console.error(err)
     }
-  };
-
-  const addSubjects = async (post) => {
-    setLoading(true);
-    try {
-      const result = await submitTeacherApi(null, post);
-      await fetchSubjects(1);
-      return { success: true, data: result };
-    } catch (error) {
-      console.error("Error adding teacher:", error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+    setLoading(false)
+  }
 
   useEffect(() => {
-    fetchSubjects(1);
-  }, []);
+    load()
+  }, [page])
 
   return {
-    subjects: data,
-    setSubjects: setData,
+    Teacher,
+    meta,
     loading,
-    addSubjects,
-    fetchSubjects,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    totalItems,
-  };
+    page,
+    setPage,
+  }
 }
