@@ -1,17 +1,23 @@
 import { LayouthTeacher } from "../../view/layouts/TeacherLayout";
 import AttendanceTeacher from "../../view/pages/teacher/attendance/MainAttendance";
-
-
+import ProtectedRoute from "./ProtectedRoute";
+import MainDashboard from "../../view/components/elements/MainDashboard";
+import BodyDashboard from "../../view/pages/teacher/home/BodyDashboardTeacher";
 
 export const TeacherRoutes = [
     {
         path:"/teacher-home",
-        element: <LayouthTeacher />,
+        element: ( <ProtectedRoute allowedRoles={ "teacher "} />),
         children: [
-            // { index: true, element: <BodyDashboardTeacher /> },
-            // { path: "dashboard", element: <MainDashboard /> },
-            { path : "attendance-teacher", element: <AttendanceTeacher /> },
-        ]
+            {
+                element :<LayouthTeacher />,
+                children : [
+                    { index: true, element: <BodyDashboard /> },
+                    { path: "dashboard", element: <MainDashboard /> },
+                    { path : "attendance-teacher", element: <AttendanceTeacher /> },
+                ]
+            }
+        ],
     }
 
 ];
