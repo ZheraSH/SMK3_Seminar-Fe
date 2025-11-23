@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Eye, Edit3, Trash2 } from "lucide-react";
-import {fetchStudents} from "../../../../../Core/api/student/StudentApi"
 
 
 export function StudentsTable({
