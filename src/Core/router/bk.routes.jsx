@@ -6,7 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 export const BkRoutes = [
     {
         path: "/bk-home",
-        element:(<ProtectedRoute allowedRoles={"counselor"} />),  
+        element:(<ProtectedRoute allowedRoles={["counselor", "teacher"]} />),  
         children :[ 
             {
                 element: <LayouthBK />,

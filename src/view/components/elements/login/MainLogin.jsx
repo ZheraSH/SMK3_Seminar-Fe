@@ -12,16 +12,11 @@ const loginUser = async ({ email, password }) => {
     const result = response.data;
 
     // Validasi sesuai struktur backend
-    if (
-      result &&
-      result.data &&
-      result.data.token &&
-      result.data.user
-    ) {
+    if (result && result.data && result.data.token && result.data.user) {
       return {
         token: result.data.token,
         user: result.data.user,
-        role: result.data.role,
+        roles: result.data.roles || [result.data.role],
       };
     } else {
       throw new Error("Format respons dari server tidak sesuai");
@@ -47,7 +42,7 @@ export default function Login() {
     setPasswordError("");
     setGeneralError("");
     let isValid = true;
-  
+
     if (!email.trim()) {
       setEmailError("Email harus diisi.");
       isValid = false;
@@ -57,51 +52,38 @@ export default function Login() {
       isValid = false;
     }
     if (!isValid) return;
-  
+
     try {
       const data = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
-      
+
       const userData = {
-        role: data.role,
+        roles: data.roles,
         name: data.user.name,
         email: data.user.email,
       };
+
       localStorage.setItem("userData", JSON.stringify(userData));
-  
+
       // Redirect berdasarkan role
       setTimeout(() => {
         localStorage.setItem("loginSuccess", "true");
-        
+
         // Tentukan halaman tujuan berdasarkan role
-        let redirectPath = "/"; // default
-        
-        switch(data.role.toLowerCase()) {
-          case 'student':
-            redirectPath = "/student-home";
-            break;
-          case 'school_operator':
-            redirectPath = "/home";
-            break;
-          case 'teacher':
-            redirectPath = "/teacher-home";
-            break;
-          case 'homeroom_teacher':
-            redirectPath = "/homeroom-home/class-recap";
-            break;
-          case 'guest':
-            redirectPath = "/guest/dashboard";
-            break;
-          case 'counselor' :
-            redirectPath = "/bk-home";
-            break;
-          default:
-            redirectPath = "/";
-        }
-        
+        const roles = data.roles;
+
+        let redirectPath = "/";
+
+        if (roles.includes("school_operator")) redirectPath = "/home";
+        else if (roles.includes("teacher")) redirectPath = "/teacher-home";
+        else if (roles.includes("homeroom_teacher"))
+          redirectPath = "/homeroom-home";
+        else if (roles.includes("student")) redirectPath = "/student-home";
+        else if (roles.includes("guest")) redirectPath = "/guest/dashboard";
+        else if (roles.includes("counselor")) redirectPath = "/bk-home";
+
         navigate(redirectPath);
       }, 1000);
-      
     } catch (error) {
       setGeneralError("Email atau password salah. Silakan coba lagi.");
     }

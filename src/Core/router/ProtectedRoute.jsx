@@ -1,19 +1,25 @@
-import { Outlet } from "react-router-dom";
-import NotFound from "../../view/pages/NotFound"; 
+import { Navigate, Outlet } from "react-router-dom";
+import NotFound from "../../view/pages/NotFound";
 
-export default function ProtectedRoute({ allowedRoles }) {
+export default function ProtectedRoute({ allowedRoles = [] }) {
   const token = localStorage.getItem("token");
   const data = JSON.parse(localStorage.getItem("userData"));
 
-  if (!token) {
-   if (!token) return <Navigate to="/" replace />;
-  }
+  if (!token) return <Navigate to="/" replace />;
 
-  const userRole = data?.role?.toLowerCase();
+  const userRoles = Array.isArray(data?.roles)
+    ? data.roles
+    : data?.role
+    ? [data.role]
+    : [];
 
-  if (allowedRoles && !allowedRoles.includes(userRole)) {
-    return <NotFound />; 
-  }
+  // tidak punya role sama sekali
+  if (userRoles.length === 0) return <NotFound />;
 
-  return <Outlet />; 
+  // apakah user punya salah satu role yang diperbolehkan
+  const allowed = userRoles.some((r) => allowedRoles.includes(r));
+
+  if (!allowed) return <NotFound />;
+
+  return <Outlet />;
 }

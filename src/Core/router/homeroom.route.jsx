@@ -5,7 +5,7 @@ import ProtectedRoute from "./ProtectedRoute";
 export const HomeRoomRoute =[
     {
         path:"/homeroom-home",
-        element: (<ProtectedRoute allowedRoles={"homeroom_teacher"} />), 
+        element: (<ProtectedRoute allowedRoles={["homeroom_teacher", "counselor"] } />), 
         children: [
             {
                 element : <LayouthHomeRoom />,
