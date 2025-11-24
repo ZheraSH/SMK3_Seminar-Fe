@@ -18,7 +18,7 @@ export const getSubjects = async (page = 1) => {
 export const addSubject = async (subject) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/subjects`, subject);
-    notify("Subjects Berhasil Di Tambahkan!");
+    notify("Subject Berhasil Di Tambahkan!");
     return response.data;
   } catch (err) {
     throw err; // lempar ke komponen
@@ -31,7 +31,7 @@ export const updateSubject = async (id, name) => {
     const response = await axios.put(`${API_BASE_URL}/subjects/${id}`, {
       name: name,
     })
-    notify("Subjects Berhasil Di DI Perbarui!")
+    notify("Subject Berhasil Di Perbarui!")
     return response.data
   } catch (err) {
     console.error("❌ Gagal edit mapel:", err)
@@ -42,8 +42,8 @@ export const updateSubject = async (id, name) => {
 export const deleteSubject = async (id) => {
   try {
     const response = await axios.delete(`${API_BASE_URL}/subjects/${id}`)
-    console.log(`🗑️ Subject ${id} berhasil dihapus`)
-    notify("Subjects Berhasil Di Hapus!")
+    console.log(`🗑️ Subject ${id} berhasil di hapus`)
+    notify("Subject Berhasil Di Hapus!")
     return response.data
   } catch (error) {
     console.error("❌ Gagal menghapus mapel:", error)
