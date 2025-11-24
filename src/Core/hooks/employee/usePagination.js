@@ -32,5 +32,6 @@ export function useTeacher() {
     loading,
     page,
     setPage,
+    reload: load,
   }
 }

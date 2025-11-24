@@ -9,6 +9,7 @@ export function useRfid() {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState("")
+  const [refresh, setRefresh] = useState(0)
 
   const load = async () => {
     setLoading(true)
@@ -24,7 +25,7 @@ export function useRfid() {
 
   useEffect(() => {
     load()
-  }, [page, search])
+  }, [page, search, refresh])
 
   return {
     rfid,
@@ -34,5 +35,6 @@ export function useRfid() {
     setPage,
     search,
     setSearch,
+    refresh, setRefresh
   }
 }

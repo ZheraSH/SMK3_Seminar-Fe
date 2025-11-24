@@ -126,7 +126,7 @@ export const MainStudent = () => {
       setEditingId(null);
 
       // Refresh data dari page terakhir
-      setPage(meta.last_page);
+      setPage(1);
       loadStudents();
 
       setIsOpen(false);

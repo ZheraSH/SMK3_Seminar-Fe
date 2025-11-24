@@ -4,18 +4,17 @@ import { X } from "lucide-react";
 import axios from "axios";
 import { notify } from "../../../../../Core/hooks/notification/notify";
 
-export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
+export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose, onSuccess }) {
   if (!show) return null;
 
   const [students, setStudents] = useState([]);
-  const [errors, setErrors] = useState({}); // <= TAMBAHAN
-  const [loading, setLoading] = useState(false); // <= TAMBAHAN
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const addRfid = async () => {
     setErrors({});
     setLoading(true);
 
-    // --- Validasi Frontend ---
     if (!newData.studentId) {
       setErrors({ studentId: "Pilih siswa dulu." });
       setLoading(false);
@@ -34,15 +33,18 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
       };
 
       const res = await axios.post("http://127.0.0.1:8000/api/rfids", payload);
-      console.log("Success:", res.data);
-      notify("Berhasil Menambahkan Rfid")
+
+      notify("Berhasil Menambahkan Rfid");
 
       onAdd?.();
+      onSuccess?.();
       onClose?.();
+
+
+      
     } catch (err) {
       const backendError = err.response?.data?.errors;
 
-      // --- TAMPILIN ERROR BACKEND KE UI ---
       if (backendError) {
         setErrors(backendError);
       } else {
@@ -59,8 +61,7 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
         const res = await axios.get(
           "http://127.0.0.1:8000/api/rfids/available-students"
         );
-        
-        console.log(res.data);
+
         setStudents(res.data.data);
       } catch (error) {
         console.error("Gagal fetch students:", error);
@@ -86,9 +87,7 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
         )}
 
         <div className="mb-3">
-          <label className="block text-[14px] text-gray-600 mb-1">
-            Pengguna
-          </label>
+          <label className="block text-[14px] text-gray-600 mb-1">Pengguna</label>
           <select
             value={newData.studentId}
             onChange={(e) =>
@@ -109,9 +108,7 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
         </div>
 
         <div className="mb-3">
-          <label className="block text-[14px] text-gray-600 mb-1">
-            Id Kartu
-          </label>
+          <label className="block text-[14px] text-gray-600 mb-1">Id Kartu</label>
           <input
             type="text"
             placeholder="Masukkan id kartu"
@@ -127,20 +124,12 @@ export function RfidAddModal({ show, newData, onDataChange, onAdd, onClose }) {
         </div>
 
         <div className="mb-4">
-          <label className="block text-[14px] text-gray-600 mb-1">
-            Status Awal
-          </label>
-          <div className="w-full">
-            <input
-              readOnly
-              placeholder="Auto Aktif"
-              className="w-full border border-gray-400 py-3 px-3 rounded-lg text-[14px] bg-gray-100 text-gray-700 cursor-not-allowed"
-            />
-          </div>
-
-          {errors.status && (
-            <p className="text-red-600 text-xs mt-1">{errors.status}</p>
-          )}
+          <label className="block text-[14px] text-gray-600 mb-1">Status Awal</label>
+          <input
+            readOnly
+            placeholder="Auto Aktif"
+            className="w-full border border-gray-400 py-3 px-3 rounded-lg text-[14px] bg-gray-100 text-gray-700 cursor-not-allowed"
+          />
         </div>
 
         <div className="flex justify-end gap-2">

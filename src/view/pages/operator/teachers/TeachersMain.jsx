@@ -6,9 +6,9 @@ import { validateTeacherForm } from "./components/utils/validateTeacherForm";
 import {
   submitTeacherApi,
   deleteTeacherApi,
-  fetchTeachersApi,
   fetchReligionsApi,
 } from "../../../../Core/api/employee/TeachersApi";
+
 import { useTeacherFilters } from "../../../../Core/hooks/employee/useTeacherFilters";
 import { SearchBar } from "./components/SearchBar";
 import { FilterDropdown } from "./components/FilterDropdown";
@@ -16,16 +16,15 @@ import { DetailModal } from "./components/TeacherDetailModal.jsx.jsx";
 import { TeacherForm } from "./components/TeacherFormModal";
 import { TeacherTable } from "./components/TeacherTable";
 import { useTeacher } from "../../../../Core/hooks/employee/usePagination";
-import {PaginationEmployee} from "./components/TeachersPagination"
-
+import { PaginationEmployee } from "./components/TeachersPagination";
 
 export const TeacherMain = () => {
-  const [allTeachers, setAllTeachers] = useState([]);
   const [religions, setReligions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [openItemId, setOpenItemId] = useState(null);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+
   const [post, setPost] = useState({
     name: "",
     email: "",
@@ -40,13 +39,13 @@ export const TeacherMain = () => {
     religion_id: 1,
     roles: [],
   });
+
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors] = useState({});
-  // const [rowsPerPage, setRowsPerPage] = useState(6);
-  // const [currentPage, setCurrentPage] = useState(1);
 
-  // const filteredTeachers = filterTeachers(allTeachers)
-
+  // ================================
+  // FILTER HOOK
+  // ================================
   const {
     searchTerm,
     setSearchTerm,
@@ -56,21 +55,20 @@ export const TeacherMain = () => {
     setOpenSubMenu,
     category,
     setCategory,
-    currentFilter,
-    setCurrentFilter,
     categoryRef,
     handleCategorySelect,
     filterTeachers,
   } = useTeacherFilters();
 
-  const fetchTeachers = async (page = 1) => {
-    const data = await fetchTeachersApi(page);
-    setAllTeachers(data);
-    return data;
-  };
+  // ================================
+  // PAGINATION HOOK (SOURCE DATA)
+  // ================================
+  const { Teacher, meta, page, setPage, reload } = useTeacher();
 
+  // ================================
+  // FETCH RELIGION ONLY
+  // ================================
   useEffect(() => {
-    fetchTeachers();
     const loadReligions = async () => {
       const data = await fetchReligionsApi();
       setReligions(data);
@@ -78,21 +76,29 @@ export const TeacherMain = () => {
     loadReligions();
   }, []);
 
+  // ================================
+  // INPUT HANDLER
+  // ================================
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
+
     if (name === "roles") {
       setPost({
         ...post,
         roles: [value],
       });
-    } else {
-      setPost({
-        ...post,
-        [name]: type === "file" ? files[0] : value,
-      });
+      return;
     }
+
+    setPost({
+      ...post,
+      [name]: type === "file" ? files[0] : value,
+    });
   };
 
+  // ================================
+  // SUBMIT (ADD / EDIT)
+  // ================================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -109,6 +115,7 @@ export const TeacherMain = () => {
       return;
     }
 
+    // Reset form
     setErrors({});
     setPost({
       name: "",
@@ -124,19 +131,17 @@ export const TeacherMain = () => {
       religion_id: "",
       roles: [],
     });
+
     setEditingId(null);
     setIsOpen(false);
-    fetchTeachers();
 
-    if (!editingId) {
-      setTimeout(() => {
-        const totalItems = allTeachers.length + 1;
-        const newTotalPages = Math.ceil(totalItems / rowsPerPage);
-        setCurrentPage(newTotalPages);
-      }, 100);
-    }
+    // ==== THIS IS WHAT FIX YOUR ISSUE ====
+    reload(); // ambil ulang dari API (sinkron)
   };
 
+  // ================================
+  // EDIT
+  // ================================
   const handleEdit = (teacher) => {
     setPost({
       name: teacher.name || "",
@@ -151,41 +156,33 @@ export const TeacherMain = () => {
       gender: teacher.gender || "",
       religion_id: teacher.religion_id || "",
       roles: Array.isArray(teacher.roles)
-        ? teacher.roles
-            .map((r) => r.value || r.name || r)
-            .filter((item) => item) // hapus nilai kosong
+        ? teacher.roles.map((r) => r.value || r.name || r)
         : [],
     });
+
     setEditingId(teacher.id);
     setIsOpen(true);
   };
 
+  // ================================
+  // DETAIL
+  // ================================
   const handleDetail = (teacher) => {
     setSelectedTeacher(teacher);
     setIsDetailOpen(true);
   };
 
+  // ================================
+  // DELETE
+  // ================================
   const handleDelete = async (id) => {
-    const result = await deleteTeacherApi(id);
-    if (result) {
-      fetchTeachers();
-    }
+    const ok = await deleteTeacherApi(id);
+    if (ok) reload();
   };
 
-  // const filteredTeachers = filterTeachers(allTeachers);
-  // const totalPages = Math.ceil(filteredTeachers.length / rowsPerPage);
-  // const startIndex = (currentPage - 1) * rowsPerPage;
-  // const currentTeachers = filteredTeachers.slice(
-  //   startIndex,
-  //   startIndex + rowsPerPage
-  // );
-
-  // const handlePageChange = (page) => {
-  //   if (page >= 1 && page <= totalPages) {
-  //     setCurrentPage(page);
-  //   }
-  // };
-
+  // ================================
+  // ADD NEW BTN
+  // ================================
   const handleAddNewTeacher = () => {
     setEditingId(null);
     setPost({
@@ -205,11 +202,10 @@ export const TeacherMain = () => {
     setIsOpen(true);
   };
 
-  const { Teacher, meta, page, setPage,  } =
-    useTeacher();
-
   return (
     <div className="p-6">
+
+      {/* SEARCH + FILTER + ADD */}
       <div className="flex justify-between items-center mb-5 gap-5">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
@@ -241,6 +237,7 @@ export const TeacherMain = () => {
         </button>
       </div>
 
+      {/* FORM */}
       <TeacherForm
         isOpen={isOpen}
         setIsOpen={setIsOpen}
@@ -253,8 +250,9 @@ export const TeacherMain = () => {
         handleSubmit={handleSubmit}
       />
 
+      {/* TABLE LIST */}
       <TeacherTable
-        currentTeachers={filterTeachers(Teacher)} 
+        currentTeachers={filterTeachers(Teacher)}
         openItemId={openItemId}
         setOpenItemId={setOpenItemId}
         handleDetail={handleDetail}
@@ -262,6 +260,7 @@ export const TeacherMain = () => {
         handleDelete={handleDelete}
       />
 
+      {/* PAGINATION */}
       <PaginationEmployee
         page={page}
         lastPage={meta.last_page}
@@ -269,7 +268,6 @@ export const TeacherMain = () => {
         onNext={() => setPage(page + 1)}
         onPageClick={(p) => setPage(p)}
       />
-      
     </div>
   );
 };

@@ -1,6 +1,7 @@
 "use client"
 import { useRfidManagement } from "../../../../Core/hooks/rfid/use-rfid-management"
 
+
 import { RfidHeader } from "./components/rfid-header"
 import { RfidTable } from "./components/rfid-table"
 import { RfidAddModal } from "./components/rfid-add-modal"
@@ -10,7 +11,7 @@ import { PaginationRfid } from "./components/rfid-pagination"
 import { useRfid } from "../../../../Core/hooks/rfid/usePagination"
 
 export function RfidManagement() {
-  const { rfid, meta, page, setPage, search, setSearch, loading } = useRfid()
+  const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh  } = useRfid()
 
   const {
     showAdd,
@@ -27,6 +28,8 @@ export function RfidManagement() {
     handleDelete,
     handleEdit,
   } = useRfidManagement()
+
+
 
   return (
     <div className="min-h-screen bg-gray-50 px-6">
@@ -66,6 +69,7 @@ export function RfidManagement() {
           setShowAdd(false)
           setNewData({ nama: "", idKartu: "", status: "Aktif" })
         }}
+        onSuccess={() => setRefresh(r => r + 1)} 
       />
 
       {/* EDIT */}
