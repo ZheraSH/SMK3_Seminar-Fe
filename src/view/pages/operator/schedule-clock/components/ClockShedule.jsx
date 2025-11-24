@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Trash2 ,Plus} from 'lucide-react';
-import useLessonHours from '../../../../../Core/hooks/OperatorHooks/schedule/useLessonShedule';
+import useLessonHours from '../../../../../Core/hooks/operator.hooks/schedule/useLessonShedule';
 import AddLessonHourModal from './FormLesson'; 
 
 const DAY_MAPPING = {

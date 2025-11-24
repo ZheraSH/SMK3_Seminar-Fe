@@ -1,5 +1,5 @@
 "use client";
-import { useRfidManagement } from "../../../../Core/hooks/OperatorHooks/rfid/use-rfid-management";
+import { useRfidManagement } from "../../../../Core/hooks/operator.hooks/rfid/use-rfid-management";
 
 import { RfidHeader } from "./components/rfid-header";
 import { RfidTable } from "./components/rfid-table";
@@ -7,7 +7,7 @@ import { RfidAddModal } from "./components/rfid-add-modal";
 import { RfidEditModal } from "./components/rfid-edit-modal";
 import { RfidSearchBar } from "./components/rfid-search-bar";
 import { PaginationRfid } from "./components/rfid-pagination";
-import { useRfid } from "../../../../Core/hooks/OperatorHooks/rfid/usePagination";
+import { useRfid } from "../../../../Core/hooks/operator.hooks/rfid/usePagination";
 
 export function RfidManagement() {
   const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =

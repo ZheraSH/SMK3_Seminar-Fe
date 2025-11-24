@@ -1,5 +1,5 @@
 import { useClassFilter } from "./components/FilterDropdown";
-import useClasses from "../../../../Core/hooks/OperatorHooks/class-major/useClass";
+import useClasses from "../../../../Core/hooks/operator.hooks/class-major/useClass";
 import { X, Check, ChevronRight, ChevronDown, Search } from "lucide-react";
 import ClassCard from "./components/ClassCard";
 import Pagination from "./components/PaginitionClass";
