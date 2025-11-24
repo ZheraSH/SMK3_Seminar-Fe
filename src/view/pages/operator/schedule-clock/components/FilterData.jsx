@@ -6,15 +6,15 @@ export default function FilterDropdown({ selected, onSelect, schedule }) {
     const [openSection, setOpenSection] = useState(null);
 
     const jurusanList = useMemo(() => {
-        return [...new Set(schedule.map(item => item.classroom.major))];
+        return [...new Set(schedule.map(item => item.major))];
     }, [schedule]);
 
     const tingkatanList = useMemo(() => {
-        return [...new Set(schedule.map(item => item.classroom.level_class))];
+        return [...new Set(schedule.map(item => item.level_class))];
     }, [schedule]);
 
     const tahunList = useMemo(() => {
-        return [...new Set(schedule.map(item => item.classroom.school_year))];
+        return [...new Set(schedule.map(item => item.school_year))];
     }, [schedule]);
 
     const sections = [

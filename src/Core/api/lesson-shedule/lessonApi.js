@@ -1,8 +1,8 @@
 import axios from "axios"
 const API_BASE_URL = "http://127.0.0.1:8000/api";
-export const fetchClass = async () => {
+export const fetchClass = async (page = 1) => {
    try {
-    const res = await axios.get(`${API_BASE_URL}/lesson-schedules`);
+    const res = await axios.get(`${API_BASE_URL}/classrooms?page=${page}`);
     console.log("📦 Data Jadwal Pelajaran dari API:", res.data);
     return res.data.data;
   } catch (err) {

@@ -20,7 +20,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
     const dropdownRef = useRef(null);
     
     const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at'];
-    const classroom = selectedClassroomData?.classroom;
+    const classroom = selectedClassroomData;
     const classroomId = classroom?.id || null; 
     const activeDayApi = DAY_MAPPING[activeDay];
 
