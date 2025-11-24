@@ -1,17 +1,17 @@
-"use client"
-import { useRfidManagement } from "../../../../Core/hooks/rfid/use-rfid-management"
+"use client";
+import { useRfidManagement } from "../../../../Core/hooks/OperatorHooks/rfid/use-rfid-management";
 
-
-import { RfidHeader } from "./components/rfid-header"
-import { RfidTable } from "./components/rfid-table"
-import { RfidAddModal } from "./components/rfid-add-modal"
-import { RfidEditModal } from "./components/rfid-edit-modal"
-import { RfidSearchBar } from "./components/rfid-search-bar"
-import { PaginationRfid } from "./components/rfid-pagination"
-import { useRfid } from "../../../../Core/hooks/rfid/usePagination"
+import { RfidHeader } from "./components/rfid-header";
+import { RfidTable } from "./components/rfid-table";
+import { RfidAddModal } from "./components/rfid-add-modal";
+import { RfidEditModal } from "./components/rfid-edit-modal";
+import { RfidSearchBar } from "./components/rfid-search-bar";
+import { PaginationRfid } from "./components/rfid-pagination";
+import { useRfid } from "../../../../Core/hooks/OperatorHooks/rfid/usePagination";
 
 export function RfidManagement() {
-  const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh  } = useRfid()
+  const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =
+    useRfid();
 
   const {
     showAdd,
@@ -27,16 +27,18 @@ export function RfidManagement() {
     handleAdd,
     handleDelete,
     handleEdit,
-  } = useRfidManagement()
-
-
+  } = useRfidManagement();
 
   return (
     <div className="min-h-screen bg-gray-50 px-6">
       <RfidHeader />
 
       {/* SEARCH */}
-      <RfidSearchBar search={search} onSearchChange={setSearch} onAddClick={() => setShowAdd(true)} />
+      <RfidSearchBar
+        search={search}
+        onSearchChange={setSearch}
+        onAddClick={() => setShowAdd(true)}
+      />
 
       {/* TABLE */}
       <RfidTable
@@ -44,8 +46,8 @@ export function RfidManagement() {
         openMenu={openMenu}
         onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
         onEditClick={(item) => {
-          setSelected(item)
-          setShowEdit(true)
+          setSelected(item);
+          setShowEdit(true);
         }}
         onDeleteClick={handleDelete}
       />
@@ -66,10 +68,10 @@ export function RfidManagement() {
         onDataChange={setNewData}
         onAdd={handleAdd}
         onClose={() => {
-          setShowAdd(false)
-          setNewData({ nama: "", idKartu: "", status: "Aktif" })
+          setShowAdd(false);
+          setNewData({ nama: "", idKartu: "", status: "Aktif" });
         }}
-        onSuccess={() => setRefresh(r => r + 1)} 
+        onSuccess={() => setRefresh((r) => r + 1)}
       />
 
       {/* EDIT */}
@@ -81,5 +83,5 @@ export function RfidManagement() {
         onClose={() => setShowEdit(false)}
       />
     </div>
-  )
+  );
 }

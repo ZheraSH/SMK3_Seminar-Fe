@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CardList from './components/CardShedule';
 import ClockSchedule from './components/ClockShedule';
 import FilterDropdown from './components/FilterData';
-import useSchedule from '../../../../Core/hooks/schedule/useSchedule';
+import useSchedule from '../../../../Core/hooks/OperatorHooks/schedule/useSchedule';
 import ScheduleDetailPage from './SheduleDetail';
 import Pagination from "./components/PaginitionShedule";
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchClass} from '../../api/lesson-shedule/lessonApi'; 
+import { fetchClass} from '../../../api/lesson-shedule/lessonApi'; 
 
 export default function useSchedule () {
     const [activeTab, setActiveTab] = useState('kelas');

@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
-import { fetchStudents } from "../api/fetchStudents";
+"use client";
 
-export function useStudents() {
-  const [students, setStudents] = useState([]);
+import { useState, useEffect } from "react";
+import { fetchRfid } from "../../../api/rfid/RfidApi";
+
+export function useRfid() {
+  const [rfid, setRfid] = useState([]);
   const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [refresh, setRefresh] = useState(0);
 
   const load = async () => {
     setLoading(true);
     try {
-      const res = await fetchStudents(page, search);
-      setStudents(res.data);
+      const res = await fetchRfid(page, search);
+      setRfid(res.data);
       setMeta(res.meta);
     } catch (err) {
       console.error(err);
@@ -22,15 +25,17 @@ export function useStudents() {
 
   useEffect(() => {
     load();
-  }, [page, search]);
+  }, [page, search, refresh]);
 
   return {
-    students,
+    rfid,
     meta,
     loading,
     page,
     setPage,
     search,
     setSearch,
+    refresh,
+    setRefresh,
   };
 }

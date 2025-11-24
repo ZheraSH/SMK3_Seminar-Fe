@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchLessonHoursByDay,addLessonHour, deleteLessonHour } from '../../api/lesson-shedule/lessonHoursApi'; 
+import { fetchLessonHoursByDay,addLessonHour, deleteLessonHour } from '../../../api/lesson-shedule/lessonHoursApi'; 
 
 export default function useLessonHours(activeDayApi) { 
     

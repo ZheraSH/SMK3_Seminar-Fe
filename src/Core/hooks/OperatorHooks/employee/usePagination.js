@@ -1,21 +1,20 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { fetchRfid } from "../../api/rfid/RfidApi"
+import { fetchTeachersApi } from "../../../api/employee/TeachersApi"
 
-export function useRfid() {
-  const [rfid, setRfid] = useState([])
+export function useTeacher() {
+  const [Teacher, setTeacher] = useState([])
   const [meta, setMeta] = useState({})
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState("")
-  const [refresh, setRefresh] = useState(0)
+
 
   const load = async () => {
     setLoading(true)
     try {
-      const res = await fetchRfid(page, search)
-      setRfid(res.data)
+      const res = await fetchTeachersApi(page)
+      setTeacher(res.data)
       setMeta(res.meta)
     } catch (err) {
       console.error(err)
@@ -25,16 +24,14 @@ export function useRfid() {
 
   useEffect(() => {
     load()
-  }, [page, search, refresh])
+  }, [page])
 
   return {
-    rfid,
+    Teacher,
     meta,
     loading,
     page,
     setPage,
-    search,
-    setSearch,
-    refresh, setRefresh
+    reload: load,
   }
 }

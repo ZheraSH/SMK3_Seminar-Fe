@@ -9,13 +9,13 @@ import {
   fetchReligionsApi,
 } from "../../../../Core/api/employee/TeachersApi";
 
-import { useTeacherFilters } from "../../../../Core/hooks/employee/useTeacherFilters";
+import { useTeacherFilters } from "../../../../Core/hooks/OperatorHooks/employee/useTeacherFilters";
 import { SearchBar } from "./components/SearchBar";
 import { FilterDropdown } from "./components/FilterDropdown";
 import { DetailModal } from "./components/TeacherDetailModal.jsx.jsx";
 import { TeacherForm } from "./components/TeacherFormModal";
 import { TeacherTable } from "./components/TeacherTable";
-import { useTeacher } from "../../../../Core/hooks/employee/usePagination";
+import { useTeacher } from "../../../../Core/hooks/OperatorHooks/employee/usePagination";
 import { PaginationEmployee } from "./components/TeachersPagination";
 
 export const TeacherMain = () => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getMajors } from "../../api/class-major/majorApi"; 
+import { getMajors } from "../../../api/class-major/majorApi"; 
 
 export default function useMajors() {
     const [majors, setMajors] = useState([]);

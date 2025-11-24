@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getClass, createClass } from "../../api/class-major/classApi";
+import { getClass, createClass } from "../../../api/class-major/classApi";
 
 export default function useClasses() {
     const [data, setData] = useState([]);

@@ -11,7 +11,7 @@ import { SubjectModal } from "./components/SubjectModal";
 import { SearchBar } from "./components/SearchBar";
 import { Pagination } from "./components/Pagination";
 import { SubjectCard } from "./components/SubjectCard";
-import useSubjects from "../../../../Core/hooks/subjects/useSubjects";
+import useSubjects from "../../../../Core/hooks/OperatorHooks/subjects/useSubjects";
 
 export default function MainMaple() {
   const {
