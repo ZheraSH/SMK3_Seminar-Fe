@@ -4,6 +4,7 @@ import ClockSchedule from './components/ClockShedule';
 import FilterDropdown from './components/FilterData';
 import useSchedule from '../../../../Core/hooks/schedule/useSchedule';
 import ScheduleDetailPage from './SheduleDetail';
+import Pagination from "./components/PaginitionShedule";
 
 function ClassScheduleManager() {
     const {
@@ -17,6 +18,10 @@ function ClassScheduleManager() {
         // detailSchedule,   // <-- Data Jadwal Detail (Penting!)
         // isLoadingDetail,
         handleBackToClasses,
+       page,
+        setPage: handlePageChange,
+        isLastPage
+        
     } = useSchedule();
     const [searchText, setSearchText] = useState("");
 
@@ -24,13 +29,13 @@ function ClassScheduleManager() {
   const filteredClassData = schedule.filter(item => {
     const matchFilter =
         selectedFilter === "Show all" ||
-        item.classroom.major === selectedFilter ||
-        item.classroom.level_class === selectedFilter ||
-        item.classroom.school_year === selectedFilter;
+        item.major === selectedFilter ||
+        item.level_class === selectedFilter ||
+        item.school_year === selectedFilter;
 
     const matchSearch =
-        (item.classroom.name?.toLowerCase() ?? "").includes(searchText.toLowerCase()) ||
-        (item.classroom.homeroom_teacher?.toLowerCase() ?? "").includes(searchText.toLowerCase())
+        (item.name?.toLowerCase() ?? "").includes(searchText.toLowerCase()) ||
+        (item.homeroom_teacher?.toLowerCase() ?? "").includes(searchText.toLowerCase())
 
 
     return matchFilter && matchSearch;
@@ -121,10 +126,17 @@ function ClassScheduleManager() {
                     {schedule.length === 0 ? (
                         <p>Loading...</p>
                     ) : (
+                        <>
                         <CardList
                             handleViewSchedule={handleViewSchedule} 
                             schedule={filteredClassData}
                         />
+                        <Pagination 
+                            page={page} 
+                            lastPage={isLastPage} 
+                            onPageChange={handlePageChange} 
+                        />
+                       </>
                     )}
                 </>
             )}
