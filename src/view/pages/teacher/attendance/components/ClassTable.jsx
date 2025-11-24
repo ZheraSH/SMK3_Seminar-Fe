@@ -3,10 +3,10 @@ export default function TableClass({ students, attendance, setAttendance, status
     <table className="w-[1129px] border-collapse overflow-hidden shadow-sm">
       <thead>
         <tr className="bg-[#3B82F6] text-white h-[46px]">
-          <th className="py-2 px-4 text-center  rounded-tl-lg">No</th>
-          <th className="py-2 px-4 text-center ">Nama</th>
-          <th className="py-2 px-4 text-center ">NISN</th>
-          <th className="py-2 px-4 text-center  rounded-tr-lg">Status</th>
+          <th className="py-2 px-4 text-center font-light text-[18px] text rounded-tl-lg">No</th>
+          <th className="py-2 px-4 text-center font-light text-[18px] ">Nama</th>
+          <th className="py-2 px-4 text-center font-light text-[18px] ">NISN</th>
+          <th className="py-2 px-4 text-center font-light text-[18px] rounded-tr-lg">Status</th>
         </tr>
       </thead>
 
@@ -16,17 +16,17 @@ export default function TableClass({ students, attendance, setAttendance, status
 
           return (
             <tr key={realIndex} className="h-[59px]">
-              <td className="py-2 px-4 border-l border-b border-[#000000]/20 text-center ">
+              <td className="py-2 px-4 border-l border-b border-[#000000]/20 text-center text-[16px] font-medium ">
                 {realIndex + 1}.
               </td>
-              <td className="py-2 px-4 border-b border-[#000000]/20 text-center">
+              <td className="py-2 px-4 border-b border-[#000000]/20 text-center text-[16px] font-medium ">
                 {s.nameStudent}
               </td>
-              <td className="py-2 px-4 border-b border-[#000000]/20 text-center">
+              <td className="py-2 px-4 border-b border-[#000000]/20 text-center text-[16px] font-medium">
                 {s.NISN}
               </td>
 
-              <td className="py-2 px-4 border-b border-r border-[#000000]/20">
+              <td className="py-2 px-4 border-b border-r border-[#000000]/20 text-[12px] font-medium">
                 <div className="flex gap-5 items-center justify-center">
                   {status.map((radio) => (
                     <label key={radio.id} className="flex items-center gap-1">

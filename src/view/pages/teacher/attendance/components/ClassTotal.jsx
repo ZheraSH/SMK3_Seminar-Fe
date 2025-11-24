@@ -4,7 +4,7 @@ import { Send } from "lucide-react";
 export default function TotalClass ({totalAlpa,totalHadir,totalIzin,totalTerlambat,setIsOpenClass}) {
     return (
         <>
-            <div className="pl-[16px] pt-[8px] pb-[8px]">
+            <div className="pl-[16px] py-[8px]">
                 <h1 className="text-xl font-semibold font-poppins">Daftar Nama Siswa</h1>
             </div>
             

@@ -21,30 +21,30 @@ export default function CardAttendance({ activeDay, setSelectedClass, setIsOpenC
       {filteredClasses.map((item, index) => (
         <div
           key={index}
-          className="rounded-2xl w-[343px] min-h-[207px] shadow-md p-4 bg-white flex flex-col justify-between hover:shadow-xl transition border border-gray-200"
+          className="rounded-2xl w-[343px] min-h-[207px] shadow-md p-4 bg-white flex flex-col  hover:shadow-xl transition border border-gray-200"
         >
           <div className="flex justify-between items-center">
-            <div className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-md">
+            <div className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-md text-[20px] font-semibold">
               <GraduationCap className="w-[25px] h-[25px] mr-2" />
-              {item.className}
+              {item.className } 
             </div>
-            <span className="text-sm font-semibold">{item.year}</span>
+            <span className="text-[16px] font-semibold text-[#444444]">{item.year}</span>
           </div>
 
           <div className="mt-8 flex justify-between items-center">
             <div>
-              <p className="text-sm">Wali Kelas :</p>
-              <p className="font-semibold">{item.teacher}</p>
+              <p className="text-[12px]">Wali Kelas :</p>
+              <p className="font-semibold text-[14px]">{item.teacher}</p>
             </div>
             <div className="flex items-center text-gray-700">
-              <Users className="w-7 h-7 mr-1" />
-              <span className="font-medium mt-2">{item.studentCount}</span>
+              <Users className="w-[24px] h-[24px] mr-1" />
+              <span className="font-medium mt-2 text-[14px]">{item.studentCount}</span>
             </div>
           </div>
 
           <button
             onClick={() => handleOpenClass(item)}
-            className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+            className=" w-full h-[37px] mt-7 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 font-medium text-[14px]"
           >
             Lihat Kelas
           </button>

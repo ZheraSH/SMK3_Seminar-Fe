@@ -40,7 +40,7 @@ export default function ClassAttendance({ isOpenClass, selectedClass, setIsOpenC
   return (
     isOpenClass && selectedClass && (
       <div className="mx-5 mb-10">
-        <div className="relative w-[1129px] h-[142px] bg-[url('/images/background/bg04.png')] bg-center bg-cover bg-no-repeat rounded-[15px]">
+        <div className="relative w-[1129px] h-[166px] bg-[url('/images/background/bg04.png')] bg-no-repeat rounded-[15px]">
           <div className="absolute inset-0 items-center justify-center rounded-[6px]">
             <div className="ml-5 mt-2">
               <h1 className="text-white flex text-[20px] font-semibold">
@@ -66,9 +66,7 @@ export default function ClassAttendance({ isOpenClass, selectedClass, setIsOpenC
             </div>
           </div>
         </div>
-
-        {/* Status total */}
-        <div className="mt-6 flex gap-2 flex-wrap h-[60px] w-[1129px] justify-between bg-white shadow-md p-2 rounded-lg">
+        <div className=" flex gap-2 flex-wrap h-[60px] w-[1129px] justify-between bg-white shadow-md p-2 rounded-lg">
           <TotalClass
             totalAlpa={totalAlpa}
             totalHadir={totalHadir}
