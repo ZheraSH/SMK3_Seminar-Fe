@@ -73,7 +73,7 @@ export const submitStudent = async (post, editingId) => {
       await axios.post(`${API_BASE_URL}/students/${editingId}?_method=PUT`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      notify("Data siswa berhasil diperbarui!");
+      notify("Data siswa berhasil ditambahkan!");
     } else {
       await axios.post(`${API_BASE_URL}/students`, formData, {
         headers: { "Content-Type": "multipart/form-data" },

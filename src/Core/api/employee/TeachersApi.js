@@ -57,13 +57,13 @@ export const submitTeacherApi = async (editingId, post) => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      notify("Guru Berhasil Di Perbarui")
+      notify("Guru Berhasil Di Di Perbarui")
     } else {
       await axios.post("http://127.0.0.1:8000/api/employees", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      notify("Guru Berhasil Di Perbarui")
+      notify("Guru Berhasil Di Di Tambahkan")
     }
     return { success: true };
   } catch (err) {
@@ -81,7 +81,7 @@ export const deleteTeacherApi = async (id) => {
   if (!window.confirm("Yakin ingin menghapus guru ini?")) return false;
   try {
     await axios.delete(`http://127.0.0.1:8000/api/employees/${id}`);
-    notify("Guru Berhasil Di Perbarui")
+    notify("Guru Berhasil Di Hapus")
     return true;
   } catch (err) {
     console.error(err);
