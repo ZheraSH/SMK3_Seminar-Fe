@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Loader2 } from 'lucide-react';
-import useMasterSchedule from "../../../../../Core/hooks/operator.hooks/schedule/useMasterSchedule"; 
+import useMasterSchedule from "../../../../../Core/hooks/operator-hooks/schedule/useMasterSchedule"; 
 
 function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroomId, handleSave }) { 
 

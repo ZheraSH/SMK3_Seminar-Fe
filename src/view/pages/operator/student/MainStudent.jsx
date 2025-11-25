@@ -14,7 +14,7 @@ import {
   fetchReligions,
   submitStudent,
   deleteStudent,
-} from "../../../../Core/api/student/StudentApi";
+} from "../../../../Core/api/role-operator/student/StudentApi";
 import { PaginationStudent } from "./components/Pagination";
 
 

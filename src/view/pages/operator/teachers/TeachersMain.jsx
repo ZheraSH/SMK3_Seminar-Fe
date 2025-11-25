@@ -7,15 +7,15 @@ import {
   submitTeacherApi,
   deleteTeacherApi,
   fetchReligionsApi,
-} from "../../../../Core/api/employee/TeachersApi";
+} from "../../../../Core/api/role-operator/employee/TeachersApi";
 
-import { useTeacherFilters } from "../../../../Core/hooks/operator.hooks/employee/useTeacherFilters";
+import { useTeacherFilters } from "../../../../Core/hooks/operator-hooks/employee/useTeacherFilters";
 import { SearchBar } from "./components/SearchBar";
 import { FilterDropdown } from "./components/FilterDropdown";
-import { DetailModal } from "./components/TeacherDetailModal.jsx.jsx";
+import { DetailModal } from "./components/TeacherDetailModal.jsx";
 import { TeacherForm } from "./components/TeacherFormModal";
 import { TeacherTable } from "./components/TeacherTable";
-import { useTeacher } from "../../../../Core/hooks/operator.hooks/employee/usePagination";
+import { useTeacher } from "../../../../Core/hooks/operator-hooks/employee/usePagination";
 import { PaginationEmployee } from "./components/TeachersPagination";
 
 export const TeacherMain = () => {

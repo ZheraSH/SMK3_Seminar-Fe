@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { UserCheck2, Users, GraduationCap, ArrowLeft, MoreVertical, PencilLine, Trash2, Plus } from 'lucide-react';
-import useClassSchedule from '../../../../Core/hooks/operator.hooks/schedule/useClassSchedule'; 
+import useClassSchedule from '../../../../Core/hooks/operator-hooks/schedule/useClassSchedule'; 
 
 import AddScheduleModal from "./components/FormSchedule"; 
 

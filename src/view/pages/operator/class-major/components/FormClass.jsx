@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import useMasterData from "../../../../../Core/hooks/operator.hooks/class-major/useMasterData";
+import useMasterData from "../../../../../Core/hooks/operator-hooks/class-major/useMasterData";
 
 export default function Form({ onClassAdded, addClass, onSuccess, onError }) {
   const [majorId, setMajorId] = useState("");
