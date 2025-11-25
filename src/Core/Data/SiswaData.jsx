@@ -1,3 +1,6 @@
+import { CircleCheckBig,FileMinus,Clock,CircleX } from "lucide-react";
+
+
 export const scheduleData = [
     // Senin
     { day: "Senin", jam: "07.00 - 08.30", penetapan: "Jam ke 1-2", mata_pelajaran: "Bahasa Indonesia", guru: "Bu Sundari" },
@@ -108,4 +111,111 @@ export const scheduleData = [
       color: "bg-green-100 text-green-600",
     },
   ];
+
+  export const presence = [
+      {
+          label :"Total Kehadiran",
+          icon :<CircleCheckBig  className="  h-[23.33px]  w-[23.33px]" />,
+          total : 18,
+          style : "bg-[#10B981]/20",
+          styleIcon : "bg-[#10B981] "
+      },
+      {
+          label:"Izin/Sakit",
+          icon : <FileMinus  className="   h-[23.33px]  w-[23.33px]"/>,
+          total : 18,
+          style : "bg-[#FACC15]/20",
+          styleIcon : "bg-[#FACC15] "
+      },
+      {
+          label : "Terlambat",
+          icon : <Clock  className="  h-[23.33px]  w-[23.33px]"/>,
+          total : 18,
+          style: "bg-[#8B5CF6]/20",
+          styleIcon : "bg-[#8B5CF6] "
+          
+      },
+      {
+          label : "Alpha",
+          icon : <CircleX className="  h-[23.33px]  w-[23.33px]" />,
+          total: 18,
+          style : "bg-[#FF5E53]/20",
+          styleIcon : "bg-[#FF5E53]"
+      },
+  
+  ]
+  
+  
+export const schedule = [
+      {
+          mapel: "Bhs. Indonesia",
+          teacher : " Bu Rani",
+          time: 1,
+          class: "XII PPLG 3"
+      },
+      {
+          mapel: "IPA",
+          teacher : " Bu Vita",
+          time: 2,
+          class: "XII PPLG 3"
+      },
+      {
+          mapel: "Bhs. Arab",
+          teacher : " Ustadzah Dwi",
+          time: 3,
+          class: "XII PPLG 3"
+      },
+      {
+          mapel: "Matematika",
+          teacher : " Bu Diah",
+          time: 4,
+          class: "XII PPLG 3"
+      },
+      {
+          mapel: "Fiqih",
+          teacher : "Ustad Bastian",
+          time: 5,
+          class: "XII  PPLG 3"
+      },
+  
+  ]
+  
+ export const status = [
+      {
+          id : "Approve",
+          style: " bg-[#10B981]/20 text-[#10B981]"
+      },
+      {
+          id:"Decline",
+          style: "bg-[#FF5E53]/20 text-[#FF5E53]"
+      },
+      {
+          id:"Waiting",
+          style: " bg-[#FACC15]/20 text-[#FACC15]"
+      },
+  ]
+  
+  
+ export const history = [
+      {
+          date: "19/09/2024",
+          reason : "Izin Sakit",
+          status : "Approve",
+      },
+      {
+          date: "19/09/2024",
+          reason : "Izin Keluarga",
+          status : "Decline",
+      },
+      {
+          date: "19/09/2024",
+          reason : "Izin Perjalanan",
+          status : "Waiting",
+      },
+      {
+          date: "19/09/2024",
+          reason : "Izin Perjalanan",
+          status : "Waiting",
+      },
+  ]
   
