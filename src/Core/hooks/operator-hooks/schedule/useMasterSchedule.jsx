@@ -17,7 +17,7 @@ export default function useMasterSchedule(activeDayApi) {
       if (subjects.length > 0) setIsLoading(false);
       return;
     }
-
+    
     setIsLoading(true);
     setError(null);
 

@@ -15,7 +15,7 @@ export default function useLessonHours(activeDayApi) {
       setIsLoadingHours(false);
       return;
     }
-
+   
     setIsLoadingHours(true);
     try {
       const data = await fetchLessonHoursByDay(activeDayApi);

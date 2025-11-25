@@ -16,7 +16,7 @@ export default function useClassSchedule(classroomId, activeDayApi) {
       setClassSchedule(null);
       return;
     }
-
+  
     setIsLoadingSchedule(true);
     setError(null);
     try {
