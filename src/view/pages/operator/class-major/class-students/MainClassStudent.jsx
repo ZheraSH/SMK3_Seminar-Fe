@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Search, Users, UserCheck2, Calendar, GraduationCap, RefreshCw, Plus, ArrowLeft, X } from 'lucide-react'; 
 import DataTable from './components/TableClassStudent'; 
 import PaginationComponent from './components/PaginationComponent';
-import useClassroomDetail from "../../../../../Core/hooks/class-major/useClassroomDetail";
 import FormStudents from "./components/FormClassStudent"; 
+import useClassroomDetail from '../../../../../Core/hooks/operator.hooks/class-major/useClassroomDetail';
 
 function ModalAddStudent({ open, onClose, classroom, availableStudents, addStudents }) {
     if (!open) return null;

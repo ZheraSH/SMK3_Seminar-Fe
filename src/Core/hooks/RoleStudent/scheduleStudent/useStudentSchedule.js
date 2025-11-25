@@ -1,27 +1,31 @@
-import { useState, useEffect } from "react";
-import { fetchStudentSchedule } from "../../api/RoleStudent/schedule/schedule";
+import { useState, useEffect, } from "react";
+import { fetchStudentSchedule } from "../../../api/RoleStudent/schedule/schedule";
 
 export function useStudentSchedule(activeDay) {
-
   const [schedule, setSchedule] = useState([]);
   const [classroomId, setClassroomId] = useState("-");
   const [semesterType, setSemesterType] = useState("-");
   const [academicYear, setAcademicYear] = useState("-");
   const [loading, setLoading] = useState(true);
+  const [error,setError] = useState ();
 
   useEffect(() => {
     setLoading(true);
+    setError(null);
 
     fetchStudentSchedule(activeDay)
       .then((data) => {
-        if (!data || !data.data) return;
+        if (!data?.data) { 
+          setError("Data jadwal tidak ditemukan.");
+          return; }
 
-        setSchedule(data.data.jadwal);
+        setSchedule(data.data.jadwal || []);
         setClassroomId(data.data.kelas || "-");
         setSemesterType(data.data.semester || "-");
         setAcademicYear(data.data.tahun_ajaran || "-");
       })
       .catch(() => {
+        setError("Gagal memuat data jadwal.");
         setSchedule([]);
         setClassroomId("-");
       })
@@ -33,6 +37,7 @@ export function useStudentSchedule(activeDay) {
     classroomId,
     semesterType,
     academicYear,
-    loading
+    loading,
+    error
   };
 }

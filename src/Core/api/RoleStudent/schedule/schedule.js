@@ -1,19 +1,16 @@
 import axios from "axios";
 
-
 export async function fetchStudentSchedule(day) {
   const token = localStorage.getItem("token");
   const userData = JSON.parse(localStorage.getItem("userData"));
   console.log("TOKEN:", token);
   console.log("USER DATA:", userData);
-  const role = userData?.role;
 
-
-  if (!userData || role !== "student") {
-  console.warn("User bukan student atau data user tidak ditemukan.");
-  return null;
-}
-
+  const roles = userData?.roles || [];
+  if (!userData || !roles.includes("student")) {
+    console.warn("User bukan student atau data user tidak ditemukan.");
+    return null;
+  }
 
   try {
     const res = await axios.get(

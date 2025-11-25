@@ -1,4 +1,4 @@
-import { useStudentSchedule } from "../../../../Core/hooks/scheduleStudent/useStudentSchedule";
+import { useStudentSchedule } from "../../../../Core/hooks/RoleStudent/scheduleStudent/useStudentSchedule";
 import TableSchedule from "./components/TableSchedule";
 import ButtonSchedule from "./components/ButtonSchedule";
 import { useState } from "react";
