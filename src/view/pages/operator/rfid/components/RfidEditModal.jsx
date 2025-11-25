@@ -1,45 +1,26 @@
 "use client";
 import { X } from "lucide-react";
-import axios from "axios";
 import { notify } from "../../../../../Core/hooks/notification/notify";
-export function RfidEditModal({
-  show,
-  selected,
-  onDataChange,
-  onSave,
-  onClose,
-}) {
-  if (!show || !selected) return null;
+import { updateRfidStatus } from "../../../../../Core/api/role-operator/rfid/RfidApi";
 
-  const updateRfidStatus = async (rfidId, status) => {
-    try {
-      const payload = { status }; // cuma status yang dikirim
-      const res = await axios.put(
-        `http://127.0.0.1:8000/api/rfids/${rfidId}`,
-        payload
-      );
-      notify("Berhasil Update Rfid")
-      console.log("Update sukses:", res.data);
-      return res.data;
-    } catch (err) {
-      console.error("Update error:", err.response?.data || err);
-      throw err;
-    }
-  };
+export default function RfidEditModal({ show, selected, onDataChange, onSave, onClose }) {
+  if (!show || !selected) return null;
 
   const handleSave = async () => {
     try {
       await updateRfidStatus(selected.id, selected.status);
-      onSave?.(); // refresh parent table
+      notify("Berhasil Update Rfid");
+      onSave?.();
       onClose?.();
     } catch (err) {
-      // bisa tampilkan error di UI kalau mau
+      console.error("Save error:", err);
     }
   };
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-6 w-[560px] shadow-lg relative border border-gray-200">
+
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -49,35 +30,32 @@ export function RfidEditModal({
 
         <h2 className="text-[24px] font-medium mb-4">Edit Kartu RFID</h2>
 
+        {/* Nama */}
         <div className="mb-3">
-          <label className="block text-[14px] text-gray-600 mb-1">
-            Nama Siswa
-          </label>
+          <label className="block text-[14px] text-gray-600 mb-1">Nama Siswa</label>
           <input
-            value={selected.student.name}
+            value={selected.student?.name ?? ""}
             readOnly
             className="w-full border border-gray-300 px-3 py-2 rounded-lg bg-gray-100 text-[14px] cursor-not-allowed"
           />
         </div>
 
+        {/* RFID */}
         <div className="mb-3">
-          <label className="block text-[14px] text-gray-600 mb-1">
-            ID Kartu
-          </label>
+          <label className="block text-[14px] text-gray-600 mb-1">ID Kartu</label>
           <input
-            value={selected.rfid} // pastikan field-nya memang ini
+            value={selected.rfid ?? ""}
             readOnly
             className="w-full border border-gray-300 px-3 py-2 rounded-lg bg-gray-100 text-[14px] cursor-not-allowed"
           />
         </div>
 
+        {/* Status */}
         <div className="mb-4">
           <label className="block text-[14px] text-gray-600 mb-1">Status</label>
           <select
             value={selected.status}
-            onChange={(e) =>
-              onDataChange({ ...selected, status: e.target.value })
-            }
+            onChange={(e) => onDataChange({ ...selected, status: e.target.value })}
             className="w-full border border-gray-400 px-3 py-2 rounded-lg text-[14px]"
           >
             <option value="active">Aktif</option>
@@ -85,6 +63,7 @@ export function RfidEditModal({
           </select>
         </div>
 
+        {/* Buttons */}
         <div className="flex justify-end gap-2">
           <button
             onClick={onClose}
@@ -99,6 +78,7 @@ export function RfidEditModal({
             Simpan
           </button>
         </div>
+
       </div>
     </div>
   );

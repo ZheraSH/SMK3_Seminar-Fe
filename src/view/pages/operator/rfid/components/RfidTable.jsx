@@ -9,16 +9,16 @@ export function RfidTable({ filtered, openMenu, onMenuClick, onEditClick, onDele
         <thead>
           <tr className="bg-[#3B82F6] text-white">
             <th className="px-4 py-3 text-center font-semibold border-b border-blue-600 rounded-tl-lg">No</th>
-            <th className="px-4 py-3 text-left font-semibold border-b border-blue-600">Nama Pengguna</th>
-            <th className="px-4 py-3 text-left font-semibold border-b border-blue-600">Id Kartu</th>
-            <th className="px-4 py-3 text-left font-semibold border-b border-blue-600">Status</th>
-            <th className="px-4 py-3 text-left font-semibold border-b border-blue-600 rounded-tr-lg">Aksi</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">Nama Pengguna</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">Id Kartu</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">Status</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600 rounded-tr-lg">Aksi</th>
           </tr>
         </thead>
 
         <tbody>
           {filtered.map((item, index) => (
-            <tr key={item.id} className="border-t border-gray-200 hover:bg-gray-50 transition text-[14px]">
+            <tr key={item.id} className="border-t text-center border-gray-200 hover:bg-gray-50 transition text-[14px]">
               <td className="p-2 text-center border-gray-200">{index + 1}</td>
               <td className="p-2 border-gray-200">{item.student?.name || "-"}</td>
               <td className="p-2 border-gray-200">{item.rfid}</td>
