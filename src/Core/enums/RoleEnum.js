@@ -9,8 +9,6 @@ export const RoleEnum = Object.freeze({
   });
   
   export const RoleLabels = Object.freeze({
-    [RoleEnum.SCHOOL]: 'Operator Sekolah',
-    [RoleEnum.STUDENT]: 'Siswa',
     [RoleEnum.TEACHER]: 'Guru Pengajar',
     [RoleEnum.HOMEROOM_TEACHER]: 'Wali Kelas', 
     [RoleEnum.COUNSELOR]: 'BK',
