@@ -1,3 +1,4 @@
+
 export const PermissionBanner = () => {
     return (
       <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px]">

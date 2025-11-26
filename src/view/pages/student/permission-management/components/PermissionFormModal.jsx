@@ -1,4 +1,7 @@
-import { X } from 'lucide-react';
+"use client";
+
+import React from "react";
+import { X } from "lucide-react";
 
 export const PermissionFormModal = ({
   isOpen,
@@ -22,24 +25,27 @@ export const PermissionFormModal = ({
           </button>
         </div>
 
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4 ">
+          {/* Jenis Izin */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Jenis Izin
             </label>
             <select
               value={formData.type}
-              onChange={(e) =>
-                onFormChange({ ...formData, type: e.target.value })
+              onChange={
+                (e) => onFormChange({ ...formData, type: e.target.value }) // <- ini benar
               }
               className="w-full border border-gray-300 bg-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
-              <option value="Sakit">Izin Sakit</option>
-              <option value="Keluarga">Keperuluan Keluarga</option>
-              <option value="Perjalanan">Bepergian</option>
+              <option value="">-- Pilih Jenis Izin --</option>
+              <option value="sick">Sakit</option>
+              <option value="permission">Izin</option>
+              <option value="dispensation">Dispensasi</option>
             </select>
           </div>
 
+          {/* Tanggal Mulai */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tanggal Mulai
@@ -47,14 +53,15 @@ export const PermissionFormModal = ({
             <input
               type="date"
               required
-              value={formData.startDate}
+              value={formData.start_date}
               onChange={(e) =>
-                onFormChange({ ...formData, startDate: e.target.value })
+                onFormChange({ ...formData, start_date: e.target.value })
               }
               className="w-full border border-gray-300 bg-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
 
+          {/* Tanggal Selesai */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tanggal Selesai
@@ -62,14 +69,28 @@ export const PermissionFormModal = ({
             <input
               type="date"
               required
-              value={formData.endDate}
+              value={formData.end_date}
               onChange={(e) =>
-                onFormChange({ ...formData, endDate: e.target.value })
+                onFormChange({ ...formData, end_date: e.target.value })
               }
               className="w-full border border-gray-300 bg-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Bukti
+            </label>
+            <input
+              type="file"
+              onChange={(e) =>
+                onFormChange({ ...formData, proof: e.target.files[0] })
+              }
+              className="w-full border border-gray-300 bg-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          {/* Alasan */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Alasan
@@ -81,8 +102,8 @@ export const PermissionFormModal = ({
               }
               placeholder="Tuliskan alasan izin Anda"
               className="w-full border border-gray-300 bg-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
-              rows="4"
-            ></textarea>
+              rows={4}
+            />
           </div>
 
           <button

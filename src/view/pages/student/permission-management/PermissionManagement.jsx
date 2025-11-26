@@ -1,110 +1,134 @@
+"use client";
+
 import React, { useState } from "react";
-import { PermissionBanner } from "./components/PermissionBanner";
-import { PermissionHeader } from "./components/PermissionHeader";
-import { PermissionCardsSection } from "./components/PermissionCardsSection";
-import { PermissionTableSection } from "./components/PermissionTableSection";
+import { PermissionCard } from "./components/PermissionCard";
+import { PermissionTable } from "./components/PermissionTable";
 import { PermissionFormModal } from "./components/PermissionFormModal";
 import { PermissionDetailModal } from "./components/PermissionDetailModal";
+import { usePermissions } from "../../../../Core/hooks/role-student/permission-student/PermissionStudent";
+import { PaginationPermissionStudent } from "./components/PermissionPagination";
+import HeaderPage from "../../../components/elements/header/Header.Page";
 
-
-const PermissionManagement = () => {
-  const [permissions, setPermissions] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
-  const [selectedPermission, setSelectedPermission] = useState(null);
+export default function PermissionManagement() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDetail, setSelectedDetail] = useState(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [formData, setFormData] = useState({
-    type: "Sakit",
-    startDate: "",
-    endDate: "",
+    type: "",
+    start_date: "",
+    end_date: "",
+    proof: "",
     reason: "",
   });
 
-  const cardsPerView = 3;
+  const { permissions, meta, page, setPage, loading, error, handleSubmit } =
+    usePermissions();
 
-  const handleAddPermission = (e) => {
+  const submitForm = (e) => {
     e.preventDefault();
-
-    if (!formData.startDate || !formData.endDate || !formData.reason.trim()) {
-      alert("Semua field harus diisi!");
-      return;
-    }
-
-    const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      });
-    };
-
-    const newPermission = {
-      id: Date.now(),
-      name:
-        formData.type === "Sakit"
-          ? "Izin Sakit"
-          : formData.type === "Keluarga"
-          ? "Keperuluan Keluarga"
-          : "Bepergian",
-      type: formData.type,
-      startDate: formatDate(formData.startDate),
-      endDate: formatDate(formData.endDate),
-      status: "Di Proses",
-      studentName: "Valen Abdul Ibrahim",
-      class: "XII PPLG 3",
-      verifier: "Dedy Irwandi",
-      date: formatDate(new Date().toISOString()),
-      reason: formData.reason || "Tidak ada keterangan",
-    };
-
-    let updatedPermissions = [newPermission, ...permissions];
-    if (updatedPermissions.length > cardsPerView) {
-      updatedPermissions = updatedPermissions.slice(0, cardsPerView);
-    }
-    setPermissions(updatedPermissions);
-
-    setFormData({ type: "Sakit", startDate: "", endDate: "", reason: "" });
-    setShowForm(false);
+    handleSubmit(
+      formData,
+      () => setIsModalOpen(false),
+      () => alert("Gagal membuat izin")
+    );
   };
 
-  const handleViewDetail = (permission) => {
-    setSelectedPermission(permission);
-    setShowDetail(true);
+  const handleFormChange = (data) => setFormData(data);
+
+  const handleViewDetail = (item) => {
+    setSelectedDetail(item);
+    setIsDetailOpen(true);
   };
+
+  if (loading) return <div className="p-4 text-center">Memuat data...</div>;
+
+  const recentPermissions = [...permissions]
+    .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
+    .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <PermissionBanner />
-
-        <PermissionHeader onAddClick={() => setShowForm(true)} />
-
-        <PermissionCardsSection
-          permissions={permissions}
-          onViewDetail={handleViewDetail}
-        />
-
-        <PermissionTableSection
-          permissions={permissions}
-          onViewDetail={handleViewDetail}
-        />
+    <div className="mx-7 mb-10">
+      <HeaderPage
+        h1="Izin & Riwayat Izin"
+        p="Ajukan izin kehadiran dan pantau status persetujuannya secara langsung."
+      />
+      {/* Header */}
+      <div className=" border border-gray-300 p-2 rounded-2xl shadow-lg mb-5">
+        <div className="flex justify-between items-center mx-4">
+          <h2 className="text-[24px] font-semibold text-gray-900">
+            Daftar Izin Aktif
+          </h2>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#3B82F6] hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition"
+          >
+            + Buat Izin
+          </button>
+        </div>
       </div>
 
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {error}
+        </div>
+      )}
+
+      {/* Recent */}
+      {recentPermissions.length > 0 && (
+        <div>
+          <div className="flex gap-4 flex-wrap">
+            {recentPermissions.map((p) => (
+              <PermissionCard
+                key={p.id}
+                permission={p}
+                onViewDetail={handleViewDetail}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Table */}
+      {permissions.length > 0 && (
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 mt-8">
+            Daftar Riwayat Izin
+          </h2>
+          <PermissionTable
+            permissions={permissions}
+            onViewDetail={handleViewDetail}
+          />
+        </div>
+      )}
+
+      {permissions.length === 0 && !loading && (
+        <div className="text-center py-12 text-gray-500">
+          <p>Belum ada data izin. Buat izin baru untuk memulai.</p>
+        </div>
+      )}
+
+      {/* Modals */}
       <PermissionFormModal
-        isOpen={showForm}
-        onClose={() => setShowForm(false)}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         formData={formData}
-        onFormChange={setFormData}
-        onSubmit={handleAddPermission}
+        onFormChange={handleFormChange}
+        onSubmit={submitForm}
+      />
+      <PermissionDetailModal
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        permission={selectedDetail}
       />
 
-      <PermissionDetailModal
-        isOpen={showDetail}
-        onClose={() => setShowDetail(false)}
-        permission={selectedPermission}
+      {/* Pagination */}
+      <PaginationPermissionStudent
+        page={page}
+        lastPage={meta?.last_page || 1}
+        onPrev={() => setPage(Math.max(1, page - 1))}
+        onNext={() => setPage(Math.min(meta?.last_page || 1, page + 1))}
+        onPageClick={(p) => setPage(p)}
       />
     </div>
   );
-};
-
-export default PermissionManagement;
+}
