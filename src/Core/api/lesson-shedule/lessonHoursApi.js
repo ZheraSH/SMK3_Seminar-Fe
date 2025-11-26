@@ -1,4 +1,5 @@
 import axios from "axios";
+import { notify } from "../../hooks/notification/notify";
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
 export const fetchLessonHoursByDay = async (day) => {
@@ -20,6 +21,7 @@ export const addLessonHour = async (lessonData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/lesson-hours`, lessonData);
         console.log("Jam Pelajaran Berhasil Ditambahkan:", res.data);
+         notify('data berhasil di tambah');
         return res.data; 
 
     } catch (err) {
@@ -32,6 +34,7 @@ export const deleteLessonHour = async (id) => {
     try {
         const res = await axios.delete(`${API_BASE_URL}/lesson-hours/${id}`);
         console.log("Jam Pelajaran Berhasil Dihapus:", res.data);
+         notify('data berhasil di hapus');
         return res.data; 
     } catch (err) {
         console.error("Gagal Menghapus Jam Pelajaran:", err.response ? err.response.data : err.message);
