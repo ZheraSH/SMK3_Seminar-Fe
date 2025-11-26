@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import {getClassroomDetail,getClassroomStudents,getAvailableStudents,addStudentsToClassroom,removeStudentFromClass,getStudentDetail} from "../../../api/class-major/classStudentsApi";
+import {getClassroomDetail,getClassroomStudents,getAvailableStudents,addStudentsToClassroom,removeStudentFromClass,getStudentDetail} from "../../../api/role-operator/class-major/classStudentsApi";
 
 const ITEMS_PER_PAGE = 8; 
 

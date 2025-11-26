@@ -4,7 +4,7 @@ import { Search, Users, UserCheck2, Calendar, GraduationCap, RefreshCw, Plus, Ar
 import DataTable from './components/TableClassStudent'; 
 import PaginationComponent from './components/PaginationComponent';
 import FormStudents from "./components/FormClassStudent"; 
-import useClassroomDetail from '../../../../../Core/hooks/operator.hooks/class-major/useClassroomDetail';
+import useClassroomDetail from '../../../../../Core/hooks/operator-hooks/class-major/useClassroomDetail';
 
 function ModalAddStudent({ open, onClose, classroom, availableStudents, addStudents }) {
     if (!open) return null;
