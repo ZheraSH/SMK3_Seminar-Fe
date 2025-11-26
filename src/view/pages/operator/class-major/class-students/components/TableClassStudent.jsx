@@ -2,6 +2,57 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Trash2, MoreVertical, Eye } from 'lucide-react'; 
 import ModalDetailStudent from "./ModalDetailStudents";
 
+const ResultModal = ({ show, title, message, status, onClose }) => {
+    if (!show) return null;
+
+    const bgColor = status === 'success' ? 'bg-[#10B981]' : 'bg-[#EF4444]'; 
+    const titleColor = status === 'success' ? 'text-[#059669]' : 'text-[#DC2626]'; 
+
+    return (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg shadow-xl w-80 p-6">
+                <h3 className={`text-xl font-bold ${titleColor} mb-2`}>{title}</h3>
+                <p className="text-sm text-gray-700 mb-4">{message}</p>
+                <div className="text-right">
+                    <button
+                        onClick={onClose}
+                        className={`px-4 py-2 rounded-lg text-white font-semibold transition-colors duration-150 ${bgColor} hover:opacity-80`}
+                    >
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
+    if (!show) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg shadow-xl w-96 p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Konfirmasi Penghapusan</h3>
+                <p className="text-sm text-gray-700 mb-6">{message}</p>
+                <div className="flex justify-end space-x-3">
+                    <button
+                        onClick={onCancel}
+                        className="px-4 py-2 rounded-lg text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        onClick={onConfirm}
+                        className="px-4 py-2 rounded-lg text-white font-semibold bg-[#EF4444] hover:bg-red-700 transition-colors"
+                    >
+                        Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const ActionDropdown = ({ onDetail, onDelete, onClose }) => {
     const dropdownRef = useRef(null);
 
@@ -35,6 +86,8 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
 
     const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
     const [openDetailModal, setOpenDetailModal] = useState(false);
+    const [confirmModal, setConfirmModal] = useState({ show: false, student: null, message: '' });
+    const [resultModal, setResultModal] = useState({ show: false, status: '', title: '', message: '' });
 
     const toggleDropdown = (index) => {
         setOpenDropdownIndex(openDropdownIndex === index ? null : index);
@@ -58,22 +111,53 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
         await fetchStudentDetail(studentId); 
     };
 
-   const handleDelete = async (data) => { 
-    if (window.confirm(`Yakin ingin menghapus siswa ${data.student.name} dari kelas ini?`)) {
-        closeDropdown();
+  const confirmRemoval = async () => {
+        const studentData = confirmModal.student;
+        const studentIdToRemove = studentData.student.id; 
         
-        const studentIdToRemove = data.student.id; 
-        
-        const result = await removeStudent(studentIdToRemove); 
+        setConfirmModal({ show: false, student: null, message: '' }); 
 
-        if (result.success) {
-            alert(`✅ Sukses: Siswa ${data.student.name} berhasil dihapus.`);
-        } else {
-            const errorMessage = result.error?.response?.data?.message || "Gagal menghapus siswa. Silakan cek koneksi atau server.";
-            alert(`❌ Error: ${errorMessage}`);
+        try {
+            const result = await removeStudent(studentIdToRemove); 
+
+            if (result.success) {
+                setResultModal({
+                    show: true,
+                    status: 'success',
+                    title: 'Berhasil Dihapus!',
+                    message: `Siswa ${studentData.student.name} berhasil dihapus dari kelas.`
+                });
+            } else {
+                const errorMessage = result.error?.response?.data?.message || "Gagal menghapus siswa. Silakan cek koneksi atau server.";
+                setResultModal({
+                    show: true,
+                    status: 'error',
+                    title: 'Gagal Menghapus',
+                    message: errorMessage
+                });
+            }
+        } catch (error) {
+            setResultModal({
+                show: true,
+                status: 'error',
+                title: 'Kesalahan Jaringan',
+                message: "Terjadi kesalahan saat menghubungi server."
+            });
         }
-    }
-};
+    };
+    
+    const handleDelete = (data) => { 
+        setConfirmModal({ 
+            show: true, 
+            student: data, 
+            message: `Yakin ingin menghapus siswa ${data.student.name} dari kelas ini?` 
+        });
+        closeDropdown();
+    };
+
+    const handleCloseResultModal = () => {
+        setResultModal({ show: false, status: '', title: '', message: '' });
+    };
     
     const handleCloseDetailModal = () => {
         setOpenDetailModal(false);
@@ -166,6 +250,20 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                 onClose={handleCloseDetailModal}
                 student={selectedStudentDetail} 
                 loading={detailLoading} 
+            />
+            <ConfirmModal
+                show={confirmModal.show}
+                message={confirmModal.message}
+                onConfirm={confirmRemoval}
+                onCancel={() => setConfirmModal({ show: false, student: null, message: '' })} // Batalkan jika TIDAK
+            />
+
+            <ResultModal
+                show={resultModal.show}
+                status={resultModal.status}
+                title={resultModal.title}
+                message={resultModal.message}
+                onClose={handleCloseResultModal}
             />
         </>
     );
