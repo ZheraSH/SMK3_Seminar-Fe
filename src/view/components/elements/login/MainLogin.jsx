@@ -11,12 +11,14 @@ const loginUser = async ({ email, password }) => {
 
     const result = response.data;
 
-    // Validasi sesuai struktur backend
     if (result && result.data && result.data.token && result.data.user) {
+      const user = result.data.user;
+      const roles = user.roles.map((r) => r.name);
       return {
         token: result.data.token,
-        user: result.data.user,
-        roles: result.data.roles || [result.data.role],
+        user: user,
+        roles: roles,
+        activeRole:result.data.role,
       };
     } else {
       throw new Error("Format respons dari server tidak sesuai");

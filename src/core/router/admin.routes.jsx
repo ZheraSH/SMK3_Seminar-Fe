@@ -18,7 +18,7 @@ import ProtectedRoute from "./ProtectedRoute";
 export const AdminRoutes = [
   {
     path: "/home",
-    element:(<ProtectedRoute allowedRoles={["school_operator",]} />),
+    element:(<ProtectedRoute allowedRoles={["school_operator"]} />),
     children: [{
       element : <DashboardLayouth />,
       children : [

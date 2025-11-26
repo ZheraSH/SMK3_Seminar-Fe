@@ -4,19 +4,18 @@ import MainScheduleStudent from "../../view/pages/student/schedule/MainSchedule"
 import PermissionManagement from "../../view/pages/student/permission-management/PermissionManagement";
 import ProtectedRoute from "./ProtectedRoute";
 import MainDashboard from "../../view/components/elements/MainDashboard";
-import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
-
+import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
 
 export const StudentRoutes =[
    
     {
         path: "/student-home",
-            element:(<ProtectedRoute allowedRoles={["student",]}
+            element:(<ProtectedRoute allowedRoles={"student"}
             />),
             children: [{
               element : <LayouthSiswa />,
               children : [
-                { index: true, element: <BodyDashboard/>  },
+                { index: true, element: < BodyDashboard/>  },
                 { path: "dashboard", element: <MainDashboard/> },
                 { path: "student-class", element: <MainClassStudent /> },
                 // { path: "absen-student", element: <AbsentStudentMain /> },

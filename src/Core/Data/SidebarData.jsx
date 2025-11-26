@@ -54,9 +54,9 @@ export const menuItemTeacher = [
 ];
 
 export const menuItemHomeRoom = [
-    // {name: "Home", icon:<Home size={20} />, path: "/teacher-home"},
-    // {name: "Absensi Kelas " , icon: <CircleCheckBig size={20} />, path: "/teacher-home/attendance-teacher"},
-    // {name: "Jadwal Mengajar",icon: <CalendarDays size={20} />, path: "/teacher-home/teacher-schedule" },
+    {name: "Home", icon:<Home size={20} />, path: "/homeroom-home"},
+    {name: "Absensi Kelas " , icon: <CircleCheckBig size={20} />, path: "/homeroom-home/attendance-teacher"},
+    {name: "Jadwal Mengajar",icon: <CalendarDays size={20} />, path: "/homeroom-home/teacher-schedule" },
     {name: "Rekap Kelas",icon: <CalendarDays size={20} />, path: "/homeroom-home/class-recap" },
 ];
 
@@ -65,6 +65,6 @@ export const menuItemHomeRoom = [
 export const menuItemBk = [
   {name: "Home", icon:<Home size={20}/>, path: "/bk-home"},
   {name: "Monitoring Absen", icon:  <Activity size={20} />, path: "/bk-home/monitoring-absen"},
-  {name: "Statistik Global", icon: <ChartColumnBig size={20} />, path: "bk-home/statistik-global"},
-  {name: "Verifikasi Izin", icon: <ClipboardCheck  size={20} />, path: "bk-home/verifikasi-izin"},
+  {name: "Statistik Global", icon: <ChartColumnBig size={20} />, path: "/bk-home/statistik-global"},
+  {name: "Verifikasi Izin", icon: <ClipboardCheck  size={20} />, path: "/bk-home/verifikasi-izin"},
 ]
