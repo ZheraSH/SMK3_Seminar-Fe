@@ -80,14 +80,40 @@ export const fetchSubject = async () => {
 };
 //Theacher
 export const fetchTeacher = async () => {
-   try {
-    const res = await axios.get(`${API_BASE_URL}/employees`);
-    console.log("📦 Data Teacher dari API:", res.data);
-    return res.data.data;
-  } catch (err) {
-    console.error("gagal", err);
-    return [];
-  }
+    let allTeachers = [];
+    let currentPage = 1;
+    let lastPage = 1; 
+
+    try {
+        do {
+            const endpoint = `${API_BASE_URL}/employees?page=${currentPage}`;
+            const res = await axios.get(endpoint);
+            
+            const responseData = res.data;
+
+            if (responseData && responseData.data && Array.isArray(responseData.data)) {
+                allTeachers = allTeachers.concat(responseData.data);
+            }
+
+            if (responseData.meta) {
+                lastPage = responseData.meta.last_page;
+            } else {
+                break; 
+            }
+            
+            console.log(`Berhasil mengambil halaman ${currentPage} (Total data: ${allTeachers.length})`);
+
+            currentPage++;
+
+        } while (currentPage <= lastPage); 
+
+        console.log(`Data Semua Teacher Berhasil Diambil (Total: ${allTeachers.length}):`, allTeachers);
+        return allTeachers;
+
+    } catch (err) {
+        console.error(" Gagal mengambil seluruh data Teacher. Mengembalikan data yang sudah terkumpul (jika ada):", err);
+        return allTeachers; 
+    }
 };
 //jam
 export const fetchLesson = async (day = null) => { 

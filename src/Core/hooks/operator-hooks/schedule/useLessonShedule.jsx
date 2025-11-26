@@ -46,17 +46,10 @@ export default function useLessonHours(activeDayApi) {
   };
 
   const deleteLesson = async (id, name) => {
-    if (
-      !window.confirm(
-        `Yakin ingin menghapus jam pelajaran "${name}" pada hari ${activeDayApi}?`
-      )
-    ) {
-      return;
-    }
+   
 
     try {
       await deleteLessonHour(id);
-      alert(`Jam pelajaran "${name}" berhasil dihapus.`);
 
       await loadLessonHours();
     } catch (error) {
