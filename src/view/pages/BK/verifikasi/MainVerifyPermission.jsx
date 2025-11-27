@@ -1,25 +1,107 @@
-import { Search,ChevronLeft, ChevronRight } from 'lucide-react';
-import { getVerifyPermissionBk } from '../../../../Core/api/role-bk/verify-permission/VerifyPermission';
+import { useState ,useCallback } from 'react';
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { getVerifyPermissionBk,getPermissionDetailBk,approvePermissionBk,rejectPermissionBk } from '../../../../Core/api/role-bk/verify-permission/VerifyPermission';
+import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/useVeryPermission'; // Import Custom Hook Anda
+import DetailIzinModal from "./components/ModalDetail";
 import Table from './components/Table';
 import HeaderAndControls from './components/Head';
-import { Pagination } from './components/Pagination';
 
 
 export default function VerifyPermission() {
-  const handleAction = (type, student) => {
-    console.log(`Aksi ${type} untuk siswa ${student.name} (No. ${student.no})`);
-  };
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedPermission, setSelectedPermission] = useState(null);
+    const [isLoadingDetail , setIsLoadingDetail] = useState(false);
 
-  const handleClassSelect = (className) => {
-    console.log("Kelas dipilih:", className);
-  }
-  return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
-      <div className="max-w-7xl mx-auto">
-        <HeaderAndControls handleClassSelect={handleClassSelect} />
-        <Table getVerifyPermissionBk={getVerifyPermissionBk} />
-        <Pagination />
-      </div>
-    </div>
-  );
+    const { permissions, loading, error, classes, currentPage, lastPage, totalItems, perPage, handlePageChange,refetchData ,searchQuery,handleSearchChange,selectedClassId,handleClassSelect} = useVerifyPermissionData(getVerifyPermissionBk);
+
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedPermission(null); 
+    };
+
+   const showDetailModal = useCallback(async (permission) => {
+        setIsModalOpen(true);
+        setSelectedPermission(permission); 
+        setIsLoadingDetail(true);
+
+        try {
+            const detail = await getPermissionDetailBk(permission.id);
+            setSelectedPermission(detail);
+            console.log('berhasil ambil data detail ');
+            
+        } catch (error) {
+            console.error("Error fetching detail:", error);
+            alert(`Gagal memuat detail izin: ${error.message}`);
+            setIsModalOpen(false);
+        } finally {
+            setIsLoadingDetail(false);
+        }
+    }, []);
+
+   const handleAction = async (type, permission) => {
+        const permissionId = permission.id; 
+        
+        if (permission.status !== 'pending' && (type === 'approve' || type === 'reject')) {
+            alert(`Izin ini sudah ${permission.status_label.toLowerCase()}. Tidak dapat diubah lagi.`);
+            return; 
+        }
+
+        if (type === 'approve') {
+            const confirmed = window.confirm(`Apakah Anda yakin ingin menyetujui izin dari ${permission.student.name}?`);
+            if (!confirmed) return;
+
+            try {
+                await approvePermissionBk(permissionId);
+                
+                alert(`Izin berhasil disetujui untuk ${permission.student.name}.`);
+
+                if (refetchData) {
+                    refetchData(); 
+                }
+
+            } catch (error) {
+                alert(`Gagal menyetujui izin: ${error.message}`);
+            }
+        } else if (type === 'reject') {
+            const confirmed = window.confirm(`Apakah Anda yakin ingin MENOLAK izin dari ${permission.student.name}?`);
+            if (!confirmed) return;
+
+            try {
+                await rejectPermissionBk(permissionId);
+                alert(`Izin berhasil DITOLAK untuk ${permission.student.name}.`);
+                refetchData();
+
+            } catch (error) {
+                alert(`Gagal menolak izin: ${error.message}`);
+            }
+        }else if (type === 'view') {
+            showDetailModal(permission);
+        }
+        
+    };
+
+
+    const handleApprove = (permission) => handleAction('approve', permission);
+    const handleReject = (permission) => handleAction('reject', permission);
+
+    return (
+        <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
+            <div className="max-w-7xl mx-auto">
+                <HeaderAndControls classes={classes}  selectedClassId={selectedClassId} handleClassSelect={handleClassSelect} searchQuery={searchQuery}
+                    onSearchChange={handleSearchChange}/>
+                <Table  data={permissions} loading={loading} error={error} currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={handlePageChange} onAction={handleAction} />
+            </div>
+            {isModalOpen && selectedPermission && (
+                <DetailIzinModal 
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    loading={isLoadingDetail}
+                    permissionData={selectedPermission}
+                    onApprove={handleApprove} 
+                    onReject={handleReject}
+                />
+            )}
+        </div>
+    );
 }

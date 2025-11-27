@@ -3,7 +3,10 @@ import HeaderPage from "../../../../components/elements/header/Header.Page";
 import { Search } from "lucide-react";
 
 
-export default function HeaderAndControls ({handleClassSelect}) {
+export default function HeaderAndControls ({handleClassSelect,searchQuery, 
+    onSearchChange,
+    classes, // Asumsi Anda juga ingin menampilkan daftar kelas dari props
+    selectedClassId}) {
     return (
         <>
         <HeaderPage
@@ -21,6 +24,7 @@ export default function HeaderAndControls ({handleClassSelect}) {
                     type="text"
                     placeholder="Cari Kelas/Nama..."
                     className="w-full sm:w-[244px] h-10 py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm text-sm"
+                    value={searchQuery} onChange={(e) => onSearchChange(e.target.value)}
                 />
                 </div>
                 <CustomDropdown

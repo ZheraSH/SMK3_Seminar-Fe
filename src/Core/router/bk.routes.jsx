@@ -1,5 +1,7 @@
 import MainMonitoringAbsen from "../../view/pages/BK/monitoring Absen/MainAttendanceMonitoring";
 // import StatistikGlobal from "../../view/pages/BK/statistikglobal/MainStatistikGlobal";
+import VerifikasiIzin from "../../view/pages/BK/verifikasi/MainVerifyPermission";
+import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal";
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import BodyDashboard from "../../view/pages/BK/home/BodyDasboardBk";
 import { LayouthBK } from "../../view/layouts/BkLayouth";
@@ -17,8 +19,9 @@ export const BkRoutes = [
                     { index: true, element: <BodyDashboard /> },
                     { path: "dashboard", element: <MainDashboard/> },
                     {path: "monitoring-absen", element: <MainMonitoringAbsen />},
-                    // {path : "statistik-global", element: <StatistikGlobal/>},
-                    {path: "verifikasi-izin", element: <VerifyPermission /> }
+                    {path: "verifikasi-izin", element: <VerifyPermission /> },
+                    {path : "statistik-global", element: <StatistikGlobal/>},
+                    {path: "verifikasi-izin", element: <VerifikasiIzin/>}
                 ]
             }
            
