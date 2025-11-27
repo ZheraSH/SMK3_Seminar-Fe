@@ -4,6 +4,30 @@ import useClassSchedule from '../../../../Core/hooks/operator-hooks/schedule/use
 
 import AddScheduleModal from "./components/FormSchedule"; 
 
+const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
+    if (!show) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[100]"> 
+            <div className="bg-white rounded-lg shadow-2xl w-full max-w-sm p-6 transform transition-all duration-300 scale-100 opacity-100">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Konfirmasi Penghapusan</h3>
+                <p className="text-sm text-gray-700 mb-6">
+                    {message}
+                </p>
+                
+                <div className="flex justify-end space-x-3">
+                    <button onClick={onCancel} className="px-4 py-2 rounded-lg text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors text-sm font-medium">
+                        Batal
+                    </button>
+                    <button onClick={onConfirm} className="px-4 py-2 rounded-lg text-white font-semibold bg-[#EF4444] hover:bg-red-700 transition-colors text-sm">
+                        Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const DAY_MAPPING = {
     'Senin': 'monday',
     'Selasa': 'tuesday',
@@ -18,6 +42,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
     const [openDropdownId, setOpenDropdownId] = useState(''); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
+    const [confirmModal, setConfirmModal] = useState({ show: false, item: null, message: '' });
     const dropdownRef = useRef(null);
     
     const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at'];
@@ -50,27 +75,35 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
         refetch(); 
     };
 
-    const handleDeleteSchedule = async (itemData) => {
+    const handleDeleteSchedule = (itemData) => {
         setOpenDropdownId('');
-    
-        const scheduleId = itemData.id;
-        const subjectName = itemData.subject;
-    
-        if (!scheduleId) {
-            alert("ID Jadwal tidak ditemukan. Gagal menghapus.");
-            return;
-        }
-
-        if (window.confirm(`Yakin ingin menghapus jadwal mata pelajaran **${subjectName}** pada jam ${itemData.time}?`)) {
-            try {
-                await removeSchedule(scheduleId);
-                alert(`✅ Jadwal ${subjectName} berhasil dihapus dari hari ${activeDay}!`);
-            } catch (error) {
-                const errorMessage = error.message || error.response?.data?.message || `Gagal menghapus jadwal ${subjectName}.`;
-                alert(`❌ Error: ${errorMessage}`);
-            }
-        }
+        
+        setConfirmModal({
+            show: true,
+            item: itemData,
+            message: `Yakin ingin menghapus mata pelajaran ${itemData.subject} jika anda belum yakin batalkan.`
+        });
     };
+    
+    const executeRemoval = async () => {
+        const itemData = confirmModal.item;
+        const scheduleId = itemData.id;
+        const subjectName = itemData.subject;
+        
+        setConfirmModal({ show: false, item: null, message: '' });
+
+        if (!scheduleId) {
+            alert("ID Jadwal tidak ditemukan. Gagal menghapus.");
+            return;
+        }
+        
+        try {
+            await removeSchedule(scheduleId);
+        } catch (error) {
+            const errorMessage = error.message || error.response?.data?.message || `Gagal menghapus jadwal ${subjectName}.`;
+            alert(`❌ Error: ${errorMessage}`);
+        }
+    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -219,7 +252,13 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
                 </div>
             </div>      
             <AddScheduleModal isOpen={isModalOpen} onClose={closeModal} initialData={editingItem} activeDayApi={activeDayApi}classroomId={classroomId}handleSave={saveSchedule}/>
-        </div>
+        <ConfirmModal
+                show={confirmModal.show}
+                message={confirmModal.message}
+                onConfirm={executeRemoval} 
+                onCancel={() => setConfirmModal({ show: false, item: null, message: '' })} 
+            />
+        </div>
     );
 };
 

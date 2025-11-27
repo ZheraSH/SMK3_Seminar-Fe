@@ -1,4 +1,5 @@
 import axios from "axios"
+import { notify } from "../../hooks/notification/notify";
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 export const fetchClass = async (page = 1) => {
    try {
@@ -36,6 +37,7 @@ export const addSchedule = async (scheduleData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/lesson-schedules`, scheduleData);
         console.log("Jadwal Baru Berhasil Dibuat (Create):", res.data);
+        notify("data berhasil di tambah");
         return res.data;
     } catch (err) {
         console.error("Gagal menambahkan jadwal:", err.response ? err.response.data : err.message);
@@ -47,6 +49,7 @@ export const updateSchedule = async (scheduleId, scheduleData) => {
     try {
         const res = await axios.put(`${API_BASE_URL}/lesson-schedules/${scheduleId}`, scheduleData);
         console.log(`Jadwal ID ${scheduleId} Berhasil Diperbarui (Update):`, res.data);
+        notify("data berhasil di perbarui..");
         return res.data;
     } catch (err) {
         console.error(`Gagal memperbarui jadwal ID ${scheduleId}:`, err.response ? err.response.data : err.message);
@@ -58,6 +61,7 @@ export const deleteSchedule = async (scheduleId) => {
     try {
         const res = await axios.delete(`${API_BASE_URL}/lesson-schedules/${scheduleId}`);
         console.log(`Jadwal ID ${scheduleId} Berhasil Dihapus (Delete):`, res.data);
+        notify("data berhasil di hapus");
         return res.data;
     } catch (err) {
         console.error(`Gagal menghapus jadwal ID ${scheduleId}:`, err.response ? err.response.data : err.message);
