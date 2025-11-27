@@ -96,9 +96,6 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
 
         try {
             await handleSave(dataToSave, isEditMode); 
-            const successMessage = isEditMode ? "✅ Jadwal berhasil diperbarui!" : "✅ Jadwal baru berhasil ditambahkan!";
-            
-        alert(successMessage);
             onClose();
         } catch (error) {
             const errorMessage = error?.message || error?.error || "Gagal menyimpan jadwal. Coba periksa input atau server.";
