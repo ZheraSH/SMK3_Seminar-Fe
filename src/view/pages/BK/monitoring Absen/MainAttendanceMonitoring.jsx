@@ -1,14 +1,40 @@
 import { RefreshCw} from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pagination } from "./components/Pagination";
 import FilterDropdown from "./components/FilterData";
 import TableAttendanceBk from "./components/TableAttendance";
 import { attendanceStats,studentsData } from "../../../../Core/Data/BkData";
 import Head from "./components/Head";
 import StatisticsCrad from "./components/StatisticsCard";
+import { getAbsenteeismMonitoring } from "../../../../Core/api/role-bk/monitoring/absenteeismMonitoring";
 
 
 export default function MainMonitoringAbsen () {
+    const [students, setStudents] = useState([]);
+    const [recap,setRecap] = useState ([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    useEffect(() => {
+        setLoading(true);
+        setError(null);
+
+        getAbsenteeismMonitoring()
+        .then((data) => {
+        if (!data) {
+          setError("Data Izin Tidak Ditemukan");
+          return;
+        }
+        setStudents(data.list.data || []);
+        setRecap(data.recap || []);
+      })
+      .catch(() => {
+        setError("Gagal memuat data Izin");
+        setStudents([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 7;
@@ -28,7 +54,7 @@ export default function MainMonitoringAbsen () {
     return (
         <div className="justify-center mx-5 mb-10">
             <Head />
-            <StatisticsCrad attendanceStats= {attendanceStats} />
+            <StatisticsCrad attendanceStats= {attendanceStats} recap={recap}/>
             <div className=" flex justify-between mt-5">
                 <div className="relative flex">
                         <div className="relative flex items-center w-80 mr-4">
@@ -44,7 +70,7 @@ export default function MainMonitoringAbsen () {
                             className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    <FilterDropdown />
+                    <FilterDropdown  students={students}/>
                 </div>
                 <button 
                     className="flex items-center w-[128px] h-[37px] px-4 py-2 bg-[#3B82F6] rounded-lg transition text-sm text-white gap-2 shadow-md"
@@ -56,7 +82,8 @@ export default function MainMonitoringAbsen () {
             <div className="mt-4">
                 <p className="flex justify-end text-[12px] font-light">Terakhir diperbarui: 06 Nov 2025, 09.42 WIB</p>
                 <TableAttendanceBk 
-                    currentStudents = {currentStudents}
+                    students={students}
+                    loading={loading}
                    
                 />
                 <Pagination 

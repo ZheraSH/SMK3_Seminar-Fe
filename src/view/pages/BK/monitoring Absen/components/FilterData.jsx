@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function FilterDropdown({ selected, onSelect }) {
+export default function FilterDropdown({ selected, onSelect, students }) {
     const [open, setOpen] = useState(false);
     const [openSection, setOpenSection] = useState(null);
 
@@ -8,16 +8,16 @@ export default function FilterDropdown({ selected, onSelect }) {
         {
             id: "jurusan",
             label: "Jurusan",
-            items: ["PPLG", "DKV", "Kuliner", "Perhotelan", "KCS", "DPB"],
+            items: [...new Set(students.map(s => s.major_code))],
         },
         {
-            id: "tingkatan",
-            label: "Tingkatan",
-            items: ["X", "XI", "XII"],
+            id: "kelas",
+            label: "Kelas",
+            items: [...new Set(students.map(s => s.classroom_name))],
         },
     ];
 
-    const toggleSection = (id) => {
+    const toggleSection = (id) => { 
         setOpenSection((prev) => (prev === id ? null : id));
     };
 
@@ -40,7 +40,7 @@ export default function FilterDropdown({ selected, onSelect }) {
                 </svg>
             </button>
 
-            {/* DROPDOWN */}
+           
             {open && (
                 <div className="absolute mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 p-4 z-50">
                     
