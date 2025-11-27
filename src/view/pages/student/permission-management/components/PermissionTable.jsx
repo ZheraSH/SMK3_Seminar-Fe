@@ -55,7 +55,7 @@ export const PermissionTable = ({ permissions, onViewDetail }) => {
               <td className="px-6 py-4">
                 <button
                   onClick={() => onViewDetail(perm)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-[16px] font-medium transition"
+                  className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-2 rounded-[10px] text-[12px] font-medium transition"
                 >
                   Lihat Detail
                 </button>

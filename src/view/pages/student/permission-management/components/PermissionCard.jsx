@@ -34,7 +34,7 @@ export const PermissionCard = ({ permission, onViewDetail }) => {
 
       <button
         onClick={() => onViewDetail(permission)}
-        className="bg-blue-600 hover:bg-blue-700 text-white mt-1 py-2 px-4 w-full rounded-lg font-medium text-sm transition"
+        className="bg-blue-600 hover:bg-blue-700 text-white mt-1 py-2 px-4 mt-2 w-full rounded-lg font-medium text-sm transition"
       >
         Lihat Detail
       </button>

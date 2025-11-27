@@ -13,6 +13,8 @@ export default function PermissionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     type: "",
     start_date: "",
@@ -24,23 +26,65 @@ export default function PermissionManagement() {
   const { permissions, meta, page, setPage, loading, error, handleSubmit } =
     usePermissions();
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    handleSubmit(
-      formData,
-      () => setIsModalOpen(false),
-      () => alert("Gagal membuat izin")
-    );
+    setIsSubmitting(true);
+    setFormErrors({}); // Reset errors sebelum submit
+
+    try {
+      const result = await handleSubmit(formData);
+      
+      if (result.success) {
+        // Jika sukses, reset form dan tutup modal
+        setFormData({
+          type: "",
+          start_date: "",
+          end_date: "",
+          proof: "",
+          reason: "",
+        });
+        setFormErrors({});
+        setIsModalOpen(false);
+      } else {
+        // Jika ada error validasi, tampilkan error tanpa menutup modal
+        setFormErrors(result.errors || {});
+      }
+    } catch (err) {
+      // Handle error umum
+      console.error("Error submitting form:", err);
+      setFormErrors({ 
+        general: ["Terjadi kesalahan. Silakan coba lagi."] 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleFormChange = (data) => setFormData(data);
+  const handleFormChange = (data) => {
+    setFormData(data);
+    // Clear errors ketika user mulai mengisi form kembali
+    if (Object.keys(formErrors).length > 0) {
+      setFormErrors({});
+    }
+  };
 
   const handleViewDetail = (item) => {
     setSelectedDetail(item);
     setIsDetailOpen(true);
   };
 
-  if (loading) return <div className="p-4 text-center">Memuat data...</div>;
+  const handleOpenModal = () => {
+    setFormData({
+      type: "",
+      start_date: "",
+      end_date: "",
+      proof: "",
+      reason: "",
+    });
+    setFormErrors({});
+    setIsModalOpen(true);
+  };
+
 
   const recentPermissions = [...permissions]
     .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
@@ -52,14 +96,15 @@ export default function PermissionManagement() {
         h1="Izin & Riwayat Izin"
         p="Ajukan izin kehadiran dan pantau status persetujuannya secara langsung."
       />
+      
       {/* Header */}
-      <div className=" border border-gray-300 p-2 rounded-2xl shadow-lg mb-5">
+      <div className="border border-gray-300 p-2 rounded-2xl shadow-lg mb-5">
         <div className="flex justify-between items-center mx-4">
           <h2 className="text-[24px] font-semibold text-gray-900">
             Daftar Izin Aktif
           </h2>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleOpenModal}
             className="bg-[#3B82F6] hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition"
           >
             + Buat Izin
@@ -68,7 +113,7 @@ export default function PermissionManagement() {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
           {error}
         </div>
       )}
@@ -114,7 +159,10 @@ export default function PermissionManagement() {
         formData={formData}
         onFormChange={handleFormChange}
         onSubmit={submitForm}
+        errors={formErrors}
+        isSubmitting={isSubmitting}
       />
+      
       <PermissionDetailModal
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}

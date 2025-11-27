@@ -22,7 +22,7 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
         <div className="space-y-2.5 text-sm">
           <img
             src={permission.proof}
-            alt="Foto guru"
+            alt="Foto bukti"
             className="w-full h-28 rounded-[5px] object-cover border border-gray-300 shadow-sm mb-5 bg-gray-300"
           />
           <p className="text-[16px] font-medium ">Informasi Siswa</p>

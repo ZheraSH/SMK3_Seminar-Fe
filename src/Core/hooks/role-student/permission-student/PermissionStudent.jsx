@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { fetchPermissionsApi, handleSubmitPermission } from "../../../api/role-student/student-permission/Permission";
+import { notify } from "../../notification/notify";
 
 export function usePermissions() {
   const [permissions, setPermissions] = useState([]);
@@ -12,6 +13,7 @@ export function usePermissions() {
 
   const fetchPermissions = async (currentPage = page) => {
     try {
+      setLoading(true);
       const data = await fetchPermissionsApi(currentPage);
       setPermissions(data.data || []);
       setMeta(data.meta || {});
@@ -26,14 +28,28 @@ export function usePermissions() {
     }
   };
 
-  const handleSubmit = async (formData, onSuccess, onError) => {
+  const handleSubmit = async (formData) => {
     try {
-      await handleSubmitPermission(formData);
-      fetchPermissions(page); // refresh halaman saat ini
-      onSuccess?.();
+      const result = await handleSubmitPermission(formData);
+      
+      // Jika ada error validasi dari backend, kembalikan error
+      if (result && result.errors) {
+        return { success: false, errors: result.errors };
+      }
+      
+      
+      // Jika sukses, refresh data dan kembalikan success
+      notify("✔️ Data berhasil disimpan");
+      await fetchPermissions(page);
+      return { success: true, errors: null };
+      
     } catch (err) {
       console.error(err.response?.data || err);
-      onError?.();
+      // Kirim balik error validasi atau error umum
+      if (err.response?.status === 422) {
+        return { success: false, errors: err.response.data.errors };
+      }
+      throw err;
     }
   };
 

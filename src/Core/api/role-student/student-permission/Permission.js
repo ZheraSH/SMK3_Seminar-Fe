@@ -31,10 +31,21 @@ export async function handleSubmitPermission(formData) {
   form.append("reason", formData.reason);
   if (formData.proof) form.append("proof", formData.proof);
 
-  await axios.post(`${BASE_URL}/api/student/attendance-permissions`, form, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  try {
+    await axios.post(`${BASE_URL}/api/student/attendance-permissions`, form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    // 🔥 Tambahin ini → hook bisa detect success
+    return { success: true };
+
+  } catch (err) {
+    if (err.response?.status === 422) {
+      return { errors: err.response.data.errors };
+    }
+    throw err;
+  }
 }
