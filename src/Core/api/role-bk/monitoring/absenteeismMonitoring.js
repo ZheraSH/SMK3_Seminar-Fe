@@ -2,14 +2,19 @@ import axios from "axios";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
-export const getAbsenteeismMonitoring = async () => {
+export const getAbsenteeismMonitoring = async (searchQuery = '', page = 1, perPage = 15) => { 
     const token = localStorage.getItem("token");
     const userData = JSON.parse(localStorage.getItem("userData"));
     console.log("TOKEN:", token);
     console.log("USER DATA:", userData)
 
     try {
-        const res = await axios.get (`${API_BASE_URL}/counselor/attendance-monitoring`,
+        let url = `${API_BASE_URL}/counselor/attendance-monitoring`;
+        if (searchQuery) {
+            url += `?search=${encodeURIComponent(searchQuery)}`;
+        }
+
+        const res = await axios.get(url,
             {
                 headers: {
                     Authorization: token ? `Bearer ${token}` : "",
@@ -22,7 +27,10 @@ export const getAbsenteeismMonitoring = async () => {
     }
     catch (err) {
         console.error("gagal", err);
-        return [];
+        return {
+            recap: { present: 0, permission: 0, sick: 0, alpha: 0 },
+            students: [],
+        }; 
     }
 }
 

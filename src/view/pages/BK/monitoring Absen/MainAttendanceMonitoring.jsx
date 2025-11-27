@@ -1,9 +1,8 @@
 import { RefreshCw} from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useCallback } from "react";
 import { Pagination } from "./components/Pagination";
 import FilterDropdown from "./components/FilterData";
 import TableAttendanceBk from "./components/TableAttendance";
-import { attendanceStats,studentsData } from "../../../../Core/Data/BkData";
 import Head from "./components/Head";
 import StatisticsCrad from "./components/StatisticsCard";
 import { getAbsenteeismMonitoring } from "../../../../Core/api/role-bk/monitoring/absenteeismMonitoring";
@@ -11,50 +10,66 @@ import { getAbsenteeismMonitoring } from "../../../../Core/api/role-bk/monitorin
 
 export default function MainMonitoringAbsen () {
     const [students, setStudents] = useState([]);
-    const [recap,setRecap] = useState ([]);
+    const [recap,setRecap] = useState ({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
     
-    useEffect(() => {
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const fetchData = useCallback(async () => {
         setLoading(true);
         setError(null);
 
-        getAbsenteeismMonitoring()
-        .then((data) => {
-        if (!data) {
-          setError("Data Izin Tidak Ditemukan");
-          return;
+        try {
+            const data = await getAbsenteeismMonitoring(searchQuery); 
+            
+            if (!data) {
+                setError("Data Monitoring Tidak Ditemukan");
+                setStudents([]);
+                setRecap({});
+                return;
+            }
+            
+            setStudents(data.list.data || []);
+            setRecap(data.recap || {}); 
+
+        } catch (err) {
+            console.error(err);
+            setError("Gagal memuat data Izin");
+            setStudents([]);
+            setRecap({});
+        } finally {
+            setLoading(false);
         }
-        setStudents(data.list.data || []);
-        setRecap(data.recap || []);
-      })
-      .catch(() => {
-        setError("Gagal memuat data Izin");
-        setStudents([]);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    }, [searchQuery]);
+    
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     // Pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 7;
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const rowsPerPage = 7;
 
-    // hitung total halaman
-    const totalPages = Math.ceil(studentsData.length / rowsPerPage);
+    // // hitung total halaman
+    // const totalPages = Math.ceil(studentsData.length / rowsPerPage);
 
-    // potong data untuk ditampilkan di table
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const currentStudents = studentsData.slice(startIndex, startIndex + rowsPerPage);
+    // // potong data untuk ditampilkan di table
+    // const startIndex = (currentPage - 1) * rowsPerPage;
+    // const currentStudents = studentsData.slice(startIndex, startIndex + rowsPerPage);
 
-    const handlePageChange = (p) => {
-    if (p >= 1 && p <= totalPages) setCurrentPage(p);
-    };
+    // const handlePageChange = (p) => {
+    // if (p >= 1 && p <= totalPages) setCurrentPage(p);
+    // };
 
 
     return (
         <div className="justify-center mx-5 mb-10">
             <Head />
-            <StatisticsCrad attendanceStats= {attendanceStats} recap={recap}/>
+            <StatisticsCrad  recap={recap}/>
             <div className=" flex justify-between mt-5">
                 <div className="relative flex">
                         <div className="relative flex items-center w-80 mr-4">
@@ -68,6 +83,8 @@ export default function MainMonitoringAbsen () {
                             type="text"
                             placeholder="Cari Kelas/Siswa...."
                             className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={searchQuery} 
+                            onChange={handleSearchChange}
                         />
                     </div>
                     <FilterDropdown  students={students}/>
@@ -86,11 +103,11 @@ export default function MainMonitoringAbsen () {
                     loading={loading}
                    
                 />
-                <Pagination 
+                {/* <Pagination 
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={handlePageChange}
-                />
+                /> */}
             </div>
       </div>
     );
