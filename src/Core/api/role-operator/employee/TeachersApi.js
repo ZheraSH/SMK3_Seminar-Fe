@@ -11,11 +11,12 @@ export const fetchTeachersApi = async (page = 1) => {
       }
       
     });
-
+    console.log(res.data.data);
     return {
       data: res.data.data || [],
       meta: res.data.meta || {}
     };
+    
   } catch (err) {
     console.error("Gagal mengambil RFID:", err);
     throw err;
@@ -58,13 +59,13 @@ export const submitTeacherApi = async (editingId, post) => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      notify("Guru Berhasil Di Di Perbarui")
+      notify("Guru Berhasil Di Perbarui")
     } else {
       await axios.post("http://127.0.0.1:8000/api/employees", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      notify("Guru Berhasil Di Di Tambahkan")
+      notify("Guru Berhasil Di Tambahkan")
     }
     return { success: true };
   } catch (err) {
