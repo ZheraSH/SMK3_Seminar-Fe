@@ -28,7 +28,7 @@ export const fetchRfid = async (page = 1, search = "") => {
 export const deleteRFID = async (id) => {
   try {
     const res = await axios.delete(`http://127.0.0.1:8000/api/rfids/${id}`);
-    notify("Berhasil Hapus Rfid!")
+    notify("Berhasil Hapus RFID!")
     return res.data;
   } catch (err) {
     console.error("Gagal hapus RFID:", err.response?.data || err.message);

@@ -73,7 +73,7 @@ export const FilterDropdown = ({
             )}
           </div>
 
-          <div className="border-t border-gray-100">
+          {/* <div className="border-t border-gray-100">
             <button
               onClick={() =>
                 setOpenSubMenu(openSubMenu === "religion" ? "" : "religion")
@@ -104,7 +104,7 @@ export const FilterDropdown = ({
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       )}
     </div>

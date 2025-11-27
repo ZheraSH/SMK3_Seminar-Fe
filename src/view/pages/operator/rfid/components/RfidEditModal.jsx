@@ -9,7 +9,7 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
   const handleSave = async () => {
     try {
       await updateRfidStatus(selected.id, selected.status);
-      notify("Berhasil Update Rfid");
+      notify("Berhasil Update RFID");
       onSave?.();
       onClose?.();
     } catch (err) {

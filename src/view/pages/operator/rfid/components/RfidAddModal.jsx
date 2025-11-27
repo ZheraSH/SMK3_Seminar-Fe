@@ -60,7 +60,7 @@ export default function RfidAddModal({
         student_id: newData.studentId,
       });
 
-      notify("Berhasil Menambahkan Rfid");
+      notify("Berhasil Menambahkan RFID");
 
       onAdd?.();
       onSuccess?.();
