@@ -2,29 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Trash2, MoreVertical, Eye } from 'lucide-react'; 
 import ModalDetailStudent from "./ModalDetailStudents";
 
-const ResultModal = ({ show, title, message, status, onClose }) => {
-    if (!show) return null;
 
-    const bgColor = status === 'success' ? 'bg-[#10B981]' : 'bg-[#EF4444]'; 
-    const titleColor = status === 'success' ? 'text-[#059669]' : 'text-[#DC2626]'; 
-
-    return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg shadow-xl w-80 p-6">
-                <h3 className={`text-xl font-bold ${titleColor} mb-2`}>{title}</h3>
-                <p className="text-sm text-gray-700 mb-4">{message}</p>
-                <div className="text-right">
-                    <button
-                        onClick={onClose}
-                        className={`px-4 py-2 rounded-lg text-white font-semibold transition-colors duration-150 ${bgColor} hover:opacity-80`}
-                    >
-                        OK
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
     if (!show) return null;
@@ -155,9 +133,6 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
         closeDropdown();
     };
 
-    const handleCloseResultModal = () => {
-        setResultModal({ show: false, status: '', title: '', message: '' });
-    };
     
     const handleCloseDetailModal = () => {
         setOpenDetailModal(false);
@@ -258,13 +233,6 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                 onCancel={() => setConfirmModal({ show: false, student: null, message: '' })} // Batalkan jika TIDAK
             />
 
-            <ResultModal
-                show={resultModal.show}
-                status={resultModal.status}
-                title={resultModal.title}
-                message={resultModal.message}
-                onClose={handleCloseResultModal}
-            />
         </>
     );
 };

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import useMasterData from "../../../../../Core/hooks/operator-hooks/class-major/useMasterData";
 
-export default function Form({ onClassAdded, addClass, onSuccess, onError }) {
+export default function Form({ onClassAdded, addClass, onError }) {
   const [majorId, setMajorId] = useState("");
   const [classNameInput, setClassNameInput] = useState("");
   const [schoolYearId, setSchoolYearId] = useState("");
@@ -96,8 +96,6 @@ export default function Form({ onClassAdded, addClass, onSuccess, onError }) {
 
     try {
       await addClass(payload);
-
-      if (onSuccess) onSuccess("Berhasil menambahkan kelas!");
       if (onClassAdded) onClassAdded();
     } catch (err) {
       const msg =

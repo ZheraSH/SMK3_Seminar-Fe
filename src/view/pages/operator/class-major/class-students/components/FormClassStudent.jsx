@@ -1,29 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 
-const ResultModal = ({ show, title, message, status, onClose }) => {
-    if (!show) return null;
-
-    const bgColor = status === 'success' ? 'bg-[#10B981]' : 'bg-[#EF4444]'; 
-    const titleColor = status === 'success' ? 'text-[#059669]' : 'text-[#DC2626]';
-
-    return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg shadow-xl w-80 p-6">
-                <h3 className={`text-xl font-bold ${titleColor} mb-2`}>{title}</h3>
-                <p className="text-sm text-gray-700 mb-4">{message}</p>
-                <div className="text-right">
-                    <button
-                        onClick={onClose}
-                        className={`px-4 py-2 rounded-lg text-white font-semibold transition-colors duration-150 ${bgColor} hover:opacity-80`}
-                    >
-                        OK
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 export default function FormStudent({ classroom, onClose, availableStudents, addStudents }) {
 
@@ -43,7 +20,6 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [modal, setModal] = useState({ show: false, status: '',  title: '', message: ''});
 
     const handleCheckboxChange = (id) => {
         if (selectedStudents.includes(id)) {
@@ -58,13 +34,7 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
         s.nisn.includes(search)
     );
     
-    const closeModal = () => {
-        if (modal.status === 'success') {
-            onClose();
-        }
-        setModal({ show: false, status: '', title: '', message: '' });
-    };
-
+   
     const handleSubmit = async () => {
         if (selectedStudents.length === 0) return;
 
@@ -73,13 +43,9 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
         try {
             const result = await addStudents(selectedStudents);
 
-            if (result.success) {
-                setModal({ show: true, status: 'success', title: 'Berhasil!', message: 'Data berhasil ditambahkan ke kelas.'});
-            } else {
-                setModal({ show: true, status: 'error', title: 'Gagal Menambahkan', message: "Gagal menambahkan siswa: " + (result.error || "Terjadi kesalahan.")});
-            }
+           onClose();
         } catch (error) {
-            setModal({ show: true, status: 'error', title: 'Kesalahan Jaringan', message: "Terjadi kesalahan saat menghubungi server."});
+           console.log(error)
         } finally {
             setIsLoading(false);
         }
@@ -153,7 +119,6 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                 </div>
             </div>
             
-            <ResultModal show={modal.show}status={modal.status}title={modal.title}message={modal.message}onClose={closeModal}/>
         </>
     );
 }
