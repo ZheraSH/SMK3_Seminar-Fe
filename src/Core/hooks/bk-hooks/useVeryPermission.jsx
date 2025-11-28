@@ -13,8 +13,9 @@ export function useVerifyPermissionData(fetchApi) {
 
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedClassId, setSelectedClassId] = useState(null);
-
+    
+    const [selectedClassId, setSelectedClassId] = useState(''); 
+    
     const handlePageChange = useCallback((newPage) => {
         if (newPage >= 1 && newPage <= lastPage) {
             setCurrentPage(newPage);
@@ -27,22 +28,21 @@ export function useVerifyPermissionData(fetchApi) {
 
     const handleSearchChange = useCallback((query) => {
         setSearchQuery(query);
-        // Reset ke halaman 1 setiap kali query pencarian berubah
         setCurrentPage(1); 
     }, []);
 
     const handleClassSelect = useCallback((classId) => {
         setSelectedClassId(classId);
-        setCurrentPage(1); // Reset ke halaman 1 saat filter berubah
+        setCurrentPage(1);
     }, []);
 
     useEffect(() => {
-        const fetchPermissions = async (page, search, classId) => {
+        const fetchPermissions = async () => {
             setLoading(true);
             setError(null);
 
             try {
-                const response = await fetchApi(page, search, classId); 
+                const response = await fetchApi(currentPage, searchQuery, selectedClassId); 
 
                 if (!response || !response.data) {
                     setError("Data Izin Tidak Ditemukan");
@@ -60,21 +60,14 @@ export function useVerifyPermissionData(fetchApi) {
                     setPerPage(response.meta.per_page || 8);
                 }
 
-                const newClasses = response.data.reduce((acc, current) => {
-                    // Cek jika classroom ada dan belum ada di akumulator
-                    if (current.classroom && !acc.some(c => c.id === current.classroom.id)) {
-                        acc.push(current.classroom);
-                    }
-                    return acc;
-                }, []);
-                
-                // Gabungkan kelas baru dengan kelas lama tanpa duplikasi
+                const newClasses = response.data.map(item => item.classroom)
+                    .filter(classroom => classroom != null);
+
                 setClasses(prevClasses => {
-                    const allUniqueClasses = [...new Map([
-                        ...prevClasses.map(item => [item.id, item]), 
-                        ...newClasses.map(item => [item.id, item])
-                    ]).values()];
-                    return allUniqueClasses;
+                    const uniqueClassesMap = new Map();
+                    prevClasses.forEach(item => uniqueClassesMap.set(item.name, item));
+                    newClasses.forEach(item => uniqueClassesMap.set(item.name, item));
+                    return Array.from(uniqueClassesMap.values());
                 });
 
             } catch (err) {
@@ -85,9 +78,14 @@ export function useVerifyPermissionData(fetchApi) {
                 setLoading(false);
             }
         };
-
-        fetchPermissions(currentPage, searchQuery, selectedClassId);
-    }, [currentPage, fetchApi,refreshTrigger,searchQuery, selectedClassId]); 
+        fetchPermissions();
+    }, [
+        currentPage, 
+        fetchApi,
+        refreshTrigger,
+        searchQuery, 
+        selectedClassId
+    ]); 
 
     return {
         permissions,

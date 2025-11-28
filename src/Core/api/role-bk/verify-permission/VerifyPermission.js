@@ -3,49 +3,44 @@ const API_BASE_URL = "http://127.0.0.1:8000/api";
 import { notify } from "../../../../Core/hooks/notification/notify";
 
 export const getVerifyPermissionBk = async (page = 1, search = "", classId = null) => {
-    const token = localStorage.getItem("token");
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    console.log("TOKEN:", token);
-    console.log("USER DATA:", userData)
-    
-    // Kita gunakan URLSearchParams untuk menangani semua parameter
-    const params = new URLSearchParams({ page: page });
+    const token = localStorage.getItem("token");
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    console.log("TOKEN:", token);
+    console.log("USER DATA:", userData);
+    
+    const params = new URLSearchParams({ page: page });
 
-    // Tambahkan search jika ada
-    if (search) {
-        params.append('search', search);
-    }
+    if (search) {
+        params.append('search', search);
+    }
 
-    // 👇 PERBAIKAN LOGIKA FILTER: Cek apakah classId adalah string yang BUKAN kosong
-    if (classId && typeof classId === 'string' && classId.trim() !== '') {
-        // Gunakan 'filter' sesuai dengan yang ada di API Anda
-        params.append('filter', encodeURIComponent(classId));
-    }
+    if (classId && typeof classId === 'string' && classId.trim() !== '') {
+        params.append('filter', classId.trim()); 
+    }
 
-    const url = `${API_BASE_URL}/counselor/attendance-permissions?${params.toString()}`;
+    const url = `${API_BASE_URL}/counselor/attendance-permissions?${params.toString()}`;
 
-    // Log URL yang terbentuk untuk debugging
-    console.log("URL Request:", url);
+    console.log("URL Request:", url);
 
-   try {
-    const res = await axios.get(url,
-
-        {
-            headers: {
-                Authorization:token ? `Bearer ${token}` : "",
-                Accept: "application/json"
-            }
-        }
-    );
-    console.log(" Data Verifikasi Izin dari API:", res.data);
-    return res.data;
-  } catch (err) {
-    console.error("gagal", err);
-    return {
-      data: [],
-            meta: { current_page: 1, last_page: 1, total: 0 }
-    };
-  }
+   try {
+    const res = await axios.get(url,
+        {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+                Accept: "application/json"
+            }
+        }
+    );
+    console.log("Data Verifikasi Izin dari API:", res.data);
+    return res.data;
+  } catch (err) {
+    console.error("gagal", err.response ? err.response.data : err.message);
+    notify('Gagal memuat data izin: ' + (err.response?.data?.message || err.message), 'error');
+    return {
+      data: [],
+      meta: { current_page: 1, last_page: 1, total: 0 }
+    };
+  }
 };
 
 // show

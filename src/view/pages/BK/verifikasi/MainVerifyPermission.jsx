@@ -93,14 +93,7 @@ export default function VerifyPermission() {
                 <Table  data={permissions} loading={loading} error={error} currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={handlePageChange} onAction={handleAction} />
             </div>
             {isModalOpen && selectedPermission && (
-                <DetailIzinModal 
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    loading={isLoadingDetail}
-                    permissionData={selectedPermission}
-                    onApprove={handleApprove} 
-                    onReject={handleReject}
-                />
+                <DetailIzinModal  isOpen={isModalOpen} onClose={closeModal} loading={isLoadingDetail} permissionData={selectedPermission} onApprove={handleApprove}  onReject={handleReject}/>
             )}
         </div>
     );
