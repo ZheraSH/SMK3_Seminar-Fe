@@ -1,6 +1,6 @@
 import { Trash2  } from "lucide-react";
 
-export default function TableAttendanceBk ({students,loading}) {
+export default function TableAttendanceBk ({students,loading,}) {
     if (loading) {
         return (
         <div className="p-4 md:p-8 text-center text-blue-600">
