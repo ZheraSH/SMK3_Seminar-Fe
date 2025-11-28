@@ -108,6 +108,9 @@ export default function Form({ onClassAdded, addClass, onError }) {
       setIsSubmitting(false);
     }
   };
+  const activeSchoolYears = schoolYears?.data
+    ? schoolYears.data.filter((year) => year.active === true)
+    : [];
 
   if (loadingMaster) return <div>Memuat...</div>;
 
@@ -165,7 +168,7 @@ export default function Form({ onClassAdded, addClass, onError }) {
           <Dropdown
             label="Tahun Ajaran"
             placeholder="Pilih Tahun Ajaran"
-            data={schoolYears?.data || []}
+            data={activeSchoolYears}
             value={schoolYearId}
             onChange={(val) => {
               setSchoolYearId(val);

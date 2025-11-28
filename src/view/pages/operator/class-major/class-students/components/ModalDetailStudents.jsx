@@ -52,36 +52,48 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
                 {!loading && student && (
                     <>
                         <div className="flex justify-center mb-6">
-                            <div className="w-24 h-24 bg-gray-200 rounded-full" />
+                            <div className="flex justify-center mb-6">
+                            {student.image ? (
+                                <img
+                                src={`http://127.0.0.1:8000/storage/${student.image}`}
+                                alt="Foto siswa"
+                                className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm mb-5"
+                                />
+                            ) : (
+                                <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
+                                No Image
+                                </div>
+                            )}
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-y-3 text-sm gap-x-6">
                             {/* Baris 1 */}
-                            <p><strong>Nama:</strong> {student.name || '-'}</p>
-                            <p><strong>NISN:</strong> {student.nisn || '-'}</p>
+                            <p>Nama:  {student.name || '-'}</p>
+                            <p>NISN:  {student.nisn || '-'}</p>
 
                             {/* Baris 2 */}
-                            <p><strong>Kelas:</strong> {student.classroom.name || (student.classroom?.name || '-')}</p> 
-                            <p><strong>Jenis Kelamin:</strong> {getGenderLabel(student.gender) || '-'}</p>
+                            <p>Kelas:  {student.classroom.name || (student.classroom?.name || '-')}</p> 
+                            <p>Jenis Kelamin:  {getGenderLabel(student.gender) || '-'}</p>
 
                             {/* Baris 3 */}
-                            <p><strong>Agama:</strong> {student.religion?.name || student.religion || '-'}</p>
-                            <p><strong>Tempat Lahir:</strong> {student.birth_place || '-'}</p>
+                            <p>Agama:  {student.religion?.name || student.religion || '-'}</p>
+                            <p>Tempat Lahir:  {student.birth_place || '-'}</p>
 
                             {/* Baris 4 */}
-                            <p><strong>Tanggal Lahir:</strong> {student.birth_date || '-'}</p>
-                            <p><strong>No KK:</strong> {student.number_kk || '-'}</p>
+                            <p>Tanggal Lahir:  {student.birth_date || '-'}</p>
+                            <p>No KK:  {student.number_kk || '-'}</p>
 
                             {/* Baris 5 */}
-                            <p><strong>No Akta:</strong> {student.number_akta|| '-'}</p>
-                            <p><strong>Anak Ke:</strong> {student.order_child || '-'}</p>
+                            <p>No Akta:  {student.number_akta|| '-'}</p>
+                            <p>Anak Ke:  {student.order_child || '-'}</p>
 
                             {/* Baris 6 */}
-                            <p><strong>Jumlah Saudara:</strong> {student.count_siblings || '-'}</p>
+                            <p>Jumlah Saudara:  {student.count_siblings || '-'}</p>
                         </div>
 
                         <div className="mt-5 text-sm flex flex-row gap-3">
-                            <strong>Alamat:</strong>
+                            Alamat: 
                             <p>{student.address || '-'}</p>
                         </div>
                     </>

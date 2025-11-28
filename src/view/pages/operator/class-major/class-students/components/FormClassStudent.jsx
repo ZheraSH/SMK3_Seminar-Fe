@@ -79,7 +79,7 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                                 : search
                             }
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Cari nama / NISN"
+                            placeholder="Cari nama "
                             className="w-full border p-2 rounded-lg pr-10"
                             onFocus={() => setDropdownOpen(true)}
                             readOnly={selectedStudents.length > 0} 

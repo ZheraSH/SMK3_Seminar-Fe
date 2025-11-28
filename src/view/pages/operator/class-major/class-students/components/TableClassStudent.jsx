@@ -8,7 +8,7 @@ const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
     if (!show) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-100">
             <div className="bg-white rounded-lg shadow-xl w-96 p-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-2">Konfirmasi Penghapusan</h3>
                 <p className="text-sm text-gray-700 mb-6">{message}</p>
@@ -148,8 +148,8 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
 
     return (
         <>
-            <div className="bg-white shadow-sm rounded-lg overflow-x-auto border border-gray-300 relative">
-                <table className="min-w-full divide-y divide-gray-200">
+            <div className="bg-white shadow-sm rounded-xl  border border-gray-300 relative">
+                <table className="min-w-full divide-y divide-gray-200 ">
                     <thead className="bg-[#3B82F6] text-white sticky top-0">
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No</th>
@@ -189,7 +189,7 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                                                 {data.status}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{data.rfid?.rfid || "Belum dapat rfid"}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{data.rfid?.rfid || "-"}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right">
                                             <div className="relative inline-block text-left">
                                                 <button className="p-1 text-gray-500 hover:text-gray-700" 
