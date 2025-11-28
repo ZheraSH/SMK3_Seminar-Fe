@@ -53,7 +53,6 @@ export default function useLessonHours(activeDayApi) {
 
       await loadLessonHours();
     } catch (error) {
-      alert("Gagal menghapus jam pelajaran. Silakan coba lagi.");
       console.error("Error deleting lesson hour:", error);
       throw error;
     }

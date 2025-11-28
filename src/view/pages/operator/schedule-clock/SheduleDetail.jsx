@@ -160,7 +160,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
             </div>
             
             <div className="bg-white p-6 rounded-xl shadow-lg">
-                <div className="overflow-x-auto rounded-md">
+                <div className=" rounded-md">
                     <table className="min-w-full divide-y divide-gray-200 border border-gray-200 ">
                         <thead className="bg-[#3B82F6] text-white">
                             <tr>
@@ -234,7 +234,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
                             ) : !isLoadingSchedule && ( 
                                 <tr>
                                     <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
-                                        Tidak ada jadwal pelajaran untuk hari **{activeDay}** ini.
+                                        Tidak ada jadwal pelajaran untuk hari {activeDay} ini.
                                     </td>
                                 </tr>
                             )}

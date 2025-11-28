@@ -3,7 +3,35 @@ import { Trash2 ,Plus} from 'lucide-react';
 import useLessonHours from '../../../../../Core/hooks/operator-hooks/schedule/useLessonShedule';
 import AddLessonHourModal from './FormLesson'; 
 
+const ResultModal = ({ show, status, title, message, onClose }) => {
+    if (!show) return null;
 
+    const isSuccess = status === 'success';
+    const bgColor = isSuccess ? 'bg-green-500' : 'bg-red-500';
+    const icon = isSuccess ? (
+        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+    ) : (
+        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    );
+
+    return (
+        <div className="fixed inset-0 bg-gray-600/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-xl w-96 p-6 text-center">
+                <div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full mb-4 ${bgColor}`}>
+                    {icon}
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 mb-2">{title}</h3>
+                <p className="text-sm text-gray-700 mb-6">{message}</p>
+                <button
+                    onClick={onClose}
+                    className="w-full px-4 py-2 text-sm rounded-lg text-white font-semibold bg-blue-600 hover:bg-blue-700 transition-colors"
+                >
+                    Tutup
+                </button>
+            </div>
+        </div>
+    );
+};
 
 const ConfirmModal = ({ show, message, onConfirm, onCancel, isProcessing }) => {
     if (!show) return null;
@@ -72,24 +100,39 @@ const ScheduleLayout = ({ mode,classScheduleData}) => {
     };
     
     const handleConfirmDelete = async () => {
-        const { id, name } = confirmModal;
+    const { id, name } = confirmModal;
 
-        if (!id) return;
+    if (!id) return;
 
-        setIsDeleting(true);
-        setConfirmModal({ show: false, id: null, name: '' }); 
-        try {
-            const result = await deleteLesson(id);
-            
-            setResultModal({ show: true, status: 'success', title: 'Berhasil Dihapus!'});
-            refetch(); 
-            
-        } catch (error) {
-            setResultModal({ show: true, status: 'error', title: 'Gagal Menghapus', });
-        } finally {
-            setIsDeleting(false);
+    setIsDeleting(true);
+    setConfirmModal({ show: false, id: null, name: '' }); 
+
+    try {
+        const result = await deleteLesson(id);
+        refetch(); 
+        
+    } catch (error) {
+        
+        let errorMessage = 'Data ini tidak dapat di hapus karena data ini sudah ada di jadwal.';
+        
+        // Asumsi API backend Anda mengirim detail error di `error.response.data.message`
+        if (error.response && error.response.data && error.response.data.message) {
+            errorMessage = error.response.data.message;
+        } else if (error.message && error.message.includes('409') || error.message.includes('relasi')) {
+             errorMessage = `Jam pelajaran ${name} tidak dapat dihapus karena sudah digunakan dalam Jadwal Pelajaran atau memiliki data relasi yang terikat.`;
         }
-    };
+        
+        setResultModal({ 
+            show: true, 
+            status: 'error', 
+            title: 'Peringatan.',
+            message: errorMessage // Tampilkan pesan error spesifik dari backend
+        });
+        
+    } finally {
+        setIsDeleting(false);
+    }
+};
     
     const handleCloseResultModal = () => {
         setResultModal({ show: false, status: '', title: ''});
@@ -148,7 +191,7 @@ const ScheduleLayout = ({ mode,classScheduleData}) => {
                             
                             {!isLoadingHours && dataForDisplay.length === 0 ? (
                                 <tr>
-                                    <td colSpan={tableHeaders.length} className="px-6 py-4 text-center text-gray-500">Tidak ada jam pelajaran yang diatur untuk hari **{activeDayIndo}**.</td>
+                                    <td colSpan={tableHeaders.length} className="px-6 py-4 text-center text-gray-500">Tidak ada jam pelajaran yang diatur untuk hari {activeDayIndo}.</td>
                                 </tr>
                             ) : (
                                 !isLoadingHours && dataForDisplay.map((slot, index) => (
@@ -186,13 +229,20 @@ const ScheduleLayout = ({ mode,classScheduleData}) => {
                     </div>
                 )}
             </div>
-            <AddLessonHourModal isVisible={isModalOpen} onClose={handleCloseModal} activeDay={activeDayApi} onSuccessfulSubmit={refetch} addLesson={addLesson}/>
+            <AddLessonHourModal isVisible={isModalOpen} onClose={handleCloseModal} activeDay={activeDayApi} activeDayDisplay={activeDayIndo} onSuccessfulSubmit={refetch} addLesson={addLesson}/>
             <ConfirmModal
                 show={confirmModal.show}
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setConfirmModal({ show: false, id: null, name: '' })}
                 isProcessing={isDeleting}
             />
+            <ResultModal
+            show={resultModal.show}
+            status={resultModal.status}
+            title={resultModal.title}
+            message={resultModal.message}
+            onClose={handleCloseResultModal}
+        />
 
         </div>
     );
