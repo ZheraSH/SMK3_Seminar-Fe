@@ -25,7 +25,7 @@ export const TeacherTable = ({
           <th className="px-4 py-3 text-left font-medium border-r border-[#3B82F6]">
             Maple
           </th>
-          <th className="px-4 py-3 text-left font-medium border-r border-[#3B82F6]">
+          <th className="pr-4 py-3 text-left font-medium border-r border-[#3B82F6]">
             Roles
           </th>
           <th className="px-4 py-3 text-center font-medium">Aksi</th>
