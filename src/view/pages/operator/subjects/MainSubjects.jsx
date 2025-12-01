@@ -5,13 +5,13 @@ import {
   addSubject,
   updateSubject,
   deleteSubject,
-} from "../../../../../Core/api/role-operator/subjects/Subjects";
+} from "../../../../Core/api/role-operator/subjects/Subjects";
 
-import { SubjectModal } from "./SubjectModal";
-import { SearchBar } from "./SearchBar";
-import { Pagination } from "./Pagination";
-import { SubjectCard } from "./SubjectCard";
-import useSubjects from "../../../../../Core/hooks/operator-hooks/subjects/useSubjects";
+import { SubjectModal } from "./components/SubjectModal";
+import { SearchBar } from "./components/SearchBar";
+import { Pagination } from "./components/Pagination";
+import { SubjectCard } from "./components/SubjectCard";
+import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
 
 export default function MainMaple() {
   const {
