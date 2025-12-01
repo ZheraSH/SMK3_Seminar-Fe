@@ -1,17 +1,76 @@
-"use client"
+"use client";
 
-export function Pagination({ currentPage, totalPages, onPrevious, onNext }) {
+export function Pagination({ currentPage, totalPages, onPrevious, onNext, onPageClick }) {
+  const renderPages = () => {
+    const pages = [];
+
+    pages.push(1);
+
+    if (currentPage > 3) {
+      pages.push("...");
+    }
+
+    for (
+      let p = Math.max(2, currentPage - 1);
+      p <= Math.min(totalPages - 1, currentPage + 1);
+      p++
+    ) {
+      if (!pages.includes(p)) {
+        pages.push(p);
+      }
+    }
+
+    if (currentPage < totalPages - 2) {
+      pages.push("...");
+    }
+
+    if (totalPages > 1 && !pages.includes(totalPages)) {
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
+
   return (
-    <div className="flex justify-center mt-6 items-center gap-4">
-      <button onClick={onPrevious} disabled={currentPage === 1} className="px-3 py-1 rounded disabled:opacity-50">
+    <div className="flex justify-center mt-6 items-center gap-2">
+      {/* PREV */}
+      <button
+        onClick={onPrevious}
+        disabled={currentPage === 1}
+        className="px-2 py-1 text-gray-500 disabled:opacity-40"
+      >
         &lt;
       </button>
 
-      <span className="text-white font-light bg-blue-600 px-3 py-1 rounded">{currentPage}</span>
+      {/* PAGE BUTTONS */}
+      {renderPages().map((p, i) =>
+        p === "..." ? (
+          <span key={i} className="px-2 text-gray-500">
+            …
+          </span>
+        ) : (
+          <button
+            key={i}
+            onClick={() => onPageClick(p)}
+            className={`px-3 py-1 rounded ${
+              p === currentPage
+                ? "bg-blue-600 text-white"
+                : "text-blue-600 hover:bg-blue-100"
+            }`}
+          >
+            {p}
+          </button>
+        )
+      )}
 
-      <button onClick={onNext} disabled={currentPage === totalPages} className="disabled:opacity-50">
+      {/* NEXT */}
+      <button
+        onClick={onNext}
+        disabled={currentPage === totalPages}
+        className="px-2 py-1 text-gray-500 disabled:opacity-40"
+      >
         &gt;
       </button>
     </div>
-  )
+  );
 }
