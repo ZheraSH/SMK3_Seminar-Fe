@@ -8,6 +8,7 @@ import { PermissionDetailModal } from "./components/PermissionDetailModal";
 import { usePermissions } from "../../../../Core/hooks/role-student/permission-student/PermissionStudent";
 import { PaginationPermissionStudent } from "./components/PermissionPagination";
 import HeaderPage from "../../../components/elements/header/Header.Page";
+import { PermissionCardsSection } from "./components/PermissionCardsSection";
 
 export default function PermissionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +34,7 @@ export default function PermissionManagement() {
 
     try {
       const result = await handleSubmit(formData);
-      
+
       if (result.success) {
         // Jika sukses, reset form dan tutup modal
         setFormData({
@@ -52,8 +53,8 @@ export default function PermissionManagement() {
     } catch (err) {
       // Handle error umum
       console.error("Error submitting form:", err);
-      setFormErrors({ 
-        general: ["Terjadi kesalahan. Silakan coba lagi."] 
+      setFormErrors({
+        general: ["Terjadi kesalahan. Silakan coba lagi."],
       });
     } finally {
       setIsSubmitting(false);
@@ -85,7 +86,6 @@ export default function PermissionManagement() {
     setIsModalOpen(true);
   };
 
-
   const recentPermissions = [...permissions]
     .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
     .slice(0, 3);
@@ -96,7 +96,7 @@ export default function PermissionManagement() {
         h1="Izin & Riwayat Izin"
         p="Ajukan izin kehadiran dan pantau status persetujuannya secara langsung."
       />
-      
+
       {/* Header */}
       <div className="border border-gray-300 p-2 rounded-2xl shadow-lg mb-5">
         <div className="flex justify-between items-center mx-4">
@@ -148,7 +148,18 @@ export default function PermissionManagement() {
 
       {permissions.length === 0 && !loading && (
         <div className="text-center py-12 text-gray-500">
-          <p>Belum ada data izin. Buat izin baru untuk memulai.</p>
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-[350px] h-[320px] mb-6 flex items-center">
+              <img
+                src="../../../../images/people/10.png"
+                alt="Empty state"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <p className="text-gray-500 text-center text-sm">
+              Belum ada izin yang dikiukan, klik tombol buat izin untuk memulai.
+            </p>
+          </div>
         </div>
       )}
 
@@ -162,7 +173,7 @@ export default function PermissionManagement() {
         errors={formErrors}
         isSubmitting={isSubmitting}
       />
-      
+
       <PermissionDetailModal
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}

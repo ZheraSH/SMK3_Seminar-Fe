@@ -7,25 +7,33 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+        
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900">Detail Izin</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <X size={22} />
           </button>
         </div>
 
         {/* Body */}
         <div className="space-y-2.5 text-sm">
-          <img
-            src={permission.proof}
-            alt="Foto bukti"
-            className="w-full h-28 rounded-[5px] object-cover border border-gray-300 shadow-sm mb-5 bg-gray-300"
-          />
-          <p className="text-[16px] font-medium ">Informasi Siswa</p>
+
+          {/* FOTO — sekarang bisa diklik */}
+          <a
+            href={permission.proof}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={permission.proof}
+              alt="Foto bukti"
+              className="w-full h-28 rounded-[5px] object-cover border border-gray-300 shadow-sm mb-5 bg-gray-300 cursor-pointer hover:opacity-90 transition"
+            />
+          </a>
+
+          <p className="text-[16px] font-medium">Informasi Siswa</p>
+
           <p>
             <span className="text-[14px]">Nama :</span>{" "}
             <span className="p-5">:</span>
@@ -35,20 +43,21 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
           <p>
             <span className="text-[14px]">Kelas :</span>{" "}
             <span className="p-5">:</span>
-            <span className="">{permission.kelas || "-"}</span>
+            <span>{permission.kelas || "-"}</span>
           </p>
-          <p className="text-[16px] font-medium ">Informasi Izin</p>
+
+          <p className="text-[16px] font-medium">Informasi Izin</p>
 
           <p>
             <span className="text-[14px]">Jenis Izin :</span>{" "}
             <span className="p-5">:</span>
-            <span className="">{permission.type_label}</span>
-            
+            <span>{permission.type_label}</span>
           </p>
+
           <p>
             <span className="text-[14px]">Tanggal Mulai</span>{" "}
             <span className="p-5">:</span>
-            <span className="">{permission.start_date}</span>
+            <span>{permission.start_date}</span>
           </p>
 
           <p>
