@@ -1,11 +1,12 @@
 "use client";
-import { Search, Plus } from 'lucide-react';
+import { Search, Plus } from "lucide-react";
 
 export function RfidSearchBar({ search, onSearchChange, onAddClick }) {
   return (
-    <div className="flex my-7">
-      <div className="flex items-center w-[322px] h-[40px] sm:w-[320px] border border-gray-500 rounded-full px-3 py-2 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-2 flex-shrink-0">
-        <Search size={20} className="text-black flex-shrink-0" />
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between my-7 gap-4">
+      {/* SEARCH BOX */}
+      <div className="flex items-center w-full sm:w-[320px] h-[40px] border border-gray-500 rounded-full px-3 py-2 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-2">
+        <Search size={20} className="text-black" />
         <input
           type="text"
           placeholder="Cari Nama/NISN"
@@ -14,12 +15,13 @@ export function RfidSearchBar({ search, onSearchChange, onAddClick }) {
           className="w-full outline-none text-[14px] bg-transparent placeholder:text-black"
         />
       </div>
-      <div className="flex-2"></div>
+
+      {/* TOMBOL ADD */}
       <button
         onClick={onAddClick}
-        className="flex items-center bg-[#3B82F6] text-white px-4 rounded-[12px] w-[155px] h-[44px] shadow hover:bg-blue-700"
+        className="flex items-center justify-center bg-[#3B82F6] text-white px-2 rounded-[12px] w-full sm:w-[160px] h-[44px] shadow hover:bg-blue-700"
       >
-        <Plus size={15} /> <p className="text-[14px] font-medium "></p>
+        <Plus size={15} className="mr-2" />
         Tambah RFID
       </button>
     </div>

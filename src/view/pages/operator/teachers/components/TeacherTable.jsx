@@ -10,66 +10,82 @@ export const TeacherTable = ({
   handleDelete,
 }) => {
   return (
-    <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-      <thead>
-        <tr className="bg-[#3B82F6] text-white text-sm">
-          <th
-            className="px-4 py-3 text-left font-medium border-r border-[#3B82F6]"
-            colSpan={2}
-          >
-            Nama
-          </th>
-          <th className="px-4 py-3 text-left font-medium border-r border-[#3B82F6]">
-            NIP
-          </th>
-          <th className="px-4 py-3 text-left font-medium border-r border-[#3B82F6]">
-            Maple
-          </th>
-          <th className="pr-4 py-3 text-left font-medium border-r border-[#3B82F6]">
-            Roles
-          </th>
-          <th className="px-4 py-3 text-center font-medium">Aksi</th>
-        </tr>
-      </thead>
+    <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr className="bg-[#3B82F6] text-white text-sm">
 
-      <tbody className="text-sm text-gray-700">
-        {currentTeachers.length > 0 ? (
-          currentTeachers.map((teacher) => (
-            <tr
-              key={teacher.id}
-              className="border-t border-gray-200 hover:bg-gray-50 transition"
-            >
-              <td className="pl-4 py-3 text-center">
-                <img
-                  src={teacher.image}
-                  alt={teacher.name}
-                  className="border border-gray-500 rounded-full w-[38px] h-[38px] object-cover"
-                />
-              </td>
-              <td className="py-3">
-                <div className="flex flex-col">
-                  <span className="font-medium text-gray-800">
-                    {teacher.name}
-                  </span>
-                  <span className="text-gray-600 text-[12px] font-light">
-                    {teacher.gender}
-                  </span>
-                </div>
-              </td>
+            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6]">
+              Foto
+            </th>
 
-              <td className="px-4 py-3 font-medium">{teacher.NIP}</td>
-              <td className="px-4 py-3 font-medium">
-                {teacher.subjects?.[0]?.name || "-"}
-              </td>
+            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6]">
+              Nama
+            </th>
 
-              <td>
-                {Array.isArray(teacher.roles)
-                  ? teacher.roles.map((r) => r.label).join(", ")
-                  : teacher.roles?.label || teacher.roles?.value || "-"}
-              </td>
+            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6] hidden sm:table-cell">
+              NIP
+            </th>
 
-              <td className="px-4 py-3 text-center">
-                <div className="relative inline-block text-left">
+            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6] hidden sm:table-cell">
+              Mapel
+            </th>
+
+            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6] hidden md:table-cell">
+              Roles
+            </th>
+
+            <th className="px-4 py-3 text-center font-medium">Aksi</th>
+          </tr>
+        </thead>
+
+        <tbody className="text-sm text-gray-800">
+          {currentTeachers.length > 0 ? (
+            currentTeachers.map((teacher) => (
+              <tr
+                key={teacher.id}
+                className="border-t border-gray-200 hover:bg-gray-50 transition"
+              >
+                {/* FOTO */}
+                <td className="px-4 py-3 text-center">
+                  <img
+                    src={teacher.image}
+                    alt={teacher.name}
+                    className="border border-gray-400 rounded-full w-[38px] h-[38px] object-cover"
+                  />
+                </td>
+
+                {/* NAMA */}
+                <td className="px-4 py-3">
+                  <div className="flex flex-col max-w-[140px]">
+                    <span className="font-medium truncate">
+                      {teacher.name}
+                    </span>
+                    <span className="text-[12px] text-gray-600">
+                      {teacher.gender}
+                    </span>
+                  </div>
+                </td>
+
+                {/* NIP */}
+                <td className="px-4 py-3 font-medium hidden sm:table-cell whitespace-nowrap truncate max-w-[140px]">
+                  {teacher.NIP}
+                </td>
+
+                {/* MAPEL */}
+                <td className="px-4 py-3 font-medium hidden sm:table-cell whitespace-nowrap truncate max-w-[160px]">
+                  {teacher.subjects?.[0]?.name || "-"}
+                </td>
+
+                {/* ROLES */}
+                <td className="px-4 py-3 hidden md:table-cell whitespace-nowrap truncate max-w-[160px]">
+                  {Array.isArray(teacher.roles)
+                    ? teacher.roles.map((r) => r.label).join(", ")
+                    : teacher.roles?.label || teacher.roles?.value || "-"}
+                </td>
+
+                {/* ACTION */}
+                <td className="px-4 py-3 text-center relative whitespace-nowrap">
                   <button
                     onClick={() =>
                       setOpenItemId(
@@ -81,14 +97,15 @@ export const TeacherTable = ({
                     <i className="fa-solid fa-ellipsis-vertical text-lg"></i>
                   </button>
 
+                  {/* DROPDOWN */}
                   {openItemId === teacher.id && (
-                    <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
+                    <div className="absolute right-0 top-10 w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
                       <button
                         onClick={() => {
                           handleDetail(teacher);
                           setOpenItemId(null);
                         }}
-                        className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
                       >
                         <Eye className="w-4 h-4 text-blue-500 mr-2" />
                         Detail
@@ -99,7 +116,7 @@ export const TeacherTable = ({
                           handleEdit(teacher);
                           setOpenItemId(null);
                         }}
-                        className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
                       >
                         <Edit3 className="w-4 h-4 text-yellow-500 mr-2" />
                         Edit
@@ -110,25 +127,28 @@ export const TeacherTable = ({
                           handleDelete(teacher.id);
                           setOpenItemId(null);
                         }}
-                        className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
                       >
                         <Trash2 className="w-4 h-4 text-red-500 mr-2" />
                         Hapus
                       </button>
                     </div>
                   )}
-                </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan="6"
+                className="text-center py-5 text-gray-500"
+              >
+                Tidak ada data guru
               </td>
             </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="7" className="text-center py-5 text-gray-500">
-              Tidak ada data guru
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };

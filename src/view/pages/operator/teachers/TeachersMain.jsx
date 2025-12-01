@@ -43,9 +43,7 @@ export const TeacherMain = () => {
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors] = useState({});
 
-  // ================================
-  // FILTER HOOK
-  // ================================
+  // FILTER
   const {
     searchTerm,
     setSearchTerm,
@@ -60,14 +58,10 @@ export const TeacherMain = () => {
     filterTeachers,
   } = useTeacherFilters();
 
-  // ================================
-  // PAGINATION HOOK (SOURCE DATA)
-  // ================================
+  // PAGINATION DATA
   const { Teacher, meta, page, setPage, reload } = useTeacher();
 
-  // ================================
-  // FETCH RELIGION ONLY
-  // ================================
+  // FETCH RELIGIONS
   useEffect(() => {
     const loadReligions = async () => {
       const data = await fetchReligionsApi();
@@ -76,9 +70,7 @@ export const TeacherMain = () => {
     loadReligions();
   }, []);
 
-  // ================================
   // INPUT HANDLER
-  // ================================
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
 
@@ -96,9 +88,7 @@ export const TeacherMain = () => {
     });
   };
 
-  // ================================
-  // SUBMIT (ADD / EDIT)
-  // ================================
+  // SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -115,7 +105,6 @@ export const TeacherMain = () => {
       return;
     }
 
-    // Reset form
     setErrors({});
     setPost({
       name: "",
@@ -134,14 +123,10 @@ export const TeacherMain = () => {
 
     setEditingId(null);
     setIsOpen(false);
-
-    // ==== THIS IS WHAT FIX YOUR ISSUE ====
-    reload(); // ambil ulang dari API (sinkron)
+    reload();
   };
 
-  // ================================
   // EDIT
-  // ================================
   const handleEdit = (teacher) => {
     setPost({
       name: teacher.name || "",
@@ -164,25 +149,19 @@ export const TeacherMain = () => {
     setIsOpen(true);
   };
 
-  // ================================
   // DETAIL
-  // ================================
   const handleDetail = (teacher) => {
     setSelectedTeacher(teacher);
     setIsDetailOpen(true);
   };
 
-  // ================================
   // DELETE
-  // ================================
   const handleDelete = async (id) => {
     const ok = await deleteTeacherApi(id);
     if (ok) reload();
   };
 
-  // ================================
-  // ADD NEW BTN
-  // ================================
+  // ADD NEW
   const handleAddNewTeacher = () => {
     setEditingId(null);
     setPost({
@@ -204,9 +183,13 @@ export const TeacherMain = () => {
 
   return (
     <div className="p-6">
-
-      {/* SEARCH + FILTER + ADD */}
-      <div className="flex justify-between items-center mb-5 gap-5">
+      {/* SEARCH + FILTER + ADD (RESPONSIVE FIXED) */}
+      <div
+        className="
+          flex flex-col gap-3 mb-5
+          sm:flex-row sm:items-center sm:justify-between sm:gap-5
+        "
+      >
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
         <FilterDropdown
@@ -230,7 +213,15 @@ export const TeacherMain = () => {
 
         <button
           onClick={handleAddNewTeacher}
-          className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap flex-shrink-0 w-[140px] flex items-center justify-center gap-1"
+          className="
+    bg-[#3B82F6]
+    w-full              /* mobile: full */
+    sm:w-auto           /* desktop: auto */
+    text-white px-4 py-2 rounded-[6px]
+    hover:bg-blue-700 transition text-sm font-medium
+    whitespace-nowrap flex-shrink-0
+    flex items-center justify-center gap-1
+  "
         >
           <span>+</span>
           Tambah Data
@@ -250,7 +241,7 @@ export const TeacherMain = () => {
         handleSubmit={handleSubmit}
       />
 
-      {/* TABLE LIST */}
+      {/* TABLE */}
       <TeacherTable
         currentTeachers={filterTeachers(Teacher)}
         openItemId={openItemId}

@@ -147,7 +147,7 @@ export default function MainMaple() {
         />
 
         {/* CARD GRID */}
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredSubjects.map((subject, index) => (
             <SubjectCard
               key={subject.id || index}
