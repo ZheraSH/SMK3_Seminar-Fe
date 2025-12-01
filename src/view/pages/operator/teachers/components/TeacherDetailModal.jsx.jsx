@@ -38,7 +38,7 @@ export const DetailModal = ({ isDetailOpen, selectedTeacher, setIsDetailOpen }) 
             </p>
             <p>
               <span className="font-medium">Agama :</span>{" "}
-              {selectedTeacher.religion?.name || "-"}
+              {selectedTeacher.religion || "-"}
             </p>
             <p>
               <span className="font-medium">Tanggal Lahir :</span>{" "}
@@ -57,11 +57,8 @@ export const DetailModal = ({ isDetailOpen, selectedTeacher, setIsDetailOpen }) 
             </p>
             <p>
               <span className="font-medium">Jenis Kelamin :</span>{" "}
-              {selectedTeacher.gender === "male"
-                ? "Laki - laki"
-                : selectedTeacher.gender === "female"
-                ? "Perempuan"
-                : "-"}
+              {selectedTeacher.gender || "-"}
+                
             </p>
             <p>
               <span className="font-medium">Tempat Lahir :</span>{" "}
