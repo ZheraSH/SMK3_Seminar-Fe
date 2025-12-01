@@ -21,19 +21,19 @@ export function StudentsTable({
             <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
               No
             </th>
-            <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
               Nama
             </th>
-            <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
               NISN
             </th>
-            <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
               Kelas
             </th>
-            <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
               Tahun Ajaran
             </th>
-            <th className="px-4 py-3 text-left font-semibold border-r border-[#3B82F6]">
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
               RFID
             </th>
             <th className="px-4 py-3 text-center font-semibold">Aksi</th>
@@ -50,18 +50,18 @@ export function StudentsTable({
                 <td className="px-4 py-5 text-center">
                   {startIndex + index + 1}
                 </td>
-                <td className="px-4 py-5">{student.name}</td>
-                <td className="px-4 py-5">{student.nisn}</td>
-                <td className="px-4 py-5">{student.classroom.name || "-"}</td>
-                <td className="px-4 py-5">
+                <td className="px-4 py-5 text-center  ">{student.name}</td>
+                <td className="px-4 py-5 text-center  ">{student.nisn}</td>
+                <td className="px-4 py-5 text-center  ">{student.classroom.name || "-"}</td>
+                <td className="px-4 py-5 text-center  ">
                   {student.classroom.schoolyear || "-"}
                 </td>
 
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 text-center">
                   {student.rfid ? (
                     <input
                       type="text"
-                      value={student.rfid.rfid}
+                      value={student.rfid.rfid || "-"}
                       disabled
                       className=" rounded-md px-2 py-1 w-[100px] text-center text-gray-600"
                     />
