@@ -31,7 +31,10 @@ export const TeacherForm = ({
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Nama Lengkap *
+              <p>
+                {" "}
+                Nama Lengkap <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -49,7 +52,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Email *
+              <p>
+                {" "}
+                Email <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -67,7 +73,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Foto
+              <p>
+                {" "}
+                Foto <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               type="file"
@@ -82,7 +91,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Jenis Kelamin *
+              <p>
+                {" "}
+                Jenis Kelamin <span className="text-red-500">*</span>
+              </p>
             </label>
             <select
               name="gender"
@@ -103,7 +115,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              NIK *
+              <p>
+                {" "}
+                NIK <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -122,7 +137,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              NIP *
+              <p>
+                {" "}
+                NIP <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -141,7 +159,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Tempat Lahir *
+              <p>
+                {" "}
+                Tempat Lahir <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -161,7 +182,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Tanggal Lahir *
+              <p>
+                {" "}
+                Tanggal Lahir <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -207,7 +231,10 @@ export const TeacherForm = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Nomer Telfon *
+              <p>
+                {" "}
+                Nomer Telfon <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -226,6 +253,12 @@ export const TeacherForm = ({
             )}
           </div>
           <div className="relative">
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Pilih Role <span className="text-red-500">*</span>
+              </p>
+            </label>
             {/* BUTTON DROPDOWN */}
             <button
               type="button"
@@ -279,7 +312,10 @@ export const TeacherForm = ({
 
           <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-600">
-              Alamat *
+              <p>
+                {" "}
+                Alamat <span className="text-red-500">*</span>
+              </p>
             </label>
             <textarea
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
