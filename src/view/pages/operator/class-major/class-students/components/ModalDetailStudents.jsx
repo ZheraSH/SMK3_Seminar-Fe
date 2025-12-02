@@ -2,17 +2,14 @@
 
 import { X } from "lucide-react";
 
-// Tambahkan prop 'loading'
 export default function ModalDetailStudent({ open, onClose, student, loading }) {
     if (!open) return null;
 
     const getGenderLabel = (genderCode) => {
         if (!genderCode) return '-';
-        // Asumsi API mengembalikan label/deskripsi, jika hanya L/P, gunakan ternary:
         return genderCode === 'L' ? 'Laki-laki' : genderCode === 'P' ? 'Perempuan' : genderCode;
     };
     
-    // Tampilkan pesan error jika ada
     if (student?.error) {
         return (
              <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
@@ -27,20 +24,10 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
 
     return (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white w-[699px] rounded-xl p-8 shadow-xl relative animate-fadeIn">
+            <div className="bg-white w-[699px] rounded-xl p-8 shadow-xl relative animate-fadeIn mx-3">
+                <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"> <X size={26} /></button>
+                <h2 className="text-xl mb-2 pb-2"> Detail Siswa</h2>
 
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-                >
-                    <X size={26} />
-                </button>
-
-                <h2 className="text-xl mb-2 pb-2">
-                    Detail Siswa
-                </h2>
-                
-                {/* Tampilan Loading */}
                 {loading && (
                     <div className="flex flex-col items-center justify-center h-64">
                         <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -48,17 +35,12 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
                     </div>
                 )}
 
-                {/* Tampilan Data Detail */}
                 {!loading && student && (
                     <>
                         <div className="flex justify-center mb-6">
                             <div className="flex justify-center mb-6">
                             {student.image ? (
-                                <img
-                                src={`http://127.0.0.1:8000/storage/${student.image}`}
-                                alt="Foto siswa"
-                                className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm mb-5"
-                                />
+                                <img src={`http://127.0.0.1:8000/storage/${student.image}`} alt="Foto siswa" className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm mb-5"/>
                             ) : (
                                 <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
                                 No Image
@@ -68,27 +50,16 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
                         </div>
 
                         <div className="grid grid-cols-2 gap-y-3 text-sm gap-x-6">
-                            {/* Baris 1 */}
                             <p>Nama:  {student.name || '-'}</p>
                             <p>NISN:  {student.nisn || '-'}</p>
-
-                            {/* Baris 2 */}
                             <p>Kelas:  {student.classroom.name || (student.classroom?.name || '-')}</p> 
                             <p>Jenis Kelamin:  {getGenderLabel(student.gender) || '-'}</p>
-
-                            {/* Baris 3 */}
                             <p>Agama:  {student.religion?.name || student.religion || '-'}</p>
                             <p>Tempat Lahir:  {student.birth_place || '-'}</p>
-
-                            {/* Baris 4 */}
                             <p>Tanggal Lahir:  {student.birth_date || '-'}</p>
                             <p>No KK:  {student.number_kk || '-'}</p>
-
-                            {/* Baris 5 */}
                             <p>No Akta:  {student.number_akta|| '-'}</p>
                             <p>Anak Ke:  {student.order_child || '-'}</p>
-
-                            {/* Baris 6 */}
                             <p>Jumlah Saudara:  {student.count_siblings || '-'}</p>
                         </div>
 
@@ -98,13 +69,7 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
                         </div>
                     </>
                 )}
-                
-                <button
-                    onClick={onClose}
-                    className="mt-8 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 block mx-auto"
-                >
-                    Tutup
-                </button>
+                <button onClick={onClose} className="mt-8 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 block mx-auto"> Tutup </button>
             </div>
         </div>
     );

@@ -118,7 +118,7 @@ export default function Form({ onClassAdded, addClass, onError }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
         <Dropdown
           label="Tingkatan"
           placeholder="Pilih Tingkatan"
@@ -164,7 +164,7 @@ export default function Form({ onClassAdded, addClass, onError }) {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 col-span-3 w-full">
+        <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
           <Dropdown
             label="Tahun Ajaran"
             placeholder="Pilih Tahun Ajaran"

@@ -8,13 +8,13 @@ const ClassCard = ({ classData }) => {
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-md p-5 flex flex-col justify-between transition duration-300 hover:shadow-lg">
       <div className="flex justify-between items-start mb-4">
-        <div className="flex items-center space-x-2 text-white bg-[#3B82F6] px-3 rounded-lg">
+        <div className="flex items-center lg:space-x-2  text-white bg-[#3B82F6] px-3 rounded-lg">
           <div className="p-2 ">
             <GraduationCap className="w-5 h-5 " />
           </div>
-          <h3 className="text-sm font-semibold">{classData.name}</h3>
+          <h3 className="lg:text-sm md:text-[14px]  font-semibold">{classData.name}</h3>
         </div>
-        <span className="text-sm font-medium text-gray-500 mt-2">{schoolYear}</span>
+        <span className="lg:text-sm md:text-[14px] font-medium text-gray-500 mt-2">{schoolYear}</span>
         
       </div>
 

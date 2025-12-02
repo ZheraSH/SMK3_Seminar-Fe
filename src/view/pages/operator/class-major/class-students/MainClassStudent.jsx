@@ -10,15 +10,15 @@ function ModalAddStudent({ open, onClose, classroom, availableStudents, addStude
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl w-[418px] shadow-xl p-6 animate-scaleIn relative">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"> 
+            <div className="bg-white rounded-xl w-full max-w-lg sm:w-[418px] shadow-2xl p-6 animate-scaleIn relative">
 
-                <button className="absolute right-6 top-6 text-gray-600" onClick={onClose}>
-                    <X size={26} className='text-gray-300' />
+                <button className="absolute right-4 top-4 text-gray-600" onClick={onClose}>
+                    <X size={24} className='text-gray-400 hover:text-gray-600' />
                 </button>
 
-                <h2 className="text-start text-lg font-semibold mb-4">
-                    Tambah Siswa Ke Kelas <br /> <span>“ {classroom?.name} ”</span>
+                <h2 className="text-start text-lg font-semibold mb-4 pr-10">
+                    Tambah Siswa Ke Kelas <br /> <span className='text-xl  font-bold'>“ {classroom?.name} ”</span>
                 </h2>
                 <FormStudents classroom={classroom} onClose={onClose} availableStudents={availableStudents} addStudents={addStudents} />
             </div>
@@ -68,15 +68,33 @@ const ClassStudents = () => {
         fetchAvailableStudents();
     };
 
+const BackButton = () => (
+        <button 
+            onClick={() => navigate(-1)} 
+            className="flex items-center px-4 md:py-2 border border-[#FF5E53] rounded-lg transition duration-150 md:text-sm text-[14px] text-[#FF5E53] gap-2 shadow-md"
+        >
+            <ArrowLeft size={16}/> Kembali
+        </button>
+    );
 
-    if (loading && !classroom) return <div className="p-10">Loading Detail Kelas...</div>;
-    if (!classroom) return <div>Data Kelas Tidak Ditemukan</div>;
-
+     if (loading && !classroom) return <div className="p-10">Loading Detail Kelas...</div>;
+    
+     if (!classroom) {
+        return (
+            <div className="p-10">
+                <div className='flex justify-between items-center mb-6'>
+                    <h2 className='text-xl font-bold text-red-500'>Data Kelas Tidak Ditemukan</h2>
+                    <BackButton />
+                </div>
+                <p className='text-gray-600'>ID kelas yang diminta mungkin tidak valid atau sudah dihapus.</p>
+            </div>
+        );
+    }
 
     return (
         <>
-            <div className="min-h-screen p-8">
-                <div className="max-w-7xl mx-auto">
+            <div className="min-h-screen p-4">
+                <div className="md:max-w-7xl w-full mx-auto md:mb-2 mb-32">
                     <div className="relative w-full h-[142px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
                         <div className="flex justify-between items-center mb-6 text-white">
                             <div>
@@ -103,25 +121,23 @@ const ClassStudents = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between space-x-4 pt-4">
-                        <div className="relative flex-grow max-w-sm">
+                    <div className="flex items-center justify-between md:space-x-4 pt-4 md:flex-row flex-col">
+                        <div className="relative flex-grow md:max-w-sm w-full">
                             <input type="text" placeholder="Cari Nama/NISN" value={search} 
-                                onChange={(e) => setSearch(e.target.value)} // Mengatur state search
+                                onChange={(e) => setSearch(e.target.value)}
                                 className="w-full py-2 pl-10 pr-4 rounded-full text-gray-700 border border-gray-800 "
                             />
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-700" />
                         </div>
 
-                        <div className="flex space-x-3">
-                            <button onClick={handleSync} className="flex items-center px-4 py-2 bg-[#FACC15] rounded-lg transition duration-150 text-sm text-white gap-2 shadow-md">
+                        <div className="flex space-x-3 md:mt-0 mt-4">
+                            <button onClick={handleSync} className="flex items-center px-4 md:py-2 bg-[#FACC15] rounded-lg transition duration-150 md:text-sm text-[14px] text-white gap-2 shadow-md">
                                 <RefreshCw size={16}/> Sync
                             </button>
-                            <button onClick={() => setOpenModal(true)} className="flex items-center px-4 py-2 bg-[#3B82F6] rounded-lg transition duration-150 text-sm text-white gap-2 shadow-md">
+                            <button onClick={() => setOpenModal(true)} className="flex items-center px-4 md:py-2 bg-[#3B82F6] rounded-lg transition duration-150 md:text-sm text-[14px] text-white gap-2 shadow-md">
                                 <Plus size={16}/> Tambah Siswa
                             </button>
-                            <button onClick={() => navigate(-1)} className="flex items-center px-4 py-2 border border-[#FF5E53] rounded-lg transition duration-150 text-sm text-[#FF5E53] gap-2 shadow-md">
-                                <ArrowLeft size={16}/> Kembali
-                            </button>
+                           <BackButton />
                         </div>
                     </div>
 
