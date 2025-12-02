@@ -37,7 +37,7 @@ export const LayouthTeacher = () => {
         <div
           className={`fixed top-0 left-0 h-full w-[250px] bg-[#1E3A8A] text-white transform transition-transform duration-300 z-40
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-            md:translate-x-0`}
+            lg:translate-x-0`}
         >
           {/* Logo */}
           <div className="flex justify-center items-center px-10 gap-3 py-6 ">
@@ -87,15 +87,15 @@ export const LayouthTeacher = () => {
         {/* Overlay untuk mobile */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-30 md:hidden"
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           ></div>
         )}
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col md:ml-[250px] h-full overflow-y-auto">
+        <div className="flex-1 flex flex-col lg:ml-[250px] h-full overflow-y-auto ">
           {/* Navbar atas (mobile only) */}
-          <div className="flex items-center justify-between bg-white shadow-sm p-4 md:hidden">
+          <div className="flex items-center justify-between mb-5 bg-white shadow-sm p-4 lg:hidden">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="text-[#1E3A8A] p-2"
@@ -107,7 +107,7 @@ export const LayouthTeacher = () => {
           </div>
 
           {/* Isi Dashboard */}
-          <main className="flex-1 overflow-y-auto">
+          <main className="flex-1 overflow-y-auto w-full">
             <MainDashboard />
             <Outlet />
           </main>
