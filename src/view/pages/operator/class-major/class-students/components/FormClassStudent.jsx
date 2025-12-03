@@ -82,7 +82,7 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                     <div className="relative mt-1">
                         <input type="text"
                             value={
-                                selectedStudents.length > 0
+                               !dropdownOpen && search === "" && selectedStudents.length > 0
                                 ? `${selectedStudents.length} siswa dipilih`
                                 : search
                             }
@@ -92,7 +92,6 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                                 isError ? "border-red-500 ring-1 ring-red-500" : "border-gray-300"
                             }`}
                             onFocus={() => { setDropdownOpen(true); setFormError(""); }} // Hapus error saat fokus
-                            readOnly={selectedStudents.length > 0} 
                         />
 
                         <ChevronRight

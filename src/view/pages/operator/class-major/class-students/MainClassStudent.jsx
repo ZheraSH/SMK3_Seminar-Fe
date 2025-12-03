@@ -100,25 +100,25 @@ const BackButton = () => (
                     <div className="relative w-full h-[142px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
                         <div className="flex justify-between items-center mb-6 text-white">
                             <div>
-                                <span className='text-center flex flex-row gap-3 text-xl font-semibold ml-4 mt-4'>
-                                    <GraduationCap size={25}/>
+                                <span className='text-center flex flex-row gap-2 lg:text-[20px] md:text-[18px] text-sm font-semibold ml-4 mt-4'>
+                                    <GraduationCap className='lg:size-[25px] md:size-[23px] size-[20px]'/>
                                     {classroom?.name}
                                 </span>
-                                <p className="ml-5 text-sm">Kelas - {classroom?.name}</p>
+                                <p className="ml-5  lg:text-[12px] md:text-[11px] text-[10px]">Kelas - {classroom?.name}</p>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-8 text-blue-200 mt-10 ml-4">
+                        <div className="flex items-center lg:space-x-8 md:space-x-8 space-x-3 text-blue-200 lg:mt-10 md:mt-[44px] mt-[56px] ml-4 lg:text-sm md:text-[13px] text-[12px] ">
                             <div className="flex items-center space-x-2">
-                                <UserCheck2 size={20}/>
-                                <span className='text-sm text-center'>{classroom?.homeroom_teacher?.name}</span>
+                                <UserCheck2 className='lg:size-[18px] md:size-[16px] size-[14px]'/>
+                                <span className=' text-center'>{classroom?.homeroom_teacher?.name}</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Users size={20}/>
-                                <span className='text-sm text-center'>{classroom?.statistics.total_students}</span>
+                                <Users className='lg:size-[18px] md:size-[16px] size-[14px]'/>
+                                <span className=' text-center'>{classroom?.statistics.total_students}</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Calendar size={20}/>
-                                <span className='text-sm text-center'>{classroom?.school_year?.name}</span>
+                                <Calendar className='lg:size-[18px] md:size-[16px] size-[14px]'/>
+                                <span className=' text-center'>{classroom?.school_year?.name}</span>
                             </div>
                         </div>
                     </div>

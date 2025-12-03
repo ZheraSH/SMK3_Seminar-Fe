@@ -125,21 +125,21 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
             <div className="bg-[url('/images/background/bg04.png')] h-[142px] text-white rounded-xl shadow-md mb-6">
                 <div className="flex justify-between items-center mb-6 text-white">
                     <div>
-                        <span className='text-center flex flex-row gap-3 lg:text-xl md:text-lg text-sm font-semibold ml-4 mt-4'>
+                        <span className='text-center flex flex-row gap-3 lg:text-[20px] md:text-[18px] text-sm font-semibold ml-4 mt-4'>
                             <GraduationCap className='lg:size-[25px] md:size-[23px] size-[20px]'/>{classroom.name}
                         </span>
-                        <p className="ml-5  lg:text-xl md:text-lg text-sm ">Kelas - {classroom.name}</p>
+                        <p className="ml-5  lg:text-[12px] md:text-[11px] text-[10px] ">Kelas - {classroom.name}</p>
                     </div>
                 </div>
-                <div className="flex items-center space-x-6 lg:mt-8 md:mt-8 mt-13 text-sm ml-5  lg:text-sm md:text-[14px] text-[12px] ">
+                <div className="flex items-center lg:space-x-6 md:space-x-6 space-x-4 lg:mt-10 md:mt-12 mt-15 text-sm ml-5  lg:text-sm md:text-[13px] text-[12px] ">
                     <div className="flex items-center space-x-2">
-                        <UserCheck2 className='lg:size-[25px] md:size-[23px] size-[18px]' /> <span className=''>{classroom.homeroom_teacher}</span>
+                        <UserCheck2 className='lg:size-[18px] md:size-[16px] size-[14px]' /> <span className=''>{classroom.homeroom_teacher}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Users className='lg:size-[25px] md:size-[23px] size-[18px]' /> <span className=''>{classroom.total_students}</span>
+                        <Users className='lg:size-[18px] md:size-[16px] size-[14px]' /> <span className=''>{classroom.total_students}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <GraduationCap className='lg:size-[25px] md:size-[23px] size-[18px]' /> <span className=''>{classroom.school_year}</span>
+                        <GraduationCap className='lg:size-[18px] md:size-[16px] size-[14px]' /> <span className=''>{classroom.school_year}</span>
                     </div>
                 </div>
             </div>
