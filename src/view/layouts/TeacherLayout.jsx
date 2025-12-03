@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom"
 import { useRef, useState, useEffect } from "react"
 import MainDashboard from "../components/elements/MainDashboard"
 import { ChevronDown, Menu, X } from "lucide-react"
+import { Notification } from "../../Core/hooks/notification/Notification"
 
 export const LayouthTeacher = () => {
   const location = useLocation()
@@ -33,6 +34,7 @@ export const LayouthTeacher = () => {
   return (
     <>
       <div className="flex h-screen bg-gray-50">
+      <Notification />
         {/* Sidebar */}
         <div
           className={`fixed top-0 left-0 h-full w-[250px] bg-[#1E3A8A] text-white transform transition-transform duration-300 z-40
