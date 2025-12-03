@@ -7,10 +7,10 @@ export default function ButtonSchedule ({setActiveDay,activeDay}){
                     <button
                         key={day.value}
                         onClick={() => setActiveDay(day.value)}
-                        className={`px-2 py-2 ml-1 rounded-md border-none font-semibold ${
+                        className={`px-2 py-2 ml-1 rounded-md border-none font-semibold md:text-[14px] text-[12px] ${
                         activeDay === day.value
-                            ? "bg-[#3B82F6] text-white border-[#3B82F6] w-[80px]"
-                            : "bg-gray-100 text-black hover:bg-[#3B82F6] hover:text-white w-[80px]"
+                            ? "bg-[#3B82F6] text-white border-[#3B82F6] w-[55px] md:w-[80px]"
+                            : "bg-gray-100 text-black hover:bg-[#3B82F6] hover:text-white w-[55px] md:w-[80px]"
                         }`}
                     >
                         {day.label}

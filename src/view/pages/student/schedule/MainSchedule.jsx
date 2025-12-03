@@ -11,7 +11,6 @@ export default function MainScheduleStudent() {
     schedule,
     classroomId,
     semesterType,
-    academicYear,
     loading
   } = useStudentSchedule(activeDay);
 
@@ -21,9 +20,9 @@ export default function MainScheduleStudent() {
       <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px]">
         <div className="absolute inset-0 items-center justify-center rounded-[6px]">
           <div className="ml-5 mt-2">
-            <h1 className="text-white text-[36px] font-semibold">Jadwal Pelajaran</h1>
-            <p className="text-white text-[14px] font-light">
-              Kelas {classroomId} | Semester {semesterType} {academicYear}
+            <h1 className="text-white text-[26px] md:text-[36px] font-semibold">Jadwal Pelajaran</h1>
+            <p className="text-white text-[12px] md:text-[14px] font-light">
+              Kelas {classroomId} | {semesterType} 
             </p>
           </div>
         </div>
