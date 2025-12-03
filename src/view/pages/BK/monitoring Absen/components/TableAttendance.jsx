@@ -9,7 +9,7 @@ export default function TableAttendanceBk ({students,loading,}) {
         );
     }
     return (
-        <table className="w-[1129px] border-collapse overflow-hidden shadow-sm">
+        <table className="w-[1100px]  border-collapse overflow-hidden shadow-sm">
             <thead>
                 <tr className="bg-[#3B82F6] text-white h-[46px]">
                     <th className="py-2 px-4 text-left font-normal text-[18px] pl-5 rounded-tl-lg">Nama</th>

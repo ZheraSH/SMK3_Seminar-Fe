@@ -1,90 +1,37 @@
 import { RefreshCw } from "lucide-react";
-import { useEffect, useState, useCallback } from "react";
 import FilterDropdown from "./components/FilterData";
 import TableAttendanceBk from "./components/TableAttendance";
 import Head from "./components/Head";
 import StatisticsCrad from "./components/StatisticsCard";
 import { Pagination } from "./components/Pagination";
-import { getAbsenteeismMonitoring } from "../../../../Core/api/role-bk/monitoring/absenteeismMonitoring";
+import { useAttendanceMonitoring } from "../../../../Core/hooks/bk-hooks/AttendanceMonitoring/useAttendance";
 
 export default function MainMonitoringAbsen() {
-    const [students, setStudents] = useState([]);
-    const [recap, setRecap] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [selectedFilter, setSelectedFilter] = useState("Show all");
-    const [lastUpdated, setLastUpdated] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const {
+    students,
+    recap,
+    loading,
+    error,
+    searchQuery,
+    selectedFilter,
+    lastUpdated,
+    currentPage,
+    totalPages,
 
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-        setCurrentPage(1); 
-    };
+    handleSearchChange,
+    handleFilterSelect,
+    handlePageChange,
+    fetchData,
+} = useAttendanceMonitoring();
 
-    const fetchData = useCallback(async (params = {}, page = 1) => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            if (searchQuery && Object.keys(params).length === 0) {
-                params.search = searchQuery;
-            }
-            params.page = page; 
-
-            const data = await getAbsenteeismMonitoring(params);
-            if (!data) {
-                setError("Data Monitoring Tidak Ditemukan");
-                setStudents([]);
-                setRecap({});
-                setTotalPages(1);
-                return;
-            }
-
-            setStudents(data.list.data || []);
-            setRecap(data.recap || {});
-            setTotalPages(data.list.meta?.last_page || 1);
-            setCurrentPage(data.list.meta?.current_page || 1);
-
-            setLastUpdated(new Date());
-        } catch (err) {
-            console.error(err);
-            setError("Gagal memuat data Izin");
-            setStudents([]);
-            setRecap({});
-            setTotalPages(1);
-        } finally {
-            setLoading(false);
-        }
-    }, [searchQuery]);
-
-    useEffect(() => {
-        fetchData({}, currentPage);
-    }, [fetchData, currentPage]);
-
-    
-    const handleFilterSelect = (item, type) => {
-        setSelectedFilter(item);
-        setCurrentPage(1); 
-        if (item === "Show all") {
-            fetchData({}, 1);
-        } else {
-            fetchData({ [type]: item }, 1);
-        }
-    };
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
 
     return (
         <div className="justify-center mx-5 mb-10">
             <Head />
             <StatisticsCrad recap={recap} />
-            <div className="flex justify-between mt-5">
+            <div className="flex justify-between mt-5 gap-1">
                 <div className="relative flex">
-                    <div className="relative flex items-center w-80 mr-4">
+                    <div className="relative flex items-center w-[180px] md:w-80 mr-2 md:mr-4">
                         <svg className="absolute left-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -93,7 +40,7 @@ export default function MainMonitoringAbsen() {
                         <input
                             type="text"
                             placeholder="Cari Kelas/Siswa...."
-                            className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="p-2 pl-10 border border-gray-300 rounded-full w-[180px] md:w-full focus:outline-none text-[10px] md:text-[16px] focus:ring-2 focus:ring-blue-500"
                             value={searchQuery}
                             onChange={handleSearchChange}
                         />
@@ -105,11 +52,11 @@ export default function MainMonitoringAbsen() {
                     />
                 </div>
                 <button
-                    className="flex items-center w-[128px] h-[37px] px-4 py-2 bg-[#3B82F6] rounded-lg transition text-sm text-white gap-2 shadow-md"
+                    className="flex items-center w-auto md:w-[128px] h-[37px] px-1 md:px-4 py-2 bg-[#3B82F6] rounded-lg transition text-sm text-white gap-1 md:gap-2 shadow-md"
                     onClick={() => fetchData({}, 1)}
                 >
                     <RefreshCw size={16} />
-                    <p className="text-[14px] font-medium"> Sync Data</p>
+                    <p className=" text-[8px] md:text-[14px] font-medium"> Sync Data</p>
                 </button>
             </div>
 
@@ -126,11 +73,13 @@ export default function MainMonitoringAbsen() {
                         : "–"}
                 </p>
 
-                <TableAttendanceBk
+                <div className=" overflow-auto lg:overflow-hidden w-full px-2 md:px-3">
+                    <TableAttendanceBk
                     students={students}
                     loading={loading}
                     error={error}
-                />
+                    />
+                </div>
 
                 <Pagination
                     currentPage={currentPage}

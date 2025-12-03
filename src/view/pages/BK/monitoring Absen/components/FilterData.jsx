@@ -25,9 +25,9 @@ export default function FilterDropdown({ selected, onSelect, students }) {
         <div className="relative">
             <button
                 onClick={() => setOpen(!open)}
-                className="flex items-center px-4 py-2 bg-white rounded-full border border-gray-300 shadow-sm text-gray-700"
+                className="flex items-center w-[100px] md:w-[125px] px-4 py-2 bg-white rounded-full border border-gray-300 shadow-sm text-gray-700"
             >
-                <span>{selected || "Show all"}</span>
+                <span className=" text-[10px] md:text-[15px]">{selected || "Show all"}</span>
                 <svg
                     className={`w-4 h-4 ml-2 transition-transform duration-200 ${open ? "rotate-90" : ""}`}
                     fill="none"
@@ -41,8 +41,6 @@ export default function FilterDropdown({ selected, onSelect, students }) {
             {open && (
                 <div className="absolute mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 p-4 z-50">
                     <p className="text-gray-700 font-semibold mb-3">Pilih Kategori</p>
-
-                    {/* SHOW ALL */}
                     <button
                         onClick={() => onSelect("Show all", null)}
                         className="w-full text-left px-1 py-1 flex justify-between items-center hover:bg-gray-100 rounded-md"
@@ -59,8 +57,6 @@ export default function FilterDropdown({ selected, onSelect, students }) {
                             </svg>
                         )}
                     </button>
-
-                    {/* SECTION LIST */}
                     {sections.map((sec) => (
                         <div key={sec.id} className="mt-4">
                             <button
