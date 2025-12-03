@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import { FormModal } from "./components/FormModal"
+import { DetailModal } from "./components/DetailModal"
 
 import {
   fetchStudents,
@@ -12,7 +13,6 @@ import {
   submitStudent,
   deleteStudent,
 } from "@/Core/api/role-operator/student/StudentApi"
-import { DetailModal } from "../teachers/components/TeacherDetailModal.jsx"
 import { StudentsTable } from "./components/StudentTable"
 import { PaginationStudent } from "./components/Pagination"
 import { SearchFilter } from "./components/Search-Filter"
@@ -43,7 +43,7 @@ export const MainStudent = () => {
   const [editingId, setEditingId] = useState(null)
   const [errors, setErrors] = useState({})
   const [selectedStudent, setSelectedStudent] = useState(null)
-  const [isDetailOpen, setIsDetailOpen] = useState(false)
+  const [isDetailOpen, setIsDetailOpen] = useState(false) // State untuk modal detail
   const [searchTerm, setSearchTerm] = useState("")
   const [page, setPage] = useState(1)
   const perPage = 8
@@ -144,6 +144,7 @@ export const MainStudent = () => {
     setIsOpen(true)
   }
 
+  // Fungsi untuk membuka modal detail
   const handleDetail = (student) => {
     setSelectedStudent(student)
     setIsDetailOpen(true)
@@ -160,9 +161,13 @@ export const MainStudent = () => {
   }
 
   // Filter majors & classes based on students that actually have classroom
-  const availableMajors = majors.filter((m) => students.some((s) => s.classroom?.major === m.name))
+  const availableMajors = majors.filter((m) => 
+    students.some((s) => s.classroom?.major === m.name)
+  )
 
-  const availableLevelclasses = levelclasses.filter((l) => students.some((s) => s.classroom?.level_class === l.name))
+  const availableLevelclasses = levelclasses.filter((l) => 
+    students.some((s) => s.classroom?.level_class === l.name)
+  )
 
   return (
     <div className="p-6">
@@ -197,7 +202,14 @@ export const MainStudent = () => {
           setIsOpen(true)
         }}
       />
-      <DetailModal isOpen={isDetailOpen} onClose={() => setIsDetailOpen(false)} student={selectedStudent} />
+      
+      {/* Modal Detail */}
+      <DetailModal 
+        isOpen={isDetailOpen} 
+        onClose={() => setIsDetailOpen(false)} 
+        student={selectedStudent} 
+      />
+      
       <FormModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -208,13 +220,15 @@ export const MainStudent = () => {
         errors={errors}
         religions={religions}
       />
+      
       <StudentsTable
         students={students}
         startIndex={startIndex}
-        onDetail={handleDetail}
+        onDetail={handleDetail} // Pastikan prop ini dikirim
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+      
       <PaginationStudent
         page={page}
         lastPage={meta.last_page}
