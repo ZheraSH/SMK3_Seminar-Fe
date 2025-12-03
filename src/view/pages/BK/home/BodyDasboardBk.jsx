@@ -40,7 +40,7 @@ export default function BodyDashboard () {
         const widthStyle = { width: percentage };
         
         return (
-            <div className={`flex flex-col p-4 h-[125px] w-[250px] rounded-lg shadow-sm ${color}`}>
+            <div className={`flex flex-col p-4 h-[125px] lg:w-[220px] w-[270px] md:w-[250px]  rounded-lg shadow-sm ${color}`}>
                 <div className="flex items-center justify-between gap-2">
                     <IconComponent className="w-[30px] h-[30px]" />
                     <span className="text-[24px] font-semibold">{count}</span>
@@ -60,8 +60,8 @@ export default function BodyDashboard () {
 
     return (
         <>
-            <div className="p-2 min-h-screen ">
-                <div className="bg-[#3B82F6] mb-4 w-[1129px] text-white h-[100px] rounded-lg flex items-center gap-5 pl-4">
+            <div className="p-4 min-h-screen mb-20 lg:mb-10">
+                <div className="bg-[#3B82F6] mb-4  text-white h-[100px] rounded-lg flex items-center gap-5 pl-4">
                     <img src=" images/team/valen.jpg" alt="profil" className="rounded-full w-[68px] h-[68px]" />
                     <div className="flex flex-col mt-0">
                         <h1 className=" text-[20px] font-semibold"> Halo, {user.name}</h1>
@@ -69,32 +69,32 @@ export default function BodyDashboard () {
                     </div>
                 </div>
 
-                 <div className=" bg-white mb-4 w-[1129px]  h-[242px] rounded-lg">
+                 <div className=" bg-white mb-4 px-4 h-auto pb-4 rounded-lg">
                     <div className='flex justify-between'>
                         <div className="flex flex-col">
-                        <h2 className="text-[24px] font-semibold ml-[17px] mt-[17px]">Kehadiran hari ini</h2>
+                        <h2 className="lg:text-[24px] md:text-[20px] text-[16px] font-semibold ml-[17px] mt-[17px]">Kehadiran hari ini</h2>
                         <span className=" text-[14px] ml-[17px]">Senin, 10 November 2025</span>
                     </div>
-                    <div className="mr-6 mt-[20px]">
-                        <button className="bg-[#3B82F6] rounded-lg w-[155px] text-white h-[31px] flex flex-row text-[13px] gap-2 flex justify-center items-center ">
+                    <div className="lg:mr-6 mt-[20px] mr-0">
+                        <button className="bg-[#3B82F6] rounded-lg lg:w-[155px] w-[140px] text-white h-[31px] flex flex-row lg:text-[13px] text-[10px] gap-2 flex justify-center items-center ">
                             <Users/> Total : 310 Siswa
                         </button>
                     </div>
                     
                     </div>
-                    <div className="flex gap-6 justify-center mt-6 items-center">
+                    <div className="flex grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-2 md:gap-6 justify-center mt-6 items-center mr-3">
                             {kehadiran.map((item, index) => (
                                 <AttendanceCard key={index} {...item} />
                             ))}
                         </div>
-                 </div>
-                 <div className="bg-white rounded-lg shadow-md p-4  w-[1129px] text-white h-[464px]">
-                        <h2 className="text-[24px] font-semibold text-gray-800 mb-4">Siswa Dengan Alpha Terbanyak</h2>
+                </div>
+                 <div className="bg-white rounded-lg shadow-md p-4 text-white h-auto">
+                        <h2 className="lg:text-[24px] md:text-[18px] sm:text-[16px] font-semibold text-gray-800 mb-4">Siswa Dengan Alpha Terbanyak</h2>
 
-                        <div className="bg-[#3B82F633] h-[49px] border border-[#93C5FD] text-[#3B82F6] p-3 rounded-lg flex items-start gap-2 mb-4">
+                        <div className="bg-[#3B82F633] lg:h-12 md:h-[84px] sm:h-[100px] border border-[#93C5FD] text-[#3B82F6] p-3 rounded-lg flex items-start gap-2 mb-4">
                            < AlertTriangle/>
-                            <span className="text-sm mt-[2px]">
-                                <strong className='text-black'>Catatan: </strong> Siswa dengan alpha **10+** memerlukan tindakan. Segera lakukan koordinasi dengan wali kelas dan orang tua.
+                            <span className="lg:text-sm md:text-[14px] mt-[2px]">
+                                <strong className='text-black'>Catatan:</strong> Siswa dengan alpha 10+ memerlukan tindakan. Segera lakukan koordinasi dengan wali kelas dan orang tua.
                             </span>
                         </div>
 
