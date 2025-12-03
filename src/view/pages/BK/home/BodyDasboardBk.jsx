@@ -40,7 +40,7 @@ export default function BodyDashboard () {
         const widthStyle = { width: percentage };
         
         return (
-            <div className={`flex flex-col p-4 h-[125px] lg:w-[220px] w-[270px] md:w-[250px]  rounded-lg shadow-sm ${color}`}>
+            <div className={`flex flex-col p-4 h-[125px] w-full rounded-lg  shadow-sm ${color}`}>
                 <div className="flex items-center justify-between gap-2">
                     <IconComponent className="w-[30px] h-[30px]" />
                     <span className="text-[24px] font-semibold">{count}</span>
@@ -69,7 +69,7 @@ export default function BodyDashboard () {
                     </div>
                 </div>
 
-                 <div className=" bg-white mb-4 px-4 h-auto pb-4 rounded-lg">
+                 <div className=" bg-white drop-shadow-sm mb-4 px-4 h-auto pb-4 rounded-lg">
                     <div className='flex justify-between'>
                         <div className="flex flex-col">
                         <h2 className="lg:text-[24px] md:text-[20px] text-[16px] font-semibold ml-[17px] mt-[17px]">Kehadiran hari ini</h2>
@@ -82,7 +82,7 @@ export default function BodyDashboard () {
                     </div>
                     
                     </div>
-                    <div className="flex grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-2 md:gap-6 justify-center mt-6 items-center mr-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                             {kehadiran.map((item, index) => (
                                 <AttendanceCard key={index} {...item} />
                             ))}
