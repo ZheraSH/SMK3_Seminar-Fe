@@ -2,21 +2,14 @@ const API_BASE_URL = "http://127.0.0.1:8000/api";
 import { notify } from "../../../hooks/notification/notify";
 import axios from "axios";
 
-export const getClass = async (page = 1, filters = {}) => {
-  try {
-    const params = {
-      page: page,
-      ...filters,
-    };
-
-    const res = await axios.get(`${API_BASE_URL}/classrooms`, { params });
-    
-    return res.data; 
-
-  } catch (err) {
-    console.error("Gagal ambil classroom:", err);
-    throw err;
-  }
+export const getClass = async (params = {}) => {
+    try {
+        const res = await axios.get(`${API_BASE_URL}/classrooms`, { params });
+        return res.data; 
+    } catch (err) {
+        console.error("Gagal ambil classroom:", err);
+        throw err;
+    }
 };
 
 export const createClass = async (formData) => {

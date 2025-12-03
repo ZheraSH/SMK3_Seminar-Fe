@@ -1,64 +1,84 @@
-import { useState, useEffect } from "react";
-import { getClass, createClass, getMajors, getSchoolYears,getLevelClass,} from "../../../api/role-operator/class-major/classApi";
+import { useState, useEffect, useMemo } from "react"; 
+import { getClass, createClass } from "../../../api/role-operator/class-major/classApi";
+import useMasterData from "./useMasterData"; 
+
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+    func.apply(this, args);
+  }, delay);
+  };
+};
+
 
 export default function useClasses({ initialMajor = "" }) {
+  const { majors, schoolYears, levelClass, loading: masterLoading } = useMasterData();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1); 
-  const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "",});
-  const [filterOptions, setFilterOptions] = useState({ majors: [], schoolYears: [], levelClasses: [],});
 
-  const fetchClass = async (pageNumber = page, currentFilters = filters) => {
-    try {
-      setLoading(true);
-      const res = await getClass(pageNumber, currentFilters); 
-      setData(res.data); 
-      setPage(res.meta.current_page); 
-      setLastPage(res.meta.last_page); 
-      setFilters(currentFilters);
-      
-    } catch (error) {
-      console.error("Error fetching Class:", error);
-      setData([]);
-      setLastPage(1); 
-    } finally {
-      setLoading(false);
-    }
+  const [searchText, setSearchText] = useState("");
+
+  const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "",});
+
+  const fetchClass = async (pageNumber, currentFilters, currentSearchText) => {
+  try {
+  setLoading(true);
+
+  const apiParams = { page: pageNumber, search: currentSearchText,
+    ...Object.fromEntries(
+    Object.entries(currentFilters).filter(([_, v]) => v)
+    ),
   };
-  
-  const fetchFilterOptions = async () => {
-    try {
-      const [majorsRes, yearsRes, levelsRes] = await Promise.all([
-        getMajors(),
-        getSchoolYears(),
-        getLevelClass(),
-      ]);
-      
-      setFilterOptions({
-        majors: majorsRes || [],
-        schoolYears: yearsRes || [],
-        levelClasses: levelsRes || [],
-      });
-    } catch (error) {
-      console.error("Error fetching filter options:", error);
-    }
+
+  const res = await getClass(apiParams); 
+
+  setData(res.data); 
+  setPage(res.meta.current_page); 
+  setLastPage(res.meta.last_page); 
+
+  } catch (error) {
+    console.error("Error fetching Class:", error.response?.data || error);
+    setData([]);
+    setLastPage(1); 
+  } finally {
+    setLoading(false);
+  }
   };
+
 
   const handleFilterChange = (newFilters) => {
-    const pageReset = 1;
-    fetchClass(pageReset, newFilters);
+  const pageReset = 1;
+  setFilters(newFilters);
+  fetchClass(pageReset, newFilters, searchText); 
   };
-  
+
   const handlePageChange = (newPage) => {
-    fetchClass(newPage, filters);
+    fetchClass(newPage, filters, searchText); 
   };
+
+  const debouncedFetch = useMemo(
+  () => debounce((searchQuery) => {
+  fetchClass(1, filters, searchQuery); 
+  }, 500), 
+  [filters] 
+  );
+
+
+  const handleSearchChange = (newText) => {
+    setSearchText(newText); 
+    debouncedFetch(newText); 
+  };
+
 
   const addClass = async (formData) => {
     setLoading(true);
     try {
       const result = await createClass(formData);
-      await fetchClass(1, filters);
+      await fetchClass(1, filters, searchText); 
       return { success: true, data: result };
     } catch (error) {
       console.error("Error adding class:", error);
@@ -68,9 +88,28 @@ export default function useClasses({ initialMajor = "" }) {
   };
 
   useEffect(() => {
-   fetchClass(1, {  major: initialMajor, school_year: "", level_class: "",});
-    fetchFilterOptions();
-  }, []);
+    if (!masterLoading) {
+    fetchClass(1, { major: initialMajor, school_year: "", level_class: "" }, ""); 
+    }
+  }, [masterLoading, initialMajor]); 
 
-  return { classesData: data, loading, addClass, page, lastPage,  handlePageChange,  filters, handleFilterChange, filterOptions,};
+  return { 
+  classesData: data, 
+  loading: loading || masterLoading, 
+  addClass, 
+  page, 
+  lastPage, 
+  handlePageChange, 
+  filters, 
+  handleFilterChange, 
+
+  searchText, 
+  handleSearchChange,
+
+  filterOptions: { 
+  majors: majors || [], 
+  schoolYears: schoolYears || [], 
+  levelClasses: levelClass || [], 
+  },
+  };
 }

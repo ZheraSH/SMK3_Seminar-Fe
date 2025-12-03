@@ -57,7 +57,7 @@ const MajorCardGrid = () => {
 
   return (
     <>
-      <div className="p-4 md:p-8 bg-gray-50 mb-20">
+      <div className="p-3 md:p-3 bg-gray-50 mb-20 md:mb-32">
         <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
           <div className="absolute inset-0 items-center justify-center rounded-[6px]">
             <div className="ml-5 mt-2">

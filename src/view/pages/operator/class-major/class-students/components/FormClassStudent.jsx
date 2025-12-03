@@ -12,6 +12,7 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const [students, setStudents] = useState([]);
+    const [formError, setFormError] = useState(""); 
 
     useEffect(() => {
         setStudents(availableStudents || []);
@@ -22,6 +23,8 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
 
 
     const handleCheckboxChange = (id) => {
+        setFormError(""); 
+
         if (selectedStudents.includes(id)) {
             setSelectedStudents(selectedStudents.filter(s => s !== id));
         } else {
@@ -34,22 +37,27 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
         s.nisn.includes(search)
     );
     
-   
+    
     const handleSubmit = async () => {
-        if (selectedStudents.length === 0) return;
+        if (selectedStudents.length === 0) {
+            setFormError("Anda wajib memilih setidaknya satu siswa.");
+            return; 
+        }
 
         setIsLoading(true);
         
         try {
-            const result = await addStudents(selectedStudents);
-
-           onClose();
+            await addStudents(selectedStudents);
+            onClose();
         } catch (error) {
-           console.log(error)
+            console.log(error)
+             setFormError("Gagal menambahkan siswa. Silakan coba lagi.");
         } finally {
             setIsLoading(false);
         }
     };
+    
+    const isError = formError && selectedStudents.length === 0;
 
     return (
         <>
@@ -79,17 +87,22 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                                 : search
                             }
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Cari nama "
-                            className="w-full border p-2 rounded-lg pr-10"
-                            onFocus={() => setDropdownOpen(true)}
+                            placeholder="Cari nama atau NISN"
+                            className={`w-full border p-2 rounded-lg pr-10 ${
+                                isError ? "border-red-500 ring-1 ring-red-500" : "border-gray-300"
+                            }`}
+                            onFocus={() => { setDropdownOpen(true); setFormError(""); }} // Hapus error saat fokus
                             readOnly={selectedStudents.length > 0} 
                         />
 
                         <ChevronRight
-                            onClick={(e) => {e.stopPropagation(); setDropdownOpen(!dropdownOpen);}}
+                            onClick={(e) => {e.stopPropagation(); setDropdownOpen(!dropdownOpen); setFormError(""); }}
                             className={`absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer transition-transform duration-200
                                 ${dropdownOpen ? "rotate-90" : ""}`}/>
                     </div>
+                    {isError && (
+                        <p className="text-red-500 text-xs mt-1">{formError}</p>
+                    )}
 
                     {dropdownOpen && (
                         <div className="absolute w-full bg-white border mt-2 rounded-lg shadow-md max-h-40 overflow-y-auto z-30" onClick={(e) => e.stopPropagation()}>
@@ -108,9 +121,11 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                 </div>
                 
                 <div className="text-end">
-                    <button onClick={handleSubmit} disabled={isLoading || selectedStudents.length === 0} 
+                    <button 
+                        onClick={handleSubmit} 
+                        disabled={isLoading} 
                         className={`px-4 text-white py-2 rounded-lg mt-3 
-                            ${isLoading || selectedStudents.length === 0 
+                            ${isLoading 
                                 ? 'bg-gray-400 cursor-not-allowed' 
                                 : 'bg-[#3B82F6] hover:bg-blue-700'}`
                         }>

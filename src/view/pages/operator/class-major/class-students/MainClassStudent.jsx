@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate ,Link} from "react-router-dom";
 import { Search, Users, UserCheck2, Calendar, GraduationCap, RefreshCw, Plus, ArrowLeft, X } from 'lucide-react'; 
 import DataTable from './components/TableClassStudent'; 
 import PaginationComponent from './components/PaginationComponent';
@@ -18,7 +18,7 @@ function ModalAddStudent({ open, onClose, classroom, availableStudents, addStude
                 </button>
 
                 <h2 className="text-start text-lg font-semibold mb-4 pr-10">
-                    Tambah Siswa Ke Kelas <br /> <span className='text-xl  font-bold'>“ {classroom?.name} ”</span>
+                    Tambah Siswa Ke Kelas <br /> <span className='text-xl  font-semibold'>“ {classroom?.name} ”</span>
                 </h2>
                 <FormStudents classroom={classroom} onClose={onClose} availableStudents={availableStudents} addStudents={addStudents} />
             </div>
@@ -69,17 +69,19 @@ const ClassStudents = () => {
     };
 
 const BackButton = () => (
-        <button 
-            onClick={() => navigate(-1)} 
-            className="flex items-center px-4 md:py-2 border border-[#FF5E53] rounded-lg transition duration-150 md:text-sm text-[14px] text-[#FF5E53] gap-2 shadow-md"
+        <Link to="/home/class">
+            <button 
+            // onClick={() => navigate(-1)} 
+           className="flex items-center justify-center px-3 py-2 border border-[#FF5E53] rounded-lg transition duration-150 text-xs sm:text-sm text-[#FF5E53] gap-1 shadow-md  w-auto"
         >
             <ArrowLeft size={16}/> Kembali
         </button>
+        </Link>
     );
 
      if (loading && !classroom) return <div className="p-10">Loading Detail Kelas...</div>;
     
-     if (!classroom) {
+    if (!classroom) {
         return (
             <div className="p-10">
                 <div className='flex justify-between items-center mb-6'>
@@ -93,7 +95,7 @@ const BackButton = () => (
 
     return (
         <>
-            <div className="min-h-screen p-4">
+            <div className="min-h-screen p-2">
                 <div className="md:max-w-7xl w-full mx-auto md:mb-2 mb-32">
                     <div className="relative w-full h-[142px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
                         <div className="flex justify-between items-center mb-6 text-white">
@@ -130,11 +132,11 @@ const BackButton = () => (
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-700" />
                         </div>
 
-                        <div className="flex space-x-3 md:mt-0 mt-4">
-                            <button onClick={handleSync} className="flex items-center px-4 md:py-2 bg-[#FACC15] rounded-lg transition duration-150 md:text-sm text-[14px] text-white gap-2 shadow-md">
+                        <div className="flex lg:space-x-3 space-x-3  md:mt-0 mt-4">
+                            <button onClick={handleSync} className="flex items-center px-4 md:py-2 bg-[#FACC15] rounded-lg transition duration-150 text-[10px] text-[14px] text-white gap-2 shadow-md">
                                 <RefreshCw size={16}/> Sync
                             </button>
-                            <button onClick={() => setOpenModal(true)} className="flex items-center px-4 md:py-2 bg-[#3B82F6] rounded-lg transition duration-150 md:text-sm text-[14px] text-white gap-2 shadow-md">
+                            <button onClick={() => setOpenModal(true)} className="flex items-center px-4 md:py-2 bg-[#3B82F6] rounded-lg transition duration-150 text-[10px] lg:text-[14px]  text-white gap-2 shadow-md">
                                 <Plus size={16}/> Tambah Siswa
                             </button>
                            <BackButton />

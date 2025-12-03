@@ -40,7 +40,7 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
                         <div className="flex justify-center mb-6">
                             <div className="flex justify-center mb-6">
                             {student.image ? (
-                                <img src={`http://127.0.0.1:8000/storage/${student.image}`} alt="Foto siswa" className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm mb-5"/>
+                                <img src={student.image} alt="Foto siswa" className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm mb-5"/>
                             ) : (
                                 <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
                                 No Image
