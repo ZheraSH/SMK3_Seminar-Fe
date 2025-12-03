@@ -6,8 +6,8 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
     const StatusBadge = ({ status }) => {
         const color =
             status === "sakit" ? "bg-yellow-100 text-yellow-700" :
-            status === "dispensasi" ? "bg-[#3B82F633] text-[#3B82F6]" :
-            "bg-yellow-100 text-yellow-700 ";
+            status === "dispensasi" ? "bg-[#10B98133] text-[#30D158]" :
+            "bg-[#3B82F633] text-[#3B82F6] ";
 
         return (
             <span className={`px-3 py-1 text-xs w-[105px] font-medium rounded-md inline-block ${color}`}>

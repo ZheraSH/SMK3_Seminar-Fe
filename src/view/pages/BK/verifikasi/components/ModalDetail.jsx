@@ -45,12 +45,12 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData,loadin
                     {
                         !loading && (
                             <>
-                                {/* <div className="mb-6">
+                                <div className="mb-6">
                                     <h4 className="font-semibold text-gray-700 mb-2">Bukti Pendukung</h4>
                                     <div className="bg-gray-200 h-32 flex items-center justify-center text-gray-500 rounded-lg">
                                         IMG (Bukti Izin)
                                     </div>
-                                </div> */}
+                                </div>
 
                                 <div className="mb-6">
                                     <h4 className="font-semibold text-gray-700 mb-2 pb-1">Informasi Siswa</h4>

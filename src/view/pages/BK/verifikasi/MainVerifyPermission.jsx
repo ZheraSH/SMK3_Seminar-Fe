@@ -6,14 +6,11 @@ import DetailIzinModal from "./components/ModalDetail";
 import Table from './components/Table';
 import HeaderAndControls from './components/Head';
 
-
 export default function VerifyPermission() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPermission, setSelectedPermission] = useState(null);
     const [isLoadingDetail , setIsLoadingDetail] = useState(false);
-
     const { permissions, loading, error, classes, currentPage, lastPage, totalItems, perPage, handlePageChange,refetchData ,searchQuery,handleSearchChange,selectedClassId,handleClassSelect} = useVerifyPermissionData(getVerifyPermissionBk);
-
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -32,7 +29,6 @@ export default function VerifyPermission() {
             
         } catch (error) {
             console.error("Error fetching detail:", error);
-            alert(`Gagal memuat detail izin: ${error.message}`);
             setIsModalOpen(false);
         } finally {
             setIsLoadingDetail(false);
@@ -48,32 +44,22 @@ export default function VerifyPermission() {
         }
 
         if (type === 'approve') {
-            const confirmed = window.confirm(`Apakah Anda yakin ingin menyetujui izin dari ${permission.student.name}?`);
-            if (!confirmed) return;
-
             try {
                 await approvePermissionBk(permissionId);
-                
-                alert(`Izin berhasil disetujui untuk ${permission.student.name}.`);
-
                 if (refetchData) {
                     refetchData(); 
                 }
 
             } catch (error) {
-                alert(`Gagal menyetujui izin: ${error.message}`);
+                console.log('gagal meng setujui data');
             }
         } else if (type === 'reject') {
-            const confirmed = window.confirm(`Apakah Anda yakin ingin MENOLAK izin dari ${permission.student.name}?`);
-            if (!confirmed) return;
-
             try {
                 await rejectPermissionBk(permissionId);
-                alert(`Izin berhasil DITOLAK untuk ${permission.student.name}.`);
                 refetchData();
 
             } catch (error) {
-                alert(`Gagal menolak izin: ${error.message}`);
+                console.log("gagal menolak data");
             }
         }else if (type === 'view') {
             showDetailModal(permission);
@@ -86,7 +72,7 @@ export default function VerifyPermission() {
     const handleReject = (permission) => handleAction('reject', permission);
 
     return (
-        <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
+        <div className="min-h-screen bg-gray-50 p-3 sm:p-3">
             <div className="max-w-7xl mx-auto">
                 <HeaderAndControls classes={classes}  selectedClassId={selectedClassId} handleClassSelect={handleClassSelect} searchQuery={searchQuery}
                     onSearchChange={handleSearchChange}/>
