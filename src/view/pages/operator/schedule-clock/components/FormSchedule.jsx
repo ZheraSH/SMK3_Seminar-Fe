@@ -1,6 +1,89 @@
-import React, { useState, useEffect } from 'react';
-import { X, Loader2 } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Loader2, ChevronRight } from 'lucide-react'; 
 import useMasterSchedule from "../../../../../Core/hooks/operator-hooks/schedule/useMasterSchedule"; 
+
+const CustomSelect = ({ label, id, name, value, options, onChange, placeholder = "Pilih...", error, disabled,getDisplayLabel }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const containerRef = useRef(null);
+
+    const selectedOption = options.find(option => String(option.id) === String(value));
+    const displayLabel = selectedOption ? getDisplayLabel(selectedOption) : '';
+    const displayOptions = options;
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (containerRef.current && !containerRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleSelect = (optionId) => {
+        onChange({ target: { name, value: optionId } });
+        setIsOpen(false);
+    };
+
+    const handleInputClick = () => {
+        if (!disabled) {
+            setIsOpen(prev => !prev);
+        }
+    };
+    
+    const handleClear = (e) => {
+        e.stopPropagation(); 
+        onChange({ target: { name, value: '' } });
+    }
+
+    const inputClass = `w-full border rounded-lg h-11 px-3 text-gray-900 transition duration-150 flex items-center justify-between cursor-pointer bg-white ${
+        error 
+            ? 'border-red-500 ring-1 ring-red-500' 
+            : 'border-gray-300 focus-within:border-blue-500 focus-within:ring-blue-500'
+    } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`;
+
+    return (
+        <div className="relative" ref={containerRef}>
+            <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+            <div  className={inputClass} onClick={handleInputClick} aria-expanded={isOpen}>
+                <span className={`flex-1 truncate ${displayLabel ? 'text-gray-900' : 'text-gray-500'}`}>
+                    {displayLabel || placeholder}
+                </span>
+                <div className='flex items-center space-x-2'>
+                    {displayLabel && !disabled && (
+                        <button type="button" onClick={handleClear} className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100"aria-label="Hapus pilihan">
+                            <X className="w-4 h-4" />
+                        </button>
+                    )}
+                    <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-90' : 'rotate-0'}`} />
+                </div>
+            </div>
+
+            {error && (
+                <p className="mt-1 text-sm text-red-600">{error}</p>
+            )}
+
+            {isOpen && !disabled && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <ul className="py-1">
+                        {displayOptions.length > 0 ? (
+                            displayOptions.map((option) => (
+                                <li key={option.id} className={`px-4 py-2 text-sm cursor-pointer hover:bg-blue-50 ${
+                                        String(option.id) === String(value) ? 'bg-blue-100 font-semibold' : ''}`} onClick={() => handleSelect(option.id)}>
+                                    {getDisplayLabel(option)}
+                                </li>
+                            ))
+                        ) : (
+                            <li className="px-4 py-2 text-sm text-gray-500">
+                                Tidak ada pilihan tersedia.
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+};
 
 function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroomId, handleSave }) { 
 
@@ -112,25 +195,17 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
 
     if (isMasterLoading) {
         return (
-            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000] p-4">
-                <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 flex items-center justify-center">
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000] p-4 ">
+                <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 flex items-center justify-center  ">
                     <Loader2 className="w-6 h-6 animate-spin text-blue-600 mr-2" /> Memuat data master...
                 </div>
             </div>
         );
     }
     
-    const getSelectClass = (field) => {
-        return `w-full border rounded-lg h-11 px-3 text-gray-900 transition duration-150 ${
-            validationErrors[field] 
-                ? 'border-red-500 ring-1 ring-red-500' 
-                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
-        }`;
-    };
-    
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000] p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 animate-fade-in">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 animate-fade-in mb-20">
                 <div className="flex justify-between items-center mb-6">
                     <h3 className="text-xl font-bold text-gray-800">{modalTitle}</h3>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -146,55 +221,45 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
 
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
-                        <div>
-                            <label htmlFor="subject_id" className="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
-                            <select id="subject_id" name="subject_id" value={formData.subject_id} onChange={handleChange}
-                                className={getSelectClass('subject_id')}
-                                disabled={isSubmitting}>
-                                <option value="" disabled>Pilih Mata Pelajaran</option>
-                                {subjects.map(subject => (
-                                    <option key={subject.id} value={subject.id}>
-                                        {subject.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {validationErrors.subject_id && (
-                                <p className="mt-1 text-sm text-red-600">{validationErrors.subject_id}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="teacher_id" className="block text-sm font-medium text-gray-700 mb-1">Guru Pengajar</label>
-                            <select id="teacher_id" name="teacher_id"  value={formData.teacher_id} onChange={handleChange}
-                                className={getSelectClass('teacher_id')}
-                                disabled={isSubmitting}>
-                                <option value="" disabled>Pilih Guru Pengajar</option>
-                                {teachers.map(teacher => (
-                                    <option key={teacher.id} value={teacher.id}>
-                                        {teacher.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {validationErrors.teacher_id && (
-                                <p className="mt-1 text-sm text-red-600">{validationErrors.teacher_id}</p>
-                            )}
-                        </div>
+                        <CustomSelect
+                            label="Mata Pelajaran"
+                            id="subject_id"
+                            name="subject_id"
+                            value={formData.subject_id}
+                            options={subjects}
+                            onChange={handleChange}
+                            placeholder="Pilih Mata Pelajaran"
+                            error={validationErrors.subject_id}
+                            disabled={isSubmitting}
+                            getDisplayLabel={(subject) => subject.name}
+                        />
 
-                        <div>
-                            <label htmlFor="lesson_hour_id" className="block text-sm font-medium text-gray-700 mb-1">Jam Ke / Penempatan</label>
-                            <select id="lesson_hour_id" name="lesson_hour_id" value={formData.lesson_hour_id} onChange={handleChange}
-                                className={getSelectClass('lesson_hour_id')}
-                                disabled={isSubmitting}>
-                                <option value="" disabled>Pilih Jam Ke / Penempatan</option>
-                                {lessons.map(lesson => (
-                                    <option key={lesson.id} value={lesson.id}>
-                                        {lesson.name} ({lesson.start_time} - {lesson.end_time})
-                                    </option>
-                                ))}
-                            </select>
-                            {validationErrors.lesson_hour_id && (
-                                <p className="mt-1 text-sm text-red-600">{validationErrors.lesson_hour_id}</p>
-                            )}
-                        </div>
+                        <CustomSelect
+                            label="Guru Pengajar"
+                            id="teacher_id"
+                            name="teacher_id"
+                            value={formData.teacher_id}
+                            options={teachers}
+                            onChange={handleChange}
+                            placeholder="Pilih Guru Pengajar"
+                            error={validationErrors.teacher_id}
+                            disabled={isSubmitting}
+                            getDisplayLabel={(teacher) => teacher.name}
+                        />
+
+                        <CustomSelect
+                            label="Jam Ke / Penempatan"
+                            id="lesson_hour_id"
+                            name="lesson_hour_id"
+                            value={formData.lesson_hour_id}
+                            options={lessons}
+                            onChange={handleChange}
+                            placeholder="Pilih Jam Ke / Penempatan"
+                            error={validationErrors.lesson_hour_id}
+                            disabled={isSubmitting}
+                            getDisplayLabel={(lesson) => `${lesson.name} (${lesson.start_time} - ${lesson.end_time})`}
+                        />
+
                     </div>
 
                     <div className="flex justify-end mt-6">

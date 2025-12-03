@@ -1,61 +1,128 @@
-import { useState, useEffect } from "react";
-import { fetchClass } from "../../../api/lesson-shedule/lessonApi";
+import { useState, useEffect, useMemo } from "react"; // Tambahkan useMemo
+import { getClass, getMajors, getSchoolYears, getLevelClass } from "../../../api/role-operator/class-major/classApi";
 
-export default function useSchedule() {
-  const [activeTab, setActiveTab] = useState("kelas");
-  const [selectedFilter, setSelectedFilter] = useState("Show all");
-  const [schedule, setSchedule] = useState([]);
-  const [page, setPage] = useState(1);
-  const [isLastPage, setIsLastPage] = useState(1);
-
-  const [selectedClassroomData, setSelectedClassroomData] = useState(null);
-      
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchClass(page);
-        setSchedule(data);
-        if (data.length < 9) {
-          setIsLastPage(page);
-        } else {
-          setIsLastPage(page + 1);
-        }
-        setPage(page);
-      } catch (error) {
-        console.error("Gagal mengambil data kelas:", error);
-      }
-    };
-
-    loadData(1);
-  }, [page]);
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= isLastPage) {
-      setPage(newPage);
-    }
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
   };
+};
 
-  const handleViewSchedule = (classroomData) => {
-    setSelectedClassroomData(classroomData);
-    setActiveTab("jadwal-kelas");
-  };
+export default function useSchedule({ initialMajor = "" }) {
 
-  const handleBackToClasses = () => {
-    setSelectedClassroomData(null);
-    setActiveTab("kelas");
-  };
+ const [scheduleData, setScheduleData] = useState([]);
+ const [loading, setLoading] = useState(true);
+ const [page, setPage] = useState(1);
+ const [lastPage, setLastPage] = useState(1);
+ 
+ const [searchText, setSearchText] = useState("");
+ 
+ const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "",});
+ const [filterOptions, setFilterOptions] = useState({ majors: [], schoolYears: [], levelClasses: [],});
+ const [activeTab, setActiveTab] = useState("kelas");
+ const [selectedClassroomData, setSelectedClassroomData] = useState(null);
 
-  return {
-    activeTab,
-    setActiveTab,
-    schedule,
-    selectedFilter,
-    setSelectedFilter,
-    handleViewSchedule,
-    handleBackToClasses,
-    selectedClassroomData,
-    page,
-    setPage: handlePageChange,
-    isLastPage,
+ const fetchSchedule = async ( pageNumber = page, currentFilters = filters, currentSearchText = searchText ) => {
+  try {
+   setLoading(true);
+   
+   const apiParams = { page: pageNumber, search: currentSearchText, ...currentFilters,};
+
+   const res = await getClass(apiParams);
+   
+   setScheduleData(res.data);
+   setPage(res.meta.current_page);
+   setLastPage(res.meta.last_page);
+   setFilters(currentFilters); 
+  } catch (error) {
+   console.error("Error fetching schedule:", error);
+   setScheduleData([]);
+   setLastPage(1);
+
+  } finally {
+   setLoading(false);
+  }
+ };
+
+ const fetchFilterOptions = async () => {
+  try {
+   const [majorsRes, yearsRes, levelsRes] = await Promise.all([ getMajors(), getSchoolYears(), getLevelClass(),]);
+
+   const activeSchoolYears = yearsRes?.data 
+    ? yearsRes.data.filter((year) => year.active === true)
+    : [];
+   
+   setFilterOptions({ 
+    majors: majorsRes || [], 
+    schoolYears: { data: activeSchoolYears } || [],
+    levelClasses: levelsRes || [],
+   });
+
+  } catch (error) {
+   console.error("Error fetching filter options:", error);
+  }
+ };
+
+
+ const handleFilterChange = (newFilters) => {
+  fetchSchedule(1, newFilters, searchText); 
+ };
+
+ const handlePageChange = (newPage) => {
+  fetchSchedule(newPage, filters, searchText);
+ };
+ 
+ const debouncedFetch = useMemo(
+  () => debounce((searchQuery) => {
+   fetchSchedule(1, filters, searchQuery); 
+  }, 500), 
+  [filters]
+ );
+
+ const handleSearchChange = (newText) => {
+  setSearchText(newText); 
+  debouncedFetch(newText);
+ };
+
+
+ const handleViewSchedule = (classroomData) => {
+  setSelectedClassroomData(classroomData);
+  setActiveTab("jadwal-kelas");
+ };
+
+ const handleBackToClasses = () => {
+  setSelectedClassroomData(null);
+  setActiveTab("kelas");
+ };
+
+
+ useEffect(() => {
+  fetchSchedule(1, { major: initialMajor, school_year: "", level_class: "" }, "");
+  fetchFilterOptions();
+  
+  return () => {
   };
+ }, []);
+
+
+ return {
+  activeTab,
+  setActiveTab,
+  selectedClassroomData,
+  handleViewSchedule,
+  handleBackToClasses,
+  scheduleData,
+  loading,
+  page,
+  lastPage,
+  handlePageChange,
+  filters,
+  handleFilterChange,
+  filterOptions,
+  searchText,
+  handleSearchChange,
+ };
 }

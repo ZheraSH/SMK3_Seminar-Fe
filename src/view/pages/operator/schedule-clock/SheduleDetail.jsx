@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { UserCheck2, Users, GraduationCap, ArrowLeft, MoreVertical, PencilLine, Trash2, Plus } from 'lucide-react';
 import useClassSchedule from '../../../../Core/hooks/operator-hooks/schedule/useClassSchedule'; 
 
@@ -99,6 +99,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
         
         try {
             await removeSchedule(scheduleId);
+            await refetch();
         } catch (error) {
             const errorMessage = error.message || error.response?.data?.message || `Gagal menghapus jadwal ${subjectName}.`;
             alert(`❌ Error: ${errorMessage}`);
@@ -120,47 +121,47 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
     if (!classroom) return <div className="p-4 text-center text-red-500">Data Kelas tidak ditemukan.</div>;
 
     return (
-        <div className="p-2">
+        <div className="">
             <div className="bg-[url('/images/background/bg04.png')] h-[142px] text-white rounded-xl shadow-md mb-6">
                 <div className="flex justify-between items-center mb-6 text-white">
                     <div>
-                        <span className='text-center flex flex-row gap-3 text-xl font-semibold ml-4 mt-4'>
-                            <GraduationCap size={25}/>{classroom.name}
+                        <span className='text-center flex flex-row gap-3 lg:text-xl md:text-lg text-sm font-semibold ml-4 mt-4'>
+                            <GraduationCap className='lg:size-[25px] md:size-[23px] size-[20px]'/>{classroom.name}
                         </span>
-                        <p className="ml-5 text-sm">Kelas - {classroom.name}</p>
+                        <p className="ml-5  lg:text-xl md:text-lg text-sm ">Kelas - {classroom.name}</p>
                     </div>
                 </div>
-                <div className="flex items-center space-x-6 mt-11 text-sm ml-5">
+                <div className="flex items-center space-x-6 lg:mt-8 md:mt-8 mt-13 text-sm ml-5  lg:text-sm md:text-[14px] text-[12px] ">
                     <div className="flex items-center space-x-2">
-                        <UserCheck2 size={20} /> <span className='text-sm'>{classroom.homeroom_teacher}</span>
+                        <UserCheck2 className='lg:size-[25px] md:size-[23px] size-[18px]' /> <span className=''>{classroom.homeroom_teacher}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Users size={20} /> <span className='text-sm'>{classroom.total_students}</span>
+                        <Users className='lg:size-[25px] md:size-[23px] size-[18px]' /> <span className=''>{classroom.total_students}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <GraduationCap size={20} /> <span className='text-sm'>{classroom.school_year}</span>
+                        <GraduationCap className='lg:size-[25px] md:size-[23px] size-[18px]' /> <span className=''>{classroom.school_year}</span>
                     </div>
                 </div>
             </div>
 
-            <div className="flex justify-between items-center pb-2 mb-4 bg-white rounded-lg drop-shadow-sm p-2 h-[60px] ">
-                <div className="flex space-x-1 bg-[#EFF1F3] h-[48px] py-1 px-1 rounded-lg">
-                    {days.map(day => (
-                        <button key={day} onClick={() => setActiveDay(day)}
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition duration-200 ${
-                                activeDay === day ? 'bg-[#3B82F6] text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
-                            {day}
-                        </button>
-                    ))}
-                </div>
-                <button onClick={handleBackToClasses}  className="flex items-center space-x-1 text-[#FF5E53] font-semibold border border-[#FF5E53] px-3 py-2 rounded-lg text-sm">
-                    <ArrowLeft size={16} />
-                    <span>Kembali</span>
-                </button>
-            </div>
+            <div className="flex flex-col md:flex-row md:justify-between items-center pb-2 mb-4 bg-white rounded-lg drop-shadow-sm p-2 md:h-[60px] gap-3 md:gap-0">
+                <div className="flex space-x-1 bg-[#EFF1F3] w-full md:w-auto overflow-x-auto p-1 rounded-lg flex-shrink-0">
+                    {days.map(day => (
+                        <button key={day} onClick={() => setActiveDay(day)}
+                            className={`flex-shrink-0 px-4 py-2 text-sm font-medium rounded-lg transition duration-200 ${
+                                activeDay === day ? 'bg-[#3B82F6] text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
+                            {day}
+                        </button>
+                    ))}
+                </div>
+                <button onClick={handleBackToClasses} className="flex items-center justify-center md:justify-start space-x-1 text-[#FF5E53] font-semibold border border-[#FF5E53] px-3 py-2 rounded-lg text-sm w-full md:w-auto hover:bg-red-50 transition-colors">
+                    <ArrowLeft size={16} />
+                    <span>Kembali</span>
+                </button>
+            </div>
             
             <div className="bg-white p-6 rounded-xl shadow-lg">
-                <div className=" rounded-md">
+                <div className=" rounded-md overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 border border-gray-200 ">
                         <thead className="bg-[#3B82F6] text-white">
                             <tr>
@@ -210,7 +211,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
                                                         ><MoreVertical className='w-5 h-5'/></button>
                                                         
                                                         {openDropdownId === item.id && (
-                                                            <div ref={dropdownRef} className="absolute right-0 transform -translate-x-1/2 w-40 bg-white border border-gray-200 rounded-md shadow-xl z-20">
+                                                            <div ref={dropdownRef} className="absolute top-0 right-0 transform -translate-x-1/2 w-40 bg-white border border-gray-200 rounded-md shadow-xl z-20">
                                                                 <button 
                                                                     onClick={() => openEditModal(item)}
                                                                     className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
