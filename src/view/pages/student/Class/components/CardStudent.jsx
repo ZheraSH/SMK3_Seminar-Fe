@@ -23,7 +23,7 @@ export default function CardStudent ({student,loading,error}) {
                     className="relative bg-[url('/images/cardbg/CardBg.png')] bg-center w-[150px] h-[110px] md:w-[220px] md:h-[150px] mb-4 shadow-md hover:shadow-lg transition-shadow rounded-2xl flex flex-col items-center"
                     >
                         <img
-                            src="/images/team/valen.jpg"
+                            src={s.image}
                             alt="student"
                             className=" w-[40px] h-[40px] md:w-[64px] md:h-[64px] rounded-full border border-white absolute left-1/2 -translate-x-1/2 top-[30px] z-30"
                         />
