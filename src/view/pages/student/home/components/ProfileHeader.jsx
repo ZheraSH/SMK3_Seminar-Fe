@@ -11,7 +11,7 @@ export default function ProfileHeader ({user}) {
                     Halo, {user.name || "Pengguna"}
                 </h1>
                 <p className="text-[10px] md:text-[14px] font-medium">
-                    XII PPLG 3
+                    {user.classroom}
                 </p>
             </div>
         </div>
