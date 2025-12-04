@@ -15,7 +15,7 @@ export const getClass = async (params = {}) => {
 export const createClass = async (formData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/classrooms`, formData)
-        notify("data berhasil di tambah");
+        notify("Data berhasil di tambah");
         return res.data; 
     } catch (err) {
         console.error("Gagal menambah classroom:", err.response ? err.response.data : err)
