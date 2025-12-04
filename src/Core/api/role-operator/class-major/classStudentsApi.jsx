@@ -49,7 +49,7 @@ export const addStudentsToClassroom = async (classroomId, studentIds) => {
       `${API_URL}/classroom-students/${classroomId}/add-students`,
       { student_ids: studentIds }
     );
-    notify("Data berhasil di tambah");
+    notify("Data Berhasil Ditambah");
     return res.data;
   } catch (err) {
     console.error("Gagal menambahkan siswa:", err);
@@ -62,7 +62,7 @@ export const removeStudentFromClass = async (classroomId, studentId) => {
     const res = await axios.delete(
       `${API_URL}/classroom-students/${classroomId}/remove-student/${studentId}`
     );
-    notify("Data berhasil di hapus");
+    notify("Data Berhasil Dihapus");
     return res.data;
 };
 
