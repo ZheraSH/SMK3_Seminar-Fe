@@ -17,7 +17,7 @@ export default function MainMonitoringAbsen() {
     lastUpdated,
     currentPage,
     totalPages,
-
+    noData,
     handleSearchChange,
     handleFilterSelect,
     handlePageChange,
@@ -74,11 +74,17 @@ export default function MainMonitoringAbsen() {
                 </p>
 
                 <div className=" overflow-auto lg:overflow-hidden w-full px-2 md:px-3">
-                    <TableAttendanceBk
-                    students={students}
-                    loading={loading}
-                    error={error}
-                    />
+                    {noData ? (
+                        <p className="text-center text-gray-500 text-lg py-4">
+                            Data tidak ditemukan
+                        </p>
+                    ) : (
+                        <TableAttendanceBk
+                            students={students}
+                            loading={loading}
+                            error={error}
+                        />
+                    )}
                 </div>
 
                 <Pagination
