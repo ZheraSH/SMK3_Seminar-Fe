@@ -4,6 +4,7 @@ import { getAbsenteeismMonitoring } from "../../../api/role-bk/monitoring/absent
 export function useAttendanceMonitoring() {
     const [students, setStudents] = useState([]);
     const [recap, setRecap] = useState({});
+    const [noData, setNoData] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -11,6 +12,7 @@ export function useAttendanceMonitoring() {
     const [lastUpdated, setLastUpdated] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [activeFilter, setActiveFilter] = useState({});
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -22,17 +24,24 @@ export function useAttendanceMonitoring() {
         setError(null);
 
         try {
-            if (searchQuery && Object.keys(params).length === 0) {
-                params.search = searchQuery;
-            }
-            params.page = page;
+            const finalParams = {
+                ...params,
+                page,
+            };
 
-            const data = await getAbsenteeismMonitoring(params);
-            if (!data) {
-                setError("Data Monitoring Tidak Ditemukan");
+            if (searchQuery) {
+                finalParams.search = searchQuery;
+            }
+
+            console.log("PARAMS TERKIRIM >>>", finalParams);
+
+            const data = await getAbsenteeismMonitoring(finalParams);
+
+            if (!data || !data.list?.data?.length) {
                 setStudents([]);
                 setRecap({});
                 setTotalPages(1);
+                setNoData(true);
                 return;
             }
 
@@ -42,28 +51,34 @@ export function useAttendanceMonitoring() {
             setCurrentPage(data.list.meta?.current_page || 1);
 
             setLastUpdated(new Date());
+            setNoData(false);
         } catch (err) {
             console.error(err);
             setError("Gagal memuat data Izin");
             setStudents([]);
             setRecap({});
             setTotalPages(1);
+            setNoData(false);
         } finally {
             setLoading(false);
         }
     }, [searchQuery]);
 
     useEffect(() => {
-        fetchData({}, currentPage);
-    }, [fetchData, currentPage]);
+        fetchData(activeFilter, currentPage);
+    }, [fetchData, currentPage, activeFilter]);
 
     const handleFilterSelect = (item, type) => {
         setSelectedFilter(item);
         setCurrentPage(1);
+
         if (item === "Show all") {
+            setActiveFilter({});
             fetchData({}, 1);
         } else {
-            fetchData({ [type]: item }, 1);
+            const newFilter = { [type]: item };
+            setActiveFilter(newFilter);
+            fetchData(newFilter, 1);
         }
     };
 
@@ -75,6 +90,7 @@ export function useAttendanceMonitoring() {
         students,
         recap,
         loading,
+        noData,
         error,
         searchQuery,
         selectedFilter,
