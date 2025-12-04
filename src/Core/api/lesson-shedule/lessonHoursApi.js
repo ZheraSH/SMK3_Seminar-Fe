@@ -21,7 +21,7 @@ export const addLessonHour = async (lessonData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/lesson-hours`, lessonData);
         console.log("Jam Pelajaran Berhasil Ditambahkan:", res.data);
-         notify('Data berhasil di tambah');
+         notify('Data Berhasil Ditambah');
         return res.data; 
 
     } catch (err) {
@@ -34,7 +34,7 @@ export const deleteLessonHour = async (id) => {
     try {
         const res = await axios.delete(`${API_BASE_URL}/lesson-hours/${id}`);
         console.log("Jam Pelajaran Berhasil Dihapus:", res.data);
-         notify('Data berhasil di hapus');
+         notify('Data Berhasil Dihapus');
         return res.data; 
     } catch (err) {
         console.error("Gagal Menghapus Jam Pelajaran:", err.response ? err.response.data : err.message);

@@ -37,7 +37,7 @@ export const addSchedule = async (scheduleData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/lesson-schedules`, scheduleData);
         console.log("Jadwal Baru Berhasil Dibuat (Create):", res.data);
-        notify("Data berhasil di tambah");
+        notify("Data Berhasil Ditambah");
         return res.data;
     } catch (err) {
         console.error("Gagal menambahkan jadwal:", err.response ? err.response.data : err.message);
@@ -49,7 +49,7 @@ export const updateSchedule = async (scheduleId, scheduleData) => {
     try {
         const res = await axios.put(`${API_BASE_URL}/lesson-schedules/${scheduleId}`, scheduleData);
         console.log(`Jadwal ID ${scheduleId} Berhasil Diperbarui (Update):`, res.data);
-        notify("Data berhasil di perbarui");
+        notify("Data Berhasil Diperbarui");
         return res.data;
     } catch (err) {
         console.error(`Gagal memperbarui jadwal ID ${scheduleId}:`, err.response ? err.response.data : err.message);
@@ -61,7 +61,7 @@ export const deleteSchedule = async (scheduleId) => {
     try {
         const res = await axios.delete(`${API_BASE_URL}/lesson-schedules/${scheduleId}`);
         console.log(`Jadwal ID ${scheduleId} Berhasil Dihapus (Delete):`, res.data);
-        notify("Data berhasil di hapus");
+        notify("Data Berhasil Dihapus");
         return res.data;
     } catch (err) {
         console.error(`Gagal menghapus jadwal ID ${scheduleId}:`, err.response ? err.response.data : err.message);
