@@ -169,11 +169,13 @@ const ScheduleLayout = ({ mode,classScheduleData}) => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 text-center">
                             
-                            {isLoadingHours && mode === 'jam' && (
-                                <tr>
-                                    <td colSpan={tableHeaders.length} className="px-6 py-4 text-center text-gray-500">Memuat jam pelajaran untuk {activeDayIndo}...</td>
-                                </tr>
-                            )}
+                            
+
+                            {isLoadingHours && ( 
+                                <tr>
+                                    <td colSpan={tableHeaders.length} className="px-6 py-4 text-center text-gray-500">Memuat jam pelajaran untuk {activeDayIndo}...</td>
+                                </tr>
+                            )}
                             
                             {!isLoadingHours && dataForDisplay.length === 0 ? (
                                 <tr>
