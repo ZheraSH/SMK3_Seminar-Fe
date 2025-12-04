@@ -292,7 +292,7 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
               RADIUS * 1.35,
               mid
             );
-            const horizontal = isRight ? start.x + 30 : start.x - 30;
+            const horizontal = isRight ? start.x + 0 : start.x - 8;
 
             return (
               <React.Fragment key={seg.label}>
@@ -312,7 +312,7 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
           </text>
         </svg>
 
-        <div className="absolute right-0 space-y-2">
+        <div className="absolute lg:-right-2 md:right-4 right-0 lg:mt-0 md:mt-0 mt-36 lg:space-y-2 md:space-y-2">
           {rawData.map((item, idx) => (
             <div key={idx} className="flex items-center space-x-2 text-sm">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
