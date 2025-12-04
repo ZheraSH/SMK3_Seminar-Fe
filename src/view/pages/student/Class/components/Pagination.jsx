@@ -3,6 +3,8 @@
 import React from "react"
 
 export function Pagination({ currentPage, totalPages, onPageChange }) {
+    if (totalPages <= 1) return null;
+    
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             onPageChange(page)
@@ -11,7 +13,6 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
 
     return (
         <div className="flex justify-center items-center gap-2 mt-6 select-none">
-            {/* Tombol Sebelumnya */}
             <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
@@ -21,8 +22,6 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
             >
                 &lt;
             </button>
-
-            {/* Nomor Halaman */}
             {Array.from({ length: totalPages }, (_, i) => i + 1)
                 .filter((page) => page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1))
                 .map((page, i, arr) => (
@@ -40,8 +39,6 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
                     </button>
                 </React.Fragment>
                 ))}
-
-            {/* Tombol Berikutnya */}
             <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
