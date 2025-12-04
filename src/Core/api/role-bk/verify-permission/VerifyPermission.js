@@ -90,7 +90,7 @@ export const approvePermissionBk = async (permissionId) => {
         );
         
         console.log("Respon Approve API:", res.data);
-        notify('data berhasil di setujui');
+        notify('Data Berhasil Disetujui');
         return res.data;
     } catch (err) {
         console.error("Gagal menyetujui izin:", err.response ? err.response.data : err.message);
@@ -118,7 +118,7 @@ export const rejectPermissionBk = async (permissionId) => {
         );
         
         console.log("Respon Reject API:", res.data);
-        notify('data berhasil di tolak');
+        notify('Data Berhasil Ditolak');
         return res.data;
     } catch (err) {
         console.error("Gagal menolak izin:", err.response ? err.response.data : err.message);

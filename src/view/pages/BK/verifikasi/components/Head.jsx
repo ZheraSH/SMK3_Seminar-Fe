@@ -67,7 +67,7 @@ export default function HeaderAndControls ({ handleClassSelect, searchQuery, onS
                     <div className="flex flex-row gap-3 w-full justify-between  ml-auto"> 
                         <div className="relative flex-grow flex justify-end">
                             <Search className="absolute lg:right-52 md:right-34 right-32 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                            <input type="text" placeholder="Cari Kelas/Nama..." className="lg:w-[240px] md:w-[170px] w-[160px] h-10 py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm text-sm" value={searchQuery} onChange={handleSearchChange}/>
+                            <input type="text" placeholder="Cari Nama..." className="lg:w-[240px] md:w-[170px] w-[160px] h-10 py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm text-sm" value={searchQuery} onChange={handleSearchChange}/>
                         </div>
                         <ClassDropdown classes={classes} selectedClassId={selectedClassId} handleClassSelect={handleClassSelect}/>
                     </div>
