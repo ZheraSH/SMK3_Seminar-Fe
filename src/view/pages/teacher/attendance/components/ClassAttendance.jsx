@@ -98,6 +98,15 @@ export default function ClassAttendance({
         />
       )}
 
+      <div className="bg-[#FFF5E3] mx-2 p-3 md:p-4 rounded-md mb-4 mt-2">
+        <p className="text-sm md:text-base font-semibold text-[#FFAA05] mb-2">Informasi</p>
+        <ul className="list-disc text-xs md:text-sm space-y-1 ml-4">
+          <li>Halaman ini digunakan untuk mencatat absensi guru saat mengajar di setiap kelas.</li>
+          <li>Pilih status kehadiran sesuai kondisi sebenarnya sebelum melakukan cross check.</li>
+          <li>Perbaiki status yang tidak sesuai dan tekan Submit untuk menyimpan data dengan benar.</li>
+        </ul>
+      </div>
+
       <div className="mt-4 overflow-auto">
         {loading ? (
           <p className="text-center py-10 text-gray-600">Memuat data absensi...</p>
@@ -116,8 +125,8 @@ export default function ClassAttendance({
         )}
       </div>
 
-      {pagination && !loading && !error && (
-        <Pagination page={page} setPage={setPage} pagination={pagination} />
+      {pagination && pagination.last_page > 1  && !error && (
+          <Pagination page={page} setPage={setPage} pagination={pagination} />
       )}
     </div>
   );

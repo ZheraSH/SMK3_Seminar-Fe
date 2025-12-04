@@ -42,7 +42,7 @@ export default function CardAttendance({
   }
 
   return (
-    <div className="flex flex-wrap gap-8 mt-5 mb-10 z-10">
+    <div className="flex flex-wrap gap-8 mt-5 mb-10 z-10 justify-center lg:justify-start">
       {classrooms.map((item) => (
         <div
           key={item.id}

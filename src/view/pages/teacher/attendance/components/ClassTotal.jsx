@@ -18,9 +18,7 @@ export default function TotalClass({
 
             <div className="md:pl-0 lg:pl-[16px] py-[8px]">
                 <h1 className="text-xl font-semibold font-poppins">Daftar Nama Siswa</h1>
-                <p className="text-xs text-gray-500">
-                Total: {summary.present + summary.alpha + summary.leave + summary.late + summary.sick} siswa {/* 🌟 Tambah summary.sick */}
-                </p>
+                
             </div>
 
             <div className="flex gap-2 items-center text-[10px] lg:text-[16px] ">
@@ -67,7 +65,7 @@ export default function TotalClass({
             </div>
             <div>
                 {!isTimeValid && !isSubmitted && (
-                <div className="ml-2 p-2 mt-5 bg-red-100 border border-red-400 rounded-lg">
+                <div className=" mx-2 p-2 mt-3 bg-red-100 border border-red-400 rounded-lg">
                     <p className="text-md text-red-700 font-medium">
                     ⚠️ Di luar jam absensi!
                     </p>

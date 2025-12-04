@@ -14,7 +14,7 @@ export default function ButtonAttendance({ setActiveDay, activeDay }) {
         <button
           key={day.value}
           onClick={() => setActiveDay(day.value)}
-          className={`px-3 py-2 ml-1 h-[30px] md:w-[80px] md:h-[40px] rounded-md border-none font-semibold text-[10px] md:text-[14px] transition-all duration-200 ${
+          className={`px-2 py-2 ml-1 h-[30px] w-[59px] md:w-[80px] md:h-[40px] rounded-md border-none font-semibold text-[12px] md:text-[14px] transition-all duration-200 ${
             activeDay === day.value
               ? "bg-[#3B82F6] text-white border-[#3B82F6]"
               : "bg-[#EFF1F3] text-black hover:bg-[#3B82F6] hover:text-white"
