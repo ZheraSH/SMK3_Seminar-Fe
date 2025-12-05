@@ -33,7 +33,7 @@ export default function AttendanceRulesPage() {
       />
 
       <div className="p-4 sm:p-6 max-w-6xl mx-auto bg-white border border-gray-300 rounded-2xl mb-10 shadow-lg">
-        <div className="flex gap-2 overflow-x-auto no-scrollbar bg-gray-100 rounded-lg p-2 mb-6">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar bg-gray-100 rounded-lg p-2 mb-6 w-[650px]">
           {attendanceRules.map((rule) => (
             <button
               key={rule.day}
@@ -47,7 +47,7 @@ export default function AttendanceRulesPage() {
                 ${
                   selectedDay === rule.day
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-300"
                 }`}
             >
               {rule.day_label}

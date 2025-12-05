@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DEFAULT_DAYS } from "../../../../view/pages/operator/absenrfid/constants/attendanceDays";
+import { DEFAULT_DAYS } from "../../../../view/pages/operator/attendance-rules/constants/attendanceDays";
 import {
   fetchAttendanceRulesAPI,
   saveAttendanceRuleAPI,

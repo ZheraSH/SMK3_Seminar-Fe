@@ -9,12 +9,13 @@ import MainMajor from "../../view/pages/operator/class-major/MainMajor";
 import { RfidManagement } from "../../view/pages/operator/rfid/MainRfid";
 import ClassScheduleManager from "../../view/pages/operator/schedule-clock/MainLayout";
 import { TeacherMain } from "../../view/pages/operator/teachers/TeachersMain";
-import AbsenRfid from "../../view/pages/operator/absenrfid/AbsenRfid";
+import AttendanceRulesPage from "../../view/pages/operator/attendance-rules/AttendanceRules";
 import ClassStudents from "../../view/pages/operator/class-major/class-students/MainClassStudent";
 import Shcedule from "../../view/pages/operator/schedule-clock/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
 // import TahunAjaran from "../../view/pages/operator/schoolyears/MainSchoolYears";
 import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
+
 
 export const AdminRoutes = [
   {
@@ -34,7 +35,7 @@ export const AdminRoutes = [
           { path: "maple", element: <MainMaple /> },
           // { path: "tahun-ajaran", element: <TahunAjaran /> },
           { path: "siswa", element: <MainStudent /> },
-          { path: "absen-rfid", element: <AbsenRfid /> },
+          { path: "absen-rfid", element: <AttendanceRulesPage /> },
           { path: "rfid", element: <RfidManagement /> },
           { path: "Shedule", element: <Shcedule /> },
         ],
