@@ -73,12 +73,12 @@ export const submitStudent = async (post, editingId) => {
       await axios.post(`${API_BASE_URL}/students/${editingId}?_method=PUT`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      notify("Data siswa berhasil di Perbarui!");
+      notify("Data Berhasil Diperbarui");
     } else {
       await axios.post(`${API_BASE_URL}/students`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      notify("Data siswa berhasil di Tambahkan!");
+      notify("Data Berhasil Ditambah");
     }
   } catch (err) {
     console.log("🔥 ERROR RESPONSE:", err.response?.data)
@@ -89,7 +89,7 @@ export const submitStudent = async (post, editingId) => {
 export const deleteStudent = async (id) => {
   try {
     await axios.delete(`${API_BASE_URL}/students/${id}`)
-    notify("Berhasil Menghapus siswa")
+    notify("Data Berhasil Dihapus")
   } catch (err) {
     console.error(err)
     alert("Gagal menghapus data siswa")
