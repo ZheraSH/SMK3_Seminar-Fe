@@ -39,7 +39,7 @@ export function usePermissions() {
       
       
       // Jika sukses, refresh data dan kembalikan success
-      notify("✔️ Data berhasil disimpan");
+      notify("Data Berhasil Ditambah");
       await fetchPermissions(page);
       return { success: true, errors: null };
       

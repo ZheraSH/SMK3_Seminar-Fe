@@ -8,7 +8,6 @@ import { PermissionDetailModal } from "./components/PermissionDetailModal";
 import { usePermissions } from "../../../../Core/hooks/role-student/permission-student/PermissionStudent";
 import { PaginationPermissionStudent } from "./components/PermissionPagination";
 import HeaderPage from "../../../components/elements/header/Header.Page";
-import { PermissionCardsSection } from "./components/PermissionCardsSection";
 
 export default function PermissionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
