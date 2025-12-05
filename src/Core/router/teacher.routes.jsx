@@ -1,9 +1,8 @@
 import { LayouthTeacher } from "../../view/layouts/TeacherLayout";
 import AttendanceTeacher from "../../view/pages/teacher/attendance/MainAttendance";
 import ProtectedRoute from "./ProtectedRoute";
-import MainDashboard from "../../view/components/elements/MainDashboard";
-
-import BodyDashboard from "../../view/pages/teacher/home/BodyDashboardTeacher";
+import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/TeachingSchedule";
+import BodyDashboardTeacher from "../../view/pages/teacher/home/BodyDashboardTeacher";
 
 export const TeacherRoutes = [
     {
@@ -13,10 +12,11 @@ export const TeacherRoutes = [
             {
                 element :<LayouthTeacher />,
                 children : [
-                    { index: true, element: <BodyDashboard /> },
-                    { path: "dashboard", element: <MainDashboard /> },
+                    { index: true, element: <BodyDashboardTeacher/>},
+                    { path: "dashboard", element: <BodyDashboardTeacher /> },
                     { path : "attendance-teacher", element: <AttendanceTeacher /> },
-                    // { path : "teacher-schedule", element: <TeacherSchedule /> },
+                    { path : "teacher-schedule", element: <TeacherSchedule /> },
+                    
                 ]
             }
         ],
