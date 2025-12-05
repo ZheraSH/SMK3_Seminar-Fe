@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContaine
 export default function AttendanceChart({ isLoading, weeklyStats }) {
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow p-5 flex-1">
-      <h2 className="font-semibold mb-4 text-sm sm:text-base">Grafik Kehadiran Siswa (7 Hari Terakhir)</h2>
+      <h2 className="font-semibold mb-4 text-[20px] sm:text-base">Grafik Kehadiran Siswa (7 Hari Terakhir)</h2>
 
       {isLoading ? (
         <div className="w-full h-[250px] sm:h-[300px] flex items-center justify-center">
@@ -17,13 +17,6 @@ export default function AttendanceChart({ isLoading, weeklyStats }) {
               <XAxis dataKey="hari" tick={{ fontSize: 12 }} />
               <YAxis
                 tick={{ fontSize: 12 }}
-                label={{
-                  value: "Jumlah Siswa",
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: -5,
-                  style: { fontSize: 12 },
-                }}
               />
               <Tooltip
                 formatter={(value, name) => {

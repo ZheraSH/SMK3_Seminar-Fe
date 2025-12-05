@@ -1,7 +1,8 @@
 export default function ActivityTable({ activities }) {
     return (
       <div className="rounded-2xl bg-white border border-gray-200 shadow p-4 flex-1 overflow-x-auto">
-        <div className="rounded-t-[7px] border border-gray-200 overflow-hidden w-full">
+           <h2 className="font-semibold mb-4 text-[20px] sm:text-base">Aktivitas Tap Terbaru</h2>
+        <div className="rounded-t-[7px] border border-gray-200 overflow-hidden w-full">      
           <table className="w-full text-left border-collapse table-fixed">
             <thead>
               <tr className="bg-[#3B82F6] text-white text-sm">

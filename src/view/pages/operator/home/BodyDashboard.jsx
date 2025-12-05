@@ -24,18 +24,18 @@ const counterConfig = [
     title: "Total Guru",
   },
   {
-    key: "total_classrooms",
+    key: "total_staff",
     color: "#FF5E53",
     bg: "bg-[#FF5E53]/20",
     icon: <UserRoundCog size={40} className="text-[#FF5E53]" />,
-    title: "Total Kelas",
+    title: "Total Staff",
   },
   {
-    key: "total_staff",
+    key: "total_classrooms",
     color: "#8B5CF6",
     bg: "bg-[#8B5CF6]/20",
     icon: <DoorClosed size={40} className="text-[#8B5CF6]" />,
-    title: "Total Staff",
+    title: "Total Kelas",
   },
   {
     key: "attendance_percentage_today",
