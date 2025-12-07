@@ -7,18 +7,16 @@ const loginUser = async ({ email, password }) => {
   try {
     const response = await api.post("/login", { email, password });
 
-    console.log("Respon backend:", response.data);
-
     const result = response.data;
 
     if (result && result.data && result.data.token && result.data.user) {
       const user = result.data.user;
-      const roles = user.roles.map((r) => r.name);
+      const roles = user.roles.map((r) => r.value); 
       return {
         token: result.data.token,
         user: user,
         roles: roles,
-        activeRole:result.data.role,
+        activeRole: result.data.role,
       };
     } else {
       throw new Error("Format respons dari server tidak sesuai");
@@ -28,6 +26,7 @@ const loginUser = async ({ email, password }) => {
     throw new Error("Gagal login. Periksa email/password atau server API.");
   }
 };
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
