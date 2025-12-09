@@ -46,7 +46,7 @@ const MainClass = () => {
             type: "category", 
             key: "major", 
             label: "Jurusan", 
-            items: filterOptions.majors.map(m => m.name) 
+           items: filterOptions.majors.map(m => ({ label: m.code,   value: m.name}))
         },
         { 
             type: "category", 
@@ -63,21 +63,25 @@ const MainClass = () => {
     ];
 
 
-    const getActiveFilterValue = () => {
-        return filters.major || filters.school_year || filters.level_class || "Show all";
+  const getActiveFilterValue = () => {
+    if (filters.major) {
+        const found = filterOptions.majors.find(m => m.name === filters.major);
+        return found?.code || "All";
     }
+    return filters.school_year || filters.level_class || "Show all";
+}
 
     const handleFilterSelect = (value) => {
         let newFilters = { major: "", school_year: "", level_class: "" };
 
         if (value === "Semua Filter" || value === "Show all" || value === "Data Tahun Ajaran Tidak Tersedia") {
-        newFilters = { major: "", school_year: "", level_class: "" };
+            newFilters = { major: "", school_year: "", level_class: "" };
         } else if (filterOptions.levelClasses.some(l => l.name === value)) {
-        newFilters.level_class = value;
-        } else if (filterOptions.majors.some(m => m.name === value)) {
-        newFilters.major = value;
+            newFilters.level_class = value;
+        } else if (value.value && filterOptions.majors.some(m => m.name === value.value)) {
+            newFilters.major = value.value;
         } else if (filterOptions.schoolYears?.data?.some(y => y.name === value)) {
-        newFilters.school_year = value;
+            newFilters.school_year = value;
         }
  
         handleFilterChange(newFilters);
@@ -101,6 +105,10 @@ const MainClass = () => {
     };
 
     const displayClasses = classesData;
+
+    const getItemLabel = (item) => typeof item === "string" ? item : item.label;
+    const getItemValue = (item) => typeof item === "string" ? item : item.value;
+
 
     return (
         <div className="p-3 sm:p-3 bg-gray-50 min-h-screen mb-32 lg:mb-4">
@@ -155,13 +163,17 @@ const MainClass = () => {
                                                 </div>
                                             ) : (
                                                 option.items.map((item, itemIndex) => (
-                                                <button 
-                                                    key={itemIndex} 
-                                                    onClick={() => handleFilterSelect(item)} 
-                                                    className="w-full text-left pl-7 pr-3 py-1.5 text-sm text-gray-600 hover:bg-blue-50 flex justify-between items-center"
-                                                >
-                                                {item} 
-                                                {getActiveFilterValue() === item && ( <CheckIcon className="text-blue-500 z-100" />)}
+                                                <button key={itemIndex} onClick={() => handleFilterSelect(item)} className="w-full text-left pl-7 pr-3 py-1.5 text-sm text-gray-600 hover:bg-blue-50 flex justify-between items-center">
+                                                     {getItemLabel(item)}
+                                                    {option.key === "major" && filters.major === getItemValue(item) && (
+                                                        <CheckIcon className="text-blue-500" />
+                                                    )}
+                                                    {option.key === "level" && filters.level_class === getItemValue(item) && (
+                                                        <CheckIcon className="text-blue-500" />
+                                                    )}
+                                                    {option.key === "year" && filters.school_year === getItemValue(item) && (
+                                                        <CheckIcon className="text-blue-500" />
+                                                    )}
                                                 </button>
                                                 ))
                                             )}
@@ -213,7 +225,7 @@ const MainClass = () => {
             )}
  
             {loading ? (
-            <div className="flex justify-center items-center h-screen bg-gray-50">
+            <div className="flex justify-center items-center bg-gray-50">
                 <div className="text-lg ">Memuat data kelas...</div>
             </div>
             ) : (
