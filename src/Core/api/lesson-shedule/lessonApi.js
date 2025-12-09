@@ -4,7 +4,6 @@ const API_BASE_URL = "http://127.0.0.1:8000/api";
 export const fetchClass = async (page = 1) => {
    try {
     const res = await axios.get(`${API_BASE_URL}/classrooms?page=${page}`);
-    console.log("📦 Data Jadwal Pelajaran dari API:", res.data);
     return res.data.data;
   } catch (err) {
     console.error("gagal", err);
@@ -22,7 +21,6 @@ export const fetchClassScheduleByDay = async (classroomId, day) => {
     try {
         const res = await axios.get(endpoint);
         if (res.data && res.data.data) {
-            console.log(`📦 Jadwal Kelas ID ${classroomId} untuk ${day}:`, res.data.data);
             return res.data.data;
         } 
         return [];
@@ -36,7 +34,6 @@ export const fetchClassScheduleByDay = async (classroomId, day) => {
 export const addSchedule = async (scheduleData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/lesson-schedules`, scheduleData);
-        console.log("Jadwal Baru Berhasil Dibuat (Create):", res.data);
         notify("Data Berhasil Ditambah");
         return res.data;
     } catch (err) {
@@ -48,7 +45,6 @@ export const addSchedule = async (scheduleData) => {
 export const updateSchedule = async (scheduleId, scheduleData) => {
     try {
         const res = await axios.put(`${API_BASE_URL}/lesson-schedules/${scheduleId}`, scheduleData);
-        console.log(`Jadwal ID ${scheduleId} Berhasil Diperbarui (Update):`, res.data);
         notify("Data Berhasil Diperbarui");
         return res.data;
     } catch (err) {
@@ -60,7 +56,6 @@ export const updateSchedule = async (scheduleId, scheduleData) => {
 export const deleteSchedule = async (scheduleId) => {
     try {
         const res = await axios.delete(`${API_BASE_URL}/lesson-schedules/${scheduleId}`);
-        console.log(`Jadwal ID ${scheduleId} Berhasil Dihapus (Delete):`, res.data);
         notify("Data Berhasil Dihapus");
         return res.data;
     } catch (err) {
@@ -75,7 +70,6 @@ export const deleteSchedule = async (scheduleId) => {
 export const fetchSubject = async () => {
    try {
     const res = await axios.get(`${API_BASE_URL}/subjects`);
-    console.log("📦 Data mata Pelajaran dari API:", res.data);
     return res.data.data;
   } catch (err) {
     console.error("gagal", err);
@@ -105,13 +99,11 @@ export const fetchTeacher = async () => {
                 break; 
             }
             
-            console.log(`Berhasil mengambil halaman ${currentPage} (Total data: ${allTeachers.length})`);
 
             currentPage++;
 
         } while (currentPage <= lastPage); 
 
-        console.log(`Data Semua Teacher Berhasil Diambil (Total: ${allTeachers.length}):`, allTeachers);
         return allTeachers;
 
     } catch (err) {
@@ -131,7 +123,6 @@ export const fetchLesson = async (day = null) => {
 
     try {
         const res = await axios.get(endpoint);
-        console.log(`📦 Data Jam pelajaran dari API untuk ${day || 'Semua'}:`, res.data);
         return res.data.data;
     } catch (err) {
         console.error(`Gagal mengambil data jam pelajaran untuk ${day}:`, err.response?.data || err);

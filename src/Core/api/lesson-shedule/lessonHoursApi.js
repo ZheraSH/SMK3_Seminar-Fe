@@ -9,7 +9,6 @@ export const fetchLessonHoursByDay = async (day) => {
     }
     try {
         const res = await axios.get(`${API_BASE_URL}/lesson-hours/day/${day}`);
-        console.log(`📦 Data Jam Pelajaran untuk ${day}:`, res.data);
         return res.data.data;
     } catch (err) {
         console.error("gagal mengambil data per hari", err);
@@ -20,7 +19,6 @@ export const fetchLessonHoursByDay = async (day) => {
 export const addLessonHour = async (lessonData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/lesson-hours`, lessonData);
-        console.log("Jam Pelajaran Berhasil Ditambahkan:", res.data);
          notify('Data Berhasil Ditambah');
         return res.data; 
 
@@ -33,7 +31,6 @@ export const addLessonHour = async (lessonData) => {
 export const deleteLessonHour = async (id) => {
     try {
         const res = await axios.delete(`${API_BASE_URL}/lesson-hours/${id}`);
-        console.log("Jam Pelajaran Berhasil Dihapus:", res.data);
          notify('Data Berhasil Dihapus');
         return res.data; 
     } catch (err) {
