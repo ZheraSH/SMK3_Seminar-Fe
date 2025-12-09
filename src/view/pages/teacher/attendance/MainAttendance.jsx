@@ -4,7 +4,7 @@ import ClassAttendance from "./components/ClassAttendance";
 import { useAttendanceTeacher } from "../../../../Core/hooks/role-teacher/attendance/useAttendance";
 
 export default function AttendanceTeacher() {
-    const {
+  const {
     selectedClass,
     setSelectedClass,
     isOpenClass,
@@ -21,12 +21,13 @@ export default function AttendanceTeacher() {
     getDateByDay,
   } = useAttendanceTeacher();
 
-  
+  const currentDate = getDateByDay(activeDay);
+
   if (isOpenClass) {
     return (
       <ClassAttendance
         selectedClass={selectedClass}
-        date={getDateByDay(activeDay)}
+        date={currentDate}
         setIsOpenClass={setIsOpenClass}
         globalChanges={globalChanges}
         setGlobalChanges={setGlobalChanges}
@@ -36,14 +37,13 @@ export default function AttendanceTeacher() {
     );
   }
 
- 
   return (
     <div className="justify-center mx-7 mb-10 mt-5 md:mt-2">
       <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px]">
         <div className="absolute inset-0 items-center justify-center rounded-[6px]">
-          <div className="ml-5 mt-2">
-            <h1 className="text-white text-[26px] md:text-[36px] font-semibold">Absensi Kelas</h1>
-            <p className="text-white text-[12px] md:text-[14px] font-light">
+          <div className=" ml-3 md:ml-5 mt-2">
+            <h1 className="text-white text-[26px] md:text-[33px] font-semibold">Absensi Kelas</h1>
+            <p className="text-white text-[12px] md:text-[12px] font-light">
               Pilih kelas mengajar dan absen siswa di dalamnya.
             </p>
           </div>
@@ -54,6 +54,8 @@ export default function AttendanceTeacher() {
         <div className="pl-[5px] md:pl-[16px] py-[8px]">
           <h1 className="text-[15px] md:text-[20px] font-semibold">Daftar kelas mengajar</h1>
         </div>
+
+        {/* DAY SELECTOR */}
         <ButtonAttendance setActiveDay={setActiveDay} activeDay={activeDay} />
       </div>
 

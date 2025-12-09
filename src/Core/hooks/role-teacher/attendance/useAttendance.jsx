@@ -5,13 +5,15 @@ export function useAttendanceTeacher() {
   const [selectedClass, setSelectedClass] = useState(null);
   const [isOpenClass, setIsOpenClass] = useState(false);
 
-  const todayDayIndex = new Date().getDay();
-  let initialDay = "monday";
+  // --- Tentukan initial day sesuai hari sekarang ---
+  const today = new Date();
+  const todayIndex = today.getDay(); // 0–6
   const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
-  if (todayDayIndex >= 1 && todayDayIndex <= 5) {
-    initialDay = dayNames[todayDayIndex];
-  } else if (todayDayIndex === 6) {
+  let initialDay = "monday";
+  if (todayIndex >= 1 && todayIndex <= 5) {
+    initialDay = dayNames[todayIndex];
+  } else if (todayIndex === 6) {
     initialDay = "friday";
   }
 
@@ -23,35 +25,63 @@ export function useAttendanceTeacher() {
   const [globalChanges, setGlobalChanges] = useState({});
   const [submittedClasses, setSubmittedClasses] = useState({});
 
+  // --------------------------------------------------------
+  // 🔥 FIX UTAMA: Map hari → tanggal minggu ini, TAPI
+  // tidak melompat ke minggu depan (Senin sebelumnya tetap dipakai)
+  // --------------------------------------------------------
   const getDateByDay = (day) => {
-    const today = new Date();
-    const dayMap = { monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5 };
-    const targetDay = dayMap[day];
+    const map = { 
+      monday: 1, 
+      tuesday: 2, 
+      wednesday: 3, 
+      thursday: 4, 
+      friday: 5 
+    };
 
-    if (!targetDay) return today.toISOString().split("T")[0];
+    // kalau bukan hari belajar
+    if (!map[day]) return today.toLocaleDateString("en-CA");
 
-    const difference = targetDay - today.getDay();
+    const targetIndex = map[day];
+    const currentIndex = today.getDay(); // hari ini
+
+    let diff = targetIndex - currentIndex;
+
+    // 🔥 FIX: jika diff > 0 (misal sekarang Selasa, buka Senin),
+    // maka ambil Minggu INI, bukan minggu depan
+    if (diff > 0) {
+      diff -= 7;
+    }
+
     const targetDate = new Date(today);
-    targetDate.setDate(today.getDate() + difference);
-    return targetDate.toISOString().split("T")[0];
+    targetDate.setDate(today.getDate() + diff);
+
+    return targetDate.toLocaleDateString("en-CA");
   };
 
+  // --------------------------------------------------------
+  // 🔥 FETCH DATA CLASSROOM
+  // --------------------------------------------------------
   useEffect(() => {
     const date = getDateByDay(activeDay);
+    console.log("[useAttendanceTeacher] Fetching", activeDay, "=>", date);
+
     setLoading(true);
     setError(null);
 
     getAttendanceClassroom(date)
       .then((data) => {
-        if (!data) {
-          setError("Data kelas tidak ditemukan");
+        console.log("[useAttendanceTeacher] Received:", data);
+
+        if (!data || (Array.isArray(data) && data.length === 0)) {
+          setError("Tidak ada kelas mengajar");
           setClassrooms([]);
           return;
         }
+
         setClassrooms(data);
       })
       .catch((err) => {
-        console.error("Error fetching class data:", err);
+        console.error("Error fetching classroom:", err?.response?.data || err);
         setError("Gagal memuat data kelas");
         setClassrooms([]);
       })
@@ -63,15 +93,19 @@ export function useAttendanceTeacher() {
     setSelectedClass,
     isOpenClass,
     setIsOpenClass,
+
     activeDay,
     setActiveDay,
+
     classrooms,
     loading,
     error,
+
     globalChanges,
     setGlobalChanges,
     submittedClasses,
     setSubmittedClasses,
+
     getDateByDay,
   };
 }
