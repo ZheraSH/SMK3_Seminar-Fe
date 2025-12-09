@@ -31,7 +31,7 @@ export const AdminRoutes = [
           { path: "guru", element: <TeacherMain /> },
           { path: "Major", element: <MainMajor /> },
           { path: "class", element: <MainClass /> },
-          { path: "classStudents/:id", element: <ClassStudents /> },
+          { path: "classStudents/detail", element: <ClassStudents /> },
           { path: "maple", element: <MainMaple /> },
           // { path: "tahun-ajaran", element: <TahunAjaran /> },
           { path: "siswa", element: <MainStudent /> },
