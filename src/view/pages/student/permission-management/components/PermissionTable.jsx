@@ -10,27 +10,27 @@ export const PermissionTable = ({ permissions, onViewDetail }) => {
       <table className="w-full">
         <thead className="bg-[#3B82F6] text-white">
           <tr>
-            <th className="px-6 py-3 text-left font-medium">Jenis Izin</th>
-            <th className="px-6 py-3 text-left font-medium">Tanggal</th>
-            <th className="px-6 py-3 text-left font-medium">Status</th>
-            <th className="px-6 py-3 text-left font-medium">Bukti</th>
-            <th className="px-6 py-3 text-left font-medium">Verifikator</th>
-            <th className="px-6 py-3 text-left font-medium">Aksi</th>
+            <th className="px-6 py-3 text-center  font-medium">Jenis Izin</th>
+            <th className="px-6 py-3 text-center  font-medium">Tanggal</th>
+            <th className="px-6 py-3 text-center  font-medium">Status</th>
+            <th className="px-6 py-3 text-center  font-medium">Verifikator</th>
+            <th className="px-6 py-3 text-center  font-medium">Aksi</th>
           </tr>
         </thead>
 
         <tbody className="divide-y divide-gray-200">
           {permissions.map((perm) => (
             <tr key={perm.id} className="hover:bg-gray-50 transition">
-              <td className="px-6 py-4 text-[16px] text-gray-900 ">
+              <td className="px-6 py-4 text-[16px] text-center text-gray-900 ">
                 {perm.type_label}
               </td>
 
-              <td className="px-6 py-4 text-[16px] font-medium text-gray-600">
+              <td className="px-6 py-4 text-[16px] text-center font-medium text-gray-600">
                 {perm.start_date}
               </td>
 
               <td className="px-6 py-4 ">
+                <div className="flex justify-center">
                 <span
                   className={`text-xs font-medium px-3 py-1  rounded-[5px] ${getStatusBadgeColor(
                     perm.status
@@ -38,27 +38,22 @@ export const PermissionTable = ({ permissions, onViewDetail }) => {
                 >
                   {perm.status_label}
                 </span>
+                </div>
               </td>
 
-              <td className="px-6 py-4 text-[16px]">
-                <span className="bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs font-medium">
-                  IMG
-                </span>
-              </td>
-
-              <td className="px-6 py-4 text-[16px]">
-                <span className="text-sm">
-                  {perm.verification_message}
-                </span>
+              <td className="px-6 py-4 text-[16px] text-center">
+                <span className="text-sm">{perm.counselor.name || "-"}</span>
               </td>
 
               <td className="px-6 py-4">
+                <div className="flex justify-center">
                 <button
                   onClick={() => onViewDetail(perm)}
                   className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-2 rounded-[10px] text-[12px] font-medium transition"
                 >
                   Lihat Detail
                 </button>
+                </div>
               </td>
             </tr>
           ))}
