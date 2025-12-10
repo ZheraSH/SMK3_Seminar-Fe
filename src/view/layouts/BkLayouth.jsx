@@ -5,12 +5,14 @@ import { useRef, useState, useEffect } from "react"
 import MainDashboard from "../components/elements/MainDashboard"
 import { ChevronDown, Menu, X } from "lucide-react"
 import { Notification } from "../../Core/hooks/notification/Notification"
+import LoginSuccessPopup from "../components/elements/succeslogin/LoginSuccessPopup"
 
 export const LayouthBK = () => {
   const location = useLocation()
   const scrollRef = useRef(null)
   const [showScrollButton, setShowScrollButton] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,9 +33,24 @@ export const LayouthBK = () => {
     }
   }
 
+  useEffect(() => {
+    if (localStorage.getItem("loginSuccess") === "true") {
+      setShowLoginPopup(true);
+      localStorage.removeItem("loginSuccess");
+    }
+  }, []);
+  
+
+
   return (
     <>
       <div className="flex h-screen bg-gray-50">
+      <LoginSuccessPopup
+          open={showLoginPopup}
+          onClose={() => setShowLoginPopup(false)}
+          title="Login Berhasil"
+          subtitle="Selamat datang kembali!"
+        />
       <Notification />
         {/* Sidebar */}
         <div

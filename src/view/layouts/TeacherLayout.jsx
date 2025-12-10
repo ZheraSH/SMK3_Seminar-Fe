@@ -1,40 +1,57 @@
-import { Link, useLocation } from "react-router-dom"
-import { menuItemTeacher } from "../../Core/Data/SidebarData"
-import { Outlet } from "react-router-dom"
-import { useRef, useState, useEffect } from "react"
-import MainDashboard from "../components/elements/MainDashboard"
-import { ChevronDown, Menu, X } from "lucide-react"
-import { Notification } from "../../Core/hooks/notification/Notification"
+import { Link, useLocation } from "react-router-dom";
+import { menuItemTeacher } from "../../Core/Data/SidebarData";
+import { Outlet } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import MainDashboard from "../components/elements/MainDashboard";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { Notification } from "../../Core/hooks/notification/Notification";
+import LoginSuccessPopup from "../components/elements/succeslogin/LoginSuccessPopup";
 
 export const LayouthTeacher = () => {
-  const location = useLocation()
-  const scrollRef = useRef(null)
-  const [showScrollButton, setShowScrollButton] = useState(false)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const location = useLocation();
+  const scrollRef = useRef(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const el = scrollRef.current
-      if (el) setShowScrollButton(el.scrollTop > 100)
-    }
-    const el = scrollRef.current
-    el?.addEventListener("scroll", handleScroll)
-    return () => el?.removeEventListener("scroll", handleScroll)
-  }, [])
+      const el = scrollRef.current;
+      if (el) setShowScrollButton(el.scrollTop > 100);
+    };
+    const el = scrollRef.current;
+    el?.addEventListener("scroll", handleScroll);
+    return () => el?.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({
         top: scrollRef.current.scrollHeight,
         behavior: "smooth",
-      })
+      });
     }
-  }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("loginSuccess") === "true") {
+      setShowLoginPopup(true);
+      localStorage.removeItem("loginSuccess");
+    }
+  }, []);
+  
 
   return (
     <>
       <div className="flex h-screen bg-gray-50">
-      <Notification />
+        <LoginSuccessPopup
+          open={showLoginPopup}
+          onClose={() => setShowLoginPopup(false)}
+          title="Login Berhasil"
+          subtitle="Selamat datang kembali!"
+        />
+
+        <Notification />
         {/* Sidebar */}
         <div
           className={`fixed top-0 left-0 h-full w-[250px] bg-[#1E3A8A] text-white transform transition-transform duration-300 z-40
@@ -43,7 +60,11 @@ export const LayouthTeacher = () => {
         >
           {/* Logo */}
           <div className="flex justify-center items-center px-10 gap-3 py-6 ">
-            <img className="w-10 h-10" src="../images/SMKNLOGO1.png" alt="Logo" />
+            <img
+              className="w-10 h-10"
+              src="../images/SMKNLOGO1.png"
+              alt="Logo"
+            />
             <div className="flex flex-col justify-center text-white font-bold text-center">
               SMK Negeri 3 Pamekasan
             </div>
@@ -116,5 +137,5 @@ export const LayouthTeacher = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};

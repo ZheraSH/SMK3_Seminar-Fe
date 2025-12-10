@@ -1,0 +1,167 @@
+@keyframes float-up {
+  to {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Overlay */
+.login-notification-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.login-notification-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+
+/* Container */
+.login-notification-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 27%;
+  animation: fade-in-zoom 0.5s ease-out;
+}
+
+@keyframes fade-in-zoom {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Success State */
+.login-notification-success {
+  position: relative;
+}
+
+.success-glow {
+  position: absolute;
+  inset: -2rem;
+  background: rgba(0, 102, 255, 0.3);
+  border-radius: 1.5rem;
+  filter: blur(2rem);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.success-card {
+  position: relative;
+  background: rgba(59, 130, 246, 0.4); /* 40% opacity */
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  overflow: hidden;
+  backdrop-filter: blur(20px); /* biar konten dalamnya nyatu efek blur */
+}
+
+
+.success-gradient-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.success-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.success-particle {
+  position: absolute;
+  width: 0.50rem;
+  height: 0.50rem;
+  border-radius: 50%;
+  background: white;
+}
+
+.success-icon-wrapper {
+  position: relative;
+  z-index: 10;
+}
+
+.success-icon-glow {
+  position: absolute;
+  inset: -1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  filter: blur(1.2rem);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.success-icon {
+  width: 5rem;
+  height: 5rem;
+  color: white;
+  position: relative;
+  z-index: 10;
+  filter: drop-shadow(0 0 1.5rem rgba(255, 255, 255, 0.6));
+  animation: scale-in 0.7s ease-out;
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.success-content {
+  text-align: center;
+  gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.success-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: white;
+}
+
+.success-subtitle {
+  font-size: 1.125rem;
+  color: white;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .login-notification-container {
+    max-width: 100%;
+  }
+
+  .success-title {
+    font-size: 1.5rem;
+  }
+}
