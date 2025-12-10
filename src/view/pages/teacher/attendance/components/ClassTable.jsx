@@ -1,70 +1,87 @@
 export default function TableClass({
-  attendance,
+  attendance = [],
   pagination,
-  status, 
+  status,
   changes,
   setChanges,
   page,
-  isSubmitted
+  canResubmit,
+  classKey,
+  isPastDate,
 }) {
- 
-
+  const isDisabled = !canResubmit || isPastDate;
   return (
-    <table className="w-full border-collapse overflow-hidden shadow-md rounded-lg">
+    <table className="w-[970px] border-collapse shadow-md rounded-lg">
       <thead>
         <tr className="bg-[#3B82F6] text-white h-[46px]">
-          <th className="py-2 px-4 text-center font-semibold text-[16px] rounded-tl-lg">No</th>
-          <th className="py-2 px-4 text-center font-semibold text-[16px]">Nama</th>
-          <th className="py-2 px-4 text-center font-semibold text-[16px]">NISN</th>
-          <th className="py-2 px-4 text-center font-semibold text-[16px] rounded-tr-lg">Status</th>
+          <th className="py-2 px-4 text-center font-semibold">No</th>
+          <th className="py-2 px-4 text-center font-semibold">Nama</th>
+          <th className="py-2 px-4 text-center font-semibold">NISN</th>
+          <th className="py-2 px-4 text-center font-semibold">Status</th>
         </tr>
       </thead>
 
       <tbody>
-        {attendance.map((s, index) => {
-          const finalStatus =
-            changes[page]?.[s.id] ?? s.existing_attendance?.status ?? "";
+        {attendance.length === 0 ? (
+          <tr>
+            <td colSpan={4} className="text-center py-4 text-gray-500">
+              Tidak ada data siswa
+            </td>
+          </tr>
+        ) : (
+          attendance.map((s, index) => {
+            // Convert student ID to string untuk konsistensi
+            const studentId = String(s.id);
+            const finalStatus =
+              changes?.[classKey]?.[page]?.[studentId] ??
+              s?.existing_attendance?.status ??
+              "";
 
-          return (
-            <tr
-              key={s.id}
-              className={`h-[59px] border-b border-[#000000]/20 transition `}
-            >
-              <td className="py-2 px-4 border-l border-[#000000]/20 text-center text-[16px] font-medium">
-                {pagination?.from + index}
-              </td>
-              <td className="py-2 px-4 text-center text-[16px] font-medium">{s.name}</td>
-              <td className="py-2 px-4 text-center text-[16px] font-medium">{s.nisn}</td>
-              <td className={`py-2 px-4 text-[12px] font-medium border-r border-[#000000]/20`}>
-                <div className="flex gap-5 items-center justify-center ">
-                  {status.map((radio) => (
-                    <label key={radio.id} className="flex items-center gap-1 cursor-pointer">
-                      <input
-                        type="radio"
-                        name={`status-${s.id}`}
-                        value={radio.value}
-                        disabled={isSubmitted}
-                        checked={finalStatus === radio.value}
-                        onChange={(e) => {
-                          const newStatus = e.target.value;
-                          setChanges((prev) => ({
-                            ...prev,
-                            [page]: {
-                              ...(prev[page] || {}),
-                              [s.id]: newStatus,
-                            },
-                          }));
-                        }}
-                        className="accent-blue-500 w-4 h-4 "
-                      />
-                      {radio.label}
-                    </label>
-                  ))}
-                </div>
-              </td>
-            </tr>
-          );
-        })}
+            return (
+              <tr key={s.id} className="h-[59px] border-b">
+                <td className="text-center">{pagination?.from + index}</td>
+                <td className="text-center">{s.name}</td>
+                <td className="text-center">{s.nisn}</td>
+
+                <td className="py-2 px-4 text-center">
+                  <div className="flex gap-3 justify-center flex-wrap">
+                    {status.map((radio) => (
+                      <label key={radio.id} className="flex items-center gap-1">
+                        <input
+                          type="radio"
+                          name={`status-${s.id}`}
+                          value={radio.value}
+                          checked={finalStatus === radio.value}
+                          disabled={isDisabled}
+                          onChange={(e) => {
+                            const newStatus = e.target.value;
+
+                            setChanges((prev) => ({
+                              ...prev,
+                              [classKey]: {
+                                ...(prev?.[classKey] || {}),
+                                [page]: {
+                                  ...(prev?.[classKey]?.[page] || {}),
+                                  [studentId]: newStatus,
+                                },
+                              },
+                            }));
+                          }}
+                          className={`w-4 h-4 ${
+                            isDisabled
+                              ? "cursor-not-allowed opacity-50"
+                              : "cursor-pointer"
+                          }`}
+                        />
+                        {radio.label}
+                      </label>
+                    ))}
+                  </div>
+                </td>
+              </tr>
+            );
+          })
+        )}
       </tbody>
     </table>
   );

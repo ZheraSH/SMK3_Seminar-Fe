@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate ,Link} from "react-router-dom";
+import { useParams, useNavigate ,Link,useLocation} from "react-router-dom";
 import { Search, Users, UserCheck2, Calendar, GraduationCap, RefreshCw, Plus, ArrowLeft, X } from 'lucide-react'; 
 import DataTable from './components/TableClassStudent'; 
 import PaginationComponent from './components/PaginationComponent';
@@ -27,7 +27,10 @@ function ModalAddStudent({ open, onClose, classroom, availableStudents, addStude
 }
 
 const ClassStudents = () => {
-    const { id } = useParams(); 
+    // const { id } = useParams(); 
+    const location = useLocation(); 
+    const classroomUUID = location.state?.classroomId;
+
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [search, setSearch] = useState("");
@@ -48,7 +51,7 @@ const ClassStudents = () => {
         selectedStudentDetail,
         detailLoading,
         
-    } = useClassroomDetail(id);
+    } = useClassroomDetail(classroomUUID);
 
     useEffect(() => {
         const delaySearch = setTimeout(() => {

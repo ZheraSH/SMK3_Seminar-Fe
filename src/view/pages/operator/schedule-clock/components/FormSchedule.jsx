@@ -263,9 +263,6 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
                     </div>
 
                     <div className="flex justify-end mt-6">
-                        <button type="button" onClick={onClose} className="px-5 py-2 text-sm font-semibold rounded-lg text-gray-600 hover:bg-gray-100 mr-3" disabled={isSubmitting}>
-                            Batal
-                        </button>
                         <button type="submit" className="px-5 py-2 text-sm font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-md flex items-center" disabled={isSubmitting}>
                             {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                             {submitButtonLabel}

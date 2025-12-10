@@ -1,7 +1,15 @@
 import { Users, GraduationCap, Search, ChevronDown, X } from "lucide-react";
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 
 const ClassCard = ({ classData }) => {
+  const navigate = useNavigate();
+  const handleViewDetail = () => {
+    navigate(`/home/classStudents/detail`, { 
+    state: { 
+      classroomId: classData.id
+    } 
+    });
+  };
   const teacherName = classData.teacher?.name || classData.teacher || 'Wali Kelas belum diatur';
   const schoolYear = classData.school_year?.name || classData.school_year || '-';
   const studentCount = classData.studentCount || '-'; 
@@ -28,11 +36,11 @@ const ClassCard = ({ classData }) => {
           <span className="font-semibold text-gray-700">{classData.total_students}</span>
         </div>
       </div>
-      <Link to={`/home/classStudents/${classData.id}`}>
-        <button className="w-full py-2 px-4 bg-[#3B82F6] text-white font-semibold rounded-lg transition duration-150 shadow-md cursor-pointer">
+      {/* <Link to={`/home/classStudents/${classData.id}`}> */}
+        <button onClick={handleViewDetail} className="w-full py-2 px-4 bg-[#3B82F6] text-white font-semibold rounded-lg transition duration-150 shadow-md cursor-pointer">
         Lihat Detail
       </button>
-      </Link>
+      {/* </Link> */}
     </div>
   );
 };

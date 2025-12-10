@@ -135,7 +135,7 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
             <div className="bg-white rounded-lg shadow-2xl w-full max-w-md mx-4 p-6 transform transition-all duration-300 scale-100">
                 
                 <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
-                    <h3 className="text-xl font-semibold text-gray-800">Tambah Jam Pelajaran ({activeDayDisplay})</h3>
+                    <h3 className="text-xl font-semibold text-gray-800">Tambah Jam Pelajaran </h3>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition" disabled={isSubmitting}>
                         <X size={24} />
                     </button>
@@ -195,19 +195,7 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
                     </div>
 
                     <div className="flex justify-end mt-6">
-                        <button 
-                            type="button" 
-                            onClick={onClose} 
-                            disabled={isSubmitting}
-                            className="mr-3 px-4 py-2 text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 transition disabled:opacity-50"
-                        >
-                            Batal
-                        </button>
-                        <button 
-                            type="submit" 
-                            disabled={isSubmitting} 
-                            className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition disabled:bg-blue-300 flex items-center"
-                        >
+                        <button type="submit" disabled={isSubmitting} className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition disabled:bg-blue-300 flex items-center">
                             {isSubmitting ? (
                                 <>
                                     <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Menyimpan...
