@@ -33,6 +33,7 @@ export default function ClassAttendance({
     status,
     handleSubmit,
     canResubmit,
+    isPastDate,
   } = useClassAttendance(
     selectedClass,
     date,
@@ -139,6 +140,7 @@ export default function ClassAttendance({
             setChanges={setGlobalChanges}
             canResubmit={canResubmit}
             classKey={selectedClass.id}
+            isPastDate={isPastDate}
           />
         )}
       </div>

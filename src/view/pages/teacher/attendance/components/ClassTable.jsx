@@ -7,7 +7,9 @@ export default function TableClass({
   page,
   canResubmit,
   classKey,
+  isPastDate,
 }) {
+  const isDisabled = !canResubmit || isPastDate;
   return (
     <table className="w-[970px] border-collapse shadow-md rounded-lg">
       <thead>
@@ -50,7 +52,7 @@ export default function TableClass({
                           name={`status-${s.id}`}
                           value={radio.value}
                           checked={finalStatus === radio.value}
-                          disabled={!canResubmit}
+                          disabled={isDisabled}
                           onChange={(e) => {
                             const newStatus = e.target.value;
 
@@ -66,7 +68,7 @@ export default function TableClass({
                             }));
                           }}
                           className={`w-4 h-4 ${
-                            !canResubmit
+                            isDisabled
                               ? "cursor-not-allowed opacity-50"
                               : "cursor-pointer"
                           }`}
