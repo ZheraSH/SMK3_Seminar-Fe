@@ -45,10 +45,6 @@ export default function useClassSchedule(classroomId, activeDayApi) {
         result = await apiAddSchedule(data);
       }
 
-      console.log(
-        `Jadwal Berhasil ${isEditMode ? "Diperbarui" : "Dibuat"}:`,
-        result
-      );
       return result;
     } catch (err) {
       console.error(
