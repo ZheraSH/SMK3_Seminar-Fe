@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchDailyScheduleApi } from "../../../api/role-teacher/teacher-schedule/teacherScheduleApi";
 
-
 export function useTeacherSchedule(selectedDate) {
   const [schedule, setSchedule] = useState([]);
   const [activeDay, setActiveDay] = useState("");
@@ -11,10 +10,24 @@ export function useTeacherSchedule(selectedDate) {
     tuesday: "Selasa",
     wednesday: "Rabu",
     thursday: "Kamis",
-    friday: "Jum’at",
+    friday: "Jum'at",
     saturday: "Sabtu",
     sunday: "Minggu",
   };
+
+  // Fungsi untuk mendapatkan nama hari dari tanggal
+  function getDayNameFromDate(dateString) {
+    const date = new Date(dateString);
+    const dayIndex = date.getDay();
+    
+    // Mapping: 0=Minggu, 1=Senin, ..., 6=Sabtu
+    const dayNames = [
+      "sunday", "monday", "tuesday", "wednesday", 
+      "thursday", "friday", "saturday"
+    ];
+    
+    return dayNames[dayIndex];
+  }
 
   async function fetchDaily() {
     try {
@@ -37,14 +50,14 @@ export function useTeacherSchedule(selectedDate) {
 
       setSchedule(normalized);
 
-      if (normalized.length > 0) {
-        const backendDay = normalized[0].day;
-        setActiveDay(dayMap[backendDay] || "");
+      // Tentukan activeDay berdasarkan data yang diterima
+      if (normalized.length > 0 && normalized[0].day) {
+        // Gunakan hari dari data API jika ada
+        setActiveDay(dayMap[normalized[0].day] || "");
       } else {
-        const guessDay = new Date(selectedDate)
-          .toLocaleDateString("en-US", { weekday: "long" })
-          .toLowerCase();
-        setActiveDay(dayMap[guessDay] || "");
+        // Jika tidak ada data, gunakan hari dari selectedDate
+        const dayName = getDayNameFromDate(selectedDate);
+        setActiveDay(dayMap[dayName] || "");
       }
     } catch (err) {
       console.error("Error fetching daily schedule:", err);
@@ -55,5 +68,5 @@ export function useTeacherSchedule(selectedDate) {
     fetchDaily();
   }, [selectedDate]);
 
-  return { schedule, activeDay, dayMap };
+  return { schedule, activeDay, dayMap, getDayNameFromDate };
 }
