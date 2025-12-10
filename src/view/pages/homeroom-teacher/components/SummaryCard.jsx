@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-//Animasi Count Sementara ya cuy
 export function SummaryCard({ title, value, color, duration = 1200 }) {
   const cleanedValue = Number.parseInt(value, 10);
   const safeValue = Number.isFinite(cleanedValue) ? cleanedValue : 0;
@@ -27,7 +26,7 @@ export function SummaryCard({ title, value, color, duration = 1200 }) {
   }, [safeValue, duration]);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-5.5 flex items-start gap-4">
+    <div className="bg-white rounded-2xl shadow-lg p-5 flex items-start gap-4">
       <div
         className="rounded-full"
         style={{
