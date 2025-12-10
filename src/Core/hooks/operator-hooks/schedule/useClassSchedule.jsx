@@ -47,10 +47,6 @@ export default function useClassSchedule(classroomId, activeDayApi) {
 
       return result;
     } catch (err) {
-      console.error(
-        `Gagal ${isEditMode ? "memperbarui" : "menambahkan"} jadwal:`,
-        err.response?.data || err
-      );
       setError(err.response?.data || err);
       throw err;
     }
@@ -60,10 +56,7 @@ export default function useClassSchedule(classroomId, activeDayApi) {
     async (scheduleId) => {
       setError(null);
       if (!scheduleId) {
-        setError({
-          message: "ID Jadwal diperlukan untuk penghapusan.",
-          type: "client",
-        });
+       
         return { success: false, error: "ID Jadwal diperlukan." };
       }
 
@@ -73,7 +66,6 @@ export default function useClassSchedule(classroomId, activeDayApi) {
 
         return { success: true, data: result };
       } catch (err) {
-        console.error("Gagal menghapus jadwal:", err.response?.data || err);
         setError(err.response?.data || err);
         throw err.response?.data || new Error("Gagal menghapus jadwal.");
       }

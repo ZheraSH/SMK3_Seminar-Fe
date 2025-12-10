@@ -21,10 +21,7 @@ export default function useLessonHours(activeDayApi) {
       const data = await fetchLessonHoursByDay(activeDayApi);
       setLessonHours(data);
     } catch (error) {
-      console.error(
-        `Gagal mengambil data jam pelajaran untuk ${activeDayApi}:`,
-        error
-      );
+      console.error("Error loading lesson hours:", error);
       setLessonHours([]);
     } finally {
       setIsLoadingHours(false);
@@ -53,7 +50,6 @@ export default function useLessonHours(activeDayApi) {
 
       await loadLessonHours();
     } catch (error) {
-      console.error("Error deleting lesson hour:", error);
       throw error;
     }
   };
