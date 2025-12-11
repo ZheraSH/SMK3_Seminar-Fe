@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Eye, Edit3, Trash2 } from "lucide-react";
 
-
 export function StudentsTable({
   students,
   startIndex,
@@ -12,9 +11,10 @@ export function StudentsTable({
   onDelete,
 }) {
   const [openItemId, setOpenItemId] = useState(null);
+  const [dropUp, setDropUp] = useState(false);
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg shadow-sm border border-gray-200">
+    <div className="w-full overflow-x-auto overflow-y-visible rounded-lg shadow-sm border border-gray-200 relative">
       <table className="min-w-[800px] w-full text-sm text-gray-700">
         <thead>
           <tr className="bg-[#3B82F6] text-white">
@@ -50,20 +50,21 @@ export function StudentsTable({
                 <td className="px-4 py-5 text-center">
                   {startIndex + index + 1}
                 </td>
-                <td className="px-4 py-5 text-center  ">{student.name}</td>
-                <td className="px-4 py-5 text-center  ">{student.nisn}</td>
-                <td className="px-4 py-5 text-center  ">{student.classroom.name || "-"}</td>
-                <td className="px-4 py-5 text-center  ">
+                <td className="px-4 py-5 text-center">{student.name}</td>
+                <td className="px-4 py-5 text-center">{student.nisn}</td>
+                <td className="px-4 py-5 text-center">
+                  {student.classroom.name || "-"}
+                </td>
+                <td className="px-4 py-5 text-center">
                   {student.classroom.schoolyear || "-"}
                 </td>
-
                 <td className="px-4 py-3 text-center">
                   {student.rfid ? (
                     <input
                       type="text"
                       value={student.rfid.rfid || "-"}
                       disabled
-                      className=" rounded-md px-2 py-1 w-[100px] text-center text-gray-600"
+                      className="rounded-md px-2 py-1 w-[100px] text-center text-gray-600"
                     />
                   ) : (
                     <span className="text-gray-500">-</span>
@@ -72,18 +73,25 @@ export function StudentsTable({
 
                 <td className="px-4 py-3 text-center relative">
                   <button
-                    onClick={() =>
+                    onClick={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      // kalau sisa ruang bawah < 180px, dropdown muncul ke atas
+                      setDropUp(window.innerHeight - rect.bottom < 180);
                       setOpenItemId(
                         openItemId === student.id ? null : student.id
-                      )
-                    }
+                      );
+                    }}
                     className="text-gray-700 hover:text-gray-900"
                   >
                     <i className="fa-solid fa-ellipsis-vertical text-lg"></i>
                   </button>
 
                   {openItemId === student.id && (
-                    <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
+                    <div
+                      className={`absolute w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-20 ${
+                        dropUp ? "bottom-full mb-2 right-0" : "mt-2 right-0"
+                      }`}
+                    >
                       <button
                         onClick={() => {
                           onDetail(student);
