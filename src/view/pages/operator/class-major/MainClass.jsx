@@ -1,5 +1,5 @@
 import useClasses from "../../../../Core/hooks/operator-hooks/class-major/useClass";
-import { X, Check, ChevronRight, ChevronDown, Search } from "lucide-react";
+import { X, Check, ChevronRight, ChevronDown, Search,Plus } from "lucide-react";
 import ClassCard from "./components/ClassCard";
 import Pagination from "./components/PaginitionClass";
 import Form from "./components/FormClass";
@@ -188,8 +188,8 @@ const MainClass = () => {
                         )}
                     </div>
                 </div>
-                <button onClick={toggleForm} className="w-full md:w-auto px-4 py-2 bg-[#3B82F6] text-white font-semibold rounded-lg shadow-mdtransition flex items-center justify-center space-x-1">
-                    <span>+</span> <span>Tambah Kelas</span>
+                <button onClick={toggleForm} className="w-full md:w-auto px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
+                     <span className="flex flex-row items-center gap-2"> <Plus size={18}/> Tambah Kelas</span>
                 </button>
             </header>
  
