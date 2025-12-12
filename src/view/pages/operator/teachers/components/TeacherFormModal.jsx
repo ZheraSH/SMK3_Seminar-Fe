@@ -25,7 +25,7 @@ export const TeacherForm = ({
         </button>
 
         <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-          Tambah Guru
+          {editingId ? "Edit Guru" : "Tambah Guru"}
         </h2>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
