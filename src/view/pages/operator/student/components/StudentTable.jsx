@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Eye, Edit3, Trash2 } from "lucide-react";
+import { createPortal } from "react-dom";
 
 export function StudentsTable({
   students,
@@ -11,31 +12,52 @@ export function StudentsTable({
   onDelete,
 }) {
   const [openItemId, setOpenItemId] = useState(null);
+  const btnRefs = useRef({});
+  const dropdownRefs = useRef({});
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const [dropUp, setDropUp] = useState(false);
+
+  // CLOSE outside
+  useEffect(() => {
+    const handler = (e) => {
+      if (
+        openItemId &&
+        dropdownRefs.current[openItemId] &&
+        !dropdownRefs.current[openItemId].contains(e.target) &&
+        !btnRefs.current[openItemId]?.contains(e.target)
+      ) {
+        setOpenItemId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [openItemId]);
+
+  // hitung posisi fixed portal
+  const calculatePos = (btnEl) => {
+    const rect = btnEl.getBoundingClientRect();
+    const h = 140; // tinggi dropdown kira-kira
+    const shouldDropUp = window.innerHeight - rect.bottom < h;
+
+    setDropUp(shouldDropUp);
+    setDropdownPos({
+      left: rect.right - 130,
+      top: shouldDropUp ? rect.top - h : rect.bottom,
+    });
+  };
 
   return (
     <div className="w-full overflow-x-auto overflow-y-visible rounded-lg shadow-sm border border-gray-200 relative">
       <table className="min-w-[800px] w-full text-sm text-gray-700">
         <thead>
           <tr className="bg-[#3B82F6] text-white">
-            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
-              No
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
-              Nama
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
-              NISN
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
-              Kelas
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
-              Tahun Ajaran
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">
-              RFID
-            </th>
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">No</th>
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">Nama</th>
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">NISN</th>
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">Kelas</th>
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">Tahun Ajaran</th>
+            <th className="px-4 py-3 text-center font-semibold border-r border-[#3B82F6]">RFID</th>
             <th className="px-4 py-3 text-center font-semibold">Aksi</th>
           </tr>
         </thead>
@@ -47,17 +69,12 @@ export function StudentsTable({
                 key={student.id}
                 className="border-t border-gray-200 hover:bg-gray-50 transition text-[14px]"
               >
-                <td className="px-4 py-5 text-center">
-                  {startIndex + index + 1}
-                </td>
+                <td className="px-4 py-5 text-center">{startIndex + index + 1}</td>
                 <td className="px-4 py-5 text-center">{student.name}</td>
                 <td className="px-4 py-5 text-center">{student.nisn}</td>
-                <td className="px-4 py-5 text-center">
-                  {student.classroom.name || "-"}
-                </td>
-                <td className="px-4 py-5 text-center">
-                  {student.classroom.schoolyear || "-"}
-                </td>
+                <td className="px-4 py-5 text-center">{student.classroom.name || "-"}</td>
+                <td className="px-4 py-5 text-center">{student.classroom.schoolyear || "-"}</td>
+
                 <td className="px-4 py-3 text-center">
                   {student.rfid ? (
                     <input
@@ -73,24 +90,28 @@ export function StudentsTable({
 
                 <td className="px-4 py-3 text-center relative">
                   <button
+                    ref={(el) => (btnRefs.current[student.id] = el)}
                     onClick={(e) => {
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      // kalau sisa ruang bawah < 180px, dropdown muncul ke atas
-                      setDropUp(window.innerHeight - rect.bottom < 180);
-                      setOpenItemId(
-                        openItemId === student.id ? null : student.id
-                      );
+                      calculatePos(e.currentTarget);
+                      setOpenItemId(openItemId === student.id ? null : student.id);
                     }}
                     className="text-gray-700 hover:text-gray-900"
                   >
                     <i className="fa-solid fa-ellipsis-vertical text-lg"></i>
                   </button>
+                </td>
 
-                  {openItemId === student.id && (
+                {/* PORTAL DROPDOWN */}
+                {openItemId === student.id &&
+                  createPortal(
                     <div
-                      className={`absolute w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-20 ${
-                        dropUp ? "bottom-full mb-2 right-0" : "mt-2 right-0"
-                      }`}
+                      ref={(el) => (dropdownRefs.current[student.id] = el)}
+                      className={`absolute w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-[9999]`}
+                      style={{
+                        position: "fixed",
+                        top: dropdownPos.top,
+                        left: dropdownPos.left,
+                      }}
                     >
                       <button
                         onClick={() => {
@@ -124,9 +145,9 @@ export function StudentsTable({
                         <Trash2 className="w-4 h-4 text-red-500 mr-2" />
                         Hapus
                       </button>
-                    </div>
+                    </div>,
+                    document.body
                   )}
-                </td>
               </tr>
             ))
           ) : (
