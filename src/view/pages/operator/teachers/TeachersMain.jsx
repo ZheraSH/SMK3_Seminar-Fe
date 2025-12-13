@@ -131,14 +131,14 @@ export const TeacherMain = () => {
     setPost({
       name: teacher.name || "",
       email: teacher.email || "",
-      image: null,
+      image: teacher.image,
       NIK: teacher.NIK || "",
       birth_place: teacher.birth_place || "",
       birth_date: teacher.birth_date || "",
       NIP: teacher.NIP || "",
       phone_number: teacher.phone_number || "",
       address: teacher.address || "",
-      gender: teacher.gender || "",
+      gender: teacher.gender_value || "",
       religion_id: teacher.religion_id || "",
       roles: Array.isArray(teacher.roles)
         ? teacher.roles.map((r) => r.value || r.name || r)

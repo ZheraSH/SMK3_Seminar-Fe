@@ -7,8 +7,6 @@ import { DetailModal } from "./components/DetailModal"
 
 import {
   fetchStudents,
-  fetchlevelclasses,
-  fetchMajors,
   fetchReligions,
   submitStudent,
   deleteStudent,
@@ -38,33 +36,44 @@ export const MainStudent = () => {
     order_child: "",
     count_siblings: "",
     address: "",
+    gender: "",
     religion_id: 1,
   })
   const [editingId, setEditingId] = useState(null)
   const [errors, setErrors] = useState({})
   const [selectedStudent, setSelectedStudent] = useState(null)
-  const [isDetailOpen, setIsDetailOpen] = useState(false) // State untuk modal detail
+  const [isDetailOpen, setIsDetailOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [page, setPage] = useState(1)
   const perPage = 8
   const startIndex = (page - 1) * perPage
   const [meta, setMeta] = useState({ current_page: 1, last_page: 1, total: 0 })
+
   const [currentFilter, setCurrentFilter] = useState({
     backendKey: null,
     value: null,
   })
 
-  // Load Majors / Classes / Religions
+  const extractFiltersFromStudents = (studentsData) => {
+    const majors = new Set()
+    const levelclasses = new Set()
+
+    studentsData.forEach((student) => {
+      const cls = student.classroom
+      if (cls?.major) majors.add(cls.major)
+      if (cls?.level_class) levelclasses.add(cls.level_class)
+    })
+
+    return {
+      majors: [...majors].sort(),
+      levelclasses: [...levelclasses].sort(),
+    }
+  }
+
   const loadOtherData = async () => {
     try {
-      const [religionsData, majorsData, levelclassesData] = await Promise.all([
-        fetchReligions(),
-        fetchMajors(),
-        fetchlevelclasses(),
-      ])
+      const religionsData = await fetchReligions()
       setReligions(religionsData)
-      setMajors(majorsData)
-      setLevelclasses(levelclassesData)
     } catch (err) {
       console.error(err)
     }
@@ -73,12 +82,18 @@ export const MainStudent = () => {
   const loadStudents = async () => {
     try {
       const filters = {}
+
       if (currentFilter.backendKey && currentFilter.value) {
         filters[currentFilter.backendKey] = currentFilter.value
       }
+
       const res = await fetchStudents(page, searchTerm, filters)
       setStudents(res.data)
       setMeta(res.meta)
+
+      const filterOptions = extractFiltersFromStudents(res.data)
+      setMajors(filterOptions.majors)
+      setLevelclasses(filterOptions.levelclasses)
     } catch (err) {
       console.error(err)
     }
@@ -99,11 +114,15 @@ export const MainStudent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     const frontendErrors = validateForm()
     if (Object.keys(frontendErrors).length > 0) return setErrors(frontendErrors)
+
     setErrors({})
+
     try {
       await submitStudent(post, editingId)
+
       setPost({
         name: "",
         email: "",
@@ -116,8 +135,10 @@ export const MainStudent = () => {
         order_child: "",
         count_siblings: "",
         address: "",
+        gender: "",
         religion_id: 1,
       })
+
       setEditingId(null)
       setPage(1)
       loadStudents()
@@ -135,16 +156,31 @@ export const MainStudent = () => {
     return newErrors
   }
 
+  // ✅ HANDLE EDIT — MIRIP TEACHER, MINIM PERUBAHAN
   const handleEdit = (student) => {
-    let normalizedGender = student.gender || ""
-    if (["L", "laki-laki"].includes(student.gender)) normalizedGender = "male"
-    if (["P", "perempuan"].includes(student.gender)) normalizedGender = "female"
-    setPost({ ...student, gender: normalizedGender, image: null })
+    setPost({
+      name: student.name || "",
+      email: student.email || "",
+      image: null,
+      nisn: student.nisn || "",
+      birth_place: student.birth_place || "",
+      birth_date: student.birth_date || "",
+      number_kk: student.number_kk || "",
+      number_akta: student.number_akta || "",
+      order_child: student.order_child || "",
+      count_siblings: student.count_siblings || "",
+      address: student.address || "",
+      gender: student.gender_value  || "",
+      religion_id:
+        student.religion_id ||
+        student.religion?.id ||
+        1,
+    })
+
     setEditingId(student.id)
     setIsOpen(true)
   }
 
-  // Fungsi untuk membuka modal detail
   const handleDetail = (student) => {
     setSelectedStudent(student)
     setIsDetailOpen(true)
@@ -160,14 +196,28 @@ export const MainStudent = () => {
     }
   }
 
-  // Filter majors & classes based on students that actually have classroom
-  const availableMajors = majors.filter((m) => 
-    students.some((s) => s.classroom?.major === m.name)
-  )
+  const handleCategorySelect = (filterObj) => {
+    const backendMap = {
+      gender: "gender",
+      major: "major_id",
+      level_class: "level_class",
+    }
 
-  const availableLevelclasses = levelclasses.filter((l) => 
-    students.some((s) => s.classroom?.level_class === l.name)
-  )
+    if (filterObj.type === "all") {
+      setCategory("Pilih Kategori")
+      setCurrentFilter({ backendKey: null, value: null })
+    } else {
+      setCategory(filterObj.label)
+      setCurrentFilter({
+        backendKey: backendMap[filterObj.type],
+        value: filterObj.value,
+      })
+    }
+
+    setPage(1)
+    setOpenCategory(false)
+    setOpenSubMenu("")
+  }
 
   return (
     <div className="p-6">
@@ -182,34 +232,21 @@ export const MainStudent = () => {
         openSubMenu={openSubMenu}
         onOpenSubMenu={setOpenSubMenu}
         category={category}
-        majors={availableMajors}
-        levelclasses={availableLevelclasses}
-        onCategorySelect={(filterObj) => {
-          setCategory(filterObj.label || "Pilih Kategori")
-          if (filterObj.type === "all") {
-            setCurrentFilter({ backendKey: null, value: null })
-          } else {
-            // Map: "gender" -> "gender", "majors" -> "major", "levelclasses" -> "level_class"
-            let backendKey = filterObj.type
-            if (filterObj.type === "majors") backendKey = "major"
-            if (filterObj.type === "levelclasses") backendKey = "level_class"
-            setCurrentFilter({ backendKey, value: filterObj.value })
-          }
-          setPage(1)
-        }}
+        majors={majors}
+        levelclasses={levelclasses}
+        onCategorySelect={handleCategorySelect}
         onAddData={() => {
           setEditingId(null)
           setIsOpen(true)
         }}
       />
-      
-      {/* Modal Detail */}
-      <DetailModal 
-        isOpen={isDetailOpen} 
-        onClose={() => setIsDetailOpen(false)} 
-        student={selectedStudent} 
+
+      <DetailModal
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        student={selectedStudent}
       />
-      
+
       <FormModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -220,15 +257,15 @@ export const MainStudent = () => {
         errors={errors}
         religions={religions}
       />
-      
+
       <StudentsTable
         students={students}
         startIndex={startIndex}
-        onDetail={handleDetail} // Pastikan prop ini dikirim
+        onDetail={handleDetail}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
-      
+
       <PaginationStudent
         page={page}
         lastPage={meta.last_page}
