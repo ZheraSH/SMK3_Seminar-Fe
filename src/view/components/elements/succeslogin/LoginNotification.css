@@ -1,167 +1,117 @@
-@keyframes float-up {
-  to {
-    transform: translateY(-100vh) rotate(360deg);
+/* ===============================
+   Animations
+================================ */
+@keyframes toast-in {
+  from {
     opacity: 0;
+    transform: translateY(10px) scale(0.96);
   }
-}
-
-@keyframes fall {
   to {
-    transform: translateY(100vh);
-    opacity: 0;
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes dot-pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-/* Overlay */
-.login-notification-overlay {
+/* ===============================
+   Overlay (blur background)
+================================ */
+.login-toast-overlay {
   position: fixed;
   inset: 0;
   z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  background: rgba(124, 124, 124, 0.37);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.login-notification-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(2px);
-  cursor: pointer;
-}
-
-/* Container */
-.login-notification-container {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 27%;
-  animation: fade-in-zoom 0.5s ease-out;
-}
-
-@keyframes fade-in-zoom {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* Success State */
-.login-notification-success {
-  position: relative;
-}
-
-.success-glow {
-  position: absolute;
-  inset: -2rem;
-  background: rgba(0, 102, 255, 0.3);
-  border-radius: 1.5rem;
-  filter: blur(2rem);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.success-card {
-  position: relative;
-  background: rgba(59, 130, 246, 0.4); /* 40% opacity */
-  border-radius: 1.5rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 3rem;
+/* ===============================
+   Toast Container
+================================ */
+.login-toast {
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    0 8px 16px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.75rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  overflow: hidden;
-  backdrop-filter: blur(20px); /* biar konten dalamnya nyatu efek blur */
+  gap: 1.25rem;
+  animation: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 25rem;
+  width: 100%;
 }
 
-
-.success-gradient-bg {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.05);
+/* ===============================
+   Loading Dots
+================================ */
+.toast-loader {
+  display: grid;
+  grid-template-columns: repeat(3, 8px);
+  grid-template-rows: repeat(3, 8px);
+  gap: 6px;
 }
 
-.success-particles {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.success-particle {
-  position: absolute;
-  width: 0.50rem;
-  height: 0.50rem;
+.toast-dot {
+  width: 8px;
+  height: 8px;
+  background: #9ca3af;
   border-radius: 50%;
-  background: white;
+  animation: dot-pulse 1.2s infinite ease-in-out;
 }
 
-.success-icon-wrapper {
-  position: relative;
-  z-index: 10;
+.toast-dot:nth-child(odd) {
+  animation-delay: 0.15s;
 }
 
-.success-icon-glow {
-  position: absolute;
-  inset: -1rem;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
-  filter: blur(1.2rem);
-  animation: pulse 2s ease-in-out infinite;
+.toast-dot:nth-child(even) {
+  animation-delay: 0.3s;
 }
 
-.success-icon {
-  width: 5rem;
-  height: 5rem;
-  color: white;
-  position: relative;
-  z-index: 10;
-  filter: drop-shadow(0 0 1.5rem rgba(255, 255, 255, 0.6));
-  animation: scale-in 0.7s ease-out;
-}
-
-@keyframes scale-in {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.success-content {
-  text-align: center;
-  gap: 0.75rem;
+/* ===============================
+   Content
+================================ */
+.toast-content {
   display: flex;
   flex-direction: column;
-  z-index: 10;
+  gap: 0.4rem;
 }
 
-.success-title {
-  font-size: 1.875rem;
-  font-weight: bold;
-  color: white;
+.toast-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111827;
 }
 
-.success-subtitle {
-  font-size: 1.125rem;
-  color: white;
-  opacity: 0.8;
+.toast-subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
 }
 
-/* Responsive */
+/* ===============================
+   Mobile (diperkecil)
+================================ */
 @media (max-width: 640px) {
-  .login-notification-container {
-    max-width: 100%;
+  .login-toast {
+    max-width: 88%;
+    padding: 0.9rem 1.1rem;
   }
 
-  .success-title {
-    font-size: 1.5rem;
+  .toast-title {
+    font-size: 0.95rem;
+  }
+
+  .toast-subtitle {
+    font-size: 0.85rem;
   }
 }
