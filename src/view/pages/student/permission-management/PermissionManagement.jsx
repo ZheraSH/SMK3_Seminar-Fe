@@ -29,7 +29,7 @@ export default function PermissionManagement() {
   const submitForm = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setFormErrors({}); 
+    setFormErrors({});
 
     try {
       const result = await handleSubmit(formData);
@@ -45,7 +45,6 @@ export default function PermissionManagement() {
         setFormErrors({});
         setIsModalOpen(false);
       } else {
-
         setFormErrors(result.errors || {});
       }
     } catch (err) {
@@ -82,7 +81,8 @@ export default function PermissionManagement() {
     setIsModalOpen(true);
   };
 
-  const recentPermissions = [...permissions]
+  const recentPendingPermissions = [...permissions]
+    .filter((p) => p.status === "pending")
     .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
     .slice(0, 3);
 
@@ -117,18 +117,19 @@ export default function PermissionManagement() {
         </div>
       )}
 
-      {/* Recent */}
-      {recentPermissions.length > 0 && (
-        <div>
-          <div className="flex gap-4 flex-wrap">
-            {recentPermissions.map((p) => (
-              <PermissionCard
-                key={p.id}
-                permission={p}
-                onViewDetail={handleViewDetail}
-              />
-            ))}
-          </div>
+      {recentPendingPermissions.length > 0 ? (
+        <div className="flex gap-4 flex-wrap">
+          {recentPendingPermissions.map((p) => (
+            <PermissionCard
+              key={p.id}
+              permission={p}
+              onViewDetail={handleViewDetail}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-gray-500 text-center w-full py-6">
+          Tidak ada izin Aktif saat ini.
         </div>
       )}
 
