@@ -182,7 +182,7 @@ export const TeacherMain = () => {
     <div className="p-6">
       <div className="flex flex-col gap-3 mb-5">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div className="flex-1 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+          <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch sm:items-center">
             <SearchBar
               searchTerm={searchTerm}
               setSearchTerm={(v) => {
@@ -191,7 +191,6 @@ export const TeacherMain = () => {
               }}
             />
 
-            {/* Filter dropdown */}
             <TeacherFilterDropdown
               category={category}
               setCategory={setCategory}
