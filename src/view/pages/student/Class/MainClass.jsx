@@ -15,6 +15,8 @@ export default function MainClassStudent() {
         setCurrentPage,
     } = useClassStudent(); 
 
+    
+
     return (
         <div className="mx-3 md:mx-10 mb-10 mt-5 justify-center bg-white">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
@@ -22,9 +24,13 @@ export default function MainClassStudent() {
                     <h1 className="text-sm md:text-lg font-semibold">Wali Kelas</h1>
 
                     <div className="flex gap-2 md:gap-5">
-                        <img src={classroom?.homeroom_teacher?.image} alt="wali kelas" className="w-12 h-12 md:w-24 md:h-24 rounded-full"/>
+                       <img
+                            src={ classroom?.homeroom_teacher?.image}
+                            alt="wali kelas"
+                            className="w-12 h-12 md:w-[100px] md:h-[100px] rounded-full"
+                            />
                         <div className="flex flex-col mt-2 md:mt-5">
-                            <h2 className="text-xs md:text-lg font-medium">
+                            <h2 className="text-[18px] md:text-lg font-medium">
                                 {classroom?.homeroom_teacher?.name}
                             </h2>
                             <p className="font-light text-[10px] md:text-sm">
@@ -53,13 +59,11 @@ export default function MainClassStudent() {
                 error={error}
             />
 
-            {totalPages > 1 && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                />
-            )}
+        <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => setCurrentPage(page)}
+        />
 
         </div>
     );

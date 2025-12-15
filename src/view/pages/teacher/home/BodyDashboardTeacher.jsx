@@ -1,6 +1,7 @@
 "use client";
 import { School } from "lucide-react";
 import { useTeacherDashboard } from "../../../../Core/hooks/role-teacher/dashboard-teachers/useTeacherDashboard";
+import ProfileIMG from "../../../../Core/hooks/profile/Profil";
 
 export default function BodyDashboardTeacher() {
   const { schedule, classrooms, userName } = useTeacherDashboard();
@@ -8,7 +9,7 @@ export default function BodyDashboardTeacher() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="bg-blue-500 rounded-lg p-4 mb-8 flex items-center gap-4">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-blue-300 rounded-full"></div>
+        <ProfileIMG />
         <h1 className="text-white text-lg sm:text-xl font-medium">
           Halo, {userName}
         </h1>
