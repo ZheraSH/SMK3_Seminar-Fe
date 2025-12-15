@@ -29,13 +29,12 @@ export default function PermissionManagement() {
   const submitForm = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setFormErrors({}); // Reset errors sebelum submit
+    setFormErrors({}); 
 
     try {
       const result = await handleSubmit(formData);
 
       if (result.success) {
-        // Jika sukses, reset form dan tutup modal
         setFormData({
           type: "",
           start_date: "",
@@ -46,11 +45,10 @@ export default function PermissionManagement() {
         setFormErrors({});
         setIsModalOpen(false);
       } else {
-        // Jika ada error validasi, tampilkan error tanpa menutup modal
+
         setFormErrors(result.errors || {});
       }
     } catch (err) {
-      // Handle error umum
       console.error("Error submitting form:", err);
       setFormErrors({
         general: ["Terjadi kesalahan. Silakan coba lagi."],
@@ -62,7 +60,6 @@ export default function PermissionManagement() {
 
   const handleFormChange = (data) => {
     setFormData(data);
-    // Clear errors ketika user mulai mengisi form kembali
     if (Object.keys(formErrors).length > 0) {
       setFormErrors({});
     }
@@ -97,14 +94,17 @@ export default function PermissionManagement() {
       />
 
       {/* Header */}
-      <div className="border border-gray-300 p-2 rounded-2xl shadow-lg mb-5">
-        <div className="flex justify-between items-center mx-4">
-          <h2 className="text-[24px] font-semibold text-gray-900">
+      <div className="border border-gray-300 p-3 rounded-2xl shadow-lg mb-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center px-2 sm:px-4">
+          <h2 className="text-lg sm:text-[24px] font-semibold text-gray-900 text-center sm:text-left">
             Daftar Izin Aktif
           </h2>
+
           <button
             onClick={handleOpenModal}
-            className="bg-[#3B82F6] hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition"
+            className="bg-[#3B82F6] hover:bg-blue-700 text-white 
+                 px-4 py-2 sm:px-5 sm:py-2 
+                 rounded-lg font-medium transition"
           >
             + Buat Izin
           </button>

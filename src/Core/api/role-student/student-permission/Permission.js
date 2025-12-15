@@ -15,8 +15,6 @@ export async function fetchPermissionsApi(page = 1) {
     }
   );
 
-  // backend biasanya return { data: [...], meta: { last_page, total, ... } }
-  console.log(res.data.data);
   return res.data;
 }
 
@@ -39,7 +37,6 @@ export async function handleSubmitPermission(formData) {
       },
     });
 
-    // 🔥 Tambahin ini → hook bisa detect success
     return { success: true };
 
   } catch (err) {
