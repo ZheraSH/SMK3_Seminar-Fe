@@ -26,7 +26,7 @@ export default function BodyDashboardTeacher() {
 
           {classrooms.map((item) => (
             <div
-              key={item.id}
+              key={item.classroom?.id}
               className="bg-white rounded-2xl p-3 shadow-lg border border-gray-200 w-[216px]"
             >
               <div className="flex items-center gap-3 mb-3">
@@ -34,9 +34,10 @@ export default function BodyDashboardTeacher() {
                   <School />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 text-base">
+                  <p className="font-semibold text-gray-900 text-base truncate w-full">
                     {item.classroom?.homeroom_teacher?.name ?? "—"}
                   </p>
+
                   <p className="text-blue-500 font-medium text-sm">
                     Wali Kelas
                   </p>
