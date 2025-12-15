@@ -1,8 +1,8 @@
-"use client"
-import { useRef, useState } from "react"
-import { createPortal } from "react-dom"
-import { MoreVertical } from "lucide-react"
-import { RfidActionMenu } from "./RfidActionMenu"
+"use client";
+import { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+import { MoreVertical } from "lucide-react";
+import { RfidActionMenu } from "./RfidActionMenu";
 
 export function RfidTable({
   filtered,
@@ -11,41 +11,26 @@ export function RfidTable({
   onEditClick,
   onDeleteClick,
 }) {
-  const isEmpty = filtered.length === 0
-  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 })
+  const isEmpty = filtered.length === 0;
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
 
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-gray-200">
       <table className="min-w-[800px] w-full text-sm text-gray-700">
         <thead>
           <tr className="bg-[#3B82F6] text-white">
-            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600 rounded-tl-lg">
-              No
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">
-              Nama Pengguna
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">
-              Id Kartu
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">
-              Status
-            </th>
-            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600 rounded-tr-lg">
-              Aksi
-            </th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600 rounded-tl-lg">No</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">Nama Pengguna</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">Id Kartu</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600">Status</th>
+            <th className="px-4 py-3 text-center font-semibold border-b border-blue-600 rounded-tr-lg">Aksi</th>
           </tr>
         </thead>
 
         <tbody>
           {isEmpty ? (
             <tr>
-              <td
-                colSpan={5}
-                className="py-6 text-center text-gray-500 text-[15px]"
-              >
-                Tidak ada data RFID.
-              </td>
+              <td colSpan={5} className="py-6 text-center text-gray-500 text-[15px]">Tidak ada data RFID.</td>
             </tr>
           ) : (
             filtered.map((item, index) => (
@@ -57,18 +42,16 @@ export function RfidTable({
                 onMenuClick={onMenuClick}
                 onEditClick={onEditClick}
                 onDeleteClick={onDeleteClick}
-                menuPos={menuPos}          
-                setMenuPos={setMenuPos}    
+                menuPos={menuPos}
+                setMenuPos={setMenuPos}
               />
             ))
           )}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
-
-
 
 function TableRow({
   item,
@@ -80,20 +63,43 @@ function TableRow({
   menuPos,
   setMenuPos,
 }) {
-  const btnRef = useRef(null)
+  const btnRef = useRef(null);
+
+  // Hitung posisi dropdown
+  const calculateMenuPos = () => {
+    if (!btnRef.current) return { top: 0, left: 0 };
+
+    const rect = btnRef.current.getBoundingClientRect();
+    const menuHeight = 100; // sesuaikan tinggi dropdown
+    let top = rect.bottom + window.scrollY;
+
+    // Flip otomatis ke atas jika dropdown keluar viewport
+    if (rect.bottom + menuHeight > window.innerHeight) {
+      top = rect.top + window.scrollY - menuHeight;
+    }
+
+    return { top, left: rect.left + window.scrollX };
+  };
 
   const handleMenuClick = () => {
-    if (!btnRef.current) return
+    setMenuPos(calculateMenuPos());
+    onMenuClick(openMenu === item.id ? -1 : item.id);
+  };
 
-    const rect = btnRef.current.getBoundingClientRect()
-
-    setMenuPos({
-      top: rect.top + window.scrollY,
-      left: rect.right + window.scrollX - 140,
-    })
-
-    onMenuClick(openMenu === item.id ? -1 : item.id)
-  }
+  // Update posisi dropdown saat scroll / resize
+  useEffect(() => {
+    const handleScrollResize = () => {
+      if (openMenu === item.id) {
+        setMenuPos(calculateMenuPos());
+      }
+    };
+    window.addEventListener("scroll", handleScrollResize, true);
+    window.addEventListener("resize", handleScrollResize);
+    return () => {
+      window.removeEventListener("scroll", handleScrollResize, true);
+      window.removeEventListener("resize", handleScrollResize);
+    };
+  }, [openMenu]);
 
   return (
     <tr className="border-t text-center border-gray-200 hover:bg-gray-50 transition text-[14px]">
@@ -114,7 +120,7 @@ function TableRow({
         </span>
       </td>
 
-      <td className="p-3">
+      <td className="p-3 relative">
         <button
           ref={btnRef}
           onClick={handleMenuClick}
@@ -126,17 +132,17 @@ function TableRow({
         {openMenu === item.id &&
           createPortal(
             <div
-              onMouseLeave={() => onMenuClick(-1)}
-              className="absolute bg-white rounded-lg shadow-md w-32 z-[9999]"
+              className="bg-white rounded-lg shadow-md w-32 z-[9999]"
               style={{
+                position: "fixed",
                 top: menuPos.top,
                 left: menuPos.left,
               }}
             >
               <RfidActionMenu
                 onEdit={() => {
-                  onEditClick(item)
-                  onMenuClick(-1)
+                  onEditClick(item);
+                  onMenuClick(-1);
                 }}
                 onDelete={() => onDeleteClick(item.id)}
               />
@@ -145,5 +151,5 @@ function TableRow({
           )}
       </td>
     </tr>
-  )
+  );
 }
