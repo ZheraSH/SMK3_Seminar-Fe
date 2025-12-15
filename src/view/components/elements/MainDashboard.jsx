@@ -13,30 +13,31 @@ export default function MainDashboard() {
   const [user, setUser] = useState(null);
   const [showLogout, setShowLogout] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
-  const { clearAttendanceState } = useAttendanceTeacher();
+  const { clearAttendanceState } = useAttendanceTeacher() || {};
 
   useEffect(() => {
     const stored = localStorage.getItem("userData");
     if (stored) {
-      const parsed = JSON.parse(stored);
-      setUser(parsed);
+      setUser(JSON.parse(stored));
     }
     setLoadingUser(false);
   }, []);
 
- 
-
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
-      await api.post(
-        "/logout",
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      clearAttendanceState();
+
+      if (token) {
+        await api.post(
+          "/logout",
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
+
+      if (typeof clearAttendanceState === "function") {
+        clearAttendanceState();
+      }
 
       localStorage.removeItem("token");
       localStorage.removeItem("userData");
@@ -44,12 +45,18 @@ export default function MainDashboard() {
       window.location.href = "/";
     } catch (error) {
       console.error("Logout gagal:", error);
-      clearAttendanceState();
+
+      if (typeof clearAttendanceState === "function") {
+        clearAttendanceState();
+      }
+
       localStorage.removeItem("token");
       localStorage.removeItem("userData");
+
       window.location.href = "/";
     }
   };
+
   if (loadingUser) return null;
 
   return (
@@ -77,7 +84,7 @@ export default function MainDashboard() {
 
       {/* LOGOUT POPUP */}
       {showLogout && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm ">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-white w-[330px] p-6 rounded-2xl shadow-2xl relative animate-fadeIn">
             <button
               onClick={() => setShowLogout(false)}
