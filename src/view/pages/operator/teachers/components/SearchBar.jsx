@@ -6,8 +6,8 @@ export const SearchBar = ({ searchTerm, setSearchTerm }) => {
     <div
       className="
         flex items-center 
-        w-full                 /* mobile: full */
-        max-w-full            /* prevent overflow */
+        w-full          
+        max-w-full         
         sm:w-[260px]
         md:w-[300px]
         lg:w-[320px]
@@ -17,14 +17,14 @@ export const SearchBar = ({ searchTerm, setSearchTerm }) => {
         transition gap-2
       "
     >
-      <Search size={18} className="text-gray-500 flex-shrink-0" />
+      <Search size={18} className="text-black flex-shrink-0" />
 
       <input
         type="text"
         placeholder="Cari nama / NIP..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full outline-none text-sm bg-transparent"
+        className="w-full outline-none text-sm bg-transparent placeholder:text-black"
       />
     </div>
   );

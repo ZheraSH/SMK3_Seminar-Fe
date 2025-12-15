@@ -15,7 +15,6 @@ export const TeacherTable = ({
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const [dropUp, setDropUp] = useState(false);
 
-  // CLICK OUTSIDE
   useEffect(() => {
     function handleClickOutside(e) {
       if (
@@ -32,12 +31,11 @@ export const TeacherTable = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openItemId]);
 
-  // Hitung posisi dropdown
-  const calculateDropdownPos = (btn, id) => {
+  const calculateDropdownPos = (btn) => {
     if (!btn) return;
 
     const rect = btn.getBoundingClientRect();
-    const dropdownHeight = 120; // kira-kira
+    const dropdownHeight = 120; 
     const willDropUp = window.innerHeight - rect.bottom < dropdownHeight;
 
     setDropUp(willDropUp);
