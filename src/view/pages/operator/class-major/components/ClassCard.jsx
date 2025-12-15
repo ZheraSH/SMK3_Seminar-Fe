@@ -1,6 +1,6 @@
 import { Users, GraduationCap, Search, ChevronDown, X } from "lucide-react";
 import {Link,useNavigate} from "react-router-dom";
-
+import {UniversalReveal} from "../../../../components/animate/animate";
 const ClassCard = ({ classData }) => {
   const navigate = useNavigate();
   const handleViewDetail = () => {
@@ -14,7 +14,10 @@ const ClassCard = ({ classData }) => {
   const schoolYear = classData.school_year?.name || classData.school_year || '-';
   const studentCount = classData.studentCount || '-'; 
   return (
-    <div className="bg-white h-[169px] border border-gray-200 rounded-xl shadow-md p-4 flex flex-col justify-between transition duration-300 hover:shadow-lg">
+    <UniversalReveal className="bg-white h-[169px] border border-gray-200 rounded-xl shadow-md p-4 flex flex-col justify-between transition duration-300 hover:shadow-lg"
+      delay={classData * 0.1} 
+      whileHover={{ scale: 1.05 }} 
+      whileTap={{ scale: 0.95 }} >
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center lg:space-x-2  text-white bg-[#3B82F6] h-[31px] px-3 rounded-lg">
           <div className="p-2">
@@ -41,7 +44,7 @@ const ClassCard = ({ classData }) => {
         Lihat Detail
       </button>
       {/* </Link> */}
-    </div>
+    </UniversalReveal>
   );
 };
 

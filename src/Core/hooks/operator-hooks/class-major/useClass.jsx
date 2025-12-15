@@ -7,109 +7,105 @@ const debounce = (func, delay) => {
   return (...args) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-    func.apply(this, args);
-  }, delay);
+        func.apply(this, args);
+    }, delay);
   };
 };
 
-
 export default function useClasses({ initialMajor = "" }) {
-  const { majors, schoolYears, levelClass, loading: masterLoading } = useMasterData();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1); 
+   const master = useMasterData();
+   const { majors, schoolYears, levelClass, teachers, loading: masterLoading } = master; // schoolYears sudah berupa array yang sudah difilter
 
-  const [searchText, setSearchText] = useState("");
+   const [data, setData] = useState([]);
+   const [loading, setLoading] = useState(true); 
+   const [page, setPage] = useState(1);
+   const [lastPage, setLastPage] = useState(1); 
+   const [searchText, setSearchText] = useState("");
+   const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "",});
 
-  const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "",});
+   const fetchClass = async (pageNumber, currentFilters, currentSearchText) => {
+       try {
+           setLoading(true);
+           const apiParams = { page: pageNumber, search: currentSearchText,
+               ...Object.fromEntries(
+                   Object.entries(currentFilters).filter(([_, v]) => v)
+               ),
+           };
 
-  const fetchClass = async (pageNumber, currentFilters, currentSearchText) => {
-  try {
-  setLoading(true);
+           const res = await getClass(apiParams); 
 
-  const apiParams = { page: pageNumber, search: currentSearchText,
-    ...Object.fromEntries(
-    Object.entries(currentFilters).filter(([_, v]) => v)
-    ),
-  };
+           setData(res.data); 
+           setPage(res.meta.current_page); 
+           setLastPage(res.meta.last_page); 
 
-  const res = await getClass(apiParams); 
+       } catch (error) {
+           console.error("Error fetching Class:", error.response?.data || error);
+           setData([]);
+           setLastPage(1); 
+       } finally {
+           setLoading(false);
+       }
+   };
 
-  setData(res.data); 
-  setPage(res.meta.current_page); 
-  setLastPage(res.meta.last_page); 
+   const handleFilterChange = (newFilters) => {
+       const pageReset = 1;
+       setFilters(newFilters);
+       fetchClass(pageReset, newFilters, searchText); 
+   };
 
-  } catch (error) {
-    console.error("Error fetching Class:", error.response?.data || error);
-    setData([]);
-    setLastPage(1); 
-  } finally {
-    setLoading(false);
-  }
-  };
-
-
-  const handleFilterChange = (newFilters) => {
-  const pageReset = 1;
-  setFilters(newFilters);
-  fetchClass(pageReset, newFilters, searchText); 
-  };
-
-  const handlePageChange = (newPage) => {
+   const handlePageChange = (newPage) => {
     fetchClass(newPage, filters, searchText); 
-  };
+   };
 
-  const debouncedFetch = useMemo(
-  () => debounce((searchQuery) => {
-  fetchClass(1, filters, searchQuery); 
-  }, 500), 
-  [filters] 
-  );
-
-
-  const handleSearchChange = (newText) => {
-    setSearchText(newText); 
-    debouncedFetch(newText); 
-  };
+   const debouncedFetch = useMemo(
+       () => debounce((searchQuery) => {
+           fetchClass(1, filters, searchQuery); 
+       }, 500), 
+       [filters] 
+   );
 
 
-  const addClass = async (formData) => {
-    setLoading(true);
-    try {
-      const result = await createClass(formData);
-      await fetchClass(1, filters, searchText); 
-      return { success: true, data: result };
-    } catch (error) {
-      console.error("Error adding class:", error);
-      setLoading(false);
-      throw error;
-    }
-  };
+   const handleSearchChange = (newText) => {
+ 	  setSearchText(newText); 
+ 	  debouncedFetch(newText); 
+   };
 
-  useEffect(() => {
-    if (!masterLoading) {
+
+    const addClass = async (formData) => {
+      setLoading(true);
+      try {
+        const result = await createClass(formData);
+        await fetchClass(1, filters, searchText); 
+        return { success: true, data: result };
+      } catch (error) {
+        console.error("Error adding class:", error);
+        setLoading(false);
+        throw error;
+      }
+    };
+
+   useEffect(() => {
     fetchClass(1, { major: initialMajor, school_year: "", level_class: "" }, ""); 
-    }
-  }, [masterLoading, initialMajor]); 
+   }, [initialMajor]); 
 
-  return { 
-  classesData: data, 
-  loading: loading || masterLoading, 
-  addClass, 
-  page, 
-  lastPage, 
-  handlePageChange, 
-  filters, 
-  handleFilterChange, 
-
-  searchText, 
-  handleSearchChange,
-
-  filterOptions: { 
-  majors: majors || [], 
-  schoolYears: schoolYears || [], 
-  levelClasses: levelClass || [], 
-  },
-  };
+   return { 
+       classesData: data, 
+       loading: loading, 
+       addClass, 
+       page, 
+       lastPage, 
+       handlePageChange, 
+       filters, 
+       handleFilterChange, 
+       searchText, 
+       handleSearchChange,
+    
+       masterLoading: masterLoading,
+       filterOptions: { 
+           majors: majors || [], 
+           schoolYears: schoolYears || [], 
+           levelClasses: levelClass || [], 
+           teachers: teachers || [],
+       },
+   };
 }

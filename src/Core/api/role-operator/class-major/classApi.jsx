@@ -54,6 +54,7 @@ export const getLevelClass = async () => {
     }
 };
 
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 export const getTeachers = async () => {
     let allTeachers = [];
     let currentPage = 1;
@@ -74,6 +75,10 @@ export const getTeachers = async () => {
 
             } else {
                 lastPage = currentPage; 
+            }
+
+            if (currentPage < lastPage) {
+                await delay(150); 
             }
             
             currentPage++;

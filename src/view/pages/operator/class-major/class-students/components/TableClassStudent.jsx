@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Trash2, MoreVertical, Eye } from 'lucide-react'; 
 import ModalDetailStudent from "./ModalDetailStudents"; 
+import { RowStaggerItem, StaggerContainer } from "../../../../../components/animate/animate";
 
 const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
     if (!show) return null;
@@ -11,16 +12,8 @@ const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
                 <h3 className="text-xl font-bold text-gray-800 mb-2">Konfirmasi Penghapusan</h3>
                 <p className="text-sm text-gray-700 mb-6">{message}</p>
                 <div className="flex justify-end space-x-3">
-                    <button 
-                        onClick={onCancel} 
-                        className="px-4 py-2 rounded-lg text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors">
-                        Batal
-                    </button>
-                    <button 
-                        onClick={onConfirm} 
-                        className="px-4 py-2 rounded-lg text-white font-semibold bg-[#EF4444] hover:bg-red-700 transition-colors">
-                        Ya, Hapus
-                    </button>
+                    <button onClick={onCancel} className="px-4 py-2 rounded-lg text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors">Batal</button>
+                    <button  onClick={onConfirm}  className="px-4 py-2 rounded-lg text-white font-semibold bg-[#EF4444] hover:bg-red-700 transition-colors"> Ya, Hapus</button>
                 </div>
             </div>
         </div>
@@ -58,31 +51,16 @@ const ActionDropdown = ({ onDetail, onDelete, onClose, position, direction }) =>
     }
 
     return (
-        <div 
-            ref={dropdownRef} 
-            className={`fixed w-36 rounded-md shadow-lg bg-white focus:outline-none z-50`} 
-            style={{ 
-                left: `${xOffset}px`, 
-                ...yStyle
-            }}>
+        <div ref={dropdownRef} className={`fixed w-36 rounded-md shadow-lg bg-white focus:outline-none z-50`} style={{  left: `${xOffset}px`,  ...yStyle}}>
             <div className="py-1">
-                <button 
-                    onClick={onDetail} 
-                    className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    <Eye className="w-4 h-4 mr-2 text-[#3B82F6]" />Detail
-                </button>
-                <button 
-                    onClick={onDelete} 
-                    className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                    <Trash2 className="w-4 h-4 mr-2 text-[#FF5E53]" />Hapus
-                </button>
+                <button  onClick={onDetail}  className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"> <Eye className="w-4 h-4 mr-2 text-[#3B82F6]" />Detail</button>
+                <button onClick={onDelete} className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"><Trash2 className="w-4 h-4 mr-2 text-[#FF5E53]" />Hapus</button>
             </div>
         </div>
     );
 };
 
-const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoading, fetchStudentDetail, selectedStudentDetail, detailLoading}) => {
-
+const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoading, fetchStudentDetail, selectedStudentDetail, detailLoading,currentPage}) => {
     const [openDropdownData, setOpenDropdownData] = useState({ index: null, position: null, direction: 'down' });
     const actionButtonRefs = useRef([]); 
     
@@ -155,7 +133,8 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
 
     return (
         <>
-            <div className="bg-white shadow-sm rounded-xl border border-gray-300 relative overflow-x-auto">
+            <div className={`bg-white shadow-sm rounded-xl border border-gray-300 relative overflow-x-auto 
+                ${loading ? '' : 'max-h-[600px] overflow-y-hidden'}`}>
                 <table className="min-w-full divide-y divide-gray-200 ">
                     <thead className="bg-[#3B82F6] text-white sticky top-0">
                         <tr>
@@ -169,18 +148,20 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                         </tr>
                     </thead>
 
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {loading || actionLoading ? (
+                    {loading || actionLoading ? (
+                        <tbody className="bg-white divide-y divide-gray-200">
                             <tr><td colSpan="7" className="text-center py-8">
                                 <div className="flex justify-center items-center space-x-2">
                                     <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                                     <span className="text-gray-600 font-semibold">{actionLoading ? 'Memproses aksi...' : 'Memuat data...'}</span>
                                 </div>
                             </td></tr>
-                        ) : (
-                            students && students.length > 0 ? (
-                                students.map((data, index) => (
-                                    <tr key={data.id} className="hover:bg-gray-50">
+                        </tbody>
+                    ) : (
+                        students && students.length > 0 ? (
+                            <StaggerContainer key={currentPage} className="bg-white divide-y divide-gray-200">
+                                {students.map((data, index) => (
+                                    <RowStaggerItem key={data.id} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 whitespace-nowrap">{calculateIndex(index)}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{data.student.name}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{data.student.nisn}</td>
@@ -203,13 +184,15 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                                                 </button>
                                             </div>
                                         </td>
-                                    </tr>
-                                ))
-                            ) : (
+                                    </RowStaggerItem>
+                                ))}
+                            </StaggerContainer>
+                        ) : (
+                            <tbody className="bg-white divide-y divide-gray-200">
                                 <tr><td colSpan="7" className="text-center py-8 text-gray-500">Tidak ada siswa di kelas ini.</td></tr>
-                            )
-                        )}
-                    </tbody>
+                            </tbody>
+                        )
+                    )}
                 </table>
             </div>
 
