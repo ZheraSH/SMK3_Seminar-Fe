@@ -16,8 +16,6 @@ export const fetchStudents = async (page = 1, search = "", filter = {}) => {
       },
     });
 
-    console.log(res.data.data);
-
     return {
       data: res.data.data ?? [],
       meta: res.data.meta ?? {},
@@ -32,7 +30,6 @@ export const fetchStudents = async (page = 1, search = "", filter = {}) => {
 export const fetchlevelclasses = async () => {
   try {
     const res = await axios.get(`${API_BASE_URL}/level-classes`)
-    console.log(res.data.data)
     return res.data.data
   } catch (err) {
     console.error("Gagal ambil data:", err)
@@ -43,7 +40,6 @@ export const fetchlevelclasses = async () => {
 export const fetchMajors = async () => {
   try {
     const res = await axios.get(`${API_BASE_URL}/majors`)
-    console.log(res.data.data)
     return res.data.data
   } catch (err) {
     console.error("Gagal ambil majors:", err)
@@ -54,7 +50,6 @@ export const fetchMajors = async () => {
 export const fetchReligions = async () => {
   try {
     const res = await axios.get(`${API_BASE_URL}/religions`)
-    console.log("📦 Data agama dari API:", res.data)
     return res.data.data
   } catch (err) {
     console.error("gagal", err)
@@ -64,27 +59,48 @@ export const fetchReligions = async () => {
 
 export const submitStudent = async (post, editingId) => {
   const formData = new FormData()
+
   Object.entries(post).forEach(([key, value]) => {
-    if (value !== null) formData.append(key, value)
+    if (value !== null && value !== undefined) {
+      formData.append(key, value)
+    }
   })
 
   try {
+    let response
+
     if (editingId) {
-      await axios.post(`${API_BASE_URL}/students/${editingId}?_method=PUT`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      notify("Data Berhasil Diperbarui");
+      response = await axios.post(
+        `${API_BASE_URL}/students/${editingId}?_method=PUT`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      )
+      notify("Data Berhasil Diperbarui")
     } else {
-      await axios.post(`${API_BASE_URL}/students`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      notify("Data Berhasil Ditambah");
+      response = await axios.post(
+        `${API_BASE_URL}/students`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      )
+      notify("Data Berhasil Ditambah")
+    }
+
+    return {
+      success: true,
+      data: response.data,
+      message: response.data?.message,
     }
   } catch (err) {
     console.log("🔥 ERROR RESPONSE:", err.response?.data)
-    throw err
+
+    return {
+      success: false,
+      errors: err.response?.data?.errors || {},
+      message: err.response?.data?.message || "Terjadi kesalahan",
+    }
   }
 }
+
 
 export const deleteStudent = async (id) => {
   try {

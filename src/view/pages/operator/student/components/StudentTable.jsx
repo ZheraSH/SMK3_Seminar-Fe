@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 
 export function StudentsTable({
   students,
-  startIndex,
+  startIndex, 
   onDetail,
   onEdit,
   onDelete,
@@ -17,7 +17,6 @@ export function StudentsTable({
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const [dropUp, setDropUp] = useState(false);
 
-  // CLOSE outside
   useEffect(() => {
     const handler = (e) => {
       if (
@@ -34,10 +33,9 @@ export function StudentsTable({
     return () => document.removeEventListener("mousedown", handler);
   }, [openItemId]);
 
-  // hitung posisi fixed portal
   const calculatePos = (btnEl) => {
     const rect = btnEl.getBoundingClientRect();
-    const h = 140; // tinggi dropdown kira-kira
+    const h = 140;
     const shouldDropUp = window.innerHeight - rect.bottom < h;
 
     setDropUp(shouldDropUp);
@@ -69,11 +67,13 @@ export function StudentsTable({
                 key={student.id}
                 className="border-t border-gray-200 hover:bg-gray-50 transition text-[14px]"
               >
-                <td className="px-4 py-5 text-center">{startIndex + index + 1}</td>
-                <td className="px-4 py-5 text-center">{student.name}</td>
-                <td className="px-4 py-5 text-center">{student.nisn}</td>
-                <td className="px-4 py-5 text-center">{student.classroom.name || "-"}</td>
-                <td className="px-4 py-5 text-center">{student.classroom.schoolyear || "-"}</td>
+                <td className="px-4 py-5 text-center">
+                  {startIndex !== undefined ? startIndex + index + 1 : index + 1}
+                </td>
+                <td className="px-4 py-5 text-center">{student.name || "-"}</td>
+                <td className="px-4 py-5 text-center">{student.nisn || "-"}</td>
+                <td className="px-4 py-5 text-center">{student.classroom?.name || "-"}</td>
+                <td className="px-4 py-5 text-center">{student.classroom?.schoolyear || "-"}</td>
 
                 <td className="px-4 py-3 text-center">
                   {student.rfid ? (
@@ -146,6 +146,7 @@ export function StudentsTable({
                         Hapus
                       </button>
                     </div>,
+                    //create Portal
                     document.body
                   )}
               </tr>
