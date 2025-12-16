@@ -6,7 +6,6 @@ import Form from "./components/FormClass";
 import Header from "./Header";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import {ProfessionalHeaderReveal} from "../../../components/animate/animate";
 
 const CheckIcon = () => <Check className="h-4 w-4 text-blue-600" />;
 const ChevronRightIcon = () => (
@@ -113,14 +112,14 @@ const MainClass = () => {
 
     return (
         <div className="p-3 sm:p-3 bg-gray-50 min-h-screen mb-32 lg:mb-4">
-            <ProfessionalHeaderReveal className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
+            <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
                 <div className="absolute inset-0 items-center justify-center rounded-[6px]">
                     <div className="ml-5 mt-2">
                         <h1 className="text-white text-[30px] font-semibold">Kelas & Jurusan</h1>
                         <p className="text-white text-[14px] font-light">Kelola data kelas dan jurusan di sekolah Anda</p>
                     </div>
                 </div>
-            </ProfessionalHeaderReveal>
+            </div>
             <Header />
             <header className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
                 <div className="flex items-center space-x-2 w-full md:w-auto ">

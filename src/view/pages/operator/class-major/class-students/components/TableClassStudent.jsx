@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Trash2, MoreVertical, Eye } from 'lucide-react'; 
 import ModalDetailStudent from "./ModalDetailStudents"; 
-import { RowStaggerItem, StaggerContainer } from "../../../../../components/animate/animate";
 
 const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
     if (!show) return null;
@@ -133,8 +132,7 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
 
     return (
         <>
-            <div className={`bg-white shadow-sm rounded-xl border border-gray-300 relative overflow-x-auto 
-                ${loading ? '' : 'max-h-[600px] overflow-y-hidden'}`}>
+            <div className={`bg-white shadow-sm rounded-xl border border-gray-300 relative overflow-x-auto `}>
                 <table className="min-w-full divide-y divide-gray-200 ">
                     <thead className="bg-[#3B82F6] text-white sticky top-0">
                         <tr>
@@ -159,9 +157,9 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                         </tbody>
                     ) : (
                         students && students.length > 0 ? (
-                            <StaggerContainer key={currentPage} className="bg-white divide-y divide-gray-200">
+                            <tbody  className="bg-white divide-y divide-gray-200">
                                 {students.map((data, index) => (
-                                    <RowStaggerItem key={data.id} className="hover:bg-gray-50">
+                                    <tr key={data.id} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 whitespace-nowrap">{calculateIndex(index)}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{data.student.name}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{data.student.nisn}</td>
@@ -184,9 +182,9 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                                                 </button>
                                             </div>
                                         </td>
-                                    </RowStaggerItem>
+                                    </tr>
                                 ))}
-                            </StaggerContainer>
+                            </tbody>
                         ) : (
                             <tbody className="bg-white divide-y divide-gray-200">
                                 <tr><td colSpan="7" className="text-center py-8 text-gray-500">Tidak ada siswa di kelas ini.</td></tr>

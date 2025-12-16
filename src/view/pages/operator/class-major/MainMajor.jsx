@@ -1,7 +1,6 @@
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import useMajors from "../../../../Core/hooks/operator-hooks/class-major/useMajor";
-import {UniversalReveal,ProfessionalHeaderReveal,CharReveal} from "../../../components/animate/animate";
 const majorMappings = [
   {
     apiName: "Desain Komunikasi Visual",
@@ -57,14 +56,14 @@ const MajorCardGrid = () => {
   return (
     <>
       <div className="p-3 md:p-3 bg-gray-50 mb-20 md:mb-32">
-        <ProfessionalHeaderReveal className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
+        <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
           <div className="absolute inset-0 items-center justify-center rounded-[6px]">
             <div className="ml-5 mt-2">
-              <CharReveal text="Kelas & Jurusan" className="text-white text-[30px] font-semibold" delay={0.6}/>
-              <CharReveal text="Kelola data kelas dan jurusan di sekolah Anda"className="text-white text-[14px] font-light"delay={0.8}/>
+              <h1 className="text-white text-[30px] font-semibold">Kelas & Jurusan</h1>
+              <p className="text-white text-[14px] font-light">Kelola data kelas dan jurusan di sekolah Anda</p>
             </div>
           </div>
-        </ProfessionalHeaderReveal>
+        </div>
         <Header />
         {loading ? (
           <div className="p-4 md:p-8 text-center text-blue-600">
@@ -73,7 +72,7 @@ const MajorCardGrid = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {renderedMajors.map((major,index) => (
-              <UniversalReveal key={major.id} delay={index * 0.1}  className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col items-center text-center border border-gray-100 ">
+              <div key={major.id}  className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col items-center text-center border border-gray-100 ">
                 <div className="w-18 h-18 mb-4 border-2 border-gray-300 rounded-full">
                   <img src={major.logo} alt={major.fullName} className="w-full h-full object-contain rounded-full"/>
                 </div>
@@ -91,7 +90,7 @@ const MajorCardGrid = () => {
                 >
                   Lihat Detail
                 </button>
-              </UniversalReveal>
+              </div>
             ))}
           </div>
         )}
