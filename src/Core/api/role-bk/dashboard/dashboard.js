@@ -15,7 +15,6 @@ export const getDashboard = async () => {
             }
         );
 
-        console.log("berhasil ambil data dashboard bk:", res.data);
         return res.data.data; 
     } catch (err) {
         console.error("Gagal mengambil Dashboard:", err);
