@@ -50,7 +50,7 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
                             {["No","Nama","Kelas","Tanggal","Keterangan","Aksi"].map((header) => (
                                 <th
                                     key={header}
-                                    className={`px-4 py-3 text-sm font-medium uppercase tracking-wider ${header === 'Aksi' ? 'w-[150px] sm:w-auto' : ''}`}
+                                    className={`px-4 py-3 text-sm font-medium  ${header === 'Aksi' ? 'w-[150px] sm:w-auto' : ''}`}
                                 >
                                     {header}
                                 </th>

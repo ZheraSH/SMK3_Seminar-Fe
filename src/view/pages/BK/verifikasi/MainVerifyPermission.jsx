@@ -10,7 +10,7 @@ export default function VerifyPermission() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPermission, setSelectedPermission] = useState(null);
     const [isLoadingDetail , setIsLoadingDetail] = useState(false);
-    const { permissions, loading, error, classes, currentPage, lastPage, totalItems, perPage, handlePageChange,refetchData ,searchQuery,handleSearchChange,selectedClassId,handleClassSelect} = useVerifyPermissionData(getVerifyPermissionBk);
+    const { permissions, loading, error, classes, currentPage, lastPage, totalItems, perPage, handlePageChange,refetchData ,searchQuery,handleSearchChange,selectedClassId,handleClassSelect,options} = useVerifyPermissionData(getVerifyPermissionBk);
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -74,8 +74,7 @@ export default function VerifyPermission() {
     return (
         <div className="min-h-screen bg-gray-50 p-3 sm:p-3 lg:mb-4 md:mb-4 mb-24">
             <div className="max-w-7xl mx-auto">
-                <HeaderAndControls classes={classes}  selectedClassId={selectedClassId} handleClassSelect={handleClassSelect} searchQuery={searchQuery}
-                    onSearchChange={handleSearchChange}/>
+                <HeaderAndControls  classOptions={options.classes} selectedClassId={selectedClassId} handleClassSelect={handleClassSelect}searchQuery={searchQuery} onSearchChange={handleSearchChange}/>
                 <Table  data={permissions} loading={loading} error={error} currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={handlePageChange} onAction={handleAction} />
             </div>
             {isModalOpen && selectedPermission && (
