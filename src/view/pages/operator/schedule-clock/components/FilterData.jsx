@@ -29,8 +29,8 @@ export default function FilterDropdown({ filters, options, onChange }) {
     {
       id: "school_year",
       label: "Tahun Ajaran",
-      items: Array.isArray(options?.schoolYears?.data)
-        ? options.schoolYears.data.map((y) => ({
+      items: Array.isArray(options?.schoolYears)
+        ? options.schoolYears.map((y) => ({
             label: y.name,
             value: y.name,
           }))
@@ -77,7 +77,7 @@ export default function FilterDropdown({ filters, options, onChange }) {
       </button>
 
       {open && (
-        <div className="absolute mt-2 right-0 w-64 md:w-80 bg-white rounded-xl shadow-2xl border border-gray-200 p-4 z-50">
+        <div className="absolute mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-200 p-4 z-50">
           <span className="mb-2 font-semibold text-sm">Pilih Kategori</span>
           <button onClick={() => { onChange({ major: "", level_class: "", school_year: "" }); setOpen(false); setOpenSection(null); }}
             className="w-full text-left px-1 flex justify-between items-center mt-3 rounded-md">

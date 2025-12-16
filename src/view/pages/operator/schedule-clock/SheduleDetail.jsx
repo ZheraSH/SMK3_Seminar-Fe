@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { UserCheck2, Users, GraduationCap, ArrowLeft, MoreVertical, PencilLine, Trash2, Plus } from 'lucide-react';
 import useClassSchedule from '../../../../Core/hooks/operator-hooks/schedule/useClassSchedule'; 
-
+import { RowStaggerItem, StaggerContainer } from "../../../components/animate/animate";
 import AddScheduleModal from "./components/FormSchedule"; 
 
 const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
@@ -99,7 +99,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
         
         try {
             await removeSchedule(scheduleId);
-            await refetch();
+            refetch();
         } catch (error) {
             const errorMessage = error.message || error.response?.data?.message || `Gagal menghapus jadwal ${subjectName}.`;
             alert(`❌ Error: ${errorMessage}`);
@@ -164,23 +164,23 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
                 <div className=" rounded-md overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 border border-gray-200 ">
                         <thead className="bg-[#3B82F6] text-white">
-                            <tr>
-                                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider">No</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider">Penempatan</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider">Waktu</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider">Mata pelajaran</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider">Guru</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider">Aksi</th>
+                            <tr className='text-xs'>
+                                <th className="px-4 py-3">No</th>
+                                <th className="px-4 py-3">Penempatan</th>
+                                <th className="px-4 py-3">Waktu</th>
+                                <th className="px-4 py-3">Mata pelajaran</th>
+                                <th className="px-4 py-3">Guru</th>
+                                <th className="px-4 py-3">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-100">
                             
                             {isLoadingSchedule && (
-                                <tr>
-                                    <td colSpan={6} className="px-4 py-8 text-center text-blue-500 font-semibold">
-                                        Memuat jadwal hari {activeDay}...
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td colSpan={6} className="px-4 py-8 text-center text-blue-500 font-semibold text-center">
+                                            Memuat jadwal hari {activeDay}...
+                                        </td>
+                                    </tr>
                             )}
                             
                             {!isLoadingSchedule && schedulesToDisplay.length > 0 ? (
@@ -242,7 +242,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses }) => {
                             
                             <tr>
                                <td colSpan={6} className='text-center py-2' >
-                                    <button onClick={openAddModal} className="inline-flex items-center space-x-2 bg-[#3B82F6] text-white py-2 px-4 rounded-lg font-semibold transition duration-200 shadow-sm hover:bg-blue-700">
+                                    <button onClick={openAddModal} className="inline-flex items-center space-x-2 bg-[#3B82F6] text-white py-2 px-4 rounded-lg font-medium text-[14px] transition duration-200 shadow-sm hover:bg-blue-700">
                                         <Plus size={16} />
                                         <span>Tambah Mata Pelajaran</span>
                                     </button>

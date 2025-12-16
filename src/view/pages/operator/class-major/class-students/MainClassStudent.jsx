@@ -5,7 +5,6 @@ import DataTable from './components/TableClassStudent';
 import PaginationComponent from './components/PaginationComponent';
 import FormStudents from "./components/FormClassStudent"; 
 import useClassroomDetail from '../../../../../Core/hooks/operator-hooks/class-major/useClassroomDetail';
-import {ProfessionalHeaderReveal} from "../../../../components/animate/animate";
 
 function ModalAddStudent({ open, onClose, classroom, availableStudents, addStudents }) {
     if (!open) return null;
@@ -103,7 +102,7 @@ const BackButton = () => (
         <>
             <div className="min-h-screen p-2">
                 <div className="md:max-w-7xl w-full mx-auto md:mb-2 mb-32">
-                    <ProfessionalHeaderReveal className="relative w-full h-[142px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
+                    <div className="relative w-full h-[142px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
                         <div className="flex justify-between items-center mb-6 text-white">
                             <div>
                                 <span className='text-center flex flex-row gap-2 lg:text-[20px] md:text-[18px] text-sm font-semibold ml-4 mt-4'>
@@ -127,7 +126,7 @@ const BackButton = () => (
                                 <span className=' text-center'>{classroom?.school_year?.name}</span>
                             </div>
                         </div>
-                    </ProfessionalHeaderReveal>
+                    </div>
 
                     <div className="flex items-center justify-between md:space-x-4 pt-4 md:flex-row flex-col">
                         <div className="relative flex-grow md:max-w-sm w-full">

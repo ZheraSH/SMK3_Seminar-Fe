@@ -16,7 +16,6 @@ export const getAttendanceStatistics = async () => {
             }
         );
 
-        console.log("Global Attendance Statistics:", res.data);
         return res.data.data; 
     } catch (err) {
         console.error("Gagal mengambil statistik global:", err);
