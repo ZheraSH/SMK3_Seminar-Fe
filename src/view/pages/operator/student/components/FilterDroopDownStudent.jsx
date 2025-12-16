@@ -36,9 +36,9 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
       <div className="flex gap-2 items-center w-full">
         <button
           onClick={() => setOpenCategory(!openCategory)}
-          className="flex items-center gap-2 bg-white border rounded-full px-4 py-2 shadow-sm hover:bg-gray-50 transition text-sm font-medium w-full sm:w-[200px] justify-between"
+          className="flex items-center gap-2 bg-white border border-[#CBD5E1] rounded-full px-4 py-2 shadow-sm hover:bg-gray-50 transition text-sm w-full sm:w-[200px] justify-between"
         >
-          <span className="text-black truncate">{category.label}</span>
+          <span className="text-gray-600 truncate">{category.label}</span>
           <ChevronRight
             className={`w-4 h-4 text-gray-500 transition-transform ${
               openCategory ? "rotate-90" : "rotate-0"
