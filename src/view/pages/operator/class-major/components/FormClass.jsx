@@ -13,7 +13,7 @@ function Dropdown({ label, value, placeholder, data = [], onChange, error }) {
     <span className={value ? "text-black" : "text-gray-500"}>
      {value ? dropdownItems.find((i) => i.id === value)?.code || dropdownItems.find((i) => i.id === value)?.name : placeholder}
     </span>
-    <ChevronRight className="w-4 h-4 text-gray-500" />
+    <ChevronRight className={`w-4 h-4 text-gray-500 transform transition-transform duration-300 ${open ? 'rotate-90' : 'rotate-0'}`} />
    </div>
    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
    {open && (
@@ -84,7 +84,7 @@ export default function Form({ onClassAdded, addClass, onError }) {
    setIsSubmitting(false);
   }
  };
-  const activeSchoolYears = schoolYears?.data ? schoolYears.data.filter((year) => year.active === true) : [];
+//   const activeSchoolYears = schoolYears?.data ? schoolYears.data.filter((year) => year.active === true) : [];
 
   if (loadingMaster) return <div>Memuat data master...</div>;
 
@@ -140,7 +140,7 @@ export default function Form({ onClassAdded, addClass, onError }) {
      <Dropdown
       label="Tahun Ajaran"
       placeholder="Pilih Tahun Ajaran"
-      data={activeSchoolYears}
+      data={schoolYears || []}
       value={schoolYearId}
       onChange={(val) => {
        setSchoolYearId(val);

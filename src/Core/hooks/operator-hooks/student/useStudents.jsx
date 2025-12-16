@@ -1,3 +1,4 @@
+// hooks/useStudents.js - DIHAPUS SEMUA KODE DROPDOWN
 "use client"
 
 import { useState, useEffect } from "react"
@@ -18,9 +19,6 @@ export const useStudents = () => {
   const [Majors, setMajors] = useState([])
   const [levelclasses, setlevelclasses] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
-  const [openCategory, setOpenCategory] = useState(false)
-  const [openSubMenu, setOpenSubMenu] = useState("")
-  const [category, setCategory] = useState("Pilih Kategori")
   const [errors, setErrors] = useState({})
   const [selectedStudent, setSelectedStudent] = useState(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
@@ -40,10 +38,6 @@ export const useStudents = () => {
   })
   const [editingId, setEditingId] = useState(null)
   const [religions, setReligions] = useState([])
-  const [currentFilter, setCurrentFilter] = useState({
-    type: null,
-    value: null,
-  })
   const [currentPage, setCurrentPage] = useState(1)
   const rowsPerPage = 7
 
@@ -105,10 +99,7 @@ export const useStudents = () => {
         order_child: "",
         count_siblings: "",
         address: "",
-        religion_id: "",
-        gender: "",
-        majors: "",
-        levelclasses: "",
+        religion_id: 1,
       })
       setEditingId(null)
 
@@ -206,55 +197,12 @@ export const useStudents = () => {
     const matchesSearch =
       student.name?.toLowerCase().includes(keyword) ||
       student.nisn?.toLowerCase().includes(keyword) ||
-      student.gender?.toLowerCase().includes(keyword)
+      student.classroom?.name?.toLowerCase().includes(keyword) ||
+      student.classroom?.major?.toLowerCase().includes(keyword) ||
+      student.classroom?.level_class?.toLowerCase().includes(keyword)
 
-    let matchesFilter = true
-    if (currentFilter.type && currentFilter.value) {
-      switch (currentFilter.type) {
-        case "gender":
-          matchesFilter = student.gender?.toLowerCase() === currentFilter.value.toLowerCase()
-          break
-        case "majors":
-          matchesFilter = student.majors?.toLowerCase() === currentFilter.value.toLowerCase()
-          break
-        case "levelclasses":
-          matchesFilter = student.levelclasses?.toLowerCase() === currentFilter.value.toLowerCase()
-          break
-        default:
-          matchesFilter = true
-      }
-    }
-
-    return matchesSearch && matchesFilter
+    return matchesSearch
   })
-
-  const handleCategorySelect = (selected) => {
-    setCategory(selected)
-    setOpenCategory(false)
-    setOpenSubMenu("")
-
-    if (selected === "Semua Kategori") {
-      setCurrentFilter({ type: null, value: null })
-      return
-    }
-
-    let filterType = null
-    let filterValue = null
-
-    if (selected.startsWith("Gender: ")) {
-      const genderLabel = selected.split(": ")[1]
-      filterValue = genderLabel
-      filterType = "gender"
-    } else if (selected.startsWith("majors: ")) {
-      filterValue = selected.split(": ")[1]
-      filterType = "majors"
-    } else if (selected.startsWith("levelclasses: ")) {
-      filterValue = selected.split(": ")[1]
-      filterType = "levelclasses"
-    }
-
-    setCurrentFilter({ type: filterType, value: filterValue })
-  }
 
   const totalPages = Math.ceil(filteredStudents.length / rowsPerPage)
 
@@ -268,7 +216,6 @@ export const useStudents = () => {
   }
 
   return {
-    // State
     isOpen,
     setIsOpen,
     openItemId,
@@ -279,11 +226,6 @@ export const useStudents = () => {
     levelclasses,
     searchTerm,
     setSearchTerm,
-    openCategory,
-    setOpenCategory,
-    openSubMenu,
-    setOpenSubMenu,
-    category,
     errors,
     selectedStudent,
     isDetailOpen,
@@ -291,7 +233,6 @@ export const useStudents = () => {
     post,
     editingId,
     religions,
-    currentFilter,
     currentPage,
     totalPages,
     rowsPerPage,
@@ -304,7 +245,6 @@ export const useStudents = () => {
     handleEdit,
     handleDetail,
     handleDelete,
-    handleCategorySelect,
     handlePageChange,
   }
 }

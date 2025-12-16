@@ -6,7 +6,7 @@ export function SearchBar({ search, onSearchChange, onAddClick }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
       {/* Search */}
-      <div className="flex items-center flex-1 h-[40px] border border-gray-500 rounded-full px-3 py-2 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-2">
+      <div className="w-full sm:max-w-[250px] flex items-center h-[40px] border border-gray-500 rounded-full px-3 py-2 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-2">
         <Search size={20} className="text-black flex-shrink-0" />
         <input
           type="text"

@@ -35,7 +35,7 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
           <DetailRow label="Kelas" value={permission.classroom.name} />
           <DetailRow
             label="Verifikator"
-            value={permission.verifikator || "-"}
+            value={permission.counselor?.name || "-"}
           />
         </div>
 

@@ -4,22 +4,19 @@ import { CalendarDays } from "lucide-react";
 import HeaderPage2 from "../../../components/elements/header/Header.Page2";
 import { useTeacherSchedule } from "../../../../Core/hooks/role-teacher/teacher-schedule/useTeacherSchedule";
 
-
-
 export default function TeacherSchedule() {
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const today = new Date().toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(today);
   const [userName, setUserName] = useState("");
 
-  const { schedule, activeDay, dayMap } = useTeacherSchedule(selectedDate);
+  const { schedule, activeDay, dayMap, getDayNameFromDate } = useTeacherSchedule(selectedDate);
 
   const days = [
     "Senin",
     "Selasa",
     "Rabu",
     "Kamis",
-    "Jum’at",
+    "Jum'at",
     "Sabtu",
     "Minggu",
   ];
@@ -29,27 +26,90 @@ export default function TeacherSchedule() {
     Selasa: "tuesday",
     Rabu: "wednesday",
     Kamis: "thursday",
-    "Jum’at": "friday",
+    "Jum'at": "friday",
     Sabtu: "saturday",
     Minggu: "sunday",
   };
 
+  // Fungsi untuk mendapatkan tanggal berdasarkan hari target
   function getDateForDay(targetDay) {
-    const today = new Date();
-    const dayIndex = today.getDay();
-    const map = {
-      monday: 2,
-      tuesday: 3,
-      wednesday: 4,
-      thursday: 5,
-      friday: 6,
-      saturday: 7,
-      sunday: 1,
-    };
-    const diff = (map[targetDay] - dayIndex + 7) % 7;
-    const result = new Date(today);
-    result.setDate(today.getDate() + diff);
+    if (!targetDay) return selectedDate;
+    
+    const currentDate = new Date(selectedDate);
+    const currentDayName = getDayNameFromDate(selectedDate);
+    
+    // Jika hari yang dipilih sama dengan hari aktif, return tanggal yang sama
+    if (reverseDayMap[activeDay] === targetDay) {
+      return selectedDate;
+    }
+    
+    // Cari selisih hari antara hari saat ini dan hari target
+    const currentDayIndex = days.findIndex(day => 
+      reverseDayMap[day] === currentDayName
+    );
+    const targetDayIndex = days.findIndex(day => 
+      reverseDayMap[day] === targetDay
+    );
+    
+    // Jika tidak ditemukan, default ke hari ini
+    if (currentDayIndex === -1 || targetDayIndex === -1) {
+      const today = new Date();
+      const dayIndex = today.getDay();
+      const dayMapIndex = {
+        1: "monday",
+        2: "tuesday",
+        3: "wednesday",
+        4: "thursday",
+        5: "friday",
+        6: "saturday",
+        0: "sunday",
+      };
+      
+      const diff = (targetDayIndex - dayIndex + 7) % 7;
+      const result = new Date(today);
+      result.setDate(today.getDate() + diff);
+      return result.toISOString().split("T")[0];
+    }
+    
+    // Hitung selisih hari
+    let diff = targetDayIndex - currentDayIndex;
+    if (diff < 0) diff += 7;
+    
+    const result = new Date(currentDate);
+    result.setDate(currentDate.getDate() + diff);
     return result.toISOString().split("T")[0];
+  }
+
+  // Fungsi sederhana untuk mendapatkan tanggal berdasarkan hari
+  function getDateForDaySimple(targetDay) {
+    const currentDate = new Date(selectedDate);
+    const currentDayIndex = currentDate.getDay(); // 0=Minggu, 1=Senin, ...
+    
+    // Konversi targetDay ke index hari
+    const targetDayIndex = {
+      monday: 1,
+      tuesday: 2,
+      wednesday: 3,
+      thursday: 4,
+      friday: 5,
+      saturday: 6,
+      sunday: 0,
+    }[targetDay];
+    
+    // Hitung selisih hari
+    let diff = targetDayIndex - currentDayIndex;
+    if (diff < 0) diff += 7;
+    
+    const result = new Date(currentDate);
+    result.setDate(currentDate.getDate() + diff);
+    return result.toISOString().split("T")[0];
+  }
+
+  // Fungsi yang lebih robust
+  function handleDayClick(dayName) {
+    const backendDay = reverseDayMap[dayName];
+    const dateForDay = getDateForDaySimple(backendDay);
+    setSelectedDate(dateForDay);
   }
 
   useEffect(() => {

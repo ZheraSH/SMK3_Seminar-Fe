@@ -11,7 +11,7 @@ const loginUser = async ({ email, password }) => {
 
     if (result && result.data && result.data.token && result.data.user) {
       const user = result.data.user;
-      const roles = user.roles.map((r) => r.value); 
+      const roles = user.roles.map((r) => r.value);
       return {
         token: result.data.token,
         user: user,
@@ -59,9 +59,12 @@ export default function Login() {
       localStorage.setItem("token", data.token);
 
       const userData = {
-        roles: data.roles,
+        id: data.user.id,
         name: data.user.name,
         email: data.user.email,
+        image: data.user.image,
+        roles: data.roles,
+        activeRole: data.activeRole,
       };
 
       localStorage.setItem("userData", JSON.stringify(userData));

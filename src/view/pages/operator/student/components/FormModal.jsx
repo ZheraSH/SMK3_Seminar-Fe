@@ -35,7 +35,10 @@ export function FormModal({
           {/* Field Nama */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Nama Lengkap <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Nama Lengkap <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -54,7 +57,10 @@ export function FormModal({
           {/* Field Email */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Email <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Email <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -73,7 +79,10 @@ export function FormModal({
           {/* Field Foto */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Foto <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Foto <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               type="file"
@@ -89,7 +98,10 @@ export function FormModal({
           {/* Field Jenis Kelamin */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Jenis Kelamin <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Jenis Kelamin <span className="text-red-500">*</span>
+              </p>
             </label>
             <select
               name="gender"
@@ -111,7 +123,10 @@ export function FormModal({
           {/* Field NISN */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> NISN <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                NISN <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -131,7 +146,10 @@ export function FormModal({
           {/* Field Agama */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Agama <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Agama <span className="text-red-500">*</span>
+              </p>
             </label>
             <select
               name="religion_id"
@@ -158,7 +176,10 @@ export function FormModal({
           {/* Field Tempat Lahir */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Tempat Lahir <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Tempat Lahir <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -179,7 +200,10 @@ export function FormModal({
           {/* Field Tanggal Lahir */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Tanggal Lahir <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Tanggal Lahir <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -200,7 +224,10 @@ export function FormModal({
           {/* Field No KK */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Nomer KK <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Nomer KK <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -220,7 +247,10 @@ export function FormModal({
           {/* Field Saudara Ke */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Saudara Ke <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Saudara Ke <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -242,7 +272,10 @@ export function FormModal({
           {/* Field No Akta */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Nomer Akta <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Nomer Akta <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
@@ -264,7 +297,10 @@ export function FormModal({
           {/* Field Anak Ke */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-            <p> Anak Ke <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Anak Ke <span className="text-red-500">*</span>
+              </p>
             </label>
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -286,7 +322,10 @@ export function FormModal({
           {/* Field Alamat */}
           <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-600">
-            <p> Alamat <span className="text-red-500">*</span></p>
+              <p>
+                {" "}
+                Alamat <span className="text-red-500">*</span>
+              </p>
             </label>
             <textarea
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -304,13 +343,6 @@ export function FormModal({
 
           {/* Tombol Aksi */}
           <div className="col-span-2 flex justify-end mt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition"
-            >
-              Batal
-            </button>
             <button
               type="submit"
               className="ml-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"

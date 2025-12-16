@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import {getClassroomDetail,getClassroomStudents,getAvailableStudents,addStudentsToClassroom,removeStudentFromClass,getStudentDetail} from "../../../api/role-operator/class-major/classStudentsApi";
+import { getClassroomDetail, getClassroomStudents, getAvailableStudents, addStudentsToClassroom, removeStudentFromClass, getStudentDetail} from "../../../api/role-operator/class-major/classStudentsApi";
 
 const ITEMS_PER_PAGE = 8; 
 
@@ -22,7 +22,6 @@ export default function useClassroomDetail(classroomId) {
     const [studentsLoading, setStudentsLoading] = useState(false);
     const [actionLoading, setActionLoading] = useState(false);
 
-    // Fungsi untuk mengambil detail kelas
     const fetchDetail = useCallback(async () => {
         if (!classroomId) return;
         try {
@@ -30,7 +29,7 @@ export default function useClassroomDetail(classroomId) {
             const detail = await getClassroomDetail(classroomId);
             setClassroom(detail);
         } catch (err) {
-            console.error("Error fetching classroom detail:", err);
+            console.error("Error fetching classroom detail:", err.response?.data || err);
         } finally {
             setLoading(false);
         }
@@ -43,28 +42,33 @@ export default function useClassroomDetail(classroomId) {
             
             const res = await getClassroomStudents(classroomId, page, ITEMS_PER_PAGE, search); 
             const fetchedStudents = res.data || [];
-            const totalRecords = res.pagination?.total_records || (fetchedStudents.length > 0 ? fetchedStudents[0].total_students : 0);
-            const totalPages = totalRecords > 0 
-                ? Math.ceil(totalRecords / ITEMS_PER_PAGE)
-                : 1;
+            const meta = res.meta; 
 
             setStudents(fetchedStudents);
             
-            setPaginationMeta({
-                current_page: page,
-                last_page: totalPages, 
-                total_records: totalRecords,
-                per_page: ITEMS_PER_PAGE, 
-            });
+            if (meta) {
+                setPaginationMeta({
+                    current_page: meta.current_page,
+                    last_page: meta.last_page, 
+                    total_records: meta.total,
+                    per_page: meta.per_page, 
+                });
+            } else {
+                 setPaginationMeta(prev => ({
+                    ...prev,
+                    current_page: 1,
+                    last_page: 1, 
+                    total_records: fetchedStudents.length,
+                }));
+            }
 
         } catch (err) {
-            console.error("Error fetching students:", err);
+            console.error("Error fetching students:", err.response?.data || err);
         } finally {
             setStudentsLoading(false);
         }
     }, [classroomId]);
 
-    // Fungsi untuk mengambil detail siswa
     const fetchStudentDetail = useCallback(async (studentId) => {
         if (!studentId) return;
         try {
@@ -76,22 +80,21 @@ export default function useClassroomDetail(classroomId) {
             setSelectedStudentDetail(detail);
             return { success: true, data: detail };
         } catch (err) {
-            console.error(`Gagal memuat detail siswa ID: ${studentId}`, err);
+            console.error(`Gagal memuat detail siswa ID: ${studentId}`, err.response?.data || err);
             setSelectedStudentDetail(null); 
-            return { success: false, error: err };
+            throw err;
         } finally {
             setDetailLoading(false);
         }
     }, []);
 
-    // Fungsi untuk mengambil siswa yang tersedia
     const fetchAvailableStudents = useCallback(async () => {
         if (!classroomId) return;
         try {
             const available = await getAvailableStudents(classroomId);
             setAvailableStudents(available || []);
         } catch (err) {
-            console.error("Error fetching available students:", err);
+            console.error("Error fetching available students:", err.response?.data || err);
         }
     }, [classroomId]);
 
@@ -101,7 +104,6 @@ export default function useClassroomDetail(classroomId) {
         fetchStudents(1, ""); 
     }, [fetchDetail, fetchAvailableStudents, fetchStudents]);
 
-    // Fungsi untuk menambahkan siswa
     const addStudents = async (studentIds) => {
         try {
             setActionLoading(true);
@@ -110,14 +112,13 @@ export default function useClassroomDetail(classroomId) {
             await fetchStudents(1); 
             return { success: true, data: res };
         } catch (err) {
-            console.error("Gagal menambahkan siswa:", err);
-            return { success: false, error: err };
+            console.error("Gagal menambahkan siswa:", err.response?.data || err);
+            throw err;
         } finally {
             setActionLoading(false);
         }
     };
 
-    // Fungsi untuk menghapus siswa
     const removeStudent = async (studentId) => {
         try {
             setActionLoading(true);
@@ -125,8 +126,8 @@ export default function useClassroomDetail(classroomId) {
             await fetchStudents(paginationMeta.current_page); 
             return { success: true, data: res };
         } catch (err) {
-            console.error("Gagal menghapus siswa:", err);
-            return { success: false, error: err };
+            console.error("Gagal menghapus siswa:", err.response?.data || err);
+            throw err;
         } finally {
             setActionLoading(false);
         }
@@ -140,12 +141,9 @@ export default function useClassroomDetail(classroomId) {
         availableStudents,
         loading, 
         actionLoading,
-        
         selectedStudentDetail, 
         detailLoading, 
         fetchStudentDetail, 
-        
-        // Fungsi
         fetchStudents,
         fetchAvailableStudents, 
         addStudents,

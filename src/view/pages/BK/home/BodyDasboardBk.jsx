@@ -1,6 +1,8 @@
 import { Users,UserCheck,ClipboardList,Activity,UserX,AlertTriangle} from 'lucide-react';
 import { useState , useEffect} from 'react';
 import { useDashboardData } from '../../../../Core/hooks/bk-hooks/dashboard/dashboard';
+import ProfileIMG from '../../../../Core/hooks/profile/Profil';
+
 
 const formatDate = (dateString) => {
     if (!dateString) return 'Tanggal tidak tersedia';
@@ -47,7 +49,7 @@ const AttendanceCard = ({ status, count, percentage, color, barColor, textColor,
 
 export default function BodyDashboard() {
     const { data, isLoading, error} = useDashboardData();
-    const [user, setUser] = useState({ name: "", email: "" });
+    const [user, setUser] = useState({ name: "", email: ""});
 
     useEffect(() => {
         const storedUser = localStorage.getItem("userData");
@@ -88,7 +90,7 @@ export default function BodyDashboard() {
         <>
             <div className="p-4 min-h-screen mb-20 lg:mb-10">
                 <div className="bg-[#3B82F6] mb-4 text-white h-[100px] rounded-lg flex items-center gap-5 pl-4">
-                    <img src="images/team/valen.jpg" alt="profil" className="rounded-full w-[68px] h-[68px]" />
+                    <ProfileIMG />
                     <div className="flex flex-col mt-0">
                         <h1 className=" text-[20px] font-semibold"> Halo, {user.name || 'Guru BK'}</h1>
                         <p className="text-[14px] font-medium">Guru Bk</p>

@@ -57,7 +57,7 @@ export const DetailModal = ({ isDetailOpen, selectedTeacher, setIsDetailOpen }) 
             </p>
             <p>
               <span className="font-medium">Jenis Kelamin :</span>{" "}
-              {selectedTeacher.gender || "-"}
+              {selectedTeacher.gender_label || "-"}
                 
             </p>
             <p>

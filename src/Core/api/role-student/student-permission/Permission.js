@@ -39,7 +39,6 @@ export async function handleSubmitPermission(formData) {
       },
     });
 
-    // 🔥 Tambahin ini → hook bisa detect success
     return { success: true };
 
   } catch (err) {

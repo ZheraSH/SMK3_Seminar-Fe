@@ -25,7 +25,7 @@ export const TeacherForm = ({
         </button>
 
         <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-          Tambah Guru
+          {editingId ? "Edit Guru" : "Tambah Guru"}
         </h2>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
@@ -332,13 +332,6 @@ export const TeacherForm = ({
           </div>
 
           <div className="col-span-2 flex justify-end mt-4">
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition"
-            >
-              Batal
-            </button>
             <button
               type="submit"
               className="ml-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"

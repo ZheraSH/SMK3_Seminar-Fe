@@ -26,7 +26,6 @@ export const fetchTeachersApi = async (page = 1) => {
 export const fetchReligionsApi = async () => {
   try {
     const res = await axios.get("http://127.0.0.1:8000/api/religions");
-    console.log("📦 Data agama dari API:", res.data);
     return res.data.data;
   } catch (err) {
     console.error("gagal", err);

@@ -23,7 +23,6 @@ export const addLessonHour = async (lessonData) => {
         return res.data; 
 
     } catch (err) {
-        console.error("Gagal Menambahkan Jam Pelajaran:", err.response ? err.response.data : err.message);
         throw err.response ? err.response.data : new Error("Terjadi kesalahan jaringan.");
     }
 };
@@ -34,8 +33,6 @@ export const deleteLessonHour = async (id) => {
          notify('Data Berhasil Dihapus');
         return res.data; 
     } catch (err) {
-        console.error("Gagal Menghapus Jam Pelajaran:", err.response ? err.response.data : err.message);
-        
         throw err.response ? err.response.data : new Error("Terjadi kesalahan jaringan.");
     }
 };

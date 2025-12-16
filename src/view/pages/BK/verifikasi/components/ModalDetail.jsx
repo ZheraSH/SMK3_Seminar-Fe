@@ -4,7 +4,7 @@ import { X, Check, X as RejectIcon } from 'lucide-react';
 export default function DetailIzinModal({ isOpen, onClose, permissionData,loading ,onApprove, onReject}) {
     if (!isOpen || !permissionData) return null;
 
-    const { student, classroom,counselor, type_label, start_date, reason, status_label } = permissionData;
+    const { student, classroom,counselor, type_label, start_date, reason, status_label,proof } = permissionData;
     const isPending = status_label === "Menunggu" || status === "pending";
     const StatusModalBadge = ({ status }) => {
         const color = status === "Di Setujui" ? "text-green-600 font-bold" : 
@@ -47,8 +47,23 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData,loadin
                             <>
                                 <div className="mb-6">
                                     <h4 className="font-semibold text-gray-700 mb-2">Bukti Pendukung</h4>
-                                    <div className="bg-gray-200 h-32 flex items-center justify-center text-gray-500 rounded-lg">
-                                        IMG (Bukti Izin)
+                                    <div className="bg-gray-200 h-32 flex items-center justify-center text-gray-500 rounded-lg overflow-hidden">
+                                        {proof ? (
+                                            <a 
+                                                href={proof} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer" 
+                                                className='h-full w-full'
+                                            >
+                                                <img 
+                                                    src={proof} 
+                                                    alt="IMG (Bukti Izin)" 
+                                                    className='h-full w-full object-cover cursor-pointer' 
+                                                />
+                                            </a>
+                                        ) : (
+                                            <span className="text-gray-500">Tidak ada bukti</span>
+                                        )}
                                     </div>
                                 </div>
 

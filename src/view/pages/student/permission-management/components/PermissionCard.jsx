@@ -44,9 +44,22 @@ export const PermissionCard = ({ permission, onViewDetail }) => {
 
 // Parent Component
 export default function PermissionList({ permissions, onViewDetail }) {
+  // Hanya tampilkan permission yang pending
+  const pendingPermissions = permissions.filter(
+    (p) => p.status === "pending"
+  );
+
+  if (pendingPermissions.length === 0) {
+    return (
+      <div className="text-gray-500 text-sm py-6 text-center w-full">
+        Tidak ada izin pending.
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-wrap gap-0">
-      {permissions.map((permission) => (
+      {pendingPermissions.map((permission) => (
         <PermissionCard
           key={permission.id}
           permission={permission}

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import React from "react"
+import React from "react";
 
 export function DetailModal({ isOpen, onClose, student }) {
-  if (!isOpen || !student) return null
+  if (!isOpen || !student) return null;
 
   return (
     <>
@@ -11,7 +11,9 @@ export function DetailModal({ isOpen, onClose, student }) {
         <div className="bg-white rounded-2xl shadow-2xl w-[700px] px-10 py-8 relative">
           {/* Header */}
           <div className="flex items-start justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-800">Detail Siswa</h2>
+            <h2 className="text-lg font-semibold text-gray-800">
+              Detail Siswa
+            </h2>
           </div>
 
           {/* Foto Profil */}
@@ -27,43 +29,51 @@ export function DetailModal({ isOpen, onClose, student }) {
           <div className="grid grid-cols-2 text-gray-700 text-[15px] gap-y-2 gap-x-40 mb-4">
             <div className="space-y-7">
               <p>
-                <span className="font-medium">Nama :</span> {student.name || "-"}
+                <span className="font-medium">Nama :</span>{" "}
+                {student.name || "-"}
               </p>
               <p>
-                <span className="font-medium">Kelas :</span> {student.classroom?.name || "-"}
+                <span className="font-medium">Kelas :</span>{" "}
+                {student.classroom?.name || "-"}
               </p>
               <p>
-                <span className="font-medium">Agama :</span> {student.religion?.name || student.religion || "-"}
+                <span className="font-medium">Agama :</span>{" "}
+                {student.religion?.name || student.religion || "-"}
               </p>
               <p>
-                <span className="font-medium">Tanggal Lahir :</span> {student.birth_date || "-"}
+                <span className="font-medium">Tanggal Lahir :</span>{" "}
+                {student.birth_date || "-"}
               </p>
               <p>
-                <span className="font-medium">No Akta :</span> {student.number_akta || "-"}
+                <span className="font-medium">No Akta :</span>{" "}
+                {student.number_akta || "-"}
               </p>
               <p>
-                <span className="font-medium">Jumlah Saudara :</span> {student.count_siblings || "-"}
+                <span className="font-medium">Jumlah Saudara :</span>{" "}
+                {student.count_siblings || "-"}
               </p>
             </div>
 
             <div className="space-y-7">
               <p>
-                <span className="font-medium">NISN :</span> {student.nisn || "-"}
+                <span className="font-medium">NISN :</span>{" "}
+                {student.nisn || "-"}
               </p>
               <p>
                 <span className="font-medium">Jenis Kelamin :</span>{" "}
-                {student.gender === "male" ? "Laki-laki" : 
-                 student.gender === "female" ? "Perempuan" : 
-                 student.gender || "-"}
+                {student.gender_label || "-"}
               </p>
               <p>
-                <span className="font-medium">Tempat Lahir :</span> {student.birth_place || "-"}
+                <span className="font-medium">Tempat Lahir :</span>{" "}
+                {student.birth_place || "-"}
               </p>
               <p>
-                <span className="font-medium">No KK :</span> {student.number_kk || "-"}
+                <span className="font-medium">No KK :</span>{" "}
+                {student.number_kk || "-"}
               </p>
               <p>
-                <span className="font-medium">Anak Ke- :</span> {student.order_child || "-"}
+                <span className="font-medium">Anak Ke- :</span>{" "}
+                {student.order_child || "-"}
               </p>
             </div>
           </div>
@@ -71,7 +81,8 @@ export function DetailModal({ isOpen, onClose, student }) {
           {/* Alamat */}
           <div className="mt-4 pt-3 text-gray-700 text-[15px]">
             <p>
-              <span className="font-medium">Alamat :</span> {student.address || "-"}
+              <span className="font-medium">Alamat :</span>{" "}
+              {student.address || "-"}
             </p>
           </div>
 
@@ -87,5 +98,5 @@ export function DetailModal({ isOpen, onClose, student }) {
         </div>
       </div>
     </>
-  )
+  );
 }
