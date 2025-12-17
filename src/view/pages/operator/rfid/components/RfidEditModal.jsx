@@ -66,12 +66,6 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
         {/* Buttons */}
         <div className="flex justify-end gap-2">
           <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-[10px] border text-[14px]"
-          >
-            Batal
-          </button>
-          <button
             onClick={handleSave}
             className="bg-[#3B82F6] text-white text-[14px] px-4 py-2 h-[37px] w-[90px] rounded-[10px] hover:bg-blue-700"
           >
