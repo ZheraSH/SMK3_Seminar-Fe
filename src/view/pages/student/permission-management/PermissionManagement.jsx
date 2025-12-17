@@ -117,8 +117,9 @@ export default function PermissionManagement() {
         </div>
       )}
 
-      {recentPendingPermissions.length > 0 ? (
-        <div className="flex gap-4 flex-wrap">
+      {recentPendingPermissions.length > 0 && (
+        <div className="flex gap-4 flex-wrap mb-4">
+          {" "}
           {recentPendingPermissions.map((p) => (
             <PermissionCard
               key={p.id}
@@ -127,18 +128,16 @@ export default function PermissionManagement() {
             />
           ))}
         </div>
-      ) : (
-        <div className="text-gray-500 text-center w-full py-6">
-          Tidak ada izin Aktif saat ini.
-        </div>
       )}
 
       {/* Table */}
       {permissions.length > 0 && (
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 mt-8">
-            Daftar Riwayat Izin
-          </h2>
+        <div className="mt-4">
+          {recentPendingPermissions.length > 0 && (
+            <h2 className="text-2xl my-10 font-bold text-gray-900 mb-4">
+              Daftar Riwayat Izin
+            </h2>
+          )}
           <PermissionTable
             permissions={permissions}
             onViewDetail={handleViewDetail}

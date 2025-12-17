@@ -1,6 +1,8 @@
 "use client"
 
 export function PaginationPermissionStudent({ page, lastPage, onPrev, onNext, onPageClick }) {
+  if (!lastPage || lastPage <= 1) return null;
+
   const renderPages = () => {
     const pages = []
 
