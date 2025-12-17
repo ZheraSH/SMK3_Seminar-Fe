@@ -2,14 +2,13 @@ import { RefreshCw } from "lucide-react";
 import FilterDropdown from "./components/FilterData";
 import TableAttendanceBk from "./components/TableAttendance";
 import Head from "./components/Head";
-import StatisticsCrad from "./components/StatisticsCard";
 import { Pagination } from "./components/Pagination";
 import { useAttendanceMonitoring } from "../../../../Core/hooks/bk-hooks/AttendanceMonitoring/useAttendance";
+import useMaster from "../../../../Core/hooks/bk-hooks/AttendanceMonitoring/useMaster";
 
 export default function MainMonitoringAbsen() {
     const {
     students,
-    recap,
     loading,
     error,
     searchQuery,
@@ -24,11 +23,12 @@ export default function MainMonitoringAbsen() {
     fetchData,
 } = useAttendanceMonitoring();
 
+    const{majors,classroom}=useMaster();
+
 
     return (
-        <div className="justify-center mx-5 mb-10">
+        <div className="justify-center mx-2 lg:mx-5 mb-10">
             <Head />
-            <StatisticsCrad recap={recap} />
             <div className="flex justify-between mt-5 gap-1">
                 <div className="relative flex">
                     <div className="relative flex items-center w-[180px] md:w-80 mr-2 md:mr-4">
@@ -46,6 +46,8 @@ export default function MainMonitoringAbsen() {
                         />
                     </div>
                     <FilterDropdown
+                        majors={majors}
+                        classroom={classroom}
                         students={students}
                         selected={selectedFilter}
                         onSelect={handleFilterSelect}
@@ -61,7 +63,7 @@ export default function MainMonitoringAbsen() {
             </div>
 
             <div className="mt-4">
-                <p className="flex justify-end text-[12px] font-light">
+                <p className="flex justify-end text-[12px] font-light mb-[5px]">
                     Terakhir diperbarui: {lastUpdated 
                         ? lastUpdated.toLocaleString("id-ID", {
                             day: "2-digit",
@@ -87,11 +89,14 @@ export default function MainMonitoringAbsen() {
                     )}
                 </div>
 
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
+                {totalPages > 1 && (
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                )}
+
             </div>
         </div>
     );
