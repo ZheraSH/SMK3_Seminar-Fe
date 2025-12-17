@@ -1,126 +1,136 @@
 import { Send } from "lucide-react";
+const useSubmissionState = ({ 
+    isFutureDate, 
+    isPastDate, 
+    isTimeValid, 
+    isSubmitted, 
+    canSubmit, 
+    submitting 
+}) => {
+    let message = null;
+    let messageStyle = "";
+    let isDisabled = submitting; 
+    let buttonText = isSubmitted ? "Update" : "Submit";
+    
+    if (submitting) {
+        buttonText = isSubmitted ? "Memperbarui..." : "Mengirim...";
+    }
+
+    if (isFutureDate) {
+        message = "⚠️ Periode cross-check BELUM DIBUKA. Silakan kembali pada hari yang sesuai.";
+        messageStyle = "bg-yellow-100 border-yellow-400 text-yellow-700";
+        isDisabled = true; 
+    } 
+    else if (!isTimeValid) {
+        if (isPastDate) {
+            message = "🛑 Data tanggal lampau sudah TERKUNCI. Batas waktu update telah berakhir.";
+        } else {
+            message = "🛑 Batas waktu cross-check telah berakhir untuk hari ini. Tidak dapat submit/update.";
+        }
+        messageStyle = "bg-red-100 border-red-400 text-red-700";
+        isDisabled = true;
+    }
+    else if (isTimeValid) {
+        if (isSubmitted) { 
+            message = isPastDate 
+                ? "✅ Anda masih diizinkan memperbarui data tanggal lampau ini." 
+                : "✅ Absensi sudah tersubmit. Anda dapat mengubah dan memperbaruinya.";
+            messageStyle = "bg-green-100 border-green-400 text-green-700";
+            isDisabled = submitting; 
+        } else if (!canSubmit) { 
+            message = "⚠️ Semua siswa harus diberi status sebelum submit!";
+            messageStyle = "bg-red-100 border-red-400 text-red-700";
+            isDisabled = true; 
+        } else {
+            message = "📝 Data lengkap. Siap untuk pengiriman pertama.";
+            messageStyle = "bg-blue-100 border-blue-400 text-blue-700";
+            isDisabled = submitting; 
+        }
+    }
+
+    return { message, messageStyle, isDisabled, buttonText };
+};
+
 
 export default function TotalClass({
-  setIsOpenClass,
-  summary,
-  handleSubmit,
-  isSubmitted,
-  canSubmit,
-  submitting,
-  isTimeValid,
-}) {
-  // ========================================
-  // SAFE DEFAULT SUMMARY
-  // ========================================
-  const safeSummary = summary || {
-    present: 0,
-    alpha: 0,
-    leave: 0,
-    late: 0,
-    sick: 0,
-  };
-
-  // ========================================
-  // DEBUG
-  // ========================================
-  console.log("DEBUG TOTALCLASS:", {
+    setIsOpenClass,
+    summary,
+    handleSubmit,
     isSubmitted,
     canSubmit,
     submitting,
     isTimeValid,
-    isButtonDisabled:
-      submitting ||
-      !isTimeValid ||
-      (!canSubmit && !isSubmitted)
-  });
+    isPastDate, 
+    isFutureDate,
+}) {
+    const safeSummary = summary || {
+        present: 0, alpha: 0, leave: 0, late: 0, sick: 0, total: summary?.total || 0,
+    };
 
-  const timeValid = isTimeValid ?? true;
+    const { 
+        message, 
+        messageStyle, 
+        isDisabled: isButtonDisabled, 
+        buttonText 
+    } = useSubmissionState({
+        isFutureDate, 
+        isPastDate, 
+        isTimeValid: isTimeValid ?? false, 
+        isSubmitted, 
+        canSubmit,
+        submitting,
+    });
+    
+    return (
+        <>
+            <div className="flex flex-col md:flex-row lg:flex-row lg:flex-nowrap  items-stretch lg:items-center justify-between w-full bg-white shadow-md p-3 rounded-lg mt-4 gap-y-3 gap-x-2">
 
-  // ========================================
-  // DISABLE BUTTON RULE
-  // ========================================
-  const isButtonDisabled =
-    submitting ||
-    !timeValid ||
-    (!canSubmit && !isSubmitted);
+                <div className="order-1 flex-shrink-0 flex items-center">
+                    <h1 className="text-lg md:text-[15px] font-semibold font-poppins text-gray-800">Daftar Nama Siswa</h1>
+                </div>
+                <div className=" order-2 flex flex-col md:flex-row gap-x-1 gap-y-1 text-[14px] md:text-[12px] lg:text-[15px] font-poppins justify-start md:justify-center items-center w-full lg:w-auto  lg:mt-0">
+                        <p className="font-medium text-gray-600 text-[16px] md:text-[12px] lg:text-[15px] ">Total:</p>
+                        <div className="flex gap-x-1.5 flex-wrap justify-center items-center">
+                            <p className="text-[#10B981] font-medium">Hadir: {safeSummary.present}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#FF5E53] font-medium">Alpha: {safeSummary.alpha}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#3B82F6] font-medium">Izin: {safeSummary.leave}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#FACC15] font-medium">Terlambat: {safeSummary.late}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#8B5CF6] font-medium">Sakit: {safeSummary.sick}</p>
+                        </div>
+                </div>
+                <div className=" order-3 flex w-full md:w-auto flex-col md:flex-row gap-3 md:ml-2 justify-center md:justify-end md:items-center">
+                        <button
+                            onClick={handleSubmit}
+                            disabled={isButtonDisabled}
+                            className={`flex items-center  md:w-[100px] justify-center h-[37px] rounded-md text-white font-poppins text-sm transition-all 
+                                ${
+                                    isButtonDisabled
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-blue-600 hover:bg-blue-700 shadow-md"
+                                }
+                            `}
+                        >
+                            <Send className="w-[16px] h-[16px]" />
+                            <p className="ml-2">{buttonText}</p>
+                        </button>
 
-  // ========================================
-  // BUTTON TEXT
-  // ========================================
-  let buttonText = "Submit";
-
-  if (submitting) buttonText = "Mengirim...";
-  else if (!timeValid) buttonText = "Lewat Waktu";
-  else if (isSubmitted) buttonText = "Update";
-  else if (!canSubmit) buttonText = "Lengkapi Status";
-
-  // ========================================
-  // MESSAGE
-  // ========================================
-  let message = null;
-
-  if (!timeValid) {
-    message = "⚠️ Waktu cross-check telah lewat (lebih dari 24 jam).";
-  } else if (!canSubmit && !isSubmitted) {
-    message = "⚠️ Semua siswa harus diberi status sebelum submit!";
-  }
-
-  return (
-    <>
-      <div className="flex gap-2 pb-2 flex-wrap h-full w-full justify-between bg-white shadow-md p-2 rounded-lg mt-4">
-
-        <div className="md:pl-0 lg:pl-[10px] py-[8px]">
-          <h1 className="text-lg font-semibold font-poppins">Daftar Nama Siswa</h1>
-        </div>
-
-        {/* SUMMARY */}
-        <div className="flex gap-2 items-center text-[10px] lg:text-[14px] ">
-          <p className="text-[#4E4D4D] font-poppins font-medium">Total Status:</p>
-          <div className="flex gap-2">
-            <p className="text-[#10B981] font-poppins font-medium">Hadir: {safeSummary.present}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#FF5E53] font-poppins font-medium">Alpha: {safeSummary.alpha}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#3B82F6] font-poppins font-medium">Izin: {safeSummary.leave}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#FACC15] font-poppins font-medium">Terlambat: {safeSummary.late}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#8B5CF6] font-poppins font-medium">Sakit: {safeSummary.sick}</p>
-          </div>
-        </div>
-
-        {/* BUTTONS */}
-        <div className="flex gap-[12px] items-center">
-          <button
-            onClick={handleSubmit}
-            disabled={isButtonDisabled}
-            className={`flex items-center w-[70px] md:w-[100px] lg:w-[100px] justify-center h-[30px] md:h-[37px] rounded-xl text-white font-poppins transition-all 
-              ${
-                isButtonDisabled
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600"
-              }
-            `}
-          >
-            <Send className="w-[12px] h-[12px] md:w-[20px] md:h-[20px]" />
-            <p className="text-[8px] md:text-[13px] ml-1">{buttonText}</p>
-          </button>
-
-          <button
-            onClick={() => setIsOpenClass(false)}
-            className="bg-white border-2 w-[80px] md:w-[100px] lg:w-[100px] hover:bg-[#FF5E53] hover:text-white h-[30px] md:h-[35px] text-[12px] md:text-[14px] font-poppins border-[#FF5E53] text-[#FF5E53] rounded-xl"
-          >
-            ← Kembali
-          </button>
-        </div>
-      </div>
-
-      {/* MESSAGE */}
-      {message && (
-        <div className="mx-2 p-2 mt-3 bg-red-100 border border-red-400 rounded-lg">
-          <p className="text-md text-red-700 font-medium">{message}</p>
-        </div>
-      )}
-    </>
-  );
+                        <button
+                            onClick={() => setIsOpenClass(false)}
+                            className="flex justify-center items-center h-[37px] md:w-[100px] px-3 space-x-1 text-[#FF5E53] font-semibold border border-[#FF5E53] rounded-lg text-[13px] hover:bg-red-50 transition-colors"
+                        >
+                            ← Kembali
+                        </button>
+                    </div>
+                </div>
+            {message && (
+                <div className={` p-3 mt-3 border rounded-lg ${messageStyle} shadow-sm`}>
+                    <p className="text-sm font-medium">{message}</p>
+                </div>
+            )}
+        </>
+    );
 }

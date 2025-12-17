@@ -1,23 +1,61 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getAttendanceClassroom } from "../../../api/role-teacher/attendance/AttendanceClassroom";
 
-export function useAttendanceTeacher() {
-  const [selectedClass, setSelectedClass] = useState(null);
-  const [isOpenClass, setIsOpenClass] = useState(false);
-
-  // --- Tentukan initial day sesuai hari sekarang ---
+// Helper: ambil tanggal hari ini (YYYY-MM-DD)
+const getTodayDateString = () => {
   const today = new Date();
-  const todayIndex = today.getDay(); // 0–6
-  const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
-  let initialDay = "monday";
-  if (todayIndex >= 1 && todayIndex <= 5) {
-    initialDay = dayNames[todayIndex];
-  } else if (todayIndex === 6) {
-    initialDay = "friday";
-  }
+export function useAttendanceTeacher() {
+  // --- 1. STATE MANAGEMENT (PERSISTENSI) ---
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const isTeacher = userData?.roles?.includes("teacher");
+  const [selectedClass, setSelectedClass] = useState(() => {
+    const saved = localStorage.getItem("selectedClass");
+    return saved ? JSON.parse(saved) : null;
+  });
 
-  const [activeDay, setActiveDay] = useState(initialDay);
+  useEffect(() => {
+    if (selectedClass) {
+      localStorage.setItem("selectedClass", JSON.stringify(selectedClass));
+    } else {
+      localStorage.removeItem("selectedClass");
+    }
+  }, [selectedClass]);
+
+  const [isOpenClass, setIsOpenClass] = useState(() => {
+    const savedOpen = localStorage.getItem("isOpenClass");
+    const savedClass = localStorage.getItem("selectedClass");
+    return savedOpen === "true" && savedClass !== null;
+  });
+
+  useEffect(() => {
+    if (isOpenClass) {
+      localStorage.setItem("isOpenClass", "true");
+    } else {
+      localStorage.removeItem("isOpenClass");
+    }
+  }, [isOpenClass]);
+
+  const clearAttendanceState = useCallback(() => {
+    console.log("Attendance State Cleared for Logout.");
+    localStorage.removeItem("selectedClass");
+    localStorage.removeItem("isOpenClass");
+
+    setSelectedClass(null);
+    setIsOpenClass(false);
+  }, []);
+
+  // --- 2. STATE UTAMA ---
+  const [selectedDate, setSelectedDate] = useState(getTodayDateString);
+
+  
+  
+
   const [classrooms, setClassrooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,87 +63,64 @@ export function useAttendanceTeacher() {
   const [globalChanges, setGlobalChanges] = useState({});
   const [submittedClasses, setSubmittedClasses] = useState({});
 
-  // --------------------------------------------------------
-  // 🔥 FIX UTAMA: Map hari → tanggal minggu ini, TAPI
-  // tidak melompat ke minggu depan (Senin sebelumnya tetap dipakai)
-  // --------------------------------------------------------
-  const getDateByDay = (day) => {
-    const map = { 
-      monday: 1, 
-      tuesday: 2, 
-      wednesday: 3, 
-      thursday: 4, 
-      friday: 5 
-    };
-
-    // kalau bukan hari belajar
-    if (!map[day]) return today.toLocaleDateString("en-CA");
-
-    const targetIndex = map[day];
-    const currentIndex = today.getDay(); // hari ini
-
-    let diff = targetIndex - currentIndex;
-
-    // 🔥 FIX: jika diff > 0 (misal sekarang Selasa, buka Senin),
-    // maka ambil Minggu INI, bukan minggu depan
-    if (diff > 0) {
-      diff -= 7;
-    }
-
-    const targetDate = new Date(today);
-    targetDate.setDate(today.getDate() + diff);
-
-    return targetDate.toLocaleDateString("en-CA");
-  };
-
-  // --------------------------------------------------------
-  // 🔥 FETCH DATA CLASSROOM
-  // --------------------------------------------------------
+  // --- 3. FETCH DATA BERDASAR selectedDate ---
   useEffect(() => {
-    const date = getDateByDay(activeDay);
-    console.log("[useAttendanceTeacher] Fetching", activeDay, "=>", date);
+  if (!isTeacher) {
+    setLoading(false);
+    return;
+  }
 
-    setLoading(true);
-    setError(null);
+  if (!selectedDate || selectedDate.split("-").length !== 3) {
+    setError("Tanggal tidak valid.");
+    setLoading(false);
+    return;
+  }
 
-    getAttendanceClassroom(date)
-      .then((data) => {
-        console.log("[useAttendanceTeacher] Received:", data);
+  let isMounted = true;
 
-        if (!data || (Array.isArray(data) && data.length === 0)) {
-          setError("Tidak ada kelas mengajar");
-          setClassrooms([]);
-          return;
-        }
+  setLoading(true);
+  setError(null);
 
-        setClassrooms(data);
-      })
-      .catch((err) => {
-        console.error("Error fetching classroom:", err?.response?.data || err);
-        setError("Gagal memuat data kelas");
+  console.log(`[API CALL] Fetching classes for date: ${selectedDate}`);
+
+  getAttendanceClassroom(selectedDate)
+    .then((data) => {
+      if (!isMounted) return;
+      if (!data || data.length === 0) {
+        setError(`Tidak ada kelas mengajar pada tanggal ${selectedDate}`);
         setClassrooms([]);
-      })
-      .finally(() => setLoading(false));
-  }, [activeDay]);
+        return;
+      }
+      setClassrooms(data);
+    })
+    .catch(() => {
+      if (!isMounted) return;
+      setError("Gagal memuat data kelas");
+      setClassrooms([]);
+    })
+    .finally(() => isMounted && setLoading(false));
 
+  return () => {
+    isMounted = false;
+  };
+}, [selectedDate, isTeacher]);
+
+
+  // --- 4. RETURN ---
   return {
     selectedClass,
     setSelectedClass,
     isOpenClass,
     setIsOpenClass,
-
-    activeDay,
-    setActiveDay,
-
+    selectedDate,
+    setSelectedDate,
     classrooms,
     loading,
     error,
-
     globalChanges,
     setGlobalChanges,
     submittedClasses,
     setSubmittedClasses,
-
-    getDateByDay,
+    clearAttendanceState,
   };
 }

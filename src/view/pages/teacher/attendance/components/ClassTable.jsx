@@ -5,21 +5,36 @@ export default function TableClass({
   changes,
   setChanges,
   page,
-  canResubmit,
+  isTimeValid, 
   classKey,
-  isPastDate,
 }) {
-  const isDisabled = !canResubmit || isPastDate;
+  
+  const isDisabled = !isTimeValid;
+
+  const handleStatusChange = (studentId, newStatus) => {
+    setChanges((prev) => ({
+      ...prev,
+      [classKey]: {
+        ...(prev?.[classKey] || {}),
+        [page]: {
+          ...(prev?.[classKey]?.[page] || {}),
+          [studentId]: newStatus,
+        },
+      },
+    }));
+  };
+
   return (
-    <table className="w-[970px] border-collapse shadow-md rounded-lg">
+    <table className="xl:w-full w-[1129px] border-collapse border border-[#000000]/20 rounded-lg ">
       <thead>
-        <tr className="bg-[#3B82F6] text-white h-[46px]">
+        <tr className="bg-[#3B82F6] text-white h-[46px] ">
           <th className="py-2 px-4 text-center font-semibold">No</th>
           <th className="py-2 px-4 text-center font-semibold">Nama</th>
           <th className="py-2 px-4 text-center font-semibold">NISN</th>
           <th className="py-2 px-4 text-center font-semibold">Status</th>
         </tr>
       </thead>
+
 
       <tbody>
         {attendance.length === 0 ? (
@@ -30,15 +45,14 @@ export default function TableClass({
           </tr>
         ) : (
           attendance.map((s, index) => {
-            // Convert student ID to string untuk konsistensi
             const studentId = String(s.id);
             const finalStatus =
               changes?.[classKey]?.[page]?.[studentId] ??
               s?.existing_attendance?.status ??
-              "";
+              ""; // Nilai default kosong
 
             return (
-              <tr key={s.id} className="h-[59px] border-b">
+              <tr key={s.id} className="h-[59px] border-b border-[#000000]/20">
                 <td className="text-center">{pagination?.from + index}</td>
                 <td className="text-center">{s.name}</td>
                 <td className="text-center">{s.nisn}</td>
@@ -52,21 +66,8 @@ export default function TableClass({
                           name={`status-${s.id}`}
                           value={radio.value}
                           checked={finalStatus === radio.value}
-                          disabled={isDisabled}
-                          onChange={(e) => {
-                            const newStatus = e.target.value;
-
-                            setChanges((prev) => ({
-                              ...prev,
-                              [classKey]: {
-                                ...(prev?.[classKey] || {}),
-                                [page]: {
-                                  ...(prev?.[classKey]?.[page] || {}),
-                                  [studentId]: newStatus,
-                                },
-                              },
-                            }));
-                          }}
+                          disabled={isDisabled} 
+                          onChange={(e) => handleStatusChange(studentId, e.target.value)}
                           className={`w-4 h-4 ${
                             isDisabled
                               ? "cursor-not-allowed opacity-50"
