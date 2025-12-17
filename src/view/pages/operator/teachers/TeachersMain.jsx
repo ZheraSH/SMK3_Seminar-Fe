@@ -57,7 +57,7 @@ export const TeacherMain = () => {
 
     switch (category.type) {
       case "gender":
-        return Teacher.filter((t) => t.gender_value === category.value);
+        return Teacher.filter((t) => t.gender?.value === category.value);
 
       case "subjects":
         return Teacher.filter((t) =>
@@ -126,14 +126,14 @@ export const TeacherMain = () => {
       name: teacher.name || "",
       email: teacher.email || "",
       image: teacher.image,
-      NIK: teacher.NIK || "",
-      birth_place: teacher.birth_place || "",
-      birth_date: teacher.birth_date || "",
-      NIP: teacher.NIP || "",
+      NIK: teacher.nik || "",
+      birth_place: teacher.birth.place || "",
+      birth_date: teacher.birth.date || "",
+      NIP: teacher.nip || "",
       phone_number: teacher.phone_number || "",
       address: teacher.address || "",
-      gender: teacher.gender_value || "",
-      religion_id: teacher.religion_id || "",
+      gender: teacher.gender.value || "",
+      religion_id: teacher.religion.id || "",
       roles: teacher.roles?.map((r) => r.value) || [],
     });
     setEditingId(teacher.id);

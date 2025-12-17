@@ -17,11 +17,11 @@ export const useTeacherFilter = (teachers) => {
 
     switch (category.type) {
       case "gender":
-        return teachers.filter((t) => t.gender_value === category.value);
+        return teachers.filter((t) => t.gender?.value === category.value);
 
       case "subjects":
         return teachers.filter((t) =>
-          t.subjects?.some((subject) => subject.id === category.value)
+          t.subjects?.some((s) => String(s.id) === String(category.value))
         );
 
       case "role":

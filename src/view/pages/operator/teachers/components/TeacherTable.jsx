@@ -75,12 +75,12 @@ export const TeacherTable = ({
                 <td className="px-4 py-3">
                   <div className="flex flex-col max-w-[140px]">
                     <span className="font-medium truncate">{teacher.name}</span>
-                    <span className="text-[12px] text-gray-600">{teacher.gender}</span>
+                    <span className="text-[12px] text-gray-600"><span>{teacher.gender?.label || "-"}</span></span>
                   </div>
                 </td>
 
                 <td className="px-4 py-3 font-medium hidden sm:table-cell truncate max-w-[140px]">
-                  {teacher.NIP}
+                  {teacher.nip}
                 </td>
 
                 <td className="px-4 py-3 font-medium hidden sm:table-cell truncate max-w-[160px]">
@@ -89,7 +89,7 @@ export const TeacherTable = ({
 
                 <td className="px-4 py-3 hidden md:table-cell truncate max-w-[160px]">
                   {Array.isArray(teacher.roles)
-                    ? teacher.roles.map((r) => r.label).join(", ")
+                    ? teacher.roles.map(r => r.label).join(", ")
                     : teacher.roles?.label || teacher.roles?.value || "-"}
                 </td>
 

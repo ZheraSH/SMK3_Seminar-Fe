@@ -34,15 +34,15 @@ export const DetailModal = ({ isDetailOpen, selectedTeacher, setIsDetailOpen }) 
             </p>
             <p>
               <span className="font-medium">NIK :</span>{" "}
-              {selectedTeacher.NIK || "-"}
+              {selectedTeacher.nik || "-"}
             </p>
             <p>
               <span className="font-medium">Agama :</span>{" "}
-              {selectedTeacher.religion || "-"}
+              {selectedTeacher.religion?.name}
             </p>
             <p>
               <span className="font-medium">Tanggal Lahir :</span>{" "}
-              {selectedTeacher.birth_date || "-"}
+              {selectedTeacher.birth?.date}
             </p>
             <p>
               <span className="font-medium">No Telepon :</span>{" "}
@@ -53,16 +53,16 @@ export const DetailModal = ({ isDetailOpen, selectedTeacher, setIsDetailOpen }) 
           <div className="space-y-7">
             <p>
               <span className="font-medium">NIP :</span>{" "}
-              {selectedTeacher.NIP || "-"}
+              {selectedTeacher.nip || "-"}
             </p>
             <p>
               <span className="font-medium">Jenis Kelamin :</span>{" "}
-              {selectedTeacher.gender_label || "-"}
+              {selectedTeacher.gender?.label}
                 
             </p>
             <p>
               <span className="font-medium">Tempat Lahir :</span>{" "}
-              {selectedTeacher.birth_place || "-"}
+              {selectedTeacher.birth?.place}
             </p>
             <p>
               <span className="font-medium">Role :</span>{" "}
