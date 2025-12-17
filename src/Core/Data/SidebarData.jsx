@@ -22,6 +22,7 @@ import {
     IdCard,
     TrendingUp,
     ChartNoAxesCombined,
+    KeyRound,
     
   } from "lucide-react";
 
@@ -32,13 +33,14 @@ export const menuItemsOperator = [
     { name: "Dashboard", icon: <LayoutGrid size={20} />, path: "/home" },
     { name: "Guru", icon: <UserRoundPen size={20} />, path: "/home/guru" },
     { name: "Siswa", icon: <UsersRound size={20} />, path: "/home/siswa" },
+    { name: "Tahun Ajaran", icon: <Calendar1 size={20} />, path: "/home/tahun-ajaran" },
     { name: "Jurusan", icon: <Puzzle size={20} />, path: "/home/major" },
     { name: "Kelas", icon: <DoorOpen size={20} />, path: "/home/major" },
     { name: "Mata Pelajaran", icon: <BookMarked size={20} />, path: "/home/maple" },
-    { name: "Tahun Ajaran", icon: <Calendar1 size={20} />, path: "/home/tahun-ajaran" },
     { name: "Jadwal Pelajaran", icon: <CalendarSearch size={20} />, path: "/home/Shedule" },
     { name: "Settings Jam Absen", icon: <CalendarClock size={20} />, path: "/home/absen-rfid" },
     { name: "Management RFID", icon: <IdCard size={20} />, path: "/home/rfid" },
+    { name: "Master Card", icon: <KeyRound size={20} />, path: "/home/Master-Card" },
     
   ];
 
@@ -50,8 +52,8 @@ export const menuItemSiswa = [
     {name: "Dashboard", icon: <LayoutGrid size={20} />, path: "/student-home" },
     {name: "Kelas Saya", icon : <UserRound size={20}/>, path: "/student-home/student-class"},
     {name: "Absensi", icon: <CircleCheckBig size={20} />, path: "/student-home/absen-student"},
-    {name: "Jadwal Pelajaran", icon: <CalendarDays size={20} />, path: "/student-home/student-schedule" },
-    {name: "Izin", icon: <CalendarSearch size={20}/>, path:"/student-home/student-license" },
+    {name: "Jadwal Pelajaran", icon: <CalendarSearch size={20} />, path: "/student-home/student-schedule" },
+    {name: "Izin", icon: <FileText size={20}/>, path:"/student-home/student-license" },
 ];
 
 

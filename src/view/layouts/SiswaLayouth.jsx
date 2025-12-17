@@ -55,14 +55,14 @@ export const LayouthSiswa = () => {
       <Notification />
         {/* Sidebar */}
         <div
-          className={`fixed top-0 left-0 h-full w-[250px] bg-[#1E3A8A] text-white transform transition-transform duration-300 z-40
+          className={`fixed top-0 left-0 h-full w-[250px] bg-white text-[#4B5563] transform transition-transform duration-300 z-40
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
             lg:translate-x-0`}
         >
           {/* Logo */}
           <div className="flex justify-center items-center px-10 gap-3 py-6 ">
             <img className="w-10 h-10" src="../images/SMKNLOGO1.png" alt="Logo" />
-            <div className="flex flex-col justify-center text-white font-bold text-center">
+            <div className="flex flex-col justify-center text-[#1F2937] font-bold text-center">
               SMK Negeri 3 Pamekasan
             </div>
           </div>
@@ -70,7 +70,7 @@ export const LayouthSiswa = () => {
           {/* Menu */}
           <div
             ref={scrollRef}
-            className="relative p-3 mx-3 text-white overflow-y-auto h-[calc(100vh-100px)]
+            className="relative overflow-y-auto h-[calc(100vh-100px)]
               [&::-webkit-scrollbar]:hidden 
               [-ms-overflow-style:'none'] 
               [scrollbar-width:'none']"
@@ -80,13 +80,24 @@ export const LayouthSiswa = () => {
                 key={index}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)} // Tutup sidebar setelah klik (mobile)
-                className={`flex items-center gap-3 p-2 text-[14px] font-semibold mb-3 cursor-pointer duration-300 
-                  hover:bg-white hover:rounded-[12px] hover:text-[#1E3A8A] ${
+                className={`relative flex items-center gap-3 p-2 mb-3 p-2 pl-5 text-[14px] font-semibold  cursor-pointer duration-300 block w-full
+                  hover:bg-[#E5F0FF]   hover:text-[#3B82F6] ${
                     location.pathname === item.path
-                      ? "bg-white text-[#1E3A8A] rounded-[12px]"
+                      ? "bg-[#3B82F61F] text-[#3B82F6]"
                       : ""
                   }`}
               >
+              
+                {location.pathname === item.path && (
+                    <div className="absolute left-0 top-0 h-full w-[4px] bg-[#3B82F6] rounded-r-lg"></div>
+                    // Penjelasan:
+                    // - absolute & relative: Posisi bilah di dalam Link.
+                    // - left-0, top-0, h-full: Menempel penuh di sisi kiri.
+                    // - w-[4px], bg-[#3B82F6]: Ukuran dan warna bilah biru.
+                    // - rounded-r-lg: Membuat sudut kanan (yang terlihat) melengkung.
+                )}
+
+
                 {item.icon}
                 <span>{item.name}</span>
               </Link>
