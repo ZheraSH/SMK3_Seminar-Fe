@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { on } from "../../utils/eventBus";
-import { CircleCheckBig } from "lucide-react"; // 1 ikon konsisten
+import { CircleCheckBig, CircleX } from "lucide-react";
 
 export const Notification = () => {
   const [notif, setNotif] = useState(null);
@@ -31,6 +31,8 @@ export const Notification = () => {
 
   if (!notif) return null;
 
+  const isError = notif.type === "error";
+
   return (
     <div
       className={`
@@ -38,12 +40,19 @@ export const Notification = () => {
         ${closing ? "animate-slideOutRight" : "animate-slideInRight"}
       `}
     >
-      {/* WRAPPER DENGAN OVERFLOW-HIDDEN BIAR PROGRESS TIDAK KELUAR */}
       <div className="bg-white rounded-xl shadow-md border border-gray-200 px-4 py-3 flex items-center gap-3 w-[260px] relative overflow-hidden">
+        
         {/* ICON */}
-        {/* ICON WRAPPER — fix ukuran, fix background */}
-        <div className="flex items-center justify-center min-w-10 h-10 rounded-xl bg-green-600">
-          <CircleCheckBig size={22} strokeWidth={2.4} className="text-white" />
+        <div
+          className={`flex items-center justify-center min-w-10 h-10 rounded-xl ${
+            isError ? "bg-red-600" : "bg-green-600"
+          }`}
+        >
+          {isError ? (
+            <CircleX size={22} strokeWidth={2.4} className="text-white" />
+          ) : (
+            <CircleCheckBig size={22} strokeWidth={2.4} className="text-white" />
+          )}
         </div>
 
         {/* TEXT */}
@@ -51,14 +60,15 @@ export const Notification = () => {
           {notif.message}
         </span>
 
-        {/* PROGRESS BAR — SEKARANG DI DALAM WRAPPER */}
+        {/* PROGRESS BAR */}
         <div
-          className="absolute left-0 bottom-0 h-[3px] bg-green-500 transition-all"
+          className={`absolute left-0 bottom-0 h-[3px] transition-all ${
+            isError ? "bg-red-500" : "bg-green-500"
+          }`}
           style={{ width: `${progress}%` }}
         />
       </div>
 
-      {/* KEYFRAMES */}
       <style jsx>{`
         @keyframes slideInRight {
           from {
