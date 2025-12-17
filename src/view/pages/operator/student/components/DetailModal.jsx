@@ -61,7 +61,7 @@ export function DetailModal({ isOpen, onClose, student }) {
               </p>
               <p>
                 <span className="font-medium">Jenis Kelamin :</span>{" "}
-                {student.gender_label || "-"}
+                {student.gender?.label}
               </p>
               <p>
                 <span className="font-medium">Tempat Lahir :</span>{" "}

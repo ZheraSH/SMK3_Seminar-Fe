@@ -73,13 +73,13 @@ export function StudentsTable({
                 <td className="px-4 py-5 text-center">{student.name || "-"}</td>
                 <td className="px-4 py-5 text-center">{student.nisn || "-"}</td>
                 <td className="px-4 py-5 text-center">{student.classroom?.name || "-"}</td>
-                <td className="px-4 py-5 text-center">{student.classroom?.schoolyear || "-"}</td>
+                <td className="px-4 py-5 text-center">{student.classroom?.school_year || "-"}</td>
 
                 <td className="px-4 py-3 text-center">
                   {student.rfid ? (
                     <input
                       type="text"
-                      value={student.rfid.rfid || "-"}
+                      value={student.rfid.code || "-"}
                       disabled
                       className="rounded-md px-2 py-1 w-[100px] text-center text-gray-600"
                     />
