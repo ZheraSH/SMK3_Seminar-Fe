@@ -54,9 +54,9 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
                         <div className="grid grid-cols-2 gap-y-3 text-sm gap-x-6">
                             <p>Nama:  {student.name || '-'}</p>
                             <p>NISN:  {student.nisn || '-'}</p>
-                            <p>Kelas:  {student.classroom.name || (student.classroom?.name || '-')}</p> 
-                            <p>Jenis Kelamin:  {getGenderLabel(student.gender) || '-'}</p>
-                            <p>Agama:  {student.religion?.name || student.religion || '-'}</p>
+                            <p>Kelas: {student.classroom?.name || student.classroom?.message || '-'}</p> 
+                            <p>Jenis Kelamin:  {getGenderLabel(student.gender.label) || '-'}</p>
+                            <p>Agama:  {student.religion?.name || student.religion.name || '-'}</p>
                             <p>Tempat Lahir:  {student.birth_place || '-'}</p>
                             <p>Tanggal Lahir:  {student.birth_date || '-'}</p>
                             <p>No KK:  {student.number_kk || '-'}</p>
