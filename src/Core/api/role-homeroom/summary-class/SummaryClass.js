@@ -2,8 +2,10 @@ import axios from "axios";
 
 // Axios instance
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
-  headers: { Accept: "application/json" },
+  baseURL: "http://localhost:8000/api",
+  headers: {
+    Accept: "application/json",
+  },
 });
 
 // Interceptor untuk inject token otomatis
