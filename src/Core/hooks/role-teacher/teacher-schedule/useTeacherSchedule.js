@@ -15,58 +15,29 @@ export function useTeacherSchedule(selectedDate) {
     sunday: "Minggu",
   };
 
-  // Fungsi untuk mendapatkan nama hari dari tanggal
-  function getDayNameFromDate(dateString) {
-    const date = new Date(dateString);
-    const dayIndex = date.getDay();
-    
-    // Mapping: 0=Minggu, 1=Senin, ..., 6=Sabtu
-    const dayNames = [
-      "sunday", "monday", "tuesday", "wednesday", 
-      "thursday", "friday", "saturday"
-    ];
-    
-    return dayNames[dayIndex];
-  }
-
-  async function fetchDaily() {
-    try {
-      const rawData = await fetchDailyScheduleApi(selectedDate);
-
-      const normalized = rawData.map((item) => ({
-        id: item.id ?? Math.random(),
-        day: item.day ?? "",
-        lesson_hour: item.lesson_hour ?? {
-          start_time: "00:00",
-          end_time: "00:00",
-        },
-        classroom: item.classroom ?? {
-          level: "-",
-          major: "-",
-          name: "-",
-        },
-        subject: item.subject ?? { name: "-" },
-      }));
-
-      setSchedule(normalized);
-
-      // Tentukan activeDay berdasarkan data yang diterima
-      if (normalized.length > 0 && normalized[0].day) {
-        // Gunakan hari dari data API jika ada
-        setActiveDay(dayMap[normalized[0].day] || "");
-      } else {
-        // Jika tidak ada data, gunakan hari dari selectedDate
-        const dayName = getDayNameFromDate(selectedDate);
-        setActiveDay(dayMap[dayName] || "");
-      }
-    } catch (err) {
-      console.error("Error fetching daily schedule:", err);
-    }
+  function getDayFromDate(dateString) {
+    const dayIndex = new Date(dateString).getDay();
+    return ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][dayIndex];
   }
 
   useEffect(() => {
-    fetchDaily();
+    async function fetchData() {
+      const raw = await fetchDailyScheduleApi(selectedDate);
+
+      const normalized = raw.map((item) => ({
+        id: item.id,
+        day: item.day,
+        lesson_hour: item.lesson_hour,
+        classroom: item.classroom,
+        subject: item.subject,
+      }));
+
+      setSchedule(normalized);
+      setActiveDay(dayMap[getDayFromDate(selectedDate)]);
+    }
+
+    fetchData();
   }, [selectedDate]);
 
-  return { schedule, activeDay, dayMap, getDayNameFromDate };
+  return { schedule, activeDay, dayMap };
 }
