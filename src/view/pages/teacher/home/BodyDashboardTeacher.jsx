@@ -129,21 +129,23 @@ export default function BodyDashboardTeacher() {
                 </thead>
 
                 <tbody>
-                  {schedule.map((item) => {
-                    const status =
-                      item.attendance?.status?.toLowerCase() ?? "pending";
+                  {classrooms.map((item) => {
+                    const subject = item.subjects?.[0];
 
-                    const statusClass =
-                      status === "sudah absen"
-                        ? "bg-green-100 text-green-700"
-                        : status === "belum absen"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-gray-200 text-gray-700";
+                    const status = subject?.attendance_status ?? "pending";
+                    // ini sudah "pending" | "completed"
+
+                    const label = subject?.attendance_status_label ?? "-";
+
+                    const STATUS_CLASS = {
+                      completed: "bg-green-200 text-green-800",
+                      pending: "bg-gray-300 text-gray-800",
+                    };
 
                     return (
                       <tr
-                        key={item.id}
-                        className="border-b border-gray-200 hover:bg-gray-50 transition"
+                        key={item.classroom?.id}
+                        className="border-b border-gray-200 hover:bg-gray-50"
                       >
                         <td className="px-4 py-2">
                           {item.classroom?.name ?? "—"}
@@ -151,16 +153,16 @@ export default function BodyDashboardTeacher() {
 
                         <td className="px-4 py-2">
                           <span
-                            className={`px-3 py-1 rounded-md font-medium text-xs ${statusClass}`}
+                            className={`px-3 py-1 rounded-md font-medium text-xs ${STATUS_CLASS[status]}`}
                           >
-                            {item.attendance?.status ?? "Pending"}
+                            {label}
                           </span>
                         </td>
 
                         <td className="px-4 py-2">
                           <a
                             href="/teacher-home/attendance-teacher"
-                            className="inline-block px-3 py-1.5 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition"
+                            className="inline-block px-3 py-1.5 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600"
                           >
                             Lihat Kelas
                           </a>

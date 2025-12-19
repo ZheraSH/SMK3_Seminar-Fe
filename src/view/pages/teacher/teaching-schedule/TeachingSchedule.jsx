@@ -4,10 +4,9 @@ import { CalendarDays } from "lucide-react";
 import HeaderPage2 from "../../../components/elements/header/Header.Page2";
 import { useTeacherSchedule } from "../../../../Core/hooks/role-teacher/teacher-schedule/useTeacherSchedule";
 
-// ===== FIX LOGIC ONLY (NO STYLE CHANGE) =====
 function getMonday(dateString) {
   const d = new Date(dateString);
-  const day = d.getDay(); // 0=minggu
+  const day = d.getDay(); 
   const diff = d.getDate() - day + (day === 0 ? -6 : 1);
   d.setDate(diff);
   return d;
@@ -30,7 +29,6 @@ function getDateFromWeek(selectedDate, targetDay) {
   result.setDate(monday.getDate() + dayIndexMap[targetDay]);
   return result.toISOString().split("T")[0];
 }
-// ===========================================
 
 export default function TeacherSchedule() {
   const today = new Date().toISOString().split("T")[0];
