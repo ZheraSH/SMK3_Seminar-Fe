@@ -7,7 +7,7 @@ export function useClassAttendance(
   date,
   globalChanges,
   setGlobalChanges,
-  submittedClasses,
+  // submittedClasses,
   setSubmittedClasses
 ) {
   const [attendance, setAttendance] = useState([]);
@@ -21,7 +21,6 @@ export function useClassAttendance(
   const classKey = selectedClass?.id;
   const currentClassChanges = globalChanges[classKey] || {};
   
-  // Ambil total_students dari pagination atau data summary BE
   const totalStudents = pagination?.total || 0;
 
   const counts = {
@@ -33,7 +32,6 @@ export function useClassAttendance(
     sick: 0,
   };
 
-  // Iterasi SEMUA data yang ada di globalChanges (Halaman 1, 2, dst)
   Object.values(currentClassChanges).forEach((pageData) => {
     Object.values(pageData).forEach((statusValue) => {
       if (statusValue === "hadir") counts.present++;
@@ -85,14 +83,12 @@ export function useClassAttendance(
       setLessonSchedule(data.lesson_schedule || null);
       setLessonOrder(data.lesson_order || selectedClass.lesson_order);
 
-      // --- PERBAIKAN 2: Inisialisasi data dari BE ke globalChanges agar radio langsung tercentang ---
       setGlobalChanges((prev) => {
         const classKey = selectedClass.id;
         const currentClassChanges = prev[classKey] || {};
         const pageChanges = { ...(currentClassChanges[page] || {}) };
 
         studentData.forEach((s) => {
-          // Hanya isi jika di FE belum ada perubahan manual
           if (pageChanges[s.id] === undefined) {
             pageChanges[s.id] = s.existing_attendance?.status || "";
           }
@@ -101,7 +97,6 @@ export function useClassAttendance(
         return { ...prev, [classKey]: { ...currentClassChanges, [page]: pageChanges } };
       });
 
-      // (setSummary di sini dihapus karena sudah diganti useMemo di atas)
       
     } catch (err) {
       setError(err.response?.data?.message || "Gagal memuat data absensi");
@@ -166,7 +161,7 @@ export function useClassAttendance(
       await postCrossCheck(body);
       
       setSubmittedClasses(prev => ({ ...prev, [classKey]: true }));
-      notify("success", "Absensi berhasil disimpan", "top-right");
+      notify("Data Berhasi Dikirim", "Absensi berhasil disimpan", "top-right");
       await fetchAttendance(); 
     } catch (err) {
       notify("error", err.response?.data?.message || "Gagal menyimpan absensi", "top-right");

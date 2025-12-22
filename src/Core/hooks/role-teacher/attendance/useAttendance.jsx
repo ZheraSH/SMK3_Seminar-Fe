@@ -10,11 +10,9 @@ const getTodayDateString = () => {
 };
 
 export function useAttendanceTeacher() {
-  // --- 1. AUTH & PERSISTENCE ---
   const userData = JSON.parse(localStorage.getItem("userData"));
   const isTeacher = userData?.roles?.includes("teacher");
 
-  // Inisialisasi selectedClass dari localStorage
   const [selectedClass, setSelectedClass] = useState(() => {
     const saved = localStorage.getItem("selectedClass");
     try {
@@ -29,13 +27,12 @@ export function useAttendanceTeacher() {
     return savedOpen === "true" && !!localStorage.getItem("selectedClass");
   });
 
-  // Effect untuk Sinkronisasi LocalStorage
   useEffect(() => {
     if (selectedClass) {
       localStorage.setItem("selectedClass", JSON.stringify(selectedClass));
     } else {
       localStorage.removeItem("selectedClass");
-      localStorage.removeItem("isOpenClass"); // Reset jika kelas null
+      localStorage.removeItem("isOpenClass"); 
     }
   }, [selectedClass]);
 
@@ -43,15 +40,12 @@ export function useAttendanceTeacher() {
     localStorage.setItem("isOpenClass", isOpenClass ? "true" : "false");
   }, [isOpenClass]);
 
-  // --- 2. STATE UTAMA ---
   const [selectedDate, setSelectedDate] = useState(getTodayDateString);
   const [classrooms, setClassrooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Global state untuk menampung perubahan input absensi di level halaman/pagination
   const [globalChanges, setGlobalChanges] = useState({});
-  // Menandai kelas mana saja yang sudah berhasil disubmit dalam session ini
   const [submittedClasses, setSubmittedClasses] = useState({});
 
   const clearAttendanceState = useCallback(() => {
@@ -62,7 +56,6 @@ export function useAttendanceTeacher() {
     setGlobalChanges({});
   }, []);
 
-  // --- 3. FETCH DATA (Sinkron dengan getTeacherClassrooms di BE) ---
   useEffect(() => {
     if (!isTeacher) {
       setLoading(false);
@@ -73,13 +66,10 @@ export function useAttendanceTeacher() {
     setLoading(true);
     setError(null);
 
-    // Memanggil API getAttendanceClassroom (Endpoint BE: getTeacherClassrooms)
     getAttendanceClassroom(selectedDate)
       .then((data) => {
         if (!isMounted) return;
 
-        // Backend mengembalikan: collect($classroomData)->values()
-        // Struktur: [{ classroom: {...}, first_schedule: {...} }, ...]
         if (!data || data.length === 0) {
           setClassrooms([]);
           setError(`Tidak ada jadwal mengajar pada ${selectedDate}`);
@@ -100,24 +90,20 @@ export function useAttendanceTeacher() {
   }, [selectedDate, isTeacher]);
 
   return {
-    // Data Kelas & Filter
     classrooms,
     selectedDate,
     setSelectedDate,
-    
-    // Status Pilihan (UI State)
+  
     selectedClass,
     setSelectedClass,
     isOpenClass,
     setIsOpenClass,
     
-    // Management State Absensi
     globalChanges,
     setGlobalChanges,
     submittedClasses,
     setSubmittedClasses,
     
-    // Utilities
     loading,
     error,
     clearAttendanceState,

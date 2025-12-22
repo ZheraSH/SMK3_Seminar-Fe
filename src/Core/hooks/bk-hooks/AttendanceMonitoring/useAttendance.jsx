@@ -33,8 +33,6 @@ export function useAttendanceMonitoring() {
                 finalParams.search = searchQuery;
             }
 
-            console.log("PARAMS TERKIRIM >>>", finalParams);
-
             const data = await getAbsenteeismMonitoring(finalParams);
 
             if (!data || !data.list?.data?.length) {

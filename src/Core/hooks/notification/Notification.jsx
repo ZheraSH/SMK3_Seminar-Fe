@@ -41,8 +41,7 @@ export const Notification = () => {
       `}
     >
       <div className="bg-white rounded-xl shadow-md border border-gray-200 px-4 py-3 flex items-center gap-3 w-[260px] relative overflow-hidden">
-        
-        {/* ICON */}
+
         <div
           className={`flex items-center justify-center min-w-10 h-10 rounded-xl ${
             isError ? "bg-red-600" : "bg-green-600"
@@ -55,12 +54,10 @@ export const Notification = () => {
           )}
         </div>
 
-        {/* TEXT */}
         <span className="font-semibold text-gray-800 text-[14px]">
           {notif.message}
         </span>
 
-        {/* PROGRESS BAR */}
         <div
           className={`absolute left-0 bottom-0 h-[3px] transition-all ${
             isError ? "bg-red-500" : "bg-green-500"
@@ -69,7 +66,7 @@ export const Notification = () => {
         />
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes slideInRight {
           from {
             opacity: 0;

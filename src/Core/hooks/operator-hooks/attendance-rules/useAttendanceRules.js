@@ -1,4 +1,3 @@
-// useAttendanceRules.js
 import { useEffect, useState } from "react";
 import { DEFAULT_DAYS } from "../../../../view/pages/operator/attendance-rules/constants/attendanceDays";
 import {
@@ -21,11 +20,17 @@ export default function useAttendanceRules() {
 
     try {
       const response = await fetchAttendanceRulesAPI();
-      let rules = response.data.data || [];
+      let rules = response.data?.data || [];
 
+      // sanitize data dari API
       rules = rules.map((r) => ({
         ...r,
         day: (r.day || "").trim().toLowerCase(),
+        checkin_start: r.checkin_start ?? "",
+        checkin_end: r.checkin_end ?? "",
+        checkout_start: r.checkout_start ?? "",
+        checkout_end: r.checkout_end ?? "",
+        is_holiday: Boolean(r.is_holiday),
       }));
 
       const mergedRules = DEFAULT_DAYS.map((d) => {
@@ -45,7 +50,7 @@ export default function useAttendanceRules() {
 
       setAttendanceRules(mergedRules);
 
-      if (!selectedDay) {
+      if (!selectedDay && mergedRules.length) {
         setSelectedDay(mergedRules[0].day);
       }
     } catch {
@@ -71,17 +76,20 @@ export default function useAttendanceRules() {
   const handleHolidayChange = (e) => {
     const isHoliday = e.target.checked;
     setAttendanceRules((prev) =>
-      prev.map((r) => (r.day === selectedDay ? { ...r, is_holiday: isHoliday } : r))
+      prev.map((r) =>
+        r.day === selectedDay ? { ...r, is_holiday: isHoliday } : r
+      )
     );
   };
 
   const handleSave = async () => {
     if (!selectedDayData) return;
+
     setSaving(true);
     setError(null);
     setSuccess(null);
     setFieldErrors({});
-  
+
     const payload = {
       checkin_start: selectedDayData.checkin_start,
       checkin_end: selectedDayData.checkin_end,
@@ -89,26 +97,43 @@ export default function useAttendanceRules() {
       checkout_end: selectedDayData.checkout_end,
       is_holiday: selectedDayData.is_holiday,
     };
-  
+
     const errors = {};
-  
-    if (payload.checkin_start && payload.checkin_end && payload.checkin_end <= payload.checkin_start) {
-      errors.checkin_end = "Waktu akhir check-in harus setelah waktu mulai check-in";
+
+    if (
+      payload.checkin_start &&
+      payload.checkin_end &&
+      payload.checkin_end <= payload.checkin_start
+    ) {
+      errors.checkin_end =
+        "Waktu akhir check-in harus setelah waktu mulai check-in";
     }
-    if (payload.checkin_end && payload.checkout_start && payload.checkout_start <= payload.checkin_end) {
-      errors.checkout_start = "Waktu mulai check-out harus setelah waktu akhir check-in";
+
+    if (
+      payload.checkin_end &&
+      payload.checkout_start &&
+      payload.checkout_start <= payload.checkin_end
+    ) {
+      errors.checkout_start =
+        "Waktu mulai check-out harus setelah waktu akhir check-in";
     }
-    if (payload.checkout_start && payload.checkout_end && payload.checkout_end <= payload.checkout_start) {
-      errors.checkout_end = "Waktu akhir check-out harus setelah waktu mulai check-out";
+
+    if (
+      payload.checkout_start &&
+      payload.checkout_end &&
+      payload.checkout_end <= payload.checkout_start
+    ) {
+      errors.checkout_end =
+        "Waktu akhir check-out harus setelah waktu mulai check-out";
     }
-  
+
     if (Object.keys(errors).length) {
       setFieldErrors(errors);
       setError("Terdapat kesalahan dalam pengisian form");
       setSaving(false);
       return;
     }
-  
+
     try {
       await saveAttendanceRuleAPI(selectedDay, payload);
       setSuccess("Data berhasil disimpan!");
@@ -124,7 +149,6 @@ export default function useAttendanceRules() {
       setSaving(false);
     }
   };
-  
 
   return {
     attendanceRules,

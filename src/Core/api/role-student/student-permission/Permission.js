@@ -14,9 +14,6 @@ export async function fetchPermissionsApi(page = 1) {
       params: { page },
     }
   );
-
-  // backend biasanya return { data: [...], meta: { last_page, total, ... } }
-  console.log(res.data.data);
   return res.data;
 }
 

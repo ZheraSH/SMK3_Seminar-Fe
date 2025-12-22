@@ -13,7 +13,6 @@ export const getAbsenteeismMonitoring = async (params = {}) => {
             },
             params 
         });
-        console.log("Data Monitoring Absen dari API:");
         return res.data.data;
     } catch (err) {
         console.error("Gagal fetch data:", err);
