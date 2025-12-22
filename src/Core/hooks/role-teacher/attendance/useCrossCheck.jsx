@@ -10,313 +10,177 @@ export function useClassAttendance(
   submittedClasses,
   setSubmittedClasses
 ) {
-
-  // --- State Initialization ---
   const [attendance, setAttendance] = useState([]);
   const [classroom, setClassroom] = useState({});
   const [lessonSchedule, setLessonSchedule] = useState(null);
   const [lessonOrder, setLessonOrder] = useState(null);
+  const [pagination, setPagination] = useState(null);
 
-  const [summary, setSummary] = useState({
-    total: 0,
+
+  const summary = useMemo(() => {
+  const classKey = selectedClass?.id;
+  const currentClassChanges = globalChanges[classKey] || {};
+  
+  // Ambil total_students dari pagination atau data summary BE
+  const totalStudents = pagination?.total || 0;
+
+  const counts = {
+    total: totalStudents,
     present: 0,
     alpha: 0,
     leave: 0,
     late: 0,
     sick: 0,
+  };
+
+  // Iterasi SEMUA data yang ada di globalChanges (Halaman 1, 2, dst)
+  Object.values(currentClassChanges).forEach((pageData) => {
+    Object.values(pageData).forEach((statusValue) => {
+      if (statusValue === "hadir") counts.present++;
+      else if (statusValue === "alpha") counts.alpha++;
+      else if (statusValue === "izin") counts.leave++;
+      else if (statusValue === "terlambat") counts.late++;
+      else if (statusValue === "sakit") counts.sick++;
+    });
   });
+
+  return counts;
+}, [globalChanges, selectedClass, pagination]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
   const [canResubmit, setCanResubmit] = useState(true);
-
   const [isPastDate, setIsPastDate] = useState(false);
   const [isFutureDate, setIsFutureDate] = useState(false);
 
-  const status = useMemo(
-    () => [
-      { id: 1, value: "hadir", label: "Hadir" },
-      { id: 2, value: "alpha", label: "Alpha" },
-      { id: 3, value: "izin", label: "Izin" },
-      { id: 4, value: "terlambat", label: "Terlambat" },
-      { id: 5, value: "sakit", label: "Sakit" },
-    ],
-    []
-  );
-  // --- End State Initialization ---
-
+  const statusOptions = useMemo(() => [
+    { id: 1, value: "hadir", label: "Hadir" },
+    { id: 2, value: "alpha", label: "Alpha" },
+    { id: 3, value: "izin", label: "Izin" },
+    { id: 4, value: "terlambat", label: "Terlambat" },
+    { id: 5, value: "sakit", label: "Sakit" },
+  ], []);
 
   const fetchAttendance = useCallback(async () => {
     if (!selectedClass || !date) return;
 
-    if (selectedClass.lesson_order === 1) {
-      setError("Cross-check hanya untuk jam pelajaran ke-2 dan seterusnya");
-      setLoading(false);
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
-    const classKey = selectedClass.id;
-
     try {
-      const res = await getCrossCheckData(
-        classKey,
-        date,
-        selectedClass.lesson_order,
-        page
-      );
-
+      const res = await getCrossCheckData(selectedClass.id, date, selectedClass.lesson_order, page);
       const data = res.data || res;
 
       setCanResubmit(data.submission_status?.can_resubmit ?? true);
       setIsSubmitted(data.submission_status?.has_submitted ?? false);
 
-      const students = data.students || data.data || [];
-      setAttendance(students);
+      const studentData = data.students || [];
+      setAttendance(studentData);
 
       setClassroom(data.classroom || {});
       setPagination(data.pagination || null);
       setLessonSchedule(data.lesson_schedule || null);
       setLessonOrder(data.lesson_order || selectedClass.lesson_order);
 
+      // --- PERBAIKAN 2: Inisialisasi data dari BE ke globalChanges agar radio langsung tercentang ---
       setGlobalChanges((prev) => {
-        const classChanges = prev[classKey] || {};
-        const pageChanges = classChanges[page] || {};
+        const classKey = selectedClass.id;
+        const currentClassChanges = prev[classKey] || {};
+        const pageChanges = { ...(currentClassChanges[page] || {}) };
 
-        students.forEach((s) => {
-          const studentIdKey = s.student_id || s.id;
-
-          if (!pageChanges[studentIdKey] && s.existing_attendance?.status) {
-            // Inisialisasi status dari data existing jika belum ada perubahan di globalChanges
-            pageChanges[studentIdKey] = s.existing_attendance.status;
-          } else if (!pageChanges[studentIdKey]) {
-            // Inisialisasi dengan string kosong jika belum ada
-            pageChanges[studentIdKey] = "";
+        studentData.forEach((s) => {
+          // Hanya isi jika di FE belum ada perubahan manual
+          if (pageChanges[s.id] === undefined) {
+            pageChanges[s.id] = s.existing_attendance?.status || "";
           }
         });
 
-        return {
-          ...prev,
-          [classKey]: {
-            ...classChanges,
-            [page]: pageChanges,
-          },
-        };
+        return { ...prev, [classKey]: { ...currentClassChanges, [page]: pageChanges } };
       });
 
-      if (data.summary) {
-        setSummary({
-          total: data.summary.total_students || data.summary.total || 0,
-          present: data.summary.present || 0,
-          alpha: data.summary.alpha || 0,
-          leave: data.summary.leave || 0,
-          late: data.summary.late || 0,
-          sick: data.summary.sick || 0,
-        });
-      }
+      // (setSummary di sini dihapus karena sudah diganti useMemo di atas)
+      
     } catch (err) {
-      console.error("Fetch attendance error:", err);
       setError(err.response?.data?.message || "Gagal memuat data absensi");
     } finally {
       setLoading(false);
     }
   }, [selectedClass, date, page, setGlobalChanges]);
 
-
-  // --- Date Logic ---
   useEffect(() => {
-    if (!date) {
-      setIsPastDate(false);
-      setIsFutureDate(false);
-      return;
-    }
-
-    const localToday = new Date();
-    const year = localToday.getFullYear();
-    const month = String(localToday.getMonth() + 1).padStart(2, "0");
-    const day = String(localToday.getDate()).padStart(2, "0");
-
-    const todayString = `${year}-${month}-${day}`;
-    const dateString = date;
-
-    setIsPastDate(dateString < todayString);
-    setIsFutureDate(dateString > todayString);
+    if (!date) return;
+    const today = new Date().toISOString().split('T')[0];
+    setIsPastDate(date < today);
+    setIsFutureDate(date > today);
   }, [date]);
 
+  useEffect(() => { fetchAttendance(); }, [fetchAttendance]);
 
-  useEffect(() => {
-    if (selectedClass && date) {
-      setPage(1);
-    }
-  }, [selectedClass?.id, date]);
-
-
-  useEffect(() => {
-    fetchAttendance();
-  }, [fetchAttendance]);
-
-
-  // --- canSubmit Logic ---
   const canSubmit = useMemo(() => {
     if (!selectedClass || !pagination) return false;
-
-    const classKey = selectedClass.id;
-    const classChanges = globalChanges[classKey];
+    const classChanges = globalChanges[selectedClass.id];
     if (!classChanges) return false;
 
-    const totalStudents = pagination?.total || 0;
-    if (totalStudents === 0) return false;
-
     let filledCount = 0;
-
-    Object.values(classChanges).forEach((pageChanges) => {
-      Object.values(pageChanges).forEach((status) => {
-        if (status && status.trim() !== "") {
-          filledCount++;
-        }
+    Object.values(classChanges).forEach((pageData) => {
+      Object.values(pageData).forEach((status) => {
+        if (status && status.trim() !== "") filledCount++;
       });
     });
 
-    return filledCount === totalStudents;
+    return filledCount >= (pagination.total || 0);
   }, [globalChanges, selectedClass, pagination]);
-
-
-  // --- Summary Logic ---
-  useEffect(() => {
-    if (!selectedClass) return;
-
-    const classKey = selectedClass.id;
-    const classChanges = globalChanges[classKey];
-    if (!classChanges) return;
-
-    const newSummary = {
-      total: 0,
-      present: 0,
-      alpha: 0,
-      leave: 0,
-      late: 0,
-      sick: 0,
-    };
-
-    Object.values(classChanges).forEach((pageChanges) => {
-      Object.values(pageChanges).forEach((status) => {
-        if (status && status.trim() !== "") {
-          newSummary.total++;
-
-          switch (status) {
-            case "hadir": newSummary.present++; break;
-            case "alpha": newSummary.alpha++; break;
-            case "izin": newSummary.leave++; break;
-            case "terlambat": newSummary.late++; break;
-            case "sakit": newSummary.sick++; break;
-          }
-        }
-      });
-    });
-
-    if (pagination?.total && newSummary.total < pagination.total) {
-      newSummary.total = pagination.total;
-    }
-
-    setSummary(newSummary);
-  }, [globalChanges, selectedClass, pagination]);
-
 
   const handleSubmit = async () => {
     if (!canSubmit && !isSubmitted) {
-      notify("error", "Anda harus mengisi semua status absensi sebelum submit!", "top-right");
-      return;
-    }
-
-    if (!lessonSchedule || !lessonSchedule.subject || !lessonSchedule.id) {
-      notify("error", "Data jadwal pelajaran tidak lengkap. Gagal submit.", "top-right");
+      notify("error", "Harap isi semua absensi siswa!", "top-right");
       return;
     }
 
     setSubmitting(true);
-
     try {
       const classKey = selectedClass.id;
       const classChanges = globalChanges[classKey] || {};
       const attendances = [];
 
-      Object.values(classChanges).forEach((pageChanges) => {
-        Object.entries(pageChanges).forEach(([studentId, status]) => {
-          
-          if (status && status.trim() !== "") {
-            attendances.push({
-              
-              student_id: studentId,
-              status,
-            });
+      Object.values(classChanges).forEach((pageData) => {
+        Object.entries(pageData).forEach(([studentId, statusValue]) => {
+          if (statusValue) {
+            attendances.push({ student_id: studentId, status: statusValue });
           }
         });
       });
 
       const body = {
         classroom_id: classKey,
-        subject_id: lessonSchedule.subject.id,
+        subject_id: lessonSchedule.subject?.id,
         lesson_schedule_id: lessonSchedule.id,
-        date,
-        lesson_order: lessonOrder || selectedClass.lesson_order,
-        attendances,
+        date: date,
+        lesson_order: lessonOrder,
+        attendances: attendances,
       };
 
       await postCrossCheck(body);
-
-      setSubmittedClasses((prev) => ({
-        ...prev,
-        [classKey]: true,
-      }));
-
-      await fetchAttendance();
-
-      notify("success", "Absensi cross-check berhasil disimpan", "top-right");
+      
+      setSubmittedClasses(prev => ({ ...prev, [classKey]: true }));
+      notify("success", "Absensi berhasil disimpan", "top-right");
+      await fetchAttendance(); 
     } catch (err) {
-      console.error("Submit error:", err.response?.data || err.message);
-
-      const errorMessage =
-        err.response?.data?.message ||
-        "Gagal submit absensi. Silakan cek console untuk detail response API.";
-
-      notify("waktu tidak sesuai", "error", errorMessage, "top-right");
+      notify("error", err.response?.data?.message || "Gagal menyimpan absensi", "top-right");
     } finally {
       setSubmitting(false);
     }
   };
 
-
-  const isTimeValid = useMemo(() => {
-    if (isFutureDate) return false;
-    return canResubmit;
-  }, [isFutureDate, canResubmit]);
-
-
   return {
-    attendance,
-    classroom,
-    summary,
-    loading,
-    error,
-    page,
-    setPage,
-    pagination,
-    isSubmitted,
-    canSubmit,
-    submitting,
-    canResubmit,
-    isPastDate,
-    isFutureDate,
-    status,
+    attendance, classroom, summary, loading, error,
+    page, setPage, pagination, isSubmitted, canSubmit,
+    submitting, canResubmit, isPastDate, isFutureDate,
+    status: statusOptions,
     handleSubmit,
-    isTimeValid, 
+    isTimeValid: !isFutureDate && canResubmit
   };
 }

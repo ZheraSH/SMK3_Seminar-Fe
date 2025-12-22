@@ -73,7 +73,7 @@ export default function ClassAttendance({
 
                             <div className="flex gap-2 items-center  md:text-base">
                                 <Users className="w-5 h-5 flex-shrink-0" />
-                                <p>{pagination?.total || 0} Siswa</p>
+                                <p>{pagination?.total || summary?.total || 0} Siswa</p>
                             </div>
 
                             <div className="flex gap-2 items-center md:text-base">
