@@ -12,11 +12,11 @@ import { SearchBar } from "./components/SearchBar";
 import { Pagination } from "./components/Pagination";
 import { SubjectCard } from "./components/SubjectCard";
 import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
+import HeaderPage from "../../../components/elements/header/Header.Page";
 
 export default function MainMaple() {
   const {
     subjects,
-    setSubjects,
     currentPage,
     setCurrentPage,
     totalPages,
@@ -30,7 +30,6 @@ export default function MainMaple() {
   const [openModal, setOpenModal] = useState(null);
   const [search, setSearch] = useState("");
 
-  // Filter subjects based on search - hanya untuk display
   const filteredSubjects = subjects.filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -46,7 +45,7 @@ export default function MainMaple() {
     } catch (err) {
       const message = err.response?.data?.errors?.name?.[0];
       if (message) {
-        setErrors({ name: message }); // ⬅️ di sini tempatnya
+        setErrors({ name: message });
       }
     }
   };
@@ -58,7 +57,7 @@ export default function MainMaple() {
         await updateSubject(editSubject.id, editSubject.name);
         setOpenModal(null);
         setEditSubject({ id: null, name: "" });
-        fetchSubjects(currentPage); // reload current page
+        fetchSubjects(currentPage);
       }
     } catch (err) {
       console.error("Error updating subject:", err);
@@ -69,7 +68,6 @@ export default function MainMaple() {
     if (!confirm("Yakin ingin menghapus mapel ini?")) return;
     try {
       await deleteSubject(id);
-      // Jika halaman terakhir hanya memiliki 1 item, kembali ke halaman sebelumnya
       if (subjects.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
         fetchSubjects(currentPage - 1);
@@ -84,7 +82,7 @@ export default function MainMaple() {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     fetchSubjects(newPage);
-    setSearch(""); // reset search ketika ganti page
+    setSearch("");
   };
 
   if (loading && subjects.length === 0) {
@@ -93,22 +91,13 @@ export default function MainMaple() {
 
   return (
     <div className="justify-center mt-8 mx-7">
-      {/* Banner */}
-      <div className="relative w-full h-[166px] mt-6 bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] shadow-md">
-        <div className="absolute inset-0 flex flex-col mt-2 rounded-[6px]">
-          <div className="ml-6">
-            <h1 className="text-white text-[30px] font-semibold drop-shadow-lg">
-              Mata Pelajaran
-            </h1>
-            <p className="text-white text-[14px] font-light drop-shadow-md">
-              Daftar seluruh mata pelajaran yang tersedia dalam sistem.
-            </p>
-          </div>
-        </div>
-      </div>
+      <HeaderPage
+        h1="Mata Pelajaran"
+        p=" Daftar seluruh mata pelajaran yang tersedia dalam sistem."
+      />
 
       {/* CONTENT */}
-      <div className="py-8">
+      <div className="">
         {/* Search & Button */}
         <SearchBar
           search={search}
