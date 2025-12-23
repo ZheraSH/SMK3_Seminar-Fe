@@ -164,7 +164,7 @@ export function useClassAttendance(
       notify("Data Berhasi Dikirim", "Absensi berhasil disimpan", "top-right");
       await fetchAttendance(); 
     } catch (err) {
-      notify("error", err.response?.data?.message || "Gagal menyimpan absensi", "top-right");
+      notify("Gagal Mengirim Data", err.response?.data?.message || "Gagal menyimpan absensi", "top-right");
     } finally {
       setSubmitting(false);
     }
