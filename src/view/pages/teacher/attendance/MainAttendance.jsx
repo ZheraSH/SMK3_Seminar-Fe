@@ -1,54 +1,38 @@
+import { useState } from "react"; // 1. Tambahkan useState
 import ButtonAttendance from "./components/ButtonAttendance";
 import CardAttendance from "./components/CardAttendance";
-import ClassAttendance from "./components/ClassAttendance";
 import { useAttendanceTeacher } from "../../../../Core/hooks/role-teacher/attendance/useAttendance";
-import HeaderPage from "../../../components/elements/header/Header.Page";
-// import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function AttendanceTeacher() {
   const {
-    selectedClass,
-    setSelectedClass,
-    isOpenClass,
-    setIsOpenClass,
     classrooms,
     loading,
     error,
-    globalChanges,
-    setGlobalChanges,
-    submittedClasses,
-    setSubmittedClasses,
     selectedDate,
     setSelectedDate,
   } = useAttendanceTeacher();
 
-  if (isOpenClass) {
-    return (
-      <ClassAttendance
-        selectedClass={selectedClass}
-        date={selectedDate}
-        setIsOpenClass={setIsOpenClass}
-        globalChanges={globalChanges}
-        setGlobalChanges={setGlobalChanges}
-        submittedClasses={submittedClasses}
-        setSubmittedClasses={setSubmittedClasses}
-      />
-    );
-  }
+  const [globalChanges, setGlobalChanges] = useState({});
+  const [submittedClasses, setSubmittedClasses] = useState({});
 
   return (
     <div className="justify-center mx-4 mb-10 mt-5 md:mt-2">
-      <HeaderPage
-        h1="Absensi Kelas"
-        p=" Pilih kelas mengajar dan absen siswa di dalamnya."
-      />
-
-      <div className="flex md:flex-row gap-2 flex-wrap h-[100px] md:h-[60px] border border-black/20 justify-between bg-white shadow-md p-2 rounded-lg">
-        <div className="pl-[5px] md:pl-[16px] py-[8px]">
-          <h1 className="text-[15px] md:text-[20px] font-semibold">
-            Daftar kelas mengajar
+      <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px]">
+        <div className="inset-0 flex flex-col justify-center ml-3 md:ml-5 h-full">
+          <h1 className="text-white text-[26px] md:text-[33px] font-semibold">
+            Absensi Kelas
           </h1>
+          <p className="text-white text-[12px] font-light">
+            Pilih kelas mengajar dan absen siswa di dalamnya.
+          </p>
         </div>
+      </div>
+
+      <div className="flex h-full mt-6 gap-2 flex-col md:flex-row border border-black/20 justify-between bg-white shadow-md p-2 rounded-lg items-center">
+        <h1 className="text-[15px] md:text-[20px] font-semibold ">
+          Daftar kelas mengajar
+        </h1>
 
         <ButtonAttendance
           selectedDate={selectedDate}
@@ -56,14 +40,16 @@ export default function AttendanceTeacher() {
         />
       </div>
 
-      {/* Cards */}
       <div className="mt-4 w-full overflow-x-auto rounded-lg">
         <CardAttendance
           classrooms={classrooms}
           loading={loading}
           error={error}
-          setIsOpenClass={setIsOpenClass}
-          setSelectedClass={setSelectedClass}
+          selectedDate={selectedDate} 
+          globalChanges={globalChanges}
+          setGlobalChanges={setGlobalChanges}
+          submittedClasses={submittedClasses}
+          setSubmittedClasses={setSubmittedClasses}
         />
       </div>
     </div>

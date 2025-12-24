@@ -26,17 +26,28 @@ export const getAttendanceClassroom = async (date) => {
 export const getCrossCheckData = async (UuidClassroom, Date, LessonOrder, Page = 1) => {
     const token = localStorage.getItem("token");
 
+    // VALIDASI: Jangan tembak API kalau parameter wajib tidak ada
+    if (!UuidClassroom || !Date || !LessonOrder) {
+        console.warn("Skip Fetch: Parameter belum lengkap", { UuidClassroom, Date, LessonOrder });
+        return null; 
+    }
+
     try {
         const res = await axios.get(
-            `${API_BASE_URL}/attendance/cross-check-data?classroom_id=${UuidClassroom}&date=${Date}&lesson_order=${LessonOrder}&page=${Page}`,
+            `${API_BASE_URL}/attendance/cross-check-data`,
             {
+                params: {
+                    classroom_id: UuidClassroom,
+                    date: Date,
+                    lesson_order: LessonOrder,
+                    page: Page
+                },
                 headers: {
-                    Authorization: token ? `Bearer ${token}` : `Bearer `,
+                    Authorization: token ? `Bearer ${token}` : "",
                     Accept: "application/json",
                 },
             }
         );
-
         return res.data;
     } catch (error) {
         console.error("Gagal memuat data siswa:", error.response?.data || error.message);

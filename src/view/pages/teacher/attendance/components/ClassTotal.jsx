@@ -1,5 +1,4 @@
-import { Send } from "lucide-react";
-
+import { Send, ArrowLeft } from "lucide-react";
 
 const useSubmissionState = ({ 
     isFutureDate, 
@@ -25,15 +24,14 @@ const useSubmissionState = ({
     } 
     else if (!isTimeValid) {
         message = isPastDate 
-            ? " Data tanggal lampau sudah TERKUNCI." 
-            : " Batas waktu cross-check hari ini telah berakhir.";
+            ? "Data tanggal lampau sudah TERKUNCI." 
+            : "Batas waktu cross-check hari ini telah berakhir.";
         messageStyle = "bg-red-100 border-red-400 text-red-700";
         isDisabled = true;
     }
-    // Jika waktu valid, cek status kelengkapan
     else {
         if (!isSubmitted && !canSubmit) {
-            message = " Semua siswa harus diberi status sebelum submit!";
+            message = "Semua siswa harus diberi status sebelum submit!";
             messageStyle = "bg-orange-100 border-orange-400 text-orange-700";
             isDisabled = true;
         } else {
@@ -49,7 +47,7 @@ const useSubmissionState = ({
 };
 
 export default function TotalClass({
-    setIsOpenClass,
+    setIsOpenClass, 
     summary,
     handleSubmit,
     isSubmitted,
@@ -59,7 +57,6 @@ export default function TotalClass({
     isPastDate, 
     isFutureDate,
 }) {
-    // Sesuai JSON Postman: hadir, alpha, izin, terlambat, sakit
     const safeSummary = {
         present: summary?.present || 0,
         alpha: summary?.alpha || 0,
@@ -80,50 +77,60 @@ export default function TotalClass({
     
     return (
         <div className="flex flex-col w-full">
-            <div className="flex flex-col md:flex-row lg:flex-nowrap items-stretch lg:items-center justify-between w-full bg-white shadow-md p-3 rounded-lg mt-4 gap-y-3 gap-x-2">
-                
-                <div className="flex-shrink-0 flex items-center">
-                    <h1 className="text-lg md:text-[15px] font-semibold text-gray-800">Daftar Nama Siswa</h1>
-                </div>
-
-                <div className="flex flex-col md:flex-row gap-x-2 gap-y-1 text-[13px] lg:text-[14px] justify-start md:justify-center items-center w-full lg:w-auto">
-                    <p className="font-bold text-gray-600">Ringkasan:</p>
-                    <div className="flex gap-x-2 flex-wrap justify-center items-center">
-                        <p className="text-[#10B981] font-medium">Hadir: {safeSummary.present}</p>
-                        <span className="text-gray-300 hidden sm:inline">|</span>
-                        <p className="text-[#FF5E53] font-medium">Alpha: {safeSummary.alpha}</p>
-                        <span className="text-gray-300 hidden sm:inline">|</span>
-                        <p className="text-[#3B82F6] font-medium">Izin: {safeSummary.leave}</p>
-                        <span className="text-gray-300 hidden sm:inline">|</span>
-                        <p className="text-[#FACC15] font-medium">Telat: {safeSummary.late}</p>
-                        <span className="text-gray-300 hidden sm:inline">|</span>
-                        <p className="text-[#8B5CF6] font-medium">Sakit: {safeSummary.sick}</p>
+            <div className="bg-white shadow-md rounded-xl border border-gray-100 mt-4 overflow-hidden">
+                <div className="p-4 flex flex-col xl:flex-row items-center justify-between gap-2">
+                    
+                    <div className="w-full md:w-auto flex justify-center md:justify-start border-b md:border-b-0 pb-3 xl:pb-0 border-gray-100">
+                        <h1 className="text-[24px] md:text-xl font-semibold text-black tracking-tight">
+                            Daftar Nama Siswa
+                        </h1>
                     </div>
-                </div>
 
-                <div className="flex w-full md:w-auto gap-3 justify-center md:justify-end">
-                    <button
-                        onClick={handleSubmit}
-                        disabled={isDisabled}
-                        className={`flex items-center px-4 justify-center h-[37px] rounded-md text-white text-sm transition-all shadow-sm
-                            ${isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
-                    >
-                        <Send className="w-4 h-4 mr-2" />
-                        {buttonText}
-                    </button>
+                    <div className="flex flex-col md:flex-row gap-x-2 gap-y-1 text-[13px] md:text-[17px] lg:text-[14px] justify-start md:justify-center items-center w-full lg:w-auto">
+                        <p className="font-bold text-gray-600">Total:</p>
+                        <div className="flex gap-x-2 flex-wrap justify-center items-center">
+                            <p className="text-[#10B981] font-medium">Hadir: {safeSummary.present}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#FF5E53] font-medium">Alpha: {safeSummary.alpha}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#3B82F6] font-medium">Izin: {safeSummary.leave}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#FACC15] font-medium">Telat: {safeSummary.late}</p>
+                            <span className="text-gray-300 hidden sm:inline">|</span>
+                            <p className="text-[#8B5CF6] font-medium">Sakit: {safeSummary.sick}</p>
+                        </div>
+                    </div>
 
-                    <button
-                        onClick={() => setIsOpenClass(false)}
-                        className="flex justify-center items-center h-[37px] px-3 text-[#FF5E53] font-semibold border border-[#FF5E53] rounded-lg text-[13px] hover:bg-red-50 transition-colors"
-                    >
-                        ← Kembali
-                    </button>
+                    <div className="flex flex-col-reverse sm:flex-row w-full xl:w-auto gap-3 justify-end">
+
+                        <button
+                            type="button"
+                            onClick={handleSubmit}
+                            disabled={isDisabled}
+                            className={`flex items-center justify-center px-4 py-2.5 sm:py-2 text-sm font-medium text-white rounded-lg shadow-sm transition-all active:scale-95 w-full sm:w-auto
+                                ${isDisabled 
+                                    ? "bg-gray-400 cursor-not-allowed shadow-none" 
+                                    : "bg-blue-600 hover:bg-blue-700 shadow-blue-200"
+                                }`}
+                        >
+                            <Send className="w-4 h-4 mr-2" />
+                            {buttonText}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setIsOpenClass()} 
+                            className="flex items-center justify-center px-2 py-2.5 sm:py-2 text-sm font-semibold text-[#FF5E53] bg-white border border-[#FF5E53] rounded-lg hover:bg-red-50 active:scale-95 transition-all w-full sm:w-auto"
+                        >
+                            <ArrowLeft className="w-4 h-4 mr-1.5" />
+                            Kembali
+                        </button>
+                    </div>
                 </div>
             </div>
 
             {message && (
-                <div className={`p-3 mt-3 border rounded-lg ${messageStyle} shadow-sm animate-in fade-in slide-in-from-top-1`}>
-                    <p className="text-sm font-medium">{message}</p>
+                <div className={`flex items-start p-4 mt-3 border rounded-lg ${messageStyle} shadow-sm animate-in fade-in slide-in-from-top-2 duration-300`}>
+                    <p className="text-sm font-medium w-full text-center md:text-left">{message}</p>
                 </div>
             )}
         </div>

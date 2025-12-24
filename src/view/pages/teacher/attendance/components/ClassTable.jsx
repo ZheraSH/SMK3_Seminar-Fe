@@ -1,6 +1,5 @@
-import React, { memo,Send } from "react";
+import React, { memo } from "react";
 
-// Komponen Baris dipisah agar tidak semua baris re-render saat satu diklik
 const StudentRow = memo(({ 
   student, 
   index, 
@@ -10,34 +9,42 @@ const StudentRow = memo(({
   isDisabled, 
   onStatusChange 
 }) => {
+  const rowNumber = (pagination?.from || 0) + index;
+
   return (
-    <tr className="h-[59px] border-b border-gray-200 hover:bg-gray-50 transition-colors">
-      <td className="text-center text-sm">{pagination?.from + index}</td>
-      <td className="px-4 text-sm font-medium text-gray-700">{student.name}</td>
-      <td className="text-center text-sm text-gray-500">{student.nisn}</td>
-      <td className="py-2 px-4">
-        <div className="flex gap-4 justify-center flex-wrap">
-          {statusOptions.map((opt) => (
-            <label 
-              key={opt.id} 
-              className={`flex items-center gap-2 text-sm cursor-pointer ${
-                isDisabled ? "opacity-50 cursor-not-allowed" : "hover:text-blue-600"
-              }`}
-            >
-              <input
-                type="radio"
-                name={`status-${student.id}`}
-                value={opt.value}
-                checked={currentStatus === opt.value}
-                disabled={isDisabled}
-                onChange={(e) => onStatusChange(student.id, e.target.value)}
-                className="w-4 h-4 text-blue-600 focus:ring-blue-500 disabled:cursor-not-allowed"
-              />
-              <span className={currentStatus === opt.value ? "font-bold text-blue-700" : ""}>
-                {opt.label}
-              </span>
-            </label>
-          ))}
+    <tr className="h-[59px] border-b border-[#000000]/20 hover:bg-gray-50 transition-colors">
+      <td className="text-center text-sm  text-black">{rowNumber}</td>
+      <td className="text-left py-2 px-4 lg:pl-20 md:pl-0 text-sm font-medium text-black">{student.name}</td>
+      <td className="text-center py-2 px-4 text-sm text-black">{student.nisn || "-"}</td>
+      <td className=" text-center">
+        <div className="flex gap-3 justify-center flex-wrap">
+          {statusOptions.map((opt) => {
+            const isSelected = currentStatus === opt.value;
+            
+            return (
+              <label 
+                key={opt.id} 
+                className={`flex items-center gap-1 text-sm ${
+                  isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name={`status-${student.id}`}
+                  value={opt.value}
+                  checked={isSelected}
+                  disabled={isDisabled}
+                  onChange={(e) => onStatusChange(String(student.id), e.target.value)}
+                  className={`w-4 h-4 ${
+                    isDisabled ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
+                />
+                <span className="text-black">
+                  {opt.label}
+                </span>
+              </label>
+            );
+          })}
         </div>
       </td>
     </tr>
@@ -47,7 +54,7 @@ const StudentRow = memo(({
 export default function TableClass({
   attendance = [],
   pagination,
-  status: statusOptions,
+  status: statusOptions = [],
   changes,
   setChanges,
   page,
@@ -57,14 +64,22 @@ export default function TableClass({
   const isDisabled = !isTimeValid;
 
   const handleStatusChange = (studentId, newStatus) => {
+    // Guard clause untuk memastikan context route sudah tersambung
+    if (typeof setChanges !== "function") {
+      console.error("Critical: setChanges is not a function. Check AttendanceLayout in TeacherRoutes!");
+      return;
+    }
+
     setChanges((prev) => {
       const currentClass = prev[classKey] || {};
+      const currentPage = currentClass[page] || {};
+      
       return {
         ...prev,
         [classKey]: {
           ...currentClass,
           [page]: {
-            ...(currentClass[page] || {}),
+            ...currentPage,
             [studentId]: newStatus,
           },
         },
@@ -73,14 +88,13 @@ export default function TableClass({
   };
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-      <table className="min-w-[1000px] w-full border-collapse bg-white">
+      <table className="md:w-full w-[800px] border-collapse border border-[#000000]/20 rounded-lg overflow-hidden">
         <thead>
-          <tr className="bg-[#3B82F6] text-white h-[48px]">
-            <th className="w-[60px] py-2 px-4 text-center font-semibold rounded-tl-lg">No</th>
-            <th className="py-2 px-4 text-left font-semibold">Nama Siswa</th>
-            <th className="w-[150px] py-2 px-4 text-center font-semibold">NISN</th>
-            <th className="w-[450px] py-2 px-4 text-center font-semibold rounded-tr-lg">Status Kehadiran</th>
+          <tr className="bg-[#3B82F6] text-white h-[46px]">
+            <th className="py-2 px-4 text-center font-semibold">No</th>
+            <th className="py-2 px-4 lg:pl-20 md:pl-0 text-left font-semibold">Nama</th>
+            <th className="py-2 px-4 text-center font-semibold">NISN</th>
+            <th className="py-2 px-4 text-center font-semibold">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -91,21 +105,26 @@ export default function TableClass({
               </td>
             </tr>
           ) : (
-            attendance.map((s, index) => (
-              <StudentRow
-                key={s.id}
-                student={s}
-                index={index}
-                pagination={pagination}
-                statusOptions={statusOptions}
-                currentStatus={changes?.[classKey]?.[page]?.[s.id] ?? s?.existing_attendance?.status ?? ""}
-                isDisabled={isDisabled}
-                onStatusChange={handleStatusChange}
-              />
-            ))
+            attendance.map((s, index) => {
+              
+              const studentIdStr = String(s.id);
+              const currentStatus = changes?.[classKey]?.[page]?.[studentIdStr] ?? s?.existing_attendance?.status ?? "";
+
+              return (
+                <StudentRow
+                  key={s.id}
+                  student={s}
+                  index={index}
+                  pagination={pagination}
+                  statusOptions={statusOptions}
+                  currentStatus={currentStatus}
+                  isDisabled={isDisabled}
+                  onStatusChange={handleStatusChange}
+                />
+              );
+            })
           )}
         </tbody>
       </table>
-    </div>
   );
 }

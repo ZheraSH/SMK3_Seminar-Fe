@@ -1,111 +1,86 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { getAttendanceClassroom } from "../../../api/role-teacher/attendance/AttendanceClassroom";
 
-const getTodayDateString = () => {
+export const getTodayDateString = () => {
   const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, "0");
+  const d = String(today.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 };
 
 export function useAttendanceTeacher() {
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const isTeacher = userData?.roles?.includes("teacher");
-
-  const [selectedClass, setSelectedClass] = useState(() => {
-    const saved = localStorage.getItem("selectedClass");
+  
+  const userData = (() => {
     try {
-      return saved ? JSON.parse(saved) : null;
+      return JSON.parse(localStorage.getItem("userData"));
     } catch {
       return null;
     }
-  });
+  })();
 
-  const [isOpenClass, setIsOpenClass] = useState(() => {
-    const savedOpen = localStorage.getItem("isOpenClass");
-    return savedOpen === "true" && !!localStorage.getItem("selectedClass");
+  const isTeacher = userData?.roles?.includes("teacher");
+
+ 
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const saved = localStorage.getItem("selectedDate");
+    return saved && !isNaN(new Date(saved))
+      ? saved
+      : getTodayDateString();
   });
 
   useEffect(() => {
-    if (selectedClass) {
-      localStorage.setItem("selectedClass", JSON.stringify(selectedClass));
-    } else {
-      localStorage.removeItem("selectedClass");
-      localStorage.removeItem("isOpenClass"); 
-    }
-  }, [selectedClass]);
+    localStorage.setItem("selectedDate", selectedDate);
+  }, [selectedDate]);
 
-  useEffect(() => {
-    localStorage.setItem("isOpenClass", isOpenClass ? "true" : "false");
-  }, [isOpenClass]);
-
-  const [selectedDate, setSelectedDate] = useState(getTodayDateString);
   const [classrooms, setClassrooms] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const [globalChanges, setGlobalChanges] = useState({});
   const [submittedClasses, setSubmittedClasses] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const clearAttendanceState = useCallback(() => {
-    localStorage.removeItem("selectedClass");
-    localStorage.removeItem("isOpenClass");
-    setSelectedClass(null);
-    setIsOpenClass(false);
-    setGlobalChanges({});
-  }, []);
-
+  
   useEffect(() => {
-    if (!isTeacher) {
-      setLoading(false);
-      return;
-    }
+    if (!isTeacher || !selectedDate) return;
 
-    let isMounted = true;
+    let active = true;
     setLoading(true);
     setError(null);
 
     getAttendanceClassroom(selectedDate)
       .then((data) => {
-        if (!isMounted) return;
-
+        if (!active) return;
+        setClassrooms(data || []);
         if (!data || data.length === 0) {
-          setClassrooms([]);
           setError(`Tidak ada jadwal mengajar pada ${selectedDate}`);
-        } else {
-          setClassrooms(data);
         }
       })
       .catch((err) => {
-        if (!isMounted) return;
-        setError(err.response?.data?.message || "Gagal memuat daftar kelas");
+        if (!active) return;
+        setError(
+          err?.response?.data?.message || "Gagal memuat daftar kelas"
+        );
         setClassrooms([]);
       })
       .finally(() => {
-        if (isMounted) setLoading(false);
+        if (active) setLoading(false);
       });
 
-    return () => { isMounted = false; };
+    return () => {
+      active = false;
+    };
   }, [selectedDate, isTeacher]);
 
+  
   return {
     classrooms,
     selectedDate,
     setSelectedDate,
-  
-    selectedClass,
-    setSelectedClass,
-    isOpenClass,
-    setIsOpenClass,
-    
     globalChanges,
     setGlobalChanges,
     submittedClasses,
     setSubmittedClasses,
-    
     loading,
     error,
-    clearAttendanceState,
   };
 }
