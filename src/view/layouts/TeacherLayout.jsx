@@ -39,7 +39,6 @@ export const LayouthTeacher = () => {
       localStorage.removeItem("loginSuccess");
     }
   }, []);
-  
 
   return (
     <>
@@ -78,22 +77,30 @@ export const LayouthTeacher = () => {
               [-ms-overflow-style:'none'] 
               [scrollbar-width:'none']"
           >
-            {menuItemTeacher.map((item, index) => (
-              <Link
-                key={index}
-                to={item.path}
-                onClick={() => setSidebarOpen(false)} // Tutup sidebar setelah klik (mobile)
-                className={`flex items-center gap-3 p-2 text-[14px] font-semibold mb-3 cursor-pointer duration-300 
-                  hover:bg-white hover:rounded-[12px] hover:text-[#1E3A8A] ${
-                    location.pathname === item.path
-                      ? "bg-white text-[#1E3A8A] rounded-[12px]"
-                      : ""
-                  }`}
-              >
-                {item.icon}
-                <span>{item.name}</span>
-              </Link>
-            ))}
+            {menuItemTeacher.map((item, index) => {
+              // PERBAIKAN: Gunakan startsWith agar menu tetap aktif di sub-route
+              // Khusus rute dashboard ("/") tetap gunakan === agar tidak aktif di semua halaman
+              const isActive = item.path === "/teacher-home" 
+                ? location.pathname === item.path 
+                : location.pathname.startsWith(item.path);
+
+              return (
+                <Link
+                  key={index}
+                  to={item.path}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center gap-3 p-2 text-[14px] font-semibold mb-3 cursor-pointer duration-300 
+                    hover:bg-white hover:rounded-[12px] hover:text-[#1E3A8A] ${
+                      isActive
+                        ? "bg-white text-[#1E3A8A] rounded-[12px]"
+                        : ""
+                    }`}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </Link>
+              );
+            })}
 
             {/* Tombol scroll ke bawah */}
             {showScrollButton && (
