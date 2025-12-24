@@ -1,5 +1,5 @@
-import React from "react";
-import { RoleLabels, RoleEnum } from "../../../../../Core/enums/RoleEnum";
+import React, { useEffect } from "react";
+import { RoleLabels } from "../../../../../Core/enums/RoleEnum";
 
 export const TeacherForm = ({
   isOpen,
@@ -10,15 +10,32 @@ export const TeacherForm = ({
   errors,
   editingId,
   handleInput,
+  handleRoleChange,
   handleSubmit,
+  showRoleDropdown,
+  setShowRoleDropdown,
 }) => {
   if (!isOpen) return null;
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (showRoleDropdown && !e.target.closest('.role-dropdown-container')) {
+        setShowRoleDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showRoleDropdown]);
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
       <div className="bg-white rounded-xl shadow-2xl w-[700px] max-h-[90vh] overflow-y-auto p-6 relative">
         <button
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            setShowRoleDropdown(false);
+          }}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
         >
           ✕
@@ -122,16 +139,16 @@ export const TeacherForm = ({
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
-                errors.NIK ? "border-red-500" : "border-gray-300"
+                errors.nik ? "border-red-500" : "border-gray-300"
               }`}
               type="text"
               placeholder="Masukkan NIK"
-              name="NIK"
-              value={post.NIK}
+              name="nik"
+              value={post.nik}
               onChange={handleInput}
             />
-            {errors.NIK && (
-              <p className="text-red-500 text-sm mt-1">{errors.NIK[0]}</p>
+            {errors.nik && (
+              <p className="text-red-500 text-sm mt-1">{errors.nik[0]}</p>
             )}
           </div>
 
@@ -144,16 +161,16 @@ export const TeacherForm = ({
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
-                errors.NIP ? "border-red-500" : "border-gray-300"
+                errors.nip ? "border-red-500" : "border-gray-300"
               }`}
               type="text"
               placeholder="Masukkan NIP"
-              name="NIP"
-              value={post.NIP}
+              name="nip"
+              value={post.nip}
               onChange={handleInput}
             />
-            {errors.NIP && (
-              <p className="text-red-500 text-sm mt-1">{errors.NIP[0]}</p>
+            {errors.nip && (
+              <p className="text-red-500 text-sm mt-1">{errors.nip[0]}</p>
             )}
           </div>
 
@@ -252,61 +269,57 @@ export const TeacherForm = ({
               </p>
             )}
           </div>
-          <div className="relative">
+          
+          {/* ROLE DROPDOWN SECTION */}
+          <div className="relative role-dropdown-container">
             <label className="block text-sm font-medium text-gray-600">
               <p>
                 {" "}
                 Pilih Role <span className="text-red-500">*</span>
               </p>
             </label>
+            
             {/* BUTTON DROPDOWN */}
             <button
               type="button"
-              onClick={() =>
-                setPost((prev) => ({
-                  ...prev,
-                  showRoleDropdown: !prev.showRoleDropdown,
-                }))
-              }
-              className="w-full border border-gray-300 px-3 py-2 rounded-md text-left bg-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowRoleDropdown(!showRoleDropdown);
+              }}
+              className="w-full border border-gray-300 px-3 py-2 rounded-md text-left bg-white hover:bg-gray-50"
             >
               {post.roles.length > 0
                 ? post.roles
-                    .filter((key) => key && RoleLabels[key])
-                    .map((key) => RoleLabels[key])
+                    .filter(key => key && RoleLabels[key])
+                    .map(key => RoleLabels[key])
                     .join(", ")
                 : "Pilih Role (bisa lebih dari 1)"}
             </button>
 
-            {/* DROPDOWN */}
-            {post.showRoleDropdown && (
-              <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-20 max-h-40 overflow-y-auto p-2">
+            {/* DROPDOWN MENU */}
+            {showRoleDropdown && (
+              <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-40 overflow-y-auto p-2 role-dropdown-container">
                 {Object.keys(RoleLabels).map((key) => (
                   <label
                     key={key}
-                    className="flex items-center gap-2 p-1 hover:bg-gray-100 rounded"
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
                   >
                     <input
                       type="checkbox"
                       checked={post.roles.includes(key)}
                       onChange={(e) => {
-                        setPost((prev) => {
-                          let updated = prev.roles.filter((r) => r); // hapus nilai kosong
-
-                          if (e.target.checked) {
-                            updated.push(key);
-                          } else {
-                            updated = updated.filter((r) => r !== key);
-                          }
-
-                          return { ...prev, roles: updated };
-                        });
+                        e.stopPropagation();
+                        handleRoleChange(key);
                       }}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                     />
-                    <span>{RoleLabels[key]}</span>
+                    <span className="text-sm">{RoleLabels[key]}</span>
                   </label>
                 ))}
               </div>
+            )}
+            {errors.roles && (
+              <p className="text-red-500 text-sm mt-1">{errors.roles[0]}</p>
             )}
           </div>
 
@@ -325,16 +338,27 @@ export const TeacherForm = ({
               name="address"
               value={post.address}
               onChange={handleInput}
+              rows="3"
             />
             {errors.address && (
               <p className="text-red-500 text-sm mt-1">{errors.address[0]}</p>
             )}
           </div>
 
-          <div className="col-span-2 flex justify-end mt-4">
+          <div className="col-span-2 flex justify-end mt-4 gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                setShowRoleDropdown(false);
+              }}
+              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition"
+            >
+              Batal
+            </button>
             <button
               type="submit"
-              className="ml-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               {editingId ? "Update" : "Tambah"}
             </button>

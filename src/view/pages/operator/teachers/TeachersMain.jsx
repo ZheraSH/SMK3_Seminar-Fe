@@ -28,10 +28,10 @@ export const TeacherMain = () => {
     name: "",
     email: "",
     image: null,
-    NIK: "",
+    nik: "",
     birth_place: "",
     birth_date: "",
-    NIP: "",
+    nip: "",
     phone_number: "",
     address: "",
     gender: "",
@@ -49,6 +49,8 @@ export const TeacherMain = () => {
     value: "",
     label: "Pilih Kategori",
   });
+
+  const [showRoleDropdown, setShowRoleDropdown] = useState(false);
 
   const masters = useMemo(() => extractTeacherMasters(Teacher), [Teacher]);
 
@@ -94,31 +96,60 @@ export const TeacherMain = () => {
 
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
-    if (name === "roles") {
-      setPost({ ...post, roles: [value] });
+
+    if (type === "file") {
+      setPost({ ...post, [name]: files[0] });
       return;
     }
-    setPost({ ...post, [name]: type === "file" ? files[0] : value });
+
+    setPost({ ...post, [name]: value });
+  };
+
+  const handleRoleChange = (roleKey) => {
+    setPost((prev) => {
+      const currentRoles = [...prev.roles];
+      const index = currentRoles.indexOf(roleKey);
+
+      if (index > -1) {
+        // Remove if exists
+        currentRoles.splice(index, 1);
+      } else {
+        // Add if not exists
+        currentRoles.push(roleKey);
+      }
+
+      return { ...prev, roles: currentRoles };
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const frontendErrors = validateTeacherForm(post, editingId);
+
     if (Object.keys(frontendErrors).length > 0) {
       setErrors(frontendErrors);
+
       return;
     }
 
-    const result = await submitTeacherApi(editingId, post);
-    if (!result.success) {
-      setErrors(result.errors || {});
-      return;
-    }
+    try {
+      const result = await submitTeacherApi(editingId, post);
 
-    setErrors({});
-    setEditingId(null);
-    setIsOpen(false);
-    reload();
+      if (!result?.success) {
+        setErrors(result?.errors || {});
+        return;
+      }
+
+      setErrors({});
+      setEditingId(null);
+      setIsOpen(false);
+      setShowRoleDropdown(false);
+      reload();
+    } catch (err) {
+      console.error(err);
+      alert("Terjadi kesalahan sistem. Coba lagi.");
+    }
   };
 
   const handleEdit = (teacher) => {
@@ -126,10 +157,10 @@ export const TeacherMain = () => {
       name: teacher.name || "",
       email: teacher.email || "",
       image: teacher.image,
-      NIK: teacher.nik || "",
+      nik: teacher.nik || "",
       birth_place: teacher.birth.place || "",
       birth_date: teacher.birth.date || "",
-      NIP: teacher.nip || "",
+      nip: teacher.nip || "",
       phone_number: teacher.phone_number || "",
       address: teacher.address || "",
       gender: teacher.gender.value || "",
@@ -138,6 +169,7 @@ export const TeacherMain = () => {
     });
     setEditingId(teacher.id);
     setIsOpen(true);
+    setShowRoleDropdown(false);
   };
 
   const handleDetail = (teacher) => {
@@ -156,17 +188,19 @@ export const TeacherMain = () => {
       name: "",
       email: "",
       image: null,
-      NIK: "",
+      nik: "",
       birth_place: "",
       birth_date: "",
-      NIP: "",
+      nip: "",
       phone_number: "",
       address: "",
       gender: "",
       religion_id: "",
       roles: [],
     });
+    setErrors({});
     setIsOpen(true);
+    setShowRoleDropdown(false);
   };
 
   const handleResetAll = () => {
@@ -225,7 +259,10 @@ export const TeacherMain = () => {
         errors={errors}
         editingId={editingId}
         handleInput={handleInput}
+        handleRoleChange={handleRoleChange}
         handleSubmit={handleSubmit}
+        showRoleDropdown={showRoleDropdown}
+        setShowRoleDropdown={setShowRoleDropdown}
       />
 
       {/* TABLE */}
