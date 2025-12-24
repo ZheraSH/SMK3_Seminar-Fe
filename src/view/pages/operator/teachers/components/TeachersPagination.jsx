@@ -1,61 +1,88 @@
-"use client"
+"use client";
 
-export function PaginationEmployee({ page, lastPage, onPrev, onNext, onPageClick }) {
-  const renderPages = () => {
-    const pages = []
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-    pages.push(1)
+export function PaginationEmployee({
+  page,
+  lastPage,
+  onPrev,
+  onNext,
+  onPageClick,
+}) {
+  if (lastPage <= 1) return null;
 
-    if (page > 3) {
-      pages.push("...")
+  let pages = [];
+
+  if (lastPage <= 4) {
+    for (let i = 1; i <= lastPage; i++) pages.push(i);
+  } else {
+    if (page <= 3) {
+      pages = [1, 2, 3, "...", lastPage];
+    } else if (page >= lastPage - 2) {
+      pages = [1, "...", lastPage - 2, lastPage - 1, lastPage];
+    } else {
+      pages = [1, "...", page, "...", lastPage];
     }
-
-    for (let p = Math.max(2, page - 1); p <= Math.min(lastPage - 1, page + 1); p++) {
-      if (!pages.includes(p)) {
-        pages.push(p)
-      }
-    }
-
-    if (page < lastPage - 2) {
-      pages.push("...")
-    }
-
-    if (lastPage > 1 && !pages.includes(lastPage)) {
-      pages.push(lastPage)
-    }
-
-    return pages
   }
 
+  const PageButton = ({ p, active }) => {
+    if (p === "...") {
+      return (
+        <span className="w-8 h-8 flex items-center justify-center text-blue-500 cursor-default">
+          ...
+        </span>
+      );
+    }
+
+    return (
+      <button
+        onClick={() => onPageClick(p)}
+        className={`w-8 h-8 rounded-md flex items-center justify-center text-sm font-medium transition
+          ${
+            active
+              ? "bg-blue-600 text-white shadow"
+              : "text-blue-600 hover:bg-blue-100"
+          }`}
+      >
+        {p}
+      </button>
+    );
+  };
+
   return (
-    <div className="flex justify-center mt-6 items-center gap-2">
+    <div className="flex items-center justify-center gap-2 mt-6 select-none">
       {/* PREV */}
-      <button onClick={onPrev} disabled={page === 1} className="px-2 py-1 text-gray-500 disabled:opacity-40">
-        &lt;
+      <button
+        disabled={page === 1}
+        onClick={onPrev}
+        className={`w-9 h-9 flex items-center justify-center transition rounded-full
+          ${
+            page === 1
+              ? "text-gray-300 cursor-not-allowed"
+              : "text-blue-600 hover:bg-gray-100"
+          }`}
+      >
+        <ChevronLeft size={18} />
       </button>
 
-      {/* PAGE BUTTONS */}
-      {renderPages().map((p, i) =>
-        p === "…" ? (
-          <span key={i} className="px-2 text-gray-500">
-            …
-          </span>
-        ) : (
-          <button
-            key={i}
-            onClick={() => onPageClick(p)}
-            className={`px-3 py-1 rounded 
-              ${p === page ? "bg-blue-600 text-white" : "text-blue-600 hover:bg-blue-100"}`}
-          >
-            {p}
-          </button>
-        ),
-      )}
+      {/* PAGE NUMBERS */}
+      {pages.map((p, i) => (
+        <PageButton key={i} p={p} active={p === page} />
+      ))}
 
       {/* NEXT */}
-      <button onClick={onNext} disabled={page === lastPage} className="px-2 py-1 text-gray-500 disabled:opacity-40">
-        &gt;
+      <button
+        disabled={page === lastPage}
+        onClick={onNext}
+        className={`w-9 h-9 flex items-center justify-center transition rounded-full
+          ${
+            page === lastPage
+              ? "text-gray-300 cursor-not-allowed"
+              : "text-blue-600 hover:bg-gray-100"
+          }`}
+      >
+        <ChevronRight size={18} />
       </button>
     </div>
-  )
+  );
 }

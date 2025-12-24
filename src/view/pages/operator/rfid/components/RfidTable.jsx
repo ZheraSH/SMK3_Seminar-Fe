@@ -65,15 +65,13 @@ function TableRow({
 }) {
   const btnRef = useRef(null);
 
-  // Hitung posisi dropdown
   const calculateMenuPos = () => {
     if (!btnRef.current) return { top: 0, left: 0 };
 
     const rect = btnRef.current.getBoundingClientRect();
-    const menuHeight = 100; // sesuaikan tinggi dropdown
+    const menuHeight = 100; 
     let top = rect.bottom + window.scrollY;
 
-    // Flip otomatis ke atas jika dropdown keluar viewport
     if (rect.bottom + menuHeight > window.innerHeight) {
       top = rect.top + window.scrollY - menuHeight;
     }
@@ -86,7 +84,6 @@ function TableRow({
     onMenuClick(openMenu === item.id ? -1 : item.id);
   };
 
-  // Update posisi dropdown saat scroll / resize
   useEffect(() => {
     const handleScrollResize = () => {
       if (openMenu === item.id) {
