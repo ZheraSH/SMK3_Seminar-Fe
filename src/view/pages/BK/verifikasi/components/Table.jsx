@@ -4,17 +4,22 @@ import Pagination from './Pagination';
 export default function Table({  data, loading,  error,  currentPage,  lastPage,  totalItems,  perPage,  onPageChange, onAction}) {
 
     const StatusBadge = ({ status }) => {
-        const color =
-            status === "sakit" ? "bg-yellow-100 text-yellow-700" :
-            status === "dispensasi" ? "bg-[#10B98133] text-[#30D158]" :
-            "bg-[#3B82F633] text-[#3B82F6] ";
+        const statusType = status?.toLowerCase();
+
+        const styles = {
+            sakit: "bg-yellow-100 text-yellow-700",
+            dispensasi: "bg-[#10B98133] text-[#30D158]",
+            izin: "bg-[#3B82F633] text-[#3B82F6]",
+        };
+
+        const colorClass = styles[statusType] || "bg-gray-100 text-gray-700";
 
         return (
-            <span className={`px-3 py-1 text-xs w-[105px] font-medium rounded-md inline-block ${color}`}>
+            <span className={`px-3 py-1 text-xs w-[105px] font-medium rounded-md text-center inline-block ${colorClass}`}>
                 {status}
             </span>
         );
-    };
+};
 
     const ActionButton = ({ icon: Icon, color, onClick }) => {
         const isEyeIcon = Icon === Eye;
