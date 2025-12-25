@@ -87,7 +87,7 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                                 : search
                             }
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Cari nama atau NISN"
+                            placeholder="Cari Nama"
                             className={`w-full border p-2 rounded-lg pr-10 ${
                                 isError ? "border-red-500 ring-1 ring-red-500" : "border-gray-300"
                             }`}

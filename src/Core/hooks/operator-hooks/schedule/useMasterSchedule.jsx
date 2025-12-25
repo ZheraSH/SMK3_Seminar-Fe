@@ -21,7 +21,17 @@ export default function useMasterSchedule(activeDayApi) {
 
     try {
       const [subjectsRes, teachersRes, lessonsRes] = await Promise.all([ fetchSubject(), fetchTeacher(), fetchLesson(activeDayApi),]);
+      const teacherData = Array.isArray(teachersRes) ? teachersRes : (teachersRes?.data || []);
+      const filteredTeachers = teacherData.filter((teacher) => {
+        const roleValues = teacher.roles?.map(r => r.value) || [];
 
+        const isPriorityTeacher = roleValues.includes('teacher') || roleValues.includes('homeroom_teacher');
+        if (isPriorityTeacher) return true;
+        const restrictedRoles = ['staff_tu', 'waka_kurikulum', 'bk'];
+        const hasRestrictedRole = roleValues.some(role => restrictedRoles.includes(role));
+
+        return !hasRestrictedRole;
+      });
       const processedLessons = lessonsRes.map(lesson => {
         const lessonName = (lesson.name || lesson.placement || '').toLowerCase();
         const isBreak = BREAK_KEYWORDS.some(keyword => lessonName.includes(keyword));
@@ -33,7 +43,7 @@ export default function useMasterSchedule(activeDayApi) {
       });
 
       setSubjects(subjectsRes);
-      setTeachers(teachersRes);
+      setTeachers(filteredTeachers);
       setLessons(processedLessons);
     } catch (err) {
       console.error("Gagal mengambil data master:", err);

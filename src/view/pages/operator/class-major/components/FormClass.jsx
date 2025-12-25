@@ -67,7 +67,7 @@ export default function Form({ onClassAdded, addClass, onError }) {
    major_id: majorId,
    school_year_id: schoolYearId,
    level_class_id: levelClassId,
-   teacher_id: teacherId,
+   homeroom_teacher_id: teacherId,
    name: classNameInput,
   };
 

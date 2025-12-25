@@ -169,7 +169,7 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
             classroom_id: classroomId, 
             day: activeDayApi, 
             subject_id: formData.subject_id,
-            employee_id: formData.teacher_id,
+            teacher_id: formData.teacher_id,
             lesson_hour_id: formData.lesson_hour_id,
         };
 

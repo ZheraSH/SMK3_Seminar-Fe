@@ -2,15 +2,30 @@ import { useState, useEffect } from "react";
 import { getMajors, getSchoolYears, getLevelClass, getTeachers } from "../../../api/role-operator/class-major/classApi"; 
 
 const masterDataCache = {}; 
+
 const fetchAndCache = async (apiFunc, key) => {
     try {
         const res = await apiFunc();
-        const dataToCache = res?.data || res || []; 
+        let dataToCache = res?.data || res || []; 
+
+        if (key === 'teachers') {
+            dataToCache = dataToCache.filter((teacher) => {
+                const roleValues = teacher.roles.map(r => r.value);
+                const isPriorityTeacher = roleValues.includes('teacher') || roleValues.includes('homeroom_teacher');
+                if (isPriorityTeacher) return true;
+
+                const restrictedRoles = ['staff_tu', 'waka_kurikulum', 'bk'];
+                const hasRestrictedRole = roleValues.some(role => restrictedRoles.includes(role));
+                
+                return !hasRestrictedRole;
+            });
+        }
+
         masterDataCache[key] = dataToCache;
         return dataToCache;
     } catch (error) {
         console.error(`Error fetching ${key}:`, error);
-        return []
+        return [];
     }
 };
 
@@ -19,46 +34,40 @@ export default function useMasterData() {
     const [schoolYears, setSchoolYears] = useState(masterDataCache.schoolYears || []); 
     const [levelClass, setLevelClass] = useState(masterDataCache.levelClass || []);
     const [teachers, setTeachers] = useState(masterDataCache.teachers || []);
+    
     const hasCachedData = majors.length || schoolYears.length || levelClass.length || teachers.length;
     const [loading, setLoading] = useState(!hasCachedData);
-
     const [error, setError] = useState(null);
 
     const fetchMasterData = async () => {
-        if (!loading && hasCachedData) {
+        if (hasCachedData) {
             setLoading(false);
             return;
         }
+
         setLoading(true);
         setError(null);
-        const promises = [];
-        const keys = [];
 
-        if (!masterDataCache.majors) { promises.push(fetchAndCache(getMajors, 'majors')); keys.push('majors'); }
-        if (!masterDataCache.levelClass) { promises.push(fetchAndCache(getLevelClass, 'levelClass')); keys.push('levelClass'); }
-        if (!masterDataCache.teachers) { promises.push(fetchAndCache(getTeachers, 'teachers')); keys.push('teachers'); }
+        const promises = [];
+        if (!masterDataCache.majors) promises.push(fetchAndCache(getMajors, 'majors'));
+        if (!masterDataCache.levelClass) promises.push(fetchAndCache(getLevelClass, 'levelClass'));
+        if (!masterDataCache.teachers) promises.push(fetchAndCache(getTeachers, 'teachers'));
         
-        let schoolYearsPromise = null;
-        if (!masterDataCache.rawSchoolYears) { 
-             schoolYearsPromise = getSchoolYears();
-        }
+        let schoolYearsPromise = !masterDataCache.schoolYears ? getSchoolYears() : null;
 
         try {
-            const otherResults = await Promise.all(promises);
-            let finalYears = masterDataCache.schoolYears || [];
+            await Promise.all(promises);
+            setMajors(masterDataCache.majors || []);
+            setTeachers(masterDataCache.teachers || []);
+            setLevelClass(masterDataCache.levelClass || []);
 
             if (schoolYearsPromise) {
                 const yearsResponse = await schoolYearsPromise;
                 const yearsArrayData = yearsResponse?.data || []; 
                 const activeSchoolYears = yearsArrayData.filter((year) => year.active === true);
                 masterDataCache.schoolYears = activeSchoolYears;
-                finalYears = activeSchoolYears;
+                setSchoolYears(activeSchoolYears);
             }
-
-            setMajors(masterDataCache.majors || []);
-            setSchoolYears(finalYears);
-            setLevelClass(masterDataCache.levelClass || []);
-            setTeachers(masterDataCache.teachers || []);
             
         } catch (err) {
             setError(err.message || "Gagal memuat data master.");
@@ -71,13 +80,5 @@ export default function useMasterData() {
         fetchMasterData();
     }, []);
 
-    return {
-        majors,
-        schoolYears,
-        levelClass,
-        teachers,
-        loading,
-        error,
-        fetchMasterData,
-    };
+    return { majors, schoolYears, levelClass, teachers, loading, error, fetchMasterData };
 }
