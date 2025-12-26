@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
 import { getAttendanceClassroom } from "../../../api/role-teacher/attendance/AttendanceClassroom";
 
+
 export const getTodayDateString = () => {
   const today = new Date();
+  const day = today.getDay(); 
+
+  if (day === 6) today.setDate(today.getDate() + 2);
+  if (day === 0) today.setDate(today.getDate() + 1);
+
   const y = today.getFullYear();
   const m = String(today.getMonth() + 1).padStart(2, "0");
   const d = String(today.getDate()).padStart(2, "0");
+
   return `${y}-${m}-${d}`;
 };
 
 export function useAttendanceTeacher() {
-  
   const userData = (() => {
     try {
       return JSON.parse(localStorage.getItem("userData"));
@@ -21,16 +27,24 @@ export function useAttendanceTeacher() {
 
   const isTeacher = userData?.roles?.includes("teacher");
 
- 
   const [selectedDate, setSelectedDate] = useState(() => {
+    const today = getTodayDateString();
     const saved = localStorage.getItem("selectedDate");
-    return saved && !isNaN(new Date(saved))
-      ? saved
-      : getTodayDateString();
+
+    if (!saved) return today;
+
+    const savedDate = new Date(saved.replace(/-/g, "/"));
+    if (isNaN(savedDate.getTime())) return today;
+
+    const normalizedSaved = savedDate.toISOString().slice(0, 10);
+
+    return normalizedSaved === today ? saved : today;
   });
 
   useEffect(() => {
-    localStorage.setItem("selectedDate", selectedDate);
+    if (selectedDate) {
+      localStorage.setItem("selectedDate", selectedDate);
+    }
   }, [selectedDate]);
 
   const [classrooms, setClassrooms] = useState([]);
@@ -39,7 +53,6 @@ export function useAttendanceTeacher() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  
   useEffect(() => {
     if (!isTeacher || !selectedDate) return;
 
@@ -50,15 +63,19 @@ export function useAttendanceTeacher() {
     getAttendanceClassroom(selectedDate)
       .then((data) => {
         if (!active) return;
+
         setClassrooms(data || []);
+
         if (!data || data.length === 0) {
           setError(`Tidak ada jadwal mengajar pada ${selectedDate}`);
         }
       })
       .catch((err) => {
         if (!active) return;
+
         setError(
-          err?.response?.data?.message || "Gagal memuat daftar kelas"
+          err?.response?.data?.message ||
+            "Gagal memuat daftar kelas"
         );
         setClassrooms([]);
       })
@@ -71,7 +88,6 @@ export function useAttendanceTeacher() {
     };
   }, [selectedDate, isTeacher]);
 
-  
   return {
     classrooms,
     selectedDate,
