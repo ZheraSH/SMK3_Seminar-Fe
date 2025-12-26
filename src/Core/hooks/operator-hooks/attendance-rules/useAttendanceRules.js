@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { DEFAULT_DAYS } from "../../../../view/pages/operator/attendance-rules/constants/attendanceDays";
-import {
-  fetchAttendanceRulesAPI,
-  saveAttendanceRuleAPI,
-} from "../../../api/role-operator/attendance-rules/attendanceRules.api";
+import { fetchAttendanceRulesAPI, saveAttendanceRuleAPI,} from "../../../api/role-operator/attendance-rules/attendanceRules.api";
 
 export default function useAttendanceRules() {
-  const [attendanceRules, setAttendanceRules] = useState([]);
-  const [selectedDay, setSelectedDay] = useState(null);
+  const [attendanceRules, setAttendanceRules] = useState(
+    DEFAULT_DAYS.map((d) => ({ day: d.day, day_label: d.day_label, checkin_start: "", checkin_end: "", checkout_start: "", checkout_end: "", is_holiday: false,}))
+  );
+
+  const [selectedDay, setSelectedDay] = useState("monday");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -15,40 +15,35 @@ export default function useAttendanceRules() {
   const [fieldErrors, setFieldErrors] = useState({});
 
   const fetchAttendanceRules = async () => {
+    if (!selectedDay) return;
+
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetchAttendanceRulesAPI();
-      let rules = response.data.data || [];
+      const response = await fetchAttendanceRulesAPI(selectedDay);
+      const ruleFromApi = response.data.data;
 
-      rules = rules.map((r) => ({
-        ...r,
-        day: (r.day || "").trim().toLowerCase(),
-      }));
-
-      const mergedRules = DEFAULT_DAYS.map((d) => {
-        const found = rules.find((r) => r.day === d.day);
-        return (
-          found || {
-            day: d.day,
-            day_label: d.day_label,
-            checkin_start: "",
-            checkin_end: "",
-            checkout_start: "",
-            checkout_end: "",
-            is_holiday: false,
-          }
+      if (ruleFromApi) {
+        setAttendanceRules((prev) =>
+          prev.map((r) => {
+            if (r.day === selectedDay) {
+              return {
+                ...r,
+                day: typeof ruleFromApi.day === 'object' ? ruleFromApi.day.value : ruleFromApi.day,
+                checkin_start: ruleFromApi.checkin_start || "",
+                checkin_end: ruleFromApi.checkin_end || "",
+                checkout_start: ruleFromApi.checkout_start || "",
+                checkout_end: ruleFromApi.checkout_end || "",
+                is_holiday: !!ruleFromApi.is_holiday,
+              };
+            }
+            return r;
+          })
         );
-      });
-
-      setAttendanceRules(mergedRules);
-
-      if (!selectedDay) {
-        setSelectedDay(mergedRules[0].day);
       }
-    } catch {
-      setError("Gagal mengambil data aturan absensi");
+    } catch (err) {
+      console.warn(`Data hari ${selectedDay} belum ada di database, menggunakan tampilan kosong.`);
     } finally {
       setLoading(false);
     }
@@ -56,13 +51,12 @@ export default function useAttendanceRules() {
 
   useEffect(() => {
     fetchAttendanceRules();
-  }, []);
+  }, [selectedDay]);
 
   const selectedDayData = attendanceRules.find((r) => r.day === selectedDay);
 
   const handleTimeChange = (field, value) => {
     setFieldErrors((prev) => ({ ...prev, [field]: null }));
-
     setAttendanceRules((prev) =>
       prev.map((r) => (r.day === selectedDay ? { ...r, [field]: value } : r))
     );
@@ -70,7 +64,6 @@ export default function useAttendanceRules() {
 
   const handleHolidayChange = (e) => {
     const isHoliday = e.target.checked;
-
     setAttendanceRules((prev) =>
       prev.map((r) =>
         r.day === selectedDay ? { ...r, is_holiday: isHoliday } : r
@@ -79,6 +72,8 @@ export default function useAttendanceRules() {
   };
 
   const handleSave = async () => {
+    if (!selectedDayData) return;
+
     setSaving(true);
     setError(null);
     setSuccess(null);
@@ -89,20 +84,21 @@ export default function useAttendanceRules() {
       checkin_end: selectedDayData.checkin_end,
       checkout_start: selectedDayData.checkout_start,
       checkout_end: selectedDayData.checkout_end,
-      is_holiday: selectedDayData.is_holiday,
+      is_holiday: selectedDayData.is_holiday ? 1 : 0,
     };
 
     try {
       await saveAttendanceRuleAPI(selectedDay, payload);
-
-      setSuccess("Data berhasil disimpan!");
-      fetchAttendanceRules();
+      setSuccess(`Berhasil menyimpan pengaturan hari ${selectedDayData.day_label}`);
+      fetchAttendanceRules(); 
     } catch (err) {
-      if (err.response?.data?.errors) {
+      if (err.response?.status === 403) {
+        setError("User tidak memiliki role yang diizinkan (403 Forbidden).");
+      } else if (err.response?.data?.errors) {
         setFieldErrors(err.response.data.errors);
-        setError("Terdapat kesalahan dalam pengisian form");
+        setError("Terdapat kesalahan input.");
       } else {
-        setError("Gagal menyimpan data");
+        setError("Gagal menyimpan data.");
       }
     } finally {
       setSaving(false);
