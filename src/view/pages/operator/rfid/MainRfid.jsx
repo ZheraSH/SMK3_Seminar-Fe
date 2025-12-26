@@ -10,6 +10,8 @@ import { useRfid } from "../../../../Core/hooks/operator-hooks/rfid/usePaginatio
 import RfidAddModal from "./components/RfidAddModal";
 import { deleteRFID } from "../../../../Core/api/role-operator/rfid/RfidApi";
 import { PaginationRfid } from "./components/RfidPagination";
+import { useState } from "react";
+import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
 
 export function RfidManagement() {
   const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =
@@ -30,16 +32,22 @@ export function RfidManagement() {
     handleEdit,
   } = useRfidManagement();
 
-  const handleDelete = async (id) => {
-    // Konfirmasi dulu
-    const ok = window.confirm("Yakin mau hapus RFID ini?");
-    if (!ok) return;
+  const [deleteId, setDeleteId] = useState(null);
+
+  const askDeleteRfid = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleDeleteRfid = async () => {
+    if (!deleteId) return;
 
     try {
-      await deleteRFID(id);
+      await deleteRFID(deleteId);
       setRefresh((r) => r + 1);
     } catch (e) {
-      console.error("Gagal hapus RFID", e);
+      console.error(e);
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -63,7 +71,7 @@ export function RfidManagement() {
           setSelected(item);
           setShowEdit(true);
         }}
-        onDeleteClick={handleDelete}
+        onDeleteClick={askDeleteRfid}
       />
 
       {/* PAGINATION */}
@@ -95,6 +103,12 @@ export function RfidManagement() {
         onDataChange={setSelected}
         onSave={handleEdit}
         onClose={() => setShowEdit(false)}
+      />
+
+      <DeleteConfirmModal
+        open={deleteId !== null}
+        onCancel={() => setDeleteId(null)}
+        onConfirm={handleDeleteRfid}
       />
     </div>
   );

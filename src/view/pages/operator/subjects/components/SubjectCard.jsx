@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { MoreVertical, Edit3, Trash2 } from "lucide-react"
+import { MoreVertical, Edit3, Trash2 } from "lucide-react";
 import {
   getIconBySubject,
   getBgColorBySubject,
-} from "../../../../../Core/utils/SubjectHelper"
+} from "../../../../../Core/utils/SubjectHelper";
 
 export function SubjectCard({
   subject = {},
@@ -13,7 +13,7 @@ export function SubjectCard({
   openMenu,
   setOpenMenu,
 }) {
-  const id = subject.id
+  const id = subject.id;
 
   return (
     <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition p-4 flex flex-col">
@@ -22,7 +22,7 @@ export function SubjectCard({
         <div className="flex items-center gap-3">
           <div
             className={`w-10 h-10 p-2 rounded-[12px] flex items-center justify-center ${getBgColorBySubject(
-              subject.name,
+              subject.name
             )}`}
           >
             {getIconBySubject(subject.name)}
@@ -44,22 +44,19 @@ export function SubjectCard({
           <div className="absolute right-3 top-12 bg-white border border-gray-200 shadow-lg rounded-xl w-40 z-20 animate-fadeIn">
             <button
               onClick={() => {
-                onEdit(subject)
-                setOpenMenu(null)
+                onEdit(subject);
+                setOpenMenu(null);
               }}
-              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-sm text-gray-700"
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-sm"
             >
-              <Edit3 size={16} /> Edit
+              <Edit3 size={16} className="text-yellow-500" /> Edit
             </button>
 
             <button
-              onClick={() => {
-                onDelete(id)
-                setOpenMenu(null)
-              }}
-              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-sm text-red-600"
+              onClick={() => onDelete(subject.id)}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-sm "
             >
-              <Trash2 size={16} /> Hapus
+              <Trash2 size={16} className="text-red-500" /> Hapus
             </button>
           </div>
         )}
@@ -70,5 +67,5 @@ export function SubjectCard({
         {subject.name || "-"}
       </h2>
     </div>
-  )
+  );
 }

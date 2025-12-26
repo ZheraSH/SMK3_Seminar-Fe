@@ -15,6 +15,7 @@ import { PaginationStudent } from "./components/Pagination";
 import { SearchFilterStudent } from "./components/Search";
 import { StudentFilterDropdown } from "./components/FilterDroopDownStudent";
 import { useStudentFilter } from "../../../../Core/hooks/operator-hooks/student/useStudentFilter";
+import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
 
 export const MainStudent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,6 +42,7 @@ export const MainStudent = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
+  const [deleteId, setDeleteId] = useState(null);
   const [meta, setMeta] = useState({ current_page: 1, last_page: 1, total: 0 });
 
   const loadReligionsData = async () => {
@@ -187,13 +189,20 @@ export const MainStudent = () => {
     setIsDetailOpen(true);
   };
 
+  const askDeleteStudent = (id) => {
+    setDeleteId(id);
+  };
+
   const handleDelete = async (id) => {
-    if (!window.confirm("Yakin ingin menghapus siswa ini?")) return;
+    if (!deleteId) return;
+
     try {
-      await deleteStudent(id);
+      await deleteStudent(deleteId);
       loadStudentsData();
     } catch (err) {
       console.error(err);
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -262,7 +271,7 @@ export const MainStudent = () => {
         students={filteredStudents}
         onDetail={handleDetail}
         onEdit={handleEdit}
-        onDelete={handleDelete}
+        onDelete={askDeleteStudent}
       />
 
       {/* PAGINATION */}
@@ -272,6 +281,12 @@ export const MainStudent = () => {
         onPrev={() => setPage(page - 1)}
         onNext={() => setPage(page + 1)}
         onPageClick={(p) => setPage(p)}
+      />
+
+      <DeleteConfirmModal
+        open={deleteId !== null}
+        onCancel={() => setDeleteId(null)}
+        onConfirm={handleDelete}
       />
     </div>
   );

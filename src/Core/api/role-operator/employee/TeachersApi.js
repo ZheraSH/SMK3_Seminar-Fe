@@ -79,7 +79,6 @@ export const submitTeacherApi = async (editingId, post) => {
 };
 
 export const deleteTeacherApi = async (id) => {
-  if (!window.confirm("Yakin ingin menghapus guru ini?")) return false;
   try {
     await axios.delete(`http://127.0.0.1:8000/api/employees/${id}`);
     notify("Guru Berhasil Di Hapus")

@@ -15,6 +15,7 @@ import {
 } from "../../../../Core/api/role-operator/employee/TeachersApi";
 import { extractTeacherMasters } from "./components/utils/teacherMasterExtractor";
 import { TeacherFilterDropdown } from "./components/FilterDropdown";
+import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
 
 export const TeacherMain = () => {
   const [religions, setReligions] = useState([]);
@@ -23,6 +24,7 @@ export const TeacherMain = () => {
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteId, setDeleteId] = useState(null);
 
   const [post, setPost] = useState({
     name: "",
@@ -111,10 +113,8 @@ export const TeacherMain = () => {
       const index = currentRoles.indexOf(roleKey);
 
       if (index > -1) {
-        // Remove if exists
         currentRoles.splice(index, 1);
       } else {
-        // Add if not exists
         currentRoles.push(roleKey);
       }
 
@@ -177,9 +177,21 @@ export const TeacherMain = () => {
     setIsDetailOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    const ok = await deleteTeacherApi(id);
-    if (ok) reload();
+  const askDeleteTeacher = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteId) return;
+
+    try {
+      await deleteTeacherApi(deleteId);
+      reload();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDeleteId(null);
+    }
   };
 
   const handleAddNewTeacher = () => {
@@ -272,7 +284,7 @@ export const TeacherMain = () => {
         setOpenItemId={setOpenItemId}
         handleDetail={handleDetail}
         handleEdit={handleEdit}
-        handleDelete={handleDelete}
+        handleDelete={askDeleteTeacher}
       />
 
       {/* PAGINATION */}
@@ -282,6 +294,12 @@ export const TeacherMain = () => {
         onPrev={() => setPage(page - 1)}
         onNext={() => setPage(page + 1)}
         onPageClick={(p) => setPage(p)}
+      />
+
+      <DeleteConfirmModal
+        open={deleteId !== null}
+        onCancel={() => setDeleteId(null)}
+        onConfirm={handleDelete}
       />
     </div>
   );

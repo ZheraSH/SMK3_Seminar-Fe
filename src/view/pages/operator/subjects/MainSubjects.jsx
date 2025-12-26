@@ -13,6 +13,7 @@ import { Pagination } from "./components/Pagination";
 import { SubjectCard } from "./components/SubjectCard";
 import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
 import HeaderPage from "../../../components/elements/header/Header.Page";
+import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
 
 export default function MainMaple() {
   const {
@@ -29,6 +30,7 @@ export default function MainMaple() {
   const [openMenu, setOpenMenu] = useState(null);
   const [openModal, setOpenModal] = useState(null);
   const [search, setSearch] = useState("");
+  const [deleteId, setDeleteId] = useState(null);
 
   const filteredSubjects = subjects.filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase())
@@ -64,18 +66,27 @@ export default function MainMaple() {
     }
   };
 
-  const handleDeleteSubject = async (id) => {
-    if (!confirm("Yakin ingin menghapus mapel ini?")) return;
+  const askDeleteSubject = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleDeleteSubject = async () => {
+    if (!deleteId) return;
+
     try {
-      await deleteSubject(id);
-      if (subjects.length === 1 && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
-        fetchSubjects(currentPage - 1);
-      } else {
-        fetchSubjects(currentPage);
-      }
-    } catch (error) {
-      console.error("Error deleting subject:", error);
+      await deleteSubject(deleteId);
+
+      const page =
+        subjects.length === 1 && currentPage > 1
+          ? currentPage - 1
+          : currentPage;
+
+      setCurrentPage(page);
+      fetchSubjects(page);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -148,7 +159,7 @@ export default function MainMaple() {
                 setEditSubject({ id: subject.id, name: subject.name });
                 setOpenModal("edit");
               }}
-              onDelete={handleDeleteSubject}
+              onDelete={askDeleteSubject}
             />
           ))}
         </div>
@@ -162,7 +173,6 @@ export default function MainMaple() {
           </div>
         )}
 
-        {/* PAGINATION - hanya tampil jika totalPages > 1 */}
         {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
@@ -172,6 +182,12 @@ export default function MainMaple() {
             onPageClick={(p) => handlePageChange(p)}
           />
         )}
+
+        <DeleteConfirmModal
+          open={deleteId !== null}
+          onCancel={() => setDeleteId(null)}
+          onConfirm={handleDeleteSubject}
+        />
       </div>
     </div>
   );
