@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { X, Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
 
 const ErrorModal = ({ show, title, message, onClose }) => {
@@ -37,6 +37,13 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
     
     const [validationErrors, setValidationErrors] = useState({});
     const [errorModal, setErrorModal] = useState({ show: false, title: '', message: ''});
+
+    useEffect(() => {
+        if (!isVisible) {
+            setFormData({ start_time: '', end_time: '', name: '' });
+            setValidationErrors({});
+        }
+    }, [isVisible]);
 
     const handleChange = (e) => {
         setFormData({

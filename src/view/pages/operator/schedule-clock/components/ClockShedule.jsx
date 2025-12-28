@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Trash2 ,Plus} from 'lucide-react';
 import useLessonHours from '../../../../../Core/hooks/operator-hooks/schedule/useLessonShedule';
 import AddLessonHourModal from './FormLesson'; 
+import DeleteConfirmModal from "../../../../components/elements/deleteconfirm/DeleteConfirmModal"; 
 
 const ResultModal = ({ show, status, title, message, onClose }) => {
     if (!show) return null;
@@ -27,32 +28,7 @@ const ResultModal = ({ show, status, title, message, onClose }) => {
     );
 };
 
-const ConfirmModal = ({ show, message, onConfirm, onCancel, isProcessing }) => {
-    if (!show) return null;
-
-    return (
-        <div className="fixed inset-0 bg-gray-600/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Konfirmasi Penghapusan</h3>
-                <p className="text-sm text-gray-700 mb-6">Apakah anda yakin mau menghapus?</p>
-                <div className="flex justify-end space-x-3">
-                    <button onClick={onCancel} disabled={isProcessing} className="px-4 py-2 text-sm rounded-lg text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors disabled:opacity-50"> Batal </button>
-                    <button onClick={onConfirm} disabled={isProcessing} className="px-4 py-2 text-sm rounded-lg text-white font-semibold bg-[#EF4444] hover:bg-red-700 transition-colors disabled:bg-red-300">
-                    {isProcessing ? 'Menghapus...' : 'Ya, Hapus'}
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const DAY_MAPPING = {
-    'Senin': 'monday',
-    'Selasa': 'tuesday',
-    'Rabu': 'wednesday',
-    'Kamis': 'thursday',
-    'Jum\'at': 'friday',
-};
+const DAY_MAPPING = { 'Senin': 'monday', 'Selasa': 'tuesday', 'Rabu': 'wednesday', 'Kamis': 'thursday', 'Jum\'at': 'friday',};
 const daysIndo = Object.keys(DAY_MAPPING); 
 
 const ScheduleLayout = ({ mode,classScheduleData}) => {
@@ -61,54 +37,42 @@ const ScheduleLayout = ({ mode,classScheduleData}) => {
     const [confirmModal, setConfirmModal] = useState({ show: false, id: null, name: '' });
     const [resultModal, setResultModal] = useState({ show: false, status: '', title: '', message: '' });
     const [isDeleting, setIsDeleting] = useState(false); 
-
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
-
     const isClassMode = mode === 'jadwal-kelas';
     const [activeDayIndo, setActiveDayIndo] = useState('Senin');
-
     const activeDayApi = DAY_MAPPING[activeDayIndo] || 'monday';
-
     const { lessonHours, isLoadingHours ,deleteLesson,refetch,addLesson} = useLessonHours(activeDayApi); 
-
     const dataForDisplay = isClassMode ?classScheduleData : lessonHours;
 
-    const tableHeaders = ['No', 'Waktu', 'Penempatan', 
-        ...(isClassMode ? ['Mata Pelajaran', 'Guru'] : []), 
-        'Aksi'
-    ];
+    const tableHeaders = ['No', 'Waktu', 'Penempatan', ...(isClassMode ? ['Mata Pelajaran', 'Guru'] : []), 'Aksi'];
 
     const openConfirmDeleteModal = (id, name) => { setConfirmModal({ show: true, id: id, name: name});};
-
     const handleConfirmDelete = async () => {
-    const { id, name } = confirmModal;
+        const { id, name } = confirmModal;
+        if (!id) return;
 
-    if (!id) return;
+        setIsDeleting(true);
+        setConfirmModal({ show: false, id: null, name: '' }); 
+        try {
+            const result = await deleteLesson(id);
+            refetch(); 
+        } catch (error) {
 
-    setIsDeleting(true);
-    setConfirmModal({ show: false, id: null, name: '' }); 
+            let errorMessage = 'Data ini tidak dapat di hapus karena data ini sudah ada di jadwal.';
 
-    try {
-        const result = await deleteLesson(id);
-        refetch(); 
+            if (error.response && error.response.data && error.response.data.message) {
+                rorMessage = error.response.data.message;
+            } else if (error.message && error.message.includes('409') || error.message.includes('relasi')) {
+            errorMessage = `Jam pelajaran ${name} tidak dapat dihapus karena sudah digunakan dalam Jadwal Pelajaran atau memiliki data relasi yang terikat.`;
+            }
 
-    } catch (error) {
+            setResultModal({ show: true, status: 'error', title: 'Peringatan.',message: errorMessage});
 
-    let errorMessage = 'Data ini tidak dapat di hapus karena data ini sudah ada di jadwal.';
-
-    if (error.response && error.response.data && error.response.data.message) {
-        rorMessage = error.response.data.message;
-    } else if (error.message && error.message.includes('409') || error.message.includes('relasi')) {
-        errorMessage = `Jam pelajaran ${name} tidak dapat dihapus karena sudah digunakan dalam Jadwal Pelajaran atau memiliki data relasi yang terikat.`;
-    }
-
-    setResultModal({ show: true, status: 'error', title: 'Peringatan.',message: errorMessage});
-
-    } finally {
-    setIsDeleting(false);
-    }
-};
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     const handleCloseResultModal = () => {
         setResultModal({ show: false, status: '', title: ''});
@@ -182,12 +146,9 @@ const ScheduleLayout = ({ mode,classScheduleData}) => {
                                 <tr>
                                     <td colSpan={tableHeaders.length} className="px-6 py-2">
                                     <div className="flex justify-center">
-                                        <button 
-                                        onClick={handleOpenModal} 
-                                        className="flex items-center text-[14px] gap-2 px-6 py-2  bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-200 shadow-lg active:scale-95"
-                                        >
-                                        <Plus size={16} strokeWidth={3} />
-                                        <span>Tambah Jam Pelajaran</span>
+                                        <button onClick={handleOpenModal} className="flex items-center text-[14px] gap-2 px-6 py-2  bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-200 shadow-lg active:scale-95">
+                                            <Plus size={16} strokeWidth={3} />
+                                            <span>Tambah Jam Pelajaran</span>
                                         </button>
                                     </div>
                                     </td>
@@ -198,9 +159,8 @@ const ScheduleLayout = ({ mode,classScheduleData}) => {
                 </div>
             
             <AddLessonHourModal isVisible={isModalOpen} onClose={handleCloseModal} activeDay={activeDayApi} activeDayDisplay={activeDayIndo} onSuccessfulSubmit={refetch} addLesson={addLesson}/>
-            <ConfirmModal show={confirmModal.show} onConfirm={handleConfirmDelete} onCancel={() => setConfirmModal({ show: false, id: null, name: '' })} isProcessing={isDeleting}/>
+            <DeleteConfirmModal open={confirmModal.show} onConfirm={handleConfirmDelete} onCancel={() => setConfirmModal({ show: false, id: null, name: '' })} message={`Apakah anda yakin mau menghapus jam pelajaran ${confirmModal.name}?`}/>
             <ResultModal show={resultModal.show} status={resultModal.status} title={resultModal.title} message={resultModal.message} onClose={handleCloseResultModal}/>
-
         </div>
     );
 };

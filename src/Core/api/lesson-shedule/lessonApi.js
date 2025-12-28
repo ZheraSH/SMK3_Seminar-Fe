@@ -59,46 +59,74 @@ export const deleteSchedule = async (scheduleId) => {
     }
 };
 
-
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 export const fetchSubject = async () => {
-   try {
-    const res = await axios.get(`${API_BASE_URL}/subjects`);
-    return res.data.data;
-  } catch (err) {
-    return [];
-  }
-};
-export const fetchTeacher = async () => {
-    let allTeachers = [];
+    let allSubjects = [];
     let currentPage = 1;
-    let lastPage = 1; 
+    let lastPage = 1;
 
     try {
         do {
-            const endpoint = `${API_BASE_URL}/employees?page=${currentPage}`;
+            const endpoint = `${API_BASE_URL}/subjects?page=${currentPage}`;
             const res = await axios.get(endpoint);
-            
+            const responseData = res.data;
+            if (responseData && responseData.data) {
+                allSubjects = [...allSubjects, ...responseData.data];
+            }
+
+            lastPage = responseData.meta?.last_page || responseData.last_page || 1;
+
+            if (currentPage < lastPage) {
+                await delay(500);
+                currentPage++;
+            } else {
+                break;
+            }
+
+        } while (currentPage <= lastPage);
+
+        return allSubjects;
+    } catch (err) {
+        console.error("Error fetching subjects:", err);
+        return allSubjects; 
+    }
+};
+
+export const fetchTeacher = async () => {
+    let allTeachers = [];
+    let currentPage = 1;
+    let lastPage = 1;
+
+    try {
+        do {
+            const res = await axios.get(`${API_BASE_URL}/employees?page=${currentPage}`);
             const responseData = res.data;
 
-            if (responseData && responseData.data && Array.isArray(responseData.data)) {
+            if (responseData.data && Array.isArray(responseData.data)) {
                 allTeachers = allTeachers.concat(responseData.data);
             }
 
             if (responseData.meta) {
-                lastPage = responseData.meta.last_page;
+                lastPage = responseData.meta.last_page || currentPage;
+            } else if (responseData.links && responseData.links.next) {
+
             } else {
-                break; 
+                lastPage = currentPage; 
+            }
+
+            if (currentPage < lastPage) {
+                await delay(150); 
             }
             
-
             currentPage++;
 
         } while (currentPage <= lastPage); 
-
+        
         return allTeachers;
-
+        
     } catch (err) {
-        return allTeachers; 
+        console.error("Gagal mengambil SEMUA Guru/Wali Kelas:", err.response ? err.response.data : err);
+        throw err;
     }
 };
 export const fetchLesson = async (day = null) => { 
