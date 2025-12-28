@@ -64,9 +64,9 @@ export default function useMasterData() {
             if (schoolYearsPromise) {
                 const yearsResponse = await schoolYearsPromise;
                 const yearsArrayData = yearsResponse?.data || []; 
-                const activeSchoolYears = yearsArrayData.filter((year) => year.active === true);
-                masterDataCache.schoolYears = activeSchoolYears;
-                setSchoolYears(activeSchoolYears);
+                // const activeSchoolYears = yearsArrayData.filter((year) => year.active === true);
+                masterDataCache.schoolYears = yearsArrayData;
+                setSchoolYears(yearsArrayData);
             }
             
         } catch (err) {

@@ -1,24 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Trash2, MoreVertical, Eye } from 'lucide-react'; 
 import ModalDetailStudent from "./ModalDetailStudents"; 
-
-const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
-    if (!show) return null;
-
-    return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]"> 
-            <div className="bg-white rounded-lg shadow-xl w-96 p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Konfirmasi Penghapusan</h3>
-                <p className="text-sm text-gray-700 mb-6">{message}</p>
-                <div className="flex justify-end space-x-3">
-                    <button onClick={onCancel} className="px-4 py-2 rounded-lg text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors">Batal</button>
-                    <button  onClick={onConfirm}  className="px-4 py-2 rounded-lg text-white font-semibold bg-[#EF4444] hover:bg-red-700 transition-colors"> Ya, Hapus</button>
-                </div>
-            </div>
-        </div>
-    );
-};
-
+import DeleteConfirmModal from "../../../../../components/elements/deleteconfirm/DeleteConfirmModal";
 
 const ActionDropdown = ({ onDetail, onDelete, onClose, position, direction }) => {
     const dropdownRef = useRef(null);
@@ -195,17 +178,10 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
             </div>
 
             {openDropdownData.index !== null && (
-                <ActionDropdown 
-                    onDetail={() => handleDetail(students[openDropdownData.index])}  
-                    onDelete={() => handleDelete(students[openDropdownData.index])} 
-                    onClose={closeDropdown} 
-                    position={openDropdownData.position}  
-                    direction={openDropdownData.direction}
-                />
+                <ActionDropdown  onDetail={() => handleDetail(students[openDropdownData.index])} onDelete={() => handleDelete(students[openDropdownData.index])}  onClose={closeDropdown}  position={openDropdownData.position}  direction={openDropdownData.direction}/>
             )}
-
             <ModalDetailStudent open={openDetailModal} onClose={handleCloseDetailModal} student={selectedStudentDetail}  loading={detailLoading} />
-            <ConfirmModal show={confirmModal.show} message={confirmModal.message} onConfirm={confirmRemoval} onCancel={() => setConfirmModal({ show: false, student: null, message: '' })} />
+            <DeleteConfirmModal open={confirmModal.show} message={confirmModal.message} onConfirm={confirmRemoval} onCancel={() => setConfirmModal({ show: false, student: null, message: '' })} />
         </>
     );
 };
