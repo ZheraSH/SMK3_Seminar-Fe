@@ -3,8 +3,6 @@ import axios from "axios";
 export async function fetchStudentSchedule(day) {
   const token = localStorage.getItem("token");
   const userData = JSON.parse(localStorage.getItem("userData"));
-  console.log("TOKEN:", token);
-  console.log("USER DATA:", userData);
 
   const roles = userData?.roles || [];
   if (!userData || !roles.includes("student")) {
