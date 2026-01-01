@@ -11,13 +11,13 @@ export default function MainScheduleStudent() {
     useStudentSchedule(activeDay);
 
   return (
-    <div className="justify-center mx-7 mb-10 mt-5">
+    <div className="justify-center mx-4 md:mx-7 mb-10 mt-5">
       <HeaderPage
         h1="Jadwal Pelajaran"
         p={`Kelas ${classroomId} | ${semesterType}`}
       />
 
-      <div className="mt-6 flex gap-2 flex-wrap bg-white shadow-md p-2 rounded-lg">
+      <div className="mt-6 flex gap-2 flex-nowrap bg-white shadow-md p-2 rounded-lg overflow-x-auto">
         <ButtonSchedule setActiveDay={setActiveDay} activeDay={activeDay} />
       </div>
       <div className="mt-4 w-full overflow-x-auto rounded-lg border border-gray-200 ">
