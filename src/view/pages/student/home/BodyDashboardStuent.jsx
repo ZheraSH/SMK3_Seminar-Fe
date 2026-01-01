@@ -7,21 +7,23 @@ import { DashboardStudent } from "../../../../Core/hooks/role-student/dashboard/
 export default function BodyDashboard() {
 
     const {
-        profil,
         attendance,
+        profile,
         schedule,
         error,
         loading,
+        classroom,
         permissions,
 
     } = DashboardStudent ();
 
     return (
-        <div className="justify-center mx-3 mb-10">
-            <Card  attendance={attendance} user={profil} />
-            <div className="flex flex-col md:flex-row lg:flex-row gap-5 w-full">
+        <div className="justify-center mx-4 md:mx-7 mb-10 mt-6">
+            <ProfileHeader user={profile} header={classroom}/>
+            <Card  attendance={attendance} />
+            <div className="flex flex-col lg:flex-row gap-5 w-full">
                 <div 
-                    className="flex flex-col gap-5 w-full md:w-[550px] lg:w-[670px] lg:h-[383px] overflow-y-hidden rounded-xl shadow-lg border border-gray-300 p-5
+                    className="flex flex-col gap-5 w-full lg:w-[670px] lg:h-[383px] overflow-y-hidden rounded-xl shadow-lg border border-gray-300 p-5
                         [&::-webkit-scrollbar]:hidden 
                         [-ms-overflow-style:'none'] 
                         [scrollbar-width:'none']"
@@ -34,7 +36,7 @@ export default function BodyDashboard() {
                     />
                 </div>
                 <div 
-                    className="w-full md:w-[400px] lg:w-[474px] lg:h-[383px] gap-5 rounded-xl shadow-lg border border-gray-300 p-5 flex flex-col justify-start overflow-y-hidden
+                    className="w-full  lg:w-[474px] lg:h-[383px] gap-5 rounded-xl shadow-lg border border-gray-300 p-5 flex flex-col justify-start overflow-y-hidden
                         [&::-webkit-scrollbar]:hidden 
                         [-ms-overflow-style:'none'] 
                         [scrollbar-width:'none']"

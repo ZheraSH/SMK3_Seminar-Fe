@@ -24,11 +24,9 @@ export default function TableSchedule ({schedule,loading,error}){
         );
     }
 
-    // Untuk memastikan setiap baris memiliki latar belakang yang bergantian (zebra striping)
-    // dan memastikan data yang ditampilkan sesuai dengan yang di gambar
+    
     const displayedSchedule = schedule.filter(s => !s.penempatan.toLowerCase().includes("istirahat"));
     
-    // Jika setelah filter tidak ada data, tampilkan pesan "Tidak ada jadwal"
     if (displayedSchedule.length === 0) {
         return (
             <div className="w-full h-[250px] flex justify-center items-center">
@@ -38,13 +36,13 @@ export default function TableSchedule ({schedule,loading,error}){
     }
     
     return (
-        <table className="w-full table-fixed border-collapse shadow-lg rounded-lg">
+        <table className="w-full table-fixed border-collapse  rounded-lg">
             <thead className="block">
-                <tr className="table w-full table-fixed rounded-t-lg bg-[#3B82F6] h-[37px] text-white text-[12px] md:text-[12px] lg:text-[14px]">
-                <th className="w-[33%] text-left pl-4 font-normal rounded-tl-md">Mapel</th>
-                <th className="w-[30%] text-left pl-5 font-normal">Guru</th>
-                <th className="w-[17%] text-left pl-2 font-normal">Jam</th>
-                <th className="w-[17%] text-center font-normal rounded-tr-md">Kelas</th>
+                <tr className="table w-full table-fixed rounded-t-lg bg-[#3B82F6] h-[37px] text-white text-[12px] md:text-[15px] ">
+                <th className="w-[28%] text-left pl-4 font-normal rounded-tl-md">Mapel</th>
+                <th className="w-[38%] text-left pl-5 font-normal">Guru</th>
+                <th className="w-[18%] text-left pl-2 font-normal">Jam</th>
+                {/* <th className="w-[17%] text-center font-normal rounded-tr-md">Kelas</th> */}
                 </tr>
             </thead>
 
@@ -57,12 +55,12 @@ export default function TableSchedule ({schedule,loading,error}){
                 return (
                     <tr
                     key={index}
-                    className={`table w-full table-fixed text-[10px] md:text-[12px] lg:text-[14px] border-b border-gray-200`}
+                    className={`table w-full table-fixed text-[10px] md:text-[15px]  border-b border-x border-gray-200`}
                     >
                     <td className="w-[30%] pl-4 py-3.5">{s.mata_pelajaran}</td>
-                    <td className="w-[26%] pl-5 py-3.5">{s.guru}</td>
-                    <td className="w-[17%] text-center py-3.5">{s.penempatan}</td>
-                    <td className="w-[17%] text-center py-3.5">{s.classroom || "-"}</td>
+                    <td className="w-[35%] pl-5 py-3.5">{s.guru}</td>
+                    <td className="w-[25%] text-center py-3.5">{s.penempatan}</td>
+                    {/* <td className="w-[17%] text-center py-3.5">{s.classroom || "-"}</td> */}
                     </tr>
                 );
                 })}

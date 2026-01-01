@@ -41,9 +41,9 @@ export default function TableHistory({ history, error, loading }) {
   }
 
   return (
-    <table className="w-full table-fixed border-collapse shadow-lg rounded-lg">
+    <table className="w-full table-fixed border-collapse rounded-lg">
       <thead className="block">
-        <tr className="table w-full rounded-t-lg table-fixed bg-[#3B82F6] h-[37px] text-white text-[12px] md:text-[12px] lg:text-[14px]">
+        <tr className="table w-full rounded-t-lg table-fixed bg-[#3B82F6] h-[37px] text-white text-[12px] md:text-[15px] ">
           <th className="w-[30%] text-center font-normal">Tanggal</th>
           <th className="w-[30%] text-center font-normal">Alasan</th>
           <th className="w-[30%] text-center font-normal rounded-tr-md">Status</th>
@@ -57,20 +57,22 @@ export default function TableHistory({ history, error, loading }) {
                     [scrollbar-width:'none']`}
       >
         {filteredHistory.map((h, index) => {
-          const matchStatus = style.find((s) => s.id === h.Status);
+          const matchStatus = style.find(
+            (s) => s.id === h.status_label
+          );
           
 
           return (
             <tr
               key={index}
-              className={`table w-full table-fixed text-[10px] md:text-[12px] lg:text-[14px] border-b border-gray-200`}
+              className={`table w-full table-fixed text-[10px] md:text-[15px] border-b border-x  border-gray-200`}
             >
               
               <td className="w-[35%] text-center py-3.5">
-                {h.Tanggal}
+                {h.start_date}
               </td>
               <td className="w-[30%] text-center py-3.5 px-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                {h.Alasan}
+                {h.reason}
               </td>
               <td className="w-[30%] text-center py-3.5">
                 <span
@@ -78,7 +80,7 @@ export default function TableHistory({ history, error, loading }) {
                     matchStatus?.style ?? ""
                   }`}
                 >
-                  {h.Status}
+                  {h.status_label}
                 </span>
               </td>
             </tr>
