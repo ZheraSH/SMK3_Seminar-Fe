@@ -1,12 +1,27 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { UsersRound, ContactRound, UserRoundCog, DoorClosed, CircleCheckBig } from "lucide-react"
-import { fetchCounters, fetchActivities, fetchStats } from "../../../../Core/api/role-operator/dashboard/DashboardApi"
+import {
+  UsersRound,
+  ContactRound,
+  UserRoundCog,
+  DoorClosed,
+  CircleCheckBig,
+} from "lucide-react"
+
+import {
+  fetchCounters,
+  fetchActivities,
+  fetchStats,
+} from "../../../../Core/api/role-operator/dashboard/DashboardApi"
+
 import CounterCard from "./components/CounterCard"
 import AttendanceChart from "./components/AttendanceChart"
 import ActivityTable from "./components/ActivityTable"
 
+/* =========================
+   CONFIG
+========================= */
 const counterConfig = [
   {
     key: "total_students",
@@ -45,6 +60,30 @@ const counterConfig = [
   },
 ]
 
+/* =========================
+   SKELETONS
+========================= */
+function CounterSkeleton() {
+  return <div className="h-28 rounded-xl bg-gray-200 animate-pulse" />
+}
+
+function ChartSkeleton() {
+  return <div className="flex-1 h-[320px] rounded-xl bg-gray-200 animate-pulse" />
+}
+
+function ActivityTableSkeleton() {
+  return (
+    <div className="flex-1 space-y-3 animate-pulse">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="h-10 bg-gray-200 rounded-md" />
+      ))}
+    </div>
+  )
+}
+
+/* =========================
+   MAIN
+========================= */
 export default function MainDashboard() {
   const [counters, setCounters] = useState({})
   const [activities, setActivities] = useState([])
@@ -55,33 +94,34 @@ export default function MainDashboard() {
     const loadData = async () => {
       setIsLoading(true)
 
-      const [countersData, activitiesData, statsData] = await Promise.all([
-        fetchCounters(),
-        fetchActivities(),
-        fetchStats(),
-      ])
+      try {
+        const [countersData, activitiesData, statsData] = await Promise.all([
+          fetchCounters(),
+          fetchActivities(),
+          fetchStats(),
+        ])
 
-      setCounters(countersData)
-      setActivities(activitiesData)
+        setCounters(countersData || {})
+        setActivities(activitiesData || [])
 
-      if (statsData?.weekly_stats) {
-        const transformedData = statsData.weekly_stats.map((day) => ({
-          hari: new Date(day.date)
-            .toLocaleDateString("id-ID", {
+        if (statsData?.weekly_stats) {
+          const transformed = statsData.weekly_stats.map((day) => ({
+            hari: new Date(day.date).toLocaleDateString("id-ID", {
               day: "numeric",
               month: "short",
-            })
-            .replace(" ", " "),
-          hadir: day.present || 0,
-          izin: day.absent || 0,
-          alpha: day.alpha || 0,
-          total: day.total || 0,
-          attendance_rate: day.attendance_rate || 0,
-        }))
-        setWeeklyStats(transformedData)
-      }
+            }),
+            hadir: day.present || 0,
+            izin: day.absent || 0,
+            alpha: day.alpha || 0,
+            total: day.total || 0,
+            attendance_rate: day.attendance_rate || 0,
+          }))
 
-      setIsLoading(false)
+          setWeeklyStats(transformed)
+        }
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     loadData()
@@ -89,19 +129,34 @@ export default function MainDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center px-4 sm:px-6">
-      <div className="w-full max-w-7xl shadow-lg rounded-[12px] border border-gray-200 p-4 sm:p-6 mb-10 bg-white relative">
+      <div className="w-full max-w-7xl bg-white border border-gray-200 rounded-xl shadow-lg p-4 sm:p-6 mb-10">
 
         {/* COUNTERS */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mt-4 pb-6">
-          {counterConfig.map((item) => (
-            <CounterCard key={item.key} item={item} value={counters?.[item.key]} />
-          ))}
+          {isLoading
+            ? counterConfig.map((_, i) => <CounterSkeleton key={i} />)
+            : counterConfig.map((item) => (
+                <CounterCard
+                  key={item.key}
+                  item={item}
+                  value={counters[item.key]}
+                />
+              ))}
         </div>
 
-        {/* GRAFIK & TABEL */}
+        {/* CHART & TABLE */}
         <div className="mt-6 flex flex-col lg:flex-row gap-6">
-          <AttendanceChart isLoading={isLoading} weeklyStats={weeklyStats} />
-          <ActivityTable activities={activities} />
+          {isLoading ? (
+            <>
+              <ChartSkeleton />
+              <ActivityTableSkeleton />
+            </>
+          ) : (
+            <>
+              <AttendanceChart weeklyStats={weeklyStats} />
+              <ActivityTable activities={activities} />
+            </>
+          )}
         </div>
       </div>
     </div>

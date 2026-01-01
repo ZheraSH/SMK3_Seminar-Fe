@@ -64,7 +64,6 @@ export default function TableClass({
   const isDisabled = !isTimeValid;
 
   const handleStatusChange = (studentId, newStatus) => {
-    // Guard clause untuk memastikan context route sudah tersambung
     if (typeof setChanges !== "function") {
       console.error("Critical: setChanges is not a function. Check AttendanceLayout in TeacherRoutes!");
       return;

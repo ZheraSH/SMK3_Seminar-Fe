@@ -2,10 +2,10 @@ import React from "react";
 import { TrendingUp, ClipboardList, Activity, AlertTriangle, TrendingDown } from "lucide-react";
 
 const colorMap = {
-    green: "#10B981", // Rata-rata 
-    yellow: "#FACC15", // Izin 
-    blue: "#3B82F6", // Sakit 
-    red: "#FF5E53", // Alpha 
+    green: "#10B981", 
+    yellow: "#FACC15", 
+    blue: "#3B82F6", 
+    red: "#FF5E53", 
     neutral: "#9CA3AF"
 };
 

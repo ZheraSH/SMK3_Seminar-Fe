@@ -82,15 +82,10 @@ export const DashboardLayouth = () => {
               
               let finalIsActive = location.pathname === item.path;
 
-              // Logika Khusus untuk 'Kelas & Jurusan' (asumsi path-nya /home/major)
               if (item.path === "/home/major") {
-                // Aktif jika path adalah /home/major, /home/class, ATAU dimulai dengan /home/classStudents
                 finalIsActive = ["/home/major", "/home/class"].includes(location.pathname) || 
                                 location.pathname.startsWith("/home/classStudents");
               } 
-              
-              // Untuk item 'Siswa' dan lainnya, gunakan logika default
-              // (Pastikan Anda MENGHAPUS logika khusus untuk /home/siswa yang mungkin Anda tambahkan sebelumnya)
 
               return (
                 <Link

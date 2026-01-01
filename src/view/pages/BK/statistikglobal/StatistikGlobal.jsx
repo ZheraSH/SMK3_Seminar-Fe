@@ -31,7 +31,7 @@ export default function MainStatistikGlobal() {
     const [selectedPeriod, setSelectedPeriod] = useState({ label: "Bulan Ini", value: "month" });
     const [selectedClass, setSelectedClass] = useState({ label: "Semua Kelas", value: "all_classes" });
     const [selectedMajor, setSelectedMajor] = useState({ label: "Semua Jurusan", value: "all_majors" });
-    const [selectedDateRange, setSelectedDateRange] = useState({ label: "5 Sep, 2025", value: "20250905" }); // Nilai awal tanggal
+    const [selectedDateRange, setSelectedDateRange] = useState({ label: "5 Sep, 2025", value: "20250905" }); 
 
     const { statistics, isLoadingStatistics, errorStatistics, refreshStatistics} = useAttendanceStatistics();
     const summary = statistics?.summary || {};

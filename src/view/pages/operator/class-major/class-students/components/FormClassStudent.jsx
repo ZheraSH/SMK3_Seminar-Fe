@@ -91,7 +91,7 @@ export default function FormStudent({ classroom, onClose, availableStudents, add
                             className={`w-full border p-2 rounded-lg pr-10 ${
                                 isError ? "border-red-500 ring-1 ring-red-500" : "border-gray-300"
                             }`}
-                            onFocus={() => { setDropdownOpen(true); setFormError(""); }} // Hapus error saat fokus
+                            onFocus={() => { setDropdownOpen(true); setFormError(""); }} 
                         />
 
                         <ChevronRight

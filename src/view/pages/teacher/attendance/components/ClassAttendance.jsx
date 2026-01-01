@@ -64,7 +64,7 @@ export default function ClassAttendance() {
     isPastDate,
     isFutureDate,
   } = useClassAttendance(
-    { id: classroomId }, // Gunakan classroomId dari state
+    { id: classroomId }, 
     date,
     lessonOrder,
     globalChanges,

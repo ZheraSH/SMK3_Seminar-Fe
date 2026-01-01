@@ -1,7 +1,6 @@
 import { useState ,useCallback } from 'react';
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getVerifyPermissionBk,getPermissionDetailBk,approvePermissionBk,rejectPermissionBk } from '../../../../Core/api/role-bk/verify-permission/VerifyPermission';
-import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/useVeryPermission'; // Import Custom Hook Anda
+import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/useVeryPermission'; 
 import DetailIzinModal from "./components/ModalDetail";
 import Table from './components/Table';
 import HeaderAndControls from './components/Head';
@@ -12,7 +11,7 @@ export default function VerifyPermission() {
     const [isLoadingDetail , setIsLoadingDetail] = useState(false);
     const { permissions, loading, error, classes, currentPage, lastPage, totalItems, perPage, handlePageChange,refetchData ,searchQuery,handleSearchChange,selectedClassId,handleClassSelect,options} = useVerifyPermissionData(getVerifyPermissionBk);
 
-    const closeModal = () => {
+    const closeModal = () => {~
         setIsModalOpen(false);
         setSelectedPermission(null); 
     };

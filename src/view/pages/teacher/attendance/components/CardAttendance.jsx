@@ -13,7 +13,6 @@ export default function CardAttendance({
   const order = item.lesson_hour?.lesson_order ?? 1;
   const dateParam = selectedDate || new Date().toISOString().split("T")[0];
 
-  // Navigasi ke path /detail dengan membawa data tersembunyi (state)
   navigate(`/teacher-home/attendance-teacher/detail`, { 
     state: { 
       classroomId: item.id,

@@ -78,8 +78,6 @@ export const LayouthTeacher = () => {
               [scrollbar-width:'none']"
           >
             {menuItemTeacher.map((item, index) => {
-              // PERBAIKAN: Gunakan startsWith agar menu tetap aktif di sub-route
-              // Khusus rute dashboard ("/") tetap gunakan === agar tidak aktif di semua halaman
               const isActive = item.path === "/teacher-home" 
                 ? location.pathname === item.path 
                 : location.pathname.startsWith(item.path);
