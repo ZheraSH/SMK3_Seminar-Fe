@@ -19,7 +19,7 @@ export default function AttendanceTeacher() {
   return (
     <div className="justify-center mx-4 mb-10 mt-5 md:mt-2">
       <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px]">
-        <div className="inset-0 flex flex-col justify-center ml-3 md:ml-5 h-full">
+        <div className="inset-0 flex flex-col pt-2 ml-3 md:ml-5 h-full">
           <h1 className="text-white text-[26px] md:text-[33px] font-semibold">
             Absensi Kelas
           </h1>

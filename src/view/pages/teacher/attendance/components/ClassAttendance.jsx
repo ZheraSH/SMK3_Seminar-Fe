@@ -86,27 +86,26 @@ export default function ClassAttendance() {
   }, [globalChanges, classKey]);
 
   return (
-    <div className="mx-4 mb-10">
-      <div className="relative w-full h-[140px] bg-[url('/images/background/bg04.png')] bg-blue-600 rounded-xl mt-6 shadow-md overflow-hidden">
-        <div className="p-4 text-white flex flex-col h-full justify-between relative z-10">
-          <h1 className="flex text-xl font-semibold items-center">
-            <GraduationCap className="mr-2 w-6 h-6" />
+    <div className="mx-2 md:mx-4 mb-10">
+      <div className="relative w-full h-[156px] mt-6 bg-[url('/images/background/bg04.png')] bg-right bg-cover bg-no-repeat rounded-[15px] mb-10 shadow-md">
+        <div className="absolute top-0 left-0 right-0 p-4">
+          <h1 className="flex items-center gap-2 text-white text-[20px] font-semibold drop-shadow-lg">
+            <GraduationCap className="w-[24px] h-[24px]" />
             {classroom?.name || "Memuat Nama Kelas..."}
           </h1>
-
-          <div className="flex flex-wrap gap-6 text-sm mb-2">
-            <div className="flex gap-2 items-center">
-              <UserRoundCheck className="w-4 h-4" />
-              {classroom?.homeroom_teacher?.name || "-"}
-            </div>
-            <div className="flex gap-2 items-center">
-              <Users className="w-4 h-4" />
-              {pagination?.total || 0} Siswa
-            </div>
-            <div className="flex gap-2 items-center">
-              <Calendar className="w-4 h-4" />
-              {classroom?.school_year || "-"}
-            </div>
+        </div>
+        <div className="absolute bottom-4 left-4 md:left-6 flex gap-2 md:gap-4 text-[12px] md:text-[14px] text-white drop-shadow-md">
+          <div className="flex items-center gap-2">
+            <UserRoundCheck className="w-[20px] h-[20px]" />
+            <span>{classroom?.homeroom_teacher?.name || "-"}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Users className="w-[20px] h-[20px]" />
+            <span>{pagination?.total || 0} Siswa</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Calendar className="w-[20px] h-[20px]" />
+            <span>{classroom?.school_year || "-"}</span>
           </div>
         </div>
       </div>
