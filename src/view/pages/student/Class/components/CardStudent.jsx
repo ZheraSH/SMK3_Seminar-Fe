@@ -15,7 +15,7 @@ export default function CardStudent ({student,loading,error}) {
     }
     return (
         <div className="mt-5">
-            <h1 className=" text-[18px] md:text-[24px] font-semibold text-black">Daftar Siswa</h1>
+            <h1 className=" text-[18px] md:text-[24px] font-semibold text-black ml-2 ">Daftar Siswa</h1>
             <div className=" w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 md:gap-4 mt-4 ml-2 md:ml-0">
                 {student.map((s) => (
                     <div

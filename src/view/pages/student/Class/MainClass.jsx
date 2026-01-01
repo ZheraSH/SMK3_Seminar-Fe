@@ -18,7 +18,7 @@ export default function MainClassStudent() {
     
 
     return (
-        <div className="mx-3 md:mx-10 mb-10 mt-5 justify-center bg-white">
+        <div className=" mx-4 md:mx-7 mb-10 mt-5 justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                 <div className="bg-white flex flex-col gap-3 shadow-[0_0_20px_rgba(0,0,0,0.20)] rounded-2xl p-4 border-2 border-gray-300">
                     <h1 className="text-sm md:text-lg font-semibold">Wali Kelas</h1>
@@ -49,7 +49,7 @@ export default function MainClassStudent() {
                             <p className="text-xs md:text-sm">{classroom?.total_students}</p>
                         </span>
                     </div>
-                    <img src="/images/cardbg/Frame.png" className="w-16 h-16 md:w-32 md:h-28"/>
+                    <img src="/images/cardbg/Frame.png" className="w-20 h-20 md:w-32 md:h-28"/>
                 </div>
             </div>
 
