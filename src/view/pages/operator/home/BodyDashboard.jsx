@@ -60,40 +60,15 @@ const counterConfig = [
   },
 ]
 
-/* =========================
-   SKELETONS
-========================= */
-function CounterSkeleton() {
-  return <div className="h-28 rounded-xl bg-gray-200 animate-pulse" />
-}
 
-function ChartSkeleton() {
-  return <div className="flex-1 h-[320px] rounded-xl bg-gray-200 animate-pulse" />
-}
-
-function ActivityTableSkeleton() {
-  return (
-    <div className="flex-1 space-y-3 animate-pulse">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="h-10 bg-gray-200 rounded-md" />
-      ))}
-    </div>
-  )
-}
-
-/* =========================
-   MAIN
-========================= */
+   //MAIN
 export default function MainDashboard() {
   const [counters, setCounters] = useState({})
   const [activities, setActivities] = useState([])
   const [weeklyStats, setWeeklyStats] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const loadData = async () => {
-      setIsLoading(true)
-
       try {
         const [countersData, activitiesData, statsData] = await Promise.all([
           fetchCounters(),
@@ -119,8 +94,8 @@ export default function MainDashboard() {
 
           setWeeklyStats(transformed)
         }
-      } finally {
-        setIsLoading(false)
+      } catch (error) {
+        console.error("Failed to load dashboard data:", error)
       }
     }
 
@@ -133,30 +108,19 @@ export default function MainDashboard() {
 
         {/* COUNTERS */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mt-4 pb-6">
-          {isLoading
-            ? counterConfig.map((_, i) => <CounterSkeleton key={i} />)
-            : counterConfig.map((item) => (
-                <CounterCard
-                  key={item.key}
-                  item={item}
-                  value={counters[item.key]}
-                />
-              ))}
+          {counterConfig.map((item) => (
+            <CounterCard
+              key={item.key}
+              item={item}
+              value={counters[item.key]}
+            />
+          ))}
         </div>
 
         {/* CHART & TABLE */}
         <div className="mt-6 flex flex-col lg:flex-row gap-6">
-          {isLoading ? (
-            <>
-              <ChartSkeleton />
-              <ActivityTableSkeleton />
-            </>
-          ) : (
-            <>
-              <AttendanceChart weeklyStats={weeklyStats} />
-              <ActivityTable activities={activities} />
-            </>
-          )}
+          <AttendanceChart weeklyStats={weeklyStats} />
+          <ActivityTable activities={activities} />
         </div>
       </div>
     </div>
