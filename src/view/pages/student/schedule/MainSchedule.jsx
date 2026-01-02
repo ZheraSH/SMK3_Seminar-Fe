@@ -7,7 +7,7 @@ import HeaderPage from "../../../components/elements/header/Header.Page";
 export default function MainScheduleStudent() {
   const [activeDay, setActiveDay] = useState("monday");
 
-  const { schedule, classroomId, semesterType, loading } =
+  const { schedule, classroomId, semesterType, loading,error } =
     useStudentSchedule(activeDay);
 
   return (
@@ -21,7 +21,7 @@ export default function MainScheduleStudent() {
         <ButtonSchedule setActiveDay={setActiveDay} activeDay={activeDay} />
       </div>
       <div className="mt-4 w-full overflow-x-auto rounded-lg border border-gray-200 ">
-        <TableSchedule scheduleData={schedule} loading={loading} />
+        <TableSchedule scheduleData={schedule} loading={loading} error={error} />
       </div>
     </div>
   );

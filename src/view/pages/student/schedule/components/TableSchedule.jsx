@@ -1,5 +1,5 @@
 
-export default function TableSchedule ({scheduleData,loading}) {
+export default function TableSchedule ({scheduleData,loading,error}) {
   if (loading) {
     return (
       <div className="p-4 md:p-8 text-center text-blue-600">
@@ -7,6 +7,22 @@ export default function TableSchedule ({scheduleData,loading}) {
       </div>
     );
   }
+
+  if (error) {
+    return (
+      <div className="p-4 md:p-8 text-center text-red-600">
+        <p>{error}</p>
+      </div>
+    )
+  }
+
+  if (!scheduleData || scheduleData.length === 0) {
+        return (
+            <div className="w-full h-[250px] flex justify-center items-center">
+                <p className="text-gray-500 text-lg">Tidak ada jadwal hari ini.</p>
+            </div>
+        );
+    }
   return (
       <table className="w-full text-sm text-gray-800">
           <thead>
@@ -41,7 +57,7 @@ export default function TableSchedule ({scheduleData,loading}) {
                           }
                         `}
                       >
-                        {item.jam}
+                        {item.jam || "-"}
                       </span>
                     </td>
                     {isIstirahat ? (
@@ -49,14 +65,14 @@ export default function TableSchedule ({scheduleData,loading}) {
                         colSpan="2"
                         className="px-1 py-3 text-[16px] font-medium text-center pr-15"
                       >
-                        {item.penempatan} 
+                        {item.penempatan || "-"} 
                       </td>
                     ) : 
                     (
                     <> 
-                      <td className="px-4 py-3 text-left">{item.penempatan}</td>
-                      <td className="px-4 py-3  ">{item.mata_pelajaran}</td>
-                      <td className="px-4 py-3">{item.guru}</td>
+                      <td className="px-4 py-3 text-left">{item.penempatan || "-"}</td>
+                      <td className="px-4 py-3  ">{item.mata_pelajaran || "-"}</td>
+                      <td className="px-4 py-3">{item.guru || "-"}  </td>
                     </>
                   )}
                   </tr>
