@@ -14,6 +14,7 @@ import { SubjectCard } from "./components/SubjectCard";
 import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
 import HeaderPage from "../../../components/elements/header/Header.Page";
 import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function MainMaple() {
   const {
@@ -97,7 +98,7 @@ export default function MainMaple() {
   };
 
   if (loading && subjects.length === 0) {
-    return <div className="flex justify-center mt-8">Loading...</div>;
+    return <LoadingData loading={loading} />;
   }
 
   return (

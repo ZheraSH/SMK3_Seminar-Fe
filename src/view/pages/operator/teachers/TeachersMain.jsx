@@ -8,6 +8,7 @@ import { TeacherTable } from "./components/TeacherTable";
 import { PaginationEmployee } from "./components/TeachersPagination";
 import { useTeacher } from "../../../../Core/hooks/operator-hooks/employee/usePagination";
 import { validateTeacherForm } from "./components/utils/validateTeacherForm";
+import LoadingData from "../../../components/Loading/Data.jsx";
 import {
   submitTeacherApi,
   deleteTeacherApi,
@@ -44,7 +45,7 @@ export const TeacherMain = () => {
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const { Teacher, meta, page, setPage, reload } = useTeacher();
+  const { Teacher, meta, page, setPage, reload, loading} = useTeacher();
 
   const [category, setCategory] = useState({
     type: "",
@@ -223,6 +224,10 @@ export const TeacherMain = () => {
     });
     setSearchTerm("");
   };
+
+  if (loading) {
+    return <LoadingData loading={loading} />;
+  }
 
   return (
     <div className="p-6">

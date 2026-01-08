@@ -17,6 +17,7 @@ import {
 
 import CounterCard from "./components/CounterCard"
 import AttendanceChart from "./components/AttendanceChart"
+import LoadingData from "../../../components/Loading/Data"
 import ActivityTable from "./components/ActivityTable"
 
 /* =========================
@@ -66,10 +67,13 @@ export default function MainDashboard() {
   const [counters, setCounters] = useState({})
   const [activities, setActivities] = useState([])
   const [weeklyStats, setWeeklyStats] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadData = async () => {
+      setLoading(true)
       try {
+        await new Promise(resolve => setTimeout(resolve, 500));
         const [countersData, activitiesData, statsData] = await Promise.all([
           fetchCounters(),
           fetchActivities(),
@@ -99,8 +103,12 @@ export default function MainDashboard() {
       }
     }
 
-    loadData()
+    loadData().finally(() => setLoading(false))
   }, [])
+
+  if (loading) {
+    return <LoadingData loading={loading} />
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center px-4 sm:px-6">

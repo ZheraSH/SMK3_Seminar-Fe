@@ -49,6 +49,7 @@ export default function useSubjects() {
   const addSubjects = async (formData) => {
     setLoading(true);
     try {
+      await new Promise(resolve => setTimeout(resolve, 500));
       const result = await addSubject(formData);
       await fetchSubjects(1); 
       return { success: true, data: result };

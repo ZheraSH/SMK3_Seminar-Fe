@@ -12,6 +12,7 @@ import { deleteRFID } from "../../../../Core/api/role-operator/rfid/RfidApi";
 import { PaginationRfid } from "./components/RfidPagination";
 import { useState } from "react";
 import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
+import LoadingData from "../../../components/Loading/Data";
 
 export function RfidManagement() {
   const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =
@@ -50,6 +51,9 @@ export function RfidManagement() {
       setDeleteId(null);
     }
   };
+  if (loading) {
+    return <LoadingData loading={loading} />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 px-6">

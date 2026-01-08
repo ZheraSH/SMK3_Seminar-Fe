@@ -2,6 +2,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import useMajors from "../../../../Core/hooks/operator-hooks/class-major/useMajor";
 import HeaderPage from "../../../components/elements/header/Header.Page";
+import LoadingData from "../../../components/Loading/Data";
 const majorMappings = [
   {
     apiName: "Desain Komunikasi Visual",
@@ -54,6 +55,10 @@ const MajorCardGrid = () => {
     };
   });
 
+  if (loading) { 
+    return ( <LoadingData loading={loading} /> );
+  }
+
   return (
     <>
       <div className="p-3 md:p-3 bg-gray-50 mb-20 md:mb-32">
@@ -62,13 +67,8 @@ const MajorCardGrid = () => {
           p="Kelola data kelas dan jurusan di sekolah Anda"
         />
         <Header />
-        {loading ? (
-          <div className="p-4 md:p-8 text-center text-blue-600">
-            Memuat data jurusan...
-          </div>
-        ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {renderedMajors.map((major, index) => (
+            {renderedMajors.map((major) => (
               <div
                 key={major.id}
                 className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col items-center text-center border border-gray-100 "
@@ -97,7 +97,6 @@ const MajorCardGrid = () => {
               </div>
             ))}
           </div>
-        )}
       </div>
     </>
   );

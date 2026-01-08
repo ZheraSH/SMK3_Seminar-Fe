@@ -14,6 +14,7 @@ export function useRfid() {
   const load = async () => {
     setLoading(true);
     try {
+      await new Promise(resolve => setTimeout(resolve, 500));
       const res = await fetchRfid(page, search);
       setRfid(res.data);
       setMeta(res.meta);

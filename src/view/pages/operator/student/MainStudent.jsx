@@ -16,6 +16,7 @@ import { SearchFilterStudent } from "./components/Search";
 import { StudentFilterDropdown } from "./components/FilterDroopDownStudent";
 import { useStudentFilter } from "../../../../Core/hooks/operator-hooks/student/useStudentFilter";
 import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
+import LoadingData from "../../../components/Loading/Data"
 
 export const MainStudent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +45,7 @@ export const MainStudent = () => {
   const [page, setPage] = useState(1);
   const [deleteId, setDeleteId] = useState(null);
   const [meta, setMeta] = useState({ current_page: 1, last_page: 1, total: 0 });
+  const [loading, setLoading] = useState(false);
 
   const loadReligionsData = async () => {
     try {
@@ -55,13 +57,17 @@ export const MainStudent = () => {
   };
 
   const loadStudentsData = async () => {
+    setLoading(true);
     try {
+      await new Promise(resolve => setTimeout(resolve, 500));
       const res = await fetchStudents(page, searchTerm);
       setStudents(res.data || []);
       setMeta(res.meta || { current_page: 1, last_page: 1, total: 0 });
     } catch (err) {
       console.error(err);
       setStudents([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -211,6 +217,10 @@ export const MainStudent = () => {
     setSearchTerm("");
     setPage(1);
   };
+
+  if( loading ){
+    return (<LoadingData loading={loading} />);
+   }
 
   return (
     <div className="p-6">

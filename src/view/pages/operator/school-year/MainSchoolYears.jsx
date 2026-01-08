@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Calendar, CircleCheckBig, MoreVertical, Trash2 } from "lucide-react";
 import HeaderPage from "../../../components/elements/header/Header.Page";
 import { Toaster } from "react-hot-toast";
-import LoadingSpinner from "../../../components/elements/loading/Loading";
+// import LoadingSpinner from "../../../components/elements/loading/Loading";
 import { useSchoolYears } from "../../../../Core/hooks/operator-hooks/schoolyears/useSchoolYears";
 import { isValidPage } from "./utils/Pagination";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function TahunAjaran() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,6 +36,10 @@ export default function TahunAjaran() {
       setCurrentPage(page);
     }
   };
+
+  if (loading) {
+    return <LoadingData loading={loading} />;
+  } 
 
   return (
     <div className="flex justify-center items-start p-6 relative top-[-30px]">
@@ -90,9 +95,7 @@ export default function TahunAjaran() {
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          {loading ? (
-            <div className="col-span-full text-center py-8">Loading...</div>
-          ) : data.length > 0 ? (
+          {data.length > 0 ? (
             data.map((item) => (
               <div
                 key={item.id}

@@ -13,8 +13,8 @@ import AttendanceRulesPage from "../../view/pages/operator/attendance-rules/Atte
 import ClassStudents from "../../view/pages/operator/class-major/class-students/MainClassStudent";
 import Shcedule from "../../view/pages/operator/schedule-clock/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
-// import TahunAjaran from "../../view/pages/operator/schoolyears/MainSchoolYears";
 import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
+import TahunAjaran from "../../view/pages/operator/school-year/MainSchoolYears";
 
 
 export const AdminRoutes = [
@@ -33,7 +33,7 @@ export const AdminRoutes = [
           { path: "class", element: <MainClass /> },
           { path: "classStudents/detail", element: <ClassStudents /> },
           { path: "maple", element: <MainMaple /> },
-          // { path: "tahun-ajaran", element: <TahunAjaran /> },
+          { path: "tahun-ajaran", element: <TahunAjaran /> },
           { path: "siswa", element: <MainStudent /> },
           { path: "absen-rfid", element: <AttendanceRulesPage /> },
           { path: "rfid", element: <RfidManagement /> },

@@ -17,6 +17,7 @@ export const useSchoolYears = () => {
   const fetchSchoolYears = async (page = 1) => {
     setLoading(true);
     try {
+      await new Promise(resolve => setTimeout(resolve, 500));
       const res = await fetchSchoolYearsAPI(page);
       const payload = res?.data?.data;
 

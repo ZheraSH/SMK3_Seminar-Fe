@@ -19,6 +19,7 @@ export default function useAttendanceRules() {
     setError(null);
 
     try {
+      await new Promise(resolve => setTimeout(resolve, 500));
       const response = await fetchAttendanceRulesAPI();
       let rules = response.data?.data || [];
 

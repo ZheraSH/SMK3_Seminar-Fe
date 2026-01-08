@@ -24,13 +24,15 @@ export default function useClasses({ initialMajor = "" }) {
    const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "",});
 
    const fetchClass = async (pageNumber, currentFilters, currentSearchText) => {
-       try {
-           setLoading(true);
-           const apiParams = { page: pageNumber, search: currentSearchText,
-               ...Object.fromEntries(
-                   Object.entries(currentFilters).filter(([_, v]) => v)
-               ),
-           };
+        setLoading(true);
+        try {
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            const apiParams = { page: pageNumber, search: currentSearchText,
+                ...Object.fromEntries(
+                    Object.entries(currentFilters).filter(([_, v]) => v)
+                ),
+            };
 
            const res = await getClass(apiParams); 
 

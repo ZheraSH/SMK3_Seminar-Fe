@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import CardList from './components/CardShedule';
 import ClockSchedule from './components/ClockShedule';
 import FilterDropdown from './components/FilterData';
@@ -6,6 +5,7 @@ import useSchedule from '../../../../Core/hooks/operator-hooks/schedule/useSched
 import ScheduleDetailPage from './SheduleDetail';
 import Pagination from "./components/PaginitionShedule";
 import {Search} from "lucide-react";
+import LoadingData from '../../../components/Loading/Data';
 
 function ClassScheduleManager() {
 
@@ -15,7 +15,9 @@ function ClassScheduleManager() {
     const displayClassData = scheduleData;
 
     const isMainTabActive = activeTab === 'kelas' || activeTab === 'jam';
-
+    if (loading) {
+        return <LoadingData loading={loading} />;
+    }
     return (
         <div className="p-3 bg-gray-50 min-h-screen font-sans lg:mb-10 mb-20 md:mb-30">
             {activeTab !== 'jadwal-kelas' && (
@@ -82,10 +84,7 @@ function ClassScheduleManager() {
 
            {activeTab === 'kelas' && (
                 <>
-                    {loading ? (
-                        <p className="text-center py-10">Loading...</p>
-                    ) : (
-                        <>
+                    
                             {displayClassData && displayClassData.length > 0 ? (
                                 <>
                                     <CardList handleViewSchedule={handleViewSchedule} schedule={displayClassData}/>
@@ -103,8 +102,6 @@ function ClassScheduleManager() {
                             )}
                         </>
                     )}
-                </>
-            )}
 
             {activeTab === 'jam' && <ClockSchedule />}
 

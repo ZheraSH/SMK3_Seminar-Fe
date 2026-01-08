@@ -4,10 +4,12 @@ import { getMajors } from "../../../api/role-operator/class-major/majorApi";
 export default function useMajors() {
   const [majors, setMajors] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   const fetchMajors = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
+      await new Promise(resolve => setTimeout(resolve, 500));
       const majorsData = await getMajors();
       if (Array.isArray(majorsData)) {
         setMajors(majorsData);

@@ -2,6 +2,7 @@
 import { Clock, Save } from "lucide-react";
 import HeaderPage from "../../../components/elements/header/Header.Page";
 import useAttendanceRules from "../../../../Core/hooks/operator-hooks/attendance-rules/useAttendanceRules";
+import LoadingData from "../../../components/Loading/Data";
 
 
 export default function AttendanceRulesPage() {
@@ -23,7 +24,9 @@ export default function AttendanceRulesPage() {
     setFieldErrors,
   } = useAttendanceRules();
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (loading) {
+    return <LoadingData loading={loading} />;
+  }
 
   return (
     <div className="mx-3 sm:mx-5">

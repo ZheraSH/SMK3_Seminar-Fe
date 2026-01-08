@@ -13,6 +13,7 @@ export function useTeacher() {
   const load = async () => {
     setLoading(true)
     try {
+      await new Promise(resolve => setTimeout(resolve, 500));
       const res = await fetchTeachersApi(page)
       setTeacher(res.data)
       setMeta(res.meta)

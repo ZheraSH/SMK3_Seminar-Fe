@@ -7,6 +7,7 @@ import Header from "./Header";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import FilterDropdown from "./components/FilterDropdown";
+import LoadingData from "../../../components/Loading/Data";
 
 
 const MainClass = () => {
@@ -26,6 +27,10 @@ const MainClass = () => {
         setShowErrorModal(true);
         setIsOpenForm(false);
     };
+
+    if (loading) {
+        return <LoadingData loading={loading} />;
+    }
     return (
         <div className="p-3 sm:p-3 bg-gray-50 min-h-screen mb-32 lg:mb-4">
             <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
@@ -83,18 +88,11 @@ const MainClass = () => {
             <p className="text-center text-gray-500 text-lg">Belum ada data kelas yang ditambahkan.</p>
             )}
  
-            {loading ? (
-            <div className="flex justify-center items-center bg-gray-50">
-                <div className="text-lg ">Memuat data kelas...</div>
-            </div>
-            ) : (
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {classesData.map((classData) => (
                     <ClassCard key={classData.id} classData={classData} />
                 ))}
-            </div>
-            )}
- 
+            </div> 
             <Pagination page={page} lastPage={lastPage} onPageChange={handlePageChange}/> 
         </div>
     );
