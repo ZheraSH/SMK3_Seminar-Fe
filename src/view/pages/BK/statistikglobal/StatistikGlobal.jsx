@@ -4,6 +4,7 @@ import { ChevronRight, Calendar, Loader2, X } from "lucide-react";
 import useAttendanceStatistics from "../../../../Core/hooks/bk-hooks/statistikglobal/useStatistikGlobal"; 
 import StatsCard from "./components/StatsCard";
 import { LineChartPlaceholder, PieChartPlaceholder } from "./components/Charts";
+import LoadingData from "../../../components/Loading/Data";
 
 const CustomDropdown = ({ title, options, onClose, onSelect, activeValue }) => {
     return (
@@ -33,7 +34,7 @@ export default function MainStatistikGlobal() {
     const [selectedMajor, setSelectedMajor] = useState({ label: "Semua Jurusan", value: "all_majors" });
     const [selectedDateRange, setSelectedDateRange] = useState({ label: "5 Sep, 2025", value: "20250905" }); 
 
-    const { statistics, isLoadingStatistics, errorStatistics, refreshStatistics} = useAttendanceStatistics();
+    const { statistics, loading, errorStatistics, refreshStatistics} = useAttendanceStatistics();
     const summary = statistics?.summary || {};
     const proportion = statistics?.proportion || {};
     const monthly_trend = statistics?.monthly_trend || {};
@@ -88,12 +89,9 @@ export default function MainStatistikGlobal() {
         console.log(`Filter ${filterName} dipilih: ${option.label} (${option.value})`);
     };
 
-    if (isLoadingStatistics) {
+    if (loading) {
         return (
-            <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
-                <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
-                <p className="mt-3 text-lg text-gray-700">Memuat Statistik Absensi Global...</p>
-            </div>
+            <LoadingData loading={loading} />
         );
     }
 

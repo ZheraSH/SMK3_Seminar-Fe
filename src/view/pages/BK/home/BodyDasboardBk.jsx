@@ -2,7 +2,7 @@ import { Users,UserCheck,ClipboardList,Activity,UserX,AlertTriangle} from 'lucid
 import { useState , useEffect} from 'react';
 import { useDashboardData } from '../../../../Core/hooks/bk-hooks/dashboard/dashboard';
 import ProfileIMG from '../../../../Core/hooks/profile/Profil';
-
+import LoadingData from '../../../components/Loading/Data';
 
 const formatDate = (dateString) => {
     if (!dateString) return 'Tanggal tidak tersedia';
@@ -17,7 +17,7 @@ const formatDate = (dateString) => {
 const AttendanceCard = ({ status, count, percentage, color, barColor, textColor, icon }) => {
     const IconComponent = () => {
         switch (icon) {
-            case 'person': return <UserCheck className={`${textColor} w-6 h-6 rounded-full`} />;
+            case 'person': return <UserCheck className={`${textColor} w-6 h-6`} />;
             case 'clipboard': return <ClipboardList className={`${textColor} w-6 h-6`} />;
             case 'lightning': return <Activity className={`${textColor} w-6 h-6`} />;
             case 'close': return <UserX className={`${textColor} w-6 h-6`} />;
@@ -48,7 +48,7 @@ const AttendanceCard = ({ status, count, percentage, color, barColor, textColor,
 
 
 export default function BodyDashboard() {
-    const { data, isLoading, error} = useDashboardData();
+    const { data, loading, error} = useDashboardData();
     const [user, setUser] = useState({ name: "", email: ""});
 
     useEffect(() => {
@@ -56,12 +56,8 @@ export default function BodyDashboard() {
         if (storedUser) setUser(JSON.parse(storedUser));
     }, []);
 
-    if (isLoading) {
-        return (
-            <div className="p-4 min-h-screen flex justify-center items-center">
-                <p className="text-lg text-gray-600">Memuat Dashboard... Silakan tunggu.</p>
-            </div>
-        );
+    if (loading) {
+        return <LoadingData loading={loading} />;
     }
 
     if (error) {
@@ -119,8 +115,8 @@ export default function BodyDashboard() {
                 <div className="bg-white rounded-lg shadow-md p-4 text-white h-auto">
                     <h2 className="lg:text-[24px] md:text-[18px] sm:text-[16px] font-semibold text-gray-800 mb-4">Siswa Dengan Alpha Terbanyak</h2>
                     <div className="bg-[#3B82F633] lg:h-12 md:h-auto sm:h-auto border border-[#93C5FD] text-[#3B82F6] p-3 rounded-lg flex items-start gap-2 mb-4">
-                        <AlertTriangle className="lg:w-auto md:w-auto w-[60px]" />
-                        <span className="lg:text-sm md:text-[14px] mt-[2px] text-wrap text-black">
+                        <AlertTriangle />
+                        <span className="lg:text-sm md:text-[14px] mt-[2px] text-wrap">
                             <strong className='text-black'>Catatan:</strong> Siswa dengan alpha 10+ memerlukan tindakan. Segera lakukan koordinasi dengan wali kelas dan orang tua.
                         </span>
                     </div>
@@ -128,15 +124,15 @@ export default function BodyDashboard() {
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200  text-center">
                             <thead>
-                                <tr className="bg-[#3B82F6] text-white text-[16px]">
-                                    <th className="px-4 py-3 font-medium rounded-tl-lg">No</th>
-                                    <th className="px-4 py-3 font-medium">Nama</th>
-                                    <th className="px-4 py-3 font-medium">Kelas</th>
-                                    <th className="px-4 py-3 font-medium">Status</th>
-                                    <th className="px-4 py-3 font-medium rounded-tr-lg">Total</th>
+                                <tr className="bg-[#3B82F6] text-white">
+                                    <th className="px-4 py-3  text-xs font-medium uppercase tracking-wider rounded-tl-lg">No</th>
+                                    <th className="px-4 py-3  text-xs font-medium uppercase tracking-wider">Nama</th>
+                                    <th className="px-4 py-3  text-xs font-medium uppercase tracking-wider">Kelas</th>
+                                    <th className="px-4 py-3  text-xs font-medium uppercase tracking-wider">Status</th>
+                                    <th className="px-4 py-3  text-xs font-medium uppercase tracking-wider rounded-tr-lg">Total</th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200 text-[16px]">
+                            <tbody className="bg-white divide-y divide-gray-200 ">
                                 {topStudents.length === 0 ? (
                                     <tr>
                                         <td colSpan="5" className="px-4 py-4 text-center text-sm text-gray-500">
@@ -146,15 +142,15 @@ export default function BodyDashboard() {
                                 ) : (
                                     topStudents.map((siswa, index) => (
                                         <tr key={siswa.name + index} className={index % 2 === 0 ? 'bg-white h-[49px]' : 'bg-gray-50 h-[49px]'}>
-                                            <td className="px-4 py-2 text-gray-900">{siswa.rank || index + 1}.</td>
-                                            <td className="px-4 py-2 min-w-[230px] text-gray-900">{siswa.name}</td>
-                                            <td className="px-4 py-2 min-w-[120px] text-gray-900">{siswa.classroom}</td>
-                                            <td className="px-4 py-2 ">
+                                            <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{siswa.rank || index + 1}.</td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{siswa.name}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{siswa.classroom}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-sm">
                                                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#FEE2E2] text-[#EF4444]">
                                                     {siswa.status}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-2  text-[#EF4444] font-semibold">{siswa.total}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-sm text-[#EF4444] font-semibold">{siswa.total}</td>
                                         </tr>
                                     ))
                                 )}

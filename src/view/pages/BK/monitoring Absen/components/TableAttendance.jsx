@@ -1,13 +1,7 @@
 import { Trash2  } from "lucide-react";
 
-export default function TableAttendanceBk ({students,loading,}) {
-    if (loading) {
-        return (
-        <div className="p-4 md:p-8 text-center text-blue-600">
-            <p>Memuat data Absen...</p>
-        </div>
-        );
-    }
+export default function TableAttendanceBk ({students}) {
+    
     return (
         <table className="w-[960px] lg:w-full border-collapse overflow-hidden shadow-sm">
             <thead>

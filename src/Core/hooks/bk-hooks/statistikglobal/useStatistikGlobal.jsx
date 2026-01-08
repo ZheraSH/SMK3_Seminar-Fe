@@ -3,11 +3,11 @@ import { getAttendanceStatistics } from "../../../api/role-bk/statistikGlobal/st
 
 export default function useAttendanceStatistics() {
     const [statistics, setStatistics] = useState(null);
-    const [isLoadingStatistics, setIsLoadingStatistics] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [errorStatistics, setErrorStatistics] = useState(null);
 
     const fetchStatistics = useCallback(async () => {
-        setIsLoadingStatistics(true);
+        setLoading(true);
         setErrorStatistics(null);
 
         try {
@@ -17,7 +17,7 @@ export default function useAttendanceStatistics() {
             console.error("Gagal fetch statistik:", err);
             setErrorStatistics("Gagal mengambil data statistik");
         } finally {
-            setIsLoadingStatistics(false);
+            setLoading(false);
         }
     }, []);
 
@@ -27,7 +27,7 @@ export default function useAttendanceStatistics() {
 
     return {
         statistics,
-        isLoadingStatistics,
+        loading,
         errorStatistics,
         refreshStatistics: fetchStatistics, 
     };

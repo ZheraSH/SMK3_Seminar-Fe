@@ -4,6 +4,7 @@ import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/useVery
 import DetailIzinModal from "./components/ModalDetail";
 import Table from './components/Table';
 import HeaderAndControls from './components/Head';
+import LoadingData from '../../../components/Loading/Data';
 
 export default function VerifyPermission() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,11 +71,15 @@ export default function VerifyPermission() {
     const handleApprove = (permission) => handleAction('approve', permission);
     const handleReject = (permission) => handleAction('reject', permission);
 
+    if(loading) {
+        return (<LoadingData loading={loading} />);   
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 p-3 sm:p-3 lg:mb-4 md:mb-4 mb-24">
             <div className="max-w-7xl mx-auto">
                 <HeaderAndControls  classOptions={options.classes} selectedClassId={selectedClassId} handleClassSelect={handleClassSelect}searchQuery={searchQuery} onSearchChange={handleSearchChange}/>
-                <Table  data={permissions} loading={loading} error={error} currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={handlePageChange} onAction={handleAction} />
+                <Table  data={permissions}  error={error} currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={handlePageChange} onAction={handleAction} />
             </div>
             {isModalOpen && selectedPermission && (
                 <DetailIzinModal  isOpen={isModalOpen} onClose={closeModal} loading={isLoadingDetail} permissionData={selectedPermission} onApprove={handleApprove}  onReject={handleReject}/>

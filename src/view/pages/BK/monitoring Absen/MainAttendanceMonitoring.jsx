@@ -5,6 +5,7 @@ import Head from "./components/Head";
 import { Pagination } from "./components/Pagination";
 import { useAttendanceMonitoring } from "../../../../Core/hooks/bk-hooks/AttendanceMonitoring/useAttendance";
 import useMaster from "../../../../Core/hooks/bk-hooks/AttendanceMonitoring/useMaster";
+import LoadingData from "../../../../view/components/Loading/Data";
 
 export default function MainMonitoringAbsen() {
     const {
@@ -25,6 +26,9 @@ export default function MainMonitoringAbsen() {
 
     const{majors,classroom}=useMaster();
 
+    if (loading) {
+        return <LoadingData loading={loading} />;
+    }
 
     return (
         <div className="justify-center mx-2 lg:mx-5 mb-10">
@@ -83,7 +87,6 @@ export default function MainMonitoringAbsen() {
                     ) : (
                         <TableAttendanceBk
                             students={students}
-                            loading={loading}
                             error={error}
                         />
                     )}

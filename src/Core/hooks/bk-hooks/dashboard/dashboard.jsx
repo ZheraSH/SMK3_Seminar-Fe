@@ -4,11 +4,11 @@ import { getDashboard } from '../../../api/role-bk/dashboard/dashboard';
 
 export const useDashboardData = () => {
     const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const fetchData = async () => {
-        setIsLoading(true);
+        setLoading(true);
         setError(null);
         
         try {
@@ -22,7 +22,7 @@ export const useDashboardData = () => {
             console.error("Gagal memuat data di Hook:", err);
             setError("Gagal memuat data dashboard. Silakan coba lagi.");
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
@@ -30,5 +30,5 @@ export const useDashboardData = () => {
         fetchData();
     }, []); 
 
-    return { data, isLoading, error, refetch: fetchData };
+    return { data, loading, error, refetch: fetchData };
 };

@@ -1,7 +1,7 @@
 import { Check, X, Eye } from 'lucide-react';
 import Pagination from './Pagination';
 
-export default function Table({  data, loading,  error,  currentPage,  lastPage,  totalItems,  perPage,  onPageChange, onAction}) {
+export default function Table({  data,  error,  currentPage,  lastPage,  totalItems,  perPage,  onPageChange, onAction}) {
 
     const StatusBadge = ({ status }) => {
         const statusType = status?.toLowerCase();
@@ -64,9 +64,7 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
                     </thead>
 
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {loading ? (
-                            <tr><td colSpan={6} className="py-4 text-blue-600">Memuat data...</td></tr>
-                        ) : error ? (
+                        { error ? (
                             <tr><td colSpan={6} className="py-4 text-red-600">{error}</td></tr>
                         ) : data.length === 0 ? (
                             <tr><td colSpan={6} className="py-4 text-gray-600">Tidak ada data izin yang menunggu verifikasi.</td></tr>
@@ -111,7 +109,7 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
             
             <div className="mt-4">
                 {totalItems > 0 && (
-                    <Pagination currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={onPageChange} isLoading={loading}/>
+                    <Pagination currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={onPageChange} />
                 )}
             </div>
         </>
