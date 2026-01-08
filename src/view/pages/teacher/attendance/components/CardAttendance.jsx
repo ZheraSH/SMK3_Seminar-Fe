@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function CardAttendance({ 
   classrooms, 
-  loading, 
   error,
   selectedDate 
 }) {
@@ -22,13 +21,6 @@ export default function CardAttendance({
   });
 };
 
-  if (loading) {
-    return (
-      <div className="w-full text-center py-10 font-semibold text-gray-500">
-        Memuat data kelas...
-      </div>
-    );
-  }
 
   if (error) {
     return (

@@ -1,16 +1,37 @@
 import { useEffect, useState } from "react";
-import { getTodaySchedule, getClassroomList } from "../../../api/role-teacher/dashboard-teachers/teacherDashboard.api";
+import {
+  getTodaySchedule,
+  getClassroomList,
+} from "../../../api/role-teacher/dashboard-teachers/teacherDashboard.api";
 
 export function useTeacherDashboard() {
   const [schedule, setSchedule] = useState([]);
   const [classrooms, setClassrooms] = useState([]);
   const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const load = async () => {
+    setLoading(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const [scheduleRes, classroomRes] = await Promise.all([
+        getTodaySchedule(),
+        getClassroomList(),
+      ]);
+
+      setSchedule(scheduleRes || []);
+      setClassrooms(classroomRes || []);
+    } catch (err) {
+      console.error("Error load dashboard teacher:", err);
+      setSchedule([]);
+      setClassrooms([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const load = async () => {
-      setSchedule(await getTodaySchedule());
-      setClassrooms(await getClassroomList());
-    };
     load();
   }, []);
 
@@ -27,5 +48,6 @@ export function useTeacherDashboard() {
     schedule,
     classrooms,
     userName,
+    loading,
   };
 }

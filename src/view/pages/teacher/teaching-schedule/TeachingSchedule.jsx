@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { CalendarDays } from "lucide-react";
 import HeaderPage2 from "../../../components/elements/header/Header.Page2";
 import { useTeacherSchedule } from "../../../../Core/hooks/role-teacher/teacher-schedule/useTeacherSchedule";
+import LoadingData from "../../../components/Loading/Data";
 
 function getMonday(dateString) {
   const d = new Date(dateString);
@@ -35,7 +36,7 @@ export default function TeacherSchedule() {
   const [selectedDate, setSelectedDate] = useState(today);
   const [userName, setUserName] = useState("");
 
-  const { schedule, activeDay, dayMap } =
+  const { schedule, activeDay, dayMap, loading } =
     useTeacherSchedule(selectedDate);
 
   const days = [
@@ -62,6 +63,10 @@ export default function TeacherSchedule() {
     const stored = JSON.parse(localStorage.getItem("userData"));
     if (stored?.name) setUserName(stored.name);
   }, []);
+
+  if (loading) {
+    return <LoadingData loading={loading} />;
+  }
 
   return (
     <div className="mx-4 sm:mx-7">

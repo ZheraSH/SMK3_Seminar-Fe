@@ -6,6 +6,7 @@ import Pagination from "./Pagination";
 import { GraduationCap, UserRoundCheck, Users, Calendar } from "lucide-react";
 import { FirstLessonView } from "./RIFD"; 
 import { useMemo } from "react";
+import LoadingData from "../../../../components/Loading/Data";
 
 export default function ClassAttendance() {
   const { 
@@ -85,6 +86,10 @@ export default function ClassAttendance() {
     );
   }, [globalChanges, classKey]);
 
+  if (loading) { 
+    return <LoadingData loading={loading} />;
+  }
+
   return (
     <div className="mx-2 md:mx-4 mb-10">
       <div className="relative w-full h-[156px] mt-6 bg-[url('/images/background/bg04.png')] bg-right bg-cover bg-no-repeat rounded-[15px] mb-10 shadow-md">
@@ -134,9 +139,7 @@ export default function ClassAttendance() {
       )}
       
       <div className="mt-4">
-        {loading ? (
-          <p className="text-center py-10 font-medium text-gray-500">Memuat data...</p>
-        ) : error ? (
+        {error ? (
             <div className="p-10 text-center">
                <p className="text-red-500 font-bold mb-4">{error}</p>
                <button onClick={() => window.location.reload()} className="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-semibold border border-red-200">

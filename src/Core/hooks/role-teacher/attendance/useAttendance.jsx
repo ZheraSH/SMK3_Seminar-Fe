@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getAttendanceClassroom } from "../../../api/role-teacher/attendance/AttendanceClassroom";
-
 
 export const getTodayDateString = () => {
   const today = new Date();
-  const day = today.getDay(); 
+  const day = today.getDay();
 
   if (day === 6) today.setDate(today.getDate() + 2);
   if (day === 0) today.setDate(today.getDate() + 1);
@@ -37,7 +36,6 @@ export function useAttendanceTeacher() {
     if (isNaN(savedDate.getTime())) return today;
 
     const normalizedSaved = savedDate.toISOString().slice(0, 10);
-
     return normalizedSaved === today ? saved : today;
   });
 
@@ -50,42 +48,51 @@ export function useAttendanceTeacher() {
   const [classrooms, setClassrooms] = useState([]);
   const [globalChanges, setGlobalChanges] = useState({});
   const [submittedClasses, setSubmittedClasses] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const isFirstLoad = useRef(true);
+  const load = async () => {
     if (!isTeacher || !selectedDate) return;
 
     let active = true;
-    setLoading(true);
+    if (isFirstLoad.current) {
+      setLoading(true);
+    }
     setError(null);
 
-    getAttendanceClassroom(selectedDate)
-      .then((data) => {
-        if (!active) return;
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-        setClassrooms(data || []);
+      const data = await getAttendanceClassroom(selectedDate);
+      if (!active) return;
 
-        if (!data || data.length === 0) {
-          setError(`Tidak ada jadwal mengajar pada ${selectedDate}`);
-        }
-      })
-      .catch((err) => {
-        if (!active) return;
+      setClassrooms(data || []);
 
-        setError(
-          err?.response?.data?.message ||
-            "Gagal memuat daftar kelas"
-        );
-        setClassrooms([]);
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
+      if (!data || data.length === 0) {
+        setError(`Tidak ada jadwal mengajar pada ${selectedDate}`);
+      }
+    } catch (err) {
+      if (!active) return;
+
+      setError(
+        err?.response?.data?.message || "Gagal memuat daftar kelas"
+      );
+      setClassrooms([]);
+    } finally {
+      if (active && isFirstLoad.current) {
+        setLoading(false);
+        isFirstLoad.current = false;
+      }
+    }
 
     return () => {
       active = false;
     };
+  };
+
+  useEffect(() => {
+    load();
   }, [selectedDate, isTeacher]);
 
   return {

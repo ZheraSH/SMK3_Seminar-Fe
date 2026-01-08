@@ -3,9 +3,14 @@
 import { School } from "lucide-react";
 import { useTeacherDashboard } from "../../../../Core/hooks/role-teacher/dashboard-teachers/useTeacherDashboard";
 import ProfileIMG from "../../../../Core/hooks/profile/Profil";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function BodyDashboardTeacher() {
-  const { schedule, classrooms, userName } = useTeacherDashboard();
+  const { schedule, classrooms, userName, loading } = useTeacherDashboard();
+
+  if (loading) { 
+    return <LoadingData loading={loading} />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">

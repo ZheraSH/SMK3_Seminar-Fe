@@ -11,7 +11,7 @@ export function useClassAttendance(
   date,
   lessonOrder,
   globalChanges,
-  setGlobalChanges, 
+  setGlobalChanges,
   submittedClasses,
   setSubmittedClasses
 ) {
@@ -19,7 +19,7 @@ export function useClassAttendance(
   const [classroom, setClassroom] = useState({});
   const [lessonSchedule, setLessonSchedule] = useState(null);
   const [pagination, setPagination] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -34,7 +34,14 @@ export function useClassAttendance(
   }, [selectedClass?.id, lessonOrder]);
 
   const summary = useMemo(() => {
-    const counts = { total: 0, present: 0, alpha: 0, leave: 0, late: 0, sick: 0 };
+    const counts = {
+      total: 0,
+      present: 0,
+      alpha: 0,
+      leave: 0,
+      late: 0,
+      sick: 0,
+    };
     if (!classKey) return counts;
     const classChanges = globalChanges?.[classKey] || {};
     Object.values(classChanges).forEach((pageData) => {
@@ -55,11 +62,17 @@ export function useClassAttendance(
     async (targetPage = page, fetchAll = false) => {
       if (!selectedClass?.id || !date || !lessonOrder) return;
 
-      if (!fetchAll) setLoading(true);
+      if (targetPage === page) setLoading(true);
       setError(null);
 
       try {
-        const res = await getCrossCheckData(selectedClass.id, date, lessonOrder, targetPage);
+        const res = await getCrossCheckData(
+          selectedClass.id,
+          date,
+          lessonOrder,
+          targetPage
+        );
+
         if (!res) return;
         const data = res?.data || res;
 
@@ -78,30 +91,53 @@ export function useClassAttendance(
             const pageState = { ...(classState[targetPage] || {}) };
             (data.students || []).forEach((s) => {
               if (pageState[s.id] === undefined) {
-                pageState[s.id] = s.existing_attendance?.status || "";
+                pageState[s.id] =
+                  s.existing_attendance?.status || "";
               }
             });
-            return { ...prev, [classKey]: { ...classState, [targetPage]: pageState } };
+
+            return {
+              ...prev,
+              [classKey]: {
+                ...classState,
+                [targetPage]: pageState,
+              },
+            };
           });
         }
 
-        if (fetchAll && data.pagination?.last_page > 1 && targetPage === 1) {
+        if (
+          fetchAll &&
+          data.pagination?.last_page > 1 &&
+          targetPage === 1
+        ) {
           for (let p = 2; p <= data.pagination.last_page; p++) {
             fetchAttendance(p, false);
           }
         }
       } catch (err) {
-        const errorMsg = err.response?.data?.message || "Terjadi kesalahan pada server";
-        console.error("Error Detail:", err.response?.data || err.message);
+        const errorMsg =
+          err.response?.data?.message ||
+          "Terjadi kesalahan pada server";
+
+        console.error(
+          "Error Detail:",
+          err.response?.data || err.message
+        );
+
         if (targetPage === page) setError(errorMsg);
       } finally {
-        if (targetPage === page) setLoading(false);
+        if (targetPage === page) {
+          setLoading(false);
+        }
       }
     },
     [selectedClass?.id, date, lessonOrder, page, classKey, setGlobalChanges]
   );
 
-  useEffect(() => { setPage(1); }, [selectedClass?.id, date, lessonOrder]);
+  useEffect(() => {
+    setPage(1);
+  }, [selectedClass?.id, date, lessonOrder]);
 
   useEffect(() => {
     if (!date) return;
@@ -146,24 +182,41 @@ export function useClassAttendance(
       });
 
       notify("success", "Absensi berhasil disimpan", "top-right");
+
       if (typeof setSubmittedClasses === "function") {
-        setSubmittedClasses((p = {}) => ({ ...p, [classKey]: true }));
+        setSubmittedClasses((p = {}) => ({
+          ...p,
+          [classKey]: true,
+        }));
       }
+
       fetchAttendance(page, true);
     } catch (err) {
-      const errorMessage = err.response?.data?.message || "Gagal submit absensi";
-
-      notify(errorMessage, "error");
-
+      notify(
+        err.response?.data?.message || "Gagal submit absensi",
+        "error"
+      );
     } finally {
-          setSubmitting(false);
-        }
-      };
+      setSubmitting(false);
+    }
+  };
 
   return {
-    attendance, classroom, summary, loading, error, page, setPage,
-    pagination, isSubmitted, canSubmit, submitting, canResubmit,
-    isPastDate, isFutureDate, handleSubmit,
+    attendance,
+    classroom,
+    summary,
+    loading,
+    error,
+    page,
+    setPage,
+    pagination,
+    isSubmitted,
+    canSubmit,
+    submitting,
+    canResubmit,
+    isPastDate,
+    isFutureDate,
+    handleSubmit,
     isTimeValid: !isFutureDate && canResubmit,
     status: [
       { id: 1, value: "hadir", label: "Hadir" },

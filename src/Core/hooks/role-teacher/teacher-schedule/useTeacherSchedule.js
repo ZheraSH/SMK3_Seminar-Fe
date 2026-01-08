@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef} from "react";
 import { fetchDailyScheduleApi } from "../../../api/role-teacher/teacher-schedule/teacherScheduleApi";
 
 export function useTeacherSchedule(selectedDate) {
   const [schedule, setSchedule] = useState([]);
   const [activeDay, setActiveDay] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  const isFirstLoad = useRef(true);
 
   const dayMap = {
     monday: "Senin",
@@ -20,8 +24,17 @@ export function useTeacherSchedule(selectedDate) {
     return ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][dayIndex];
   }
 
-  useEffect(() => {
-    async function fetchData() {
+  const load = async () => {
+    if (!selectedDate) return;
+
+    if (isFirstLoad.current) {
+      setLoading(true);
+    }
+    setError(null);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       const raw = await fetchDailyScheduleApi(selectedDate);
 
       const normalized = raw.map((item) => ({
@@ -34,10 +47,30 @@ export function useTeacherSchedule(selectedDate) {
 
       setSchedule(normalized);
       setActiveDay(dayMap[getDayFromDate(selectedDate)]);
+    } catch (err) {
+      console.error("Error fetch teacher schedule:", err);
+      setSchedule([]);
+      setError(
+        err?.response?.data?.message ||
+        "Gagal memuat jadwal mengajar"
+      );
+    } finally {
+      if (isFirstLoad.current) {
+        setLoading(false);
+        isFirstLoad.current = false;
+      }
     }
+  };
 
-    fetchData();
+  useEffect(() => {
+    load();
   }, [selectedDate]);
 
-  return { schedule, activeDay, dayMap };
+  return {
+    schedule,
+    activeDay,
+    dayMap,
+    loading,
+    error,
+  };
 }

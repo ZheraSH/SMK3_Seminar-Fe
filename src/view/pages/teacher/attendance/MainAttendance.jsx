@@ -3,6 +3,7 @@ import ButtonAttendance from "./components/ButtonAttendance";
 import CardAttendance from "./components/CardAttendance";
 import { useAttendanceTeacher } from "../../../../Core/hooks/role-teacher/attendance/useAttendance";
 import "react-datepicker/dist/react-datepicker.css";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function AttendanceTeacher() {
   const {
@@ -15,6 +16,10 @@ export default function AttendanceTeacher() {
 
   const [globalChanges, setGlobalChanges] = useState({});
   const [submittedClasses, setSubmittedClasses] = useState({});
+
+  if (loading) {
+    return <LoadingData loading={loading} />;
+  }
 
   return (
     <div className="justify-center mx-4 mb-10 mt-5 md:mt-2">
@@ -43,7 +48,6 @@ export default function AttendanceTeacher() {
       <div className="mt-4 w-full overflow-x-auto rounded-lg">
         <CardAttendance
           classrooms={classrooms}
-          loading={loading}
           error={error}
           selectedDate={selectedDate} 
           globalChanges={globalChanges}
