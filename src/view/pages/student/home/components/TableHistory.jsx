@@ -1,4 +1,4 @@
-export default function TableHistory({ history, error, loading }) {
+export default function TableHistory({ history, error }) {
   const style = [
     {
       id: "Disetujui",
@@ -16,13 +16,7 @@ export default function TableHistory({ history, error, loading }) {
 
   const filteredHistory = history?.filter((h) => h.Status !== "Menunggu");
 
-  if (loading) {
-    return (
-      <div className="w-full h-[250px] flex justify-center items-center">
-        <p className="text-gray-500 text-sm animate-pulse">Loading data...</p>
-      </div>
-    );
-  }
+  
 
   if (error) {
     return (

@@ -18,10 +18,10 @@ export function DashboardStudent () {
         }, []);
 
         const scheduleDashboard = async () => {
-            setLoading(true);
             setError(null);
 
             try {
+                await new Promise(resolve => setTimeout(resolve, 500));
                 const today = new Date()
                 .toLocaleDateString("en-US", { weekday: "long" })
                 .toLowerCase();
@@ -37,13 +37,10 @@ export function DashboardStudent () {
             } catch (error) {
                 console.error(error);
                 setError("Terjadi kesalahan saat memuat jadwal.");
-            } finally {
-                setLoading(false);
-            }
+            } 
             };
 
             const fetchPermissions = async () => {
-                setLoading(true);
                 setError(null);
                 try {
                     const res = await fetchAttendancePermissions();
@@ -67,6 +64,7 @@ export function DashboardStudent () {
             setError(null);
     
             try {
+                
                 const data = await getDashboardStudent();
     
                 if (!data?.data) {

@@ -12,8 +12,9 @@ export function usePermissions() {
   const [page, setPage] = useState(1);
 
   const fetchPermissions = async (currentPage = page) => {
+    setLoading(true);
     try {
-      setLoading(true);
+      await new Promise((r) => setTimeout(r, 500));
       const data = await fetchPermissionsApi(currentPage);
       setPermissions(data.data || []);
       setMeta(data.meta || {});

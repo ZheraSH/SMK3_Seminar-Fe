@@ -1,11 +1,4 @@
-export default function CardStudent ({student,loading,error}) {
-    if (loading) {
-        return (
-            <div className="p-4 md:p-8 text-center text-blue-600">
-                <p>Memuat data Siswa...</p>
-            </div>
-        )
-    }
+export default function CardStudent ({student,error}) {
     if (error) {
         return (
             <div className="p-4 md:p-8 text-center text-red-500">

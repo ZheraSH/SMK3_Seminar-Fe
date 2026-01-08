@@ -14,7 +14,7 @@ export function useClassStudent() {
         setError(null);
 
         const data = await getClassroom({ page });
-
+        await new Promise(resolve => setTimeout(resolve, 500));
         if (!data?.data) {
             setError("Gagal memuat data kelas.");
             setStudents([]);

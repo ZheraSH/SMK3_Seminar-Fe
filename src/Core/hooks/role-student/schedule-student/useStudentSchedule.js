@@ -1,4 +1,4 @@
-import { useState, useEffect, } from "react";
+import { useState, useEffect,useRef } from "react";
 import { fetchStudentSchedule } from "../../../api/role-student/schedule/schedule";
 
 export function useStudentSchedule(activeDay) {
@@ -7,29 +7,43 @@ export function useStudentSchedule(activeDay) {
   const [semesterType, setSemesterType] = useState("-");
   const [academicYear, setAcademicYear] = useState("-");
   const [loading, setLoading] = useState(true);
-  const [error,setError] = useState ();
+  const [error, setError] = useState(null);
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    if (!activeDay) return;
 
-    fetchStudentSchedule(activeDay)
-      .then((data) => {
-        if (!data?.data) { 
+    const loadSchedule = async () => {
+      if (isFirstLoad.current) {
+      setLoading(true);
+    }
+      setError(null);
+
+      try {
+        await new Promise((r) => setTimeout(r, 500));
+        const data = await fetchStudentSchedule(activeDay);
+        if (!data?.data) {
           setError("Data jadwal tidak ditemukan.");
-          return; }
+          setSchedule([]);
+          return;
+        }
 
         setSchedule(data.data.jadwal || []);
         setClassroomId(data.data.kelas || "-");
         setSemesterType(data.data.semester || "-");
         setAcademicYear(data.data.tahun_ajaran || "-");
-      })
-      .catch(() => {
+      } catch (err) {
+        console.error(err);
         setError("Gagal memuat data jadwal.");
         setSchedule([]);
         setClassroomId("-");
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        if (isFirstLoad.current) {
+        setLoading(false);
+        isFirstLoad.current = false;
+      }}
+    };
+    loadSchedule();
   }, [activeDay]);
 
   return {
@@ -38,6 +52,6 @@ export function useStudentSchedule(activeDay) {
     semesterType,
     academicYear,
     loading,
-    error
+    error,
   };
 }

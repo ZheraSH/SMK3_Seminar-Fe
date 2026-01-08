@@ -3,6 +3,7 @@ import Card from "./components/AttendanceCards";
 import TableSchedule from "./components/TableSchedule";
 import TableHistory from "./components/TableHistory";
 import { DashboardStudent } from "../../../../Core/hooks/role-student/dashboard/DashboardStudent";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function BodyDashboard() {
 
@@ -16,6 +17,10 @@ export default function BodyDashboard() {
         permissions,
 
     } = DashboardStudent ();
+
+    if (loading) {
+        return <LoadingData loading={loading} />;
+    }
 
     return (
         <div className="justify-center mx-4 md:mx-7 mb-10 mt-6">
@@ -32,7 +37,6 @@ export default function BodyDashboard() {
                     <TableSchedule 
                         schedule={schedule}
                         error={error}
-                        loading={loading}
                     />
                 </div>
                 <div 
@@ -45,7 +49,6 @@ export default function BodyDashboard() {
                     <TableHistory 
                         history={permissions}
                         error={error}
-                        loading={loading}
                     />
                 </div>
             </div>

@@ -3,6 +3,7 @@ import TableSchedule from "./components/TableSchedule";
 import ButtonSchedule from "./components/ButtonSchedule";
 import { useState } from "react";
 import HeaderPage from "../../../components/elements/header/Header.Page";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function MainScheduleStudent() {
   const [activeDay, setActiveDay] = useState("monday");
@@ -10,6 +11,9 @@ export default function MainScheduleStudent() {
   const { schedule, classroomId, semesterType, loading,error } =
     useStudentSchedule(activeDay);
 
+    if (loading) {
+        return <LoadingData loading={loading} />;
+    }
   return (
     <div className="justify-center mx-4 md:mx-7 mb-10 mt-5">
       <HeaderPage

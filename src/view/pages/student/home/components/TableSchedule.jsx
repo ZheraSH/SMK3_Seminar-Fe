@@ -1,12 +1,6 @@
-export default function TableSchedule ({schedule,loading,error}){
+export default function TableSchedule ({schedule,error}){
 
-    if (loading) {
-        return (
-            <div className="w-full h-[250px] flex justify-center items-center">
-                <p className="text-gray-500 text-sm animate-pulse">Loading jadwal...</p>
-            </div>
-        );
-    }
+    
 
     if (error) {
         return (

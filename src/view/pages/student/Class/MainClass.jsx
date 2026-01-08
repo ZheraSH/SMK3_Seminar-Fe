@@ -2,6 +2,7 @@ import { Users } from "lucide-react";
 import CardStudent from "./components/CardStudent";
 import { Pagination } from "./components/Pagination";
 import { useClassStudent } from "../../../../Core/hooks/role-student/classroom/useClassroom";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function MainClassStudent() {
 
@@ -15,6 +16,9 @@ export default function MainClassStudent() {
         setCurrentPage,
     } = useClassStudent(); 
 
+    if (loading) {
+        return <LoadingData loading={loading} />;
+    }
     
 
     return (
@@ -55,7 +59,6 @@ export default function MainClassStudent() {
 
             <CardStudent 
                 student={students}
-                loading={loading}
                 error={error}
             />
 

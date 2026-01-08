@@ -8,6 +8,7 @@ import { PermissionDetailModal } from "./components/PermissionDetailModal";
 import { usePermissions } from "../../../../Core/hooks/role-student/permission-student/PermissionStudent";
 import { PaginationPermissionStudent } from "./components/PermissionPagination";
 import HeaderPage from "../../../components/elements/header/Header.Page";
+import LoadingData from "../../../components/Loading/Data";
 
 export default function PermissionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -85,6 +86,10 @@ export default function PermissionManagement() {
     .filter((p) => p.status === "pending")
     .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
     .slice(0, 3);
+
+  if (loading) {
+    return <LoadingData loading={loading} />;
+  }
 
   return (
     <div className="mx-7 mb-10">

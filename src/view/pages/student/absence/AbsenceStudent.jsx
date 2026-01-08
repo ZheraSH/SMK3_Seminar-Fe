@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingData from '../../../components/Loading/Data';
 
 const getStatusClasses = (status, isTime) => {
     if (status === 'Telat') {
@@ -25,10 +26,13 @@ const isLate = (jam) => {
 
 const AbsentStudentMain = () => {
     const [daftarAbsensi, setDaftarAbsensi] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
+                await new Promise(resolve => setTimeout(resolve, 500));
                 const token = localStorage.getItem("token");
 
                 const res = await axios.get(
@@ -52,6 +56,8 @@ const AbsentStudentMain = () => {
 
             } catch (error) {
                 console.error("Fetch error:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -71,6 +77,10 @@ const AbsentStudentMain = () => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
     };
+
+    if (loading) {
+        return <LoadingData loading={loading} />;
+    }
 
     return (
         <div className="p-4 ">
