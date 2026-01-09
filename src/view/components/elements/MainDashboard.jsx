@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LogOut, X, Search, Menu } from "lucide-react";
 import { useAttendanceTeacher } from "../../../Core/hooks/role-teacher/attendance/useAttendance";
@@ -11,16 +12,20 @@ const api = axios.create({
 });
 
 export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
-  const [user, setUser] = useState({ name: "", email: "", image: "" });
-  const [showLogout, setShowLogout] = useState(false);
+  const [user, setUser] = useState({ name: "", email: "", image: "", roles: [] });
   const [loadingUser, setLoadingUser] = useState(true);
-
+  const navigate = useNavigate();
   const { clearAttendanceState } = useAttendanceTeacher() || {};
 
   useEffect(() => {
     const stored = localStorage.getItem("userData");
     if (stored) {
-      setUser(JSON.parse(stored));
+      const parsedData = JSON.parse(stored);
+      // Memastikan roles selalu dalam bentuk array agar .length bekerja
+      setUser({
+        ...parsedData,
+        roles: Array.isArray(parsedData.roles) ? parsedData.roles : [parsedData.role || parsedData.roles]
+      });
     }
     setLoadingUser(false);
   }, []);
@@ -46,6 +51,35 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       localStorage.removeItem("token");
       localStorage.removeItem("userData");
       window.location.href = "/";
+    }
+  };
+
+  const handleProfile = () => {
+    const userRoles = user.roles;
+
+    // 1. Logika Jika Multi-Role (Lebih dari 1 role)
+    if (userRoles.length > 1) {
+      navigate("/dashboard/profile");
+      return;
+    }
+
+    // 2. Logika Jika Single Role (Hanya 1 role)
+    const SINGLE_ROLE_ROUTES = {
+      student: "/student-home/student-profile",
+      counselor: "/bk-home/profile",
+      teacher: "/teacher-home/profile",
+      homeroom_teacher: "/homeroom-home/profile",
+      school_operator: "/home/profile",
+    };
+
+    const activeRole = userRoles[0];
+    const path = SINGLE_ROLE_ROUTES[activeRole];
+
+    if (path) {
+      navigate(path);
+    } else {
+      // Fallback jika role tidak terdaftar di objek di atas
+      navigate("/dashboard/profile");
     }
   };
 
@@ -95,65 +129,27 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
               <h1 className="font-semibold text-gray-800 text-sm">
                 {user.name}
               </h1>
-              <p className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-blue-500 rounded-full mt-0.5">
-                Operator
-              </p>
+              <div className="flex flex-wrap justify-end gap-1 mt-0.5">
+                {user.roles.map((role, idx) => (
+                  <span 
+                    key={idx}
+                    className="px-2 py-0.5 text-[10px] font-medium text-white bg-blue-500 rounded-full capitalize"
+                  >
+                    {role.replace('_', ' ')}
+                  </span>
+                ))}
+              </div>
             </div>
 
             <img
               src={user.image || "/images/team/valen.jpg"}
-              className="w-10 h-10 rounded-full ring-2 ring-blue-500 cursor-pointer"
-              onClick={() => setShowLogout(true)}
+              className="w-10 h-10 rounded-full ring-2 ring-blue-500 cursor-pointer object-cover"
+              onClick={handleProfile}
               alt="Profile"
             />
           </div>
         </div>
       </div>
-
-      {/* LOGOUT MODAL */}
-      {showLogout && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-white w-[330px] p-6 rounded-2xl shadow-2xl relative">
-            <button
-              onClick={() => setShowLogout(false)}
-              className="absolute top-3 right-3 text-gray-400"
-            >
-              <X size={20} />
-            </button>
-
-            <div className="mx-auto w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-              <LogOut className="text-white w-7 h-7" />
-            </div>
-
-            <h2 className="mt-4 text-xl font-semibold text-center">
-              Keluar Akun?
-            </h2>
-
-            <p className="text-center text-sm text-gray-600 mt-1">
-              Anda harus login kembali setelah keluar
-            </p>
-
-            <p className="text-center text-xs text-gray-500 mt-1">
-              {user.email}
-            </p>
-
-            <div className="flex gap-3 mt-6">
-              <button
-                onClick={handleLogout}
-                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg"
-              >
-                Logout
-              </button>
-              <button
-                onClick={() => setShowLogout(false)}
-                className="flex-1 bg-gray-200 hover:bg-gray-300 py-2 rounded-lg"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
