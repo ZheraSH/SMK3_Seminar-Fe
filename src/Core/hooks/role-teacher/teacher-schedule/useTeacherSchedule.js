@@ -10,22 +10,25 @@ export function useTeacherSchedule(selectedDate) {
     tuesday: "Selasa",
     wednesday: "Rabu",
     thursday: "Kamis",
-    friday: "Jum'at",
-    saturday: "Sabtu",
-    sunday: "Minggu",
+    friday: "Jumat",
   };
 
-  // Fungsi untuk mendapatkan nama hari dari tanggal
   function getDayNameFromDate(dateString) {
+    if (!dateString) return "";
+
     const date = new Date(dateString);
-    const dayIndex = date.getDay();
-    
-    // Mapping: 0=Minggu, 1=Senin, ..., 6=Sabtu
+    const dayIndex = date.getDay(); // 0 - 6
+
     const dayNames = [
-      "sunday", "monday", "tuesday", "wednesday", 
-      "thursday", "friday", "saturday"
+      null,        // Minggu null kan
+      "monday",    // Senin
+      "tuesday",   // Selasa
+      "wednesday", // Rabu
+      "thursday",  // Kamis
+      "friday",    // Jum'at
+      null,        // Sabtu null kan
     ];
-    
+
     return dayNames[dayIndex];
   }
 
@@ -35,38 +38,46 @@ export function useTeacherSchedule(selectedDate) {
 
       const normalized = rawData.map((item) => ({
         id: item.id ?? Math.random(),
-        day: item.day ?? "",
-        lesson_hour: item.lesson_hour ?? {
-          start_time: "00:00",
-          end_time: "00:00",
-        },
-        classroom: item.classroom ?? {
-          level: "-",
-          major: "-",
-          name: "-",
-        },
+
+        dayValue: item.day?.value ?? "",
+        dayLabel: item.day?.label ?? "",
+
+        time: item.time ?? "-",
+        lesson : item.lesson_hour?.name ?? "-",
+
+        classroom: item.classroom ?? { name: "-" },
         subject: item.subject ?? { name: "-" },
+
+        has_cross_checked: item.has_cross_checked ?? false,
+        can_cross_check: item.can_cross_check ?? false,
       }));
 
       setSchedule(normalized);
 
-      // Tentukan activeDay berdasarkan data yang diterima
-      if (normalized.length > 0 && normalized[0].day) {
-        // Gunakan hari dari data API jika ada
-        setActiveDay(dayMap[normalized[0].day] || "");
+      if (normalized.length > 0 && normalized[0].dayLabel) {
+        setActiveDay(normalized[0].dayLabel);
       } else {
-        // Jika tidak ada data, gunakan hari dari selectedDate
-        const dayName = getDayNameFromDate(selectedDate);
-        setActiveDay(dayMap[dayName] || "");
+        const dayKey = getDayNameFromDate(selectedDate);
+        setActiveDay(dayMap[dayKey] || "");
       }
     } catch (err) {
       console.error("Error fetching daily schedule:", err);
+      setSchedule([]);
+      setActiveDay("");
     }
   }
 
-  useEffect(() => {
-    fetchDaily();
-  }, [selectedDate]);
+ useEffect(() => {
+  const day = getDayNameFromDate(selectedDate);
+  if (!day) return; // sabtu/minggu stop
 
-  return { schedule, activeDay, dayMap, getDayNameFromDate };
+  fetchDaily();
+}, [selectedDate]);
+
+  return {
+    schedule,
+    activeDay,
+    dayMap,
+    getDayNameFromDate,
+  };
 }

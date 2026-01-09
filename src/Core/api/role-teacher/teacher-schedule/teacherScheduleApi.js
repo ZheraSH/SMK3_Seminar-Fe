@@ -5,7 +5,7 @@ export async function fetchDailyScheduleApi(date) {
   if (!token) return [];
 
   const res = await axios.get(
-    "http://127.0.0.1:8000/api/teacher/schedule/daily",
+    "http://127.0.0.1:8000/api/teacher/schedules",
     {
       headers: {
         Authorization: `Bearer ${token}`,
