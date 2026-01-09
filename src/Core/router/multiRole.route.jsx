@@ -9,7 +9,7 @@ import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal
 import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermission";
 import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
 import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/MainHomeRoomTeacher";
-import BodyDashboardTeacher from "../../view/pages/teacher/home/BodyDashboardTeacher";
+import BodyDashboardMultiRole from "../../view/pages/multiRole/BodyDashboard";
 
 import { MainLayoutMultiRole } from "../../view/layouts/MultiRoleLayout";
 
@@ -28,7 +28,7 @@ export const MultiRoleRoutes = [
         element: <MainLayoutMultiRole />, 
         children: [
           // 3. Halaman-halaman konten
-          { index: true, element: <BodyDashboardTeacher /> },
+          { index: true, element: <BodyDashboardMultiRole /> },
           { path: "teacher-schedule", element: <TeacherSchedule /> },
           { path: "attendance-teacher", element: <AttendanceTeacher /> },
           { path: "class-recap", element: <ClassRecapHomeRoom /> },
