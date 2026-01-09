@@ -2,6 +2,7 @@ import { LayouthHomeRoom } from "../../view/layouts/HomeRoomLayouth";
 import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/MainHomeRoomTeacher";
 import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
 import ProtectedRoute from "./ProtectedRoute";
+import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
 
 export const HomeRoomRoute =[
     {
@@ -16,6 +17,7 @@ export const HomeRoomRoute =[
                     // { path: "student-class", element: <MainClassStudent /> },
                     // { path: "student-schedule", element: <MainScheduleStudent  /> },
                     { path: "class-recap", element: <ClassRecapHomeRoom/> },
+                    { path : "profile", element: <ProfileEmployee /> }
                 ]
             }
         ]

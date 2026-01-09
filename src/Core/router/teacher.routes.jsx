@@ -3,6 +3,7 @@ import AttendanceTeacher from "../../view/pages/teacher/attendance/MainAttendanc
 import ProtectedRoute from "./ProtectedRoute";
 import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/TeachingSchedule";
 import BodyDashboardTeacher from "../../view/pages/teacher/home/BodyDashboardTeacher";
+import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
 
 export const TeacherRoutes = [
     {
@@ -16,7 +17,7 @@ export const TeacherRoutes = [
                     { path: "dashboard", element: <BodyDashboardTeacher /> },
                     { path : "attendance-teacher", element: <AttendanceTeacher /> },
                     { path : "teacher-schedule", element: <TeacherSchedule /> },
-                    
+                    { path : "profile", element: <ProfileEmployee /> },
                 ]
             }
         ],

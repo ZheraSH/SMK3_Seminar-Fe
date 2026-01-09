@@ -7,6 +7,7 @@ import BodyDashboard from "../../view/pages/BK/home/BodyDasboardBk";
 import { LayouthBK } from "../../view/layouts/BkLayouth";
 import ProtectedRoute from "./ProtectedRoute";
 import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermission";
+import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
 
 export const BkRoutes = [
     {
@@ -21,7 +22,8 @@ export const BkRoutes = [
                     {path: "monitoring-absen", element: <MainMonitoringAbsen />},
                     {path: "verifikasi-izin", element: <VerifyPermission /> },
                     {path : "statistik-global", element: <StatistikGlobal/>},
-                    {path: "verifikasi-izin", element: <VerifikasiIzin/>}
+                    {path: "verifikasi-izin", element: <VerifikasiIzin/>},
+                    { path : "profile", element: <ProfileEmployee />},
                 ]
             }
            

@@ -15,6 +15,7 @@ import Shcedule from "../../view/pages/operator/schedule-clock/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
 // import TahunAjaran from "../../view/pages/operator/schoolyears/MainSchoolYears";
 import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
+import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
 
 
 export const AdminRoutes = [
@@ -38,6 +39,7 @@ export const AdminRoutes = [
           { path: "absen-rfid", element: <AttendanceRulesPage /> },
           { path: "rfid", element: <RfidManagement /> },
           { path: "Shedule", element: <Shcedule /> },
+          { path: "profile", element: <ProfileEmployee /> },
         ],
       },
     ],

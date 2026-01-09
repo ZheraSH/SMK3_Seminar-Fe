@@ -5,12 +5,13 @@ import PermissionManagement from "../../view/pages/student/permission-management
 import ProtectedRoute from "./ProtectedRoute";
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
+import ProfileStudent from "../../view/components/elements/profile/ProfileStudent";
 
 export const StudentRoutes =[
    
     {
         path: "/student-home",
-            element:(<ProtectedRoute allowedRoles={"student"}
+            element:(<ProtectedRoute allowedRoles={["student"]}
             />),
             children: [{
               element : <LayouthSiswa />,
@@ -21,6 +22,7 @@ export const StudentRoutes =[
                 // { path: "absen-student", element: <AbsentStudentMain /> },
                 { path: "student-schedule", element: <MainScheduleStudent  /> },
                 { path: "student-license", element: <PermissionManagement/> },
+                { path: "student-profile", element: <ProfileStudent /> }
               ]
         
             }],
