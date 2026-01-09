@@ -81,3 +81,25 @@ export const menuItemBk = [
   {name: "Statistik Global", icon: <ChartNoAxesCombined size={20} />, path: "/bk-home/statistik-global"},
   {name: " Izin", icon: <FileText  size={20} />, path: "/bk-home/verifikasi-izin"},
 ]
+
+
+
+export const multiRoleCommon = [
+  { name: "Dashboard", icon: <LayoutGrid size={20} />, path: "/dashboard" },
+];
+
+export const multiRoleTeacher = [
+  { name: "Absensi Kelas", icon: <CircleCheckBig size={20} />, path: "/dashboard/attendance-teacher" },
+  { name: "Jadwal Mengajar", icon: <CalendarDays size={20} />, path: "/dashboard/teacher-schedule" },
+];
+
+export const multiRoleHomeroom = [
+  { name: "Monitoring Kelas", icon: <TrendingUp size={20} />, path: "/dashboard/monitoring-class" },
+  { name: "Rekap Absensi", icon: <FileText size={20} />, path: "/dashboard/class-recap" },
+];
+
+export const multiRoleCounselor = [
+  { name: "Monitoring Absen", icon: <TrendingUp size={20} />, path: "/dashboard/monitoring-absen" },
+  { name: "Verifikasi Izin", icon: <FileText size={20} />, path: "/dashboard/verifikasi-izin" },
+  { name: "Statistik Global", icon: <ChartNoAxesCombined size={20} />, path: "/dashboard/statistik-global" },
+];
