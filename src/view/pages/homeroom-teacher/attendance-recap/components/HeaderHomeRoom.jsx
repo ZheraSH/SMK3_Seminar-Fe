@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GraduationCap, UsersRound } from "lucide-react";
-import { fetchSummaryClass } from "../../../../Core/api/role-homeroom/summary-class/SummaryClass";
+import { fetchSummaryClass } from "../../../../../Core/api/role-homeroom/summary-class/SummaryClass";
 
 const HeaderHomeRoom = () => {
   const [summary, setSummary] = useState(null);

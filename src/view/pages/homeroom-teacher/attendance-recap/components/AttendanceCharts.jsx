@@ -9,7 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { fetchSummaryClassWeekly } from "../../../../Core/api/role-homeroom/summary-class/SummaryClass";
+import { fetchSummaryClassWeekly } from "../../../../../Core/api/role-homeroom/summary-class/SummaryClass";
 
 export function AttendanceBarWeekly() {
   const [weeklyData, setWeeklyData] = useState(null);

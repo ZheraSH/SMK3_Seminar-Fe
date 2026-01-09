@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { SummaryCard } from "./SummaryCard";
-import { fetchSummaryClassdaily } from "../../../../Core/api/role-homeroom/summary-class/SummaryClass";
+import { fetchSummaryClassdaily } from "../../../../../Core/api/role-homeroom/summary-class/SummaryClass";
 
 export function AttendanceSummary() {
   const [attendance, setAttendance] = useState({

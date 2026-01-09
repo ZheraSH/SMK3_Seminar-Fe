@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { fetchSummaryClassWeekly } from "../../../../Core/api/role-homeroom/summary-class/SummaryClass";
+import { fetchSummaryClassWeekly } from "../../../../../Core/api/role-homeroom/summary-class/SummaryClass";
 
 export function AttendancePieDaily() {
   const [dailyData, setDailyData] = useState(null);

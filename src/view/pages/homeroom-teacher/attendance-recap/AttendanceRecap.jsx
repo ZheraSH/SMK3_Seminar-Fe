@@ -7,6 +7,7 @@ import { StudentDataTable } from "./components/StudentDataTable";
 import {AttendanceBarWeekly} from "./components/AttendanceCharts"
 import { AttendancePieDaily } from "./components/AttendancePieDaily";
 
+
 export default function ClassRecapHomeRoom() {
   
   return (
