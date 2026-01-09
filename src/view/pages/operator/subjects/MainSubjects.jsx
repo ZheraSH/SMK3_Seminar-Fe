@@ -1,53 +1,59 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  addSubject,
-  updateSubject,
-  deleteSubject,
-} from "../../../../Core/api/role-operator/subjects/Subjects";
-
+import { addSubject, updateSubject, deleteSubject } from "../../../../Core/api/role-operator/subjects/Subjects";
 import { SubjectModal } from "./components/SubjectModal";
 import { SearchBar } from "./components/SearchBar";
 import { Pagination } from "./components/Pagination";
 import { SubjectCard } from "./components/SubjectCard";
 import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
+import Header from "../../../components/elements/header/Header-new";
 
 export default function MainMaple() {
   const {
     subjects,
-    setSubjects,
     currentPage,
-    setCurrentPage,
     totalPages,
+    totalItems,
     fetchSubjects,
     loading,
   } = useSubjects();
 
+  const [search, setSearch] = useState("");
+  const [globalTotal, setGlobalTotal] = useState(0); 
+  
   const [newSubject, setNewSubject] = useState({ name: "" });
   const [editSubject, setEditSubject] = useState({ id: null, name: "" });
   const [openMenu, setOpenMenu] = useState(null);
   const [openModal, setOpenModal] = useState(null);
-  const [search, setSearch] = useState("");
-
-  // Filter subjects based on search - hanya untuk display
-  const filteredSubjects = subjects.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
-
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    
+    if (search === "") {
+      setGlobalTotal(totalItems);
+    }
+  }, [totalItems, search]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchSubjects(1, search);
+    }, 500); 
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
+
   const handleAddSubject = async (e) => {
     e.preventDefault();
     try {
       await addSubject(newSubject);
       setOpenModal(null);
       setNewSubject({ name: "" });
-      fetchSubjects(currentPage);
+     
+      fetchSubjects(1, ""); 
     } catch (err) {
       const message = err.response?.data?.errors?.name?.[0];
-      if (message) {
-        setErrors({ name: message }); // ⬅️ di sini tempatnya
-      }
+      if (message) setErrors({ name: message });
     }
   };
 
@@ -58,10 +64,11 @@ export default function MainMaple() {
         await updateSubject(editSubject.id, editSubject.name);
         setOpenModal(null);
         setEditSubject({ id: null, name: "" });
-        fetchSubjects(currentPage); // reload current page
+        fetchSubjects(currentPage, search); 
       }
     } catch (err) {
-      console.error("Error updating subject:", err);
+      const message = err.response?.data?.errors?.name?.[0];
+      if (message) setErrors({ name: message });
     }
   };
 
@@ -69,57 +76,37 @@ export default function MainMaple() {
     if (!confirm("Yakin ingin menghapus mapel ini?")) return;
     try {
       await deleteSubject(id);
-      // Jika halaman terakhir hanya memiliki 1 item, kembali ke halaman sebelumnya
-      if (subjects.length === 1 && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
-        fetchSubjects(currentPage - 1);
-      } else {
-        fetchSubjects(currentPage);
-      }
+      fetchSubjects(currentPage, search);
+      setGlobalTotal(prev => prev > 0 ? prev - 1 : 0);
+      
     } catch (error) {
       console.error("Error deleting subject:", error);
     }
   };
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    fetchSubjects(newPage);
-    setSearch(""); // reset search ketika ganti page
+    fetchSubjects(newPage, search); 
   };
 
-  if (loading && subjects.length === 0) {
-    return <div className="flex justify-center mt-8">Loading...</div>;
-  }
-
   return (
-    <div className="justify-center mt-8 mx-7">
-      {/* Banner */}
-      <div className="relative w-full h-[166px] mt-6 bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] shadow-md">
-        <div className="absolute inset-0 flex flex-col mt-2 rounded-[6px]">
-          <div className="ml-6">
-            <h1 className="text-white text-[30px] font-semibold drop-shadow-lg">
-              Mata Pelajaran
-            </h1>
-            <p className="text-white text-[14px] font-light drop-shadow-md">
-              Daftar seluruh mata pelajaran yang tersedia dalam sistem.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* CONTENT */}
-      <div className="py-8">
-        {/* Search & Button */}
+    <div className="justify-center mt-8 mx-3 md:mx-7">
+      <Header 
+        src="/images/new/imageMapel.png" 
+        span="Daftar Mata Pelajaran" 
+        p={"Total Mata Pelajaran : " + globalTotal} 
+      />
+      
+      <div>
         <SearchBar
           search={search}
-          onSearchChange={setSearch}
+          onSearchChange={setSearch} 
           onAddClick={() => {
+            setErrors({});
             setNewSubject({ name: "" });
             setOpenModal("add");
           }}
         />
 
-        {/* Modal */}
         <SubjectModal
           isOpen={openModal === "add"}
           mode="add"
@@ -127,9 +114,7 @@ export default function MainMaple() {
           errors={errors}
           setErrors={setErrors}
           onClose={() => setOpenModal(null)}
-          onChange={(field, value) =>
-            setNewSubject({ ...newSubject, [field]: value })
-          }
+          onChange={(field, value) => setNewSubject({ ...newSubject, [field]: value })}
           onSubmit={handleAddSubject}
         />
 
@@ -140,41 +125,39 @@ export default function MainMaple() {
           errors={errors}
           setErrors={setErrors}
           onClose={() => setOpenModal(null)}
-          onChange={(field, value) =>
-            setEditSubject({ ...editSubject, [field]: value })
-          }
+          onChange={(field, value) => setEditSubject({ ...editSubject, [field]: value })}
           onSubmit={handleUpdateSubject}
         />
 
-        {/* CARD GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredSubjects.map((subject, index) => (
-            <SubjectCard
-              key={subject.id || index}
-              subject={subject}
-              index={index}
-              openMenu={openMenu}
-              setOpenMenu={setOpenMenu}
-              onEdit={(subject) => {
-                setEditSubject({ id: subject.id, name: subject.name });
-                setOpenModal("edit");
-              }}
-              onDelete={handleDeleteSubject}
-            />
-          ))}
-        </div>
-
-        {/* Show message when no results */}
-        {filteredSubjects.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            {search
-              ? "Tidak ada mata pelajaran yang sesuai dengan pencarian."
-              : "Tidak ada mata pelajaran."}
+        {loading ? (
+          <div className="text-center py-8">Memuat data...</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {subjects.map((subject, index) => (
+              <SubjectCard
+                key={subject.id || index}
+                subject={subject}
+                index={index}
+                openMenu={openMenu}
+                setOpenMenu={setOpenMenu}
+                onEdit={(s) => {
+                  setErrors({});
+                  setEditSubject({ id: s.id, name: s.name });
+                  setOpenModal("edit");
+                }}
+                onDelete={handleDeleteSubject}
+              />
+            ))}
           </div>
         )}
 
-        {/* PAGINATION - hanya tampil jika totalPages > 1 */}
-        {totalPages > 1 && (
+        {subjects.length === 0 && !loading && (
+          <div className="text-center py-8 text-gray-500">
+            {search ? `Mata pelajaran "${search}" tidak ditemukan.` : "Tidak ada mata pelajaran."}
+          </div>
+        )}
+
+        {!loading && totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
