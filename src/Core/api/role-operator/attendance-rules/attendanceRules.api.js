@@ -7,5 +7,9 @@ export const fetchAttendanceRulesAPI = (day) => {
 };
 
 export const saveAttendanceRuleAPI = (selectedDay, payload) => {
-  return axios.put(`${API_BASE}/attendance-rules/day/${selectedDay}`, payload);
+  return axios.put(`${API_BASE}/attendance-rules/${selectedDay}`, payload);
+};
+
+export const createAttendanceRuleApi = (payload) => {
+  return axios.post(`${API_BASE}/attendance-rules`, payload);
 };

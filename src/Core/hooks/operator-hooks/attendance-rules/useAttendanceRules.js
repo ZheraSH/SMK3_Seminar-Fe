@@ -1,10 +1,23 @@
 import { useEffect, useState } from "react";
 import { DEFAULT_DAYS } from "../../../../view/pages/operator/attendance-rules/constants/attendanceDays";
-import { fetchAttendanceRulesAPI, saveAttendanceRuleAPI,} from "../../../api/role-operator/attendance-rules/attendanceRules.api";
+import { 
+  fetchAttendanceRulesAPI, 
+  saveAttendanceRuleAPI, 
+  createAttendanceRuleApi 
+} from "../../../api/role-operator/attendance-rules/attendanceRules.api";
 
 export default function useAttendanceRules() {
+  const [isExistingData, setIsExistingData] = useState(false);
   const [attendanceRules, setAttendanceRules] = useState(
-    DEFAULT_DAYS.map((d) => ({ day: d.day, day_label: d.day_label, checkin_start: "", checkin_end: "", checkout_start: "", checkout_end: "", is_holiday: false,}))
+    DEFAULT_DAYS.map((d) => ({ 
+      day: d.day, 
+      day_label: d.day_label, 
+      checkin_start: "", 
+      checkin_end: "", 
+      checkout_start: "", 
+      checkout_end: "", 
+      is_holiday: false,
+    }))
   );
 
   const [selectedDay, setSelectedDay] = useState("monday");
@@ -14,27 +27,30 @@ export default function useAttendanceRules() {
   const [saving, setSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
 
+  // Definisi selectedDayData agar bisa dipakai di handleSave
+  const selectedDayData = attendanceRules.find((r) => r.day === selectedDay);
+
   const fetchAttendanceRules = async () => {
     if (!selectedDay) return;
-
     setLoading(true);
     setError(null);
-
     try {
       const response = await fetchAttendanceRulesAPI(selectedDay);
       const ruleFromApi = response.data.data;
 
       if (ruleFromApi) {
+        setIsExistingData(true);
         setAttendanceRules((prev) =>
           prev.map((r) => {
             if (r.day === selectedDay) {
               return {
                 ...r,
+                // Mengambil value string jika day berupa object {value: 'monday', label: 'Senin'}
                 day: typeof ruleFromApi.day === 'object' ? ruleFromApi.day.value : ruleFromApi.day,
-                checkin_start: ruleFromApi.checkin_start || "",
-                checkin_end: ruleFromApi.checkin_end || "",
-                checkout_start: ruleFromApi.checkout_start || "",
-                checkout_end: ruleFromApi.checkout_end || "",
+                checkin_start: ruleFromApi.checkin_start?.substring(0, 5) || "",
+                checkin_end: ruleFromApi.checkin_end?.substring(0, 5) || "",
+                checkout_start: ruleFromApi.checkout_start?.substring(0, 5) || "",
+                checkout_end: ruleFromApi.checkout_end?.substring(0, 5) || "",
                 is_holiday: !!ruleFromApi.is_holiday,
               };
             }
@@ -43,7 +59,12 @@ export default function useAttendanceRules() {
         );
       }
     } catch (err) {
-      console.warn(`Data hari ${selectedDay} belum ada di database, menggunakan tampilan kosong.`);
+      setIsExistingData(false);
+      // Reset form ke kosong jika data tidak ditemukan di DB
+      setAttendanceRules((prev) =>
+        prev.map((r) => (r.day === selectedDay ? { ...r, checkin_start: "", checkin_end: "", checkout_start: "", checkout_end: "", is_holiday: false } : r))
+      );
+      console.warn(`Data hari ${selectedDay} belum ada.`);
     } finally {
       setLoading(false);
     }
@@ -52,8 +73,6 @@ export default function useAttendanceRules() {
   useEffect(() => {
     fetchAttendanceRules();
   }, [selectedDay]);
-
-  const selectedDayData = attendanceRules.find((r) => r.day === selectedDay);
 
   const handleTimeChange = (field, value) => {
     setFieldErrors((prev) => ({ ...prev, [field]: null }));
@@ -65,21 +84,19 @@ export default function useAttendanceRules() {
   const handleHolidayChange = (e) => {
     const isHoliday = e.target.checked;
     setAttendanceRules((prev) =>
-      prev.map((r) =>
-        r.day === selectedDay ? { ...r, is_holiday: isHoliday } : r
-      )
+      prev.map((r) => (r.day === selectedDay ? { ...r, is_holiday: isHoliday } : r))
     );
   };
 
   const handleSave = async () => {
     if (!selectedDayData) return;
-
     setSaving(true);
     setError(null);
     setSuccess(null);
     setFieldErrors({});
 
     const payload = {
+      day: selectedDay, 
       checkin_start: selectedDayData.checkin_start,
       checkin_end: selectedDayData.checkin_end,
       checkout_start: selectedDayData.checkout_start,
@@ -88,18 +105,19 @@ export default function useAttendanceRules() {
     };
 
     try {
-      await saveAttendanceRuleAPI(selectedDay, payload);
-      setSuccess(`Berhasil menyimpan pengaturan hari ${selectedDayData.day_label}`);
+      if (isExistingData) {
+        await saveAttendanceRuleAPI(selectedDay, payload);
+        setSuccess(`Berhasil memperbarui data hari ${selectedDayData.day_label}`);
+      } else {
+        await createAttendanceRuleApi(payload);
+        setSuccess(`Berhasil membuat data baru hari ${selectedDayData.day_label}`);
+      }
       fetchAttendanceRules(); 
     } catch (err) {
-      if (err.response?.status === 403) {
-        setError("User tidak memiliki role yang diizinkan (403 Forbidden).");
-      } else if (err.response?.data?.errors) {
+      if (err.response?.data?.errors) {
         setFieldErrors(err.response.data.errors);
-        setError("Terdapat kesalahan input.");
-      } else {
-        setError("Gagal menyimpan data.");
       }
+      setError(err.response?.data?.message || "Gagal menyimpan data.");
     } finally {
       setSaving(false);
     }
