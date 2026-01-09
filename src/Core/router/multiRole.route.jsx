@@ -8,8 +8,8 @@ import VerifikasiIzin from "../../view/pages/BK/verifikasi/MainVerifyPermission"
 import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal";
 import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermission";
 import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
-import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/MainHomeRoomTeacher";
 import BodyDashboardMultiRole from "../../view/pages/multiRole/BodyDashboard";
+import  ClassRecapHomeRoom  from "../../view/pages/homeroom-teacher/attendance-recap/AttendanceRecap";
 
 import { MainLayoutMultiRole } from "../../view/layouts/MultiRoleLayout";
 
@@ -33,7 +33,7 @@ export const MultiRoleRoutes = [
           { path: "attendance-teacher", element: <AttendanceTeacher /> },
           { path: "class-recap", element: <ClassRecapHomeRoom /> },
           { path: "monitoring-absen", element: <MainMonitoringAbsen /> },
-        //   { path: "monitoring-class", element: <MainMonitoringAbsen /> },
+          //   { path: "monitoring-class", element: <MainMonitoringAbsen /> },
           { path: "verifikasi-izin", element: <VerifyPermission /> },
           { path: "statistik-global", element: <StatistikGlobal /> },
           { path: "profile", element: <ProfileEmployee /> },

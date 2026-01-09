@@ -1,6 +1,6 @@
 import BodyDashboardTeacher from "../teacher/home/BodyDashboardTeacher";
 import BodyDashboardBK from "../BK/home/BodyDasboardBk";
-import ClassRecapHomeRoom from "../homeroom-teacher/MainHomeRoomTeacher";
+import HomeRoomHome from "../homeroom-teacher/home/MainHomeroomHome";
 import { useEffect, useState } from "react";
 
 export default function BodyDashboardMultiRole() {
@@ -40,7 +40,7 @@ export default function BodyDashboardMultiRole() {
     if (userRoles.includes("homeroom_teacher")) {
       dashboards.push(
         <div key="homeroom" className="w-full ">
-          <ClassRecapHomeRoom />
+          <HomeRoomHome />
         </div>
       );
     }
