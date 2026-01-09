@@ -3,33 +3,36 @@ import Card from "./components/AttendanceCards";
 import TableSchedule from "./components/TableSchedule";
 import TableHistory from "./components/TableHistory";
 import { DashboardStudent } from "../../../../Core/hooks/role-student/dashboard/DashboardStudent";
+import AttendanceChart from "./components/AttendanceChart";
 
 export default function BodyDashboard() {
 
     const {
-        profil,
-        attendance,
         schedule,
         error,
         loading,
-        permissions
-
+        permissions,
+        summary,
+        statistik,
     } = DashboardStudent ();
 
     return (
-        <div className="justify-center mx-3 mb-10 mt-5">
-            <ProfileHeader user={profil} />
-            <Card  attendance={attendance} />
-            <div className="flex flex-col md:flex-row lg:flex-row gap-5 w-full">
-                <div className="flex flex-col gap-5 w-full md:w-[535px] lg:w-[675px] lg:h-[383px] overflow-auto rounded-xl shadow-lg border border-gray-300 p-5">
+        <div className="justify-center mx-3 mb-10">
+            <Card  summary={summary}/>
+            <div className="flex flex-col md:flex-row lg:flex-row gap-5 w-full mt-5 px-4">
+                <div 
+                    className="flex flex-col gap-5 w-full md:w-full lg:w-full lg:h-[360px]  rounded-xl shadow-lg border border-gray-300 p-4"
+                >
                     <h1 className="text-[18px] md:text-[24px] font-semibold">Jadwal Pelajaran Hari Ini</h1>
                     <TableSchedule 
-                    schedule={schedule}
-                    error={error}
-                    loading={loading}
-                     />
+                        schedule={schedule}
+                        error={error}
+                        loading={loading}
+                    />
                 </div>
-                <div className="w-full md:w-[404px] lg:w-[434px] h-[357px] gap-5 rounded-xl shadow-lg border border-gray-300 p-5 flex flex-col">
+                <div 
+                    className="w-full lg:w-full lg:h-[360px] gap-5 rounded-xl shadow-lg border border-gray-300 p-4 flex flex-col justify-start "
+                >
                     <h1 className="text-[18px] md:text-[24px] font-semibold">Riwayat Izin Terbaru</h1>
                     <TableHistory 
                         history={permissions}
@@ -37,6 +40,9 @@ export default function BodyDashboard() {
                         loading={loading}
                     />
                 </div>
+            </div>
+            <div className=" mt-10">
+                <AttendanceChart statistik={statistik} />
             </div>
         </div>
     );
