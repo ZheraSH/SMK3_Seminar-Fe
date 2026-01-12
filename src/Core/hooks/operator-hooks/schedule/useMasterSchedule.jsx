@@ -22,6 +22,11 @@ export default function useMasterSchedule(activeDayApi) {
     try {
       const [subjectsRes, teachersRes, lessonsRes] = await Promise.all([ fetchSubject(), fetchTeacher(), fetchLesson(activeDayApi),]);
 
+      const allowedRoles = ["teacher", "homeroom_teacher"];
+      const filteredTeachers = (teachersRes?.data || teachersRes || []).filter((guru) => {
+        return guru.roles?.some((role) => allowedRoles.includes(role.value));
+      });
+
       const processedLessons = lessonsRes.map(lesson => {
         const lessonName = (lesson.name || lesson.placement || '').toLowerCase();
         const isBreak = BREAK_KEYWORDS.some(keyword => lessonName.includes(keyword));
@@ -33,7 +38,7 @@ export default function useMasterSchedule(activeDayApi) {
       });
 
       setSubjects(subjectsRes);
-      setTeachers(teachersRes);
+      setTeachers(filteredTeachers);
       setLessons(processedLessons);
     } catch (err) {
       console.error("Gagal mengambil data master:", err);

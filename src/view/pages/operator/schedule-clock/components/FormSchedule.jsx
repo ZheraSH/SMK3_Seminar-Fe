@@ -95,33 +95,24 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
     const [validationErrors, setValidationErrors] = useState({});
 
     const isEditMode = !!initialData && !!initialData.id;
+    const resetForm = () => {
+        setFormData({ id: null, subject_id: '', teacher_id: '', lesson_hour_id: ''});
+        setValidationErrors({});
+        setSubmitError(null);
+    };
 
     useEffect(() => {
-        setSubmitError(null);
-        setValidationErrors({});
-
-        if (initialData && isOpen && subjects.length > 0 && teachers.length > 0 && lessons.length > 0) {
-            const selectedSubject = subjects.find(
-                s => s.name === initialData.subject
-            );
-            const selectedTeacher = teachers.find(
-                t => t.name === initialData.subject_teacher
-            );
-            const selectedLessonHour = lessons.find(
-                l => l.name === initialData.placement 
-            );
-
-            setFormData({
-                id: initialData.id,
-                subject_id: selectedSubject ? selectedSubject.id : '', 
-                teacher_id: selectedTeacher ? selectedTeacher.id : '',
-                lesson_hour_id: selectedLessonHour ? selectedLessonHour.id : '',
-            });
-
-        } else if (!initialData && isOpen) {
-            setFormData({ id: null, subject_id: '',  teacher_id: '',  lesson_hour_id: ''});
+        if (isOpen) {
+            if (initialData && subjects.length > 0) {
+                const s_id = initialData.subject_id || subjects.find(s => s.name === initialData.subject?.name)?.id;
+                const t_id = initialData.teacher_id || teachers.find(t => t.name === initialData.teacher?.name)?.id;
+                const l_id = initialData.lesson_hour_id || lessons.find(l => l.name === initialData.lesson_hour?.name)?.id;
+                setFormData({ id: initialData.id, subject_id: s_id || '', teacher_id: t_id || '', lesson_hour_id: l_id || '',});
+            } else if (!initialData) {
+                setFormData({ id: null, subject_id: '', teacher_id: '', lesson_hour_id: ''});
+            }
         }
-    }, [initialData, isOpen, subjects, teachers, lessons]); 
+    }, [initialData, isOpen, subjects, teachers, lessons]);
 
 
     const handleChange = (e) => {
@@ -169,7 +160,7 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
             classroom_id: classroomId, 
             day: activeDayApi, 
             subject_id: formData.subject_id,
-            employee_id: formData.teacher_id,
+            teacher_id: formData.teacher_id,
             lesson_hour_id: formData.lesson_hour_id,
         };
 
@@ -178,7 +169,10 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
         }
 
         try {
-            await handleSave(dataToSave, isEditMode); 
+            await handleSave(dataToSave, isEditMode);
+            if (!isEditMode) {
+                resetForm();
+            } 
             onClose();
         } catch (error) {
             const errorMessage = error?.message || error?.error || "Gagal menyimpan jadwal. Coba periksa input atau server.";
@@ -221,49 +215,12 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
 
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
-                        <CustomSelect
-                            label="Mata Pelajaran"
-                            id="subject_id"
-                            name="subject_id"
-                            value={formData.subject_id}
-                            options={subjects}
-                            onChange={handleChange}
-                            placeholder="Pilih Mata Pelajaran"
-                            error={validationErrors.subject_id}
-                            disabled={isSubmitting}
-                            getDisplayLabel={(subject) => subject.name}
-                        />
-
-                        <CustomSelect
-                            label="Guru Pengajar"
-                            id="teacher_id"
-                            name="teacher_id"
-                            value={formData.teacher_id}
-                            options={teachers}
-                            onChange={handleChange}
-                            placeholder="Pilih Guru Pengajar"
-                            error={validationErrors.teacher_id}
-                            disabled={isSubmitting}
-                            getDisplayLabel={(teacher) => teacher.name}
-                        />
-
-                        <CustomSelect
-                            label="Jam Ke / Penempatan"
-                            id="lesson_hour_id"
-                            name="lesson_hour_id"
-                            value={formData.lesson_hour_id}
-                            options={lessons}
-                            onChange={handleChange}
-                            placeholder="Pilih Jam Ke / Penempatan"
-                            error={validationErrors.lesson_hour_id}
-                            disabled={isSubmitting}
-                            getDisplayLabel={(lesson) => `${lesson.name} (${lesson.start_time} - ${lesson.end_time})`}
-                        />
-
+                        <CustomSelect label="Mata Pelajaran" id="subject_id" name="subject_id" value={formData.subject_id} options={subjects} onChange={handleChange} placeholder="Pilih Mata Pelajaran" error={validationErrors.subject_id} disabled={isSubmitting} getDisplayLabel={(subject) => subject.name}/>
+                        <CustomSelect label="Guru Pengajar" id="teacher_id" name="teacher_id" value={formData.teacher_id} options={teachers} onChange={handleChange} placeholder="Pilih Guru Pengajar" error={validationErrors.teacher_id} disabled={isSubmitting} getDisplayLabel={(teacher) => teacher.name}/>
+                        <CustomSelect label="Jam Ke / Penempatan" id="lesson_hour_id" name="lesson_hour_id" value={formData.lesson_hour_id} options={lessons} onChange={handleChange} placeholder="Pilih Jam Ke / Penempatan" error={validationErrors.lesson_hour_id} disabled={isSubmitting} getDisplayLabel={(lesson) => `${lesson.name} (${lesson.start_time} - ${lesson.end_time})`}/>
                     </div>
-
                     <div className="flex justify-end mt-6">
-                        <button type="submit" className="px-5 py-2 text-sm font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-md flex items-center" disabled={isSubmitting}>
+                        <button type="submit" className="px-5 py-2 text-sm font-semibold rounded-lg text-white bg-[#3B82F6] hover:bg-[#2563EB]  shadow-md flex items-center" disabled={isSubmitting}>
                             {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                             {submitButtonLabel}
                         </button>

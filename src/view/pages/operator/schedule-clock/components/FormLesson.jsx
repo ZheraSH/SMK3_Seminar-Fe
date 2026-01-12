@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, Loader2, AlertTriangle, ChevronRight, BookOpen, Coffee } from 'lucide-react';
 
 const ErrorModal = ({ show, title, message, onClose }) => {
     if (!show) return null;
@@ -18,10 +18,7 @@ const ErrorModal = ({ show, title, message, onClose }) => {
                 </div>
                 <p className="text-sm text-gray-700 mt-2">{message}</p>
                 <div className="flex justify-end mt-4">
-                    <button 
-                        onClick={onClose} 
-                        className="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-red-600 transition"
-                    >
+                    <button onClick={onClose} className="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-red-600 transition">
                         Tutup
                     </button>
                 </div>
@@ -30,13 +27,42 @@ const ErrorModal = ({ show, title, message, onClose }) => {
     );
 };
 
-function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeDayDisplay}) {
+function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeDayDisplay,updateLesson, initialData}) {
     
-    const [formData, setFormData] = useState({start_time: '', end_time: '', name: ''});
+    const [formData, setFormData] = useState({start_time: '', end_time: '', name: 'Jam ke -'});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
     const [validationErrors, setValidationErrors] = useState({});
     const [errorModal, setErrorModal] = useState({ show: false, title: '', message: ''});
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const isEditMode = !!initialData;
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        if (isVisible) {
+            if (initialData) {
+                setFormData({
+                    start_time: initialData.start_time || '',
+                    end_time: initialData.end_time || '',
+                    name: initialData.name || 'Jam ke -'
+                });
+            } else {
+                setFormData({ start_time: '', end_time: '', name: '' });
+            }
+            setValidationErrors({});
+            setIsOpen(false);
+        }
+    }, [initialData, isVisible]);
 
     const handleChange = (e) => {
         setFormData({
@@ -48,86 +74,62 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
             [e.target.name]: '',
         }));
     };
+
+    const handleSelect = (val) => {
+        setFormData({ ...formData, name: val });
+        setValidationErrors(prev => ({ ...prev, name: '' }));
+        setIsOpen(false);
+    };
     
     const handleCloseErrorModal = () => {
         setErrorModal({ show: false, title: '', message: '' });
     };
 
     const getInputClass = (field) => {
-        return `w-full p-2 border rounded-lg transition duration-150 ${
+        return `w-full p-2 border rounded-lg transition duration-150 outline-none  ${
             validationErrors[field] 
                 ? 'border-red-500 ring-1 ring-red-500'
-                : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                : 'border-gray-300 focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
         }`;
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
-        const errors = {};
-        let isValid = true;
-        
-        if (!formData.start_time.trim()) {
-            errors.start_time = "Jam Mulai wajib diisi.";
-            isValid = false;
-        }
-        if (!formData.end_time.trim()) {
-            errors.end_time = "Jam Berakhir wajib diisi.";
-            isValid = false;
-        }
-        if (!formData.name.trim()) {
-            errors.name = "Penempatan wajib diisi.";
-            isValid = false;
-        }
-        
-        setValidationErrors(errors);
+    e.preventDefault(); 
+    const errors = {};
+    if (!formData.start_time.trim()) errors.start_time = "Jam Mulai wajib diisi.";
+    if (!formData.end_time.trim()) errors.end_time = "Jam Berakhir wajib diisi.";
+    if (!formData.name) errors.name = "Penempatan wajib dipilih.";
+    
+    setValidationErrors(errors);
+    if (Object.keys(errors).length > 0) return;
 
-        if (!isValid) return;
-        
-        
-        const dataToSend = {
-            day: activeDay, 
-            name: formData.name, 
-            start: formData.start_time.replace('.', ':'), 
-            end: formData.end_time.replace('.', ':'),
-        };
+    const isLessonValue = formData.name === 'Jam ke -' ? "true" : "false";
 
-        setIsSubmitting(true);
+    const dataToSend = {
+        day: activeDay, 
+        name: formData.name,
+        start: formData.start_time.replace('.', ':'), 
+        end: formData.end_time.replace('.', ':'),
+        is_lesson: isLessonValue
+    };
+
+    setIsSubmitting(true);
         try {
-            const result = await addLesson(dataToSend);
-            
-            onClose();
-            setFormData({ start_time: '', end_time: '', name: '' });
-
-        } catch (error) {
-           let errorTitle = 'warning';
-            let errorMessage = 'Terjadi kesalahan tidak terduga.';
-            
-            if (error.errors) {
-                errorMessage = Object.values(error.errors).flat().join('\n');
-                errorTitle = 'Input Tidak Valid';
-            } else if (error.message && error.message.includes('sudah ada')) {
-                errorMessage = error.message;
-                errorTitle = 'Data Sudah Tersedia';
-            } else if (error.message) {
-                errorMessage = "data ini sudah ada ";
+            if (isEditMode) {
+                await updateLesson(initialData.id, dataToSend);
             } else {
-                errorMessage = 'Gagal menambahkan data. Periksa input Anda dan coba lagi.';
+                await addLesson(dataToSend);
             }
-            
-            setErrorModal({
-                show: true,
-                title: errorTitle,
-                message: errorMessage
-            });
-            
-            console.error('Error submitting lesson hour:', error);
+            onClose();
+        } catch (error) {
+            let errorMessage = error.response?.data?.message || 'Gagal menyimpan data.';
+            setErrorModal({ show: true, title: 'Gagal Simpan', message: errorMessage });
         } finally {
             setIsSubmitting(false);
         }
-    };
+};
 
     if (!isVisible) return null;
-    
 
     return (
         <div className="fixed inset-0 bg-gray-600/50 flex items-center justify-center z-[1000] transition-opacity duration-300">
@@ -135,7 +137,7 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
             <div className="bg-white rounded-lg shadow-2xl w-full max-w-md mx-4 p-6 transform transition-all duration-300 scale-100">
                 
                 <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
-                    <h3 className="text-xl font-semibold text-gray-800">Tambah Jam Pelajaran </h3>
+                    <h3 className="text-xl font-semibold text-gray-800">{isEditMode ? 'Edit Jam Pelajaran' : 'Tambah Jam Pelajaran'} </h3>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition" disabled={isSubmitting}>
                         <X size={24} />
                     </button>
@@ -146,15 +148,7 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
                         <div className="flex gap-4">
                             <div className="flex-1">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Jam Mulai</label>
-                                <input 
-                                    type="text" 
-                                    name="start_time" 
-                                    value={formData.start_time} 
-                                    onChange={handleChange} 
-                                    placeholder="07.00 atau 07:00"
-                                    className={getInputClass('start_time')} 
-                                    disabled={isSubmitting}
-                                />
+                                <input type="text" name="start_time" value={formData.start_time} onChange={handleChange} placeholder="07.00" className={getInputClass('start_time')} disabled={isSubmitting}/>
                                 {validationErrors.start_time && (
                                     <p className="mt-1 text-xs text-red-600">{validationErrors.start_time}</p>
                                 )}
@@ -162,46 +156,57 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
                             
                             <div className="flex-1">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Jam Berakhir</label>
-                                <input 
-                                    type="text" 
-                                    name="end_time" 
-                                    value={formData.end_time} 
-                                    onChange={handleChange} 
-                                    placeholder="07.45 atau 07:45"
-                                    className={getInputClass('end_time')}
-                                    disabled={isSubmitting}
-                                />
+                                <input type="text" name="end_time" value={formData.end_time} onChange={handleChange} placeholder="07.45" className={getInputClass('end_time')}disabled={isSubmitting}/>
                                 {validationErrors.end_time && (
                                     <p className="mt-1 text-xs text-red-600">{validationErrors.end_time}</p>
                                 )}
                             </div>
                         </div>
                         
-                        <div>
+                        <div className="relative" ref={dropdownRef}>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Jam Ke- / Penempatan</label>
-                            <input 
-                                type="text" 
-                                name="name" 
-                                value={formData.name} 
-                                onChange={handleChange} 
-                                placeholder="Cth: Jam ke-1 atau Istirahat"
-                                className={getInputClass('name')}
-                                disabled={isSubmitting}
-                            />
+                            <div  onClick={() => !isSubmitting && setIsOpen(!isOpen)} className={`w-full p-2 border rounded-lg bg-white flex justify-between items-center cursor-pointer transition duration-150 ${
+                                    validationErrors.name ? 'border-red-500 ring-1 ring-red-500' : 
+                                    isOpen ? 'border-gray-300 ring-1 ring-blue-500' : 'border-gray-300'}`}>
+                                <span className={`flex items-center gap-2 ${formData.name ? 'text-gray-800' : 'text-gray-400'}`}>
+                                    {formData.name === 'Istirahat' && <Coffee size={16} className="text-orange-500" />}
+                                    {formData.name === 'Jam ke -' && <BookOpen size={16} className="text-blue-500" />}
+                                    {formData.name || 'Pilih Penempatan'}
+                                </span>
+                                <ChevronRight size={18} className={`text-gray-400 transition-transform ${isOpen ? 'rotate-90' : ''}`} />
+                            </div>
+
                             {validationErrors.name && (
                                 <p className="mt-1 text-xs text-red-600">{validationErrors.name}</p>
+                            )}
+
+                            {isOpen && (
+                                <div className="absolute z-[1050] w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+                                    <div  onClick={() => handleSelect('Jam ke -')} className="px-4 py-3 hover:bg-blue-50 cursor-pointer flex items-center gap-3 border-b border-gray-50">
+                                        <BookOpen size={18} className="text-blue-500" />
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-medium text-gray-700">Jam ke -</span>
+                                            <span className="text-[10px] text-gray-400 italic">Otomatis urut oleh sistem</span>
+                                        </div>
+                                    </div>
+                                    <div  onClick={() => handleSelect('Istirahat')} className="px-4 py-3 hover:bg-orange-50 cursor-pointer flex items-center gap-3">
+                                        <Coffee size={18} className="text-orange-500" />
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-medium text-gray-700">Istirahat</span>
+                                            <span className="text-[10px] text-gray-400 italic">Waktu jeda istirahat</span>
+                                        </div>
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>
 
                     <div className="flex justify-end mt-6">
-                        <button type="submit" disabled={isSubmitting} className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition disabled:bg-blue-300 flex items-center">
+                        <button type="submit" disabled={isSubmitting} className="px-4 py-2 text-sm font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition disabled:bg-blue-300 flex items-center">
                             {isSubmitting ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Menyimpan...
-                                </>
+                                <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Menyimpan...</>
                             ) : (
-                                'Tambah'
+                                isEditMode ? 'Simpan Perubahan' : 'Tambah'
                             )}
                         </button>
                     </div>

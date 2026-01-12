@@ -8,7 +8,7 @@ export const fetchLessonHoursByDay = async (day) => {
         return [];
     }
     try {
-        const res = await axios.get(`${API_BASE_URL}/lesson-hours/day/${day}`);
+        const res = await axios.get(`${API_BASE_URL}/lesson-hours/${day}`);
         return res.data.data;
     } catch (err) {
         console.error("gagal mengambil data per hari", err);
@@ -20,6 +20,17 @@ export const addLessonHour = async (lessonData) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/lesson-hours`, lessonData);
          notify('Data Berhasil Ditambah');
+        return res.data; 
+
+    } catch (err) {
+        throw err.response ? err.response.data : new Error("Terjadi kesalahan jaringan.");
+    }
+};
+
+export const UpdateLessonHour = async (lessonId,lessonData) => {
+    try {
+        const res = await axios.put(`${API_BASE_URL}/lesson-hours/${lessonId}`, lessonData);
+         notify('Data Berhasil Diperbarui');
         return res.data; 
 
     } catch (err) {
