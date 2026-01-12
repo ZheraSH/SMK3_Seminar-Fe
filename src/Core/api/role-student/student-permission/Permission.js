@@ -25,6 +25,31 @@ export async function fetchPermissionsApi(page = 1) {
   return res.data;
 }
 
+export const getPermissionDetailStudent = async (permissionId) => {
+    const token = localStorage.getItem("token");
+    
+    const url = `${BASE_URL}/api/student/attendance-permissions/${permissionId}`;
+
+    try {
+        const res = await axios.get(
+            url,
+            {
+                headers: {
+                    Authorization: token ? `Bearer ${token}` : "",
+                    Accept: "application/json",
+                }
+            }
+        );
+        
+        return res.data.data; 
+    } catch (err) {
+        
+        throw new Error(err.response?.data?.message || "Gagal memuat detail izin. Silakan coba lagi.");
+    }
+};
+
+
+
 export async function handleSubmitPermission(formData) {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("User belum login");

@@ -23,8 +23,8 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
 
         <div className="mb-5">
           <h3 className="font-medium text-[18px] text-gray-900 mb-2">Informasi Siswa</h3>
-          <DetailRow label="Nama" value={permission.student.name} />
-          <DetailRow label="Kelas" value={permission.classroom.name} />
+          <DetailRow label="Nama" value={permission.student?.name || "-"} />
+          <DetailRow label="Kelas" value={permission.classroom?.name || "-"} />
           <DetailRow label="Verifikator" value={permission.counselor?.name || "-"}/>
         </div>
 
@@ -32,7 +32,7 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
           <h3 className="font-medium text-[18px] text-gray-900 mb-2">Informasi Izin</h3>
 
           <DetailRow label="Jenis Izin" value={permission.type.label} />
-          <DetailRow label="Tanggal" value={permission.date.start} />
+          <DetailRow label="Tanggal" value={permission.date?.start} />
           <DetailRow label="Status" value={ <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor( permission.status.value )}`}> {permission.status.label} </span> } />
 
           {permission.reason && (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState ,useCallback} from "react";
 import { PermissionCard } from "./components/PermissionCard";
 import { PermissionTable } from "./components/PermissionTable";
 import { PermissionFormModal } from "./components/PermissionFormModal";
@@ -8,6 +8,7 @@ import { PermissionDetailModal } from "./components/PermissionDetailModal";
 import { usePermissions } from "../../../../Core/hooks/role-student/permission-student/PermissionStudent";
 import { PaginationPermissionStudent } from "./components/PermissionPagination";
 import HeaderPage from "../../../components/elements/header/Header-new";
+import { getPermissionDetailStudent } from "../../../../Core/api/role-student/student-permission/Permission";
 
 export default function PermissionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,10 +52,26 @@ export default function PermissionManagement() {
     }
   };
 
-  const handleViewDetail = (item) => {
-    setSelectedDetail(item);
-    setIsDetailOpen(true);
-  };
+  // const  = (item) => {
+  //   console.log("Data yang dikirim ke modal:", item);
+  //   setSelectedDetail(item);
+  //   setIsDetailOpen(true);
+  // };
+
+   const handleViewDetail = useCallback(async (permission) => {
+          setIsDetailOpen(true);
+          setSelectedDetail(permission); 
+  
+          try {
+              const detail = await getPermissionDetailStudent(permission.id);
+              setSelectedDetail(detail);
+              console.log('berhasil ambil data detail ');
+              
+          } catch (error) {
+              console.error("Error fetching detail:", error);
+              setIsModalOpen(false);
+          }
+      }, []);
 
   const handleOpenModal = () => {
     setFormData({ type: "", start_date: "", end_date: "", proof: "", reason: "",});
