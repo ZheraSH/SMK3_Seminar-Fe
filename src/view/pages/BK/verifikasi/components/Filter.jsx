@@ -54,13 +54,13 @@ function Filter({ classOptions, selectedClassId, handleClassSelect }) {
 
     return (
         <div className="relative w-full sm:w-[150px]" ref={dropdownRef}>
-            <button type="button" className="w-full h-10 py-2 px-4 flex items-center justify-between rounded-lg bg-white shadow-sm text-sm text-gray-700 hover:bg-gray-50 " onClick={() => setIsOpen(!isOpen)}>
+            <button type="button" className="w-full h-10 py-2 px-4 flex items-center justify-between rounded-full bg-white shadow-sm border border-gray-300 text-sm text-gray-700 hover:bg-gray-50 " onClick={() => setIsOpen(!isOpen)}>
                 <span className="truncate">{selectedLabel}</span>
                 <ChevronRight className={`w-4 h-4 ml-2 transition-transform duration-300 ${isOpen ? 'transform rotate-90 text-blue-500' : 'text-gray-500'}`} />
             </button>
 
             {isOpen && (
-                <div className="absolute z-30 mt-3 right-0 w-56 rounded-md bg-white drop-shadow-xl focus:outline-none" style={{ maxHeight: '300px', overflowY: 'auto', minWidth: '200px' }}>
+                <div className="absolute z-30 mt-3 lg:left-0 md:left-0 left-3 right-0 w-56 rounded-md bg-white drop-shadow-xl focus:outline-none" style={{ maxHeight: '300px', overflowY: 'auto', minWidth: '200px' }}>
                     {classOptions.map((option) => {
                         return (
                             <React.Fragment key={option.value}>

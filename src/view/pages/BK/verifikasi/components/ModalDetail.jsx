@@ -26,7 +26,7 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData,loadin
 
     return (
         <div className="fixed  inset-0 bg-black/50 flex items-center justify-center  z-50 p-4"onClick={onClose}>
-            <div className="bg-white rounded-lg shadow-2xl w-[536px] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-white rounded-lg shadow-2xl w-[500px] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                 <div className="p-6">
                     <div className="flex justify-between items-center pb-3 mb-2">
                         <h3 className="text-[24px] font-semibold text-gray-800">Detail Izin</h3>

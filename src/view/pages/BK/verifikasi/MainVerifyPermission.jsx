@@ -72,7 +72,7 @@ export default function VerifyPermission() {
     const handleReject = (permission) => handleAction('reject', permission);
 
     return (
-        <div className="min-h-screen bg-gray-50 p-3 sm:p-3 lg:mb-4 md:mb-4 mb-24">
+        <div className="min-h-screen bg-gray-50  lg:mb-4 md:mb-4 mb-24">
             <div className="max-w-7xl mx-auto">
                 <HeaderAndControls  classOptions={options.classes} selectedClassId={selectedClassId} handleClassSelect={handleClassSelect}searchQuery={searchQuery} onSearchChange={handleSearchChange}/>
                 <Table  data={permissions} loading={loading} error={error} currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={handlePageChange} onAction={handleAction} />
