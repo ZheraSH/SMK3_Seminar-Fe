@@ -1,6 +1,5 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, Outlet } from "react-router-dom"
 import { menuItemSiswa } from "@data/SidebarData"
-import { Outlet } from "react-router-dom"
 import { useRef, useState, useEffect } from "react"
 import MainDashboard from "../components/elements/MainDashboard"
 import { ChevronDown, Menu, X } from "lucide-react"
@@ -11,8 +10,27 @@ export const LayouthSiswa = () => {
   const location = useLocation()
   const scrollRef = useRef(null)
   const [showScrollButton, setShowScrollButton] = useState(false)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true) 
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setSidebarOpen(true)
+      } else {
+        setSidebarOpen(false)
+      }
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setSidebarOpen(false)
+    }
+  }, [location.pathname])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,122 +43,64 @@ export const LayouthSiswa = () => {
   }, [])
 
   const scrollToBottom = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      })
-    }
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    })
   }
 
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
-      setShowLoginPopup(true);
-      localStorage.removeItem("loginSuccess");
+      setShowLoginPopup(true)
+      localStorage.removeItem("loginSuccess")
     }
-  }, []);
-  
-
+  }, [])
 
   return (
     <>
-      <div className="flex h-screen bg-gray-50">
-        <LoginSuccessPopup
-          open={showLoginPopup}
-          onClose={() => setShowLoginPopup(false)}
-          title="Login Berhasil"
-          subtitle="Selamat datang kembali!"
-        />
-
-      <Notification />
-        {/* Sidebar */}
-        <div
-          className={`fixed top-0 left-0 h-full w-[250px] bg-white text-[#4B5563] transform transition-transform duration-300 z-40
-            ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-            lg:translate-x-0`}
-        >
-          {/* Logo */}
-          <div className="flex justify-center items-center px-10 gap-3 py-6 ">
-            <img className="w-10 h-10" src="../images/SMKNLOGO1.png" alt="Logo" />
-            <div className="flex flex-col justify-center text-[#1F2937] font-bold text-center">
-              SMK Negeri 3 Pamekasan
-            </div>
+      <div className="flex h-screen bg-gray-50 overflow-hidden">
+        <LoginSuccessPopup open={showLoginPopup} onClose={() => setShowLoginPopup(false)} title="Login Berhasil" subtitle="Selamat datang kembali!"/>
+        <Notification />
+        <aside className={`fixed top-0 left-0 h-full bg-white text-[#4B5563] shadow-lg transition-all duration-300 z-50 ${sidebarOpen ? "w-[250px] translate-x-0" : "w-[250px] -translate-x-full lg:translate-x-0 lg:w-[80px]"}`} >
+          <div className="flex items-center gap-3 p-6 overflow-hidden whitespace-nowrap">
+            <img className="w-10 h-10 min-w-[40px]" src="../images/SMKNLOGO1.png" alt="Logo" />
+              {sidebarOpen && (
+                <div className="flex flex-col text-[#1F2937] font-bold leading-tight"> SMK Negeri 3 <br /> Pamekasan </div>
+            )}
           </div>
+          <div ref={scrollRef} className="relative overflow-y-auto h-[calc(100vh-120px)] no-scrollbar" >
+            <nav className="flex flex-col gap-1 px-2">
+              {menuItemSiswa.map((item, index) => (
+                <Link key={index} to={item.path} className={`relative flex items-center gap-3 p-3 rounded-lg font-semibold transition-all duration-200
+                    ${location.pathname === item.path  ? "bg-blue-50 text-blue-600"  : "hover:bg-gray-100 text-gray-500"} ${!sidebarOpen && "justify-center"}`}>
+                    {location.pathname === item.path && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 bg-blue-600 rounded-r-full" />
+                    )}
 
-          {/* Menu */}
-          <div
-            ref={scrollRef}
-            className="relative overflow-y-auto h-[calc(100vh-100px)]
-              [&::-webkit-scrollbar]:hidden 
-              [-ms-overflow-style:'none'] 
-              [scrollbar-width:'none']"
-          >
-            {menuItemSiswa.map((item, index) => (
-              <Link
-                key={index}
-                to={item.path}
-                onClick={() => setSidebarOpen(false)} // Tutup sidebar setelah klik (mobile)
-                className={`relative flex items-center gap-3 p-2 mb-3 p-2 pl-5 text-[14px] font-semibold  cursor-pointer duration-300 block w-full
-                  hover:bg-[#E5F0FF]   hover:text-[#3B82F6] ${
-                    location.pathname === item.path
-                      ? "bg-[#3B82F61F] text-[#3B82F6]"
-                      : ""
-                  }`}
-              >
-              
-                {location.pathname === item.path && (
-                    <div className="absolute left-0 top-0 h-full w-[4px] bg-[#3B82F6] rounded-r-lg"></div>
-                    // Penjelasan:
-                    // - absolute & relative: Posisi bilah di dalam Link.
-                    // - left-0, top-0, h-full: Menempel penuh di sisi kiri.
-                    // - w-[4px], bg-[#3B82F6]: Ukuran dan warna bilah biru.
-                    // - rounded-r-lg: Membuat sudut kanan (yang terlihat) melengkung.
-                )}
+                    <span className="min-w-[24px]">{item.icon}</span>
+                    {sidebarOpen && <span className="text-sm truncate">{item.name}</span>}
+                </Link>
+              ))}
+            </nav>
 
-
-                {item.icon}
-                <span>{item.name}</span>
-              </Link>
-            ))}
-
-            {/* Tombol scroll ke bawah */}
-            {showScrollButton && (
-              <button
-                onClick={scrollToBottom}
-                className="absolute bottom-4 right-4 bg-white text-[#1E3A8A] rounded-full p-2 shadow-lg hover:scale-105 transition-transform"
-              >
-                <ChevronDown size={22} />
+            {showScrollButton && sidebarOpen && (
+              <button onClick={scrollToBottom} className="sticky bottom-4 left-1/2 -translate-x-1/2 bg-white text-blue-600 rounded-full p-2 shadow-md hover:scale-110 transition-transform">
+                <ChevronDown size={20} />
               </button>
             )}
           </div>
-        </div>
+        </aside>
 
-        {/* Overlay untuk mobile */}
         {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-            onClick={() => setSidebarOpen(false)}
-          ></div>
+          <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setSidebarOpen(false)}/>
         )}
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col lg:ml-[250px] h-full overflow-y-auto">
-          {/* Navbar atas (mobile only) */}
-          <div className="flex items-center justify-between mb-5 bg-white shadow-sm p-4 lg:hidden">
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="text-[#1E3A8A] p-2"
-            >
-              {sidebarOpen ? <X size={26} /> : <Menu size={26} />}
-            </button>
-            <h1 className="font-bold text-[#1E3A8A] text-lg">Dashboard</h1>
-            <div className="w-6"></div>
-          </div>
-
-          {/* Isi Dashboard */}
-          <main className="flex-1 overflow-y-auto w-full">
-            <MainDashboard />
-            <Outlet />
+       <div className={`flex-1 flex flex-col transition-all duration-300 w-full ${sidebarOpen ? "lg:ml-[250px]" : "lg:ml-[80px]"}`}>
+          <MainDashboard toggleSidebar={() => setSidebarOpen(!sidebarOpen)} sidebarOpen={sidebarOpen}/>
+          <main className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50 p-4">
+            <div className="max-w-[1600px] mx-auto">
+              <Outlet />
+            </div>
           </main>
         </div>
       </div>

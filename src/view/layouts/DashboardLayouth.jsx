@@ -5,6 +5,7 @@ import MainDashboard from "../components/elements/MainDashboard";
 import { ChevronDown } from "lucide-react";
 import { Notification } from "../../Core/hooks/notification/Notification";
 import LoginSuccessPopup from "../components/elements/succeslogin/LoginSuccessPopup";
+import {  SidebarStaggerContainer,  SidebarItemReveal,  CharReveal } from "../components/animate/animate";
 
 export const DashboardLayouth = () => {
   const location = useLocation();
@@ -13,6 +14,26 @@ export const DashboardLayouth = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
+  }, [location.pathname]); 
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -39,76 +60,37 @@ export const DashboardLayouth = () => {
 
   return (
     <>
-      <LoginSuccessPopup
-        open={showLoginPopup}
-        onClose={() => setShowLoginPopup(false)}
-        title="Login Berhasil"
-        subtitle="Selamat datang kembali!"
-      />
-
+      <LoginSuccessPopup open={showLoginPopup} onClose={() => setShowLoginPopup(false)} title="Login Berhasil" subtitle="Selamat datang kembali!"/>
       <Notification />
 
       <div className="flex h-screen bg-gray-50">
-        {/* SIDEBAR */}
-        <div
-          className={`fixed top-0 left-0 h-full z-40
-          transform transition-all duration-300
-          ${sidebarOpen ? "w-[250px]" : "w-[70px]"}`}
-        >
+        <div className={`fixed top-0 left-0 h-full z-40 transform transition-all duration-300 ${sidebarOpen ? "w-[250px] translate-x-0" : "w-[80px] -translate-x-full lg:translate-x-0"}`}>
           <div className={`h-full bg-white ${sidebarOpen ? "" : "overflow-hidden"}`}>
-            {/* LOGO */}
-            <div
-              className={`flex justify-center items-center gap-3 py-6
-              ${sidebarOpen ? "px-10" : ""}`}
-            >
-              <img
-                src="../images/SMKNLOGO1.png"
-                className="w-10 h-10"
-                alt="SMKN Logo"
-              />
+            <div className={`flex justify-center items-center gap-3 py-6 ${sidebarOpen ? "px-10" : ""}`}>
+              <img src="../images/SMKNLOGO1.png" className="w-10 h-10 " alt="SMKN Logo"/>
               {sidebarOpen && (
-                <div className="font-semibold text-[#1F2937]">
-                  SMK Negeri 3 Pamekasan
-                </div>
+                <h1 className="flex-wrap text-[16px] font-semibold"> SMK NEGERI 3 Pamekasan</h1>
               )}
             </div>
 
-            {/* MENU */}
-            <div
-              ref={scrollRef}
-              className={`overflow-y-auto
-              ${
-                sidebarOpen
-                  ? "h-[calc(100vh-100px)] [&::-webkit-scrollbar]:hidden"
-                  : "h-[calc(100vh-80px)]"
-              }`}
-            >
-              {menuItemsOperator.map((item, index) => {
+            <div ref={scrollRef} className={`overflow-y-auto ${ sidebarOpen ? "h-[calc(100vh-100px)] [&::-webkit-scrollbar]:hidden" : "h-[calc(100vh-80px)]"}`}>
+              <div>
+                {menuItemsOperator.map((item, index) => {
                 let active = location.pathname === item.path;
 
-                if (item.path === "/home/major") {
+                if (item.path === "/home/class") {
                   active =
-                    ["/home/major", "/home/class"].includes(location.pathname) ||
+                    [ "/home/class"].includes(location.pathname) ||
                     location.pathname.startsWith("/home/classStudents");
                 }
 
                 return (
-                  <Link
-                    key={index}
-                    to={item.path}
-                    className={`relative flex items-center mb-1.5 hover:bg-[#E5F0FF]
-                    ${sidebarOpen ? "gap-3 p-2 pl-5" : "justify-center p-3"}
-                    ${active ? "bg-[#3B82F61F] text-[#3B82F6]" : ""}`}
-                    title={!sidebarOpen ? item.name : ""}
-                  >
+                  <div key={index}>
+                    <Link to={item.path} className={`relative flex items-center mb-1.5 hover:bg-[#E5F0FF] ${sidebarOpen ? "gap-3 p-2 pl-5" : "justify-center p-3"} ${active ? "bg-[#3B82F61F] text-[#3B82F6]" : ""}`} title={!sidebarOpen ? item.name : ""}>
                     {active && sidebarOpen && (
                       <div className="absolute left-0 top-0 h-full w-[4px] bg-[#3B82F6] rounded-r-lg" />
                     )}
-                    <div
-                      className={`${
-                        active && !sidebarOpen ? "text-[#3B82F6]" : ""
-                      }`}
-                    >
+                    <div className={`${ active && !sidebarOpen ? "text-[#3B82F6]" : "" }`}>
                       {item.icon}
                     </div>
                     {sidebarOpen && (
@@ -117,14 +99,15 @@ export const DashboardLayouth = () => {
                       </span>
                     )}
                   </Link>
+                  </div>
+                  
                 );
               })}
+              </div>
+              
 
               {showScrollButton && sidebarOpen && (
-                <button
-                  onClick={scrollToBottom}
-                  className="absolute bottom-4 right-4 bg-white rounded-full p-2 shadow-lg"
-                >
+                <button onClick={scrollToBottom} className="absolute bottom-4 right-4 bg-white rounded-full p-2 shadow-lg">
                   <ChevronDown size={22} />
                 </button>
               )}
@@ -132,25 +115,16 @@ export const DashboardLayouth = () => {
           </div>
         </div>
 
-        {/* OVERLAY */}
         {sidebarOpen && (
-          <div
-            onClick={() => setSidebarOpen(false)}
-            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-          />
+          <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-black/50 z-30 lg:hidden"/>
         )}
 
-        {/* CONTENT */}
-        <div
-          className={`flex-1 flex flex-col transition-all duration-300
-          ${sidebarOpen ? "lg:ml-[250px]" : "lg:ml-[70px]"}`}
-        >
-          <main className="flex-1 overflow-y-auto">
-            <MainDashboard
-              toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-              sidebarOpen={sidebarOpen}
-            />
-            <Outlet />
+        <div className={`flex-1 flex flex-col transition-all duration-300 w-full ${sidebarOpen ? "lg:ml-[250px]" : "lg:ml-[80px]"}`}>
+          <MainDashboard toggleSidebar={() => setSidebarOpen(!sidebarOpen)} sidebarOpen={sidebarOpen}/>
+          <main className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50 p-4">
+            <div className="max-w-[1600px] mx-auto">
+              <Outlet />
+            </div>
           </main>
         </div>
       </div>
