@@ -1,147 +1,128 @@
-import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState } from "react";
+import { Check, ChevronRight, ChevronDown } from "lucide-react";
 
-export const useClassFilter = (classesDataFromApi) => {
-  const [searchParams] = useSearchParams();
+const CheckIcon = () => <Check className="h-4 w-4 text-blue-600" />;
+const ChevronRightIcon = () => <ChevronRight className="w-4 h-4 text-gray-500" />;
+const ChevronDownIcon = () => <ChevronDown className="w-4 h-4 text-gray-500" />;
 
-  const initialMajorFilter = searchParams.get('major');
+const FilterDropdown = ({ filters, filterOptions, onFilterChange }) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [openCategoryKey, setOpenCategoryKey] = useState(null);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState(initialMajorFilter || 'Show all');
-  const [openCategoryKey, setOpenCategoryKey] = useState(initialMajorFilter ? 'major' : null);
-  const [searchTerm, setSearchTerm] = useState('');
+    const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+    const toggleCategory = (key) => setOpenCategoryKey((prev) => (prev === key ? null : key));
 
-  const filterMenuOptions = useMemo(() => {
-    if (!classesDataFromApi || classesDataFromApi.length === 0) {
-      return [{ type: "item", label: "Show all", filterValue: "Show all" }];
-    }
+    const getItemLabel = (item) => (typeof item === "string" ? item : item.label);
+    const getItemValue = (item) => (typeof item === "string" ? item : item.value);
 
-    const majorNames = [
-      ...new Set(
-        classesDataFromApi
-          .map((c) => c.major?.code || c.major_code || c.major || null)
-          .filter(Boolean)
-      )
+    const getActiveFilterValue = () => {
+        if (filters.major) return filters.major;
+        if (filters.level_class) return filters.level_class;
+        if (filters.school_year) return filters.school_year;
+        return "Show all";
+    };
+
+    const handleFilterSelect = (value) => {
+        let newFilters = { major: "", school_year: "", level_class: "" };
+
+        if (value === "Semua Filter" || value === "Show all" || value === "Data Tahun Ajaran Tidak Tersedia") {
+            newFilters = { major: "", school_year: "", level_class: "" };
+        } else if (filterOptions.levelClasses.some((l) => l.name === value)) {
+            newFilters.level_class = value;
+        } else if (value && typeof value === "object" && value.value) {
+            newFilters.major = value.value;
+        } else if (filterOptions.schoolYears.some((y) => y.name === value)) {
+            newFilters.school_year = value;
+        }
+
+        onFilterChange(newFilters);
+        setOpenCategoryKey(null);
+        setIsDropdownOpen(false);
+    };
+
+    const schoolYearItems = filterOptions.schoolYears;
+    const yearItemsToRender = schoolYearItems?.length > 0 ? schoolYearItems.map((y) => y.name) : ["Data Tahun Ajaran Tidak Tersedia"];
+
+    const filterMenuOptions = [
+        {
+            type: "item",
+            label: "Semua",
+            display: "Show all",
+        },
+        {
+            type: "category",
+            key: "major",
+            label: "Jurusan",
+            items: filterOptions.majors.map((m) => ({ label: m.code, value: m.code })),
+        },
+        {
+            type: "category",
+            key: "level",
+            label: "Tingkat Kelas",
+            items: filterOptions.levelClasses.map((l) => l.name),
+        },
+        {
+            type: "category",
+            key: "year",
+            label: "Tahun Ajaran",
+            items: yearItemsToRender,
+        },
     ];
 
-    const levelNames = [
-      ...new Set(
-        classesDataFromApi
-          .map((c) => c.name?.split(" ")[0]?.toUpperCase())
-          .filter(Boolean)
-      )
-    ];
+    return (
+        <div className="relative">
+            <button onClick={toggleDropdown} className="flex items-center space-x-1 px-4 py-2 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <span className="text-sm">{getActiveFilterValue()}</span>
+                <span className={`transform transition-transform duration-200 ${isDropdownOpen ? "rotate-90" : "rotate-0"}`}>
+                    &gt;
+                </span>
+            </button>
 
-    const yearNames = [
-      ...new Set(
-        classesDataFromApi
-          .map((c) =>
-            c.school_year?.name ||
-            c.school_year?.tahun ||
-            c.school_year_name ||
-            c.school_year ||
-            null
-          )
-          .filter(Boolean)
-      )
-    ];
+            {isDropdownOpen && (
+                <div className="absolute z-20 top-full mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-2xl right-0 md:left-0 p-1">
+                    <div className="px-3 py-2 text-sm font-semibold text-gray-800">Pilih Kategori</div>
+                    {filterMenuOptions.map((option, index) => {
+                        if (option.type === "item") {
+                            return (
+                                <button key={index} onClick={() => handleFilterSelect(option.display)} className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex justify-between items-center rounded-lg">
+                                    {option.display} {getActiveFilterValue() === option.display && <CheckIcon />}
+                                </button>
+                            );
+                        }
+                        if (option.type === "category") {
+                            const isOpen = openCategoryKey === option.key;
+                            const isYearEmpty = option.key === "year" && option.items[0] === "Data Tahun Ajaran Tidak Tersedia";
 
-    return [
-      { type: "item", label: "Show all", filterValue: "Show all" },
-      { type: "category", label: "Jurusan", key: "major", items: majorNames },
-      { type: "category", label: "Tingkatan", key: "level", items: levelNames },
-      { type: "category", label: "Tahun Ajaran", key: "year", items: yearNames }
-    ];
-  }, [classesDataFromApi]);
-
-  // filter data
- 
-  const filteredClasses = useMemo(() => {
-    let result = [...(classesDataFromApi || [])];
-
-    // SEARCH
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      result = result.filter(
-        (c) =>
-          c.name?.toLowerCase().includes(term) ||
-           c.homeroom_teacher?.toLowerCase().includes(term)
-      );
-    }
-
-    // FILTER DROPDOWN
-    if (selectedFilter !== "Show all") {
-      const filterValue = decodeURIComponent(selectedFilter)
-        .toUpperCase()
-        .trim();
-
-      result = result.filter((classData) => {
-        const majorCode = (
-          classData.major?.code ||
-          classData.major_code ||
-          ""
-        )
-          .toUpperCase()
-          .trim();
-
-        const majorFullName = (
-          classData.major?.code ||
-          classData.major_code ||
-          classData.major ||
-          ""
-        )
-          .toUpperCase()
-          .trim();
-
-        const levelName = classData.name?.split(" ")[0]?.toUpperCase();
-        const yearName = (
-          classData.school_year?.name ||
-          classData.school_year ||
-          ""
-        )
-          .toUpperCase()
-          .trim();
-
-        return (
-          majorCode === filterValue ||
-          majorFullName === filterValue ||
-          levelName === filterValue ||
-          yearName === filterValue
-        );
-      });
-    }
-
-    // setiap filter berubah → reset page ke 1
-    setCurrentPage(1);
-
-    return result;
-  }, [selectedFilter, searchTerm, classesDataFromApi]);
-
-  return {
-    isDropdownOpen,
-    selectedFilter,
-    openCategoryKey,
-    searchTerm,
-    filterMenuOptions,
-
-    handleFilterSelect: (opt) => {
-      setSelectedFilter(opt);
-      setIsDropdownOpen(false);
-      setOpenCategoryKey(null);
-    },
-
-    toggleDropdown: () => {
-      setIsDropdownOpen((v) => !v);
-      setOpenCategoryKey(null);
-    },
-
-    toggleCategory: (key) => {
-      setOpenCategoryKey((old) => (old === key ? null : key));
-    },
-
-    setSearchTerm,
-
-    filteredClasses 
-  };
+                            return (
+                                <div key={index} className="mt-1">
+                                    <button onClick={() => toggleCategory(option.key)} className="w-full text-left px-3 py-2 text-sm font-semibold text-gray-800 flex justify-between items-center rounded-lg hover:bg-gray-100">
+                                        {option.label} {isOpen ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                                    </button>
+                                    {isOpen && (
+                                        <div className="bg-white border-t border-gray-100">
+                                            {isYearEmpty ? (
+                                                <div className="w-full text-left pl-7 pr-3 py-1.5 text-sm text-red-500">{option.items[0]}</div>
+                                            ) : (
+                                                option.items.map((item, itemIndex) => (
+                                                    <button key={itemIndex} onClick={() => handleFilterSelect(item)} className="w-full text-left pl-7 pr-3 py-1.5 text-sm text-gray-600 hover:bg-blue-50 flex justify-between items-center">
+                                                        {getItemLabel(item)}
+                                                        {option.key === "major" && filters.major === getItemValue(item) && <CheckIcon />}
+                                                        {option.key === "level" && filters.level_class === getItemValue(item) && <CheckIcon />}
+                                                        {option.key === "year" && filters.school_year === getItemValue(item) && <CheckIcon />}
+                                                    </button>
+                                                ))
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        }
+                        return null;
+                    })}
+                </div>
+            )}
+        </div>
+    );
 };
+
+export default FilterDropdown;
