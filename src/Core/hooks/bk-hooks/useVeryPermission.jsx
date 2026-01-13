@@ -12,7 +12,7 @@ const formatNestedOptions = (majors, classroom) => {
     }];
 
     const classesByMajorCode = classroom.reduce((acc, cls) => {
-        const majorCode = cls['major.code']; 
+        const majorCode = cls.major?.code; 
         if (majorCode) {
             if (!acc[majorCode]) {
                 acc[majorCode] = [];
@@ -161,6 +161,7 @@ export function useVerifyPermissionData(fetchApi) {
         classes: nestedOptions, 
     };
 
+    
     return {
         permissions,
         loading: loading || masterLoading,

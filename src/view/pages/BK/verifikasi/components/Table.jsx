@@ -5,8 +5,8 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
 
     const StatusBadge = ({ status }) => {
         const color =
-            status === "sakit" ? "bg-[#F59E0B]" :
-            status === "dispensasi" ? "bg-[#22C55E]" :
+            status === "Sakit" ? "bg-[#F59E0B]" :
+            status === "Dispensasi" ? "bg-[#22C55E]" :
             "bg-[#0EA5E9] ";
 
         return (
@@ -73,7 +73,7 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
                                         </span>
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap"><StatusBadge status={s.type.label} /></td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-md text-gray-700">{s.start_date}</td>
+                                    <td className="px-4 py-3 whitespace-nowrap text-md text-gray-700">{s.date.start}</td>
                                     <td className="px-4 py-3 whitespace-nowrap text-sm font-medium w-[150px] sm:w-auto text-center">
                                         <button onClick={() => onAction("view", s)} className="bg-[#3B82F6] text-[12px] rounded-md h-[30px] py-[7px] px-3 text-white font-medium hover:bg-[#2563EB] transition-200 cursor-pointer">Lihat Detail</button>
                                     </td>

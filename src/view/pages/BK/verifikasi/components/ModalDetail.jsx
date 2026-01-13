@@ -1,11 +1,11 @@
-import { div } from 'framer-motion/client';
+
 import { X, Check, X as RejectIcon } from 'lucide-react';
 
 export default function DetailIzinModal({ isOpen, onClose, permissionData,loading ,onApprove, onReject}) {
     if (!isOpen || !permissionData) return null;
 
-    const { student, classroom,counselor, type_label, start_date, reason, status_label,proof } = permissionData;
-    const isPending = status_label === "Menunggu" || status === "pending";
+    const { student, classroom,counselor, type, date, reason, status,proof } = permissionData;
+    const isPending = status.label === "Menunggu" || status.label === "pending";
     const StatusModalBadge = ({ status }) => {
         const color = status === "Di Setujui" ? "text-green-600 font-bold" : 
                       status === "Ditolak" ? "text-red-600 font-bold" :
@@ -79,9 +79,9 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData,loadin
                                 <div className='mb-4'>
                                     <h4 className="font-semibold text-gray-700 mb-2 pb-1">Informasi Izin</h4>
                                     <div className="grid grid-cols-2 gap-y-1 text-sm">
-                                        <p className="text-gray-600">Jenis Izin</p><p className="font-medium">: {type_label || '-'}</p>
-                                        <p className="text-gray-600">Tanggal</p><p className="font-medium">: {start_date || '-'}</p>
-                                        <p className="text-gray-600">Status</p><p className="font-medium">: <StatusModalBadge status={status_label} /></p>
+                                        <p className="text-gray-600">Jenis Izin</p><p className="font-medium">: {type.label || '-'}</p>
+                                        <p className="text-gray-600">Tanggal</p><p className="font-medium">: {date.start || '-'}</p>
+                                        <p className="text-gray-600">Status</p><p className="font-medium">: <StatusModalBadge status={status.label} /></p>
                                     </div>
                                     <div className='mt-3'>
                                         <p className="text-gray-600 font-semibold mb-1">Alasan</p>
