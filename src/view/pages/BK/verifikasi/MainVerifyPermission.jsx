@@ -35,38 +35,33 @@ export default function VerifyPermission() {
         }
     }, []);
 
-   const handleAction = async (type, permission) => {
+    const handleAction = async (type, permission) => {
         const permissionId = permission.id; 
-        
-        if (permission.status !== 'pending' && (type === 'approve' || type === 'reject')) {
-            alert(`Izin ini sudah ${permission.status_label.toLowerCase()}. Tidak dapat diubah lagi.`);
+        if (permission.status?.value !== 'pending' && (type === 'approve' || type === 'reject')) {
+            alert(`Izin ini sudah ${permission.status?.label?.toLowerCase()}. Tidak dapat diubah lagi.`);
             return; 
         }
-
-        if (type === 'approve') {
+    
+        if (type === 'approve') { 
             try {
                 await approvePermissionBk(permissionId);
-                if (refetchData) {
-                    refetchData(); 
-                }
-
+                refetchData?.(); 
+                console.log('Berhasil menyetujui data');
             } catch (error) {
-                console.log('gagal meng setujui data');
+                console.error('Gagal menyetujui data', error);
             }
-        } else if (type === 'reject') {
+        } else if (type === 'reject') { 
             try {
                 await rejectPermissionBk(permissionId);
-                refetchData();
-
+                refetchData?.();
+                console.log('Berhasil menolak data');
             } catch (error) {
-                console.log("gagal menolak data");
+                console.error("Gagal menolak data", error);
             }
-        }else if (type === 'view') {
+        } else if (type === 'view') { 
             showDetailModal(permission);
         }
-        
     };
-
 
     const handleApprove = (permission) => handleAction('approve', permission);
     const handleReject = (permission) => handleAction('reject', permission);
