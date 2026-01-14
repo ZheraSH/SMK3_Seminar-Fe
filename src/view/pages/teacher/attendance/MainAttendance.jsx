@@ -18,16 +18,16 @@ export default function AttendanceTeacher() {
     setGlobalChanges,
     submittedClasses,
     setSubmittedClasses,
-    getDateByDay,
+    // getDateByDay,
   } = useAttendanceTeacher();
 
-  const currentDate = getDateByDay(activeDay);
+
 
   if (isOpenClass) {
     return (
       <ClassAttendance
         selectedClass={selectedClass}
-        date={currentDate}
+        // date={currentDate}
         setIsOpenClass={setIsOpenClass}
         globalChanges={globalChanges}
         setGlobalChanges={setGlobalChanges}
