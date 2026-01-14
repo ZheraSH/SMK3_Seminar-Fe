@@ -54,7 +54,7 @@ export const useSchoolYears = () => {
       setData((prev) => prev.filter((item) => item.id !== id));
       notify("Berhasil hapus tahun ajaran!");
     } catch {
-      toast.error("Gagal menghapus tahun ajaran");
+      toast.error("Gagal menghapus tahun ajaran karena aktif ");
     }
   };
 

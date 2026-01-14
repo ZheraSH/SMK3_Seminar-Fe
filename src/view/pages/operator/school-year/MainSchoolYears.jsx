@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Calendar, CircleCheckBig, MoreVertical, Trash2 } from "lucide-react";
 import HeaderPage from "../../../components/elements/header/Header.Page";
 import { Toaster } from "react-hot-toast";
-// import LoadingSpinner from "../../../components/elements/loading/Loading";
 import { useSchoolYears } from "../../../../Core/hooks/operator-hooks/schoolyears/useSchoolYears";
 import { isValidPage } from "./utils/Pagination";
 import LoadingData from "../../../components/Loading/Data";
 
-export default function TahunAjaran() {
+export default function SchoolYears() {
   const [modalOpen, setModalOpen] = useState(false);
   const [openMenuId, setOpenMenuId] = useState(null);
 
@@ -83,11 +82,7 @@ export default function TahunAjaran() {
                   onClick={handleAddSchoolYear}
                   className="flex px-15 py-2 hover:bg-[#2563EB] text-white bg-[#3B82F6] rounded-[8px]"
                 >
-                  {loading ? (
-                    <LoadingSpinner size="h-5 w-5" color="text-white" />
-                  ) : (
-                    "Simpan"
-                  )}
+                  simpan
                 </button>
               </div>
             </div>
