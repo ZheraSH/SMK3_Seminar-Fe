@@ -45,7 +45,7 @@ export const fetchSummaryClassWeekly = async (start_date, end_date) => {
 
 export const fetchSummaryClassdaily = async (date) => {
   try {
-    const res = await API.get("/homeroom-teacher/summary-class/daily-attendance", {
+    const res = await API.get("/homeroom-teacher/summary-class/students", {
       params: { date },
     });
 
