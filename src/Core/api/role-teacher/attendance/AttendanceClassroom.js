@@ -29,7 +29,7 @@ export const getCrossCheckData = async (UuidClassroom, Date, LessonOrder, Page =
 
     try {
         const res = await axios.get(
-            `${API_BASE_URL}/attendance/cross-check-data?classroom_id=${UuidClassroom}&date=${Date}&lesson_order=${LessonOrder}&page=${Page}`,
+            `${API_BASE_URL}/attendances/form?classroom_id=${UuidClassroom}&date=${Date}&lesson_order=${LessonOrder}&page=${Page}`,
             {
                 headers: {
                     Authorization: token ? `Bearer ${token}` : `Bearer `,
