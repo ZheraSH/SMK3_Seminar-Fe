@@ -1,6 +1,6 @@
 import { LayouthHomeRoom } from "../../view/layouts/HomeRoomLayouth";
 import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/MainHomeRoomTeacher";
-import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
+import { TeacherDashboard } from "../../view/pages/homeroom/HoomroomDashboard";
 import ProtectedRoute from "./ProtectedRoute";
 
 export const HomeRoomRoute =[
@@ -11,7 +11,7 @@ export const HomeRoomRoute =[
             {
                 element : <LayouthHomeRoom />,
                 children : [
-                    { index: true, element: <BodyDashboard /> },
+                    { index: true, element: <TeacherDashboard /> },
                     // // { path: "dashboard", element: <MainDashboard/> },
                     // { path: "student-class", element: <MainClassStudent /> },
                     // { path: "student-schedule", element: <MainScheduleStudent  /> },

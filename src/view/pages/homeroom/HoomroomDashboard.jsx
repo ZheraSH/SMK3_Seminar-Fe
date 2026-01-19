@@ -1,8 +1,9 @@
 "use client"
 
-import { Calendar, Clock, Grid3x3 } from "lucide-react"
+import { Calendar1, Clock, BookOpenText } from "lucide-react"
 
 export function TeacherDashboard() {
+  
   const attendanceData = [
     { no: 1, nama: "Valen Irwandy Mustabir", nisn: "006736837827", status: "Hadir", waktu: "08.30" },
     { no: 1, nama: "Valen Irwandy Mustabir", nisn: "006736837827", status: "Izin", waktu: "-" },
@@ -11,6 +12,8 @@ export function TeacherDashboard() {
     { no: 1, nama: "Valen Irwandy Mustabir", nisn: "006736837827", status: "Alpha", waktu: "-" },
     { no: 1, nama: "Valen Irwandy Mustabir", nisn: "006736837827", status: "Hadir", waktu: "08.30" },
   ]
+
+  
 
   const schedules = [
     { kelas: "XII PPLG 3", mapel: "Produktif", waktu: "07.00 - 08.45" },
@@ -47,7 +50,7 @@ export function TeacherDashboard() {
         </div>
 
         {/* Main Content */}
-        <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+        <div className="flex md:flex-row flex-col gap-4 md:gap-6 ">
           {/* Statistics */}
           <div className="rounded-lg bg-white p-4 shadow-sm md:p-6">
             <div>
@@ -82,16 +85,29 @@ export function TeacherDashboard() {
                     strokeDashoffset="-180"
                     strokeLinecap="round"
                   />
-                  {/* Blue segment (Alpha) */}
+                  {/* read segment (Alpha) */}
                   <circle
                     cx="50"
                     cy="50"
                     r="35"
                     fill="none"
-                    stroke="#3b82f6"
+                    stroke="#f63b3bff"
+                    strokeWidth="15"
+                    strokeDasharray="1 220"
+                    strokeDashoffset="-203"
+                    strokeLinecap="round"
+                  />
+
+                  {/* blue segment (Alpha) */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="35"
+                    fill="none"
+                    stroke="#3b67f6ff"
                     strokeWidth="15"
                     strokeDasharray="15 220"
-                    strokeDashoffset="-205"
+                    strokeDashoffset="-210"
                     strokeLinecap="round"
                   />
                 </svg>
@@ -122,9 +138,9 @@ export function TeacherDashboard() {
           </div>
 
           {/* Schedule */}
-          <div className="rounded-lg bg-white p-4 shadow-sm md:p-6">
+          <div className="rounded-lg bg-white w-full   p-4 shadow-sm md:p-6">
             <div className="mb-4 flex items-center gap-2 md:mb-6">
-              <Calendar className="h-4 w-4 text-blue-500 md:h-5 md:w-5" />
+              <Calendar1 className="h-4 w-4 text-blue-500 md:h-7 md:w-7" />
               <h2 className="text-base font-semibold text-gray-900 md:text-lg">Jadwal Mengajar Hari Ini</h2>
             </div>
 
@@ -138,11 +154,11 @@ export function TeacherDashboard() {
                   </div>
                   <div className="space-y-1.5 md:space-y-2">
                     <div className="flex items-center gap-2 text-xs text-gray-700 md:text-sm">
-                      <Grid3x3 className="h-3.5 w-3.5 text-gray-400 md:h-4 md:w-4" />
+                      <BookOpenText className="h-3.5 w-3.5 text-blue-500 md:h-4 md:w-4" />
                       <span>{schedule.mapel}</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-gray-700 md:text-sm">
-                      <Clock className="h-3.5 w-3.5 text-gray-400 md:h-4 md:w-4" />
+                      <Clock className="h-3.5 w-3.5 text-blue-500 md:h-4 md:w-4" />
                       <span>{schedule.waktu}</span>
                     </div>
                   </div>
