@@ -5,19 +5,13 @@ import { useTeacherSchedule } from "../../../../Core/hooks/role-teacher/teacher-
 import { getBgColorBySubject } from "../../../../Core/utils/SubjectHelper";
 
 export default function TeacherSchedule() {
-  // 🔹 default hari ini
   const today = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState(today);
-
   const { schedule, activeDay } = useTeacherSchedule(selectedDate);
-
-  // 🔹 Hari kerja saja
   const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
-
-  // 🔹 Ubah label hari → tanggal terdekat
   function getDateFromDay(dayLabel) {
     const todayDate = new Date();
-    const todayIndex = todayDate.getDay(); // 0 - 6
+    const todayIndex = todayDate.getDay(); 
 
     const map = {
       "Senin": 1,
@@ -28,8 +22,6 @@ export default function TeacherSchedule() {
     };
 
     const targetIndex = map[dayLabel];
-    if (!targetIndex) return today;
-
     const diff = targetIndex - todayIndex;
     const result = new Date(todayDate);
     result.setDate(todayDate.getDate() + diff);

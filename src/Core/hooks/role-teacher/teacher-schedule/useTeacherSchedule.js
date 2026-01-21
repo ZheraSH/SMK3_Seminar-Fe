@@ -15,69 +15,59 @@ export function useTeacherSchedule(selectedDate) {
 
   function getDayNameFromDate(dateString) {
     if (!dateString) return "";
-
     const date = new Date(dateString);
-    const dayIndex = date.getDay(); // 0 - 6
-
+    const dayIndex = date.getDay();
     const dayNames = [
-      null,        // Minggu null kan
-      "monday",    // Senin
-      "tuesday",   // Selasa
-      "wednesday", // Rabu
-      "thursday",  // Kamis
-      "friday",    // Jum'at
-      null,        // Sabtu null kan
+      null,        
+      "monday",    
+      "tuesday",   
+      "wednesday", 
+      "thursday",  
+      "friday",    
+      null,        
     ];
-
     return dayNames[dayIndex];
   }
 
   async function fetchDaily() {
+    const dayName = getDayNameFromDate(selectedDate);
+    
+    if (!dayName) {
+      setSchedule([]);
+      setActiveDay("");
+      return;
+    }
+
     try {
-      const rawData = await fetchDailyScheduleApi(selectedDate);
+      const rawData = await fetchDailyScheduleApi(dayName);
 
       const normalized = rawData.map((item) => ({
         id: item.id ?? Math.random(),
-
         dayValue: item.day?.value ?? "",
         dayLabel: item.day?.label ?? "",
-
         time: item.time ?? "-",
-        lesson : item.lesson_hour?.name ?? "-",
-
+        lesson: item.lesson_hour?.name ?? "-",
         classroom: item.classroom ?? { name: "-" },
         subject: item.subject ?? { name: "-" },
-
         has_cross_checked: item.has_cross_checked ?? false,
         can_cross_check: item.can_cross_check ?? false,
       }));
 
       setSchedule(normalized);
-
-      if (normalized.length > 0 && normalized[0].dayLabel) {
-        setActiveDay(normalized[0].dayLabel);
-      } else {
-        const dayKey = getDayNameFromDate(selectedDate);
-        setActiveDay(dayMap[dayKey] || "");
-      }
-    } catch (err) {
-      console.error("Error fetching daily schedule:", err);
+      setActiveDay(dayMap[dayName]);
+      
+    } catch (error) {
       setSchedule([]);
       setActiveDay("");
     }
   }
 
- useEffect(() => {
-  const day = getDayNameFromDate(selectedDate);
-  if (!day) return; // sabtu/minggu stop
-
-  fetchDaily();
-}, [selectedDate]);
+    useEffect(() => {
+      fetchDaily();
+    }, [selectedDate]); 
 
   return {
     schedule,
     activeDay,
-    dayMap,
-    getDayNameFromDate,
   };
 }
