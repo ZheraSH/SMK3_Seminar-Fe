@@ -24,23 +24,24 @@ export const getAttendanceClassroom = async (day) => {
     }
 };
 
-export const getCrossCheckData = async (UuidClassroom, Date, LessonOrder, Page = 1) => {
+export const getCrossCheckData = async (classroom_id, date, lesson_order, page = 1) => {
     const token = localStorage.getItem("token");
-
+    const params = new URLSearchParams({
+        classroom_id,
+        date,
+        lesson_order,
+        page
+    });
+    
     try {
-        const res = await axios.get(
-            `${API_BASE_URL}/attendances/form?classroom_id=${UuidClassroom}&date=${Date}&lesson_order=${LessonOrder}&page=${Page}`,
-            {
-                headers: {
-                    Authorization: token ? `Bearer ${token}` : `Bearer `,
-                    Accept: "application/json",
-                },
-            }
-        );
-
+        const res = await axios.get(`${API_BASE_URL}/attendances/form?${params.toString()}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
+        });
         return res.data;
     } catch (error) {
-        console.error("Gagal memuat data siswa:", error.response?.data || error.message);
         throw error;
     }
 };
@@ -50,7 +51,7 @@ export async function postCrossCheck(payload) {
     const token = localStorage.getItem("token");
 
     return axios.post(
-        `${API_BASE_URL}/attendance/cross-check`,
+        `${API_BASE_URL}/attendances/submit`,
         payload,
         {
             headers: {

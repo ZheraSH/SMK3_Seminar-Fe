@@ -1,17 +1,9 @@
-export default function TableClass({
-  attendance = [],
-  pagination,
-  status,
-  changes,
-  setChanges,
-  page,
-  canResubmit,
-  classKey,
-  isPastDate,
-}) {
+export default function TableClass({ attendance = [], pagination, status, changes, setChanges, page, canResubmit, classKey, isPastDate,}) {
   const isDisabled = !canResubmit || isPastDate;
+  const perPage = pagination?.per_page || 20; 
+  
   return (
-    <table className="w-[970px] border-collapse shadow-md rounded-lg">
+    <table className="w-full border-collapse shadow-md rounded-lg">
       <thead>
         <tr className="bg-[#3B82F6] text-white h-[46px]">
           <th className="py-2 px-4 text-center font-semibold">No</th>
@@ -30,32 +22,22 @@ export default function TableClass({
           </tr>
         ) : (
           attendance.map((s, index) => {
-            // Convert student ID to string untuk konsistensi
+            const rowNumber = ((page - 1) * perPage) + (index + 1);
             const studentId = String(s.id);
-            const finalStatus =
-              changes?.[classKey]?.[page]?.[studentId] ??
-              s?.existing_attendance?.status ??
-              "";
+            const finalStatus = changes?.[classKey]?.[page]?.[studentId] ||  s?.existing_attendance?.status || "";
 
             return (
               <tr key={s.id} className="h-[59px] border-b">
-                <td className="text-center">{pagination?.from + index}</td>
+                <td className="text-center">{rowNumber}</td>
                 <td className="text-center">{s.name}</td>
                 <td className="text-center">{s.nisn}</td>
-
                 <td className="py-2 px-4 text-center">
                   <div className="flex gap-3 justify-center flex-wrap">
                     {status.map((radio) => (
                       <label key={radio.id} className="flex items-center gap-1">
-                        <input
-                          type="radio"
-                          name={`status-${s.id}`}
-                          value={radio.value}
-                          checked={finalStatus === radio.value}
-                          disabled={isDisabled}
+                        <input type="radio" name={`status-${s.id}`} value={radio.value} checked={finalStatus === radio.value} disabled={isDisabled}
                           onChange={(e) => {
                             const newStatus = e.target.value;
-
                             setChanges((prev) => ({
                               ...prev,
                               [classKey]: {
@@ -67,11 +49,7 @@ export default function TableClass({
                               },
                             }));
                           }}
-                          className={`w-4 h-4 ${
-                            isDisabled
-                              ? "cursor-not-allowed opacity-50"
-                              : "cursor-pointer"
-                          }`}
+                          className={`w-4 h-4 ${ isDisabled   ? "cursor-not-allowed opacity-50"   : "cursor-pointer"}`}
                         />
                         {radio.label}
                       </label>

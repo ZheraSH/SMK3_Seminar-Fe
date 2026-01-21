@@ -1,281 +1,164 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { notify } from "../../notification/notify";
-import { getCrossCheckData, postCrossCheck} from "../../../api/role-teacher/attendance/AttendanceClassroom";
+import { getCrossCheckData, postCrossCheck } from "../../../api/role-teacher/attendance/AttendanceClassroom";
 
-export function useClassAttendance( selectedClass, date, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses) {
-
+export function useClassAttendance(selectedClass, date, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses) {
   const [attendance, setAttendance] = useState([]);
   const [classroom, setClassroom] = useState({});
   const [lessonSchedule, setLessonSchedule] = useState(null);
-  const [lessonOrder, setLessonOrder] = useState(null);
-  const [summary, setSummary] = useState({ total: 0, present: 0, alpha: 0, leave: 0, late: 0, sick: 0,});
+  const [summary, setSummary] = useState({ total: 0, present: 0, alpha: 0, leave: 0, late: 0, sick: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [canResubmit, setCanResubmit] = useState(false);
-  
-  const [isPastDate, setIsPastDate] = useState(false); 
+  const [isPastDate, setIsPastDate] = useState(false);
 
-  const status = useMemo(
-    () => [
-      { id: 1, value: "hadir", label: "Hadir" },
-      { id: 2, value: "alpha", label: "Alpha" },
-      { id: 3, value: "izin", label: "Izin" },
-      { id: 4, value: "terlambat", label: "Terlambat" },
-      { id: 5, value: "sakit", label: "Sakit" },
-    ],
-    []
-  );
+  const statusOptions = useMemo(() => [
+    { id: 1, value: "hadir", label: "Hadir" },
+    { id: 2, value: "alpha", label: "Alpha" },
+    { id: 3, value: "izin", label: "Izin" },
+    { id: 4, value: "terlambat", label: "Terlambat" },
+    { id: 5, value: "sakit", label: "Sakit" },
+  ], []);
+
+  useEffect(() => {
+    if (!selectedClass?.id) return;
+    const classKey = selectedClass.id;
+    const classChanges = globalChanges[classKey];
+    const newSummary = { total: 0, present: 0, alpha: 0, leave: 0, late: 0, sick: 0 };
+
+    if (classChanges) {
+      Object.values(classChanges).forEach((pageData) => {
+        Object.values(pageData).forEach((statusValue) => {
+          if (statusValue) {
+            newSummary.total++;
+            if (statusValue === "hadir") newSummary.present++;
+            else if (statusValue === "alpha") newSummary.alpha++;
+            else if (statusValue === "izin") newSummary.leave++;
+            else if (statusValue === "terlambat") newSummary.late++;
+            else if (statusValue === "sakit") newSummary.sick++;
+          }
+        });
+      });
+    }
+    setSummary(newSummary);
+  }, [globalChanges, selectedClass?.id]);
 
   const fetchAttendance = useCallback(async () => {
-    if (!selectedClass || !date) return;
-
-    if (selectedClass.lesson_order === 1) {
-      setError("Cross-check hanya untuk jam pelajaran ke-2 dan seterusnya");
-      setLoading(false);
-      return;
-    }
+    if (!selectedClass?.id || !date) return;
+    const currentOrder = selectedClass.lesson?.order || selectedClass.lesson_order;
 
     setLoading(true);
-    setError(null);
-    const classKey = selectedClass.id;
-
     try {
-      const res = await getCrossCheckData( classKey, date, selectedClass.lesson_order, page);
-
-      if (res.status || res.data) {
-        const data = res.data || res;
-
-        const submitted =
-        data.submission_status?.has_submitted || submittedClasses[classKey] || false;
-        setIsSubmitted(submitted);
-
-        setCanResubmit(data.submission_status?.can_resubmit !== false);
-
-        const students = data.students || data.data || [];
-        setAttendance(students);
-
-        setClassroom(data.classroom || {});
-        setPagination(data.pagination || null);
-        setLessonSchedule(data.lesson_schedule || null);
-        setLessonOrder(data.lesson_order || selectedClass.lesson_order);
+      const res = await getCrossCheckData(selectedClass.id, date, currentOrder, page);
+      if (res.status && res.data) {
+        const apiData = res.data;
+        const students = apiData.students || [];
         
-        setGlobalChanges((prev) => {
-          const classChanges = prev[classKey] || {};
-          const pageChanges = classChanges[page] || {};
+        setAttendance(students);
+        setClassroom(apiData.classroom || {});
+        setPagination(apiData.pagination || null);
+        setLessonSchedule(apiData.lesson_schedule || null);
+        setIsSubmitted(apiData.submission_status?.has_submitted || submittedClasses[selectedClass.id] || false);
+        setCanResubmit(apiData.submission_status?.can_resubmit !== false);
 
-          students.forEach((s) => {
-            if (!pageChanges[s.id] && s.existing_attendance?.status) {
-              pageChanges[s.id] = s.existing_attendance.status;
-            } else if (!pageChanges[s.id]) {
-              pageChanges[s.id] = "";
+        setGlobalChanges((prev) => {
+          const classKey = selectedClass.id;
+          const classChanges = prev[classKey] || {};
+          const updatedClassChanges = { ...classChanges };
+
+          students.forEach((student) => {
+            const sId = String(student.id);
+            if (!updatedClassChanges[page]?.[sId]) {
+              if (!updatedClassChanges[page]) updatedClassChanges[page] = {};
+              
+              updatedClassChanges[page][sId] = student.existing_attendance?.status || "";
             }
           });
 
           return {
             ...prev,
-            [classKey]: {
-              ...classChanges,
-              [page]: pageChanges,
-            },
+            [classKey]: updatedClassChanges,
           };
         });
-
-        if (data.summary) {
-          setSummary({
-            total: data.summary.total_students || data.summary.total || 0,
-            present: data.summary.present || 0,
-            alpha: data.summary.alpha || 0,
-            leave: data.summary.leave || 0,
-            late: data.summary.late || 0,
-            sick: data.summary.sick || 0,
-          });
-        }
-      } else {
-        setError("Data absensi tidak tersedia");
       }
     } catch (err) {
-      console.error("Fetch attendance error:", err);
-      setError(err.response?.data?.message || "Gagal memuat data absensi");
+      setError(err.response?.data?.message || "Gagal memuat data");
     } finally {
       setLoading(false);
     }
   }, [selectedClass, date, page, setGlobalChanges, submittedClasses]);
 
-  useEffect(() => {
-    if (!date) {
-        setIsPastDate(false);
-        return;
-    };
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const absenceDate = new Date(date);
-    absenceDate.setHours(0, 0, 0, 0);
-
-    const isPast = absenceDate < today;
-    setIsPastDate(isPast);
-
-  }, [date]); 
-
-
-  useEffect(() => {
-    if (selectedClass && date) {
-      setPage(1);
-    }
-  }, [selectedClass?.id, date]);
-
-  useEffect(() => {
-    fetchAttendance();
-  }, [fetchAttendance]);
+  useEffect(() => { fetchAttendance(); }, [fetchAttendance]);
 
 
   const canSubmit = useMemo(() => {
-    if (!selectedClass || !pagination) return false;
+    if (!attendance || attendance.length === 0) return false;
+    const classKey = selectedClass?.id;
+    const currentPageChanges = globalChanges[classKey]?.[page] || {};
 
-    const classKey = selectedClass.id;
-    const classChanges = globalChanges[classKey];
-
-    if (!classChanges) return false;
-
-    const totalStudents = pagination?.total || 0;
-    if (totalStudents === 0) return false;
-
-    let filledCount = 0;
-    Object.values(classChanges).forEach((pageChanges) => {
-      Object.values(pageChanges).forEach((status) => {
-        if (status && status.trim() !== "") {
-          filledCount++;
-        }
-      });
+    const allInCurrentPageFilled = attendance.every((student) => {
+      const status = currentPageChanges[student.id] || student.existing_attendance?.status;
+      return status && status !== "";
     });
 
-    return filledCount === totalStudents;
-  }, [globalChanges, selectedClass, pagination]);
+    return allInCurrentPageFilled;
+  }, [globalChanges, selectedClass, page, attendance]);
 
-  useEffect(() => {
-    if (!selectedClass) return;
-    
-    const classKey = selectedClass.id;
-    const classChanges = globalChanges[classKey];
-    
-    if (!classChanges) return;
-    
-    const newSummary = { total: 0, present: 0, alpha: 0, leave: 0, late: 0, sick: 0};
-    
-    Object.values(classChanges).forEach((pageChanges) => {
-      Object.values(pageChanges).forEach((status) => {
-        if (status && status.trim() !== "") {
-          newSummary.total++;
-          switch (status) {
-            case "hadir": newSummary.present++; break;
-            case "alpha": newSummary.alpha++; break;
-            case "izin": newSummary.leave++; break;
-            case "terlambat": newSummary.late++; break;
-            case "sakit": newSummary.sick++; break;
-          }
-        }
-      });
-    });
-    
-    if (pagination?.total && newSummary.total < pagination.total) {
-      newSummary.total = pagination.total;
-    }
-    
-    setSummary(newSummary);
-  }, [globalChanges, selectedClass, pagination]);
-
-
- const handleSubmit = async () => {
-    if (selectedClass.lesson_order === 1 || isPastDate || !canResubmit || !canSubmit) {
-        return;
-    }
-    
-    if (!lessonSchedule || !lessonSchedule.subject || !lessonSchedule.id) {
-        notify("error", "Data jadwal pelajaran tidak lengkap. Gagal submit.", "top-right");
-        return;
-    }
-
-
+  const handleSubmit = async () => {
+    if (isPastDate || !canResubmit || !canSubmit) return;
     setSubmitting(true);
+
     try {
-        const classKey = selectedClass.id;
-        const classChanges = globalChanges[classKey] || {};
+      const classKey = selectedClass.id;
+      const classChanges = globalChanges[classKey] || {};
+      const attendances = [];
 
-        const studentDataMap = attendance.reduce((map, student) => {
-            map[String(student.id)] = student;
-            return map;
-        }, {});
-
-        const attendances = [];
-        Object.values(classChanges).forEach((pageChanges) => {
-            Object.entries(pageChanges).forEach(([studentId, status]) => {
-                const student = studentDataMap[studentId];
-                const existingAttendanceId = student?.existing_attendance?.id; 
-
-                if (status && status.trim() !== "") {
-                    if (!existingAttendanceId) {
-                        console.warn(`[Submit Warning] Missing existing attendance ID for student ${studentId}. Submission might fail if ID is mandatory for cross-check.`);
-                    }
-
-                    attendances.push({
-                        attendance_id: existingAttendanceId, 
-                        student_id: studentId,
-                        status,
-                    });
-                }
+      Object.keys(classChanges).forEach((pageKey) => {
+        const pageData = classChanges[pageKey];
+        Object.entries(pageData).forEach(([studentId, statusValue]) => {
+          if (statusValue) {
+            attendances.push({
+              student_id: studentId,
+              status: statusValue
             });
+          }
         });
+      });
 
-        const body = {
-            classroom_id: classKey,
-            subject_id: lessonSchedule.subject.id, 
-            lesson_schedule_id: lessonSchedule.id,   
-            date,
-            lesson_order: lessonOrder || selectedClass.lesson_order,
-            attendances,
-        };
+      const body = {
+        classroom_id: classKey,
+        lesson_schedule_id: lessonSchedule?.id,
+        subject_id: lessonSchedule?.subject?.id,
+        date: date,
+        lesson_order: selectedClass.lesson?.order || selectedClass.lesson_order,
+        attendances: attendances
+      };
 
-        console.log("Submitting with body:", body);
-        await postCrossCheck(body);
-        
-        setSubmittedClasses((prev) => ({ ...prev, [classKey]: true }));
-        setIsSubmitted(true);
-        notify("success", "Absensi cross-check berhasil disimpan", "top-right");
-
-        await fetchAttendance();
-    } catch (err) {
-        console.error("Submit error:", err.response?.data || err.message);
-        const errorMessage =
-            err.response?.data?.message || "Gagal submit absensi. Silakan cek console untuk detail response API.";
-        notify("error", errorMessage, "top-right");
+      console.log("Payload yang dikirim:", body); 
+      await postCrossCheck(body);
+      
+      setSubmittedClasses(prev => ({ ...prev, [classKey]: true }));
+      setIsSubmitted(true);
+      notify("success", "Absensi berhasil disimpan");
+      
+      fetchAttendance();
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || "Gagal menyimpan absensi";
+      notify("error", errorMsg);
+      console.error("Submit Error:", error.response?.data);
     } finally {
-        setSubmitting(false);
+      setSubmitting(false);
     }
-};
+  };
 
-
-  return {
-    attendance,
-    classroom,
-    summary,
-    loading,
-    error,
-    page,
-    setPage,
-    pagination,
-    isSubmitted,
-    canSubmit,
-    submitting,
-    canResubmit,
-    isPastDate,
-    status,
-    handleSubmit,
-    // isTimeValid digunakan untuk menampilkan pesan, sekarang mencakup isPastDate
-    isTimeValid: canResubmit && !isPastDate, 
+  return { 
+    attendance, classroom, summary, loading, error, page, setPage, 
+    pagination, isSubmitted, canSubmit, submitting, canResubmit, 
+    isPastDate, status: statusOptions, handleSubmit, 
+    isTimeValid: canResubmit && !isPastDate 
   };
 }

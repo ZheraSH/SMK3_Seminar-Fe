@@ -1,18 +1,16 @@
 // CardAttendance.jsx
 import { GraduationCap, Users } from "lucide-react";
 
-export default function CardAttendance({ 
-  classrooms, 
-  loading, 
-  error, 
-  setSelectedClass, 
-  setIsOpenClass 
-}) {
+export default function CardAttendance({  classrooms,  loading,  error,  setSelectedClass,  setIsOpenClass }) {
 
   const handleOpenClass = (item) => {
     setSelectedClass({ 
       id: item.id, 
-      lesson_order: item.lesson_order ?? 1 // aman kalau null
+      lesson: {
+        order: item.lesson.order ?? 1 
+      },
+      lesson_order: item.lesson.order ?? 1,
+      date:  item.lesson.date,
     });
     setIsOpenClass(true);
   };
