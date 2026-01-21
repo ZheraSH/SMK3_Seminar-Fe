@@ -1,71 +1,61 @@
 import React, { useState } from "react";
 import { CircleCheck, Clock, ClipboardCheck, TriangleAlert, CalendarCog, Search, Download, RefreshCw, ChevronRight } from "lucide-react";
-import 
+import TableRecap from "./components/TableAttendance";
+import CardRecap from "./components/CardRecap";
+import {UseRecap} from "../../../../Core/hooks/Homeroom-teacher/Recap";
+import Header from "../../../components/elements/header/Header-new";
+import Pagination from "./components/Paginition";
 
 export default function RecapClass() {
-  const [selectedDate, setSelectedDate] = useState("2025-09-05");
+  const getTodayDate = () => {
+    const today = new Date();
+    const offset = today.getTimezoneOffset();
+    const adjustedDate = new Date(today.getTime() - (offset * 60 * 1000));
+    return adjustedDate.toISOString().split('T')[0];
+  };
+  const [selectedDate, setSelectedDate] = useState(getTodayDate());
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("Semua Status");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const { header,card,table,pagination,goToPage,loading,calculateNumber,searchQuery,setSearchQuery,refreshData,downloading,downloadRecap,selectedStatus,setSelectedStatus } = UseRecap(selectedDate);
 
   const formatDateDisplay = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+    return date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric",});
   };
 
     const handleRefresh = () => {
+        refreshData()
         setIsRefreshing(true);
-        setTimeout(() => {
-            setIsRefreshing(false);
-        }, 2000);
+        setTimeout(() => { setIsRefreshing(false); }, 2000);
     };
 
   const data = [
-    { title: "Total Hadir", value: 1200, color: "#4CAF50", color2: "#DBFFEE", IconComponent: CircleCheck },
-    { title: "Total Siswa Telat", value: 2, color: "#FF9800", color2: "#FEF3C7", IconComponent: Clock },
-    { title: "Total Siswa Izin", value: 4, color: "#2196F3", color2: "#DBEAFE", IconComponent: ClipboardCheck },
-    { title: "Total Siswa Alpha", value: 2, color: "#F44336", color2: "#FEE2E2", IconComponent: TriangleAlert },
+    { title: "Total Hadir", value: card.count?.present, color: "#4CAF50", color2: "#DBFFEE", IconComponent: CircleCheck },
+    { title: "Total Siswa Telat",value: card.count?.late, color: "#FF9800", color2: "#FEF3C7", IconComponent: Clock },
+    { title: "Total Siswa Izin", value:card.count?.permission, color: "#2196F3", color2: "#DBEAFE", IconComponent: ClipboardCheck },
+    { title: "Total Siswa Alpha", value:card.count?.alpha, color: "#F44336", color2: "#FEE2E2", IconComponent: TriangleAlert },
   ];
 
-  const Datatable = [
-    { nisn: "00123456", name: "Ahmad Fauzi", status: "Hadir", time: "5 Sebtember, 2025" },
-    { nisn: "00123457", name: "Siti Aminah", status: "Sakit", time: "5 Sebtember, 2025" },
-    { nisn: "00123458", name: "Budi Santoso", status: "Izin", time: "-" },
-    { nisn: "00123459", name: "Dewi Lestari", status: "Alpha", time: "-" },
-    { nisn: "00123460", name: "Rina Wijaya", status: "Hadir", time: "5 Sebtember, 2025" },
-  ];
-
-
+  // if(loading){
+  //   return(
+  //     <div className="flex justify-center items-center mt-50 flex-col items-center gap-2">
+  //       <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  //       <span className="text-gray-500 animate-pulse">Memuat data siswa...</span>
+  //     </div>
+  //   )
+  // }
   return (
-    <div className=" bg-[#F8FAFC] min-h-screen mb-40 md:mb-0">
+    <div className=" bg-[#F8FAFC] min-h-screen mb-10 md:mb-0">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {data.map((item, index) => (
-            <div key={index} className="bg-white flex flex-row p-4 h-[100px] rounded-xl shadow-sm border border-gray-100 items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div style={{ backgroundColor: item.color }} className="h-[52px] w-[4px] rounded-full"></div>
-                <div className="flex flex-col">
-                  <p className="text-[22px] md:text-[24px] font-bold leading-tight">{item.value}</p>
-                  <h2 className="text-[12px] text-gray-400 font-medium">{item.title}</h2>
-                </div>
-              </div>
-              <div className="h-[48px] w-[48px] rounded-xl flex justify-center items-center" style={{ backgroundColor: item.color2 }}>
-                <item.IconComponent color={item.color} size={22} strokeWidth={2.5} />
-              </div>
-            </div>
-          ))}
-        </div>
-
+        <Header span={`Recap Absensi - ${header?.classroom?.name ?? "-"}`} p={`Tahun Ajaran ${header?.tahun_ajaran} • Jumlah Siswa: ${header?.total_students}`}/>
+        <CardRecap data={data}/>
         <div className="flex flex-col md:flex-row md:items-center  justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
           <div className="flex flex-col md:flex-row flex-wrap items-center gap-4">
             <div className="relative w-full md:w-[250px]">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input type="text" placeholder="Cari Nama, NISN..." className="w-full h-[45px] bg-gray-50 rounded-full pl-12 pr-4 border border-gray-200 focus:border-blue-400 focus:bg-white outline-none transition-all text-sm"/>
+              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Cari Nama, NISN..." className="w-full h-[45px] bg-gray-50 rounded-full pl-12 pr-4 border border-gray-200 focus:border-blue-400 focus:bg-white outline-none transition-all text-sm"/>
             </div>
 
             <div className="relative w-full md:w-[160px]">
@@ -77,7 +67,12 @@ export default function RecapClass() {
               {isFilterOpen && (
                 <div className="absolute top-[50px] left-0 w-full bg-white border border-gray-200 rounded-2xl shadow-xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2">
                   {["Semua Status", "Hadir", "Sakit", "Izin", "Alpha"].map((status) => (
-                    <div key={status} onClick={() => { setSelectedFilter(status); setIsFilterOpen(false); }} className="px-5 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                    <div key={status} onClick={() => { setSelectedFilter(status); 
+                        const statusMap = { "Semua Status": "", "Hadir": "present", "Sakit": "sick", "Izin": "permission", "Alpha": "alpha"};
+                        setSelectedStatus(statusMap[status]);
+                        setIsFilterOpen(false); 
+                      }} 
+                      className="px-5 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-600 hover:text-blue-600 transition-colors">
                       {status}
                     </div>
                   ))}
@@ -95,7 +90,7 @@ export default function RecapClass() {
           </div>
 
           <div className="flex flex-row items-center gap-3 justify-end">
-            <button className="flex-1 md:flex-none bg-[#3B82F6] hover:bg-blue-600 h-[45px] px-3 rounded-lg text-white flex items-center justify-center transition-all shadow-md active:scale-95">
+            <button onClick={downloadRecap} disabled={downloading} className="flex-1 md:flex-none bg-[#3B82F6] hover:bg-blue-600 h-[45px] px-3 rounded-lg text-white flex items-center justify-center transition-all shadow-md active:scale-95">
               <Download size={18} strokeWidth={2.5} className="mr-2"/>
               <span className="font-semibold text-sm whitespace-nowrap">Cetak Rekap</span>
             </button>
@@ -105,49 +100,8 @@ export default function RecapClass() {
             </button>
           </div>
         </div>
-
-        <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-100 text-[14px]">
-              <thead className="bg-[#3B82F6]">
-                <tr>
-                  <th className="px-6 py-4 font-semibold text-white text-center whitespace-nowrap">No</th>
-                  <th className="px-6 py-4 font-semibold text-white text-center whitespace-nowrap">Foto</th>
-                  <th className="px-6 py-4 font-semibold text-white text-center whitespace-nowrap">Nisn</th>
-                  <th className="px-6 py-4 font-semibold text-white text-center whitespace-nowrap">Nama</th>
-                  <th className="px-6 py-4 font-semibold text-white text-center whitespace-nowrap">Status</th>
-                  <th className="px-6 py-4 font-semibold text-white text-center whitespace-nowrap">Tanggal</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {Datatable.map((item, index) => (
-                  <tr key={index} className={`${index % 2 === 1 ? 'bg-indigo-50/30' : 'bg-white'} hover:bg-blue-50/50 transition-colors`}>
-                    <td className="px-6 py-4 text-center text-gray-500">{index + 1}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex justify-center">
-                        <div className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden">
-                          <img/>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-center font-medium text-gray-600 whitespace-nowrap">{item.nisn}</td>
-                    <td className="px-6 py-4 font-medium text-center text-gray-700 whitespace-nowrap">{item.name}</td>
-                    <td className="px-6 py-4 text-center">
-                      <span className={`inline-flex items-center justify-center px-4 py-1 rounded-full text-[12px] font-medium text-white
-                        ${item.status === "Hadir" ? "bg-[#22C55E]" : 
-                          item.status === "Sakit" ? "bg-[#F59E0B]" : 
-                          item.status === "Izin" ? "bg-[#0EA5E9]" : "bg-[#EF4444]"}`}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center font-medium text-gray-500 whitespace-nowrap">{item.time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <TableRecap table={table} loading={loading} calculateNumber={calculateNumber}/>
+        <Pagination pagination={pagination} goToPage={goToPage}/> 
       </div>
     </div>
   );
