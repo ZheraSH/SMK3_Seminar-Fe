@@ -10,6 +10,15 @@ export default function BodyDashboardTeacher() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <Headernew span={ <> <GraduationCap className="inline-block mr-2" size={41} /> Hello, {userName || "Guru"}</> } p={""} src="/images/particle/particle5.png" className="!h-[120px] !w-[156px] mt-3 mr-1"/> 
+      <CardDashboardTeacher classrooms={classrooms} schedule={schedule} />
+    </div>
+  );
+}
+
+
+export const CardDashboardTeacher = ({classrooms = [], schedule = []}) => {
+  return (
+    <>
       <div className="mb-8 mt-4">
         <h2 className="text-[20px] font-semibold text-gray-900 mb-4"> Jadwal & Kelas </h2>
         <div className="flex flex-wrap gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
@@ -111,6 +120,6 @@ export default function BodyDashboardTeacher() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
