@@ -52,4 +52,16 @@ import {
     if (name.toLowerCase().includes("matematika")) return "bg-[#8B5CF6]"
     return "bg-[#3B82F6]"
   }
+
+
+  export const getBgColorStatus = (name) => {
+    if (name.toLowerCase() === "izin") return "bg-[#0EA5E9]"
+    if (name.toLowerCase() === "sakit") return "bg-[#F59E0B]"
+    if (name.toLowerCase() === "dispensasi") return "bg-[#22C55E]"
+    if (name.toLowerCase() === "hadir") return "bg-[#22C55E]"
+    if (name.toLowerCase() === "telat") return "bg-[#F59E0B]"
+    if (name.toLowerCase() === "alpha") return "bg-[#EF4444]"
+    return "bg-black"
+
+  }
   
