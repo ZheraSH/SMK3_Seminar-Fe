@@ -1,4 +1,4 @@
-import { useState, useEffect, } from "react";
+import { useState, useEffect } from "react";
 import { fetchStudentSchedule } from "../../../api/role-student/schedule/schedule";
 
 export function useStudentSchedule(activeDay) {
@@ -6,30 +6,44 @@ export function useStudentSchedule(activeDay) {
   const [classroomId, setClassroomId] = useState("-");
   const [semesterType, setSemesterType] = useState("-");
   const [academicYear, setAcademicYear] = useState("-");
-  const [loading, setLoading] = useState(true);
-  const [error,setError] = useState ();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    if (!activeDay) return;
 
-    fetchStudentSchedule(activeDay)
-      .then((data) => {
-        if (!data?.data) { 
-          setError("Data jadwal tidak ditemukan.");
-          return; }
+    let ignore = false;
 
-        setSchedule(data.data.jadwal || []);
-        setClassroomId(data.data.kelas || "-");
-        setSemesterType(data.data.semester || "-");
-        setAcademicYear(data.data.tahun_ajaran || "-");
-      })
-      .catch(() => {
-        setError("Gagal memuat data jadwal.");
-        setSchedule([]);
-        setClassroomId("-");
-      })
-      .finally(() => setLoading(false));
+    async function load() {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await fetchStudentSchedule(activeDay);
+        if (ignore) return;
+
+        setSchedule(data?.schedules || []);
+        setClassroomId(data?.classroom?.name || "-");
+
+        // sementara hardcode (BE belum kirim)
+        setSemesterType("Genap");
+        setAcademicYear("2024/2025");
+      } catch (e) {
+        if (!ignore) {
+          setError("Gagal memuat data jadwal.");
+          setSchedule([]);
+          setClassroomId("-");
+        }
+      } finally {
+        if (!ignore) setLoading(false);
+      }
+    }
+
+    load();
+
+    return () => {
+      ignore = true;
+    };
   }, [activeDay]);
 
   return {
@@ -38,6 +52,6 @@ export function useStudentSchedule(activeDay) {
     semesterType,
     academicYear,
     loading,
-    error
+    error,
   };
 }
