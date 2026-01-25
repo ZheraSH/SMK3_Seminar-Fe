@@ -174,7 +174,7 @@ export const MainStudent = () => {
       order_child: student.order_child || "",
       count_siblings: student.count_siblings || "",
       address: student.address || "",
-      gender: student.gender_value || "",
+      gender: student.gender.value || "",
       religion_id: student.religion_id || student.religion?.id || 1,
     });
 
