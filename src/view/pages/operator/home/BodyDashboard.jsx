@@ -1,109 +1,83 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { UsersRound, ContactRound, UserRoundCog, DoorClosed, CircleCheckBig } from "lucide-react"
-import { fetchCounters, fetchActivities, fetchStats } from "../../../../Core/api/role-operator/dashboard/DashboardApi"
-import CounterCard from "./components/CounterCard"
-import AttendanceChart from "./components/AttendanceChart"
-import ActivityTable from "./components/ActivityTable"
-
-const counterConfig = [
-  {
-    key: "total_students",
-    color: "#0475B0",
-    bg: "bg-[#3B82F6]/20",
-    icon: <UsersRound size={40} className="text-[#0475B0]" />,
-    title: "Total Siswa",
-  },
-  {
-    key: "total_teachers",
-    color: "#10B981",
-    bg: "bg-[#10B981]/20",
-    icon: <ContactRound size={40} className="text-[#10B981]" />,
-    title: "Total Guru",
-  },
-  {
-    key: "total_staff",
-    color: "#FF5E53",
-    bg: "bg-[#FF5E53]/20",
-    icon: <UserRoundCog size={40} className="text-[#FF5E53]" />,
-    title: "Total Staff",
-  },
-  {
-    key: "total_classrooms",
-    color: "#8B5CF6",
-    bg: "bg-[#8B5CF6]/20",
-    icon: <DoorClosed size={40} className="text-[#8B5CF6]" />,
-    title: "Total Kelas",
-  },
-  {
-    key: "attendance_percentage_today",
-    color: "#FACC15",
-    bg: "bg-[#FACC15]/20",
-    icon: <CircleCheckBig size={40} className="text-[#FACC15]" />,
-    title: "Kelas Selesai",
-  },
-]
+import { useEffect, useState } from "react";
+import CounterCardsSection from "./components/CounterCard";
+import ChartsSection from "./components/ChartsSection";
 
 export default function MainDashboard() {
-  const [counters, setCounters] = useState({})
-  const [activities, setActivities] = useState([])
-  const [weeklyStats, setWeeklyStats] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [weeklyStats, setWeeklyStats] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // popup login sukses
+  useEffect(() => {
+    const success = localStorage.getItem("loginSuccess");
+    if (success) {
+      localStorage.removeItem("loginSuccess");
+    }
+  }, []);
 
   useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true)
+    const loadStats = async () => {
+      try {
+        setIsLoading(true);
 
-      const [countersData, activitiesData, statsData] = await Promise.all([
-        fetchCounters(),
-        fetchActivities(),
-        fetchStats(),
-      ])
+        const statsData = await fetchStats();
 
-      setCounters(countersData)
-      setActivities(activitiesData)
-
-      if (statsData?.weekly_stats) {
-        const transformedData = statsData.weekly_stats.map((day) => ({
-          hari: new Date(day.date)
-            .toLocaleDateString("id-ID", {
+        if (statsData?.weekly_stats) {
+          const transformedData = statsData.weekly_stats.map((day) => ({
+            month: new Date(day.date).toLocaleDateString("id-ID", {
               day: "numeric",
               month: "short",
-            })
-            .replace(" ", " "),
-          hadir: day.present || 0,
-          izin: day.absent || 0,
-          alpha: day.alpha || 0,
-          total: day.total || 0,
-          attendance_rate: day.attendance_rate || 0,
-        }))
-        setWeeklyStats(transformedData)
+            }),
+            absence: day.absent || 0,
+          }));
+
+          setWeeklyStats(transformedData);
+        }
+      } catch (err) {
+        console.error("LOAD STATS FAILED:", err);
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      setIsLoading(false)
-    }
+    loadStats();
+  }, []);
 
-    loadData()
-  }, [])
+  const lineData = weeklyStats.length
+    ? weeklyStats
+    : [
+        { month: "Sen", absence: 5 },
+        { month: "Sel", absence: 3 },
+        { month: "Rab", absence: 2 },
+        { month: "Kam", absence: 4 },
+        { month: "Jum", absence: 1 },
+      ];
+
+  const pieData = [
+    { name: "Hadir", value: 70, color: "#22C55E" },
+    { name: "Telat", value: 10, color: "#FACC15" },
+    { name: "Izin", value: 15, color: "#3B82F6" },
+    { name: "Alpha", value: 5, color: "#EF4444" },
+  ];
+
+  if (isLoading) {
+    return (
+      <p className="text-center mt-10 text-blue-600">
+        Loading Dashboard...
+      </p>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center px-4 sm:px-6">
-      <div className="w-full max-w-7xl shadow-lg rounded-[12px] border border-gray-200 p-4 sm:p-6 mb-10 bg-white relative">
+    <div className="min-h-screen bg-gray-50 flex justify-center">
+      <div className="w-full max-w-7xl sm:p-[24px] mb-10 relative">
+        {/* COUNTERS (FETCH SENDIRI) */}
+        <CounterCardsSection />
 
-        {/* COUNTERS */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mt-4 pb-6">
-          {counterConfig.map((item) => (
-            <CounterCard key={item.key} item={item} value={counters?.[item.key]} />
-          ))}
-        </div>
-
-        {/* GRAFIK & TABEL */}
-        <div className="mt-6 flex flex-col lg:flex-row gap-6">
-          <AttendanceChart isLoading={isLoading} weeklyStats={weeklyStats} />
-          <ActivityTable activities={activities} />
-        </div>
+        {/* CHARTS */}
+        <ChartsSection lineData={lineData} pieData={pieData} />
       </div>
     </div>
-  )
+  );
 }
