@@ -16,6 +16,7 @@ import ProtectedRoute from "./ProtectedRoute";
 // import TahunAjaran from "../../view/pages/operator/schoolyears/MainSchoolYears";
 import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
 import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
+import MasterCard from "../../view/pages/operator/master-card/MainMasterCard";
 
 
 export const AdminRoutes = [
@@ -40,6 +41,7 @@ export const AdminRoutes = [
           { path: "rfid", element: <RfidManagement /> },
           { path: "Shedule", element: <Shcedule /> },
           { path: "profile", element: <ProfileEmployee /> },
+          { path: "mastercard", element: <MasterCard /> },
         ],
       },
     ],
