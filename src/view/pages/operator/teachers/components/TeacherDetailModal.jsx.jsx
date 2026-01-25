@@ -1,94 +1,104 @@
-import React from 'react';
+import React from "react";
+import { X } from "lucide-react";
 
-export const DetailModal = ({ isDetailOpen, selectedTeacher, setIsDetailOpen }) => {
+const renderText = (val) => {
+  if (!val) return "-";
+  if (typeof val === "string" || typeof val === "number") return val;
+  if (typeof val === "object") return val.label || val.value || "-";
+  return "-";
+};
+
+export const DetailModal = ({
+  isDetailOpen,
+  selectedTeacher,
+  setIsDetailOpen,
+}) => {
   if (!isDetailOpen || !selectedTeacher) return null;
 
+  const detailItems = [
+    { label: "NIP", value: renderText(selectedTeacher.nip) },
+    { label: "NIK", value: renderText(selectedTeacher.nik) },
+    { label: "Tempat Lahir", value: renderText(selectedTeacher.birth_place) },
+    { label: "Tanggal Lahir", value: renderText(selectedTeacher.birth_date) },
+    {
+      label: "Jenis Kelamin",
+      value: renderText(selectedTeacher.gender_label || selectedTeacher.gender),
+    },
+    { label: "Agama", value: renderText(selectedTeacher.religion.name) },
+    { label: "No Telepon", value: renderText(selectedTeacher.phone_number) },
+  ];
+
+  const DetailItem = ({ label, value }) => (
+    <div className="flex flex-col mb-4">
+      <div className="flex justify-between items-start w-64">
+        <span className="text-[14px] text-gray-800 flex gap-1">
+          <p className="font-medium">{label} :</p> {value}
+        </span>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl w-[700px] px-10 py-8 relative">
-        <div className="flex items-start justify-between mb-6">
-          <h2 className="text-lg font-semibold text-gray-800">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex justify-center items-center z-50 p-4">
+      <div className="bg-white rounded-xl shadow-2xl lg:w-[600px] md:w-[600px] w-full lg:h-[545px] md:h-[545px] h-[635px] -mt-10 transition-all">
+        {/* Header */}
+        <div className="flex justify-between items-center p-6 lg:ml-3 md:ml-3">
+          <h2 className="lg:text-[24px] md:text-[24px] text-[18px] font-semibold text-gray-800">
             Detail Guru
           </h2>
-        </div>
-
-        <div className="flex justify-center mb-6">
-          {selectedTeacher.image ? (
-            <img
-              src={selectedTeacher.image || "/placeholder.svg"}
-              alt="Foto guru"
-              className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm mb-5"
-            />
-          ) : (
-            <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
-              No Image
-            </div>
-          )}
-        </div>
-
-        <div className="grid grid-cols-2 text-gray-700 text-[15px] gap-y-2 mb-4">
-          <div className="space-y-7">
-            <p>
-              <span className="font-medium">Nama :</span>{" "}
-              {selectedTeacher.name || "-"}
-            </p>
-            <p>
-              <span className="font-medium">NIK :</span>{" "}
-              {selectedTeacher.NIK || "-"}
-            </p>
-            <p>
-              <span className="font-medium">Agama :</span>{" "}
-              {selectedTeacher.religion || "-"}
-            </p>
-            <p>
-              <span className="font-medium">Tanggal Lahir :</span>{" "}
-              {selectedTeacher.birth_date || "-"}
-            </p>
-            <p>
-              <span className="font-medium">No Telepon :</span>{" "}
-              {selectedTeacher.phone_number || "-"}
-            </p>
-          </div>
-
-          <div className="space-y-7">
-            <p>
-              <span className="font-medium">NIP :</span>{" "}
-              {selectedTeacher.NIP || "-"}
-            </p>
-            <p>
-              <span className="font-medium">Jenis Kelamin :</span>{" "}
-              {selectedTeacher.gender_label || "-"}
-                
-            </p>
-            <p>
-              <span className="font-medium">Tempat Lahir :</span>{" "}
-              {selectedTeacher.birth_place || "-"}
-            </p>
-            <p>
-              <span className="font-medium">Role :</span>{" "}
-              {Array.isArray(selectedTeacher.roles)
-                ? selectedTeacher.roles
-                    .map((r) => r.label || r.value || r.name || r)
-                    .join(", ")
-                : "-"}
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-4 pt-3 text-gray-700 text-[15px]">
-          <p>
-            <span className="font-medium">Alamat :</span>{" "}
-            {selectedTeacher.address || "-"}
-          </p>
-        </div>
-
-        <div className="flex justify-center mt-6">
           <button
             onClick={() => setIsDetailOpen(false)}
-            className="px-6 py-2 bg-[#3B82F6] text-white rounded-[15px] hover:bg-blue-700 transition-all shadow-md"
+            className="text-gray-400 hover:text-gray-600 p-1 rounded-full transition"
           >
-            Tutup
+            <X size={24} />
           </button>
+        </div>
+
+        {/* Content */}
+        <div className="lg:ml-10 ml-6 max-h-[80vh] lg:mx-10 mx-6">
+          {/* Profile section */}
+          <div className="flex items-center border-b-2 border-[#9CA3AF] gap-6 pb-4 mb-4 flex-col sm:flex-row">
+            <div className="w-[120px] h-[120px] rounded-full overflow-hidden bg-gray-200 border-2 border-[#6B7280] flex-shrink-0">
+              {selectedTeacher.image ? (
+                <img
+                  src={selectedTeacher.image}
+                  alt="Foto Guru"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                  No Image
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center sm:items-start sm:pt-4">
+              <h3 className="text-[18px] font-semibold text-gray-900">
+                {renderText(selectedTeacher.name)}
+              </h3>
+              <p className="text-[14px] text-gray-600 mt-0.5">
+                {renderText(selectedTeacher.email)}
+              </p>
+              <span className="mt-2 text-[12px] font-medium text-white bg-[#3B82F6] py-[3px] px-3 rounded-full">
+                Guru
+              </span>
+            </div>
+          </div>
+
+          {/* Detail grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-32 gap-y-2 pt-2">
+            {detailItems.map((item, index) => (
+              <DetailItem key={index} label={item.label} value={item.value} />
+            ))}
+
+            {/* Address */}
+            <div className="sm:col-span-2 mt-4">
+              <span className="text-[14px] text-gray-800 flex gap-1">
+                <p className="font-medium">Alamat :</p>
+                {renderText(selectedTeacher.address)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

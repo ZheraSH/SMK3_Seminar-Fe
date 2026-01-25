@@ -122,16 +122,16 @@ export const TeacherForm = ({
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
-                errors.NIK ? "border-red-500" : "border-gray-300"
+                errors.nik ? "border-red-500" : "border-gray-300"
               }`}
               type="text"
-              placeholder="Masukkan NIK"
-              name="NIK"
-              value={post.NIK}
+              placeholder="Masukkan nik"
+              name="nik"
+              value={post.nik}
               onChange={handleInput}
             />
-            {errors.NIK && (
-              <p className="text-red-500 text-sm mt-1">{errors.NIK[0]}</p>
+            {errors.nik && (
+              <p className="text-red-500 text-sm mt-1">{errors.nik[0]}</p>
             )}
           </div>
 
@@ -144,16 +144,16 @@ export const TeacherForm = ({
             </label>
             <input
               className={`border rounded-lg p-2 w-full ${
-                errors.NIP ? "border-red-500" : "border-gray-300"
+                errors.nip ? "border-red-500" : "border-gray-300"
               }`}
               type="text"
-              placeholder="Masukkan NIP"
-              name="NIP"
-              value={post.NIP}
+              placeholder="Masukkan nip"
+              name="nip"
+              value={post.nip}
               onChange={handleInput}
             />
-            {errors.NIP && (
-              <p className="text-red-500 text-sm mt-1">{errors.NIP[0]}</p>
+            {errors.nip && (
+              <p className="text-red-500 text-sm mt-1">{errors.nip[0]}</p>
             )}
           </div>
 

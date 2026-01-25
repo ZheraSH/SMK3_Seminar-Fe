@@ -2,8 +2,32 @@ import React, { useRef, useState, useEffect } from "react";
 import { Edit3, Trash2, Eye } from "lucide-react";
 import { createPortal } from "react-dom";
 
+/**
+ * Mapping warna role
+ * Jangan hardcode di JSX
+ */
+const ROLE_COLORS = {
+  admin: "bg-red-100 text-red-700",
+  teacher: "bg-blue-100 text-blue-700",
+  homeroom_teacher: "bg-green-100 text-green-700",
+  staff: "bg-purple-100 text-purple-700",
+  default: "bg-gray-100 text-gray-700",
+};
+
+const getRoleStyle = (role) => {
+  if (!role) return ROLE_COLORS.default;
+
+  const key =
+    typeof role === "string"
+      ? role.toLowerCase()
+      : role.value?.toLowerCase() || role.label?.toLowerCase();
+
+  return ROLE_COLORS[key] || ROLE_COLORS.default;
+};
+
 export const TeacherTable = ({
-  currentTeachers,
+  currentTeachers = [],
+  startIndex = 0, // ⬅️ FIXED: dari parent
   openItemId,
   setOpenItemId,
   handleDetail,
@@ -13,10 +37,9 @@ export const TeacherTable = ({
   const dropdownRefs = useRef({});
   const btnRefs = useRef({});
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
-  const [dropUp, setDropUp] = useState(false);
 
   useEffect(() => {
-    function handleClickOutside(e) {
+    const handleClickOutside = (e) => {
       if (
         openItemId &&
         dropdownRefs.current[openItemId] &&
@@ -25,96 +48,133 @@ export const TeacherTable = ({
       ) {
         setOpenItemId(null);
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [openItemId]);
+  }, [openItemId, setOpenItemId]);
 
   const calculateDropdownPos = (btn) => {
     if (!btn) return;
 
     const rect = btn.getBoundingClientRect();
-    const dropdownHeight = 120; 
+    const dropdownHeight = 120;
+    const dropdownWidth = 130;
+
     const willDropUp = window.innerHeight - rect.bottom < dropdownHeight;
 
-    setDropUp(willDropUp);
-
     setDropdownPos({
-      left: rect.right - 130,
       top: willDropUp ? rect.top - dropdownHeight : rect.bottom,
+      left: rect.right - dropdownWidth,
     });
   };
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+    <div className="w-full overflow-x-auto rounded-lg border border-blue-200 shadow-sm">
       <table className="min-w-full bg-white">
         <thead>
-          <tr className="bg-[#3B82F6] text-white text-sm">
-            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6]">Foto</th>
-            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6]">Nama</th>
-            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6] hidden sm:table-cell">NIP</th>
-            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6] hidden sm:table-cell">Mapel</th>
-            <th className="px-4 py-3 font-medium text-left border-r border-[#3B82F6] hidden md:table-cell">Roles</th>
-            <th className="px-4 py-3 text-center font-medium">Aksi</th>
+          <tr className="bg-[#3B82F6] text-white text-sm font-medium">
+            <th className="px-4 py-3 text-left">No</th>
+            <th className="px-4 py-3 text-left">Foto</th>
+            <th className="px-4 py-3 text-left">Nama</th>
+            <th className="px-4 py-3 text-left hidden sm:table-cell">NIP</th>
+            <th className="px-4 py-3 text-left hidden sm:table-cell">Jenis Kelamin</th>
+            <th className="px-4 py-3 text-left hidden md:table-cell">Roles</th>
+            <th className="px-4 py-3 text-left">Aksi</th>
           </tr>
         </thead>
 
-        <tbody className="text-sm text-gray-800">
-          {currentTeachers.length > 0 ? (
-            currentTeachers.map((teacher) => (
-              <tr key={teacher.id} className="border-t border-gray-200 hover:bg-gray-50 transition">
-                <td className="px-4 py-3 text-center">
+        <tbody className="text-sm font-medium text-gray-800">
+          {currentTeachers.length ? (
+            currentTeachers.map((teacher, index) => (
+              <tr
+                key={teacher.id}
+                className="
+                  border-t border-blue-200
+                  even:bg-blue-50
+                  odd:bg-white
+                  hover:bg-blue-100/70
+                  transition
+                "
+              >
+                {/* NO */}
+                <td className="px-4 py-3 text-left font-medium">
+                  {startIndex + index + 1}
+                </td>
+
+                {/* FOTO */}
+                <td className="px-4 py-3">
                   <img
-                    src={teacher.image}
+                    src={teacher.image || "/placeholder.svg"}
                     alt={teacher.name}
-                    className="border border-gray-400 rounded-full w-[38px] h-[38px] object-cover"
+                    className="w-[38px] h-[38px] rounded-full object-cover border border-blue-200"
                   />
                 </td>
 
+                {/* NAMA */}
                 <td className="px-4 py-3">
-                  <div className="flex flex-col max-w-[140px]">
-                    <span className="font-medium truncate">{teacher.name}</span>
-                    <span className="text-[12px] text-gray-600">{teacher.gender}</span>
+                  <div className="flex flex-col max-w-[160px]">
+                    <span className="font-medium truncate">
+                      {teacher.name}
+                    </span>
                   </div>
                 </td>
 
-                <td className="px-4 py-3 font-medium hidden sm:table-cell truncate max-w-[140px]">
-                  {teacher.NIP}
+                {/* NIP */}
+                <td className="px-4 py-3 hidden sm:table-cell truncate">
+                  {teacher.nip || "-"}
                 </td>
 
-                <td className="px-4 py-3 font-medium hidden sm:table-cell truncate max-w-[160px]">
-                  {teacher.subjects?.[0]?.name || "-"}
+                {/* MAPEL */}
+                <td className="px-4 py-3 hidden sm:table-cell truncate">
+                {teacher.gender?.label || "-"}
                 </td>
 
-                <td className="px-4 py-3 hidden md:table-cell truncate max-w-[160px]">
-                  {Array.isArray(teacher.roles)
-                    ? teacher.roles.map((r) => r.label).join(", ")
-                    : teacher.roles?.label || teacher.roles?.value || "-"}
+                {/* ROLES */}
+                <td className="px-4 py-3 hidden md:table-cell">
+                  <div className="flex flex-wrap gap-1">
+                    {Array.isArray(teacher.roles) && teacher.roles.length ? (
+                      teacher.roles.map((role, i) => (
+                        <span
+                          key={i}
+                          className={`
+                            px-2 py-[2px] rounded-full text-xs font-medium
+                            ${getRoleStyle(role)}
+                          `}
+                        >
+                          {role.label || role.value || role}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-gray-500">-</span>
+                    )}
+                  </div>
                 </td>
 
-                {/* DROPDOWN BUTTON */}
-                <td
-                  className="px-4 py-3 text-center relative whitespace-nowrap"
-                >
+                {/* AKSI */}
+                <td className="px-4 py-3 text-left">
                   <button
                     ref={(el) => (btnRefs.current[teacher.id] = el)}
                     onClick={(e) => {
-                      calculateDropdownPos(e.currentTarget, teacher.id);
-                      setOpenItemId(openItemId === teacher.id ? null : teacher.id);
+                      calculateDropdownPos(e.currentTarget);
+                      setOpenItemId(
+                        openItemId === teacher.id ? null : teacher.id
+                      );
                     }}
-                    className="text-gray-700 hover:text-gray-900"
+                    className="text-gray-700 hover:text-blue-600"
                   >
-                    <i className="fa-solid fa-ellipsis-vertical text-lg"></i>
+                    <i className="fa-solid fa-ellipsis-vertical text-lg" />
                   </button>
                 </td>
 
-                {/* PORTAL DROPDOWN */}
+                {/* DROPDOWN */}
                 {openItemId === teacher.id &&
                   createPortal(
                     <div
-                      ref={(el) => (dropdownRefs.current[teacher.id] = el)}
-                      className="absolute w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-[9999]"
+                      ref={(el) =>
+                        (dropdownRefs.current[teacher.id] = el)
+                      }
+                      className="w-32 bg-white border border-blue-200 rounded-xl shadow-lg z-[9999]"
                       style={{
                         position: "fixed",
                         top: dropdownPos.top,
@@ -126,7 +186,7 @@ export const TeacherTable = ({
                           handleDetail(teacher);
                           setOpenItemId(null);
                         }}
-                        className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
+                        className="flex items-left w-full px-3 py-2 hover:bg-blue-50"
                       >
                         <Eye className="w-4 h-4 text-blue-500 mr-2" />
                         Detail
@@ -137,7 +197,7 @@ export const TeacherTable = ({
                           handleEdit(teacher);
                           setOpenItemId(null);
                         }}
-                        className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
+                        className="flex items-left w-full px-3 py-2 hover:bg-blue-50"
                       >
                         <Edit3 className="w-4 h-4 text-yellow-500 mr-2" />
                         Edit
@@ -148,7 +208,7 @@ export const TeacherTable = ({
                           handleDelete(teacher.id);
                           setOpenItemId(null);
                         }}
-                        className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
+                        className="flex items-left w-full px-3 py-2 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4 text-red-500 mr-2" />
                         Hapus
@@ -160,7 +220,7 @@ export const TeacherTable = ({
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="text-center py-5 text-gray-500">
+              <td colSpan="7" className="text-center py-6 text-gray-500">
                 Tidak ada data guru
               </td>
             </tr>

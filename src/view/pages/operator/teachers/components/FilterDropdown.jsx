@@ -42,7 +42,7 @@ export const TeacherFilterDropdown = ({ category, setCategory, masters }) => {
     >
       <button
         onClick={() => setOpenCategory(!openCategory)}
-        className="flex items-center gap-2 bg-white border rounded-full px-4 py-2 shadow-sm hover:bg-gray-50 transition text-sm font-medium w-full sm:w-[200px] justify-between"
+        className="flex items-center gap-2 bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm hover:bg-gray-50 transition text-sm w-full sm:w-[200px] justify-between"
       >
         <span className="text-black truncate">{category.label}</span>
         <ChevronRight
