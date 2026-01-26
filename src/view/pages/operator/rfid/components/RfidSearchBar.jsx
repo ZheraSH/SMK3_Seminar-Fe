@@ -9,7 +9,7 @@ export function RfidSearchBar({ search, onSearchChange, onAddClick }) {
         <Search size={20} className="text-black" />
         <input
           type="text"
-          placeholder="Cari Nama/NISN"
+          placeholder="Cari Nama Pengguna"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
           className="w-full outline-none text-[14px] bg-transparent placeholder:text-black"

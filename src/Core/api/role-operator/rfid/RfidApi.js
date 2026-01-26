@@ -9,14 +9,14 @@ export const fetchRfid = async (page = 1, search = "") => {
         page,
         search
       }
-      
+
     });
 
     return {
       data: res.data.data || [],
       meta: res.data.meta || {}
     };
-    
+
   } catch (err) {
     console.error("Gagal mengambil RFID:", err);
     throw err;
@@ -62,10 +62,11 @@ export const addRfid = async (payload) => {
 // Ambil siswa yang belum punya RFID
 export const fetchAvailableStudents = async () => {
   try {
-    const res = await axios.get(`http://127.0.0.1:8000/api/rfids/available-students`);
+    const res = await axios.get(`http://127.0.0.1:8000/api/rfids/students-available`);
+    console.log(res.data.data);
     return res.data.data || [];
   } catch (error) {
-    console.error("Gagal fetch students:", error);
+    console.error("Gagal fetch students coy:", error);
     throw error;
   }
 };

@@ -1,15 +1,18 @@
 "use client";
+import { useState } from "react";
 import { useRfidManagement } from "../../../../Core/hooks/operator-hooks/rfid/use-rfid-management";
-
 import { RfidHeader } from "./components/RfidHeader";
 import { RfidTable } from "./components/RfidTable";
-
-import  RfidEditModal  from "./components/RfidEditModal";
+import RfidEditModal from "./components/RfidEditModal";
 import { RfidSearchBar } from "./components/RfidSearchBar";
 import { PaginationRfid } from "./components/RfidPagination";
 import { useRfid } from "../../../../Core/hooks/operator-hooks/rfid/usePagination";
 import RfidAddModal from "./components/RfidAddModal";
-import {deleteRFID} from "../../../../Core/api/role-operator/rfid/RfidApi"
+import { deleteRFID } from "../../../../Core/api/role-operator/rfid/RfidApi";
+import Header from "../../../components/elements/header/Header-new";
+
+
+import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
 
 export function RfidManagement() {
   const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =
@@ -30,23 +33,44 @@ export function RfidManagement() {
     handleEdit,
   } = useRfidManagement();
 
-  const handleDelete = async (id) => {
-    // Konfirmasi dulu
-    const ok = window.confirm("Yakin mau hapus RFID ini?");
-    if (!ok) return;
-  
+  // State for Delete Modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleteLoading(true);
+
     try {
-      await deleteRFID(id);
+      await deleteRFID(deleteId);
       setRefresh((r) => r + 1);
+      setShowDeleteModal(false);
+      setDeleteId(null);
     } catch (e) {
       console.error("Gagal hapus RFID", e);
+    } finally {
+      setDeleteLoading(false);
     }
   };
-  
+
+  const refreshData = () => {
+    setRefresh((r) => r + 1);
+  };
+
 
   return (
     <div className="min-h-screen bg-gray-50 px-6">
-      <RfidHeader />
+      <Header
+        span="Daftar RFID"
+        p="Daftar Pengguna RFID"
+        src="/images/particle/rfid.png"
+      />
 
       {/* SEARCH */}
       <RfidSearchBar
@@ -55,16 +79,13 @@ export function RfidManagement() {
         onAddClick={() => setShowAdd(true)}
       />
 
-      {/* TABLE */}
+      {/* TABLE dengan prop onStatusUpdate */}
       <RfidTable
         filtered={rfid}
         openMenu={openMenu}
         onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
-        onEditClick={(item) => {
-          setSelected(item);
-          setShowEdit(true);
-        }}
         onDeleteClick={handleDelete}
+        onStatusUpdate={refreshData}
       />
 
       {/* PAGINATION */}
@@ -86,16 +107,28 @@ export function RfidManagement() {
           setShowAdd(false);
           setNewData({ nama: "", idKartu: "", status: "Aktif" });
         }}
-        onSuccess={() => setRefresh((r) => r + 1)}
+        onSuccess={refreshData}
       />
 
-      {/* EDIT */}
       <RfidEditModal
         show={showEdit}
         selected={selected}
         onDataChange={setSelected}
-        onSave={handleEdit}
+        onSave={() => {
+          handleEdit();
+          refreshData();
+        }}
         onClose={() => setShowEdit(false)}
+      />
+
+      {/* DELETE CONFIRMATION MODAL */}
+      <DeleteConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDelete}
+        title="Hapus RFID?"
+        message="Apakah Anda yakin ingin menghapus data RFID ini? Tindakan ini tidak dapat dibatalkan."
+        loading={deleteLoading}
       />
     </div>
   );
