@@ -16,6 +16,8 @@ import {
 import { extractTeacherMasters } from "./components/utils/teacherMasterExtractor";
 import { TeacherFilterDropdown } from "./components/FilterDropdown";
 
+import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
+
 export const TeacherMain = () => {
   const [religions, setReligions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +46,11 @@ export const TeacherMain = () => {
 
   const { Teacher, meta, page, setPage, reload } = useTeacher();
 
+  // Delete Modal State
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   const [category, setCategory] = useState({
     type: "",
     value: "",
@@ -58,7 +65,7 @@ export const TeacherMain = () => {
     switch (category.type) {
       case "gender":
         return Teacher.filter((t) => t.gender?.value === category.value);
-      
+
       case "subjects":
         return Teacher.filter((t) =>
           t.subjects?.some((subject) => subject.id === category.value)
@@ -145,9 +152,25 @@ export const TeacherMain = () => {
     setIsDetailOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    const ok = await deleteTeacherApi(id);
-    if (ok) reload();
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleteLoading(true);
+
+    try {
+      const ok = await deleteTeacherApi(deleteId);
+      if (ok) reload();
+      setShowDeleteModal(false);
+      setDeleteId(null);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   const handleAddNewTeacher = () => {
@@ -245,6 +268,16 @@ export const TeacherMain = () => {
         onPrev={() => setPage(page - 1)}
         onNext={() => setPage(page + 1)}
         onPageClick={(p) => setPage(p)}
+      />
+
+      {/* DELETE CONFIRMATION MODAL */}
+      <DeleteConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDelete}
+        title="Hapus Guru?"
+        message="Apakah Anda yakin ingin menghapus data guru ini? Tindakan ini tidak dapat dibatalkan."
+        loading={deleteLoading}
       />
     </div>
   );

@@ -113,7 +113,7 @@ export const deleteStudent = async (id) => {
     notify("Data Berhasil Dihapus")
   } catch (err) {
     console.error(err)
-    alert("Gagal menghapus data siswa")
+    notify("Gagal menghapus data siswa", "error")
     throw err
   }
 }
