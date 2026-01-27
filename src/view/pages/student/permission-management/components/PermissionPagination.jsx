@@ -1,61 +1,63 @@
 "use client"
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export function PaginationPermissionStudent({ page, lastPage, onPrev, onNext, onPageClick }) {
+  if (lastPage <= 1) return null;
+
   const renderPages = () => {
-    const pages = []
-
-    pages.push(1)
-
-    if (page > 3) {
-      pages.push("...")
-    }
-
-    for (let p = Math.max(2, page - 1); p <= Math.min(lastPage - 1, page + 1); p++) {
-      if (!pages.includes(p)) {
-        pages.push(p)
+    const pages = [];
+    if (lastPage <= 3) {
+      for (let i = 1; i <= lastPage; i++) pages.push(i);
+    } else {
+      if (page <= 3) {
+        pages.push(1, 2, 3, "...", lastPage);
+      } else if (page > 3 && page < lastPage - 2) {
+        pages.push(1, "...", page, "...", lastPage);
+      } else {
+        pages.push(1, "...", lastPage - 2, lastPage - 1, lastPage);
       }
     }
+    return pages;
+  };
 
-    if (page < lastPage - 2) {
-      pages.push("...")
-    }
-
-    if (lastPage > 1 && !pages.includes(lastPage)) {
-      pages.push(lastPage)
-    }
-
-    return pages
-  }
+  // Konstanta Style agar sama persis dengan Nomor 2
+  const basePageStyle = "w-[28px] h-[28px] flex items-center justify-center font-medium text-sm rounded-sm transition-all duration-150"; 
+  const activeStyle = "bg-[#3B82F6] text-white shadow-md"; 
+  const defaultStyle = "text-[#3B82F6] hover:bg-gray-100 border border-transparent";
+  const ellipsisStyle = "flex items-center justify-center text-[#3B82F6] w-[28px]";
+  const chevronStyle = "p-2 text-[#3B82F6] disabled:text-gray-300 disabled:cursor-not-allowed hover:bg-gray-50 rounded-md transition-colors";
 
   return (
-    <div className="flex justify-center mt-6 items-center gap-2">
-      {/* PREV */}
-      <button onClick={onPrev} disabled={page === 1} className="px-2 py-1 text-gray-500 disabled:opacity-40">
-        &lt;
+    <div className="flex items-center justify-end space-x-2 font-sans mt-6"> 
+      {/* Tombol PREV menggunakan Ikon Lucide */}
+      <button onClick={onPrev} disabled={page === 1} className={chevronStyle}>
+        <ChevronLeft size={24} strokeWidth={2.5} />
       </button>
 
-      {/* PAGE BUTTONS */}
-      {renderPages().map((p, i) =>
-        p === "…" ? (
-          <span key={i} className="px-2 text-gray-500">
-            …
-          </span>
-        ) : (
-          <button
-            key={i}
-            onClick={() => onPageClick(p)}
-            className={`px-3 py-1 rounded 
-              ${p === page ? "bg-blue-600 text-white" : "text-blue-600 hover:bg-blue-100"}`}
-          >
-            {p}
-          </button>
-        ),
-      )}
+      {/* RENDER NOMOR HALAMAN */}
+      <div className="flex items-center space-x-1">
+        {renderPages().map((p, i) =>
+          p === "..." ? (
+            <span key={`dots-${i}`} className={ellipsisStyle}>
+              ...
+            </span>
+          ) : (
+            <button
+              key={`page-${p}`}
+              onClick={() => onPageClick(p)}
+              className={`${basePageStyle} ${p === page ? activeStyle : defaultStyle}`}
+              aria-current={p === page ? "page" : undefined}
+            >
+              {p}
+            </button>
+          )
+        )}
+      </div>
 
-      {/* NEXT */}
-      <button onClick={onNext} disabled={page === lastPage} className="px-2 py-1 text-gray-500 disabled:opacity-40">
-        &gt;
+      {/* Tombol NEXT menggunakan Ikon Lucide */}
+      <button onClick={onNext} disabled={page === lastPage} className={chevronStyle}>
+        <ChevronRight size={24} strokeWidth={2.5} />
       </button>
     </div>
-  )
+  );
 }

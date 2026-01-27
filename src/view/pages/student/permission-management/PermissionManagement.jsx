@@ -23,23 +23,33 @@ export default function PermissionManagement() {
   const submitForm = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
     setFormErrors({});
+    let clientErrors = {};
+
+    if (!formData.type) clientErrors.type = ["Jenis izin harus dipilih"];
+    if (!formData.start_date) clientErrors.start_date = ["Tanggal mulai harus diisi"];
+    if (!formData.end_date) clientErrors.end_date = ["Tanggal selesai harus diisi"];
+    if (!formData.reason) clientErrors.reason = ["Alasan tidak boleh kosong"];
+    if (!formData.proof) clientErrors.proof = ["Silakan unggah bukti terlebih dahulu"];
+
+    if (Object.keys(clientErrors).length > 0) {
+      setFormErrors(clientErrors);
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const result = await handleSubmit(formData);
 
       if (result.success) {
-        setFormData({ type: "", start_date: "", end_date: "", proof: "", reason: "",});
-        setFormErrors({});
+        setFormData({ type: "", start_date: "", end_date: "", proof: "", reason: "" });
         setIsModalOpen(false);
       } else {
         setFormErrors(result.errors || {});
       }
     } catch (err) {
-      console.error("Error submitting form:", err);
-      setFormErrors({
-        general: ["Terjadi kesalahan. Silakan coba lagi."],
-      });
+      setFormErrors({ general: ["Terjadi kesalahan pada server."] });
     } finally {
       setIsSubmitting(false);
     }

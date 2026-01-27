@@ -119,17 +119,22 @@ export const PermissionFormModal = ({ isOpen, onClose, formData, onFormChange, o
 
           <div>
             <label className="block text-[14px] font-medium text-gray-700 mb-2"> Bukti </label>
-            <div className="relative w-full border border-gray-300 bg-gray-100 rounded-lg p-2 flex items-center">
-                <input type="file" id="proof-upload" onChange={(e) => onFormChange({ ...formData, proof: e.target.files[0] })} disabled={isSubmitting} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
-                <label  htmlFor="proof-upload" className={`py-1 px-4 rounded-md text-[14px] cursor-pointer shadow-md transition duration-200 text-white ${formData.proof  ? "bg-gray-400 hover:bg-gray-500" : "bg-blue-600 hover:bg-blue-700" }`} >
-                    Choose File
-                </label>
-                <span className="ml-3 text-gray-700 truncate">
-                    {formData.proof ? formData.proof.name : 'Belum ada file dipilih'}
-                </span>
+            <div className={`relative w-full border rounded-lg p-2 flex items-center transition duration-150 ${
+              errors.proof ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-gray-100'}`}>
+              <input type="file" id="proof-upload" accept="image/*,.pdf"onChange={(e) => onFormChange({ ...formData, proof: e.target.files[0] })} disabled={isSubmitting} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+              <label htmlFor="proof-upload" className={`py-1 px-4 rounded-md text-[14px] cursor-pointer shadow-md transition duration-200 text-white ${
+                  formData.proof ? "bg-gray-400 hover:bg-gray-500" : "bg-blue-600 hover:bg-blue-700"}`}>
+                Choose File
+              </label>
+              <span className={`ml-3 text-sm truncate ${errors.proof ? 'text-red-700' : 'text-gray-700'}`}>
+                {formData.proof ? formData.proof.name : 'Belum ada file dipilih'}
+              </span>
             </div>
+  
             {errors.proof && (
-            <p className="text-red-600 text-sm mt-1">{errors.proof[0]}</p>
+              <p className="text-red-600 text-sm mt-1 animate-pulse">
+                {errors.proof[0] || "Bukti dokumen wajib diunggah"}
+              </p>
             )}
           </div>
 
