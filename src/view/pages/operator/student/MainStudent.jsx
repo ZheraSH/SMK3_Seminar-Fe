@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FormModal } from "./components/FormModal";
 import { DetailModal } from "./components/DetailModal";
@@ -16,7 +16,7 @@ import { SearchFilterStudent } from "./components/Search";
 import { StudentFilterDropdown } from "./components/FilterDroopDownStudent";
 import { useStudentFilter } from "../../../../Core/hooks/operator-hooks/student/useStudentFilter";
 import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
-import LoadingData from "../../../components/Loading/Data"
+import LoadingData from "../../../components/Loading/Data";
 
 export const MainStudent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +45,11 @@ export const MainStudent = () => {
   const [page, setPage] = useState(1);
   const [deleteId, setDeleteId] = useState(null);
   const [meta, setMeta] = useState({ current_page: 1, last_page: 1, total: 0 });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state
+
+  // Move the useStudentFilter hook call here, inside the component
+  const { category, setCategory, masters, appliedFilters, resetFilter } =
+    useStudentFilter();
 
   const loadReligionsData = async () => {
     try {
@@ -56,11 +60,11 @@ export const MainStudent = () => {
     }
   };
 
-  const loadStudentsData = async () => {
+  const loadStudentsData = useCallback(async () => {
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      const res = await fetchStudents(page, searchTerm);
+      // Pass appliedFilters to fetchStudents if your API supports filtering
+      const res = await fetchStudents(page, searchTerm, appliedFilters);
       setStudents(res.data || []);
       setMeta(res.meta || { current_page: 1, last_page: 1, total: 0 });
     } catch (err) {
@@ -69,55 +73,15 @@ export const MainStudent = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, searchTerm, appliedFilters]);
 
   useEffect(() => {
     loadStudentsData();
-  }, [page, searchTerm]);
+  }, [loadStudentsData]);
 
   useEffect(() => {
     loadReligionsData();
   }, []);
-
-  const {
-    category,
-    setCategory,
-    masters,
-    filteredStudents: studentsByFilter,
-    resetFilter,
-  } = useStudentFilter(students);
-
-  const filteredStudents = useMemo(() => {
-    let result = studentsByFilter;
-
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      result = result.filter((student) => {
-        if (student.name?.toLowerCase().includes(searchLower)) return true;
-
-        const nisnString = student.nisn ? student.nisn.toString() : "";
-        if (nisnString.toLowerCase().includes(searchLower)) return true;
-
-        if (student.classroom?.name?.toLowerCase().includes(searchLower))
-          return true;
-
-        if (student.classroom?.level_class?.toLowerCase().includes(searchLower))
-          return true;
-
-        if (student.classroom?.major?.toLowerCase().includes(searchLower))
-          return true;
-
-        const level = student.classroom?.level_class || "";
-        const major = student.classroom?.major || "";
-        const fullClass = `${level} ${major}`.toLowerCase().trim();
-        if (fullClass.includes(searchLower)) return true;
-
-        return false;
-      });
-    }
-
-    return result;
-  }, [studentsByFilter, searchTerm]);
 
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
@@ -154,10 +118,12 @@ export const MainStudent = () => {
 
       setEditingId(null);
       setPage(1);
-      loadStudentsData();
+      await loadStudentsData();
       setIsOpen(false);
     } catch (err) {
-      if (err.response?.data?.errors) setErrors(err.response.data.errors);
+      if (err.response?.data?.errors) {
+        setErrors(err.response.data.errors);
+      }
     }
   };
 
@@ -166,6 +132,12 @@ export const MainStudent = () => {
     if (!post.name) newErrors.name = ["Nama wajib diisi."];
     if (!post.email) newErrors.email = ["Email wajib diisi."];
     if (!post.gender) newErrors.gender = ["Jenis kelamin wajib dipilih."];
+    if (!post.nisn) newErrors.nisn = ["NISN wajib diisi."];
+    if (!post.birth_place)
+      newErrors.birth_place = ["Tempat lahir wajib diisi."];
+    if (!post.birth_date) newErrors.birth_date = ["Tanggal lahir wajib diisi."];
+    if (!post.address) newErrors.address = ["Alamat wajib diisi."];
+    if (!post.religion_id) newErrors.religion_id = ["Agama wajib dipilih."];
     return newErrors;
   };
 
@@ -182,7 +154,7 @@ export const MainStudent = () => {
       order_child: student.order_child || "",
       count_siblings: student.count_siblings || "",
       address: student.address || "",
-      gender: student.gender.value || "",
+      gender: student.gender?.value || student.gender || "",
       religion_id: student.religion_id || student.religion?.id || 1,
     });
 
@@ -199,12 +171,12 @@ export const MainStudent = () => {
     setDeleteId(id);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     if (!deleteId) return;
 
     try {
       await deleteStudent(deleteId);
-      loadStudentsData();
+      await loadStudentsData();
     } catch (err) {
       console.error(err);
     } finally {
@@ -218,15 +190,11 @@ export const MainStudent = () => {
     setPage(1);
   };
 
-  if( loading ){
-    return (<LoadingData loading={loading} />);
-   }
-
   return (
     <div className="p-6">
       <div className="flex flex-col gap-3 mb-5">
         <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-          <div className="flex flex-col sm:flex-row  gap-3 w-full items-start sm:items-center">
+          <div className="flex flex-col sm:flex-row gap-3 w-full items-start sm:items-center">
             <SearchFilterStudent
               searchTerm={searchTerm}
               onSearchChange={(value) => {
@@ -240,9 +208,11 @@ export const MainStudent = () => {
               setCategory={setCategory}
               masters={masters}
             />
+
+            <div className=""></div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
             {/* Detail Modal */}
             <DetailModal
               isOpen={isDetailOpen}
@@ -250,13 +220,13 @@ export const MainStudent = () => {
               student={selectedStudent}
             />
 
-            {/*Tambah Data */}
+            {/* Tambah Data */}
             <button
               onClick={() => {
                 setEditingId(null);
                 setIsOpen(true);
               }}
-              className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
+              className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
             >
               + Tambah Siswa
             </button>
@@ -264,7 +234,14 @@ export const MainStudent = () => {
         </div>
       </div>
 
-      {/* FORM MODAL */}
+      {/* Loading State */}
+      {loading && (
+        <div className="text-center py-4">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <p className="mt-2 text-gray-600">Memuat data...</p>
+        </div>
+      )}
+
       <FormModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -276,22 +253,28 @@ export const MainStudent = () => {
         religions={religions}
       />
 
-      {/* TABLE */}
-      <StudentsTable
-        students={filteredStudents}
-        onDetail={handleDetail}
-        onEdit={handleEdit}
-        onDelete={askDeleteStudent}
-      />
+      {!loading && (
+        <>
+          <StudentsTable
+            students={students}
+            onDetail={handleDetail}
+            onEdit={handleEdit}
+            onDelete={askDeleteStudent}
+          />
 
-      {/* PAGINATION */}
-      <PaginationStudent
-        page={page}
-        lastPage={meta.last_page}
-        onPrev={() => setPage(page - 1)}
-        onNext={() => setPage(page + 1)}
-        onPageClick={(p) => setPage(p)}
-      />
+          {meta.last_page > 1 && (
+            <PaginationStudent
+              page={page}
+              lastPage={meta.last_page}
+              onPrev={() => setPage((prev) => Math.max(1, prev - 1))}
+              onNext={() =>
+                setPage((prev) => Math.min(meta.last_page, prev + 1))
+              }
+              onPageClick={(p) => setPage(p)}
+            />
+          )}
+        </>
+      )}
 
       <DeleteConfirmModal
         open={deleteId !== null}
