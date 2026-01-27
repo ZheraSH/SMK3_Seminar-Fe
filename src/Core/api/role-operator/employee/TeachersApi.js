@@ -2,23 +2,32 @@ import axios from 'axios';
 import { notify } from '../../../hooks/notification/notify';
 
 
-export const fetchTeachersApi = async (page = 1) => {
+export const fetchTeachersApi = async (page = 1, filters = {}) => {
   try {
-    const res = await axios.get("http://127.0.0.1:8000/api/employees", {
+    const params = {
+      page,
+      ...filters
+    };
 
-      params: {
-        page,
+    Object.keys(params).forEach(key => {
+      if (params[key] === undefined || params[key] === null || params[key] === "") {
+        delete params[key];
       }
-      
     });
-    console.log(res.data.data);
+
+    const res = await axios.get("http://127.0.0.1:8000/api/employees", {
+      params,
+      paramsSerializer: {
+        indexes: null
+      }
+    });
+
     return {
       data: res.data.data || [],
       meta: res.data.meta || {}
     };
-    
   } catch (err) {
-    console.error("Gagal mengambil RFID:", err);
+    console.error("Gagal mengambil data guru:", err);
     throw err;
   }
 };
@@ -68,11 +77,11 @@ export const submitTeacherApi = async (editingId, post) => {
     }
     return { success: true };
   } catch (err) {
-    console.log("🔥 ERROR RESPONSE:", err.response?.data);
+    console.log("ERROR RESPONSE:", err.response?.data);
     if (err.response?.data?.errors) {
       return { success: false, errors: err.response.data.errors };
     } else {
-      console.log("⚠️ Tidak ada field 'errors' di response");
+      console.log("Tidak ada field 'errors' di response");
       return { success: false };
     }
   }

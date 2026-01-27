@@ -1,38 +1,38 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { fetchTeachersApi } from "../../../api/role-operator/employee/TeachersApi"
+import { useState, useEffect, useCallback } from "react";
+import { fetchTeachersApi } from "../../../../Core/api/role-operator/employee/TeachersApi";
 
-export function useTeacher() {
-  const [Teacher, setTeacher] = useState([])
-  const [meta, setMeta] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [page, setPage] = useState(1)
+export const useTeacherPagination = () => {
+  const [teachers, setTeachers] = useState([]);
+  const [meta, setMeta] = useState({ last_page: 1 });
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
-
-  const load = async () => {
-    setLoading(true)
-    try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      const res = await fetchTeachersApi(page)
-      setTeacher(res.data)
-      setMeta(res.meta)
-    } catch (err) {
-      console.error(err)
-    }
-    setLoading(false)
-  }
+  const reload = useCallback(
+    async (newPage = page, filters = {}) => {
+      setLoading(true);
+      try {
+        const res = await fetchTeachersApi(newPage, filters);
+        setTeachers(res.data || []);
+        setMeta(res.meta || { last_page: 1 });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [page]
+  );
 
   useEffect(() => {
-    load()
-  }, [page])
+    reload(page, {});
+  }, [page, reload]);
 
   return {
-    Teacher,
+    teachers,
     meta,
-    loading,
     page,
     setPage,
-    reload: load,
-  }
-}
+    reload,
+    loading,
+  };
+};

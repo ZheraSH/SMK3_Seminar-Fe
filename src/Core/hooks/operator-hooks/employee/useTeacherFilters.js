@@ -1,43 +1,61 @@
-import { useMemo, useState } from "react";
-import { extractTeacherMasters } from "../../../../view/pages/operator/teachers/components/utils/teacherMasterExtractor";
+"use client";
 
-export const useTeacherFilter = (teachers) => {
+import { useState, useCallback, useRef, useEffect } from "react";
+
+export const useTeacherFilter = (applyFilters) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState({
     type: "",
     value: "",
     label: "Pilih Kategori",
   });
+  
+  const searchTimeout = useRef(null);
 
-  const masters = useMemo(() => {
-    return extractTeacherMasters(teachers);
-  }, [teachers]);
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeout.current) {
+        clearTimeout(searchTimeout.current);
+      }
+    };
+  }, []);
 
-  const filteredTeachers = useMemo(() => {
-    if (!category.type || !category.value) return teachers;
+  const handleSearch = useCallback(
+    (value) => {
+      setSearchTerm(value);
+      clearTimeout(searchTimeout.current);
 
-    switch (category.type) {
-      case "gender":
-        return teachers.filter((t) => t.gender?.value === category.value);
+      searchTimeout.current = setTimeout(() => {
+        const filters = {};
+        if (value.trim()) filters.search = value.trim();
+        if (category.type && category.value)
+          filters[category.type] = category.value;
 
-      case "subjects":
-        return teachers.filter((t) =>
-          t.subjects?.some((s) => String(s.id) === String(category.value))
-        );
+        applyFilters(filters);
+      }, 500);
+    },
+    [category, applyFilters]
+  );
 
-      case "role":
-        return teachers.filter((t) =>
-          t.roles?.some((role) => role.value === category.value)
-        );
+  const handleCategoryChange = useCallback(
+    (cat) => {
+      setCategory(cat);
 
-      default:
-        return teachers;
-    }
-  }, [teachers, category]);
+      const filters = {};
+      if (searchTerm.trim()) filters.search = searchTerm.trim();
+      if (cat.type && cat.value) filters[cat.type] = cat.value;
+
+      applyFilters(filters);
+    },
+    [searchTerm, applyFilters]
+  );
 
   return {
+    searchTerm,
     category,
+    handleSearch,
+    handleCategoryChange,
     setCategory,
-    masters,
-    filteredTeachers,
   };
 };
