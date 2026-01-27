@@ -1,34 +1,48 @@
 import axios from "axios";
 
-function getToken() {
-  return localStorage.getItem("token") || "";
-}
+const API_BASE_URL = "http://127.0.0.1:8000/api/teacher";
 
-async function apiGetTeacher(url) {
-  const token = getToken();
+export const getDashboardClassroom = async (day) => {
+    const token = localStorage.getItem("token");
 
-  if (!token) {
-    console.error("NO TOKEN FOUND");
-    return [];
-  }
+    try {
+        const res = await axios.get(
+            `${API_BASE_URL}/schedules/classrooms/${day}`,
+            {
+                headers: {
+                    Authorization: token ? `Bearer ${token}` : `Bearer `,
+                    Accept: "application/json",
+                },
+            }
+        );
 
-  try {
-    const res = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json"
-      }
-    });
+        console.log("Data Absensi Kelas dari API:", res.data);
+        return res.data.data;
+    } catch (err) {
+        console.error("Gagal memuat daftar kelas:", err.response?.data || err.message);
+        return [];
+    }
+};
 
-    return res.data?.data ?? [];
-  } catch (err) {
-    console.error("API ERROR:", err);
-    return [];
-  }
-}
 
-export const getTodaySchedule = () =>
-  apiGetTeacher("http://127.0.0.1:8000/api/teacher/dashboard/today-schedule");
+export const getDashboardSchedule = async (day) => {
+    const token = localStorage.getItem("token");
 
-export const getClassroomList = () =>
-  apiGetTeacher("http://127.0.0.1:8000/api/teacher/dashboard/classroom-list");
+    try {
+        const res = await axios.get(
+            `${API_BASE_URL}/schedules/${day}`,
+            {
+                headers: {
+                    Authorization: token ? `Bearer ${token}` : `Bearer `,
+                    Accept: "application/json",
+                },
+            }
+        );
+
+        console.log("Data jadwal Kelas dari API:", res.data);
+        return res.data.data;
+    } catch (err) {
+        console.error("Gagal memuat daftar kelas:", err.response?.data || err.message);
+        return [];
+    }
+};
