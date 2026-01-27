@@ -1,23 +1,64 @@
-"use client"
-
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
+import { useEffect, useState } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { fetchAttendanceStatistics } from "../../../../../Core/api/role-homeroom/dashboard/HomeroomDashboard";
+import LoadingData from "../../../../components/elements/loadingData/loading";
 
 export default function AttendanceChart() {
-  const data = [
-    { name: "Hadir", value: 82 },
-    { name: "Sakit", value: 10 },
-    { name: "Izin", value: 5 },
-    { name: "Alfa", value: 3 },
-  ]
+  const [loading, setLoading] = useState(true);
+  const [percentage, setPercentage] = useState(0);
+  const [dateInfo, setDateInfo] = useState({ date: "", day_name: "" });
+  const [data, setData] = useState([
+    { name: "Hadir", value: 0 },
+    { name: "Telat", value: 0 },
+    { name: "Izin", value: 0 },
+    { name: "Alfa", value: 0 },
+  ]);
 
-  const COLORS = ["#22c55e", "#f59e0b", "#0ea5e9", "#ef4444"]
+  const COLORS = ["#22c55e", "#f59e0b", "#0ea5e9", "#ef4444"];
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetchAttendanceStatistics();
+        if (response.status) {
+          const resData = response.data;
+          const count = resData.count;
+
+          setData([
+            { name: "Hadir", value: count.present },
+            { name: "Telat", value: count.late },
+            { name: "Izin", value: count.permission },
+            { name: "Alfa", value: count.alpha },
+          ]);
+
+          setPercentage(resData.attendance_percentage || 0);
+          setDateInfo({
+            date: resData.date,
+            day_name: resData.day_name,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load chart data", error);
+      } finally {
+        setTimeout(() => setLoading(false), 800);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <LoadingData loading={loading} type="card" />;
+  }
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
       <h2 className="text-lg font-semibold text-gray-900">
         Statistik Kehadiran Harian
       </h2>
-      <p className="text-sm text-gray-500 mb-6">Data minggu ini:</p>
+      <p className="text-sm text-gray-500 mb-6">
+        {dateInfo.day_name}, {dateInfo.date}
+      </p>
 
       <ResponsiveContainer width="100%" height={280}>
         <PieChart>
@@ -40,7 +81,7 @@ export default function AttendanceChart() {
                 dominantBaseline="middle"
                 className="fill-green-500 text-4xl font-bold"
               >
-                82%
+                {percentage}%
               </text>
             )}
           >
@@ -63,5 +104,5 @@ export default function AttendanceChart() {
         ))}
       </div>
     </div>
-  )
+  );
 }
