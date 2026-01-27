@@ -19,13 +19,6 @@ const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  o
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-100 text-center">
-                        {isLoading && (
-                            <tr>
-                                <td colSpan={6} className="px-4 py-8 text-center text-blue-500 font-semibold">
-                                    Memuat jadwal hari {activeDay}...
-                                </td>
-                            </tr>
-                        )}
 
                         {!isLoading && schedules.length > 0 ? (
                             schedules.map((item, index) => (

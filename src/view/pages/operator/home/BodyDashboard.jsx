@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CounterCardsSection from "./components/CounterCard";
 import ChartsSection from "./components/ChartsSection";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 export default function MainDashboard() {
   const [weeklyStats, setWeeklyStats] = useState([]);
@@ -37,7 +38,9 @@ export default function MainDashboard() {
       } catch (err) {
         console.error("LOAD STATS FAILED:", err);
       } finally {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 800);
       }
     };
 
@@ -61,19 +64,15 @@ export default function MainDashboard() {
     { name: "Alpha", value: 5, color: "#EF4444" },
   ];
 
-  if (isLoading) {
-    return (
-      <p className="text-center mt-10 text-blue-600">
-        Loading Dashboard...
-      </p>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center">
       <div className="w-full max-w-7xl sm:p-[24px] mb-10 relative">
         {/* COUNTERS (FETCH SENDIRI) */}
-        <CounterCardsSection />
+        {isLoading? 
+        (<LoadingData  loading={isLoading} type="attendanceChart" count={4}/> ) 
+        : (
+          <CounterCardsSection />
+        )}
 
         {/* CHARTS */}
         <ChartsSection lineData={lineData} pieData={pieData} />

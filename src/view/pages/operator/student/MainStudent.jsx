@@ -15,7 +15,7 @@ import { PaginationStudent } from "./components/Pagination";
 import { SearchFilterStudent } from "./components/Search";
 import { StudentFilterDropdown } from "./components/FilterDroopDownStudent";
 import { useStudentFilter } from "../../../../Core/hooks/operator-hooks/student/useStudentFilter";
-import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 export const MainStudent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +37,7 @@ export const MainStudent = () => {
     religion_id: 1,
   });
   const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -59,6 +60,7 @@ export const MainStudent = () => {
   };
 
   const loadStudentsData = async () => {
+    setLoading(true);
     try {
       const res = await fetchStudents(page, searchTerm);
       setStudents(res.data || []);
@@ -66,6 +68,10 @@ export const MainStudent = () => {
     } catch (err) {
       console.error(err);
       setStudents([]);
+    } finally {
+      setTimeout(() => {
+      setLoading(false);
+    }, 800);
     }
   };
 
@@ -222,45 +228,49 @@ export const MainStudent = () => {
 
   return (
     <div className="p-6">
-      <div className="flex flex-col gap-3 mb-5">
-        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-          <div className="flex flex-col sm:flex-row  gap-3 w-full items-start sm:items-center">
-            <SearchFilterStudent
-              searchTerm={searchTerm}
-              onSearchChange={(value) => {
-                setPage(1);
-                setSearchTerm(value);
-              }}
-            />
+      {loading? 
+      (<LoadingData loading={loading} type="create"/>)
+      : (
+        <div className="flex flex-col gap-3 mb-5">
+          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+            <div className="flex flex-col sm:flex-row  gap-3 w-full items-start sm:items-center">
+              <SearchFilterStudent
+                searchTerm={searchTerm}
+                onSearchChange={(value) => {
+                  setPage(1);
+                  setSearchTerm(value);
+                }}
+              />
 
-            <StudentFilterDropdown
-              category={category}
-              setCategory={setCategory}
-              masters={masters}
-            />
-          </div>
+              <StudentFilterDropdown
+                category={category}
+                setCategory={setCategory}
+                masters={masters}
+              />
+            </div>
 
-          <div className="flex gap-3">
-            {/* Detail Modal */}
-            <DetailModal
-              isOpen={isDetailOpen}
-              onClose={() => setIsDetailOpen(false)}
-              student={selectedStudent}
-            />
+            <div className="flex gap-3">
+              {/* Detail Modal */}
+              <DetailModal
+                isOpen={isDetailOpen}
+                onClose={() => setIsDetailOpen(false)}
+                student={selectedStudent}
+              />
 
-            {/*Tambah Data */}
-            <button
-              onClick={() => {
-                setEditingId(null);
-                setIsOpen(true);
-              }}
-              className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
-            >
-              + Tambah Siswa
-            </button>
+              {/*Tambah Data */}
+              <button
+                onClick={() => {
+                  setEditingId(null);
+                  setIsOpen(true);
+                }}
+                className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
+              >
+                + Tambah Siswa
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* FORM MODAL */}
       <FormModal
@@ -274,32 +284,25 @@ export const MainStudent = () => {
         religions={religions}
       />
 
-      {/* TABLE */}
-      <StudentsTable
-        students={filteredStudents}
-        onDetail={handleDetail}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      {loading? (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />) 
+      :(
+        <>
+          <StudentsTable
+          students={filteredStudents}
+          onDetail={handleDetail}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+        <PaginationStudent
+          page={page}
+          lastPage={meta.last_page}
+          onPrev={() => setPage(page - 1)}
+          onNext={() => setPage(page + 1)}
+          onPageClick={(p) => setPage(p)}
+        />
+        </>
+      )}
 
-      {/* PAGINATION */}
-      <PaginationStudent
-        page={page}
-        lastPage={meta.last_page}
-        onPrev={() => setPage(page - 1)}
-        onNext={() => setPage(page + 1)}
-        onPageClick={(p) => setPage(p)}
-      />
-
-      {/* DELETE CONFIRMATION MODAL */}
-      <DeleteConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={confirmDelete}
-        title="Hapus Siswa?"
-        message="Apakah Anda yakin ingin menghapus data siswa ini? Tindakan ini tidak dapat dibatalkan."
-        loading={deleteLoading}
-      />
     </div>
   );
 };

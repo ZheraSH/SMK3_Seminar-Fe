@@ -5,6 +5,7 @@ import AddScheduleModal from "./components/FormSchedule";
 import Header2 from '../../../components/elements/header/Header-new';
 import ScheduleTable from './components/TableSheduleDetail';
 import ModalDelete from '../../../components/elements/modaldelete/ModalDelete';
+import LoadingData from '../../../components/elements/loadingData/loading';
 
 const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
     if (!show) return null; 
@@ -119,26 +120,36 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses ,setAct
 
     return (
         <div className="">
-            <Header2 span={`Jadwal Kelas ${classroom.name}`} p={`Daftar kelas - ${classroom.name}`} src='/images/particle/particle3.png' />
-            <div className="flex flex-col lg:flex-row lg:justify-between  md:flex-row md:justify-between  items-center pb-2 mb-4  md:h-[60px] gap-3 md:gap-0">
-                <div className="flex space-x-2 w-full md:w-auto overflow-x-auto p-1 rounded-lg flex-shrink-0">
-                    {days.map(day => (
-                        <button key={day} onClick={() => setActiveDay(day)} className={`flex-shrink-0 px-4 py-2 text-sm font-medium rounded-lg transition duration-200 drop-shadow-sm ${
-                                activeDay === day ? 'bg-[#3B82F6] text-white' : 'text-gray-600 bg-[#E5E7EB] border border-[#CBD5E1]'}`}>
-                            {day}
+            {isLoadingSchedule? (<LoadingData loading={isLoadingSchedule} type='header1' />)
+            : (
+                <Header2 span={`Jadwal Kelas ${classroom.name}`} p={`Daftar kelas - ${classroom.name}`} src='/images/particle/particle3.png' />
+            )}
+            {isLoadingSchedule? (<LoadingData loading={isLoadingSchedule} type='create2'/>)
+            : (
+                <div className="flex flex-col lg:flex-row lg:justify-between  md:flex-row md:justify-between  items-center pb-2 mb-4  md:h-[60px] gap-3 md:gap-0">
+                    <div className="flex space-x-2 w-full md:w-auto overflow-x-auto p-1 rounded-lg flex-shrink-0">
+                        {days.map(day => (
+                            <button key={day} onClick={() => setActiveDay(day)} className={`flex-shrink-0 px-4 py-2 text-sm font-medium rounded-lg transition duration-200 drop-shadow-sm ${
+                                    activeDay === day ? 'bg-[#3B82F6] text-white' : 'text-gray-600 bg-[#E5E7EB] border border-[#CBD5E1]'}`}>
+                                {day}
+                            </button>
+                        ))}
+                    </div>
+                    <div className='flex flex-row gap-2 w-full lg:w-auto'>
+                        <button onClick={() => setActiveTab('jam')} className='flex-1 lg:flex-none text-[10px] lg:text-[14px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6] hover:bg-[#2563EB] px-3 rounded-[8px] flex flex-row gap-2 justify-center items-center cursor-pointer'>
+                            <Settings className='w-5 h-5'/> <span>Setting Jam Pelajaran</span>
                         </button>
-                    ))}
+                        <button  onClick={handleBackToClasses}  className="flex-1 lg:flex-none flex items-center justify-center space-x-1 font-semibold border border-[#D1D5DB] bg-white px-3 py-2 rounded-lg text-sm">
+                            <ArrowLeft size={16} /> <span>Kembali</span>
+                        </button>
+                    </div>
                 </div>
-                <div className='flex flex-row gap-2 w-full lg:w-auto'>
-                    <button onClick={() => setActiveTab('jam')} className='flex-1 lg:flex-none text-[10px] lg:text-[14px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6] hover:bg-[#2563EB] px-3 rounded-[8px] flex flex-row gap-2 justify-center items-center cursor-pointer'>
-                        <Settings className='w-5 h-5'/> <span>Setting Jam Pelajaran</span>
-                    </button>
-                    <button  onClick={handleBackToClasses}  className="flex-1 lg:flex-none flex items-center justify-center space-x-1 font-semibold border border-[#D1D5DB] bg-white px-3 py-2 rounded-lg text-sm">
-                        <ArrowLeft size={16} /> <span>Kembali</span>
-                    </button>
-                </div>
-            </div>
-            <ScheduleTable isLoading={isLoadingSchedule} activeDay={activeDay} schedules={schedulesToDisplay} toggleDropdown={toggleDropdown} openDropdownId={openDropdownId} dropdownRef={dropdownRef} onEdit={openEditModal} onDelete={handleDeleteSchedule} onAdd={openAddModal}/>         
+            )}
+            {isLoadingSchedule? 
+            (<LoadingData loading={isLoadingSchedule}  type='tableSchedule' count={10}/> ) 
+            : (
+                <ScheduleTable isLoading={isLoadingSchedule} activeDay={activeDay} schedules={schedulesToDisplay} toggleDropdown={toggleDropdown} openDropdownId={openDropdownId} dropdownRef={dropdownRef} onEdit={openEditModal} onDelete={handleDeleteSchedule} onAdd={openAddModal}/>
+            ) }         
             <AddScheduleModal isOpen={isModalOpen} onClose={closeModal} initialData={editingItem} activeDayApi={activeDayApi}classroomId={classroomId} handleSave={saveSchedule}/>
             <ModalDelete isOpen={confirmModal.show}  onConfirm={executeRemoval}  onClose={() => setConfirmModal({ show: false, item: null, message: null })}  />
         </div>

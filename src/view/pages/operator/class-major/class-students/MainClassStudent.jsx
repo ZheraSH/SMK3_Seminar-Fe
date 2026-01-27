@@ -6,6 +6,7 @@ import PaginationComponent from './components/PaginationComponent';
 import FormStudents from "./components/FormClassStudent"; 
 import useClassroomDetail from '../../../../../Core/hooks/operator-hooks/class-major/useClassroomDetail';
 import Header2 from "../../../../components/elements/header/Header-new2";
+import LoadingData from '../../../../components/elements/loadingData/loading';
 
 function ModalAddStudent({ open, onClose, classroom, availableStudents, addStudents }) {
     if (!open) return null;
@@ -73,56 +74,55 @@ const ClassStudents = () => {
         </Link>
     );
 
-    if (loading && !classroom) return <div className="p-10">Loading Detail Kelas...</div>;
-    if (!classroom) {
-        return (
-            <div className="p-10">
-                <div className='flex justify-between items-center mb-6'>
-                    <h2 className='text-xl font-bold text-red-500'>Data Kelas Tidak Ditemukan</h2>
-                    <BackButton />
-                </div>
-                <p className='text-gray-600'>ID kelas yang diminta mungkin tidak valid atau sudah dihapus.</p>
-            </div>
-        );
-    }
 
     const currentPage = paginationMeta?.current_page || 1;
     const totalPages = paginationMeta?.last_page || 1;
     return (
         <>
             <div className=" md:mb-2 mb-32">
-                <Header2 title = {`Kelas - ${classroom?.name}`} teacher= {classroom?.homeroom_teacher} studentCont = {classroom?.total_students} academicYear={classroom?.school_year} src="/images/particle/particle3.png"/>
-                <div className="flex items-center justify-between pt-4 md:flex-row flex-col ">
-                    <div className="relative flex-grow md:max-w-sm w-full">
-                        <input type="text" placeholder="Cari Nama,NISN" value={search}  onChange={(e) => setSearch(e.target.value)} className="w-full py-2 pl-10 pr-4 rounded-full text-gray-700 border border-gray-300 "/>
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-700" />
-                    </div>
+                {loading? (<LoadingData loading={loading} type='header1' />)
+                :(
+                    <Header2 title = {`Kelas - ${classroom?.name}`} teacher= {classroom?.homeroom_teacher} studentCont = {classroom?.total_students} academicYear={classroom?.school_year} src="/images/particle/particle3.png"/>
+                )}
+                {loading? (<LoadingData loading={loading} type='create2' />) 
+                : (
+                    <div className="flex items-center justify-between pt-4 md:flex-row flex-col ">
+                        <div className="relative flex-grow md:max-w-sm w-full">
+                            <input type="text" placeholder="Cari Nama,NISN" value={search}  onChange={(e) => setSearch(e.target.value)} className="w-full py-2 pl-10 pr-4 rounded-full text-gray-700 border border-gray-300 "/>
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-700" />
+                        </div>
 
-                    <div className="flex xl:space-x-3 sm:space-x-3 lg:flex-row md:flex-row flex-col justify-end w-full md:mt-0 mt-4 font-medium w-full">
-                        <div className='flex flex-row gap-2 mb-2 lg:mb-0 md:mb-0'>
-                            <button onClick={onSyncClick} className="flex flex-row items-center px-4 py-2 bg-[#22C55E] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white shadow-md">
-                                <RefreshCw size={16} className={`${isSyncing ? 'animate-spin' : ''}`}/><span className="hidden md:inline ml-2">Sync</span>
-                            </button>
-                            <button className="flex w-full items-center justify-center px-3 py-2 bg-[#F59E0B] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md">
-                                <ArrowUpSquare size={16}/> Naikkan siswa
-                            </button>
+                        <div className="flex xl:space-x-3 sm:space-x-3 lg:flex-row md:flex-row flex-col justify-end w-full md:mt-0 mt-4 font-medium w-full">
+                            <div className='flex flex-row gap-2 mb-2 lg:mb-0 md:mb-0'>
+                                <button onClick={onSyncClick} className="flex flex-row items-center px-4 py-2 bg-[#22C55E] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white shadow-md">
+                                    <RefreshCw size={16} className={`${isSyncing ? 'animate-spin' : ''}`}/><span className="hidden md:inline ml-2">Sync</span>
+                                </button>
+                                <button className="flex w-full items-center justify-center px-3 py-2 bg-[#F59E0B] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md">
+                                    <ArrowUpSquare size={16}/> Naikkan siswa
+                                </button>
+                            </div>
+                            <div className='flex grid grid-cols-2 gap-2   justify-end'>
+                                <button onClick={() => setOpenModal(true)} className="flex items-center justify-center w-full px-3 md:py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px]  text-white gap-2 shadow-md">
+                                    <Plus size={16}/> Tambah Siswa
+                                </button>
+                                <BackButton />
+                            </div>
                         </div>
-                        <div className='flex grid grid-cols-2 gap-2   justify-end'>
-                            <button onClick={() => setOpenModal(true)} className="flex items-center justify-center w-full px-3 md:py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px]  text-white gap-2 shadow-md">
-                                <Plus size={16}/> Tambah Siswa
-                            </button>
-                            <BackButton />
-                        </div>
-                    </div>
-                </div>
-                <div className="h-4"></div> 
-                <DataTable  students={students} loading={studentsLoading} removeStudent={removeStudent} actionLoading={actionLoading} paginationMeta={paginationMeta} fetchStudentDetail={fetchStudentDetail} selectedStudentDetail={selectedStudentDetail} detailLoading={detailLoading} currentPage={currentPage}/>
-                {totalPages > 1 && (
-                    <div className="mt-4 flex justify-center">
-                        <PaginationComponent currentPage={paginationMeta.current_page} totalPages={paginationMeta.last_page} onPageChange={handlePageChange}/>
                     </div>
                 )}
-                <ModalAddStudent open={openModal} onClose={() => setOpenModal(false)} classroom={classroom} availableStudents={availableStudents}addStudents={addStudents}/>
+                {loading? (<LoadingData loading={loading} type='tableSiswaKaryawan' count={10} />)
+                :(
+                    <>
+                        <div className="h-4"></div> 
+                        <DataTable  students={students} loading={studentsLoading} removeStudent={removeStudent} actionLoading={actionLoading} paginationMeta={paginationMeta} fetchStudentDetail={fetchStudentDetail} selectedStudentDetail={selectedStudentDetail} detailLoading={detailLoading} currentPage={currentPage}/>
+                        {totalPages > 1 && (
+                            <div className="mt-4 flex justify-center">
+                                <PaginationComponent currentPage={paginationMeta.current_page} totalPages={paginationMeta.last_page} onPageChange={handlePageChange}/>
+                            </div>
+                        )}
+                        <ModalAddStudent open={openModal} onClose={() => setOpenModal(false)} classroom={classroom} availableStudents={availableStudents}addStudents={addStudents}/>
+                    </>
+                )}
             </div>
         </>
     );

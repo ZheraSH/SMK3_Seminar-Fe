@@ -25,6 +25,7 @@ import {
 
 import AttendanceTableSection from "./ActivityTable";
 import { fetchStatisticToday } from "../../../../../Core/api/role-operator/dashboard/DashboardApi";
+import LoadingData from "../../../../components/elements/loadingData/loading";
 
    //DEFAULT 
 const DEFAULT_PIE = [
@@ -38,9 +39,11 @@ export default function ChartsSection({ lineData }) {
   const [attendanceData] = useState([]); 
   const [pieData, setPieData] = useState(DEFAULT_PIE);
   const [smallCards, setSmallCards] = useState([]);
+  const [loading,setLoading] = useState ();
 
   useEffect(() => {
     const loadToday = async () => {
+      setLoading(true);
       try {
         const res = await fetchStatisticToday();
 
@@ -93,14 +96,23 @@ export default function ChartsSection({ lineData }) {
             iconColor: "text-red-600",
             Icon: AlertTriangle,
           },
-        ]);
+        ])
       } catch (err) {
         console.error("❌ TODAY STAT ERROR:", err);
+      }
+       finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 800);
       }
     };
 
     loadToday();
   }, []);
+
+  if (loading) {
+    return <LoadingData loading={true} type="dashboardCharts" />;
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-[14px]">

@@ -137,17 +137,7 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                             </tr>
                         </thead>
 
-                        {loading || actionLoading ? (
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                <tr><td colSpan="8" className="text-center py-10">
-                                    <div className="flex justify-center items-center space-x-3">
-                                        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                                        <span className="text-gray-600 font-bold">{actionLoading ? 'Memproses aksi...' : 'Memuat data siswa...'}</span>
-                                    </div>
-                                </td></tr>
-                            </tbody>
-                        ) : (
-                            students && students.length > 0 ? (
+                        {students && students.length > 0 ? (
                                 <tbody className="bg-white divide-y divide-gray-100">
                                     {students.map((data, index) => (
                                         <tr key={data.id} className={`${index % 2 === 1 ? 'bg-indigo-50' : 'bg-white'} text-gray-700 hover:bg-indigo-100 transition-colors text-[14px]`}>
@@ -193,7 +183,7 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                                     <tr><td colSpan="8" className="text-center py-10 text-gray-500 font-medium">Tidak ada siswa di kelas ini.</td></tr>
                                 </tbody>
                             )
-                        )}
+                        }
                     </table>
                 </div>
            </div>

@@ -7,6 +7,7 @@ import HeaderNew from "../../../components/elements/header/Header-new";
 import FilterDropdown from "./components/FilterDropdown";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 const MainClass = () => {
     const location = useLocation();
@@ -30,19 +31,25 @@ const MainClass = () => {
 
     return (
         <div className=" bg-gray-50 min-h-screen mb-32 lg:mb-4">
-            <HeaderNew span={`Daftar Kelas ${filters.major ? `- ${filters.major}` : ""}`} p={`Tolal kelas : ${total}`} src="/images/particle/particle3.png"/>
-            <header className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-                <div className="flex items-center space-x-2 w-full md:w-auto ">
-                    <div className="relative flex items-center mr-4">
-                        <Search className="absolute left-3 text-gray-400" />
-                        <input  type="text"  placeholder="Cari Kelas/Wali Kelas..."  value={searchText}  onChange={(e) => handleSearchChange(e.target.value)}  className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            {loading? (<LoadingData loading={loading} type="header1" />) 
+            : (
+                <HeaderNew span={`Daftar Kelas ${filters.major ? `- ${filters.major}` : ""}`} p={`Tolal kelas : ${total}`} src="/images/particle/particle3.png"/>
+            )}
+            {loading? (<LoadingData loading={loading} type="create" />) 
+            : (
+                <header className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
+                    <div className="flex items-center space-x-2 w-full md:w-auto ">
+                        <div className="relative flex items-center mr-4">
+                            <Search className="absolute left-3 text-gray-400" />
+                            <input  type="text"  placeholder="Cari Kelas/Wali Kelas..."  value={searchText}  onChange={(e) => handleSearchChange(e.target.value)}  className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                        </div>
+                        <FilterDropdown filters={filters} filterOptions={filterOptions} onFilterChange={handleFilterChange} />
                     </div>
-                    <FilterDropdown filters={filters} filterOptions={filterOptions} onFilterChange={handleFilterChange} />
-                </div>
-                <button onClick={toggleForm} className="w-full md:w-auto px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
-                     <span className="flex flex-row items-center gap-2"> <Plus size={18}/> Tambah Kelas</span>
-                </button>
-            </header>
+                    <button onClick={toggleForm} className="w-full md:w-auto px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
+                        <span className="flex flex-row items-center gap-2"> <Plus size={18}/> Tambah Kelas</span>
+                    </button>
+                </header>
+            )}
 
             {isOpenForm && (
                 <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 -mt-10">
@@ -71,9 +78,7 @@ const MainClass = () => {
                     {searchText ? `Tidak ada kelas yang cocok dengan "${searchText}".` : "Belum ada data kelas yang ditambahkan."}
                 </p>
             ) : loading ? (
-                <div className="flex justify-center items-center bg-gray-50">
-                    <div className="text-lg ">Memuat data kelas...</div>
-                </div>
+                <LoadingData loading={loading} type="cardclass" count={9}/>
             ) : (
                 <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {classesData.map((classData) => (

@@ -2,6 +2,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import useMajors from "../../../../Core/hooks/operator-hooks/class-major/useMajor";
 import Headernew from "../../../components/elements/header/Header-new";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 const majorMappings = [
   {
@@ -57,9 +58,14 @@ const MajorCardGrid = () => {
   return (
     <>
       <div className=" bg-gray-50 mb-20 lg:mb-10 md:mb-32">
-        <Headernew span="Datar Jurusan" p="Total Jurusan = 6" src="/images/particle/particle3.png"/>
+        <div className=" hidden md:block">
+           {loading? (<LoadingData loading={loading} type="header1"/>) 
+        : (
+          <Headernew span="Datar Jurusan" p="Total Jurusan = 6" src="/images/particle/particle3.png"/>
+          )}
+        </div>
         {loading ? (
-          <div className="p-4 md:p-8 text-center text-blue-600"> Memuat data jurusan...</div>
+          <LoadingData type="cardmajor" loading={loading} count={9}/>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {renderedMajors.map((major,index) => (

@@ -8,6 +8,8 @@ import { Pagination } from "./components/Pagination";
 import { SubjectCard } from "./components/SubjectCard";
 import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
 import Header from "../../../components/elements/header/Header-new";
+import LoadingData from "../../../components/elements/loadingData/loading";
+
 
 export default function MainMaple() {
   const {
@@ -88,17 +90,28 @@ export default function MainMaple() {
     fetchSubjects(newPage, search); 
   };
 
+  
+
   return (
-    <div className="justify-center mt-8 mx-3 md:mx-7">
-      <Header 
-        src="/images/new/imageMapel.png" 
-        span="Daftar Mata Pelajaran" 
-        p={"Total Mata Pelajaran : " + globalTotal} 
-      />
+    <div className="justify-center">
+      <div className=" hidden md:block">
+        {loading? 
+          ( <LoadingData loading={loading} type="header1" />) 
+          : (
+              <Header 
+              src="/images/new/imageMapel.png" 
+              span="Daftar Mata Pelajaran" 
+              p={"Total Mata Pelajaran : " + globalTotal} 
+            />
+          )
+
+          }
+      </div>
       
       <div>
         <SearchBar
           search={search}
+          loading={loading}
           onSearchChange={setSearch} 
           onAddClick={() => {
             setErrors({});
@@ -130,7 +143,11 @@ export default function MainMaple() {
         />
 
         {loading ? (
-          <div className="text-center py-8">Memuat data...</div>
+          <LoadingData loading={loading} type="cardMapel" count={8} />
+        ) : subjects.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-10">
+                <img src="/images/null/imageKosong1.png" alt="Data Kosong" className="w-130 h-auto mb-4" />
+              </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {subjects.map((subject, index) => (
@@ -148,12 +165,6 @@ export default function MainMaple() {
                 onDelete={handleDeleteSubject}
               />
             ))}
-          </div>
-        )}
-
-        {subjects.length === 0 && !loading && (
-          <div className="text-center py-8 text-gray-500">
-            {search ? `Mata pelajaran "${search}" tidak ditemukan.` : "Tidak ada mata pelajaran."}
           </div>
         )}
 
