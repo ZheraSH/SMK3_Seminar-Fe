@@ -10,6 +10,7 @@ export const EmployeeProfileRoute = [
           "teacher",
           "counselor",
           "homeroom_teacher",
+          "student",
         ]}
       />
     ),
