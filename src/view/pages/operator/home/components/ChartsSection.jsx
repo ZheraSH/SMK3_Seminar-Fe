@@ -27,7 +27,7 @@ import AttendanceTableSection from "./ActivityTable";
 import { fetchStatisticToday } from "../../../../../Core/api/role-operator/dashboard/DashboardApi";
 import LoadingData from "../../../../components/elements/loadingData/loading";
 
-   //DEFAULT 
+// DEFAULT
 const DEFAULT_PIE = [
   { name: "Hadir", value: 0, color: "#22C55E" },
   { name: "Telat", value: 0, color: "#FACC15" },
@@ -36,27 +36,30 @@ const DEFAULT_PIE = [
 ];
 
 export default function ChartsSection({ lineData }) {
-  const [attendanceData] = useState([]); 
+  const [attendanceData] = useState([]);
   const [pieData, setPieData] = useState(DEFAULT_PIE);
+  const [presentPercent, setPresentPercent] = useState(0);
   const [smallCards, setSmallCards] = useState([]);
-  const [loading,setLoading] = useState ();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadToday = async () => {
       setLoading(true);
       try {
         const res = await fetchStatisticToday();
-
         if (!res) return;
 
-        const total_students = res.total_students?? 0;
+        const total_students = res.total_students ?? 0;
+        const present = res.present?.count ?? 0;
+        const presentPercentage = res.present?.percentage ?? 0;
         const late = res.late?.count ?? 0;
         const permission = res.permission?.count ?? 0;
         const absent = res.absent?.count ?? 0;
 
+        setPresentPercent(presentPercentage);
         // PIE
         setPieData([
-          { name: "Hadir", value: total_students, color: "#22C55E" },
+          { name: "Hadir", value: present, color: "#22C55E" },
           { name: "Telat", value: late, color: "#FACC15" },
           { name: "Izin", value: permission, color: "#3B82F6" },
           { name: "Alpha", value: absent, color: "#EF4444" },
@@ -65,7 +68,7 @@ export default function ChartsSection({ lineData }) {
         // SMALL CARDS
         setSmallCards([
           {
-            value: total_students,
+            value: present,
             label: "Total Siswa Hadir",
             barColor: "bg-green-500",
             iconBg: "bg-green-100",
@@ -96,11 +99,10 @@ export default function ChartsSection({ lineData }) {
             iconColor: "text-red-600",
             Icon: AlertTriangle,
           },
-        ])
+        ]);
       } catch (err) {
         console.error("❌ TODAY STAT ERROR:", err);
-      }
-       finally {
+      } finally {
         setTimeout(() => {
           setLoading(false);
         }, 800);
@@ -170,30 +172,66 @@ export default function ChartsSection({ lineData }) {
       <div className="space-y-6">
         {/* PIE */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-bold mb-4">Statistik Kehadiran</h2>
+          <h2 className="text-lg font-bold mb-4">
+            Statistik Kehadiran
+          </h2>
 
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
-              <Pie data={pieData} innerRadius={60} outerRadius={90} dataKey="value">
+              <Pie
+                data={pieData}
+                innerRadius={60}
+                outerRadius={90}
+                dataKey="value"
+                cx="50%"
+                cy="50%"
+              >
                 {pieData.map((e, i) => (
                   <Cell key={i} fill={e.color} />
                 ))}
               </Pie>
+
+              {/* CENTER TEXT */}
+              <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="fill-slate-800 font-bold text-xl"
+              >
+                {presentPercent}%
+              </text>
+              <text
+                x="50%"
+                y="58%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="fill-slate-500 text-sm"
+              >
+                Hadir
+              </text>
             </PieChart>
           </ResponsiveContainer>
 
           {/* LEGEND */}
           <div className="mt-10 space-y-1">
             {pieData.map((item, i) => (
-              <div key={i} className="flex justify-between text-sm">
+              <div
+                key={i}
+                className="flex justify-between text-sm"
+              >
                 <div className="flex items-center gap-2">
                   <span
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="text-slate-600">{item.name}</span>
+                  <span className="text-slate-600">
+                    {item.name}
+                  </span>
                 </div>
-                <span className="font-semibold">{item.value}</span>
+                <span className="font-semibold">
+                  {item.value}
+                </span>
               </div>
             ))}
           </div>
@@ -206,13 +244,21 @@ export default function ChartsSection({ lineData }) {
               key={k}
               className="bg-white rounded-xl shadow-sm p-3 flex gap-4 border border-gray-300"
             >
-              <div className={`w-1 h-14 rounded-full ${i.barColor}`} />
+              <div
+                className={`w-1 h-14 rounded-full ${i.barColor}`}
+              />
               <div className="flex-1">
-                <p className="text-2xl font-semibold">{i.value}</p>
-                <p className="text-sm text-slate-600">{i.label}</p>
+                <p className="text-2xl font-semibold">
+                  {i.value}
+                </p>
+                <p className="text-sm text-slate-600">
+                  {i.label}
+                </p>
               </div>
               <div className={`${i.iconBg} p-3 rounded-lg`}>
-                <i.Icon className={`w-6 h-6 ${i.iconColor}`} />
+                <i.Icon
+                  className={`w-6 h-6 ${i.iconColor}`}
+                />
               </div>
             </div>
           ))}
