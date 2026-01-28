@@ -81,7 +81,7 @@ export default function TableHistory({ history, error, loading }) {
 
               <td className="w-[30%] text-center">
                 <span
-                  className={`px-4 py-1 rounded-3xl inline-flex justify-center items-center font-medium text-[12px] ${
+                  className={`px-4 py-1 rounded-3xl w-[88px] inline-flex justify-center items-center font-medium text-[12px] ${
                     matchStatus?.style ?? ""
                   }`}
                 >

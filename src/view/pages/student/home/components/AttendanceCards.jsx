@@ -1,5 +1,6 @@
 import { ClipboardCheck,ClockAlert } from "lucide-react";
-export default function BodyDashboard({ summary}) {
+import LoadingData from "../../../../components/elements/loadingData/loading";
+export default function BodyDashboard({ summary, loading}) {
   
 
   const statCards = [
@@ -74,21 +75,23 @@ export default function BodyDashboard({ summary}) {
       <h1 className="font-semibold text-xl mb-4 text-gray-700">
         Selamat Datang,
       </h1>
-
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 ">
-        {statCards.map((card, index) => (
-          <div key={index} className="flex bg-white shadow-md rounded-xl p-4">
-            <div className={`w-1 h-14 mr-4 rounded-full ${card.colorBar}`} />
-            <div className="flex flex-1 items-center justify-between">
-              <div>
-                <p className="text-2xl font-semibold">{card.count} kali</p>
-                <p className="text-sm font-semibold text-[#000000]">{card.label}</p>
+      {loading ? ( <LoadingData loading={loading} type="attendanceChart" count={4}/> )
+       : (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 ">
+            {statCards.map((card, index) => (
+              <div key={index} className="flex bg-white shadow-md rounded-xl p-4">
+                <div className={`w-1 h-14 mr-4 rounded-full ${card.colorBar}`} />
+                <div className="flex flex-1 items-center justify-between">
+                  <div>
+                    <p className="text-2xl font-semibold">{card.count} kali</p>
+                    <p className="text-sm font-semibold text-[#000000]">{card.label}</p>
+                  </div>
+                  {card.icon}
+                </div>
               </div>
-              {card.icon}
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+       )}
     </div>
   );
 }

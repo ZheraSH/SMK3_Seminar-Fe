@@ -1,11 +1,4 @@
-export default function TableSchedule({ scheduleData = [], loading }) {
-  if (loading) {
-    return (
-      <div className="p-4 md:p-8 text-center text-blue-600">
-        <p>Memuat data Schedule...</p>
-      </div>
-    );
-  }
+export default function TableSchedule({ scheduleData = []}) {
 
   if (!scheduleData.length) {
     return (

@@ -9,6 +9,7 @@ import { usePermissions } from "../../../../Core/hooks/role-student/permission-s
 import { PaginationPermissionStudent } from "./components/PermissionPagination";
 import HeaderPage from "../../../components/elements/header/Header-new";
 import { getPermissionDetailStudent } from "../../../../Core/api/role-student/student-permission/Permission";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 export default function PermissionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,17 +92,25 @@ export default function PermissionManagement() {
 
   return (
     <div className=" mb-10">
-      <HeaderPage span="Izin & Riwayat Izin" p="Ajukan izin kehadiran dan pantau status persetujuannya secara langsung." src="/images/particle/particle4.png"/>
-      <div className="border border-gray-300 p-3 rounded-2xl shadow-lg mb-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center px-2 sm:px-4">
-          <h2 className="text-lg sm:text-[24px] font-semibold text-gray-900 text-center sm:text-left">
-            Daftar Izin Aktif
-          </h2>
-          <button onClick={handleOpenModal} className="bg-[#3B82F6] hover:bg-blue-700 text-white  px-4 py-2 sm:px-5 sm:py-2  rounded-lg font-medium transition">
-            + Buat Izin
-          </button>
-        </div>
+      <div>
+        {loading? (<LoadingData loading={loading} type="header1" />)
+        : (
+          <HeaderPage span="Izin & Riwayat Izin" p="Ajukan izin kehadiran dan pantau status persetujuannya secara langsung." src="/images/particle/particle4.png"/>
+          )}
       </div>
+      {loading? (<LoadingData loading={loading} type="create" />)
+      :(
+        <div className="border border-gray-300 p-3 rounded-2xl shadow-lg mb-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center px-2 sm:px-4">
+            <h2 className="text-lg sm:text-[24px] font-semibold text-gray-900 text-center sm:text-left">
+              Daftar Izin Aktif
+            </h2>
+            <button onClick={handleOpenModal} className="bg-[#3B82F6] hover:bg-blue-700 text-white  px-4 py-2 sm:px-5 sm:py-2  rounded-lg font-medium transition">
+              + Buat Izin
+            </button>
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
@@ -109,7 +118,9 @@ export default function PermissionManagement() {
         </div>
       )}
 
-      {pendingPermissions.length > 0 ? (
+      {loading? (<LoadingData loading={loading} type="cardclass" count={3}/>
+
+      ) : pendingPermissions.length > 0 ? (
         <div className="flex gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
           {pendingPermissions.map((p) => (
             <PermissionCard key={p.id} permission={p} onViewDetail={handleViewDetail}/>
@@ -121,10 +132,20 @@ export default function PermissionManagement() {
         </div>
       )}
 
-      {permissions.length > 0 && (
+      {(loading || permissions.length > 0) && (
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 mt-8"> Daftar Riwayat Izin </h2>
-          <PermissionTable permissions={permissions} onViewDetail={handleViewDetail}/>
+          {loading? (<LoadingData  loading={loading} type="kotakKecil"/>)
+          :(
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 mt-8"> 
+              Daftar Riwayat Izin 
+            </h2>
+          )}
+          
+          {loading ? (
+            <LoadingData loading={loading} type="tableSchedule" count={10}/>
+          ) : (
+            <PermissionTable permissions={permissions} onViewDetail={handleViewDetail}/>
+          )}
         </div>
       )}
 

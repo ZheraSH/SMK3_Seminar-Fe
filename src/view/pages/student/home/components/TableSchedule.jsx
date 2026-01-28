@@ -1,3 +1,5 @@
+import { getBgColorBySubject } from "../../../../../Core/utils/SubjectHelper";
+
 export default function TableSchedule ({schedule,loading,error}){
 
     if (loading) {
@@ -39,11 +41,11 @@ export default function TableSchedule ({schedule,loading,error}){
         <table className="w-full table-fixed border-collapse  rounded-lg ">
             <thead className="block">
                 <tr className="table w-full table-fixed bg-[#3B82F6] h-[40px] text-white text-[12px] font-semibold rounded-t-md">
-                <th className="w-[16%] text-left  pl-4  rounded-tl-md">No</th>
-                <th className="w-[43%] text-left  ">Mata Pelajaran</th>
-                <th className="w-[40%] text-left ">Guru</th>
-                <th className="w-[22%] text-left pl-2 " >Jam</th>
-                {/* <th className="w-[17%] text-left pl-2 font-normal rounded-tr-md">Kelas</th> */}
+                    <th className="w-[16%] text-left pl-2 py-2 font-semibold  rounded-tl-md">No</th>
+                    <th className="w-[40%] text-left pl-2 font-semibold ">Mata Pelajaran</th>
+                    <th className="w-[40%] text-left font-semibold ">Guru</th>
+                    <th className="w-[30%] text-left pl-5 font-semibold" >Jam</th>
+                    {/* <th className="w-[17%] text-left pl-2 font-normal rounded-tr-md">Kelas</th> */}
                 </tr>
             </thead>
 
@@ -64,17 +66,16 @@ export default function TableSchedule ({schedule,loading,error}){
                             {index + 1}.
                         </td>
 
-                        <td className="w-[34%] h-[46px] pl-2 pr-1 align-middle">
-                            <span className="inline-block bg-[#6366F1] text-white px-3 py-0.5 mt-2 rounded-full text-[12px] font-medium shadow-sm max-w-full truncate">
-                            {s.subject}
+                        <td className=" text-center w-[40%] h-[46px] px-2 align-middle overflow-hidden text-ellipsis whitespace-nowrap">
+                            <span className={`inline-block text-white px-3 py-0.5 mt-2 rounded-full text-[12px] font-medium shadow-sm max-w-full truncate ${getBgColorBySubject (s.subject)} `}>
+                                {s.subject || "-"}
                             </span>
                         </td>
-
-                        <td className="w-[30%] h-[46px] px-2 align-middle overflow-hidden text-ellipsis whitespace-nowrap">
+                        <td className="w-[40%] h-[46px] px-2 align-middle overflow-hidden text-ellipsis whitespace-nowrap">
                             {s.teacher}
                         </td>
 
-                        <td className="w-[20%] h-[46px] text-center align-middle">
+                        <td className="w-[30%] h-[46px] text-center align-middle">
                             {s.lesson_hour?.name}
                         </td>
                     </tr>
