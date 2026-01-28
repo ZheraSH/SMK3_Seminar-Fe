@@ -1,5 +1,5 @@
-import BodyDashboardTeacher from "../teacher/home/BodyDashboardTeacher";
-import BodyDashboardBK from "../BK/home/BodyDasboardBk";
+import CardDashboardTeacher from "../teacher/home/BodyDashboardTeacher";
+import {Main} from "../BK/home/BodyDasboardBk";
 import HomeRoomHome from "../homeroom-teacher/home/MainHomeroomHome";
 import { useEffect, useState } from "react";
 
@@ -24,7 +24,7 @@ export default function BodyDashboardMultiRole() {
     if (userRoles.includes("teacher")) {
       dashboards.push(
         <div key="teacher" className="w-full">
-          <BodyDashboardTeacher />
+          <CardDashboardTeacher classrooms={[]} schedule={[]} />
         </div>
       );
     }
@@ -32,7 +32,7 @@ export default function BodyDashboardMultiRole() {
     if (userRoles.includes("counselor")) {
       dashboards.push(
         <div key="bk" className="w-full ">
-          <BodyDashboardBK />
+          <Main />
         </div>
       );
     }
@@ -48,10 +48,18 @@ export default function BodyDashboardMultiRole() {
     return dashboards;
   };
 
+  const [user, setUser] = useState({ name: "", email: "" })
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("userData")
+    if (storedUser) setUser(JSON.parse(storedUser))
+  }, [])
+
   return (
-    <div className=" bg-gray-50 min-h-screen">
+    <div className=" bg-gray-50 min-h-screen px-5 mt-8">
+      <h1 className="font-semibold text-xl md:text-2xl mb-6 text-gray-700">Selamat datang, {user.name}</h1>
       {userRoles.length > 0 ? (
-        <div className="flex flex-col ">
+        <div className="flex flex-col gap-10 ">
           {renderDashboards()}
         </div>
       ) : (

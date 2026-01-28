@@ -22,7 +22,12 @@ export const MainLayoutMultiRole = () => {
     }
 
     const data = JSON.parse(localStorage.getItem("userData"));
-    const userRoles = Array.isArray(data?.roles)  ? data.roles  : data?.role ? [data.role] : [];
+    
+    // Pastikan userRoles selalu berupa array
+    const userRoles = Array.isArray(data?.roles) 
+      ? data.roles 
+      : data?.role ? [data.role] : [];
+
 
     let combined = [...multiRoleCommon];
     if (userRoles.includes("teacher")) combined = [...combined, ...multiRoleTeacher];
