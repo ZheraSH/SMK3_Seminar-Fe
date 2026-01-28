@@ -51,14 +51,11 @@ const AcademicYearDashboard = () => {
 
   const handleAddNewYear = async () => {
     const nextYear = getNextYear();
-    console.log("Mencoba menambah tahun:", nextYear); // Log 1
     try {
       await addSchoolYear({ name: nextYear, active: false });
-      console.log("Berhasil tambah, menutup modal..."); // Log 2
       setIsModalOpen(false);
     } catch (err) {
       console.error("Gagal menambah tahun ajaran", err);
-      alert("Gagal menambah data. Cek console untuk detail.");
     }
   };
 
