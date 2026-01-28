@@ -28,8 +28,18 @@ export default function BodyDashboardTeacher() {
   }
   return (
     <div className="min-h-screen bg-gray-50">
+      <h2 className="text-[20px] font-semibold text-gray-900 mb-4"> Selama Datang , {user.name || 'Guru BK'}</h2>
+      <MainTeacher classrooms={classrooms} schedule={schedule} activeDay={activeDay} setActiveDay={setActiveDay}/>
+    </div>
+  );
+}
+
+
+
+export const MainTeacher = ({classrooms,schedule}) => {
+  return (
+    <>
       <div className="mb-8 mt-2">
-        <h2 className="text-[20px] font-semibold text-gray-900 mb-4"> Selama Datang , {user.name || 'Guru BK'}</h2>
         {/* <p className="text-sm text-gray-500">{activeDay}, {todayDate}</p> */}
         <div className="flex flex-wrap gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
           {classrooms.length === 0 && (
@@ -128,6 +138,6 @@ export default function BodyDashboardTeacher() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </>
+  )
 }
