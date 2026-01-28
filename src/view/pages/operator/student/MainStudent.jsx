@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FormModal } from "./components/FormModal";
 import { DetailModal } from "./components/DetailModal";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
 import {
   fetchStudents,
   fetchReligions,
@@ -256,6 +257,15 @@ export const MainStudent = () => {
                   isOpen={isDetailOpen}
                   onClose={() => setIsDetailOpen(false)}
                   student={selectedStudent}
+                />
+
+                <DeleteConfirmModal
+                  isOpen={showDeleteModal}
+                  onClose={() => setShowDeleteModal(false)}
+                  onConfirm={confirmDelete}
+                  title="Hapus Siswa?"
+                  message="Apakah Anda yakin ingin menghapus data siswa ini? Tindakan ini tidak dapat dibatalkan."
+                  loading={deleteLoading}
                 />
 
                 {/*Tambah Data */}
