@@ -70,8 +70,8 @@ export const MainStudent = () => {
       setStudents([]);
     } finally {
       setTimeout(() => {
-      setLoading(false);
-    }, 800);
+        setLoading(false);
+      }, 800);
     }
   };
 
@@ -126,52 +126,53 @@ export const MainStudent = () => {
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
     setPost({ ...post, [name]: type === "file" ? files[0] : value });
+
+    // Hapus error jika user mulai mengetik/memilih
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const frontendErrors = validateForm();
-    if (Object.keys(frontendErrors).length > 0)
-      return setErrors(frontendErrors);
-
     setErrors({});
 
     try {
-      await submitStudent(post, editingId);
+      const res = await submitStudent(post, editingId);
 
-      setPost({
-        name: "",
-        email: "",
-        image: null,
-        nisn: "",
-        birth_place: "",
-        birth_date: "",
-        number_kk: "",
-        number_akta: "",
-        order_child: "",
-        count_siblings: "",
-        address: "",
-        gender: "",
-        religion_id: 1,
-      });
+      if (res.success) {
+        setPost({
+          name: "",
+          email: "",
+          image: null,
+          nisn: "",
+          birth_place: "",
+          birth_date: "",
+          number_kk: "",
+          number_akta: "",
+          order_child: "",
+          count_siblings: "",
+          address: "",
+          gender: "",
+          religion_id: 1,
+        });
 
-      setEditingId(null);
-      setPage(1);
-      loadStudentsData();
-      setIsOpen(false);
+        setEditingId(null);
+        setPage(1);
+        loadStudentsData();
+        setIsOpen(false);
+      } else {
+        if (res.errors) {
+          setErrors(res.errors);
+        }
+      }
     } catch (err) {
-      if (err.response?.data?.errors) setErrors(err.response.data.errors);
+      console.error(err);
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!post.name) newErrors.name = ["Nama wajib diisi."];
-    if (!post.email) newErrors.email = ["Email wajib diisi."];
-    if (!post.gender) newErrors.gender = ["Jenis kelamin wajib dipilih."];
-    return newErrors;
-  };
+
 
   const handleEdit = (student) => {
     setPost({
@@ -228,49 +229,49 @@ export const MainStudent = () => {
 
   return (
     <div className="p-6">
-      {loading? 
-      (<LoadingData loading={loading} type="create"/>)
-      : (
-        <div className="flex flex-col gap-3 mb-5">
-          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-            <div className="flex flex-col sm:flex-row  gap-3 w-full items-start sm:items-center">
-              <SearchFilterStudent
-                searchTerm={searchTerm}
-                onSearchChange={(value) => {
-                  setPage(1);
-                  setSearchTerm(value);
-                }}
-              />
+      {loading ?
+        (<LoadingData loading={loading} type="create" />)
+        : (
+          <div className="flex flex-col gap-3 mb-5">
+            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+              <div className="flex flex-col sm:flex-row  gap-3 w-full items-start sm:items-center">
+                <SearchFilterStudent
+                  searchTerm={searchTerm}
+                  onSearchChange={(value) => {
+                    setPage(1);
+                    setSearchTerm(value);
+                  }}
+                />
 
-              <StudentFilterDropdown
-                category={category}
-                setCategory={setCategory}
-                masters={masters}
-              />
-            </div>
+                <StudentFilterDropdown
+                  category={category}
+                  setCategory={setCategory}
+                  masters={masters}
+                />
+              </div>
 
-            <div className="flex gap-3">
-              {/* Detail Modal */}
-              <DetailModal
-                isOpen={isDetailOpen}
-                onClose={() => setIsDetailOpen(false)}
-                student={selectedStudent}
-              />
+              <div className="flex gap-3">
+                {/* Detail Modal */}
+                <DetailModal
+                  isOpen={isDetailOpen}
+                  onClose={() => setIsDetailOpen(false)}
+                  student={selectedStudent}
+                />
 
-              {/*Tambah Data */}
-              <button
-                onClick={() => {
-                  setEditingId(null);
-                  setIsOpen(true);
-                }}
-                className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
-              >
-                + Tambah Siswa
-              </button>
+                {/*Tambah Data */}
+                <button
+                  onClick={() => {
+                    setEditingId(null);
+                    setIsOpen(true);
+                  }}
+                  className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
+                >
+                  + Tambah Siswa
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* FORM MODAL */}
       <FormModal
@@ -284,24 +285,24 @@ export const MainStudent = () => {
         religions={religions}
       />
 
-      {loading? (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />) 
-      :(
-        <>
-          <StudentsTable
-          students={filteredStudents}
-          onDetail={handleDetail}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-        <PaginationStudent
-          page={page}
-          lastPage={meta.last_page}
-          onPrev={() => setPage(page - 1)}
-          onNext={() => setPage(page + 1)}
-          onPageClick={(p) => setPage(p)}
-        />
-        </>
-      )}
+      {loading ? (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />)
+        : (
+          <>
+            <StudentsTable
+              students={filteredStudents}
+              onDetail={handleDetail}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+            <PaginationStudent
+              page={page}
+              lastPage={meta.last_page}
+              onPrev={() => setPage(page - 1)}
+              onNext={() => setPage(page + 1)}
+              onPageClick={(p) => setPage(p)}
+            />
+          </>
+        )}
 
     </div>
   );
