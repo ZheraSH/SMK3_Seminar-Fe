@@ -4,6 +4,7 @@ import useAttendanceStatistics from "../../../../Core/hooks/bk-hooks/statistikgl
 import StatsCard from "./components/StatsCard";
 import { LineChartPlaceholder, PieChartPlaceholder } from "./components/Charts";
 import Header from "../../../components/elements/header/Header-new";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 const CustomDropdown = ({ title, options, onClose, onSelect, activeValue }) => {
   return (
@@ -128,12 +129,11 @@ export default function MainStatistikGlobal() {
 
   if (isLoadingStatistics) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
-        <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
-        <p className="mt-3 text-lg text-gray-700">
-          Memuat Statistik Absensi Global...
-        </p>
-      </div>
+      <>
+        <LoadingData loading={isLoadingStatistics} type="header1" />
+        <LoadingData loading={isLoadingStatistics} type="cardStatistikBk" />
+        <LoadingData loading={isLoadingStatistics} type="statistikBk"/>
+      </>
     );
   }
 
@@ -181,11 +181,14 @@ export default function MainStatistikGlobal() {
         h1="Statistik Absensi Global"
         p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
       /> */}
-      <Header
-        span="Statistik Absensi Global"
-        p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
-        src="/images/particle/global01.png"
-      />
+      {isLoadingStatistics ? (<LoadingData loading={isLoadingStatistics} type=""/>)
+      :(
+        <Header
+          span="Statistik Absensi Global"
+          p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
+          src="/images/particle/global01.png"
+        />
+      )}
 
 
       {/* <div className="flex flex-wrap gap-3 justify-between items-center mb-6 bg-white px-6 h-[70px] rounded-xl shadow-md ">
