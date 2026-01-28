@@ -17,6 +17,7 @@ import {
 import { extractTeacherMasters } from "./components/utils/teacherMasterExtractor";
 import { TeacherFilterDropdown } from "./components/FilterDropdown";
 import LoadingData from "../../../components/elements/loadingData/loading.jsx";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete.jsx";
 
 export const TeacherMain = () => {
   const [religions, setReligions] = useState([]);
@@ -94,7 +95,7 @@ export const TeacherMain = () => {
 
   useEffect(() => {
     const loadReligions = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const data = await fetchReligionsApi();
         setReligions(data);
@@ -211,44 +212,53 @@ export const TeacherMain = () => {
 
   return (
     <div className="p-6">
-      {loading? 
-      (<LoadingData loading={loading} type="create" />)
-      :(
-        <div className="flex flex-col gap-3 mb-5">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch sm:items-center">
-              <SearchBar
-                searchTerm={searchTerm}
-                setSearchTerm={(v) => {
-                  setSearchTerm(v);
-                  setPage(1);
-                }}
-              />
+      {loading ?
+        (<LoadingData loading={loading} type="create" />)
+        : (
+          <div className="flex flex-col gap-3 mb-5">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch sm:items-center">
+                <SearchBar
+                  searchTerm={searchTerm}
+                  setSearchTerm={(v) => {
+                    setSearchTerm(v);
+                    setPage(1);
+                  }}
+                />
 
-              <TeacherFilterDropdown
-                category={category}
-                setCategory={setCategory}
-                masters={masters}
-              />
-            </div>
+                <TeacherFilterDropdown
+                  category={category}
+                  setCategory={setCategory}
+                  masters={masters}
+                />
+              </div>
 
-            <div className="flex gap-3">
-              <DetailModal
-                isDetailOpen={isDetailOpen}
-                selectedTeacher={selectedTeacher}
-                setIsDetailOpen={setIsDetailOpen}
-              />
+              <div className="flex gap-3">
+                <DetailModal
+                  isDetailOpen={isDetailOpen}
+                  selectedTeacher={selectedTeacher}
+                  setIsDetailOpen={setIsDetailOpen}
+                />
 
-              <button
-                onClick={handleAddNewTeacher}
-                className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
-              >
-                + Tambah Guru
-              </button>
+                <DeleteConfirmModal
+                  isOpen={showDeleteModal}
+                  onClose={() => setShowDeleteModal(false)}
+                  onConfirm={confirmDelete}
+                  title="Hapus Guru?"
+                  message="Apakah Anda yakin ingin menghapus data guru ini? Tindakan ini tidak dapat dibatalkan."
+                  loading={deleteLoading}
+                />
+
+                <button
+                  onClick={handleAddNewTeacher}
+                  className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
+                >
+                  + Tambah Guru
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* FORM MODAL */}
       <TeacherForm
@@ -263,27 +273,27 @@ export const TeacherMain = () => {
         handleSubmit={handleSubmit}
       />
 
-     {loading? 
-      (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />)
-      : (
-        <>
-          <TeacherTable
-          currentTeachers={filteredTeachers}
-          openItemId={openItemId}
-          setOpenItemId={setOpenItemId}
-          handleDetail={handleDetail}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
-        <PaginationEmployee
-          page={page}
-          lastPage={meta.last_page}
-          onPrev={() => setPage(page - 1)}
-          onNext={() => setPage(page + 1)}
-          onPageClick={(p) => setPage(p)}
-        />
-        </>
-      )}
+      {loading ?
+        (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />)
+        : (
+          <>
+            <TeacherTable
+              currentTeachers={filteredTeachers}
+              openItemId={openItemId}
+              setOpenItemId={setOpenItemId}
+              handleDetail={handleDetail}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+            <PaginationEmployee
+              page={page}
+              lastPage={meta.last_page}
+              onPrev={() => setPage(page - 1)}
+              onNext={() => setPage(page + 1)}
+              onPageClick={(p) => setPage(p)}
+            />
+          </>
+        )}
     </div>
   );
 };

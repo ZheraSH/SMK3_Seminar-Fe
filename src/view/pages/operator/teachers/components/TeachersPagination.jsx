@@ -1,23 +1,36 @@
 "use client"
 
-export function PaginationEmployee({ page, lastPage, onPrev, onNext, onPageClick }) {
+export function PaginationEmployee({
+  page,
+  lastPage,
+  onPrev,
+  onNext,
+  onPageClick,
+}) {
+  // ⛔️ DATA KOSONG / 1 HALAMAN → PAGINATION HILANG
+  if (!lastPage || lastPage <= 1) return null
+
   const renderPages = () => {
     const pages = []
 
     pages.push(1)
 
     if (page > 3) {
-      pages.push("...")
+      pages.push("…")
     }
 
-    for (let p = Math.max(2, page - 1); p <= Math.min(lastPage - 1, page + 1); p++) {
+    for (
+      let p = Math.max(2, page - 1);
+      p <= Math.min(lastPage - 1, page + 1);
+      p++
+    ) {
       if (!pages.includes(p)) {
         pages.push(p)
       }
     }
 
     if (page < lastPage - 2) {
-      pages.push("...")
+      pages.push("…")
     }
 
     if (lastPage > 1 && !pages.includes(lastPage)) {
@@ -30,7 +43,11 @@ export function PaginationEmployee({ page, lastPage, onPrev, onNext, onPageClick
   return (
     <div className="flex justify-center mt-6 items-center gap-2">
       {/* PREV */}
-      <button onClick={onPrev} disabled={page === 1} className="px-2 py-1 text-gray-500 disabled:opacity-40">
+      <button
+        onClick={onPrev}
+        disabled={page === 1}
+        className="px-2 py-1 text-gray-500 disabled:opacity-40"
+      >
         &lt;
       </button>
 
@@ -44,16 +61,23 @@ export function PaginationEmployee({ page, lastPage, onPrev, onNext, onPageClick
           <button
             key={i}
             onClick={() => onPageClick(p)}
-            className={`px-3 py-1 rounded 
-              ${p === page ? "bg-blue-600 text-white" : "text-blue-600 hover:bg-blue-100"}`}
+            className={`px-3 py-1 rounded
+              ${p === page
+                ? "bg-blue-600 text-white"
+                : "text-blue-600 hover:bg-blue-100"
+              }`}
           >
             {p}
           </button>
-        ),
+        )
       )}
 
       {/* NEXT */}
-      <button onClick={onNext} disabled={page === lastPage} className="px-2 py-1 text-gray-500 disabled:opacity-40">
+      <button
+        onClick={onNext}
+        disabled={page === lastPage}
+        className="px-2 py-1 text-gray-500 disabled:opacity-40"
+      >
         &gt;
       </button>
     </div>
