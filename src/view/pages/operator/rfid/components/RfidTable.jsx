@@ -6,7 +6,7 @@ import { updateRfidStatus } from "../../../../../Core/api/role-operator/rfid/Rfi
 import { notify } from "../../../../../Core/hooks/notification/notify";
 
 export function RfidTable({
-  filtered,
+  filtered = [],
   openMenu,
   onMenuClick,
   onDeleteClick,
@@ -30,8 +30,28 @@ export function RfidTable({
     }
   };
 
-  const isEmpty = filtered.length === 0;
+  /* =========================
+     EMPTY STATE — NO TABLE
+     ========================= */
+  if (!filtered.length) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center py-20">
+        <img
+          src="../../../../images/null/nullimage.png"
+          alt="Data siswa kosong"
+          className="w-100 mb-4"
+        />
+        <p className="text-sm font-medium text-center">
+          Maaf yaaa.. datanya gaada, silahkan klik “Tambah RFID” <br /> buat
+          tambah data RFID!
+        </p>
+      </div>
+    );
+  }
 
+  /* =========================
+     NORMAL TABLE
+     ========================= */
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-gray-200 bg-white">
       <table className="min-w-[800px] w-full text-sm">
@@ -46,28 +66,20 @@ export function RfidTable({
         </thead>
 
         <tbody>
-          {isEmpty ? (
-            <tr>
-              <td colSpan={5} className="py-10 text-center text-gray-400">
-                Tidak ada data RFID
-              </td>
-            </tr>
-          ) : (
-            filtered.map((item, index) => (
-              <TableRow
-                key={item.id}
-                item={item}
-                index={index}
-                openMenu={openMenu}
-                onMenuClick={onMenuClick}
-                onDeleteClick={onDeleteClick}
-                onStatusChange={handleStatusChange}
-                menuPos={menuPos}
-                setMenuPos={setMenuPos}
-                updatingId={updatingId}
-              />
-            ))
-          )}
+          {filtered.map((item, index) => (
+            <TableRow
+              key={item.id}
+              item={item}
+              index={index}
+              openMenu={openMenu}
+              onMenuClick={onMenuClick}
+              onDeleteClick={onDeleteClick}
+              onStatusChange={handleStatusChange}
+              menuPos={menuPos}
+              setMenuPos={setMenuPos}
+              updatingId={updatingId}
+            />
+          ))}
         </tbody>
       </table>
     </div>
@@ -113,7 +125,7 @@ function TableRow({
     onMenuClick(openMenu === item.id ? -1 : item.id);
   };
 
-  /** ✅ CLOSE WHEN CLICK OUTSIDE */
+  /* CLOSE WHEN CLICK OUTSIDE */
   useEffect(() => {
     if (openMenu !== item.id) return;
 
@@ -129,12 +141,9 @@ function TableRow({
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [openMenu, item.id]);
 
-  /** ✅ RECALC ON SCROLL / RESIZE */
   useEffect(() => {
     const recalc = () => {
       if (openMenu === item.id) {
@@ -158,10 +167,11 @@ function TableRow({
 
       <td className="px-6 py-2">
         <span
-          className={`px-3 py-1 rounded-full text-xs font-medium ${statusValue === "active"
-            ? "bg-green-500 text-white"
-            : "bg-red-500 text-white"
-            }`}
+          className={`px-3 py-1 rounded-full text-xs font-medium ${
+            statusValue === "active"
+              ? "bg-green-500 text-white"
+              : "bg-red-500 text-white"
+          }`}
         >
           {statusLabel}
         </span>
