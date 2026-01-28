@@ -1,56 +1,45 @@
-import { useEffect, useState } from "react";
-import { getDashboardClassroom,getDashboardSchedule } from "../../../api/role-teacher/dashboard-teachers/teacherDashboard.api";
+import { useEffect, useState, useCallback } from "react";
+import { getDashboardClassroom, getDashboardSchedule } from "../../../api/role-teacher/dashboard-teachers/teacherDashboard.api";
 
 export function useTeacherDashboard() {
   const getTodayIndonesian = () => {
     const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-    const todayIndex = new Date().getDay(); 
-    return days[todayIndex];
+    return days[new Date().getDay()];
   };
 
   const [activeDay, setActiveDay] = useState(getTodayIndonesian());
   const [schedule, setSchedule] = useState([]);
   const [classrooms, setClassrooms] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); 
 
-  const fetchDashboardData = async (day) => {
-    setIsLoading(true);
+  const fetchData = useCallback(async (day) => {
+    setIsLoading(true); 
     try {
-      const data = await getDashboardClassroom(day);
-      console.log(data);
-      setClassrooms(data || []);
+      
+      const [classroomData, scheduleData] = await Promise.all([
+        getDashboardClassroom(day),
+        getDashboardSchedule(day)
+      ]);
+
+      setClassrooms(classroomData || []);
+      setSchedule(scheduleData || []);
+      
     } catch (error) {
       console.error("Error loading dashboard data:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const fetchDashboardSchedule = async (day) => {
-    setIsLoading(true);
-    try {
-      const data = await getDashboardSchedule(day);
-      console.log(data);
-      setSchedule(data || []);
-    } catch (error) {
-      console.error("Error loading dashboard data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchDashboardData(activeDay);
-    fetchDashboardSchedule(activeDay);
-  }, [activeDay]);
+    fetchData(activeDay);
+  }, [activeDay, fetchData]);
 
   return {
     activeDay,
     setActiveDay,
     schedule,
     classrooms,
-    // userName,
     isLoading,
   };
 }

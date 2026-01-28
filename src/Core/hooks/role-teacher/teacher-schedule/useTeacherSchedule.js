@@ -4,6 +4,7 @@ import { fetchDailyScheduleApi } from "../../../api/role-teacher/teacher-schedul
 export function useTeacherSchedule(selectedDate) {
   const [schedule, setSchedule] = useState([]);
   const [activeDay, setActiveDay] = useState("");
+  const [loading,setLoading] = useState (true);
 
   const dayMap = {
     monday: "Senin",
@@ -37,6 +38,7 @@ export function useTeacherSchedule(selectedDate) {
       setActiveDay("");
       return;
     }
+    setLoading(true);
 
     try {
       const rawData = await fetchDailyScheduleApi(dayName);
@@ -59,6 +61,8 @@ export function useTeacherSchedule(selectedDate) {
     } catch (error) {
       setSchedule([]);
       setActiveDay("");
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -69,5 +73,6 @@ export function useTeacherSchedule(selectedDate) {
   return {
     schedule,
     activeDay,
+    loading
   };
 }
