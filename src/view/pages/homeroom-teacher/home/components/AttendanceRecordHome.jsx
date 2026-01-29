@@ -1,47 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchRfidLogs } from "../../../../../Core/api/role-homeroom/dashboard/HomeroomDashboard";
 
 export default function AttendanceTable() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [attendanceData, setAttendanceData] = useState([]);
 
-  const attendanceData = [
-    // {
-    //   id: 1,
-    //   name: "Valeri Invandy Matabdir",
-    //   nisn: "B0000000I",
-    //   entryTime: "06:30",
-    //   exitTime: "16:30",
-    // },
-    // {
-    //   id: 2,
-    //   name: "Valeri Invandy Matabdir",
-    //   nisn: "B0000000I",
-    //   entryTime: "06:30",
-    //   exitTime: "16:30",
-    // },
-    // {
-    //   id: 3,
-    //   name: "Valeri Invandy Matabdir",
-    //   nisn: "9B0000000I",
-    //   entryTime: "06:30",
-    //   exitTime: "16:30",
-    // },
-    // {
-    //   id: 4,
-    //   name: "Valeri Invandy Matabdir",
-    //   nisn: "9B0000000I",
-    //   entryTime: "06:30",
-    //   exitTime: "16:30",
-    // },
-    // {
-    //   id: 5,
-    //   name: "Valeri Invandy Matabdir",
-    //   nisn: "B0000000I",
-    //   entryTime: "06:30",
-    //   exitTime: "16:30",
-    // },
-  ];
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetchRfidLogs();
+        // Assuming the API returns { data: [...] } or just [...]
+        if (response?.data) {
+          setAttendanceData(response.data);
+        } else if (Array.isArray(response)) {
+          setAttendanceData(response);
+        }
+      } catch (error) {
+        console.error("Failed to fetch RFID logs:", error);
+      }
+    };
+    loadData();
+  }, []);
 
   const itemsPerPage = 5;
   const totalPages = Math.ceil(attendanceData.length / itemsPerPage);
@@ -56,7 +37,14 @@ export default function AttendanceTable() {
       {/* HEADER */}
       <div className="p-6">
         <h2 className="text-lg font-bold text-gray-900">Absensi Hari Ini</h2>
-        <p className="text-sm text-gray-500 mt-1">Senin, 03 November 2025</p>
+        <p className="text-sm text-gray-500 mt-1">
+          {new Date().toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
       </div>
 
       {/* TABLE */}
@@ -98,7 +86,7 @@ export default function AttendanceTable() {
             <tbody>
               {displayedData.map((record, index) => (
                 <tr
-                  key={record.id}
+                  key={index}
                   className="
             border-b border-gray-200
             odd:bg-blue-50
@@ -110,16 +98,16 @@ export default function AttendanceTable() {
                     {startIndex + index + 1}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800">
-                    {record.name}
+                    {record.student_name || record.name}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800">
                     {record.nisn}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800">
-                    {record.entryTime || "-"}
+                    {record.checkin_time || record.entryTime || "-"}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800">
-                    {record.exitTime || "-"}
+                    {record.checkout_time || record.exitTime || "-"}
                   </td>
                 </tr>
               ))}

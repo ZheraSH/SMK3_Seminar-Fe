@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { fetchAttendanceStatistics } from "../../../../../Core/api/role-homeroom/dashboard/HomeroomDashboard";
 import LoadingData from "../../../../components/elements/loadingData/loading";
@@ -15,6 +15,7 @@ export default function AttendanceChart() {
   ]);
 
   const COLORS = ["#22c55e", "#f59e0b", "#0ea5e9", "#ef4444"];
+  const EMPTY_COLOR = "#e5e7eb"; // abu-abu
 
   useEffect(() => {
     const loadData = async () => {
@@ -47,6 +48,15 @@ export default function AttendanceChart() {
     loadData();
   }, []);
 
+  const isEmptyData = useMemo(
+    () => data.every((item) => item.value === 0),
+    [data]
+  );
+
+  const chartData = isEmptyData
+    ? [{ name: "Kosong", value: 1 }]
+    : data;
+
   if (loading) {
     return <LoadingData loading={loading} type="card" />;
   }
@@ -63,12 +73,12 @@ export default function AttendanceChart() {
       <ResponsiveContainer width="100%" height={280}>
         <PieChart>
           <Pie
-            data={data}
+            data={chartData}
             cx="50%"
             cy="50%"
             innerRadius={85}
             outerRadius={115}
-            paddingAngle={4}
+            paddingAngle={isEmptyData ? 0 : 4}
             dataKey="value"
             cornerRadius={12}
             stroke="none"
@@ -79,14 +89,17 @@ export default function AttendanceChart() {
                 y="50%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="fill-green-500 text-4xl font-bold"
+                className="fill-gray-400 text-4xl font-bold"
               >
                 {percentage}%
               </text>
             )}
           >
-            {data.map((_, i) => (
-              <Cell key={i} fill={COLORS[i]} />
+            {chartData.map((_, i) => (
+              <Cell
+                key={i}
+                fill={isEmptyData ? EMPTY_COLOR : COLORS[i]}
+              />
             ))}
           </Pie>
         </PieChart>
@@ -97,7 +110,10 @@ export default function AttendanceChart() {
           <div key={item.name} className="flex items-center gap-2">
             <span
               className="w-2.5 h-2.5 rounded-full"
-              style={{ backgroundColor: COLORS[i] }}
+              style={{
+                backgroundColor:
+                  item.value === 0 ? EMPTY_COLOR : COLORS[i],
+              }}
             />
             <span>{item.name}</span>
           </div>

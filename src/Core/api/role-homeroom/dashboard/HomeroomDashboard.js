@@ -26,3 +26,13 @@ export const fetchAttendanceStatistics = async () => {
         throw err;
     }
 };
+
+export const fetchRfidLogs = async () => {
+    try {
+        const res = await axiosClient.get("/homeroom-teacher/dashboard/rfid-logs");
+        return res.data;
+    } catch (err) {
+        console.error("Gagal ambil RFID logs:", err);
+        throw err;
+    }
+};
