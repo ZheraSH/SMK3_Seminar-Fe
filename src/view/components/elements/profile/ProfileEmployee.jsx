@@ -57,7 +57,9 @@ export default function ProfileEmploye() {
                   <h1 className="md:text-[30px] lg:text-[24px] font-semibold text-black">
                     {data.name || "Irwandi Mustabir"}
                   </h1>
-                  <p className="text-black text-[15px] md:text-[20px] lg:text-lg">Siswa</p>
+                  <p className="text-black text-[15px] md:text-[20px] lg:text-lg">
+                    {data.profile_type === 'student' ? 'Siswa' : 'Karyawan'}
+                  </p>
                 </div>
               </div>
 

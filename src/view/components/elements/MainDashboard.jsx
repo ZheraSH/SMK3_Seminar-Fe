@@ -60,19 +60,17 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
   const handleProfile = () => {
     const userRoles = user.roles;
 
-    // 1. Logika Jika Multi-Role (Lebih dari 1 role)
     if (userRoles.length > 1) {
       navigate("/dashboard/profile");
       return;
     }
 
-    // 2. Logika Jika Single Role (Hanya 1 role)
     const SINGLE_ROLE_ROUTES = {
-      student: "/student-home/student-profile",
+      student: "/student-home/profile",
       counselor: "/bk-home/profile",
       teacher: "/teacher-home/profile",
       homeroom_teacher: "/homeroom-home/profile",
-      school_operator: "/home/profile",
+      school_operator: "/home/ProfileOperator",
     };
 
     const activeRole = userRoles[0];
