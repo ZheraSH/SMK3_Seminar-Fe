@@ -91,10 +91,34 @@ const KotakRfid2 = () => (
     </div>
 );
 
+// tombol day 
+    const Day = ({count}) => (
+        <div className="flex flex-wrap gap-1 bg-white animate-pulse shadow-md p-2 rounded-lg">
+            {[...Array(count)].map((_, i) => (
+                <div key={i} className="animate-pulse">
+                    <Skeleton className="h-10 w-21 rounded-xl" />
+                </div>
+            ))}
+        </div>
+    )
+// // tombol day2 
+    const Day2 = ({count}) => (
+    <div className=" flex justify-between gap-1 bg-white animate-pulse shadow-md p-2 py-2 rounded-lg">
+        <Skeleton  className=" h-8 w-70 bg-gray-50"/>
+        <div className="flex flex-wrap gap-1">
+            {[...Array(count)].map((_, i) => (
+                <div key={i} className="animate-pulse">
+                    <Skeleton className="h-10 w-21 rounded-xl" />
+                </div>
+            ))}
+        </div>
+    </div>
+    )
+
 // tombol tambah + serch
     const Create = () => (
         <div className=" mb-6 flex justify-between animate-pulse gap-2">
-            <Skeleton className="h-10 w-full bg-gray-50 rounded-lg"/>
+            <Skeleton className="h-15 w-full bg-gray-50 rounded-lg"/>
             
         </div>
     );
@@ -136,7 +160,7 @@ const KotakRfid2 = () => (
 
 // 2 card 2:2
     const CradDoubleSkeleton = ({ count = 5 }) => (
-        <div className="flex flex-col lg:flex-row gap-6 w-full mt-5 px-4">
+        <div className="flex flex-col lg:flex-row gap-6 w-full mt-5 ">
             <div className="bg-white rounded-2xl shadow-md border border-gray-100 w-full overflow-hidden">
                 <div className="p-5 border-b border-gray-50">
                     <Skeleton className="h-7 w-48 rounded-md mb-2" /> 
@@ -153,8 +177,8 @@ const KotakRfid2 = () => (
                             <div key={i} className="p-4 flex items-center gap-4">
                             <Skeleton className="h-4 w-6 rounded" />
                             <Skeleton className="h-6 w-24 rounded-full" /> {/* Badge Mapel */}
-                            <Skeleton className="h-4 w-1/4 rounded" />
-                            <Skeleton className="h-4 w-20 rounded ml-auto" />
+                            <Skeleton className="h-4 w-1/3 rounded" />
+                            <Skeleton className="h-4 w-25 rounded ml-auto" />
                             </div>
                         ))}
                     </div>
@@ -177,7 +201,7 @@ const KotakRfid2 = () => (
                             <Skeleton className="h-4 w-6 rounded" />
                             <Skeleton className="h-4 w-24 rounded" />
                             <Skeleton className="h-4 w-1/3 rounded" />
-                            <Skeleton className="h-7 w-20 rounded-full ml-auto" /> {/* Badge Status */}
+                            <Skeleton className="h-6 w-24 rounded-md ml-auto" /> {/* Badge Status */}
                             </div>
                         ))}
                     </div>
@@ -371,6 +395,168 @@ const DashboardChartsSkeleton = () => (
   </div>
 );
 
+const KotakKecil = () => (
+    <div>
+        <Skeleton className=" bg-gray-50 animate-pulse h-12 w-80 my-5 rounded-md" />
+    </div>
+)
+
+const Warning = () => (
+    <div className="animate-pulse space-y-6 bg-gray-100 p-5 rounded-lg">
+        <Skeleton className="h-6 w-32 rounded-md" />
+        <div className="space-y-3">
+            <Skeleton className="h-4 w-full rounded" />
+            <Skeleton className="h-4 w-11/12 rounded" />
+            <Skeleton className="h-4 w-10/12 rounded" />
+        </div>
+    </div>
+)
+
+
+const ProfilePageSkeleton = () => (
+  <div className="relative justify-center mx-5 pb-5 animate-pulse">
+    <Skeleton className="w-full h-[140px] rounded-3xl mt-4" />
+
+    <div className="-mt-9 relative z-10 px-0 ">
+      <div className="bg-white rounded-3xl border border-gray-200 shadow-md">
+        
+        <div className="px-4 md:px-7 pt-12 pb-16">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-6">
+            
+            <div className="flex gap-6">
+              <div className="-mt-24 relative z-20">
+                <div className="bg-white rounded-full ml-2 p-1">
+                  <Skeleton className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] lg:w-[180px] lg:h-[180px] rounded-full" />
+                </div>
+              </div>
+
+              <div className="mb-2 -mt-5 space-y-3">
+                <Skeleton className="h-8 w-48 md:w-64 rounded-lg" />
+                <Skeleton className="h-5 w-20 rounded-lg" />
+              </div>
+            </div>
+
+            <div className="-mt-5 flex gap-2">
+              <Skeleton className="h-10 w-24 md:w-32 rounded-md" />
+              <Skeleton className="h-10 w-24 md:w-32 rounded-md" />
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <Skeleton className="h-8 w-48 mb-8 rounded-lg" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 px-5">
+              <div className="space-y-6">
+                {[...Array(2)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <Skeleton className="h-6 w-25  rounded" />
+                    <Skeleton className="h-6 flex-1 rounded" />
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-6">
+                {[...Array(2)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <Skeleton className="h-6 w-24  rounded" />
+                    <Skeleton className="h-6 flex-1 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full flex justify-center md:justify-end px-10 mb-6">
+          <Skeleton className="h-8 w-28 rounded-lg" />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+
+// Classrooms List Skeleton di Dashboard Teacher
+const ClassroomsSkeleton = ({ count = 4 }) => (
+  <div className="mb-8 mt-2">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+      {[...Array(count)].map((_, i) => (
+        <div 
+          key={i} 
+          className="bg-white rounded-2xl p-3 drop-shadow-lg border border-gray-200 w-full h-[117px] animate-pulse"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <Skeleton className="w-10 h-10 rounded-[10px] bg-blue-100" />
+            <div className="space-y-2 flex-1">
+              <Skeleton className="h-4 w-3/4 rounded" />
+              <Skeleton className="h-3 w-1/2 rounded bg-blue-50" />
+            </div>
+          </div>
+
+          <hr className="border-gray-100" />
+          <div className="flex justify-between mt-3">
+            <Skeleton className="h-3 w-24 rounded" /> {/* Jumlah Siswa */}
+            <Skeleton className="h-3 w-16 rounded" /> {/* Nama Kelas */}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const StatGridSkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    {[...Array(4)].map((_, i) => (
+      <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 animate-pulse">
+        <div className="flex justify-between items-start mb-4">
+          <div className="space-y-3">
+            <Skeleton className="h-4 w-32 rounded" /> {/* Label */}
+            <Skeleton className="h-8 w-20 rounded-lg" /> {/* Angka Besar */}
+          </div>
+          <Skeleton className="h-10 w-10 rounded-xl bg-gray-100" /> {/* Icon Box */}
+        </div>
+        <div className="space-y-2 mt-6">
+          <Skeleton className="h-3 w-16 rounded" /> {/* Teks "Bulan ini" */}
+          <Skeleton className="h-2 w-full rounded-full bg-gray-100" /> {/* Progress Bar */}
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+
+
+const ChartsGlobalSkeleton = () => (
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-pulse">
+    <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+      <Skeleton className="h-6 w-48 mb-6 rounded" />
+      <div className="relative h-64 flex items-end gap-2 px-2">
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className="flex-1 flex flex-col items-center gap-2">
+            <Skeleton className={`w-full bg-gray-100 rounded-t-sm ${i === 0 ? 'h-full' : 'h-4'}`} />
+            <Skeleton className="h-3 w-8 rounded" />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center">
+      <Skeleton className="h-6 w-48 mb-10 self-start rounded" />
+      <div className="relative w-48 h-48 rounded-full border-[16px] border-gray-100 flex items-center justify-center">
+         <Skeleton className="h-8 w-16 rounded" />
+      </div>
+      <div className="mt-8 w-full space-y-3">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-3 w-3 rounded-full" />
+              <Skeleton className="h-4 w-16 rounded" />
+            </div>
+            <Skeleton className="h-4 w-12 rounded" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 
 
@@ -379,8 +565,24 @@ export default function LoadingData({ loading, type = "list", count = 3 }) {
 
   const renderContent = () => {
     switch (type) {
+        case "cardStatistikBk" :
+            return <StatGridSkeleton />
+        case "statistikBk":
+            return <ChartsGlobalSkeleton />
+        case "warning" :
+            return <Warning />
+        case "cardClassroom":
+            return <ClassroomsSkeleton count={count} />
+        case " profilePage":
+            return <ProfilePageSkeleton />
+        case"kotakKecil":
+            return <KotakKecil />
         case "cardMapel":
             return <CardMapelSkeleton count={count} />;
+        case "tombolday" :
+            return <Day count={count}/>
+        case "tombolDay2":
+            return<Day2 count={count}/>
         case "kotak" : 
             return <Kotak />
         case "attendanceChart" :
