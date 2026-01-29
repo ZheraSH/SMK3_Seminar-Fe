@@ -141,7 +141,7 @@ const KotakRfid2 = () => (
 
 //attendance chart skeleton 
     const AttendanceChartSkeleton = ({ count }) => (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
             {[...Array(count)].map((_, i) => (
             <div key={i} className="flex bg-white shadow-md rounded-xl p-4 animate-pulse">
                 <Skeleton className={`w-1 h-14 mr-4 rounded-full bg-gray-300 animate-pulse`} />
@@ -431,7 +431,7 @@ const ProfilePageSkeleton = () => (
               </div>
 
               <div className="mb-2 -mt-5 space-y-3">
-                <Skeleton className="h-8 w-48 md:w-64 rounded-lg" />
+                <Skeleton className="h-8 w-30 md:w-64 rounded-lg" />
                 <Skeleton className="h-5 w-20 rounded-lg" />
               </div>
             </div>
@@ -561,61 +561,66 @@ const ChartsGlobalSkeleton = () => (
 
 // profile Operator
 const ProfilePageOperator = () => (
-  <div className="p-4 md:p-8 min-h-screen font-sans animate-pulse">
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-6xl mx-auto">
+  <div className="p-0 md:p-3 min-h-screen font-sans animate-pulse">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 md:p-8 max-w-6xl mx-auto">
       
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <Skeleton className="h-8 w-48 md:w-64 rounded-lg mb-4 md:mb-0" />
-        <Skeleton className="h-10 w-32 rounded-md" />
+      <div className="flex flex-row justify-between items-center mb-6 gap-2">
+        <Skeleton className="h-7 w-40 md:w-64 rounded-lg" />
+        <Skeleton className="h-8 md:h-10 w-28 md:w-32 rounded-lg" />
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
         <div className="flex items-center gap-4 w-full md:w-auto">
-          <Skeleton className="w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-2xl" />
-          <div className="space-y-3">
-            <Skeleton className="h-8 w-56 md:w-80 rounded-lg" />
-            <Skeleton className="h-6 w-20 rounded-full" />
+          <Skeleton className="w-20 h-20 md:w-28 md:h-28 flex-shrink-0 rounded-2xl" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-6 md:h-7 w-48 md:w-80 rounded-lg" />
+            <Skeleton className="h-5 w-16 rounded-full" />
           </div>
         </div>
 
-        <div className="text-right md:self-center mt-2 md:mt-0 flex flex-col items-end gap-2">
-          <Skeleton className="h-4 w-24 rounded" />
-          <Skeleton className="h-6 w-32 rounded-md" />
+        <div className="w-full md:w-auto px-4 py-2 bg-gray-50 md:bg-transparent rounded-lg border-l-4 border-gray-200 md:border-l-0">
+          <Skeleton className="h-3 w-20 mb-1 rounded" />
+          <Skeleton className="h-5 w-24 rounded-md" />
         </div>
       </div>
 
       <hr className="border-gray-100 mb-8" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6">
-        <div className="space-y-4">
+        
+        <div className="space-y-5">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <Skeleton className="h-5 w-32 md:w-40 rounded" />
-              <div className="font-bold">:</div>
+            <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-0">
+              <Skeleton className="h-5 w-full sm:w-40 md:w-48 rounded" />
+              <div className="hidden sm:block mr-3 w-1 h-5 bg-transparent" /> {/* Spacer pengganti titik dua */}
               <Skeleton className="h-5 flex-1 rounded" />
             </div>
           ))}
         </div>
 
-        <div className="space-y-4">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <Skeleton className="h-5 w-32 md:w-40 rounded" />
-              <div className="font-bold">:</div>
-              <Skeleton className="h-5 flex-1 rounded" />
-            </div>
-          ))}
-          <div className="flex items-start gap-4">
-            <Skeleton className="h-5 w-32 md:w-40 rounded" />
-            <div className="font-bold">:</div>
+        <div className="space-y-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-0">
+            <Skeleton className="h-5 w-full sm:w-40 md:w-48 rounded" />
+            <div className="hidden sm:block mr-3 w-1 h-5 bg-transparent" />
+            <Skeleton className="h-5 flex-1 rounded" />
+          </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-0">
+            <Skeleton className="h-5 w-full sm:w-40 md:w-48 rounded" />
+            <div className="hidden sm:block mr-3 w-1 h-5 bg-transparent" />
+            <Skeleton className="h-5 flex-1 rounded" />
+          </div>
+          <div className="flex flex-col sm:flex-row items-start gap-1 sm:gap-0">
+            <Skeleton className="h-5 w-full sm:w-40 md:w-48 rounded" />
+            <div className="hidden sm:block mr-3 w-1 h-5 bg-transparent" />
             <Skeleton className="h-16 flex-1 rounded" />
           </div>
         </div>
+
       </div>
 
-      <div className="mt-12 flex justify-end gap-6">
-        <Skeleton className="h-5 w-24 rounded" />
-        <Skeleton className="h-5 w-24 rounded" />
+      <div className="mt-12 pt-6 border-t border-gray-100 flex justify-end items-center gap-6">
+        <Skeleton className="h-5 w-20 rounded" />
+        <Skeleton className="h-5 w-20 rounded" />
       </div>
 
     </div>
