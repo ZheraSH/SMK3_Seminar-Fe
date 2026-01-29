@@ -559,12 +559,79 @@ const ChartsGlobalSkeleton = () => (
 );
 
 
+// profile Operator
+const ProfilePageOperator = () => (
+  <div className="p-4 md:p-8 min-h-screen font-sans animate-pulse">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-6xl mx-auto">
+      
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <Skeleton className="h-8 w-48 md:w-64 rounded-lg mb-4 md:mb-0" />
+        <Skeleton className="h-10 w-32 rounded-md" />
+      </div>
+
+      <div className="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+        <div className="flex items-center gap-4 w-full md:w-auto">
+          <Skeleton className="w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-2xl" />
+          <div className="space-y-3">
+            <Skeleton className="h-8 w-56 md:w-80 rounded-lg" />
+            <Skeleton className="h-6 w-20 rounded-full" />
+          </div>
+        </div>
+
+        <div className="text-right md:self-center mt-2 md:mt-0 flex flex-col items-end gap-2">
+          <Skeleton className="h-4 w-24 rounded" />
+          <Skeleton className="h-6 w-32 rounded-md" />
+        </div>
+      </div>
+
+      <hr className="border-gray-100 mb-8" />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6">
+        <div className="space-y-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <Skeleton className="h-5 w-32 md:w-40 rounded" />
+              <div className="font-bold">:</div>
+              <Skeleton className="h-5 flex-1 rounded" />
+            </div>
+          ))}
+        </div>
+
+        <div className="space-y-4">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <Skeleton className="h-5 w-32 md:w-40 rounded" />
+              <div className="font-bold">:</div>
+              <Skeleton className="h-5 flex-1 rounded" />
+            </div>
+          ))}
+          <div className="flex items-start gap-4">
+            <Skeleton className="h-5 w-32 md:w-40 rounded" />
+            <div className="font-bold">:</div>
+            <Skeleton className="h-16 flex-1 rounded" />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 flex justify-end gap-6">
+        <Skeleton className="h-5 w-24 rounded" />
+        <Skeleton className="h-5 w-24 rounded" />
+      </div>
+
+    </div>
+  </div>
+);
+
+
+
 
 export default function LoadingData({ loading, type = "list", count = 3 }) {
   if (!loading) return null;
 
   const renderContent = () => {
     switch (type) {
+        case "profileOperator" :
+          return <ProfilePageOperator />
         case "cardStatistikBk" :
             return <StatGridSkeleton />
         case "statistikBk":
