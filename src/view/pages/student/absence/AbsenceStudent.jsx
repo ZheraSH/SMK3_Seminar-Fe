@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAttendanceHistory } from '../../../../Core/api/role-student/absence-student/AbsenceStudent';
 import Header from '../../../components/elements/header/Header-new';
+import LoadingData from '../../../components/elements/loadingData/loading';
 import { PaginationAbsenceStudent } from './components/PaginationAbsenceStudent';
 
 const getStatusColor = (status) => {
@@ -62,11 +63,15 @@ export default function AbsentStudentMain() {
 
     return (
         <div className="w-full bg-gray-50 p-6">
-            <Header
-                src='/images/particle/particle4.png'
-                span='Absensi'
-                p='Kehadiran secara lengkap sebagai pemantauan disiplin dan tanggung jawab.'
-            />
+            {loading ? (
+                <LoadingData loading={true} type="header1" />
+            ) : (
+                <Header
+                    src='/images/particle/particle4.png'
+                    span='Absensi'
+                    p='Kehadiran secara lengkap sebagai pemantauan disiplin dan tanggung jawab.'
+                />
+            )}
 
             <div className="">
                 <div className="px-6 py-4">
@@ -76,7 +81,7 @@ export default function AbsentStudentMain() {
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-4 text-gray-500">Loading...</div>
+                    <LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />
                 ) : attendanceData.length === 0 ? (
                     <div className="flex flex-col justify-center items-center py-10 space-y-4">
                         <img
@@ -84,7 +89,7 @@ export default function AbsentStudentMain() {
                             alt="Tidak ada data"
                             className="w-300 h-100 object-contain"
                         />
-                        <p className="text-gray-500 text-[20px] font-medium">
+                        <p className="text-gray-500 text-lg font-medium">
                             Belum ada data daftar riwayat absensi
                         </p>
                     </div>
