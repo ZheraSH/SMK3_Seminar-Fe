@@ -18,11 +18,11 @@ export default function BodyDashboard() {
     } = DashboardStudent ();
 
     return (
-        <div className="justify-center mx-3 mb-10">
+        <div className=" mb-10">
             <Card  summary={summary} loading={loading}/>
             {loading ? ( <LoadingData loading={loading} type="2card" count={5} /> )
              : (
-                <div className="flex flex-col md:flex-row lg:flex-row gap-5 w-full mt-5 px-4">
+                <div className="flex flex-col md:flex-row lg:flex-row gap-5 w-full mt-5">
                     <div 
                         className="flex flex-col gap-5 w-full md:w-full lg:w-full lg:h-[360px]  rounded-xl shadow-lg border border-gray-300 p-4"
                     >
