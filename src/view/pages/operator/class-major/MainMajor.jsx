@@ -66,6 +66,12 @@ const MajorCardGrid = () => {
         </div>
         {loading ? (
           <LoadingData type="cardmajor" loading={loading} count={9}/>
+        ) : renderedMajors.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
+            <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+            <p className="text-gray-500 text-center text-sm md:text-md"> Maaf yaaa.. datanya gaada, silahkan hubungi Admin <br /> untuk menambah data Jurusan!
+            </p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {renderedMajors.map((major,index) => (

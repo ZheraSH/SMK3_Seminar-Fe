@@ -110,15 +110,28 @@ const ClassStudents = () => {
                         </div>
                     </div>
                 )}
-                {loading? (<LoadingData loading={loading} type='tableSiswaKaryawan' count={10} />)
-                :(
+                {loading? (<LoadingData loading={loading} type='tableSiswaKaryawan' count={10} />
+                ) : (
                     <>
                         <div className="h-4"></div> 
-                        <DataTable  students={students} loading={studentsLoading} removeStudent={removeStudent} actionLoading={actionLoading} paginationMeta={paginationMeta} fetchStudentDetail={fetchStudentDetail} selectedStudentDetail={selectedStudentDetail} detailLoading={detailLoading} currentPage={currentPage}/>
-                        {totalPages > 1 && (
-                            <div className="mt-4 flex justify-center">
-                                <PaginationComponent currentPage={paginationMeta.current_page} totalPages={paginationMeta.last_page} onPageChange={handlePageChange}/>
+                        {students.length === 0 ? (
+                             <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
+                                <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                                <div className="text-center">
+                                    <p className="text-gray-500 text-sm md:text-md text-center">
+                                        Maaf yaaa.. datanya gaada, silahkan klik “Tambah Siswa” buat <br /> nambah data siswa ke kelas ini!
+                                    </p>
+                                </div>
                             </div>
+                        ) : (
+                            <>
+                                <DataTable  students={students} loading={studentsLoading} removeStudent={removeStudent} actionLoading={actionLoading} paginationMeta={paginationMeta} fetchStudentDetail={fetchStudentDetail} selectedStudentDetail={selectedStudentDetail} detailLoading={detailLoading} currentPage={currentPage}/>
+                                {totalPages > 1 && (
+                                    <div className="mt-4 flex justify-center">
+                                        <PaginationComponent currentPage={paginationMeta.current_page} totalPages={paginationMeta.last_page} onPageChange={handlePageChange}/>
+                                    </div>
+                                )}
+                            </>
                         )}
                         <ModalAddStudent open={openModal} onClose={() => setOpenModal(false)} classroom={classroom} availableStudents={availableStudents}addStudents={addStudents}/>
                     </>

@@ -74,9 +74,11 @@ const MainClass = () => {
             )}
 
             {classesData.length === 0 && !loading ? (
-                <p className="text-center text-gray-500 text-lg">
-                    {searchText ? `Tidak ada kelas yang cocok dengan "${searchText}".` : "Belum ada data kelas yang ditambahkan."}
-                </p>
+                <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
+                    <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                    <p className="text-gray-500 text-center text-sm md:text-md"> Maaf yaaa.. datanya gaada, silahkan klik “Tambah kelas” buat <br />  nambah data kelas!
+                    </p>
+                </div>
             ) : loading ? (
                 <LoadingData loading={loading} type="cardclass" count={9}/>
             ) : (

@@ -1,10 +1,10 @@
-import axios from "axios";
 import { notify } from "../../../hooks/notification/notify";
-const API_URL = "http://127.0.0.1:8000/api";
+// const API_URL = "http://127.0.0.1:8000/api";
+import api from "../../axiosConfig";
 
 export const getClassroomDetail = async (id) => {
   try {
-    const res = await axios.get(`${API_URL}/classrooms/${id}`);
+    const res = await api.get(`/classrooms/${id}`);
     return res.data.data;
   } catch (err) {
     console.error("Gagal mengambil detail kelas:", err);
@@ -15,7 +15,7 @@ export const getClassroomDetail = async (id) => {
 
 export const getClassroomStudents = async (classroomId, page = 1, limit = 8, search = "") => {
     try {
-        const res = await axios.get(`${API_URL}/classrooms/${classroomId}/students`, {
+        const res = await api.get(`/classrooms/${classroomId}/students`, {
             params: {
                 page: page,
                 limit: limit, 
@@ -30,9 +30,7 @@ export const getClassroomStudents = async (classroomId, page = 1, limit = 8, sea
 
 export const getAvailableStudents = async (classroomId) => {
   try {
-    const res = await axios.get(
-      `${API_URL}/classrooms/${classroomId}/students-available`
-    );
+    const res = await api.get(`/classrooms/${classroomId}/students-available`);
     return res.data.data;
   } catch (err) {
     throw err;
@@ -41,8 +39,7 @@ export const getAvailableStudents = async (classroomId) => {
 
 export const addStudentsToClassroom = async (classroomId, studentIds) => {
   try {
-    const res = await axios.post(
-      `${API_URL}/classrooms/${classroomId}/students-add`,
+    const res = await api.post(`/classrooms/${classroomId}/students-add`,
       { student_ids: studentIds }
     );
     notify("Data Berhasil Ditambah");
@@ -55,9 +52,7 @@ export const addStudentsToClassroom = async (classroomId, studentIds) => {
 // 4. Hapus Siswa dari Kelas
 export const removeStudentFromClass = async (classroomId, studentId) => {
     try {
-        const res = await axios.delete(
-          `${API_URL}/classrooms/${classroomId}/student-remove/${studentId}`
-        );
+        const res = await api.delete( `/classrooms/${classroomId}/student-remove/${studentId}`);
         notify("Data Berhasil Dihapus");
         return res.data;
     } catch (err) {
@@ -67,7 +62,7 @@ export const removeStudentFromClass = async (classroomId, studentId) => {
 
 export const getStudentDetail = async (id) => { 
   try {
-    const res = await axios.get(`${API_URL}/students/${id}`);
+    const res = await api.get(`/students/${id}`);
     return res.data.data;
   } catch (err) {
     console.error("Gagal mengambil detail siswa:", err);

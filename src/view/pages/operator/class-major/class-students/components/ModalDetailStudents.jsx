@@ -58,7 +58,7 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
                     <div className="lg:ml-10 ml-6 max-h-[80vh] md:max-h-[70vh] lg:mx-10 mx-6 ">
                         <div className="flex lg:items-start md:items-start items-center border-b-2 border-[#9CA3AF] lg:gap-[30px] md:gap-[30px] gap-[5px] pb-4 mb-4 lg:flex-row md:flex-row flex-col">
                             <div className="lg:w-[120px] lg:h-[120px] md:w-[120px] md:h-[120px] w-18 h-18 rounded-full overflow-hidden bg-gray-200 flex-shrink-0 border border-[2px] border-[#6B7280] ">
-                                <img src="public/profile.png" alt="Avatar Siswa" className="w-full h-full object-cover" />
+                                <img src={student.image} alt="Avatar Siswa" className="w-full h-full object-cover" />
                             </div>
                             <div className="flex flex-col lg:items-start md:items-start items-center lg:pt-4 md:pt-4 ">
                                 <h3 className="text-[18px] font-semibold text-gray-900">{student?.name || '-'}</h3>
