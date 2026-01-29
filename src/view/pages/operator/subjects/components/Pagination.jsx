@@ -1,85 +1,83 @@
 "use client";
+const MAX_VISIBLE_PAGES = 3;
 
-export function Pagination({ currentPage, totalPages, onPrevious, onNext, onPageClick }) {
-  const renderPages = () => {
-    const pages = [];
+export function Pagination({
+  currentPage,
+  totalPages,
+  onPageClick // Mapping to onPageChange
+}) {
+  // Adapt props to standard names for internal logic
+  const page = currentPage;
+  const lastPage = totalPages;
+  const onPageChange = onPageClick;
 
-    // Selalu tampilkan halaman 1
-    pages.push(1);
+  if (!lastPage || lastPage <= 1) {
+    return null;
+  }
 
-    // Tampilkan titik-titik jika halaman aktif jauh dari awal
-    if (currentPage > 3) {
-      pages.push("...");
+  let startPage, endPage;
+
+  if (lastPage <= MAX_VISIBLE_PAGES) {
+    startPage = 1;
+    endPage = lastPage;
+  } else {
+    const half = Math.floor(MAX_VISIBLE_PAGES / 2); // 1
+
+    startPage = page - half;
+    endPage = page + half;
+
+    if (startPage < 1) {
+      startPage = 1;
+      endPage = MAX_VISIBLE_PAGES;
     }
 
-    // Tampilkan halaman di sekitar halaman aktif
-    for (
-      let p = Math.max(2, currentPage - 1);
-      p <= Math.min(totalPages - 1, currentPage + 1);
-      p++
-    ) {
-      if (!pages.includes(p)) {
-        pages.push(p);
-      }
+    else if (endPage > lastPage) {
+      endPage = lastPage;
+      startPage = lastPage - MAX_VISIBLE_PAGES + 1;
     }
+  }
 
-    // Tampilkan titik-titik jika halaman aktif jauh dari akhir
-    if (currentPage < totalPages - 2) {
-      pages.push("...");
-    }
+  const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
-    // Selalu tampilkan halaman terakhir
-    if (totalPages > 1 && !pages.includes(totalPages)) {
-      pages.push(totalPages);
-    }
-
-    return pages;
-  };
-
-  // JANGAN TAMPILKAN apapun jika total halaman hanya 1
-  if (totalPages <= 1) return null;
+  const PageButton = ({ p, active }) => (
+    <button
+      onClick={() => onPageChange(p)}
+      className={`w-8 h-8 rounded-lg flex items-center justify-center transition text-sm
+              ${active
+          ? "bg-blue-600 text-white font-semibold shadow-md"
+          : "text-blue-600 hover:bg-blue-100 "
+        }`}
+    >
+      {p}
+    </button>
+  );
 
   return (
-    <div className="flex justify-center mt-6 items-center gap-2 mb-5 ">
-      {/* Tombol Sebelumnya */}
-      <button
-        type="button" // Biasakan tambah type button agar tidak trigger form submit
-        onClick={onPrevious}
-        disabled={currentPage === 1}
-        className="px-2 py-1 text-gray-500 disabled:opacity-30 transition-opacity hover:text-blue-600 disabled:cursor-not-allowed"
-      >
+    <div className="flex items-center justify-center mt-8 gap-2 select-none">
+
+      <button disabled={page === 1} onClick={() => onPageChange(page - 1)} className={`w-8 h-8 flex items-center justify-center  ${page === 1 ? "opacity-50 cursor-not-allowed" : "text-gray-600"}`}>
         &lt;
       </button>
 
-      {/* Daftar Nomor Halaman */}
-      {renderPages().map((p, i) =>
-        p === "..." ? (
-          <span key={`dots-${i}`} className="px-2 text-gray-400 select-none">
-            ...
-          </span>
-        ) : (
-          <button
-            key={`page-${p}-${i}`} // Gabungan p dan i agar key selalu unik
-            type="button"
-            onClick={() => onPageClick(p)}
-            className={`px-3 py-1 rounded-md transition-all duration-200 ${
-              p === currentPage
-                ? "bg-blue-600 text-white font-semibold shadow-md"
-                : "text-blue-600 hover:bg-blue-50 border border-transparent hover:border-blue-200"
-            }`}
-          >
-            {p}
-          </button>
-        )
+      {startPage > 1 && (
+        <>
+          <PageButton p={1} active={page === 1} />
+          {startPage > 2 && <span className="text-gray-500 mx-1">...</span>}
+        </>
       )}
 
-      {/* Tombol Selanjutnya */}
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={currentPage === totalPages}
-        className="px-2 py-1 text-gray-500 disabled:opacity-30 transition-opacity hover:text-blue-600 disabled:cursor-not-allowed"
-      >
+      {visiblePages.map((p) => (
+        <PageButton key={p} p={p} active={p === page} />
+      ))}
+
+      {endPage < lastPage && (
+        <>
+          {endPage < lastPage - 1 && <span className="text-gray-500 mx-1">...</span>}
+          <PageButton p={lastPage} active={page === lastPage} />
+        </>
+      )}
+
+      <button disabled={page === lastPage} onClick={() => onPageChange(page + 1)} className={`w-8 h-8 flex items-center justify-center ${page === lastPage ? "opacity-50 cursor-not-allowed" : "text-gray-600"}`}>
         &gt;
       </button>
     </div>
