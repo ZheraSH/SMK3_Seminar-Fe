@@ -22,7 +22,10 @@ export default function BodyDashboardTeacher() {
   
   return (
     <div className="min-h-screen bg-gray-50">
-      <h2 className="text-[20px] font-semibold text-gray-900 mb-4"> Selama Datang , {user.name || 'Guru BK'}</h2>
+      {isLoading ?(<LoadingData loading={isLoading} type="kotakKecil"/>)
+      :(
+        <h2 className="text-[20px] font-semibold text-gray-900 mb-4"> Selama Datang , {user.name || 'Guru BK'}</h2>
+      )}
       <MainTeacher />
     </div>
   );
