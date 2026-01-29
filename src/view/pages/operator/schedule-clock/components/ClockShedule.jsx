@@ -167,62 +167,68 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
                     </div>
                 </div>
             </div> 
-            <div className="border border-gray-200 rounded-lg overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-[#3B82F6] text-white">
-                        <tr>
-                            {tableHeaders .filter(h => h !== '') .map(header => (
-                                <th key={header} className="px-4 py-3 text-center text-[14px] font-medium  min-w-[150px]"> {/* Min-width agar kolom tidak terlalu sempit di HP */}
-                                    {header}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {isLoadingHours && ( 
+            <div className="border border-gray-200 rounded-lg overflow-hidden">
+                {!isLoadingHours && dataForDisplay.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-16 w-full animate-in fade-in duration-500">
+                        <img src="/images/null/null2.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-4" />
+                         <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada penempatn jam pelajaran di hari ini, silahkan klik <br /> “ Tambah ” untuk  menambahkan jam pelajaran!</p>
+                    </div>
+                ) : (
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-[#3B82F6] text-white">
                             <tr>
-                                <td colSpan={tableHeaders.length} className="px-6 py-4 text-center text-gray-500">Memuat jam pelajaran untuk {activeDayIndo}...</td>
+                                {tableHeaders.filter(h => h !== '').map(header => (
+                                    <th key={header} className="px-4 py-3 text-center text-[14px] font-medium min-w-[150px]">
+                                        {header}
+                                    </th>
+                                ))}
                             </tr>
-                        )}
-                        
-                        {!isLoadingHours && dataForDisplay.length === 0 ? (
-                            <tr>
-                                <td colSpan={tableHeaders.length} className="px-6 py-4 text-center text-gray-500">Tidak ada jam pelajaran yang diatur untuk hari **{activeDayIndo}**.</td>
-                            </tr>
-                        ) : (
-                            !isLoadingHours && dataForDisplay.map((slot, index) => (
-                                <tr key={slot.id || index} className={` ${index % 2 === 1 ? 'bg-[#EFF6FF]' : 'bg-white'} hover:bg-gray-50 text-[14px] font-medium`}>
-                                    <td className=" py-3 whitespace-nowrap text-gray-900">{index + 1}</td>
-                                    <td className={` py-3 whitespace-nowrap ${slot.name === 'Istirahat' || slot.isBreak ? 'text-[#F59E0B] font-medium' : 'text-[#22C55E]'}`}>
-                                        {slot.start_time} 
-                                    </td>
-                                    <td className={` py-3 whitespace-nowrap ${slot.name === 'Istirahat' || slot.isBreak ? 'text-[#F59E0B] font-medium' : 'text-[#22C55E]'}`}>
-                                        {slot.end_time} 
-                                    </td>
-                                    <td className=" py-3 whitespace-nowrap  text-gray-500">{slot.name || slot.designation}</td>
-                                        {isClassMode && (
-                                            <>
-                                                <td className=" py-3 whitespace-nowrap  text-gray-700">{slot.subject || '-'}</td>
-                                                <td className=" py-3 whitespace-nowrap  text-gray-700">{slot.teacher || '-'}</td>
-                                            </>
-                                        )}
-                                    <td className=" py-3 whitespace-nowrap text-center relative font-medium">
-                                        {!isClassMode && ( 
-                                            <div className="relative inline-block text-left" ref={actionMenuOpen === slot.id ? actionMenuRef : null}>
-                                                <button  onClick={() => toggleActionMenu(slot.id)}  disabled={isDeleting}  className="text-gray-500 hover:text-gray-700 p-1 rounded-full  cursor-pointer">
-                                                    <MoreVertical size={20} />
-                                                </button>
-                                                {actionMenuOpen === slot.id && (
-                                                    <ActionMenu alignTop={index >= dataForDisplay.length - 2}  onEdit={() => handleEdit(slot)} onDelete={() => openConfirmDeleteModal(slot.id, slot.name)}/>
-                                                )}
-                                            </div>
-                                        )}
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200 text-center">
+                            {isLoadingHours ? (
+                                <tr>
+                                    <td colSpan={tableHeaders.length} className="px-6 py-10">
+                                        <div className="flex justify-center items-center gap-3">
+                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                                            <span className="text-gray-500">Memuat jam pelajaran...</span>
+                                        </div>
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                            ) : (
+                                dataForDisplay.map((slot, index) => (
+                                    <tr key={slot.id || index} className={`${index % 2 === 1 ? 'bg-[#EFF6FF]' : 'bg-white'} hover:bg-gray-50 text-[14px] font-medium transition-colors`}>
+                                        <td className="py-3 whitespace-nowrap text-gray-900">{index + 1}</td>
+                                        <td className={`py-3 whitespace-nowrap ${slot.name === 'Istirahat' || slot.isBreak ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
+                                            {slot.start_time}
+                                        </td>
+                                        <td className={`py-3 whitespace-nowrap ${slot.name === 'Istirahat' || slot.isBreak ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
+                                            {slot.end_time}
+                                        </td>
+                                        <td className="py-3 whitespace-nowrap text-gray-500">{slot.name || slot.designation}</td>
+                                        {isClassMode && (
+                                            <>
+                                                <td className="py-3 whitespace-nowrap text-gray-700">{slot.subject || '-'}</td>
+                                                <td className="py-3 whitespace-nowrap text-gray-700">{slot.teacher || '-'}</td>
+                                            </>
+                                        )}
+                                        <td className="py-3 whitespace-nowrap text-center relative">
+                                            {!isClassMode && (
+                                                <div className="relative inline-block text-left" ref={actionMenuOpen === slot.id ? actionMenuRef : null}>
+                                                    <button onClick={() => toggleActionMenu(slot.id)} className="text-gray-500 hover:text-gray-700 p-1 rounded-full">
+                                                        <MoreVertical size={20} />
+                                                    </button>
+                                                    {actionMenuOpen === slot.id && (
+                                                        <ActionMenu alignTop={index >= dataForDisplay.length - 2} onEdit={() => handleEdit(slot)} onDelete={() => openConfirmDeleteModal(slot.id, slot.name)}/>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                )}
             </div>
       
             <AddLessonHourModal isVisible={isModalOpen} onClose={handleCloseModal} activeDay={activeDayApi} activeDayDisplay={activeDayIndo} onSuccessfulSubmit={refetch} addLesson={addLesson} updateLesson={updateLesson} initialData={editingData}/>

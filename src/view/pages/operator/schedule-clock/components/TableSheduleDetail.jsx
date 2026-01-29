@@ -6,7 +6,7 @@ const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  o
 }) => {
     return (
         <div className="rounded-2xl shadow-lg">
-            <div className="rounded-md overflow-x-auto">
+            <div className="rounded-md ">
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                     <thead className="bg-[#3B82F6] text-white">
                         <tr className="text-xs">
@@ -34,18 +34,20 @@ const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  o
                                         ) : <span className="text-gray-500">—</span>}
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{item.teacher?.name || '—'}</td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-center relative">
+                                    <td className="px-4 py-3 text-center relative overflow-visible"> {/* Pastikan overflow-visible */}
                                         {item.id ? (
                                             <>
                                                 <button onClick={() => toggleDropdown(item.id)} className="p-1 text-gray-500 hover:text-gray-700 focus:outline-none">
                                                     <MoreVertical className="w-5 h-5" />
                                                 </button>
+                                                
                                                 {openDropdownId === item.id && (
-                                                    <div ref={dropdownRef} className="absolute top-0 right-0 transform -translate-x-1/2 w-40 bg-white border border-gray-200 rounded-md shadow-xl z-20">
-                                                        <button onClick={() => onEdit(item)} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    <div  ref={dropdownRef}  className={`absolute right-full mr-2 w-40 bg-white border border-gray-200 rounded-md shadow-xl z-[100]
+                                                            ${index >= schedules.length - 1 && schedules.length > 1 ? 'bottom-0 mb-2' : 'top-0 mt-2'}`}>
+                                                        <button onClick={() => onEdit(item)} className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-50">
                                                             <PencilLine className="w-4 h-4 mr-3 text-[#FACC15]" /> Edit
                                                         </button>
-                                                        <button onClick={() => onDelete(item)} className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                                        <button onClick={() => onDelete(item)} className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50">
                                                             <Trash2 className="w-4 h-4 mr-3 text-[#FF5E53]" /> Hapus
                                                         </button>
                                                     </div>
@@ -62,13 +64,6 @@ const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  o
                                 </td>
                             </tr>
                         )}
-                        <tr>
-                            <td colSpan={6} className="text-center py-2">
-                                <button onClick={onAdd} className="inline-flex items-center space-x-2 bg-[#22C55E] text-white py-2 px-4 rounded-lg font-medium text-[14px] transition duration-200 shadow-sm">
-                                    <Plus size={16} /> <span>Tambah Jam Mata Pelajaran</span>
-                                </button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

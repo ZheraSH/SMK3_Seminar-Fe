@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft,Settings } from 'lucide-react';
+import { ArrowLeft,Settings,Plus } from 'lucide-react';
 import useClassSchedule from '../../../../Core/hooks/operator-hooks/schedule/useClassSchedule'; 
 import AddScheduleModal from "./components/FormSchedule"; 
 import Header2 from '../../../components/elements/header/Header-new';
@@ -124,8 +124,8 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses ,setAct
             : (
                 <Header2 span={`Jadwal Kelas ${classroom.name}`} p={`Daftar kelas - ${classroom.name}`} src='/images/particle/particle3.png' />
             )}
-            {isLoadingSchedule? (<LoadingData loading={isLoadingSchedule} type='create2'/>)
-            : (
+            {isLoadingSchedule? (<LoadingData loading={isLoadingSchedule} type='create2'/>
+            ) : (
                 <div className="flex flex-col lg:flex-row lg:justify-between  md:flex-row md:justify-between  items-center pb-2 mb-4  md:h-[60px] gap-3 md:gap-0">
                     <div className="flex space-x-2 w-full md:w-auto overflow-x-auto p-1 rounded-lg flex-shrink-0">
                         {days.map(day => (
@@ -135,21 +135,44 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses ,setAct
                             </button>
                         ))}
                     </div>
-                    <div className='flex flex-row gap-2 w-full lg:w-auto'>
-                        <button onClick={() => setActiveTab('jam')} className='flex-1 lg:flex-none text-[10px] lg:text-[14px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6] hover:bg-[#2563EB] px-3 rounded-[8px] flex flex-row gap-2 justify-center items-center cursor-pointer'>
-                            <Settings className='w-5 h-5'/> <span>Setting Jam Pelajaran</span>
+                    <div className='flex flex-col sm:flex-row gap-2 w-full lg:w-auto mt-4 lg:mt-0'>
+                        <button  onClick={openAddModal}  className="flex-1 lg:flex-none bg-[#22C55E] hover:bg-[#16a34a] flex items-center justify-center gap-2 text-[12px] lg:text-[14px] text-white px-4 py-2.5 rounded-lg transition-all font-medium shadow-sm">
+                            <Plus className='w-4 h-4 lg:w-5 lg:h-5'/> 
+                            <span>Tambah Jam</span>
                         </button>
-                        <button  onClick={handleBackToClasses}  className="flex-1 lg:flex-none flex items-center justify-center space-x-1 font-semibold border border-[#D1D5DB] bg-white px-3 py-2 rounded-lg text-sm">
-                            <ArrowLeft size={16} /> <span>Kembali</span>
-                        </button>
+                        <div className="flex flex-row gap-2 w-full lg:w-auto">
+                            <button onClick={() => setActiveTab('jam')} className='flex-1 lg:flex-none text-[10px] lg:text-[14px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6] hover:bg-[#2563EB] px-3 rounded-lg flex flex-row gap-2 justify-center items-center cursor-pointer transition-all'>
+                                <Settings className='w-4 h-4 lg:w-5 lg:h-5'/> 
+                                <span className="whitespace-nowrap">Setting Jam</span>
+                            </button>
+
+                            <button onClick={handleBackToClasses}  className="flex-1 lg:flex-none flex items-center justify-center gap-1 font-semibold border border-[#D1D5DB] bg-white hover:bg-gray-50 px-3 py-2 rounded-lg text-[10px] lg:text-[14px] transition-all">
+                                <ArrowLeft size={16} /> 
+                                <span>Kembali</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
             {isLoadingSchedule? 
-            (<LoadingData loading={isLoadingSchedule}  type='tableSchedule' count={10}/> ) 
-            : (
-                <ScheduleTable isLoading={isLoadingSchedule} activeDay={activeDay} schedules={schedulesToDisplay} toggleDropdown={toggleDropdown} openDropdownId={openDropdownId} dropdownRef={dropdownRef} onEdit={openEditModal} onDelete={handleDeleteSchedule} onAdd={openAddModal}/>
-            ) }         
+                (
+                    <LoadingData loading={isLoadingSchedule}  type='tableSchedule' count={10}/> 
+                ) : (
+                    <>
+                        {schedulesToDisplay.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-20">
+                                <img  src="/images/null/null2.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                                <div className="text-center">
+                                   <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada jadwal di hari ini, silahkan klik “ Tambah Jam ” untuk <br />  menambahkan jam pelajaran!</p>
+                                </div>
+                            </div>
+            
+                        ) : (
+                            <ScheduleTable isLoading={isLoadingSchedule} activeDay={activeDay} schedules={schedulesToDisplay} toggleDropdown={toggleDropdown} openDropdownId={openDropdownId} dropdownRef={dropdownRef} onEdit={openEditModal} onDelete={handleDeleteSchedule} onAdd={openAddModal}/>
+                
+                        )}  
+                    </>
+                )}       
             <AddScheduleModal isOpen={isModalOpen} onClose={closeModal} initialData={editingItem} activeDayApi={activeDayApi}classroomId={classroomId} handleSave={saveSchedule}/>
             <ModalDelete isOpen={confirmModal.show}  onConfirm={executeRemoval}  onClose={() => setConfirmModal({ show: false, item: null, message: null })}  />
         </div>

@@ -71,13 +71,9 @@ function ClassScheduleManager() {
                                     <Pagination page={page} lastPage={lastPage} onPageChange={handlePageChange}/>
                                 </>
                             ) : (
-                                <div className="text-center py-20 ">
-                                    <p className="text-lg text-gray-500 font-medium">
-                                        Tidak ada data kelas yang ditemukan.
-                                    </p>
-                                    <p className="text-sm text-gray-400 mt-2">
-                                        Coba ubah kriteria pencarian atau filter Anda.
-                                    </p>
+                                <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
+                                    <img  src="/images/null/null2.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                                    <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada jadwal di hari ini, silahkan klik “ Tambah Jam ” untuk <br />  menambahkan jam pelajaran!</p>
                                 </div>
                             )}
                         </>
