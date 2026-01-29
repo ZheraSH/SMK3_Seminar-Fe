@@ -51,9 +51,12 @@ export const fetchSummaryClassdaily = async (date, page = 1, search = "" , statu
   }
 };
 
-export const getCetakRecap = async (date) => {
+export const getCetakRecap = async (date, status = "") => {
   const response = await API.get("/homeroom-teacher/summary-class/recap", {
-    params: { date},
+    params: {
+      date: date,
+      status: status,
+      },
     responseType: 'blob',
   });
   return response.data; 

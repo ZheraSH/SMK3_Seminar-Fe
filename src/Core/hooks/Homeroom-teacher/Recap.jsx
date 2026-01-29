@@ -59,32 +59,40 @@ export function UseRecap(selectedDate) {
   }, [selectedDate,searchQuery,selectedStatus]);
 
 
-  const downloadRecap = async () => {
-    if (downloading) return;
+  // UseRecap.js
+const downloadRecap = async () => {
+  if (downloading) return;
 
-    setDownloading(true);
-    try {
-      const response = await getCetakRecap(selectedDate);
-      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      
-      const url = window.URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `Recap_Absensi_${selectedDate}.xlsx`);
-      document.body.appendChild(link);
-      
-      link.click(); 
-      
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Gagal download:", error);
-      alert("Terjadi kesalahan saat mengunduh file.");
-    } finally {
-      setDownloading(false);
-    }
-  };
+  setDownloading(true);
+  try {
+    console.log("Mendownload dengan filter:", { selectedDate, searchQuery, selectedStatus });
+    // Kirimkan date, searchQuery, dan selectedStatus ke API
+    const response = await getCetakRecap(selectedDate, selectedStatus);
+    
+    const blob = new Blob([response], { 
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+    });
+    
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    
+    // Penamaan file yang lebih informatif berdasarkan filter
+    const filterInfo = selectedStatus ? `_${selectedStatus}` : "";
+    link.setAttribute('download', `Recap_Absensi_${selectedDate}${filterInfo}.xlsx`);
+    
+    document.body.appendChild(link);
+    link.click(); 
+    
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Gagal download:", error);
+    alert("Terjadi kesalahan saat mengunduh file.");
+  } finally {
+    setDownloading(false);
+  }
+};
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -92,7 +100,7 @@ export function UseRecap(selectedDate) {
     }, 500);
 
     return () => clearTimeout(handler);
-  }, [searchQuery,selectedStatus]);
+  }, [searchQuery,selectedStatus,selectedDate, loadTableData]);
 
   useEffect(() => {
     loadHeaderData();
@@ -111,8 +119,8 @@ export function UseRecap(selectedDate) {
     setSelectedStatus,
     searchQuery,
     setSearchQuery,  
-    goToPage: (page) => loadTableData(page, searchQuery),
-    refreshData: () => loadTableData(1, searchQuery),
+    goToPage: (page) => loadTableData(page, searchQuery,selectedStatus),
+    refreshData: () => loadTableData(1, searchQuery, selectedStatus),
     calculateNumber: (index) => {
     return ((pagination.current_page - 1) * pagination.per_page) + index + 1;
   }

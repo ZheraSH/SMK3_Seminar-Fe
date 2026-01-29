@@ -48,8 +48,8 @@ export default function RecapClass() {
   // }
   return (
     <div className=" bg-[#F8FAFC] min-h-screen mb-10 md:mb-0">
-      <div className="container mx-auto">
-        <Header span={`Recap Absensi - ${header?.classroom?.name ?? "-"}`} p={`Tahun Ajaran ${header?.tahun_ajaran} • Jumlah Siswa: ${header?.total_students}`}/>
+      <div className="">
+        <Header span={`Recap Absensi - ${header?.classroom?.name ?? "-"}`} p={`Tahun Ajaran ${header?.tahun_ajaran} • Jumlah Siswa: ${header?.total_students}`} src="/images/particle/particle10.png" />
         <CardRecap data={data}/>
         <div className="flex flex-col md:flex-row md:items-center  justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
           <div className="flex flex-col md:flex-row flex-wrap items-center gap-4">
@@ -68,7 +68,7 @@ export default function RecapClass() {
                 <div className="absolute top-[50px] left-0 w-full bg-white border border-gray-200 rounded-2xl shadow-xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2">
                   {["Semua Status", "Hadir", "Sakit", "Izin", "Alpha"].map((status) => (
                     <div key={status} onClick={() => { setSelectedFilter(status); 
-                        const statusMap = { "Semua Status": "", "Hadir": "present", "Sakit": "sick", "Izin": "permission", "Alpha": "alpha"};
+                        const statusMap = { "Semua Status": "", "Hadir": "hadir", "Sakit": "sakit", "Izin": "izin", "Alpha": "alpha"};
                         setSelectedStatus(statusMap[status]);
                         setIsFilterOpen(false); 
                       }} 
@@ -85,7 +85,8 @@ export default function RecapClass() {
                 <span className="text-sm font-semibold text-gray-600">{formatDateDisplay(selectedDate)}</span>
                 <CalendarCog size={18} className="text-gray-400" />
               </div>
-              <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="absolute inset-0 lg:w-[150px] md:w-[180px] w-[350px] h-full opacity-0 cursor-pointer z-10" />
+              <input type="date" value={selectedDate} 
+  onChange={(e) => setSelectedDate(e.target.value)}  className="absolute inset-0 lg:w-[150px] md:w-[180px] w-[350px] h-full opacity-0 cursor-pointer z-10" />
             </div>
           </div>
 
@@ -100,9 +101,29 @@ export default function RecapClass() {
             </button>
           </div>
         </div>
-        <TableRecap table={table} loading={loading} calculateNumber={calculateNumber}/>
-        <Pagination pagination={pagination} goToPage={goToPage}/> 
+       {
+        table.length === 0 && !loading ? (
+          <div className="flex flex-col items-center justify-center py-20  mt-4 animate-in fade-in duration-700">
+            <img  src="/images/null/null4.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+            <p className="text-gray-500 text-center text-sm md:text-md"> Sepertinya belum ada data yang masuk untuk kriteria ini <br /> Coba ubah kata kunci pencarian atau filter Anda.!</p>
+          </div>
+        ) : (
+          <>
+           <TableRecap table={table} loading={loading} calculateNumber={calculateNumber}/>
+            {
+              pagination.last_page > 1 && (
+                  <Pagination pagination={pagination} goToPage={goToPage}/>
+              )
+            } 
+           </>
+        )
+       }
       </div>
     </div>
   );
 }
+
+{/* <div className="flex flex-col items-center justify-center py-20  mt-4 animate-in fade-in duration-700">
+                        <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                        <p className="text-gray-500 text-center text-sm md:text-md"> Sepertinya belum ada data yang masuk untuk kriteria ini <br /> Coba pilih kelas lain atau ubah kata kunci pencarian Anda.!</p>
+                    </div> */}

@@ -38,9 +38,10 @@ export default function TableRecap ({ table = [] ,calculateNumber,loading}) {
                   <td className="px-6 py-4 text-center font-medium text-gray-700 whitespace-nowrap">{item.student_name ?? "Nama Tidak Ada"}</td>
                   <td className="px-6 py-4 text-center whitespace-nowrap">
                     <span className={`inline-flex px-4 py-1 rounded-full text-[12px] font-medium text-white
-                      ${item.status === "present" || item.status === "Hadir" ? "bg-[#22C55E]" : 
-                        item.status === "sick" || item.status === "Sakit" ? "bg-[#F59E0B]" : 
-                        item.status === "permission" || item.status === "Izin" ? "bg-[#0EA5E9]" : "bg-[#EF4444]"}`}
+                      ${item.status === "present" || item.status === "hadir" ? "bg-[#22C55E]" : 
+                        item.status === "sick" || item.status === "sakit" ? "bg-[#F59E0B]" : 
+                        item.status === "permission" || item.status === "izin" ? "bg-[#0EA5E9]" :
+                        item.status === "permission" || item.status === "alpha" ? "bg-[#EF4444]" : "bg-gray-200"}`}
                     >
                       {item.status ?? "—"}
                     </span>
