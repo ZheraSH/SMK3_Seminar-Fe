@@ -86,9 +86,17 @@ export const TeacherMain = () => {
   const filteredTeachers = useMemo(() => {
     let result = teachersByFilter;
     if (searchTerm) {
-      result = result.filter((t) =>
-        t.name?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const lowerTerm = searchTerm.toLowerCase();
+      result = result.filter((t) => {
+        const matchName = t.name?.toLowerCase().includes(lowerTerm);
+        const matchNip = t.nip?.toString().toLowerCase().includes(lowerTerm);
+        const matchRole = t.roles?.some((role) => {
+          const rLabel = (role.label || role.value || role).toString().toLowerCase();
+          return rLabel.includes(lowerTerm);
+        });
+
+        return matchName || matchNip || matchRole;
+      });
     }
     return result;
   }, [teachersByFilter, searchTerm]);

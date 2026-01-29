@@ -7,7 +7,7 @@ export const SearchBar = ({ searchTerm, setSearchTerm }) => {
       <Search size={20} className="text-gray-600 flex-shrink-0" />
       <input
         type="text"
-        placeholder="Cari nama / NIS / Kelas..."
+        placeholder="Cari nama / NIP / Role..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full outline-none text-sm bg-transparent placeholder:text-gray-600"

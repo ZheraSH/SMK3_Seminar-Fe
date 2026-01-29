@@ -278,6 +278,11 @@ export const TeacherForm = ({
                   .join(", ")
                 : "Pilih Role (bisa lebih dari 1)"}
             </button>
+            {errors.roles && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.roles[0]}
+              </p>
+            )}
 
             {/* DROPDOWN */}
             {post.showRoleDropdown && (
