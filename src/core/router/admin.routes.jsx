@@ -17,6 +17,7 @@ import TahunAjaran from "../../view/pages/operator/schoolyear/MainSchoolYear";
 import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
 import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
 import MasterCard from "../../view/pages/operator/master-card/MainMasterCard";
+import ProfileOperator from "../../view/components/elements/profile/ProfileOperator";
 
 
 export const AdminRoutes = [
@@ -42,6 +43,7 @@ export const AdminRoutes = [
           { path: "Shedule", element: <Shcedule /> },
           { path: "profile", element: <ProfileEmployee /> },
           { path: "mastercard", element: <MasterCard /> },
+          { path: "ProfileOperator", element: <ProfileOperator />}
         ],
       },
     ],
