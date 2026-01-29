@@ -127,7 +127,7 @@ export default function PermissionManagement() {
           <div className="border border-gray-300 p-3 rounded-2xl shadow-lg mb-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center px-2 sm:px-4">
               <h2 className="text-lg sm:text-[24px] font-semibold text-gray-900 text-center sm:text-left">
-                Daftar Izin Aktif
+                {pendingPermissions.length > 0 ? "Daftar Izin Aktif" : "Daftar Riwayat Izin"}
               </h2>
               <button onClick={handleOpenModal} className="bg-[#3B82F6] hover:bg-blue-700 text-white  px-4 py-2 sm:px-5 sm:py-2  rounded-lg font-medium transition">
                 + Buat Izin
@@ -150,20 +150,16 @@ export default function PermissionManagement() {
             <PermissionCard key={p.id} permission={p} onViewDetail={handleViewDetail} onDelete={handleOpenDeleteModal} />
           ))}
         </div>
-      ) : (
-        <div className="text-gray-500 text-center w-full py-6">
-          Tidak ada izin Aktif saat ini.
-        </div>
-      )}
+      ) : null}
 
-      {(loading || permissions.length > 0) && (
-        <div>
+      {(loading || permissions.length > 0 || pendingPermissions.length === 0) && (
+        <div className="mt-8">
           {loading ? (<LoadingData loading={loading} type="kotakKecil" />)
-            : (
+            : permissions.length > 0 && pendingPermissions.length > 0 ? (
               <h2 className="text-2xl font-bold text-gray-900 mb-8 mt-8">
                 Daftar Riwayat Izin
               </h2>
-            )}
+            ) : null}
 
           {loading ? (
             <LoadingData loading={loading} type="tableSchedule" count={10} />
