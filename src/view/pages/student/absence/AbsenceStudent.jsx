@@ -134,10 +134,10 @@ export default function AbsentStudentMain() {
                                                 </span>
                                             </td>
                                             <td className="px-4 py-3 text-sm text-gray-800 text-center">
-                                                {record.check_in}
+                                                {record.check_in || '-'}
                                             </td>
                                             <td className="px-4 py-3 text-sm text-gray-800 text-center">
-                                                {record.check_out}
+                                                {record.check_out || '-'}
                                             </td>
                                         </tr>
                                     ))}
