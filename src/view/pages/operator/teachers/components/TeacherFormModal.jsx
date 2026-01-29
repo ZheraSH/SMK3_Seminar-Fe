@@ -37,9 +37,8 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.name ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan nama lengkap"
               name="name"
               value={post.name}
@@ -58,9 +57,8 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan Email"
               name="email"
               value={post.email}
@@ -98,9 +96,8 @@ export const TeacherForm = ({
             </label>
             <select
               name="gender"
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.gender ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.gender ? "border-red-500" : "border-gray-300"
+                }`}
               onChange={handleInput}
               value={post.gender}
             >
@@ -121,15 +118,22 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.nik ? "border-red-500" : "border-gray-300"
-              }`}
-              type="text"
-              placeholder="Masukkan nik"
+              type="number"
+              min="0"
+              step="1"
+              className={`border rounded-lg p-2 w-full ${errors.nik ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan NIK"
               name="nik"
               value={post.nik}
               onChange={handleInput}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+") {
+                  e.preventDefault();
+                }
+              }}
             />
+
             {errors.nik && (
               <p className="text-red-500 text-sm mt-1">{errors.nik[0]}</p>
             )}
@@ -143,10 +147,11 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.nip ? "border-red-500" : "border-gray-300"
-              }`}
-              type="text"
+              className={`border rounded-lg p-2 w-full ${errors.nip ? "border-red-500" : "border-gray-300"
+                }`}
+              type="number"
+              min="0"
+              step="1"
               placeholder="Masukkan nip"
               name="nip"
               value={post.nip}
@@ -165,9 +170,8 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.birth_place ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full ${errors.birth_place ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan tempat lahir"
               name="birth_place"
               value={post.birth_place}
@@ -188,9 +192,8 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.birth_date ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full ${errors.birth_date ? "border-red-500" : "border-gray-300"
+                }`}
               type="date"
               name="birth_date"
               value={post.birth_date}
@@ -209,9 +212,8 @@ export const TeacherForm = ({
             </label>
             <select
               name="religion_id"
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.religion_id ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.religion_id ? "border-red-500" : "border-gray-300"
+                }`}
               onChange={handleInput}
               value={post.religion_id}
             >
@@ -237,9 +239,8 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.phone_number ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full ${errors.phone_number ? "border-red-500" : "border-gray-300"
+                }`}
               type="text"
               placeholder="Masukkan nomor telepon"
               name="phone_number"
@@ -272,9 +273,9 @@ export const TeacherForm = ({
             >
               {post.roles.length > 0
                 ? post.roles
-                    .filter((key) => key && RoleLabels[key])
-                    .map((key) => RoleLabels[key])
-                    .join(", ")
+                  .filter((key) => key && RoleLabels[key])
+                  .map((key) => RoleLabels[key])
+                  .join(", ")
                 : "Pilih Role (bisa lebih dari 1)"}
             </button>
 
@@ -318,9 +319,8 @@ export const TeacherForm = ({
               </p>
             </label>
             <textarea
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.address ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.address ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan alamat lengkap"
               name="address"
               value={post.address}

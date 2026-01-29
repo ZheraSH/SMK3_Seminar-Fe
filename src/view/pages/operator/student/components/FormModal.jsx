@@ -129,6 +129,8 @@ export function FormModal({
               className={`border rounded-lg p-2 w-full ${errors.nisn ? "border-red-500" : "border-gray-300"
                 }`}
               type="number"
+              min="0"
+              step="1"
               placeholder="Masukkan NISN"
               name="nisn"
               value={post.nisn}
@@ -227,6 +229,8 @@ export function FormModal({
                 }`}
               placeholder="-"
               type="number"
+              min="0"
+              step="1"
               name="number_kk"
               value={post.number_kk}
               onChange={onInputChange}
@@ -249,6 +253,8 @@ export function FormModal({
                 }`}
               placeholder="-"
               type="number"
+              min="0"
+              step="1"
               name="count_siblings"
               value={post.count_siblings}
               onChange={onInputChange}
@@ -273,6 +279,8 @@ export function FormModal({
                 }`}
               placeholder="-"
               type="number"
+              min="0"
+              step="1"
               name="number_akta"
               value={post.number_akta}
               onChange={onInputChange}
@@ -297,6 +305,8 @@ export function FormModal({
                 }`}
               placeholder="-"
               type="number"
+              min="0"
+              step="1"
               name="order_child"
               value={post.order_child}
               onChange={onInputChange}
