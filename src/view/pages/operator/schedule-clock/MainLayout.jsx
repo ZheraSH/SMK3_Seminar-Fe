@@ -25,7 +25,7 @@ function ClassScheduleManager() {
                         <Header1 
                             span="Kelola Jadwal Pelajaran" 
                             p="Daftar Kelas" 
-                            src='/images/particle/particle3.png' 
+                            src='/images/particle/particle11.png' 
                         />
                     )
                 )}

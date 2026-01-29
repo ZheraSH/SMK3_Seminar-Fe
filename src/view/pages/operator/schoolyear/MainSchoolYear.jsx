@@ -82,7 +82,7 @@ const AcademicYearDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans mb-10 md:mb-0">
-      <HeaderPage span="Kelola Tahun Ajaran" p={`Semester saat ini : ${semester.semester}`} />
+      <HeaderPage span="Kelola Tahun Ajaran" p={`Semester saat ini : ${semester.semester}`} src="/images/particle/particle11.png"/>
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 mt-6">
         <div className="relative w-full md:w-80">
           <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">

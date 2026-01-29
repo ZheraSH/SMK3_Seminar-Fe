@@ -129,7 +129,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses ,setAct
         <div className="">
             {isLoadingSchedule? (<LoadingData loading={isLoadingSchedule} type='header1' />)
             : (
-                <Header2 span={`Jadwal Kelas ${classroom.name}`} p={`Daftar kelas - ${classroom.name}`} src='/images/particle/particle3.png' />
+                <Header2 span={`Jadwal Kelas ${classroom.name}`} p={`Daftar kelas - ${classroom.name}`} src='/images/particle/particle11.png' />
             )}
             {isLoadingSchedule? (<LoadingData loading={isLoadingSchedule} type='create2'/>
             ) : (
