@@ -62,7 +62,7 @@ export default function AttendanceChart() {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
       <h2 className="text-lg font-semibold text-gray-900">
         Statistik Kehadiran Harian
       </h2>

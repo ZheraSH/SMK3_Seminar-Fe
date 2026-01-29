@@ -48,7 +48,7 @@ export default function AttendanceTable() {
       </div>
 
       {/* TABLE */}
-      <div className="overflow-x-auto px-[25px]">
+      <div className="overflow-x-auto px-[25px] mb-10">
         {displayedData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <img

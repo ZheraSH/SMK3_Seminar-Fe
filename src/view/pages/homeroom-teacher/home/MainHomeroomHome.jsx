@@ -9,12 +9,12 @@ export default function HomeRoomHome() {
       <div className="max-w-7xl mx-auto">
 
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
           <div className="lg:col-span-1">
             <AttendanceChart />
           </div>
 
-          <div className="lg:col-span-2 rounded-2xl shadow-lg border border-gray-200 bg-white px-[35px] py-[23px]">
+          <div className="lg:col-span-2 rounded-2xl shadow-lg border border-gray-200 bg-white p-8">
             <StatisticsCard />
           </div>
         </div>
