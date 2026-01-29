@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { LogOut,ArrowLeftToLine } from "lucide-react";
 import fetchProfile from "../../../../Core/hooks/profile/profileAkun/useProfile";
 import LoadingData from "../loadingData/loading";
+import { notify } from "../../../../Core/hooks/notification/notify";
 
 export default function ProfileEmploye() {
   const [isOpenFrom, setIsOpenFrom] = useState(false);
@@ -29,7 +30,7 @@ export default function ProfileEmploye() {
     return(<LoadingData loading={loading} type=" profilePage" />)
   }
   return (
-    <div className="relative justify-center mx-5 pb-5">
+    <div className="relative justify-center pb-5">
       <img
         src="/images/profil/bg-profile1.png"
         alt="banner-profile"
@@ -92,48 +93,14 @@ export default function ProfileEmploye() {
               </h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-5 px-5 ">
-                <div className="space-y-5">
-
-                  <div className="flex items-start">
-                    <span className="md:w-50 lg:w-35 font-medium text-[15px] md:text-[25px] lg:text-lg text-black shrink-0">
-                      Nama Lengkap
-                    </span>
-                    <span className="mx-3">:</span>
-                    <span className="text-[#000000] text-[15px] md:text-[25px] lg:text-lg break-all">
-                      {data.name || "-"}
-                    </span>
+               
+                  <div className="space-y-6">
+                    <ProfileInfoRow label="Nama Lengkap" value={data.name} />
+                    <ProfileInfoRow label="Jenis Kelamin" value={data.gender?.label} />
                   </div>
-
-                  <div className="flex items-start">
-                    <span className="md:w-50 lg:w-35 font-medium text-[15px] md:text-[25px] lg:text-lg text-black shrink-0">
-                      Jenis Kelamin
-                    </span>
-                    <span className="mx-3">:</span>
-                    <span className="text-[#000000] text-[15px] md:text-[25px] lg:text-lg break-all">
-                      {data.gender?.label || "-"}
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-5">
-
-                  <div className="flex items-start">
-                    <span className="md:w-50 lg:w-20 font-medium text-[15px] md:text-[25px] lg:text-lg text-black shrink-0">
-                      Email
-                    </span>
-                    <span className="mx-3">:</span>
-                    <span className="text-[#000000] text-[15px] md:text-[25px] lg:text-lg break-all">
-                      {data.email || "-"}
-                    </span>
-                  </div>
-                  <div className="flex items-start">
-                    <span className="md:w-50 lg:w-20 font-medium text-[15px] md:text-[25px] lg:text-lg text-black shrink-0">
-                      Alamat
-                    </span>
-                    <span className="mx-3">:</span>
-                    <span className="text-[#000000] text-[15px] md:text-[25px] lg:text-lg break-all">
-                      {data.address || "-"}
-                    </span>
-                  </div>
+                <div className="space-y-6">
+                  <ProfileInfoRow label="Email" value={data.email} />
+                  <ProfileInfoRow label="Alamat" value={data.address}  alignTop={true} />
                 </div>
               </div>
             </div>
@@ -158,23 +125,16 @@ export default function ProfileEmploye() {
 }
 
 
-function InfoRow({ label, value }) {
-  const renderValue = (val) => {
-    if (typeof val === 'object' && val !== null) {
-      return val.label || val.value || JSON.stringify(val);
-    }
-    return val || "-";
-  };
-
+function ProfileInfoRow({ label, value,alignTop = false }) {
   return (
-    <div className="flex items-start">
-      <span className="md:w-50 lg:w-35 font-medium text-[15px] md:text-[25px] lg:text-lg text-black shrink-0">
+    <div className={`flex flex-col sm:flex-row ${alignTop ? 'items-start' : 'items-start sm:items-center'} gap-1 sm:gap-0`}>
+      <div className="w-full sm:w-40 md:w-48 flex-shrink-0 font-bold text-gray-800 text-sm md:text-base">
         {label}
-      </span>
-      <span className="mx-3">:</span>
-      <span className="text-[#000000] text-[15px] md:text-[25px] lg:text-lg break-all">
-        {renderValue(value)}
-      </span>
+      </div>
+      <div className="hidden sm:block mr-3 font-semibold text-gray-800">:</div>
+      <div className="text-gray-700 text-sm md:text-base break-words sm:break-normal flex-1 leading-relaxed font-medium">
+        {value || "-"}
+      </div>
     </div>
   );
 }
@@ -218,16 +178,16 @@ function FormClassStudent({ onClose, user }) {
         await updateUserPassword(passwordData);
       }
 
-      alert("Data berhasil diperbarui!");
+      notify("Berhasil Memperbarui Data!", "success");
       onClose();
     } catch (err) {
-      alert(err.response?.data?.message || "Terjadi kesalahan saat memperbarui data");
+      notify(err.response?.data?.message || "Terjadi kesalahan saat memperbarui data");
     }
   };
 
   return (
-    <div className="relative justify-center mx-2 md:mx-5 pb-5 mt-4">
-      <div className="px-[13px]">
+    <div className="relative justify-center mx-0 md:mx-5 pb-5 mt-4">
+      <div>
         <div className="bg-white w-full rounded-3xl border border-gray-200 shadow-md py-5">
           <div className="flex flex-col justify-center items-center gap-3">
              <label className="relative cursor-pointer group">

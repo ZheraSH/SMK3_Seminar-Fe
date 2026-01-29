@@ -3,9 +3,9 @@
 import { useState,useEffect,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { LogOut, ArrowLeftToLine,ChevronRight  } from "lucide-react";
-import fetchProfile from "../../../../Core/hooks/profile/profileAkun/useProfile";
 import LoadingData from "../loadingData/loading";
 import useProfile from "../../../../Core/hooks/operator-hooks/profile/useProfileOperator";
+import { notify } from "../../../../Core/hooks/notification/notify";
 
 export default function ProfileOperator() {
   const [isOpenFrom, setIsOpenFrom] = useState(false);
@@ -30,25 +30,22 @@ export default function ProfileOperator() {
 
 
   return (
-    <div className="p-4 md:p-8 min-h-screen font-sans">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-6xl mx-auto">
-        
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-0">
+    <div className="p-0 md:p-3 min-h-screen font-sans bg-gray-50">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 md:p-8 max-w-6xl mx-auto">
+        <div className="flex flex-row justify-between items-center mb-6 gap-2">
+          <h2 className="text-lg md:text-2xl font-bold text-gray-900 leading-tight">
             Informasi Sekolah
           </h2>
-          
           <button
             onClick={() => setIsOpenFrom(true)}
-            className="bg-[#10B981] hover:bg-emerald-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            className="bg-[#10B981] hover:bg-emerald-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors whitespace-nowrap"
           >
             Edit Informasi
           </button>
         </div>
-
-        <div className="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-2xl flex items-center justify-center p-2  overflow-hidden">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="w-20 h-20 md:w-28 md:h-28 flex-shrink-0 rounded-2xl border border-gray-100 flex items-center justify-center p-2 overflow-hidden bg-white shadow-sm">
               <img 
                 src={data?.logo} 
                 alt="Logo Sekolah" 
@@ -56,66 +53,46 @@ export default function ProfileOperator() {
                 onError={(e) => {e.target.src = "https://via.placeholder.com/100?text=LOGO"}}
               />
             </div>
-             
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+              
+            <div className="flex-1">
+              <h1 className="text-lg md:text-xl font-bold text-gray-900 mb-1 leading-tight">
                 {data?.name || "-"}
               </h1>
-              <span className="inline-block bg-blue-100 text-blue-600 text-xs px-3 py-1 rounded-full font-medium">
+              <span className="inline-block bg-blue-50 text-blue-600 text-[10px] md:text-xs px-2.5 py-0.5 rounded-full font-bold uppercase">
                 Negeri
               </span>
             </div>
           </div>
 
-          <div className="text-right md:self-center mt-2 md:mt-0">
-            <p className="text-gray-500 text-sm mb-1">Tahun Ajaran</p>
-            <p className="text-gray-900 font-semibold">{year?.name || "-"}</p>
+          <div className="w-full md:w-auto text-left md:text-right px-4 py-2 bg-gray-50 md:bg-transparent rounded-lg border-l-4 border-emerald-500 md:border-l-0">
+            <p className="text-gray-500 text-[10px] md:text-sm uppercase font-bold">Tahun Ajaran</p>
+            <p className="text-gray-900 font-bold text-base">{year?.name || "-"}</p>
           </div>
         </div>
 
-        <hr className="border-gray-200 mb-8" />
-
+        <hr className="border-gray-100 mb-8" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6">
-          <div className="space-y-4">
-            <InfoRow label="Kepala Sekolah" value={data?.principal_name || "-"} />
-            <InfoRow label="NPSN" value={data?.npsn || "-"} />
-            <InfoRow label="No. Telepon" value={data?.phone || "-"} />
-            <InfoRow label="E-Mail" value={data?.email || "-"} />
+          <div className="space-y-5">
+            <InfoRow label="Kepala Sekolah" value={data?.principal_name} />
+            <InfoRow label="NPSN" value={data?.npsn} />
+            <InfoRow label="No. Telepon" value={data?.phone} />
+            <InfoRow label="E-Mail" value={data?.email} />
           </div>
 
-          <div className="space-y-4">
-            <InfoRow label="Jenjang Pendidikan" value={data?.school_type?.label || "-"} />
-            <InfoRow label="Akreditasi" value={data?.accreditation?.label || "-"} />
-            <InfoRow label="Alamat" value={data?.address || "-"} alignTop={true} />
+          <div className="space-y-5">
+            <InfoRow label="Jenjang Pendidikan" value={data?.school_type?.label} />
+            <InfoRow label="Akreditasi" value={data?.accreditation?.label} />
+            <InfoRow label="Alamat" value={data?.address} alignTop={true} />
           </div>
-
         </div>
-
-        <div className="mt-12 flex justify-end">
-           <button
-              onClick={() => {
-                if (window.history.length > 1) {
-                  navigate(-1);
-                } else {
-                  navigate("/student-home");
-                }
-              }}
-              className="mr-4 text-gray-500 hover:text-gray-700 font-medium text-sm flex items-center gap-2"
-            >
-              <ArrowLeftToLine size={16} /> Kembali
-            </button>
-            
-            <button
-              onClick={() => {
-                localStorage.removeItem("userData");
-                navigate("/");
-              }}
-              className="text-red-500 hover:text-red-700 font-medium text-sm flex items-center gap-2"
-            >
-              <LogOut size={16} /> Logout
-            </button>
+        <div className="mt-12 pt-6 border-t border-gray-100 flex justify-end items-center gap-6">
+          <button onClick={() => navigate(-1)} className="text-gray-400 hover:text-gray-600 font-medium text-sm flex items-center gap-2">
+            <ArrowLeftToLine size={18} /> <span>Kembali</span>
+          </button>
+          <button onClick={() => { localStorage.clear(); navigate("/"); }} className="text-red-400 hover:text-red-600 font-medium text-sm flex items-center gap-2">
+            <LogOut size={18} /> <span>Logout</span>
+          </button>
         </div>
-
       </div>
     </div>
   );
@@ -123,12 +100,13 @@ export default function ProfileOperator() {
 
 function InfoRow({ label, value, alignTop = false }) {
   return (
-    <div className={`flex ${alignTop ? 'items-start' : 'items-center'}`}>
-      <div className="w-40 md:w-48 flex-shrink-0 font-semibold text-gray-800 text-sm md:text-base">
+    
+    <div className={`flex flex-col sm:flex-row ${alignTop ? 'items-start' : 'items-start sm:items-center'} gap-1 sm:gap-0`}>
+      <div className="w-full sm:w-40 md:w-48 flex-shrink-0 font-bold text-gray-800 text-sm md:text-base">
         {label}
       </div>
-      <div className="mr-3 font-semibold text-gray-800">:</div>
-      <div className="text-gray-700 text-sm md:text-base break-words flex-1 leading-relaxed">
+      <div className="hidden sm:block mr-3 font-semibold text-gray-800">:</div>
+      <div className="text-gray-700 text-sm md:text-base break-words sm:break-normal flex-1 leading-relaxed font-medium">
         {value || "-"}
       </div>
     </div>
@@ -251,6 +229,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
       }
 
       await onUpdate(formData);
+      notify("Berhasil Memperbarui Data!", "success");
       onClose();
     } catch (err) {
       if (err.response?.data?.errors) {
@@ -269,8 +248,8 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
   `;
 
   return (
-    <div className="relative justify-center mx-2 md:mx-5 pb-5 mt-8 mb-15">
-      <div className="px-[13px]">
+    <div className="relative justify-center pb-5 mt-8 mb-15">
+      <div>
         <div className="bg-white w-full rounded-3xl border border-gray-200 shadow-md py-5">
           <div className="px-8 pt-8 pb-4">
             <h2 className="text-xl font-bold text-gray-900">Edit Informasi Sekolah</h2>
