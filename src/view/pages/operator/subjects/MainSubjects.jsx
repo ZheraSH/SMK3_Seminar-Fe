@@ -146,7 +146,9 @@ export default function MainMaple() {
           <LoadingData loading={loading} type="cardMapel" count={8} />
         ) : subjects.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10">
-                <img src="/images/null/imageKosong1.png" alt="Data Kosong" className="w-130 h-auto mb-4" />
+                <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-130 h-auto mb-4" />
+                <h1 className="text-[#4B5563]">Maaf yaaa.. datanya gaada, silahkan klik “Tambah Mapel” </h1>
+                <h1 className="text-[#4B5563]">buat nambah data Mapel baru!</h1>
               </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

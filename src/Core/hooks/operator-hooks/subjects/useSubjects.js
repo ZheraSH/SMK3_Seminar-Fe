@@ -10,7 +10,6 @@ export default function useSubjects() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  // Tambahkan searchTerm sebagai parameter
   const fetchSubjects = async (pageNumber = 1, searchTerm = "") => {
     try {
       setLoading(true);
@@ -44,7 +43,6 @@ export default function useSubjects() {
     }
   };
 
-  // Load data pertama kali saat halaman dibuka
   useEffect(() => {
     fetchSubjects(1, "");
   }, []);
