@@ -25,7 +25,7 @@ export default function ProfileOperator() {
   }
 
   if (loading) {
-    return <LoadingData loading={loading} type="profilePage" />;
+    return <LoadingData loading={loading} type="profileOperator" />;
   }
 
 
@@ -138,8 +138,6 @@ function InfoRow({ label, value, alignTop = false }) {
 const CustomSelect = ({ label, options, value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  // Menutup dropdown saat klik di luar area komponen
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -150,7 +148,6 @@ const CustomSelect = ({ label, options, value, onChange }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Mencari opsi yang terpilih berdasarkan value untuk menampilkan Label-nya
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
@@ -400,7 +397,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
             </div>
 
             <div className="flex justify-end gap-3 pt-4">
-              <button type="button" onClick={onClose} className="px-8 py-2 bg-gray-100 text-gray-600 rounded-xl font-semibold text-sm transition hover:bg-gray-200">
+              <button type="button" onClick={onClose} className="px-8 py-2 bg-[#3B82F6] text-white rounded-xl font-semibold text-sm transition hover:bg-blue-600">
                 Kembali
               </button>
               <button type="submit" disabled={isUpdating} className="px-8 py-2 bg-[#22C55E] text-white rounded-xl font-semibold text-sm transition shadow-md hover:bg-emerald-600 disabled:opacity-50">

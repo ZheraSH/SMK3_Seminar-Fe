@@ -33,12 +33,11 @@ export default function useProfile() {
         }
     }, []);
 
-    // FUNGSI UPDATE BARU
     const handleUpdate = async (formData) => {
         setUpdating(true);
         try {
             const result = await updateProfileOperator(formData);
-            await fetchProfile(); // Ambil data terbaru setelah berhasil update
+            await fetchProfile(); 
             return result;
         } catch (err) {
             setError(err.message || "Gagal memperbarui data");
@@ -56,11 +55,11 @@ export default function useProfile() {
     return { 
         data, 
         loading, 
-        updating, // Beri tahu UI jika sedang proses simpan
+        updating, 
         error, 
         year, 
         refetch: fetchProfile, 
-        handleUpdate // Ekspos fungsi ini ke komponen
+        handleUpdate 
     };
 }
 
