@@ -71,8 +71,13 @@ export default function VerifyPermission() {
         <div className="min-h-screen bg-gray-50  lg:mb-4 md:mb-4 mb-24">
             <div className="max-w-7xl mx-auto">
                 <HeaderAndControls  classOptions={options.classes} loading={loading} selectedClassId={selectedClassId} handleClassSelect={handleClassSelect}searchQuery={searchQuery} onSearchChange={handleSearchChange}/>
-                {loading?(<LoadingData loading={loading} type='tableSchedule' count={10} />)
-                :(
+                {loading?(<LoadingData loading={loading} type='tableSchedule' count={10} />
+                ) : permissions.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-20  mt-4 animate-in fade-in duration-700">
+                        <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                        <p className="text-gray-500 text-center text-sm md:text-md"> Sepertinya belum ada data yang masuk untuk kriteria ini <br /> Coba pilih kelas lain atau ubah kata kunci pencarian Anda.!</p>
+                    </div>
+                ) : (
                     <Table  data={permissions} loading={loading} error={error} currentPage={currentPage} lastPage={lastPage} totalItems={totalItems} perPage={perPage} onPageChange={handlePageChange} onAction={handleAction} />
                 )}
             </div>

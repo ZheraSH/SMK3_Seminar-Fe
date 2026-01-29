@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import HeaderPage from "../../../../components/elements/header/Header-new";
 import { Search} from "lucide-react";
 import Filter from './Filter';
-import Filter2 from './filter2';
 import LoadingData from '../../../../components/elements/loadingData/loading';
 
 export default function HeaderAndControls ({handleClassSelect, searchQuery, onSearchChange, 
@@ -30,7 +29,6 @@ export default function HeaderAndControls ({handleClassSelect, searchQuery, onSe
                             
                             <div className=' flex flex-row gap-3'>
                                 <Filter classOptions={classOptions} selectedClassId={selectedClassId} handleClassSelect={handleClassSelect}/>
-                                <Filter2/>
                             </div>
                         </div>
                     </div>

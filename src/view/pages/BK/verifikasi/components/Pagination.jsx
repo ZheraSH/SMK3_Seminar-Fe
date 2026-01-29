@@ -1,66 +1,49 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-function Pagination ({currentPage, lastPage, totalItems, perPage, onPageChange, isLoading}) {
+function Pagination({ currentPage, lastPage, totalItems, perPage, onPageChange, isLoading }) {
     if (lastPage <= 1) {
         return null;
     }
 
-    const startItem = Math.min((currentPage - 1) * perPage + 1, totalItems);
-    const endItem = Math.min(currentPage * perPage, totalItems);
-
     const generatePageNumbers = () => {
         const pages = [];
-        const maxVisiblePages = 5;
-        const visibleRange = 1;
-
-        if (lastPage <= maxVisiblePages) {
-            for (let i = 1; i <= lastPage; i++) {
-                pages.push(i);
-            }
+        if (lastPage <= 3) {
+            for (let i = 1; i <= lastPage; i++) pages.push(i);
         } else {
-            pages.push(1);
-
-            let start = Math.max(2, currentPage - visibleRange);
-            let end = Math.min(lastPage - 1, currentPage + visibleRange);
-            if (currentPage < 1 + visibleRange + 1) {
-                end = 1 + (visibleRange * 2) + 1;
-                if (end >= lastPage) end = lastPage - 1;
-            } else if (currentPage > lastPage - visibleRange - 1) {
-                start = lastPage - (visibleRange * 2) - 1;
-                if (start <= 1) start = 2; 
+            if (currentPage <= 3) {
+                pages.push(1, 2, 3, '...', lastPage);
+            } 
+            else if (currentPage > 3 && currentPage < lastPage - 2) {
+                pages.push(1, '...', currentPage, '...', lastPage);
+            } 
+            else {
+                pages.push(1, '...', lastPage - 2, lastPage - 1, lastPage);
             }
-            
-            if (start > 2) pages.push('...');
-
-            for (let i = start; i <= end; i++) {
-                if (i !== 1) {
-                    pages.push(i);
-                }
-            }
-
-            if (end < lastPage - 1) pages.push('...');
-
-            if (lastPage !== 1) pages.push(lastPage);
         }
-
-        return [...new Set(pages)];
+        return pages;
     };
+
+    const pageNumbers = generatePageNumbers();
     
+    const basePageStyle = "w-[28px] h-[28px] flex items-center justify-center font-medium text-sm rounded-sm transition-all duration-150"; 
+    const activeStyle = "bg-[#3B82F6] text-white shadow-md"; 
+    const defaultStyle = "text-[#3B82F6] hover:bg-gray-100 border border-transparent";
+    const ellipsisStyle = "flex items-center justify-center text-[#3B82F6] w-[28px]";
+    const chevronStyle = "p-2 text-[#3B82F6] disabled:text-gray-300 disabled:cursor-not-allowed hover:bg-gray-50 rounded-md transition-colors";
 
     return (
-        <div className="flex items-center justify-center px-4 py-3 sm:px-6 w-full">
-            <div className="flex flex-1 sm:flex-none items-center space-x-1 sm:space-x-2 w-full sm:w-auto justify-center">
-                <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1 || isLoading} className={`p-2 rounded-full transition-colors duration-150 ${
-                        currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}>
-                    <ChevronLeft size={20} />
+        <div className="flex items-center justify-center px-4 py-3 w-full font-sans">
+            <div className="flex items-center space-x-2">
+                <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1 || isLoading} className={chevronStyle}>
+                    <ChevronLeft size={24} strokeWidth={2.5} />
                 </button>
 
                 <div className="flex space-x-1">
-                    {generatePageNumbers().map((page, index) => {
+                    {pageNumbers.map((page, index) => {
                         if (page === '...') {
                             return (
-                                <span key={`ellipsis-${index}`} className="px-3 py-1.5 text-gray-500 flex items-center justify-center">
+                                <span key={`dots-${index}`} className={ellipsisStyle}>
                                     ...
                                 </span>
                             );
@@ -68,20 +51,21 @@ function Pagination ({currentPage, lastPage, totalItems, perPage, onPageChange, 
 
                         const isActive = page === currentPage;
                         return (
-                            <button key={page} onClick={() => onPageChange(page)} disabled={isLoading} className={`w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ${
-                                    isActive
-                                        ? 'bg-[#3B82F6] text-white shadow-md'
-                                        : 'text-gray-700 hover:bg-gray-100'
-                                }`}>
+                            <button 
+                                key={index} 
+                                onClick={() => onPageChange(page)} 
+                                disabled={isLoading}
+                                className={`${basePageStyle} ${isActive ? activeStyle : defaultStyle}`}
+                                aria-current={isActive ? "page" : undefined}
+                            >
                                 {page}
                             </button>
                         );
                     })}
                 </div>
 
-                <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === lastPage || isLoading} className={`p-2 rounded-full transition-colors duration-150 ${
-                        currentPage === lastPage ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}>
-                    <ChevronRight size={20} />
+                <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === lastPage || isLoading} className={chevronStyle}>
+                    <ChevronRight size={24} strokeWidth={2.5} />
                 </button>
             </div>
         </div>
