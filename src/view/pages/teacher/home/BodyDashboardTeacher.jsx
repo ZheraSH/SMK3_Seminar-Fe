@@ -78,8 +78,8 @@ export const MainTeacher = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {schedule.map((item) => (
-                      <tr key={item.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
+                    {schedule.map((item,index) => (
+                      <tr key={item.id} className={`${index % 2 === 1 ? 'bg-[#EFF6FF]' : 'bg-white'} border-b border-gray-200 hover:bg-gray-50 transition`}>
                         <td className="px-4 py-3 text-center whitespace-nowrap">{item.subject?.name ?? "—"}</td>
                         <td className="px-4 py-3 text-center whitespace-nowrap"> {item.lesson_hour?.name ?? "—"} </td>
                         <td className="px-4 py-3 text-center whitespace-nowrap"> {item.classroom?.name ?? "—"} </td>
@@ -105,7 +105,7 @@ export const MainTeacher = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {schedule.map((item) => {
+                    {schedule.map((item, index) => {
                       const isSudahAbsen = item.has_cross_checked === true;
     
                       const statusText = isSudahAbsen ? "Sudah Absen" : "Belum Absen";
@@ -115,7 +115,7 @@ export const MainTeacher = () => {
                         : "bg-[#FF5E5333] text-[#FF4245]"; 
 
                       return (
-                        <tr key={item.id} className="border-b border-gray-200 hover:bg-gray-50 transition" >
+                        <tr key={item.id} className={`${index % 2 === 1 ? 'bg-[#EFF6FF]' : 'bg-white'} border-b border-gray-200 hover:bg-gray-50 transition`}>
                           <td className="px-4 py-2 whitespace-nowrap"> {item.classroom?.name ?? "—"} </td>
                           <td className="px-4 py-2 whitespace-nowrap">
                             <span className={`px-2 py-1 rounded-md font-medium text-xs ${statusClass}`}>
