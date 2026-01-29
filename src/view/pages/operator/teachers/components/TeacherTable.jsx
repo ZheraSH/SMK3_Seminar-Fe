@@ -6,7 +6,8 @@ const ROLE_COLORS = {
   admin: "bg-red-100 text-red-700",
   teacher: "bg-blue-100 text-blue-700",
   homeroom_teacher: "bg-green-100 text-green-700",
-  staff: "bg-purple-100 text-purple-700",
+  staff_tu: "bg-purple-100 text-purple-700",
+  counselor: "bg-orange-100 text-orange-700",
   default: "bg-gray-100 text-gray-700",
 };
 
@@ -66,9 +67,6 @@ export const TeacherTable = ({
     });
   };
 
-  /* =========================
-     EMPTY STATE (NO TABLE)
-     ========================= */
   if (!currentTeachers.length) {
     return (
       <div className="w-full flex flex-col items-center justify-center py-20">
@@ -83,10 +81,6 @@ export const TeacherTable = ({
       </div>
     );
   }
-
-  /* =========================
-     NORMAL TABLE
-     ========================= */
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-blue-200 shadow-sm">
       <table className="min-w-full bg-white">
