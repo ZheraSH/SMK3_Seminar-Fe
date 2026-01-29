@@ -54,11 +54,11 @@ export default function TotalClass({ setIsOpenClass, summary, handleSubmit, isSu
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          <StatusCard label="Total Hadir" count={safeSummary.present} color="border-emerald-500" icon={<CheckCircle2 className="w-5 h-5 text-emerald-500" />} iconBg="bg-emerald-50"/>
-          <StatusCard label="Total Telat" count={safeSummary.late} color="border-amber-500" icon={<Clock className="w-5 h-5 text-amber-500" />} iconBg="bg-amber-50"/>
-          <StatusCard label="Total Izin" count={safeSummary.leave} color="border-blue-500" icon={<ClipboardCheck className="w-5 h-5 text-blue-500" />} iconBg="bg-blue-50"/>
-          <StatusCard label="Total Sakit" count={safeSummary.sick} color="border-purple-500" icon={<Users className="w-5 h-5 text-purple-500" />} iconBg="bg-purple-50"/>
-          <StatusCard label="Total Alpha" count={safeSummary.alpha} color="border-rose-500" icon={<AlertTriangle className="w-5 h-5 text-rose-500" />} iconBg="bg-rose-50"/>
+        <StatusCard label="Total Hadir" count={safeSummary.present} color="bg-emerald-500" icon={<CheckCircle2 className="w-5 h-5 text-emerald-500" />} iconBg="bg-emerald-50" />
+        <StatusCard label="Total Telat" count={safeSummary.late} color="bg-amber-500" icon={<Clock className="w-5 h-5 text-amber-500" />} iconBg="bg-amber-50" />
+        <StatusCard label="Total Izin" count={safeSummary.leave} color="bg-blue-500" icon={<ClipboardCheck className="w-5 h-5 text-blue-500" />} iconBg="bg-blue-50" />
+        <StatusCard label="Total Sakit" count={safeSummary.sick} color="bg-purple-500" icon={<Users className="w-5 h-5 text-purple-500" />} iconBg="bg-purple-50" />
+        <StatusCard label="Total Alpha" count={safeSummary.alpha} color="bg-rose-500" icon={<AlertTriangle className="w-5 h-5 text-rose-500" />} iconBg="bg-rose-50" />
       </div>
 
       {message && (
@@ -74,7 +74,7 @@ export default function TotalClass({ setIsOpenClass, summary, handleSubmit, isSu
 function StatusCard({ label, count, color, icon, iconBg }) {
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
-      <div className={`absolute left-0 top-1/4 bottom-1/4 w-1 rounded-r-full ${color.replace('border-', 'bg-')}`}></div>
+      <div className={`absolute left-0 top-1/4 bottom-1/4 w-1 rounded-r-full ${color}`}></div>
       <div className="ml-2">
         <span className="text-2xl font-bold text-gray-900 block leading-none">{count}</span>
         <span className="text-[12px] font-medium text-gray-400 mt-1 block">{label}</span>
