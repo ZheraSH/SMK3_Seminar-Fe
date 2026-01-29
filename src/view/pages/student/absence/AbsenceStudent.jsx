@@ -122,7 +122,7 @@ export default function AbsentStudentMain() {
                                                 {record.day?.label || '-'}
                                             </td>
                                             <td className="px-4 py-3 text-sm text-gray-800 text-center">
-                                                {record.date}
+                                                {record.date || '-'}
                                             </td>
                                             <td className="px-4 py-3 text-center align-middle">
                                                 <span
