@@ -15,7 +15,7 @@ const AddSchoolYearModal = ({ isOpen, onClose, onConfirm, nextYear }) => {
       <div className="relative bg-white rounded-3xl p-8 shadow-2xl w-[90%] max-w-md transform transition-all animate-in fade-in zoom-in duration-200">
         <div className="text-center">
           <h3 className="text-xl font-semibold text-gray-800 mb-6 leading-relaxed">
-            Apakah anda ingin menambah tahun ajaran <br /> baru <span className="text-blue-600">{nextYear}</span>?
+            Apakah anda ingin menambah tahun ajaran baru?
           </h3>
 
           <div className="flex gap-4">
