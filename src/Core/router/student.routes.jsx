@@ -6,28 +6,29 @@ import ProtectedRoute from "./ProtectedRoute";
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
 import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
+import AbsentStudentMain from "../../view/pages/student/absence/AbsenceStudent";
 
-export const StudentRoutes =[
-   
-    {
-        path: "/student-home",
-            element:(<ProtectedRoute allowedRoles={["student"]}
-            />),
-            children: [{
-              element : <LayouthSiswa />,
-              children : [
-                { index: true, element: < BodyDashboard/>  },
-                { path: "dashboard", element: <MainDashboard/> },
-                { path: "student-class", element: <MainClassStudent /> },
-                // { path: "absen-student", element: <AbsentStudentMain /> },
-                { path: "student-schedule", element: <MainScheduleStudent  /> },
-                { path: "student-license", element: <PermissionManagement/> },
-                { path : "profile", element: <ProfileEmployee /> },
-                // { path: "student-profile", element: <ProfileStudent /> }
-              ]
-        
-            }],
-    },
+export const StudentRoutes = [
 
-    
+  {
+    path: "/student-home",
+    element: (<ProtectedRoute allowedRoles={["student"]}
+    />),
+    children: [{
+      element: <LayouthSiswa />,
+      children: [
+        { index: true, element: < BodyDashboard /> },
+        { path: "dashboard", element: <MainDashboard /> },
+        { path: "student-class", element: <MainClassStudent /> },
+        { path: "absen-student", element: <AbsentStudentMain /> },
+        { path: "student-schedule", element: <MainScheduleStudent /> },
+        { path: "student-license", element: <PermissionManagement /> },
+        { path: "profile", element: <ProfileEmployee /> },
+        // { path: "student-profile", element: <ProfileStudent /> }
+      ]
+
+    }],
+  },
+
+
 ]
