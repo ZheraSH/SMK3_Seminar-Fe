@@ -6,7 +6,7 @@ import axios from "axios";
 export const getClass = async (params = {}) => {
     try {
         const res = await api.get(`/classrooms`, { params });
-        return res.data; 
+        return res.data;
     } catch (err) {
         console.error("Gagal ambil classroom:", err);
         throw err;
@@ -17,7 +17,7 @@ export const createClass = async (formData) => {
     try {
         const res = await api.post(`/classrooms`, formData)
         notify("Data Berhasil Ditambah");
-        return res.data; 
+        return res.data;
     } catch (err) {
         console.error("Gagal menambah classroom:", err.response ? err.response.data : err)
         throw err.response ? err.response.data : err;
@@ -75,21 +75,57 @@ export const getTeachers = async () => {
             } else if (responseData.links && responseData.links.next) {
 
             } else {
-                lastPage = currentPage; 
+                lastPage = currentPage;
             }
 
             if (currentPage < lastPage) {
-                await delay(150); 
+                await delay(150);
             }
-            
+
             currentPage++;
 
-        } while (currentPage <= lastPage); 
-        
+        } while (currentPage <= lastPage);
+
         return allTeachers;
-        
+
     } catch (err) {
         console.error("Gagal mengambil SEMUA Guru/Wali Kelas:", err.response ? err.response.data : err);
+        throw err;
+    }
+};
+
+export const getAllClasses = async () => {
+    let allClasses = [];
+    let currentPage = 1;
+    let lastPage = 1;
+
+    try {
+        do {
+            const res = await api.get(`/classrooms?page=${currentPage}`);
+            const responseData = res.data;
+
+            if (responseData.data && Array.isArray(responseData.data)) {
+                allClasses = allClasses.concat(responseData.data);
+            }
+
+            if (responseData.meta) {
+                lastPage = responseData.meta.last_page || currentPage;
+            } else {
+                lastPage = currentPage;
+            }
+
+            if (currentPage < lastPage) {
+                await delay(150);
+            }
+
+            currentPage++;
+
+        } while (currentPage <= lastPage);
+
+        return allClasses;
+
+    } catch (err) {
+        console.error("Gagal mengambil SEMUA Kelas:", err.response ? err.response.data : err);
         throw err;
     }
 };
