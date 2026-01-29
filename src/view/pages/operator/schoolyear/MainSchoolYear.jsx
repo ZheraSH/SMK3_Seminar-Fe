@@ -96,6 +96,14 @@ const AcademicYearDashboard = () => {
         </button>
       </div>
 
+      {schoolYears.length === 0 && !loading ? (
+        <div className="flex flex-col items-center justify-center py-20 w-full">
+          <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-4" />
+          <p className="text-gray-500 text-center max-w-[550px] text-sm md:text-md">
+            Maaf yaaa.. datanya gaada, silahkan klik “Tambah Tahun Ajaran” buat nambah data Tahun ajaran!
+          </p>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {schoolYears.map((item) => (
           <div key={item.id} className="bg-white h-[140px] p-6 rounded-2xl shadow-sm border border-gray-100 relative">
@@ -137,6 +145,7 @@ const AcademicYearDashboard = () => {
           </div>
         ))}
       </div>
+    )}
 
       <AddSchoolYearModal  isOpen={isModalOpen}  onClose={() => setIsModalOpen(false)}  onConfirm={handleAddNewYear} nextYear={getNextYear()}/>
       <ModalDelete  isOpen={confirmModal.show}  onConfirm={handleConfirmDelete}  onClose={() => setConfirmModal({ show: false, id: null, name: '' })}  isProcessing={isDeleting}/>

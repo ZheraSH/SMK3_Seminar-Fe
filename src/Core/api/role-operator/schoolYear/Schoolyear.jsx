@@ -1,4 +1,5 @@
-import axios from "axios"
+// import axios from "axios"
+import api from "../../axiosConfig";
 import { notify } from "../../../hooks/notification/notify"
 
 
@@ -6,7 +7,7 @@ const API_BASE_URL = "http://127.0.0.1:8000/api"
 
 export const getSchoolYears= async (page = 1,search = "") => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/school-years`,{
+    const res = await api.get(`/school-years`,{
         params: { page: page, search: search }
     })
     return res.data 
@@ -18,7 +19,7 @@ export const getSchoolYears= async (page = 1,search = "") => {
 
 export const createSchoolYears = async (formData) => {
     try {
-        const res = await axios.post(`${API_BASE_URL}/school-years`, formData)
+        const res = await api.post(`/school-years`, formData)
         notify("Data Berhasil Ditambah");
         return res.data; 
     } catch (err) {
@@ -29,7 +30,7 @@ export const createSchoolYears = async (formData) => {
 
 export const activeschoolyear = async (id) => {
     try {
-        const res = await axios.post(`${API_BASE_URL}/school-years/${id}/activate`)
+        const res = await api.post(`/school-years/${id}/activate`)
         notify("Data Berhasil Diactivkan");
         return res.data; 
     } catch (err) {
@@ -40,7 +41,7 @@ export const activeschoolyear = async (id) => {
 
 export const deleteschoolyears = async (id) => {
     try {
-        const res = await axios.delete(`${API_BASE_URL}/school-years/${id}`);
+        const res = await api.delete(`/school-years/${id}`);
          notify('Data Berhasil Dihapus');
         return res.data; 
     } catch (err) {
@@ -51,7 +52,7 @@ export const deleteschoolyears = async (id) => {
 
 export const getsemester = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/semesters/active`);
+    const res = await api.get(`/semesters/active`);
     return res.data.data
   } catch (err) {
     console.error("Gagal ambil data subjects:", err)
