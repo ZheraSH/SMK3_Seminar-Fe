@@ -26,7 +26,7 @@ export default function BodyDashboard({ summary, loading}) {
     },
     
     {
-      label: "Terlambat",
+      label: "Telat",
       count: summary?.telat ?? null,
       icon: (
         <div className="p-3 bg-yellow-100 rounded-lg">
@@ -71,13 +71,13 @@ export default function BodyDashboard({ summary, loading}) {
 
  
   return (
-    <div className="px-4 bg-gray-50">
+    <div className=" bg-gray-50">
       <h1 className="font-semibold text-xl mb-4 text-gray-700">
         Selamat Datang,
       </h1>
       {loading ? ( <LoadingData loading={loading} type="attendanceChart" count={4}/> )
        : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 ">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
             {statCards.map((card, index) => (
               <div key={index} className="flex bg-white shadow-md rounded-xl p-4">
                 <div className={`w-1 h-14 mr-4 rounded-full ${card.colorBar}`} />

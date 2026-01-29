@@ -19,6 +19,14 @@ export default function TableHistory({ history, error, loading }) {
     );
   }
 
+  if (!filteredHistory || filteredHistory.length === 0) {
+    return (
+      <div className="w-full min-h-[200px] flex items-center justify-center text-gray-500 text-sm">
+        Data belum ada.
+      </div>
+    );
+  }
+
   if (error) {
     return (
       <div className="w-full h-[200px] flex justify-center items-center">
@@ -27,13 +35,6 @@ export default function TableHistory({ history, error, loading }) {
     );
   }
 
-  if (!filteredHistory || filteredHistory.length === 0) {
-    return (
-      <div className="w-full min-h-[200px] flex items-center justify-center text-gray-500 text-sm">
-        Tidak ada data izin Terbaru.
-      </div>
-    );
-  }
 
   return (
     <table className="w-full table-fixed border-collapse rounded-lg">

@@ -10,18 +10,18 @@ export default function TableSchedule ({schedule,loading,error}){
         );
     }
 
-    if (error) {
+    if (!schedule || schedule.length === 0) {
         return (
             <div className="w-full h-[250px] flex justify-center items-center">
-                <p className="text-red-500 text-sm">{error}</p>
+                <p className="text-gray-500 text-sm">Data belum ada.</p>
             </div>
         );
     }
 
-    if (!schedule || schedule.length === 0) {
+    if (error) {
         return (
             <div className="w-full h-[250px] flex justify-center items-center">
-                <p className="text-gray-500 text-sm">Tidak ada jadwal hari ini.</p>
+                <p className="text-red-500 text-sm">{error}</p>
             </div>
         );
     }
