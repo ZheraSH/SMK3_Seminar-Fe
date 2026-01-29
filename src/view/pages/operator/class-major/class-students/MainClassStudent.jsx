@@ -97,16 +97,12 @@ const ClassStudents = () => {
                                 <button onClick={onSyncClick} className="flex flex-row items-center px-4 py-2 bg-[#22C55E] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white shadow-md">
                                     <RefreshCw size={16} className={`${isSyncing ? 'animate-spin' : ''}`}/><span className="hidden md:inline ml-2">Sync</span>
                                 </button>
-                                <button className="flex w-full items-center justify-center px-3 py-2 bg-[#F59E0B] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md">
-                                    <ArrowUpSquare size={16}/> Naikkan siswa
-                                </button>
-                            </div>
-                            <div className='flex grid grid-cols-2 gap-2   justify-end'>
-                                <button onClick={() => setOpenModal(true)} className="flex items-center justify-center w-full px-3 md:py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px]  text-white gap-2 shadow-md">
+                                 <button onClick={() => setOpenModal(true)} className="flex items-center justify-center w-full px-3 md:py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px]  text-white gap-2 shadow-md">
                                     <Plus size={16}/> Tambah Siswa
                                 </button>
                                 <BackButton />
                             </div>
+                            
                         </div>
                     </div>
                 )}

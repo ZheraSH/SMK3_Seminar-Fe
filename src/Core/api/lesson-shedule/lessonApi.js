@@ -1,5 +1,5 @@
 import api from "../axiosConfig";
-
+import { notify } from "../../hooks/notification/notify";
 
 export const fetchClass = async (page = 1) => {
    try {

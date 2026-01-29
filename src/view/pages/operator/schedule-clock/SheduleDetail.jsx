@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft,Settings,Plus } from 'lucide-react';
+import { ArrowLeft,Settings,Plus,X } from 'lucide-react';
 import useClassSchedule from '../../../../Core/hooks/operator-hooks/schedule/useClassSchedule'; 
 import AddScheduleModal from "./components/FormSchedule"; 
 import Header2 from '../../../components/elements/header/Header-new';
@@ -7,17 +7,23 @@ import ScheduleTable from './components/TableSheduleDetail';
 import ModalDelete from '../../../components/elements/modaldelete/ModalDelete';
 import LoadingData from '../../../components/elements/loadingData/loading';
 
-const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
-    if (!show) return null; 
+const ErrorModal = ({ isOpen, message, onClose }) => {
+    if (!isOpen) return null;
     return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[100]"> 
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-sm p-6 transform transition-all duration-300 scale-100 opacity-100">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Konfirmasi Penghapusan</h3>
-                <p className="text-sm text-gray-700 mb-6"> {message} </p>
-                <div className="flex justify-end space-x-3">
-                    <button onClick={onCancel} className="px-4 py-2 rounded-lg text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors text-sm font-medium"> Batal </button>
-                    <button onClick={onConfirm} className="px-4 py-2 rounded-lg text-white font-semibold bg-[#EF4444] hover:bg-red-700 transition-colors text-sm"> Ya, Hapus </button>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[110] animate-in fade-in duration-200">
+            <div className="bg-white rounded-2xl shadow-2xl w-[90%] max-w-[400px] p-8 flex flex-col items-center text-center transform transition-all scale-100">
+                <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-red-200">
+                    <X className="text-white w-10 h-10" strokeWidth={3} />
                 </div>
+                
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Peringatan.</h3>
+                <p className="text-gray-500 text-sm leading-relaxed mb-8">
+                    {message}
+                </p>
+                
+                <button onClick={onClose} className="w-full py-3 bg-[#3B82F6] hover:bg-blue-700 text-white font-semibold rounded-xl transition-all active:scale-95 shadow-md shadow-blue-100">
+                    Tutup
+                </button>
             </div>
         </div>
     );
@@ -38,6 +44,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses ,setAct
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
     const [confirmModal, setConfirmModal] = useState({ show: false, item: null, message: '' });
+    const [errorModal, setErrorModal] = useState({ show: false, message: '' });
     const dropdownRef = useRef(null);
     const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at'];
     const classroom = selectedClassroomData;
@@ -100,7 +107,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses ,setAct
             refetch();
         } catch (error) {
             const errorMessage = error.message || error.response?.data?.message || `Gagal menghapus jadwal ${subjectName}.`;
-            alert(`❌ Error: ${errorMessage}`);
+           setErrorModal({ show: true, message: errorMessage });
         }
     };
 
@@ -175,6 +182,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses ,setAct
                 )}       
             <AddScheduleModal isOpen={isModalOpen} onClose={closeModal} initialData={editingItem} activeDayApi={activeDayApi}classroomId={classroomId} handleSave={saveSchedule}/>
             <ModalDelete isOpen={confirmModal.show}  onConfirm={executeRemoval}  onClose={() => setConfirmModal({ show: false, item: null, message: null })}  />
+            <ErrorModal isOpen={errorModal.show} message={errorModal.message} onClose={() => setErrorModal({ show: false, message: '' })} />
         </div>
     );
 };
