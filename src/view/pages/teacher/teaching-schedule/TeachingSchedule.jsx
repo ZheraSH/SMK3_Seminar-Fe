@@ -46,7 +46,7 @@ export default function TeacherSchedule() {
       <div className="w-full mt-6">
         {loading?(<LoadingData loading={loading} type="tombolDay2" count={5} />)
         :(
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white border border-[#000000]/15 shadow-sm p-3 rounded-2xl gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white border border-[#000000]/15 shadow-sm p-1 rounded-2xl gap-3">
 
             <h1 className="text-[20px] font-semibold ml-2">
               Daftar Jadwal Mengajar
@@ -77,7 +77,13 @@ export default function TeacherSchedule() {
 
         <div className="mt-6 mb-20 overflow-x-auto rounded-md shadow">
           {loading?(<LoadingData loading={loading} type="tableSchedule" count={10} />)
-          :(
+          :schedule.length === 0 ?(
+            <div className="flex flex-col items-center ">
+                <img src="/images/null/null2.png" alt="Data Kosong" className="w-130 h-auto" />
+                <h1 className="text-[#4B5563]">Belum ada jadwal di hari ini,</h1>
+                <h1 className="text-[#4B5563] mb-4">Silahkan hubungi operator untuk menambahkan jadwal.</h1>
+            </div>
+          ):(
             <table className="min-w-[600px] w-full text-sm text-left border-collapse">
               <thead className="bg-[#3B82F6] text-white">
                 <tr>
