@@ -1,64 +1,75 @@
-"use client"
+"use client";
 
-import React from "react"
+import React from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function Pagination({ page, setPage, pagination }) {
-    const currentPage = page
-    const totalPages = pagination?.last_page || 1
+const Pagination = ({ page, setPage, pagination }) => {
+    const lastPage = pagination?.last_page || 1;
+    const currentPage = page;
 
-    const handlePageChange = (pageNumber) => {
-        if (pageNumber >= 1 && pageNumber <= totalPages) {
-            setPage(pageNumber)
+    if (lastPage <= 1) return null;
+
+    let pages = [];
+
+    if (lastPage <= 4) {
+        for (let i = 1; i <= lastPage; i++) pages.push(i);
+    } else {
+        if (currentPage <= 3) {
+            pages = [1, 2, 3, "...", lastPage];
+        } else if (currentPage >= lastPage - 2) {
+            pages = [1, "...", lastPage - 2, lastPage - 1, lastPage];
+        } else {
+            pages = [1, "...", currentPage, "...", lastPage];
         }
     }
-    return (
-        <div className="flex justify-center items-center gap-2 mt-6 select-none">
-            <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`px-3 py-1 rounded-md ${
-                    currentPage === 1
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "hover:bg-gray-100 text-blue-600"
-                }`}
-            >
-                &lt;
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-                .filter((p) => 
-                    p === 1 || 
-                    p === totalPages || 
-                    (p >= currentPage - 1 && p <= currentPage + 1)
-                )
-                .map((p, i, arr) => (
-                <React.Fragment key={p}>
-                    {i > 0 && arr[i - 1] !== p - 1 && (
-                        <span className="px-2 text-gray-400">...</span>
-                    )}
 
-                    <button
-                        onClick={() => handlePageChange(p)}
-                        className={`px-3 py-1 rounded-md transition ${
-                            p === currentPage
-                            ? "bg-blue-600 text-white border-blue-600 font-medium"
-                            : "hover:bg-gray-100 text-blue-600 font-medium"
-                        }`}
-                    >
-                        {p}
-                    </button>
-                </React.Fragment>
-            ))}
+    const PageButton = ({ p, active }) => (
+        <button
+            onClick={() => typeof p === 'number' && setPage(p)}
+            disabled={p === "..."}
+            className={`w-[32px] h-[32px] rounded-md flex items-center justify-center transition-all text-sm font-medium
+                ${active
+                    ? "bg-[#3B82F6] text-white shadow-md"
+                    : p === "..." 
+                        ? "text-[#3B82F6] cursor-default" 
+                        : "text-[#3B82F6] hover:bg-blue-50"
+                }`}
+        >
+            {p}
+        </button>
+    );
+
+    return (
+        <div className="flex items-center justify-center mt-8 gap-2 select-none font-sans">
             <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`px-3 py-1 rounded-md ${
-                    currentPage === totalPages
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "hover:bg-gray-100 text-blue-600"
+                disabled={currentPage === 1}
+                onClick={() => setPage(currentPage - 1)}
+                className={`w-9 h-9 flex items-center justify-center transition ${
+                    currentPage === 1 ? "text-gray-300 cursor-not-allowed" : "text-[#3B82F6] hover:bg-gray-100 rounded-full"
                 }`}
             >
-                &gt;
+                <ChevronLeft size={20} />
+            </button>
+
+            {pages.map((p, index) => (
+                <PageButton 
+                    key={index} 
+                    p={p} 
+                    active={p === currentPage} 
+                />
+            ))}
+
+            <button
+                disabled={currentPage === lastPage}
+                onClick={() => setPage(currentPage + 1)}
+                className={`w-9 h-9 flex items-center justify-center transition ${
+                    currentPage === lastPage ? "text-gray-300 cursor-not-allowed" : "text-[#3B82F6] hover:bg-gray-100 rounded-full"
+                }`}
+            >
+                <ChevronRight size={20} />
             </button>
         </div>
-    )
-}
+    );
+};
+
+export default Pagination;

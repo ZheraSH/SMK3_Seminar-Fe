@@ -16,10 +16,9 @@ export const getAttendanceClassroom = async (day) => {
             }
         );
 
-        console.log("Data Absensi Kelas dari API:", res.data);
         return res.data.data;
     } catch (err) {
-        console.error("Gagal memuat daftar kelas:", err.response?.data || err.message);
+        console.error("Gagal memuat daftar kelas:", err.message);
         return [];
     }
 };

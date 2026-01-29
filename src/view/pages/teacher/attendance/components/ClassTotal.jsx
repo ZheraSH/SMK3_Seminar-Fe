@@ -1,126 +1,88 @@
-import { Send } from "lucide-react";
+import { Send, ChevronLeft, Users, AlertCircle, ArrowLeft, Clock, CheckCircle2, ClipboardCheck, AlertTriangle } from "lucide-react";
 
-export default function TotalClass({
-  setIsOpenClass,
-  summary,
-  handleSubmit,
-  isSubmitted,
-  canSubmit,
-  submitting,
-  isTimeValid,
-}) {
-  // ========================================
-  // SAFE DEFAULT SUMMARY
-  // ========================================
-  const safeSummary = summary || {
-    present: 0,
-    alpha: 0,
-    leave: 0,
-    late: 0,
-    sick: 0,
-  };
-
-  // ========================================
-  // DEBUG
-  // ========================================
-  console.log("DEBUG TOTALCLASS:", {
-    isSubmitted,
-    canSubmit,
-    submitting,
-    isTimeValid,
-    isButtonDisabled:
-      submitting ||
-      !isTimeValid ||
-      (!canSubmit && !isSubmitted)
-  });
-
+export default function TotalClass({ setIsOpenClass, summary, handleSubmit, isSubmitted, canSubmit, submitting, isTimeValid, selectedClass, lessonSchedule, isPastDate, isFutureDate }) {
+  const safeSummary = summary || { present: 0, alpha: 0, leave: 0, late: 0, sick: 0 };
   const timeValid = isTimeValid ?? true;
+  const sesiDisplay = selectedClass?.lesson?.order_display || selectedClass?.lesson_order;
 
-  // ========================================
-  // DISABLE BUTTON RULE
-  // ========================================
-  const isButtonDisabled =
-    submitting ||
-    !timeValid ||
-    (!canSubmit && !isSubmitted);
+  const startTime = lessonSchedule?.lesson_hour?.start_time?.substring(0, 5);
+  const endTime = lessonSchedule?.lesson_hour?.end_time?.substring(0, 5);
+  const timeRange = startTime && endTime ? `${startTime} - ${endTime}` : null;
 
-  // ========================================
-  // BUTTON TEXT
-  // ========================================
+  const isButtonDisabled = submitting || !timeValid || (!canSubmit && !isSubmitted);
+
   let buttonText = "Submit";
-
   if (submitting) buttonText = "Mengirim...";
-  else if (!timeValid) buttonText = "Lewat Waktu";
+  else if (isFutureDate) buttonText = "Belum Mulai";
+  else if (!isTimeValid) buttonText = "Expired";
   else if (isSubmitted) buttonText = "Update";
-  else if (!canSubmit) buttonText = "Lengkapi Status";
+  else if (!canSubmit) buttonText = "Lengkapi";
 
-  // ========================================
-  // MESSAGE
-  // ========================================
   let message = null;
-
-  if (!timeValid) {
-    message = "⚠️ Waktu cross-check telah lewat (lebih dari 24 jam).";
+  if (isFutureDate) {
+    message = timeRange ? `Waktu absensi belum dimulai. Sesi ini dapat diisi mulai pukul ${startTime}.` : "Waktu absensi belum dimulai.";
+  } else if (!isTimeValid) {
+    message = timeRange ? `Waktu cross-check telah lewat. Batas waktu pengisian adalah pukul ${endTime}.` : "Waktu cross-check telah lewat.";
   } else if (!canSubmit && !isSubmitted) {
-    message = "⚠️ Semua siswa harus diberi status sebelum submit!";
+    message = "Semua siswa harus diberi status sebelum mengirim.";
   }
 
   return (
-    <>
-      <div className="flex gap-2 pb-2 flex-wrap h-full w-full justify-between bg-white shadow-md p-2 rounded-lg mt-4">
+    <div className="w-full space-y-6">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 ">
+          <div>
+            <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+              Daftar Nama Siswa
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Ringkasan kehadiran hari ini
+            </p>
+          </div>
 
-        <div className="md:pl-0 lg:pl-[10px] py-[8px]">
-          <h1 className="text-lg font-semibold font-poppins">Daftar Nama Siswa</h1>
-        </div>
-
-        {/* SUMMARY */}
-        <div className="flex gap-2 items-center text-[10px] lg:text-[14px] ">
-          <p className="text-[#4E4D4D] font-poppins font-medium">Total Status:</p>
-          <div className="flex gap-2">
-            <p className="text-[#10B981] font-poppins font-medium">Hadir: {safeSummary.present}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#FF5E53] font-poppins font-medium">Alpha: {safeSummary.alpha}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#3B82F6] font-poppins font-medium">Izin: {safeSummary.leave}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#FACC15] font-poppins font-medium">Terlambat: {safeSummary.late}</p>
-            <p className="text-[#646464]">|</p>
-            <p className="text-[#8B5CF6] font-poppins font-medium">Sakit: {safeSummary.sick}</p>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button onClick={handleSubmit} disabled={isButtonDisabled} className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-blue-100
+                ${isButtonDisabled ? "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none" : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"}`}>
+              <Send className={`w-4 h-4 ${submitting ? "animate-pulse" : ""}`} />
+              {buttonText}
+            </button>
+            <button onClick={() => setIsOpenClass(false)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[#FF5E53] text-[#FF5E53] hover:bg-gray-50 transition-all font-medium text-sm">
+              <ArrowLeft className="w-4 h-4" />
+              <span>Kembali</span>
+            </button>
           </div>
         </div>
-
-        {/* BUTTONS */}
-        <div className="flex gap-[12px] items-center">
-          <button
-            onClick={handleSubmit}
-            disabled={isButtonDisabled}
-            className={`flex items-center w-[70px] md:w-[100px] lg:w-[100px] justify-center h-[30px] md:h-[37px] rounded-xl text-white font-poppins transition-all 
-              ${
-                isButtonDisabled
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600"
-              }
-            `}
-          >
-            <Send className="w-[12px] h-[12px] md:w-[20px] md:h-[20px]" />
-            <p className="text-[8px] md:text-[13px] ml-1">{buttonText}</p>
-          </button>
-
-          <button
-            onClick={() => setIsOpenClass(false)}
-            className="bg-white border-2 w-[80px] md:w-[100px] lg:w-[100px] hover:bg-[#FF5E53] hover:text-white h-[30px] md:h-[35px] text-[12px] md:text-[14px] font-poppins border-[#FF5E53] text-[#FF5E53] rounded-xl"
-          >
-            ← Kembali
-          </button>
-        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <StatusCard label="Total Hadir" count={safeSummary.present} color="border-emerald-500" icon={<CheckCircle2 className="w-5 h-5 text-emerald-500" />} iconBg="bg-emerald-50"/>
+          <StatusCard label="Total Telat" count={safeSummary.late} color="border-amber-500" icon={<Clock className="w-5 h-5 text-amber-500" />} iconBg="bg-amber-50"/>
+          <StatusCard label="Total Izin" count={safeSummary.leave} color="border-blue-500" icon={<ClipboardCheck className="w-5 h-5 text-blue-500" />} iconBg="bg-blue-50"/>
+          <StatusCard label="Total Sakit" count={safeSummary.sick} color="border-purple-500" icon={<Users className="w-5 h-5 text-purple-500" />} iconBg="bg-purple-50"/>
+          <StatusCard label="Total Alpha" count={safeSummary.alpha} color="border-rose-500" icon={<AlertTriangle className="w-5 h-5 text-rose-500" />} iconBg="bg-rose-50"/>
       </div>
 
-      {/* MESSAGE */}
       {message && (
-        <div className="mx-2 p-2 mt-3 bg-red-100 border border-red-400 rounded-lg">
-          <p className="text-md text-red-700 font-medium">{message}</p>
+        <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl animate-in fade-in slide-in-from-top-2">
+          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
+          <p className="text-sm text-amber-800 font-medium">{message}</p>
         </div>
       )}
-    </>
+    </div>
+  );
+}
+
+function StatusCard({ label, count, color, icon, iconBg }) {
+  return (
+    <div className="bg-white border border-gray-100 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+      <div className={`absolute left-0 top-1/4 bottom-1/4 w-1 rounded-r-full ${color.replace('border-', 'bg-')}`}></div>
+      <div className="ml-2">
+        <span className="text-2xl font-bold text-gray-900 block leading-none">{count}</span>
+        <span className="text-[12px] font-medium text-gray-400 mt-1 block">{label}</span>
+      </div>
+
+      <div className={`p-2.5 rounded-xl ${iconBg}`}>
+        {icon}
+      </div>
+    </div>
   );
 }

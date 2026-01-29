@@ -6,7 +6,7 @@ import { useClassAttendance } from "../../../../../Core/hooks/role-teacher/atten
 import Header from "../../../../components/elements/header/Header-new";
 import { FirstLessonView } from "./RIFD";
 
-export default function ClassAttendance({ selectedClass, date, setIsOpenClass, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses,}) {
+export default function ClassAttendance({ selectedClass, date, setIsOpenClass, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses }) {
 
   const {
     attendance,
@@ -25,7 +25,9 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
     handleSubmit,
     canResubmit,
     isPastDate,
-  } = useClassAttendance( selectedClass, date, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses);
+    isFutureDate,
+    lessonSchedule,
+  } = useClassAttendance(selectedClass, date, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses);
 
   if (!selectedClass) {
     return (
@@ -34,17 +36,25 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
       </p>
     );
   }
-
-
-  
-
   return (
-    <div className="mx-5 mb-10">
-      <Header span="Daftar Kehadiran Siswa" p="informasi kehadiran siswa sebagai bagian dari pemantauan aktivitas belajar"/>
+    <div className=" mb-32 md:mb-10">
+      <Header span="Daftar Kehadiran Siswa" p="informasi kehadiran siswa sebagai bagian dari pemantauan aktivitas belajar" src="/images/background/bg-4.png" />
       {summary && (
-        <TotalClass summary={summary} setIsOpenClass={setIsOpenClass} handleSubmit={handleSubmit} isSubmitted={isSubmitted} canSubmit={canSubmit}   submitting={submitting} isTimeValid={isTimeValid}  />
+        <TotalClass
+          summary={summary}
+          setIsOpenClass={setIsOpenClass}
+          handleSubmit={handleSubmit}
+          isSubmitted={isSubmitted}
+          canSubmit={canSubmit}
+          submitting={submitting}
+          isTimeValid={isTimeValid}
+          selectedClass={selectedClass}
+          lessonSchedule={lessonSchedule}
+          isPastDate={isPastDate}
+          isFutureDate={isFutureDate}
+        />
       )}
-      <div className="bg-[#FFF5E3] mx-2 p-3 md:p-4 rounded-md mb-4 mt-2">
+      <div className="bg-[#FFF5E3] p-3 md:p-4 rounded-md mb-4 mt-2">
         <p className="text-sm md:text-base font-semibold text-[#FFAA05] mb-2">Informasi</p>
         <ul className="list-disc text-xs md:text-sm space-y-1 ml-4">
           <li>Halaman ini digunakan untuk mencatat absensi guru saat mengajar di setiap kelas.</li>
@@ -58,7 +68,15 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
         ) : error ? (
           <p className="text-center py-10 text-red-500">{error}</p>
         ) : (
-          <TableClass attendance={attendance} pagination={pagination} status={status} page={page} changes={globalChanges} setChanges={setGlobalChanges} canResubmit={canResubmit} classKey={selectedClass.id} isPastDate={isPastDate}/>
+          <>
+            {
+              attendance.length === 0 ? (
+                <p className="text-center py-10 text-gray-600">Tidak ada data absensi untuk kelas ini.</p>
+              ) : (
+                <TableClass attendance={attendance} pagination={pagination} status={status} page={page} changes={globalChanges} setChanges={setGlobalChanges} canResubmit={canResubmit} classKey={selectedClass.id} isPastDate={isPastDate} isFutureDate={isFutureDate} date={date} />
+              )
+            }
+          </>
         )}
       </div>
       {pagination && pagination.last_page > 1 && !error && (
@@ -67,3 +85,4 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
     </div>
   );
 }
+

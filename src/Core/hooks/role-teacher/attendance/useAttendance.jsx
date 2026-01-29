@@ -25,14 +25,11 @@ export function useAttendanceTeacher() {
   const [submittedClasses, setSubmittedClasses] = useState({});
 
   useEffect(() => {
-    console.log("[useAttendanceTeacher] Fetching for day:", activeDay);
-
     setLoading(true);
     setError(null);
 
     getAttendanceClassroom(activeDay)
       .then((data) => {
-        console.log("[useAttendanceTeacher] Received:", data);
 
         if (!data || (Array.isArray(data) && data.length === 0)) {
           setError("Tidak ada jadwal mengajar di hari " + activeDay);
@@ -43,7 +40,7 @@ export function useAttendanceTeacher() {
         setClassrooms(data);
       })
       .catch((err) => {
-        console.error("Error fetching classroom:", err?.response?.data || err);
+        console.error("Error fetching classroom:", err);
         setError("Gagal memuat data kelas");
         setClassrooms([]);
       })
