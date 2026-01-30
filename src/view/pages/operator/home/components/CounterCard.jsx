@@ -34,14 +34,14 @@ export default function CounterCardsSection() {
 
   useEffect(() => {
     const loadCounters = async () => {
-      loading(true);
+      setLoading(true);
       try {
         const data = await fetchDashboardCounters();
         setCounters(data);
       } catch (err) {
         console.error("❌ LOAD COUNTERS FAILED:", err);
       } finally {
-        setLoading(false);
+       setLoading(false);
       }
     };
 
