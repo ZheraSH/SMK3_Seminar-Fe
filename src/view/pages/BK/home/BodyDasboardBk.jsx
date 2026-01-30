@@ -149,7 +149,7 @@ export const Main = () => {
                 ))}
                 {alphaStudents.length === 0 && !isLoading && (
                   <tr>
-                    <td colSpan="6" className="text-center py-4 text-gray-500">Data tidak ditemukan</td>
+                    <td colSpan="6" className="text-center py-4 text-gray-500">Data tidak ada</td>
                   </tr>
                 )}
               </tbody>
@@ -205,7 +205,7 @@ export const Main = () => {
                 ))}
                 {attendancePending.length === 0 && !isLoading && (
                   <tr>
-                    <td colSpan="6" className="text-center py-4 text-gray-500">Data tidak ditemukan</td>
+                    <td colSpan="6" className="text-center py-4 text-gray-500">Data tidak ada</td>
                   </tr>
                 )}
               </tbody>
