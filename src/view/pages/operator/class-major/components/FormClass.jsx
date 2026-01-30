@@ -31,7 +31,7 @@ function Dropdown({ label, value, placeholder, data = [], onChange, error }) {
   );
 }
 
-export default function Form({ onClassAdded, addClass, onError }) {
+export default function Form({ onClassAdded, addClass, onError, initialMajorCode }) {
   const [majorId, setMajorId] = useState("");
   const [classNameInput, setClassNameInput] = useState("");
   const [schoolYearId, setSchoolYearId] = useState("");
@@ -48,7 +48,6 @@ export default function Form({ onClassAdded, addClass, onError }) {
     const fetchUsage = async () => {
       try {
         const allClasses = await getAllClasses();
-        // Asumsikan data kelas memiliki homeroom_teacher_id
         const usedIds = allClasses.map(c => c.homeroom_teacher_id).filter(id => id != null);
         setUsedTeacherIds(usedIds);
       } catch (err) {
@@ -59,6 +58,20 @@ export default function Form({ onClassAdded, addClass, onError }) {
     };
     fetchUsage();
   }, []);
+
+  useEffect(() => {
+    if (initialMajorCode && majors.length > 0) {
+      // Find major by code (as filter uses code) or name
+      const foundMajor = majors.find(
+        (m) =>
+          m.code === initialMajorCode ||
+          m.name === initialMajorCode
+      );
+      if (foundMajor) {
+        setMajorId(foundMajor.id);
+      }
+    }
+  }, [initialMajorCode, majors]);
 
   const validateForm = () => {
     let newErr = {};
@@ -94,15 +107,18 @@ export default function Form({ onClassAdded, addClass, onError }) {
   };
   const activeSchoolYears = schoolYears.filter((year) => year.active === true || year.active === 1);
 
-  // Filter guru yang sudah dipakai
   const availableTeachers = teachers.filter(t => !usedTeacherIds.includes(t.id));
+  const sortedLevelClass = [...(levelClass || [])].sort((a, b) => {
+    const order = { "X": 1, "XI": 2, "XII": 3 };
+    return (order[a.name] || 99) - (order[b.name] || 99);
+  });
 
   if (loadingMaster || loadingUsedIds) return <div>Memuat data master...</div>;
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
-        <Dropdown label="Tingkatan" placeholder="Pilih Tingkatan" data={levelClass || []} value={levelClassId} onChange={(val) => { setLevelClassId(val); setErrors({ ...errors, levelClassId: "" }); }} error={errors.levelClassId} />
+        <Dropdown label="Tingkatan" placeholder="Pilih Tingkatan" data={sortedLevelClass} value={levelClassId} onChange={(val) => { setLevelClassId(val); setErrors({ ...errors, levelClassId: "" }); }} error={errors.levelClassId} />
         <Dropdown label="Jurusan" placeholder="Pilih Jurusan" data={majors || []} value={majorId} onChange={(val) => { setMajorId(val); setErrors({ ...errors, majorId: "" }); }} error={errors.majorId} />
 
         <div className="w-full">

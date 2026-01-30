@@ -58,7 +58,7 @@ const MainClass = () => {
                             <h2 className="text-lg font-semibold text-gray-800">Tambah Kelas</h2>
                             <button onClick={handleFormClose}> <X className="text-gray-400 hover:text-red-900" /></button>
                         </div>
-                        <Form onClassAdded={handleFormClose} addClass={addClass} onError={handleError} />
+                        <Form onClassAdded={handleFormClose} addClass={addClass} onError={handleError} initialMajorCode={filters.major} />
                     </div>
                 </div>
             )}
