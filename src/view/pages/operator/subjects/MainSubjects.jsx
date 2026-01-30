@@ -9,6 +9,7 @@ import { SubjectCard } from "./components/SubjectCard";
 import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
 import Header from "../../../components/elements/header/Header-new";
 import LoadingData from "../../../components/elements/loadingData/loading";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
 
 
 export default function MainMaple() {
@@ -22,16 +23,17 @@ export default function MainMaple() {
   } = useSubjects();
 
   const [search, setSearch] = useState("");
-  const [globalTotal, setGlobalTotal] = useState(0); 
-  
+  const [globalTotal, setGlobalTotal] = useState(0);
+
   const [newSubject, setNewSubject] = useState({ name: "" });
   const [editSubject, setEditSubject] = useState({ id: null, name: "" });
   const [openMenu, setOpenMenu] = useState(null);
   const [openModal, setOpenModal] = useState(null);
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: null, loading: false });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    
+
     if (search === "") {
       setGlobalTotal(totalItems);
     }
@@ -40,7 +42,7 @@ export default function MainMaple() {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       fetchSubjects(1, search);
-    }, 500); 
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [search]);
@@ -51,8 +53,8 @@ export default function MainMaple() {
       await addSubject(newSubject);
       setOpenModal(null);
       setNewSubject({ name: "" });
-     
-      fetchSubjects(1, ""); 
+
+      fetchSubjects(1, "");
     } catch (err) {
       const message = err.response?.data?.errors?.name?.[0];
       if (message) setErrors({ name: message });
@@ -66,7 +68,7 @@ export default function MainMaple() {
         await updateSubject(editSubject.id, editSubject.name);
         setOpenModal(null);
         setEditSubject({ id: null, name: "" });
-        fetchSubjects(currentPage, search); 
+        fetchSubjects(currentPage, search);
       }
     } catch (err) {
       const message = err.response?.data?.errors?.name?.[0];
@@ -74,45 +76,51 @@ export default function MainMaple() {
     }
   };
 
-  const handleDeleteSubject = async (id) => {
-    if (!confirm("Yakin ingin menghapus mapel ini?")) return;
+  const handleDeleteSubject = (id) => {
+    setDeleteModal({ isOpen: true, id: id, loading: false });
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteModal.id) return;
+    setDeleteModal((prev) => ({ ...prev, loading: true }));
     try {
-      await deleteSubject(id);
+      await deleteSubject(deleteModal.id);
       fetchSubjects(currentPage, search);
-      setGlobalTotal(prev => prev > 0 ? prev - 1 : 0);
-      
+      setGlobalTotal((prev) => (prev > 0 ? prev - 1 : 0));
+      setDeleteModal({ isOpen: false, id: null, loading: false });
     } catch (error) {
       console.error("Error deleting subject:", error);
+      setDeleteModal((prev) => ({ ...prev, loading: false }));
     }
   };
 
   const handlePageChange = (newPage) => {
-    fetchSubjects(newPage, search); 
+    fetchSubjects(newPage, search);
   };
 
-  
+
 
   return (
     <div className="justify-center">
       <div className=" hidden md:block">
-        {loading? 
-          ( <LoadingData loading={loading} type="header1" />) 
+        {loading ?
+          (<LoadingData loading={loading} type="header1" />)
           : (
-              <Header 
-              src="/images/new/imageMapel.png" 
-              span="Daftar Mata Pelajaran" 
-              p={"Total Mata Pelajaran : " + globalTotal} 
+            <Header
+              src="/images/new/imageMapel.png"
+              span="Daftar Mata Pelajaran"
+              p={"Total Mata Pelajaran : " + globalTotal}
             />
           )
 
-          }
+        }
       </div>
-      
+
       <div>
         <SearchBar
           search={search}
           loading={loading}
-          onSearchChange={setSearch} 
+          onSearchChange={setSearch}
           onAddClick={() => {
             setErrors({});
             setNewSubject({ name: "" });
@@ -142,14 +150,23 @@ export default function MainMaple() {
           onSubmit={handleUpdateSubject}
         />
 
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={() => setDeleteModal({ isOpen: false, id: null, loading: false })}
+          onConfirm={confirmDelete}
+          title="Hapus Mata Pelajaran?"
+          message="Apakah Anda yakin ingin menghapus mata pelajaran ini? Data yang dihapus tidak dapat data mata pelajaran dikembalikan."
+          loading={deleteModal.loading}
+        />
+
         {loading ? (
           <LoadingData loading={loading} type="cardMapel" count={8} />
         ) : subjects.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-10">
-                <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-130 h-auto mb-4" />
-                <h1 className="text-[#4B5563]">Maaf yaaa.. datanya gaada, silahkan klik “Tambah Mapel” </h1>
-                <h1 className="text-[#4B5563]">buat nambah data Mapel baru!</h1>
-              </div>
+          <div className="flex flex-col items-center justify-center py-10">
+            <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-130 h-auto mb-4" />
+            <h1 className="text-[#4B5563]">Maaf yaaa.. datanya gaada, silahkan klik “Tambah Mapel” </h1>
+            <h1 className="text-[#4B5563]">buat nambah data Mapel baru!</h1>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {subjects.map((subject, index) => (
