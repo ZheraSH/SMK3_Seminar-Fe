@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut,ArrowLeftToLine, Type } from "lucide-react";
+import { LogOut, ArrowLeftToLine, Type } from "lucide-react";
 import fetchProfile from "../../../../Core/hooks/profile/profileAkun/useProfile";
 import LoadingData from "../loadingData/loading";
 import { notify } from "../../../../Core/hooks/notification/notify";
@@ -13,8 +13,8 @@ export default function ProfileEmploye() {
   const [isOpenFrom, setIsOpenFrom] = useState(false);
   const navigate = useNavigate();
   const {
-    data,loading,error
-  } = fetchProfile ();
+    data, loading, error
+  } = fetchProfile();
 
 
   if (isOpenFrom) {
@@ -26,8 +26,8 @@ export default function ProfileEmploye() {
     );
   }
 
-  if(loading) {
-    return(<LoadingData loading={loading} type=" profilePage" />)
+  if (loading) {
+    return (<LoadingData loading={loading} type=" profilePage" />)
   }
   return (
     <div className="relative justify-center pb-5">
@@ -93,14 +93,14 @@ export default function ProfileEmploye() {
               </h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-5 px-5 ">
-               
-                  <div className="space-y-6">
-                    <ProfileInfoRow label="Nama Lengkap" value={data.name} />
-                    <ProfileInfoRow label="Jenis Kelamin" value={data.gender?.label} />
-                  </div>
+
+                <div className="space-y-6">
+                  <ProfileInfoRow label="Nama Lengkap" value={data.name} />
+                  <ProfileInfoRow label="Jenis Kelamin" value={data.gender?.label} />
+                </div>
                 <div className="space-y-6">
                   <ProfileInfoRow label="Email" value={data.email} />
-                  <ProfileInfoRow label="Alamat" value={data.address}  alignTop={true} />
+                  <ProfileInfoRow label="Alamat" value={data.address} alignTop={true} />
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function ProfileEmploye() {
 }
 
 
-function ProfileInfoRow({ label, value,alignTop = false }) {
+function ProfileInfoRow({ label, value, alignTop = false }) {
   return (
     <div className={`flex flex-col sm:flex-row ${alignTop ? 'items-start' : 'items-start sm:items-center'} gap-1 sm:gap-0`}>
       <div className="w-full sm:w-40 md:w-48 flex-shrink-0 font-bold text-gray-800 text-sm md:text-base">
@@ -141,11 +141,11 @@ function ProfileInfoRow({ label, value,alignTop = false }) {
 
 
 function FormClassStudent({ onClose, user }) {
-  const { 
-    updateUserEmail, 
-    updateUserPhoto, 
+  const {
+    updateUserEmail,
+    updateUserPhoto,
     updateUserPassword,
-    isUpdating 
+    isUpdating
   } = fetchProfile();
 
   const [form, setForm] = useState({
@@ -190,8 +190,8 @@ function FormClassStudent({ onClose, user }) {
       <div>
         <div className="bg-white w-full rounded-3xl border border-gray-200 shadow-md py-5">
           <div className="flex flex-col justify-center items-center gap-3">
-             <label className="relative cursor-pointer group">
-               <img
+            <label className="relative cursor-pointer group">
+              <img
                 src={previewImage}
                 alt="Profile"
                 className="w-[150px] h-[150px] md:w-[180px] md:h-[180px] lg:w-[180px] lg:h-[180px] rounded-full object-cover border-4 border-white group-hover:blur-[3px]"
@@ -201,15 +201,15 @@ function FormClassStudent({ onClose, user }) {
                   Ganti Foto<br />Profil
                 </span>
               </div>
-               <input type="file" accept="image/*" className="hidden" onChange={(e) => {
-                 const file = e.target.files[0];
-                 if(file) { setImageFile(file); setPreviewImage(URL.createObjectURL(file)); }
-               }} />
-             </label>
-             <div className="text-center">
-               <h1 className="text-[24px] font-semibold">{user.name}</h1>
-               <p className="text-[14px]">Siswa</p>
-             </div>
+              <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) { setImageFile(file); setPreviewImage(URL.createObjectURL(file)); }
+              }} />
+            </label>
+            <div className="text-center">
+              <h1 className="text-[24px] font-semibold">{user.name}</h1>
+              <p className="text-[14px]">Siswa</p>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="px-5 md:px-10 mt-6">
@@ -219,8 +219,8 @@ function FormClassStudent({ onClose, user }) {
                 <input
                   type="email"
                   value={form.email}
-                  onChange={(e) => setForm({...form, email: e.target.value})}
-                  className="border rounded-md p-2"
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
                 />
               </div>
 
@@ -229,8 +229,8 @@ function FormClassStudent({ onClose, user }) {
                 <input
                   type="password"
                   value={form.current_password}
-                  onChange={(e) => setForm({...form, current_password: e.target.value})}
-                  className="border rounded-md p-2"
+                  onChange={(e) => setForm({ ...form, current_password: e.target.value })}
+                  className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
                   placeholder="Masukkan password saat ini"
                 />
                 <p className="text-sm text-gray-500 italic"><span className="text-red-600">*</span>Kosongkan password jika tidak ingin mengubahnya</p>
@@ -242,8 +242,8 @@ function FormClassStudent({ onClose, user }) {
                   <input
                     type="password"
                     value={form.new_password}
-                    onChange={(e) => setForm({...form, new_password: e.target.value})}
-                    className="border rounded-md p-2"
+                    onChange={(e) => setForm({ ...form, new_password: e.target.value })}
+                    className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
                     placeholder="Minimal 8 karakter"
                   />
                 </div>
@@ -253,8 +253,8 @@ function FormClassStudent({ onClose, user }) {
                   <input
                     type="password"
                     value={form.new_password_confirmation}
-                    onChange={(e) => setForm({...form, new_password_confirmation: e.target.value})}
-                    className="border rounded-md p-2"
+                    onChange={(e) => setForm({ ...form, new_password_confirmation: e.target.value })}
+                    className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
                     placeholder="Ulangi password baru"
                   />
                 </div>
@@ -265,8 +265,8 @@ function FormClassStudent({ onClose, user }) {
               <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-300 rounded-md font-medium">
                 Batal
               </button>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={isUpdating}
                 className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium"
               >
