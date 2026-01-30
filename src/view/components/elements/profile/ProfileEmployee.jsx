@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut,ArrowLeftToLine } from "lucide-react";
+import { LogOut,ArrowLeftToLine, Type } from "lucide-react";
 import fetchProfile from "../../../../Core/hooks/profile/profileAkun/useProfile";
 import LoadingData from "../loadingData/loading";
 import { notify } from "../../../../Core/hooks/notification/notify";
@@ -181,7 +181,7 @@ function FormClassStudent({ onClose, user }) {
       notify("Berhasil Memperbarui Data!", "success");
       onClose();
     } catch (err) {
-      notify(err.response?.data?.message || "Terjadi kesalahan saat memperbarui data");
+      notify(err.response?.data?.message || "Terjadi kesalahan saat memperbarui data", "error");
     }
   };
 

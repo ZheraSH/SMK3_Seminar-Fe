@@ -234,6 +234,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
     } catch (err) {
       if (err.response?.data?.errors) {
         setLocalError(err.response.data.errors);
+        notify(err.response?.data?.message || "Terjadi kesalahan saat memperbarui data", "error");
       } else {
         setLocalError({ general: err.response?.data?.message || "Terjadi kesalahan sistem" });
       }
