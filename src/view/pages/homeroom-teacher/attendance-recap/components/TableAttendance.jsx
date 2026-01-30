@@ -1,4 +1,4 @@
-export default function TableRecap ({ table = [] ,calculateNumber,loading}) { 
+export default function TableRecap ({ table = [] ,calculateNumber,}) { 
     return(
         <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
@@ -14,16 +14,7 @@ export default function TableRecap ({ table = [] ,calculateNumber,loading}) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {loading ? (
-              <tr>
-                <td colSpan="6" className="px-6 py-10 text-center">
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                    <span className="text-gray-500 animate-pulse">Memuat data siswa...</span>
-                  </div>
-                </td>
-              </tr>
-            ) : table && table.length > 0 ? (
+                {table && table.length > 0 ? (
               table.map((item, index) => (
                 <tr key={index} className={`${index % 2 === 1 ? 'bg-indigo-50/30' : 'bg-white'} hover:bg-blue-50/50 transition-colors`}>
                   <td className="px-6 py-4 text-center text-gray-500">
