@@ -9,7 +9,7 @@ const days = [
 
 export default function ButtonAttendance({ setActiveDay, activeDay }) {
   return (
-    <div className="bg-[#EFF1F3] w-full md:w-auto h-[40px] md:h-[48px] py-1 flex -mt-5 md:-mt-1 rounded-lg pr-1">
+    <div className=" w-full md:w-auto h-[40px] md:h-[48px] py-1 flex -mt-5 md:-mt-1  pr-1">
       {days.map((day) => (
         <button
           key={day.value}
