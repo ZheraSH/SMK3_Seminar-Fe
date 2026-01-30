@@ -1,9 +1,6 @@
 import api from "../../axiosConfig";
 import { notify } from "../../../hooks/notification/notify";
 
-/**
- * FETCH TEACHERS
- */
 export const fetchTeachersApi = async (page = 1) => {
   try {
     const res = await api.get("/employees", {
@@ -37,9 +34,6 @@ export const fetchReligionsApi = async () => {
   }
 };
 
-/**
- * CREATE / UPDATE TEACHER
- */
 export const submitTeacherApi = async (editingId, post) => {
   const formData = new FormData();
 
@@ -94,9 +88,6 @@ export const submitTeacherApi = async (editingId, post) => {
   }
 };
 
-/**
- * DELETE TEACHER
- */
 export const deleteTeacherApi = async (id) => {
   try {
     await api.delete(`/employees/${id}`);
@@ -110,8 +101,6 @@ export const deleteTeacherApi = async (id) => {
   }
 };
 
-/**
- * ALIAS (TETAP DIPERTAHANKAN)
- */
+
 export const submitTeacher = submitTeacherApi;
 export const deleteTeacher = deleteTeacherApi;

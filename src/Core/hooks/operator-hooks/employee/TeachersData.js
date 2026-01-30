@@ -14,7 +14,7 @@ export const useTeacherData = () => {
       );
       const data = Array.isArray(res.data.data) ? res.data.data : [];
       console.log(data);
-      setAllTeachers(data); // WAJIB ADA
+      setAllTeachers(data);
       return data;
     } catch (err) {
       console.error("Gagal ambil employees:", err);

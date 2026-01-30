@@ -7,10 +7,6 @@ import {
   ResponsiveContainer,
 } from "recharts"
 
-/* =====================
-   CONSTANT
-===================== */
-
 // Dummy data supaya pie tetap render
 const EMPTY_PIE = [
   { name: "Hadir", value: 1 },
@@ -27,9 +23,7 @@ export default function AttendanceChart({
   isLoading = false,
   weeklyStats = [],
 }) {
-  /* =====================
-     LOADING
-  ===================== */
+
   if (isLoading) {
     return (
       <div className="bg-white border border-gray-200 rounded-2xl shadow p-5 flex items-center justify-center h-[320px]">
@@ -38,9 +32,6 @@ export default function AttendanceChart({
     )
   }
 
-  /* =====================
-     HITUNG TOTAL
-  ===================== */
   const total = weeklyStats.reduce(
     (acc, cur) => {
       acc.hadir += cur?.hadir ?? 0

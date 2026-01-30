@@ -2,9 +2,6 @@ import api from "../../axiosConfig";
 
 const API_BASE_URL = "/dashboard";
 
-/**
- * COUNTERS
- */
 export const fetchDashboardCounters = async () => {
   try {
     const res = await api.get(`${API_BASE_URL}/counters`);
@@ -15,9 +12,7 @@ export const fetchDashboardCounters = async () => {
   }
 };
 
-/**
- * TAP RFID HISTORY (table)
- */
+
 export const fetchTapHistory = async () => {
   try {
     const res = await api.get(`${API_BASE_URL}/tap-history`);
@@ -28,9 +23,6 @@ export const fetchTapHistory = async () => {
   }
 };
 
-/**
- * STATISTIC TODAY (pie + small cards)
- */
 export const fetchStatisticToday = async () => {
   try {
     const res = await api.get(`${API_BASE_URL}/statistic-today`);
@@ -41,9 +33,7 @@ export const fetchStatisticToday = async () => {
   }
 };
 
-/**
- * STATISTIC MONTHLY (line chart)
- */
+
 export const fetchStatisticMonthly = async () => {
   try {
     const res = await api.get(`${API_BASE_URL}/statistic-monthly`);
