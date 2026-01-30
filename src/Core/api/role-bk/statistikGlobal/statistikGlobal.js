@@ -6,7 +6,7 @@ export const getAttendanceStatistics = async () => {
 
   try {
     const res = await axios.get(
-      `${API_BASE_URL}/counselor/attendance-statistic-monthly`,
+      `${API_BASE_URL}/counselor/attendance/statistic-monthly`,
       {
         headers: {
           Authorization: token ? `Bearer ${token}` : "",
