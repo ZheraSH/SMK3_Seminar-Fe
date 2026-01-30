@@ -49,19 +49,16 @@ export function RfidTable({
     );
   }
 
-  /* =========================
-     NORMAL TABLE
-     ========================= */
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-gray-200 bg-white">
       <table className="min-w-[800px] w-full text-sm">
         <thead>
-          <tr className="bg-gradient-to-r from-blue-600 to-blue-700">
-            <th className="px-6 py-4 text-left text-white">No</th>
-            <th className="px-6 py-4 text-left text-white">Nama Pengguna</th>
-            <th className="px-6 py-4 text-left text-white">ID Kartu</th>
-            <th className="px-6 py-4 text-left text-white">Status</th>
-            <th className="px-6 py-4 text-left text-white">Aksi</th>
+          <tr className="bg-blue-500">
+            <th className="px-6 py-3 text-left text-white">No</th>
+            <th className="px-6 py-3 text-left text-white">Nama Pengguna</th>
+            <th className="px-6 py-3 text-left text-white">ID Kartu</th>
+            <th className="px-6 py-3 text-left text-white">Status</th>
+            <th className="px-6 py-3 text-left text-white">Aksi</th>
           </tr>
         </thead>
 
@@ -167,11 +164,10 @@ function TableRow({
 
       <td className="px-6 py-2">
         <span
-          className={`px-3 py-1 rounded-full text-xs font-medium ${
-            statusValue === "active"
-              ? "bg-green-500 text-white"
-              : "bg-red-500 text-white"
-          }`}
+          className={`px-3 py-1 rounded-full text-xs font-medium ${statusValue === "active"
+            ? "bg-green-500 text-white"
+            : "bg-red-500 text-white"
+            }`}
         >
           {statusLabel}
         </span>
