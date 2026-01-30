@@ -31,28 +31,28 @@ const MainClass = () => {
 
     return (
         <div className=" bg-gray-50 min-h-screen mb-32 lg:mb-4">
-            {loading? (<LoadingData loading={loading} type="header1" />) 
-            : (
-                <HeaderNew span={`Daftar Kelas ${filters.major ? `- ${filters.major}` : ""}`} p={`Tolal kelas : ${total}`} src="/images/particle/particle3.png"/>
-            )}
-            {loading? (<LoadingData loading={loading} type="create" />) 
-            : (
-                <header className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-                    <div className="flex items-center space-x-2 w-full md:w-auto ">
-                        <div className="relative flex items-center mr-4">
-                            <Search className="absolute left-3 text-gray-400" />
-                            <input  type="text"  placeholder="Cari Kelas/Wali Kelas..."  value={searchText}  onChange={(e) => handleSearchChange(e.target.value)}  className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            {loading ? (<LoadingData loading={loading} type="header1" />)
+                : (
+                    <HeaderNew span={`Daftar Kelas ${filters.major ? `- ${filters.major}` : ""}`} p={`Tolal kelas : ${total}`} src="/images/particle/particle3.png" />
+                )}
+            {loading ? (<LoadingData loading={loading} type="create" />)
+                : (
+                    <header className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
+                        <div className="flex items-center space-x-2 w-full md:w-auto ">
+                            <div className="relative flex items-center mr-4">
+                                <Search className="absolute left-3 text-gray-400" />
+                                <input type="text" placeholder="Cari Kelas/Wali Kelas..." value={searchText} onChange={(e) => handleSearchChange(e.target.value)} className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            </div>
+                            <FilterDropdown filters={filters} filterOptions={filterOptions} onFilterChange={handleFilterChange} />
                         </div>
-                        <FilterDropdown filters={filters} filterOptions={filterOptions} onFilterChange={handleFilterChange} />
-                    </div>
-                    <button onClick={toggleForm} className="w-full md:w-auto px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
-                        <span className="flex flex-row items-center gap-2"> <Plus size={18}/> Tambah Kelas</span>
-                    </button>
-                </header>
-            )}
+                        <button onClick={toggleForm} className="w-full md:w-auto px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
+                            <span className="flex flex-row items-center gap-2"> <Plus size={18} /> Tambah Kelas</span>
+                        </button>
+                    </header>
+                )}
 
             {isOpenForm && (
-                <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 -mt-10">
+                <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex justify-center items-center z-50 -mt-10">
                     <div className="bg-white p-6 rounded-lg shadow-2xl max-w-2xl w-full mx-4">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-semibold text-gray-800">Tambah Kelas</h2>
@@ -75,12 +75,12 @@ const MainClass = () => {
 
             {classesData.length === 0 && !loading ? (
                 <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
-                    <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                    <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
                     <p className="text-gray-500 text-center text-sm md:text-md"> Maaf yaaa.. datanya gaada, silahkan klik “Tambah kelas” buat <br />  nambah data kelas!
                     </p>
                 </div>
             ) : loading ? (
-                <LoadingData loading={loading} type="cardclass" count={9}/>
+                <LoadingData loading={loading} type="cardclass" count={9} />
             ) : (
                 <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {classesData.map((classData) => (
@@ -89,7 +89,7 @@ const MainClass = () => {
                 </div>
             )}
 
-            <Pagination page={page} lastPage={lastPage} onPageChange={handlePageChange}/> 
+            <Pagination page={page} lastPage={lastPage} onPageChange={handlePageChange} />
         </div>
     );
 };

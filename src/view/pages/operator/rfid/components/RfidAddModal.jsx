@@ -83,7 +83,7 @@ export default function RfidAddModal({
 
   return (
     <div
-      className="fixed inset-0 backdrop-blur-sm bg-black/40 flex items-center justify-center z-50"
+      className="fixed inset-0 backdrop-blur-[2px] bg-black/30 flex items-center justify-center z-50"
       onClick={onClose}
     >
       <div

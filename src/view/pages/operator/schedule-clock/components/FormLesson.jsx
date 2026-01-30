@@ -27,12 +27,12 @@ const ErrorModal = ({ show, title, message, onClose }) => {
     );
 };
 
-function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeDayDisplay,updateLesson, initialData}) {
-    
-    const [formData, setFormData] = useState({start_time: '', end_time: '', name: 'Jam ke -'});
+function AddLessonHourModal({ isVisible, onClose, activeDay, addLesson, activeDayDisplay, updateLesson, initialData }) {
+
+    const [formData, setFormData] = useState({ start_time: '', end_time: '', name: 'Jam ke -' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [validationErrors, setValidationErrors] = useState({});
-    const [errorModal, setErrorModal] = useState({ show: false, title: '', message: ''});
+    const [errorModal, setErrorModal] = useState({ show: false, title: '', message: '' });
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -80,40 +80,39 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
         setValidationErrors(prev => ({ ...prev, name: '' }));
         setIsOpen(false);
     };
-    
+
     const handleCloseErrorModal = () => {
         setErrorModal({ show: false, title: '', message: '' });
     };
 
     const getInputClass = (field) => {
-        return `w-full p-2 border rounded-lg transition duration-150 outline-none  ${
-            validationErrors[field] 
+        return `w-full p-2 border rounded-lg transition duration-150 outline-none  ${validationErrors[field]
                 ? 'border-red-500 ring-1 ring-red-500'
                 : 'border-gray-300 focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
-        }`;
+            }`;
     };
 
     const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    const errors = {};
-    if (!formData.start_time.trim()) errors.start_time = "Jam Mulai wajib diisi.";
-    if (!formData.end_time.trim()) errors.end_time = "Jam Berakhir wajib diisi.";
-    if (!formData.name) errors.name = "Penempatan wajib dipilih.";
-    
-    setValidationErrors(errors);
-    if (Object.keys(errors).length > 0) return;
+        e.preventDefault();
+        const errors = {};
+        if (!formData.start_time.trim()) errors.start_time = "Jam Mulai wajib diisi.";
+        if (!formData.end_time.trim()) errors.end_time = "Jam Berakhir wajib diisi.";
+        if (!formData.name) errors.name = "Penempatan wajib dipilih.";
 
-    const isLessonValue = formData.name === 'Jam ke -' ? "true" : "false";
+        setValidationErrors(errors);
+        if (Object.keys(errors).length > 0) return;
 
-    const dataToSend = {
-        day: activeDay, 
-        name: formData.name,
-        start: formData.start_time.replace('.', ':'), 
-        end: formData.end_time.replace('.', ':'),
-        is_lesson: isLessonValue
-    };
+        const isLessonValue = formData.name === 'Jam ke -' ? "true" : "false";
 
-    setIsSubmitting(true);
+        const dataToSend = {
+            day: activeDay,
+            name: formData.name,
+            start: formData.start_time.replace('.', ':'),
+            end: formData.end_time.replace('.', ':'),
+            is_lesson: isLessonValue
+        };
+
+        setIsSubmitting(true);
         try {
             if (isEditMode) {
                 await updateLesson(initialData.id, dataToSend);
@@ -127,46 +126,45 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
         } finally {
             setIsSubmitting(false);
         }
-};
+    };
 
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 bg-gray-600/50 flex items-center justify-center z-[1000] transition-opacity duration-300">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-[1000] transition-opacity duration-300">
             <ErrorModal show={errorModal.show} title={errorModal.title} message={errorModal.message} onClose={handleCloseErrorModal} />
             <div className="bg-white rounded-lg shadow-2xl w-full max-w-md mx-4 p-6 transform transition-all duration-300 scale-100">
-                
+
                 <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
                     <h3 className="text-xl font-semibold text-gray-800">{isEditMode ? 'Edit Jam Pelajaran' : 'Tambah Jam Pelajaran'} </h3>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition" disabled={isSubmitting}>
                         <X size={24} />
                     </button>
                 </div>
-                
+
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <div className="flex gap-4">
                             <div className="flex-1">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Jam Mulai</label>
-                                <input type="text" name="start_time" value={formData.start_time} onChange={handleChange} placeholder="07.00" className={getInputClass('start_time')} disabled={isSubmitting}/>
+                                <input type="text" name="start_time" value={formData.start_time} onChange={handleChange} placeholder="07.00" className={getInputClass('start_time')} disabled={isSubmitting} />
                                 {validationErrors.start_time && (
                                     <p className="mt-1 text-xs text-red-600">{validationErrors.start_time}</p>
                                 )}
                             </div>
-                            
+
                             <div className="flex-1">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Jam Berakhir</label>
-                                <input type="text" name="end_time" value={formData.end_time} onChange={handleChange} placeholder="07.45" className={getInputClass('end_time')}disabled={isSubmitting}/>
+                                <input type="text" name="end_time" value={formData.end_time} onChange={handleChange} placeholder="07.45" className={getInputClass('end_time')} disabled={isSubmitting} />
                                 {validationErrors.end_time && (
                                     <p className="mt-1 text-xs text-red-600">{validationErrors.end_time}</p>
                                 )}
                             </div>
                         </div>
-                        
+
                         <div className="relative" ref={dropdownRef}>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Jam Ke- / Penempatan</label>
-                            <div  onClick={() => !isSubmitting && setIsOpen(!isOpen)} className={`w-full p-2 border rounded-lg bg-white flex justify-between items-center cursor-pointer transition duration-150 ${
-                                    validationErrors.name ? 'border-red-500 ring-1 ring-red-500' : 
+                            <div onClick={() => !isSubmitting && setIsOpen(!isOpen)} className={`w-full p-2 border rounded-lg bg-white flex justify-between items-center cursor-pointer transition duration-150 ${validationErrors.name ? 'border-red-500 ring-1 ring-red-500' :
                                     isOpen ? 'border-gray-300 ring-1 ring-blue-500' : 'border-gray-300'}`}>
                                 <span className={`flex items-center gap-2 ${formData.name ? 'text-gray-800' : 'text-gray-400'}`}>
                                     {formData.name === 'Istirahat' && <Coffee size={16} className="text-orange-500" />}
@@ -182,14 +180,14 @@ function AddLessonHourModal ({ isVisible, onClose, activeDay, addLesson ,activeD
 
                             {isOpen && (
                                 <div className="absolute z-[1050] w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-100">
-                                    <div  onClick={() => handleSelect('Jam ke -')} className="px-4 py-3 hover:bg-blue-50 cursor-pointer flex items-center gap-3 border-b border-gray-50">
+                                    <div onClick={() => handleSelect('Jam ke -')} className="px-4 py-3 hover:bg-blue-50 cursor-pointer flex items-center gap-3 border-b border-gray-50">
                                         <BookOpen size={18} className="text-blue-500" />
                                         <div className="flex flex-col">
                                             <span className="text-sm font-medium text-gray-700">Jam ke -</span>
                                             <span className="text-[10px] text-gray-400 italic">Otomatis urut oleh sistem</span>
                                         </div>
                                     </div>
-                                    <div  onClick={() => handleSelect('Istirahat')} className="px-4 py-3 hover:bg-orange-50 cursor-pointer flex items-center gap-3">
+                                    <div onClick={() => handleSelect('Istirahat')} className="px-4 py-3 hover:bg-orange-50 cursor-pointer flex items-center gap-3">
                                         <Coffee size={18} className="text-orange-500" />
                                         <div className="flex flex-col">
                                             <span className="text-sm font-medium text-gray-700">Istirahat</span>
