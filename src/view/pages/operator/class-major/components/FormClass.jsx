@@ -85,7 +85,7 @@ export default function Form({ onClassAdded, addClass, onError }) {
       await addClass(payload);
       if (onClassAdded) onClassAdded();
     } catch (err) {
-      const msg = err?.response?.data?.message || "Maaf kelas yang anda buat telah ada ";
+      const msg = err?.response?.data?.message || "Nama kelas ini sudah ada untuk kombinasi jurusan, tingkatan, dan tahun ajaran yang sama";
       if (onError) onError(msg);
       return;
     } finally {
