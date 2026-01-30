@@ -94,7 +94,6 @@ export const multiRoleTeacher = [
 ];
 
 export const multiRoleHomeroom = [
-  { name: "Monitoring Kelas", icon: <TrendingUp size={20} />, path: "/dashboard/monitoring-class" },
   { name: "Rekap Absensi", icon: <FileText size={20} />, path: "/dashboard/class-recap" },
 ];
 
