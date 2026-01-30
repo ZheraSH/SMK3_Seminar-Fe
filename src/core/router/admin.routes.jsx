@@ -15,7 +15,7 @@ import Shcedule from "../../view/pages/operator/schedule-clock/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import TahunAjaran from "../../view/pages/operator/schoolyear/MainSchoolYear";
 import MainMaple from "../../view/pages/operator/subjects/MainSubjects";
-import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
+import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 import MasterCard from "../../view/pages/operator/master-card/MainMasterCard";
 import ProfileOperator from "../../view/components/elements/profile/ProfileOperator";
 
@@ -41,9 +41,9 @@ export const AdminRoutes = [
           { path: "absen-rfid", element: <AttendanceRulesPage /> },
           { path: "rfid", element: <RfidManagement /> },
           { path: "Shedule", element: <Shcedule /> },
-          { path: "profile", element: <ProfileEmployee /> },
+          { path: "profile", element: <ProfileUser /> },
           { path: "mastercard", element: <MasterCard /> },
-          { path: "ProfileOperator", element: <ProfileOperator />}
+          { path: "ProfileOperator", element: <ProfileOperator /> }
         ],
       },
     ],

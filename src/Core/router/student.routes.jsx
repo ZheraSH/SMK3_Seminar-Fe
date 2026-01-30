@@ -5,7 +5,7 @@ import PermissionManagement from "../../view/pages/student/permission-management
 import ProtectedRoute from "./ProtectedRoute";
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
-import ProfileEmployee from "../../view/components/elements/profile/ProfileEmployee";
+import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 import AbsentStudentMain from "../../view/pages/student/absence/AbsenceStudent";
 
 export const StudentRoutes = [
@@ -23,7 +23,7 @@ export const StudentRoutes = [
         { path: "absen-student", element: <AbsentStudentMain /> },
         { path: "student-schedule", element: <MainScheduleStudent /> },
         { path: "student-license", element: <PermissionManagement /> },
-        { path: "profile", element: <ProfileEmployee /> },
+        { path: "profile", element: <ProfileUser /> },
         // { path: "student-profile", element: <ProfileStudent /> }
       ]
 

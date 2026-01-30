@@ -1,5 +1,5 @@
 import ProtectedRoute from "./ProtectedRoute";
-import ProfileEmploye from "../../view/components/elements/profile/ProfileEmployee";
+import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 
 export const EmployeeProfileRoute = [
   {
@@ -17,7 +17,7 @@ export const EmployeeProfileRoute = [
     children: [
       {
         index: true,          // 🔥 INI YANG KURANG
-        element: <ProfileEmploye />,
+        element: <ProfileUser />,
       },
     ],
   },

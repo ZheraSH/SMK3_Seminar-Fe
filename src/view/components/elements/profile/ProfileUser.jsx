@@ -9,11 +9,11 @@ import fetchProfile from "../../../../Core/hooks/profile/profileAkun/useProfile"
 import LoadingData from "../loadingData/loading";
 import { notify } from "../../../../Core/hooks/notification/notify";
 
-export default function ProfileEmploye() {
+export default function ProfileUser() {
   const [isOpenFrom, setIsOpenFrom] = useState(false);
   const navigate = useNavigate();
   const {
-    data, loading, error
+    data, loading, error, profile
   } = fetchProfile();
 
 
@@ -22,6 +22,7 @@ export default function ProfileEmploye() {
       <FormClassStudent
         onClose={() => setIsOpenFrom(false)}
         user={data}
+        refetchProfile={profile}
       />
     );
   }
@@ -140,7 +141,7 @@ function ProfileInfoRow({ label, value, alignTop = false }) {
 }
 
 
-function FormClassStudent({ onClose, user }) {
+function FormClassStudent({ onClose, user, refetchProfile }) {
   const {
     updateUserEmail,
     updateUserPhoto,
@@ -179,6 +180,7 @@ function FormClassStudent({ onClose, user }) {
       }
 
       notify("Berhasil Memperbarui Data!", "success");
+      if (refetchProfile) await refetchProfile();
       onClose();
     } catch (err) {
       notify(err.response?.data?.message || "Terjadi kesalahan saat memperbarui data", "error");
