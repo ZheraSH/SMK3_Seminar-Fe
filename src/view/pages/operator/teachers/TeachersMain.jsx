@@ -219,7 +219,7 @@ export const TeacherMain = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="">
       {loading ?
         (<LoadingData loading={loading} type="create" />)
         : (

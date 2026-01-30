@@ -25,7 +25,7 @@ export default function AttendanceRulesPage() {
   
 
   return (
-    <div className="mx-3 sm:mx-5">
+    <div className="">
       <style jsx global>{`
         input[type="time"]::-webkit-calendar-picker-indicator {
           display: none;
