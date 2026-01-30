@@ -5,6 +5,7 @@ import useSchoolYears from '../../../../Core/hooks/operator-hooks/schoolyear/sch
 import AddSchoolYearModal from './components/Formschoolyear'; 
 import ModalDelete from '../../../components/elements/modaldelete/ModalDelete'; 
 import Pagination from './components/Pagination';
+import LoadingData from '../../../components/elements/loadingData/loading';
 
 const AcademicYearDashboard = () => {
   const { schoolYears, loading, error, addSchoolYear, activateYear, deleteSchoolYears,pagination,fetchSchoolYears,semester, searchQuery,setSearchQuery,  } = useSchoolYears();
@@ -82,27 +83,35 @@ const AcademicYearDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans mb-10 md:mb-0">
-      <HeaderPage span="Kelola Tahun Ajaran" p={`Semester saat ini : ${semester.semester}`} src="/images/particle/particle11.png"/>
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 mt-6">
-        <div className="relative w-full md:w-80">
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-            <Search size={18} />
-          </span>
-          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Cari Tahun Ajaran" className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"/>
+      {loading?(<LoadingData  loading={loading} type='header1'/>)
+      :(
+        <HeaderPage span="Kelola Tahun Ajaran" p={`Semester saat ini : ${semester.semester}`} src="/images/particle/particle11.png"/>
+      )}
+      {loading? (<LoadingData loading={loading} type='create' />)
+      :(
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 mt-6">
+          <div className="relative w-full md:w-80">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+              <Search size={18} />
+            </span>
+            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Cari Tahun Ajaran" className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"/>
+          </div>
+          
+          <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors font-medium w-full flex justify-center items-center md:w-[258px] ">
+            <Plus size={20} /> Tambah Tahun Ajaran
+          </button>
         </div>
-        
-        <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors font-medium w-full flex justify-center items-center md:w-[258px] ">
-          <Plus size={20} /> Tambah Tahun Ajaran
-        </button>
-      </div>
+      )}
 
-      {schoolYears.length === 0 && !loading ? (
-        <div className="flex flex-col items-center justify-center py-20 w-full">
-          <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-4" />
-          <p className="text-gray-500 text-center max-w-[550px] text-sm md:text-md">
-            Maaf yaaa.. datanya gaada, silahkan klik “Tambah Tahun Ajaran” buat nambah data Tahun ajaran!
-          </p>
-        </div>
+      {loading? (
+          <LoadingData loading={loading} type='cardclass'/> 
+          ) : schoolYears.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 w-full">
+              <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-4" />
+              <p className="text-gray-500 text-center max-w-[550px] text-sm md:text-md">
+                Maaf yaaa.. datanya gaada, silahkan klik “Tambah Tahun Ajaran” buat nambah data Tahun ajaran!
+              </p>
+            </div>
       ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {schoolYears.map((item) => (

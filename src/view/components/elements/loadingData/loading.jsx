@@ -630,11 +630,52 @@ const ProfilePageOperator = () => (
 
 
 
+// Dashboard Wali kelas
+const DashboardHomeroom = () => (
+    <div className="bg-white p-6 h-120 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between items-center">
+      <Skeleton className="h-6 w-48 self-start mb-6 rounded" />
+      <div className="relative w-48 h-48 rounded-full border-[20px] border-gray-100 flex items-center justify-center">
+        <Skeleton className="h-10 w-16 rounded" />
+      </div>
+      <div className="flex gap-3 mt-6">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <Skeleton className="h-3 w-3 rounded-full" />
+            <Skeleton className="h-3 w-8 rounded" />
+          </div>
+        ))}
+      </div>
+    </div>
+);
+
+const Dashboard1 = () =>(
+  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <Skeleton className="h-6 w-56 mb-6 rounded" />
+      <div className="grid grid-cols-2 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="p-4 rounded-xl border border-gray-50 bg-gray-50/50 space-y-3">
+            <div className="flex justify-between items-center">
+               <Skeleton className="h-8 w-10 rounded" />
+               <Skeleton className="h-8 w-8 rounded-lg" />
+            </div>
+            <Skeleton className="h-2 w-full rounded-full" />
+          </div>
+        ))}
+      </div>
+    </div>
+)
+
+
+
 export default function LoadingData({ loading, type = "list", count = 3 }) {
   if (!loading) return null;
 
   const renderContent = () => {
     switch (type) {
+         case "DashboardWaliKelas2" :
+          return <Dashboard1 />
+        case "DashboardWaliKelas" :
+          return <DashboardHomeroom />
         case "profileOperator" :
           return <ProfilePageOperator />
         case "cardStatistikBk" :

@@ -58,7 +58,7 @@ export default function AttendanceChart() {
     : data;
 
   if (loading) {
-    return <LoadingData loading={loading} type="card" />;
+    return <LoadingData loading={loading} type="DashboardWaliKelas" />;
   }
 
   return (

@@ -117,7 +117,7 @@ export default function StatisticsCard() {
   }, []);
 
   if (loading) {
-    return <LoadingData loading={loading} type="card" count={4} />;
+    return <LoadingData loading={loading} type="DashboardWaliKelas2" />;
   }
 
   return (
