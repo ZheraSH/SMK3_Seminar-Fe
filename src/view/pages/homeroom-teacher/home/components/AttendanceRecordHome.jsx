@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { fetchRfidLogs } from "../../../../../Core/api/role-homeroom/dashboard/HomeroomDashboard";
+import LoadingData from "../../../../components/elements/loadingData/loading";
 
 export default function AttendanceTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [attendanceData, setAttendanceData] = useState([]);
+  const [loading,setLoading] = useState (true);
 
   useEffect(() => {
     const loadData = async () => {
+      setLoading(true);
       try {
         const response = await fetchRfidLogs();
         // Assuming the API returns { data: [...] } or just [...]
@@ -19,6 +22,8 @@ export default function AttendanceTable() {
         }
       } catch (error) {
         console.error("Failed to fetch RFID logs:", error);
+      }finally {
+        setTimeout(() => setLoading(false), 800);
       }
     };
     loadData();
@@ -36,20 +41,26 @@ export default function AttendanceTable() {
     <div className="bg-white rounded-sm shadow-lg overflow-hidden">
       {/* HEADER */}
       <div className="p-6">
-        <h2 className="text-lg font-bold text-gray-900">Absensi Hari Ini</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          {new Date().toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
+        {loading? (<LoadingData loading={loading} type="kotakKecil"/>)
+        :(
+          <>
+            <h2 className="text-lg font-bold text-gray-900">Absensi Hari Ini</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              {new Date().toLocaleDateString("id-ID", {
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          </>
+        )}
       </div>
 
-      {/* TABLE */}
       <div className="overflow-x-auto px-[25px] mb-10">
-        {displayedData.length === 0 ? (
+        {loading? (
+          <LoadingData loading={loading} type="tableSchedule" count={6}/>
+        ):displayedData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <img
               src="/images/particle/homeroom01.png"
