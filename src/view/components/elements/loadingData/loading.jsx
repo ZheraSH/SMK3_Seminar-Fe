@@ -141,7 +141,7 @@ const KotakRfid2 = () => (
 
 //attendance chart skeleton 
     const AttendanceChartSkeleton = ({ count }) => (
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4 ">
             {[...Array(count)].map((_, i) => (
             <div key={i} className="flex bg-white shadow-md rounded-xl p-4 animate-pulse">
                 <Skeleton className={`w-1 h-14 mr-4 rounded-full bg-gray-300 animate-pulse`} />
