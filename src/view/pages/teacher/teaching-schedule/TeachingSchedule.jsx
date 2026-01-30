@@ -31,8 +31,8 @@ export default function TeacherSchedule() {
   }
 
   return (
-    <div className="mx-4 sm:mx-7 mt-5">
-      <div className="container mx-auto">
+    <div className=" mt-5">
+      <div className="container mx-auto hidden md:block">
         {loading?(<LoadingData loading={loading} type="header1"/>)
         :(
           <Header

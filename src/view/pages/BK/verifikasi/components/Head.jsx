@@ -17,7 +17,7 @@ export default function HeaderAndControls ({handleClassSelect, searchQuery, onSe
             :(
                 <HeaderPage span={"Manajemen Verifikasi Izin Siswa"} p={"Laporan Verifikasi Surat Izin Ketidakhadiran Siswa."} src="/images/particle/particle6.png" className="!h-[103px] !w-[120px] mt-[18px] mr-10 opacity-90"/>
             )}
-            {loading?(<LoadingData loading={loading} type='create2'/>)
+            {loading?(<LoadingData loading={loading} type='create'/>)
             :(
                 <div className='w-full lg:h-[60px] md:h-[60px] sm:h-[100px] mb-4 lg:mb-0'>
                 <div className="flex flex-col gap-3 md:gap-0 lg:gap-0 md:flex-row lg:flex-row">

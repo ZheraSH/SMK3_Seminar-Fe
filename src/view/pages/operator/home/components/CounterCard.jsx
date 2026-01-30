@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Users, UserCheck, Puzzle, School } from "lucide-react";
 import { fetchDashboardCounters } from "@/Core/api/role-operator/dashboard/DashboardApi";
+import LoadingData from "../../../../components/elements/loadingData/loading";
 
 const CARD_CONFIG = [
   {
@@ -33,6 +34,7 @@ export default function CounterCardsSection() {
 
   useEffect(() => {
     const loadCounters = async () => {
+      loading(true);
       try {
         const data = await fetchDashboardCounters();
         setCounters(data);
@@ -46,6 +48,12 @@ export default function CounterCardsSection() {
     loadCounters();
   }, []);
 
+  if (loading) {
+    return (
+      <LoadingData loading={loading} type="attendanceChart" count={4}/>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-[16px]">
       {CARD_CONFIG.map((item, i) => (
@@ -53,10 +61,8 @@ export default function CounterCardsSection() {
           key={i}
           className="bg-white rounded-xl border border-slate-200 shadow-sm px-5 py-4 flex items-center gap-4"
         >
-          {/* LEFT BAR */}
           <div className="w-1 h-12 rounded-full bg-blue-500" />
 
-          {/* TEXT */}
           <div className="flex-1">
             <p className="text-[22px] font-semibold text-slate-900 leading-none">
               {counters[item.key] ?? 0}
@@ -66,7 +72,6 @@ export default function CounterCardsSection() {
             </p>
           </div>
 
-          {/* ICON */}
           <div className="bg-blue-100 p-3 rounded-lg">
             <item.Icon className="w-5 h-5 text-blue-600" />
           </div>

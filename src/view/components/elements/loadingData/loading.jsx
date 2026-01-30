@@ -103,12 +103,12 @@ const KotakRfid2 = () => (
     )
 // // tombol day2 
     const Day2 = ({count}) => (
-    <div className=" flex justify-between gap-1 bg-white animate-pulse shadow-md p-2 py-2 rounded-lg">
-        <Skeleton  className=" h-8 w-70 bg-gray-50"/>
+    <div className=" flex flex-col md:flex-row justify-between gap-1 bg-white animate-pulse shadow-md p-2 py-2 rounded-lg">
+        <Skeleton  className=" h-8 w-70 bg-gray-50 rounded-md"/>
         <div className="flex flex-wrap gap-1">
             {[...Array(count)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                    <Skeleton className="h-10 w-21 rounded-xl" />
+                    <Skeleton className="mt-2 h-7 md:h-10 w-15 md:w-21 rounded-xl" />
                 </div>
             ))}
         </div>
@@ -663,7 +663,47 @@ const Dashboard1 = () =>(
         ))}
       </div>
     </div>
-)
+);
+
+//tombolcrosscheck
+const HeaderDaftarSiswaSkeleton = () => (
+  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 animate-pulse">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="space-y-2">
+        <Skeleton className="h-7 w-48 rounded-lg" /> {/* Judul: Daftar Nama Siswa */}
+        <Skeleton className="h-4 w-64 rounded-md" /> {/* Subtitle: Ringkasan kehadiran */}
+      </div>
+
+      <div className="flex items-center gap-2 sm:gap-3">
+        <Skeleton className="h-[42px] w-full md:w-32 rounded-xl" />
+        <Skeleton className="h-[42px] w-full md:w-28 rounded-xl" />
+      </div>
+    </div>
+  </div>
+);
+
+//attendance card
+const StatusGridFiveSkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
+    {[...Array(5)].map((_, i) => (
+      <div 
+        key={i} 
+        className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 animate-pulse"
+      >
+        <div className="flex justify-between items-start">
+          <div className="space-y-3 flex-1">
+            <Skeleton className="h-3 w-20 rounded" /> 
+            <Skeleton className="h-8 w-12 rounded-lg" /> 
+          </div>
+          <Skeleton className="h-10 w-10 rounded-xl bg-gray-100" />
+        </div>
+        <div className="mt-4">
+          <Skeleton className="h-1.5 w-full rounded-full bg-gray-50" />
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 
 
@@ -672,7 +712,11 @@ export default function LoadingData({ loading, type = "list", count = 3 }) {
 
   const renderContent = () => {
     switch (type) {
-         case "DashboardWaliKelas2" :
+        case "statusCardsFive":
+          return <StatusGridFiveSkeleton />;
+        case "headerDaftarSiswa":
+          return <HeaderDaftarSiswaSkeleton />;   
+        case "DashboardWaliKelas2" :
           return <Dashboard1 />
         case "DashboardWaliKelas" :
           return <DashboardHomeroom />
