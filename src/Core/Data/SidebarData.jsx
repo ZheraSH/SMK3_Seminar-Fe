@@ -67,7 +67,7 @@ export const menuItemTeacher = [
 
 export const menuItemHomeRoom = [
     {name: "Dashboard", icon:<LayoutGrid size={20} />, path: "/homeroom-home/home"},
-    {name: "Monitoring Kelas", icon:<TrendingUp size={20} />, path: "/homeroom-home/home"},
+    // {name: "Monitoring Kelas", icon:<TrendingUp size={20} />, path: "/homeroom-home/home"},
     // {name: "Absensi Kelas " , icon: <CircleCheckBig size={20} />, path: "/teacher-home/attendance-teacher"},
     // {name: "Jadwal Mengajar",icon: <CalendarDays size={20} />, path: "/teacher-home/teacher-schedule" },
     {name: "Rekap Absensi",icon: <FileText size={20} />, path: "/homeroom-home/class-recap" },
