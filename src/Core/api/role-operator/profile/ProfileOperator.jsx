@@ -1,12 +1,10 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
 
 export const getProfileOperator = async () => {
-    const token = localStorage.getItem("token");
     try {
-        const res = await axios.get(`http://127.0.0.1:8000/api/school-information`, {
+        const res = await api.get(`/school-information`, {
             headers: {
-                Authorization: token ? `Bearer ${token}` : `Bearer`,
                 Accept: "application/json",
             },
         });
@@ -19,11 +17,9 @@ export const getProfileOperator = async () => {
 
 
 export const schoolYear = async () => {
-    const token = localStorage.getItem("token");
     try {
-        const res = await axios.get(`http://127.0.0.1:8000/api/school-years/active`, {
+        const res = await api.get(`/school-years/active`, {
             headers: {
-                Authorization: token ? `Bearer ${token}` : `Bearer`,
                 Accept: "application/json",
             },
         });
@@ -36,11 +32,9 @@ export const schoolYear = async () => {
 
 
 export const updateProfileOperator = async (formData) => {
-    const token = localStorage.getItem("token");
     try {
-        const res = await axios.post(`http://127.0.0.1:8000/api/school-information/update`, formData, {
+        const res = await api.post(`/school-information/update`, formData, {
             headers: {
-                Authorization: token ? `Bearer ${token}` : `Bearer`,
                 Accept: "application/json",
             },
         });

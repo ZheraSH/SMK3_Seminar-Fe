@@ -77,12 +77,12 @@ export const submitTeacherApi = async (editingId, post) => {
 
     return { success: true };
   } catch (err) {
-    console.log("🔥 ERROR RESPONSE:", err.response?.data);
+    console.log("ERROR RESPONSE:", err.response?.data);
 
     if (err.response?.data?.errors) {
       return { success: false, errors: err.response.data.errors };
     } else {
-      console.log("⚠️ Tidak ada field 'errors' di response");
+      console.log(" Tidak ada field 'errors' di response");
       return { success: false };
     }
   }

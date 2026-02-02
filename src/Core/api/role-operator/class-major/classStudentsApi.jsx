@@ -1,5 +1,4 @@
 import { notify } from "../../../hooks/notification/notify";
-// const API_URL = "http://127.0.0.1:8000/api";
 import api from "../../axiosConfig";
 
 export const getClassroomDetail = async (id) => {

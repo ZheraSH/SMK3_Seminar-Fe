@@ -1,9 +1,7 @@
-// import axios from "axios"
 import api from "../../axiosConfig";
 import { notify } from "../../../hooks/notification/notify"
 
 
-const API_BASE_URL = "http://127.0.0.1:8000/api"
 
 export const getSchoolYears = async (page = 1, search = "") => {
   try {

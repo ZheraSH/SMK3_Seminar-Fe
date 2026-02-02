@@ -1,9 +1,7 @@
 import api from "../../axiosConfig";
 import { notify } from "../../../hooks/notification/notify";
 
-/**
- * FETCH STUDENTS
- */
+
 export const fetchStudents = async (
   page = 1,
   search = "",
@@ -30,9 +28,7 @@ export const fetchStudents = async (
   }
 };
 
-/**
- * LEVEL CLASSES
- */
+
 export const fetchlevelclasses = async () => {
   try {
     const res = await api.get("/level-classes");
@@ -43,9 +39,7 @@ export const fetchlevelclasses = async () => {
   }
 };
 
-/**
- * MAJORS
- */
+
 export const fetchMajors = async () => {
   try {
     const res = await api.get("/majors");
@@ -56,9 +50,7 @@ export const fetchMajors = async () => {
   }
 };
 
-/**
- * RELIGIONS
- */
+
 export const fetchReligions = async () => {
   try {
     const res = await api.get("/religions");
@@ -69,9 +61,7 @@ export const fetchReligions = async () => {
   }
 };
 
-/**
- * CREATE / UPDATE STUDENT
- */
+
 export const submitStudent = async (post, editingId) => {
   const formData = new FormData();
 
@@ -110,7 +100,7 @@ export const submitStudent = async (post, editingId) => {
       message: response.data?.message,
     };
   } catch (err) {
-    console.log("🔥 ERROR RESPONSE:", err.response?.data);
+    console.log(" ERROR RESPONSE:", err.response?.data);
 
     return {
       success: false,
@@ -120,9 +110,7 @@ export const submitStudent = async (post, editingId) => {
   }
 };
 
-/**
- * DELETE STUDENT
- */
+
 export const deleteStudent = async (id) => {
   try {
     await api.delete(`/students/${id}`);
