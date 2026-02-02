@@ -1,16 +1,12 @@
-import axios from "axios";
-
-const API_BASE_URL = "http://127.0.0.1:8000/api/teacher";
+import api from "../../axiosConfig";
 
 export const getAttendanceClassroom = async (day) => {
-    const token = localStorage.getItem("token");
 
     try {
-        const res = await axios.get(
-            `${API_BASE_URL}/schedules/classrooms/${day}`,
+        const res = await api.get(
+            `/teacher/schedules/classrooms/${day}`,
             {
                 headers: {
-                    Authorization: token ? `Bearer ${token}` : `Bearer `,
                     Accept: "application/json",
                 },
             }
@@ -24,7 +20,6 @@ export const getAttendanceClassroom = async (day) => {
 };
 
 export const getCrossCheckData = async (classroom_id, date, lesson_order, page = 1) => {
-    const token = localStorage.getItem("token");
     const params = new URLSearchParams({
         classroom_id,
         date,
@@ -33,9 +28,8 @@ export const getCrossCheckData = async (classroom_id, date, lesson_order, page =
     });
     
     try {
-        const res = await axios.get(`${API_BASE_URL}/attendances/form?${params.toString()}`, {
+        const res = await api.get(`/teacher/attendances/form?${params.toString()}`, {
             headers: {
-                Authorization: `Bearer ${token}`,
                 Accept: "application/json",
             },
         });
@@ -47,14 +41,12 @@ export const getCrossCheckData = async (classroom_id, date, lesson_order, page =
 
 
 export async function postCrossCheck(payload) {
-    const token = localStorage.getItem("token");
 
-    return axios.post(
-        `${API_BASE_URL}/attendances/submit`,
+    return api.post(
+        `/teacher/attendances/submit`,
         payload,
         {
             headers: {
-                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
                 Accept: "application/json",
             },

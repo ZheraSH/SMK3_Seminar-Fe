@@ -1,16 +1,14 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api/teacher";
 
 export const getDashboardClassroom = async (day) => {
-    const token = localStorage.getItem("token");
 
     try {
-        const res = await axios.get(
-            `${API_BASE_URL}/schedules/classrooms/${day}`,
+        const res = await api.get(
+            `/teacher/schedules/classrooms/${day}`,
             {
                 headers: {
-                    Authorization: token ? `Bearer ${token}` : `Bearer `,
                     Accept: "application/json",
                 },
             }
@@ -25,14 +23,12 @@ export const getDashboardClassroom = async (day) => {
 
 
 export const getDashboardSchedule = async (day) => {
-    const token = localStorage.getItem("token");
 
     try {
-        const res = await axios.get(
-            `${API_BASE_URL}/schedules/${day}`,
+        const res = await api.get(
+            `/teacher/schedules/${day}`,
             {
                 headers: {
-                    Authorization: token ? `Bearer ${token}` : `Bearer `,
                     Accept: "application/json",
                 },
             }

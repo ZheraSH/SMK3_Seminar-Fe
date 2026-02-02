@@ -1,15 +1,12 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
 export async function fetchDailyScheduleApi(day) {
-  const token = localStorage.getItem("token");
-  if (!token || !day) return [];
 
   try {
-    const res = await axios.get(
-      `http://127.0.0.1:8000/api/teacher/schedules/${day}`, 
+    const res = await api.get(
+      `/teacher/schedules/${day}`, 
       {
         headers: {
-          Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
       }
