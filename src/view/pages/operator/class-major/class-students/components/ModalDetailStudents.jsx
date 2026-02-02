@@ -21,7 +21,7 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
     
     if (student?.error) {
         return (
-             <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+             <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-50">
                  <div className="bg-white w-[400px] rounded-xl p-8 shadow-xl relative animate-fadeIn text-center">
                      <h2 className="text-xl text-red-600 mb-4">Gagal Memuat Detail</h2>
                      <p>{student.error}</p>
@@ -40,7 +40,7 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
     );
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] flex justify-center items-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-2xl lg:w-[600px] md:w-[600px] w-full lg:h-[545px] md:h-[545px] h-[635px] lg:mt-0 md:mt-0 -mt-10 transform transition-all scale-100 opacity-100 lg:mx-0 md:mx-4 mx-1">
                 <div className="flex justify-between items-center p-6 lg:ml-3 md:ml-3">
                     <h2 className="lg:text-[24px] md:text-[24px] text-[18px] font-semibold text-gray-800">Detail Siswa</h2>

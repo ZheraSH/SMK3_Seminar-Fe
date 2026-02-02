@@ -12,7 +12,7 @@ function ModalAddStudent({ open, onClose, classroom, availableStudents, addStude
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"> 
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-50 p-4"> 
             <div className="bg-white rounded-xl w-full max-w-lg sm:w-[418px] shadow-2xl p-6 animate-scaleIn relative">
                 <button className="absolute right-4 top-4 text-gray-600" onClick={onClose}>
                     <X size={24} className='text-gray-400 hover:text-gray-600' />
