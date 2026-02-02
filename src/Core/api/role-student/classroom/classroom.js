@@ -1,21 +1,12 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
 export const getClassroom = async (params = {}) =>  {
-    const token = localStorage.getItem("token");
-    const userData = JSON.parse(localStorage.getItem("userData"));
-
-    const roles = userData?.roles || [];
-        if (!userData || !roles.includes("student")) {
-            console.warn("User bukan student atau data user tidak ditemukan.");
-            return null;
-    }
 
     try {
-        const res = await axios.get(
-            `http://127.0.0.1:8000/api/student/classroom-info`,
+        const res = await api.get(
+            `/student/classroom-info`,
             {
                 headers : {
-                    Authorization : token ? `Bearer ${token}` : "",
                     Accept: "application/json",
                 },
                 params
