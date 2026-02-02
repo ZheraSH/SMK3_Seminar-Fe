@@ -1,5 +1,4 @@
-export default function TableSchedule({ scheduleData = []}) {
-
+export default function TableSchedule({ scheduleData = [] }) {
   if (!scheduleData.length) {
     return (
       <div className="p-6 text-center text-gray-500">
@@ -9,30 +8,32 @@ export default function TableSchedule({ scheduleData = []}) {
   }
 
   return (
-    <table className="w-full text-sm text-gray-800">
+    <table className="w-full text-sm text-gray-800 text-center">
       <thead>
         <tr className="bg-[#3B82F6] text-white text-base">
-          <th className="px-4 py-3">No</th>
-          <th className="px-4 py-3 text-center">Jam</th>
-          <th className="px-4 py-3">Jam Ke</th>
-          <th className="px-4 py-3">Mata Pelajaran</th>
-          <th className="px-4 py-3">Guru</th>
+          <th className="px-4 py-3 font-medium">No</th>
+          <th className="px-4 py-3 font-medium">Jam</th>
+          <th className="px-4 py-3 font-medium">Jam Ke</th>
+          <th className="px-4 py-3 font-medium">Mata Pelajaran</th>
+          <th className="px-4 py-3 font-medium">Guru</th>
         </tr>
       </thead>
+
       <tbody>
         {scheduleData.map((item, index) => (
           <tr
             key={item.id}
-            className={`${
-              index % 2 === 0 ? "bg-white" : "bg-blue-50"
-            } border-t border-gray-300`}
+            className={`${index % 2 === 0 ? "bg-white" : "bg-blue-50"
+              } border-t border-gray-300`}
           >
             <td className="px-4 py-3">{index + 1}</td>
-            <td className="px-4 py-3 text-center">
+
+            <td className="px-4 py-3">
               <span className="inline-flex w-[140px] h-[28px] items-center justify-center rounded-full bg-green-500 text-white text-sm">
                 {item.lesson_hour?.time}
               </span>
             </td>
+
             <td className="px-4 py-3">{item.lesson_hour?.name}</td>
             <td className="px-4 py-3">{item.subject}</td>
             <td className="px-4 py-3">{item.teacher}</td>

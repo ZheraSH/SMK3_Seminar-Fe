@@ -79,10 +79,10 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
                 {renderText(student.name)}
               </h3>
               <p className="text-[14px] text-gray-600 mt-0.5">
-                {renderText(student.classroom?.name)}
+                {renderText(student.email)}
               </p>
-              <span className="mt-2 text-[12px] font-medium text-white bg-[#3B82F6] py-[3px] px-3 rounded-full">
-                Siswa
+              <span className="mt-2 text-[12px] font-medium text-white bg-[#00C4E6] py-[3px] px-3 rounded-full">
+                {renderText(student.classroom?.name || student.role)}
               </span>
             </div>
           </div>

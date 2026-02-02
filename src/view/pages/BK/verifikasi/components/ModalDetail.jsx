@@ -16,12 +16,12 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData,loadin
 
     const handleApproveClick = () => {
         onApprove(permissionData);
-        onClose(); // Tutup modal setelah aksi
+        onClose(); 
     };
 
     const handleRejectClick = () => {
         onReject(permissionData);
-        onClose(); // Tutup modal setelah aksi
+        onClose();
     };
 
     return (

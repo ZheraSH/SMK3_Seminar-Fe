@@ -16,6 +16,12 @@ export const PermissionCard = ({ permission, onViewDetail, onDelete }) => {
           <div>
             <h3 className="font-semibold text-gray-900 text-[24px] truncate"> {permission.type.label} </h3>
           </div>
+          <button
+            onClick={() => onDelete(permission.id)}
+            className="text-gray-400 hover:text-red-500 transition-colors p-1"
+          >
+            <X size={20} />
+          </button>
         </div>
         <div className="text-[14px] text-gray-600 mt-2 mb-2 flex justify-between">
           <div>

@@ -62,7 +62,7 @@ export const LayouthBK = () => {
         <LoginSuccessPopup open={showLoginPopup} onClose={() => setShowLoginPopup(false)} title="Login Berhasil" subtitle="Selamat datang kembali!"/>
         <Notification />
 
-        <aside className={`fixed top-0 left-0 h-full bg-white text-[#4B5563] shadow-xl transition-all duration-300 z-50 ${sidebarOpen ? "w-[250px] translate-x-0" : "w-[250px] -translate-x-full lg:translate-x-0 lg:w-[80px]"}`} >
+        <aside className={`fixed top-0 left-0 h-full bg-white text-[#4B5563] shadow-xl transition-all duration-300 z-30 ${sidebarOpen ? "w-[250px] translate-x-0" : "w-[250px] -translate-x-full lg:translate-x-0 lg:w-[80px]"}`} >
           <div className="flex items-center gap-3 p-6 overflow-hidden whitespace-nowrap">
             <img className="w-10 h-10 min-w-[40px]" src="../images/SMKNLOGO1.png" alt="Logo" />
             {sidebarOpen && (

@@ -10,12 +10,12 @@ const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  o
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                     <thead className="bg-[#3B82F6] text-white">
                         <tr className="text-xs">
-                            <th className="px-4 py-3">No</th>
+                            <th className="px-4 py-3 rounded-tl-lg">No</th>
                             <th className="px-4 py-3">Penempatan</th>
                             <th className="px-4 py-3">Waktu</th>
                             <th className="px-4 py-3 min-w-[140px]">Mata pelajaran</th>
                             <th className="px-4 py-3">Guru</th>
-                            <th className="px-4 py-3">Aksi</th>
+                            <th className="px-4 py-3 rounded-tr-lg">Aksi</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-100 text-center">

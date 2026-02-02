@@ -38,7 +38,7 @@ export const menuItemsOperator = [
     { name: "Kelas", icon: <DoorOpen size={20} />, path: "/home/class" },
     { name: "Mata Pelajaran", icon: <BookMarked size={20} />, path: "/home/maple" },
     { name: "Jadwal Pelajaran", icon: <CalendarSearch size={20} />, path: "/home/Shedule" },
-    { name: "Settings Jam Absen", icon: <CalendarClock size={20} />, path: "/home/absen-rfid" },
+    { name: "Pengaturan Jam Absen", icon: <CalendarClock size={20} />, path: "/home/absen-rfid" },
     { name: "Management RFID", icon: <IdCard size={20} />, path: "/home/rfid" },
     { name: "Master Card", icon: <KeyRound size={20} />, path: "/home/mastercard" },
     

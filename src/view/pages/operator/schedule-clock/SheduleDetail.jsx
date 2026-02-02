@@ -149,7 +149,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses, setAct
                         <div className="flex flex-row gap-2 w-full lg:w-auto">
                             <button onClick={() => setActiveTab('jam')} className='flex-1 lg:flex-none text-[10px] lg:text-[14px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6] hover:bg-[#2563EB] px-3 rounded-lg flex flex-row gap-2 justify-center items-center cursor-pointer transition-all'>
                                 <Settings className='w-4 h-4 lg:w-5 lg:h-5' />
-                                <span className="whitespace-nowrap">Setting Jam</span>
+                                <span className="whitespace-nowrap">Setting Jam Pelajaran</span>
                             </button>
 
                             <button onClick={handleBackToClasses} className="flex-1 lg:flex-none flex items-center justify-center gap-1 font-semibold border border-[#D1D5DB] bg-white hover:bg-gray-50 px-3 py-2 rounded-lg text-[10px] lg:text-[14px] transition-all">

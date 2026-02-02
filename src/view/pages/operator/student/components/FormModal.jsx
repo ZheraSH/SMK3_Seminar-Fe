@@ -227,7 +227,7 @@ export function FormModal({
             <input
               className={`border rounded-lg p-2 w-full ${errors.number_kk ? "border-red-500" : "border-gray-300"
                 }`}
-              placeholder="-"
+              placeholder="Masukkan nomer KK"
               type="number"
               min="0"
               step="1"
@@ -251,7 +251,7 @@ export function FormModal({
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.count_siblings ? "border-red-500" : "border-gray-300"
                 }`}
-              placeholder="-"
+              placeholder="Masukkan Saudara Ke"
               type="number"
               min="0"
               step="1"
@@ -277,7 +277,7 @@ export function FormModal({
             <input
               className={`border rounded-lg p-2 w-full ${errors.number_akta ? "border-red-500" : "border-gray-300"
                 }`}
-              placeholder="-"
+              placeholder="Masukkan Nomer Akta"
               type="number"
               min="0"
               step="1"
@@ -303,7 +303,7 @@ export function FormModal({
             <input
               className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.order_child ? "border-red-500" : "border-gray-300"
                 }`}
-              placeholder="-"
+              placeholder="Masukkan Anak Ke"
               type="number"
               min="0"
               step="1"
