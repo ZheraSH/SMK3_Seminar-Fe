@@ -1,5 +1,4 @@
 import ProtectedRoute from "./ProtectedRoute";
-import MainDashboard from "../../view/components/elements/MainDashboard";
 import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/TeachingSchedule";
 import AttendanceTeacher from "../../view/pages/teacher/attendance/MainAttendance";
 import MainMonitoringAbsen from "../../view/pages/BK/monitoring Absen/MainAttendanceMonitoring";
@@ -10,13 +9,11 @@ import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermissio
 import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 import BodyDashboardMultiRole from "../../view/pages/multiRole/BodyDashboard";
 import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/AttendanceRecap";
-
-import { MainLayoutMultiRole } from "../../view/layouts/MultiRoleLayout";
+import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 
 export const MultiRoleRoutes = [
   {
     path: "/dashboard",
-    // 1. ProtectedRoute sebagai pembungkus utama untuk cek login/role
     element: (
       <ProtectedRoute
         allowedRoles={["teacher", "homeroom_teacher", "counselor"]}
@@ -24,10 +21,8 @@ export const MultiRoleRoutes = [
     ),
     children: [
       {
-        // 2. MainLayout sebagai pembungkus tampilan (Sidebar & Navbar)
-        element: <MainLayoutMultiRole />,
+        element: <DashboardLayouth />,
         children: [
-          // 3. Halaman-halaman konten
           { index: true, element: <BodyDashboardMultiRole /> },
           { path: "teacher-schedule", element: <TeacherSchedule /> },
           { path: "attendance-teacher", element: <AttendanceTeacher /> },

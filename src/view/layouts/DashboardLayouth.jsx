@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { menuItemsOperator, menuItemTeacher, menuItemHomeRoom, menuItemBk, menuItemSiswa } from "@data/SidebarData";
+import { ROLE_MENUS, multiRoleCommon } from "@data/SidebarData"; 
 import { useRef, useState, useEffect, useMemo } from "react";
 import MainDashboard from "../components/elements/MainDashboard";
 import { ChevronDown } from "lucide-react";
@@ -11,7 +11,7 @@ export const DashboardLayouth = () => {
   const location = useLocation();
   const scrollRef = useRef(null);
   
-  const { schoolInfo } = useProfile();
+  const { schoolInfo,data } = useProfile();
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState({ roles: [] });
@@ -28,54 +28,56 @@ export const DashboardLayouth = () => {
     }
   }, []);
 
-  
   const currentMenuItems = useMemo(() => {
-    const roleMapping = [
-      { role: "teacher", menu: menuItemTeacher },
-      { role: "homeroom_teacher", menu: menuItemHomeRoom },
-      { role: "counselor", menu: menuItemBk },
-      { role: "student", menu: menuItemSiswa },
-      { role: "school_operator", menu: menuItemsOperator }
-    ];
+  if (!user.roles || user.roles.length === 0) return [];
 
-    const match = roleMapping.find(m => user.roles.includes(m.role));
-    return match ? match.menu : [];
-  }, [user.roles]);
+  const isMultiRole = user.roles.length > 1;
+  let combined = [];
+  if (isMultiRole) {
+    combined = [...multiRoleCommon];
+  }
+
+  user.roles.forEach(role => {
+    const menus = ROLE_MENUS[role];
+    if (menus) {
+      const processedMenus = menus.map(menu => {
+        if (isMultiRole) {
+          const pathSegments = menu.path.split('/');
+          const lastSegment = pathSegments[pathSegments.length - 1];
+
+          if (lastSegment === "home" || lastSegment === "teacher-home" || lastSegment === "bk-home") {
+            return { ...menu, path: "/dashboard" };
+          }
+          return { ...menu, path: `/dashboard/${lastSegment}` };
+        }
+        
+        return menu;
+      });
+
+      const filteredMenus = isMultiRole
+        ? processedMenus.filter(m => m.path !== "/dashboard")
+        : processedMenus;
+
+      combined = [...combined, ...filteredMenus];
+    }
+  });
+
+  return combined.filter((v, i, a) => a.findIndex(t => t.path === v.path) === i);
+}, [user.roles]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setSidebarOpen(true);
-      } else {
-        setSidebarOpen(false);
-      }
-    };
+    const handleResize = () => setSidebarOpen(window.innerWidth >= 1024);
     handleResize();
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth < 1024) {
-      setSidebarOpen(false);
-    }
-  }, [location.pathname]); 
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    const handleScroll = () => {
-      if (el) setShowScrollButton(el.scrollTop > 100);
-    };
-    el?.addEventListener("scroll", handleScroll);
-    return () => el?.removeEventListener("scroll", handleScroll);
-  }, []);
+    if (window.innerWidth < 1024) setSidebarOpen(false);
+  }, [location.pathname]);
 
   const scrollToBottom = () => {
-    scrollRef.current?.scrollTo({
-      top: scrollRef.current.scrollHeight,
-      behavior: "smooth",
-    });
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -92,28 +94,24 @@ export const DashboardLayouth = () => {
 
       <div className="flex h-screen bg-gray-50">
         <div className={`fixed top-0 left-0 h-full z-40 transform transition-all duration-300 ${sidebarOpen ? "w-[250px] translate-x-0" : "w-[80px] -translate-x-full lg:translate-x-0"}`}>
-          <div className={`h-full bg-white ${sidebarOpen ? "" : "overflow-hidden"}`}>
+          <div className={`h-full bg-white shadow-lg ${sidebarOpen ? "" : "overflow-hidden"}`}>
             <div className={`flex justify-center items-center gap-3 py-6 ${sidebarOpen ? "px-10" : ""}`}>
               <img src={schoolInfo?.logo} className="w-10 h-10 " alt="SMKN Logo"/>
               {sidebarOpen && (
-                <h1 className="flex-wrap text-[16px] font-semibold"> {schoolInfo?.name || "-"} </h1>
+                <h1 className="flex-wrap text-[16px] font-semibold">
+                   {data?.name || "-"} 
+                </h1>
               )}
             </div>
 
-            <div ref={scrollRef} className={`overflow-y-auto ${ sidebarOpen ? "h-[calc(100vh-100px)] [&::-webkit-scrollbar]:hidden" : "h-[calc(100vh-80px)]"}`}>
+            <div ref={scrollRef} className={`overflow-y-auto ${ sidebarOpen ? "h-[calc(100vh-100px)] [&::-webkit-scrollbar]:hidden" : "h-[calc(100vh-90px)]"}`}>
               <div>
                 {currentMenuItems.map((item, index) => {
-                  let active = location.pathname === item.path;
-
-                  if (item.path === "/home/class") {
-                    active =
-                      [ "/home/class"].includes(location.pathname) ||
-                      location.pathname.startsWith("/home/classStudents");
-                  }
+                  const active = location.pathname === item.path;
 
                   return (
                     <div key={index}>
-                      <Link to={item.path} className={`relative flex items-center mb-1.5 hover:bg-[#E5F0FF] ${sidebarOpen ? "gap-3 p-2 pl-5" : "justify-center p-3"} ${active ? "bg-[#3B82F61F] text-[#3B82F6]" : ""}`} title={!sidebarOpen ? item.name : ""}>
+                      <Link to={item.path} className={`relative flex items-center mb-1.5 hover:bg-[#E5F0FF] ${sidebarOpen ? "gap-3 p-2 pl-5" : "justify-center p-2"} ${active ? "bg-[#3B82F61F] text-[#3B82F6]" : ""}`} title={!sidebarOpen ? item.name : ""}>
                         {active && sidebarOpen && (
                           <div className="absolute left-0 top-0 h-full w-[4px] bg-[#3B82F6] rounded-r-lg" />
                         )}
