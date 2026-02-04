@@ -16,7 +16,7 @@ export const EmployeeProfileRoute = [
     ),
     children: [
       {
-        index: true,          // 🔥 INI YANG KURANG
+        index: true,          
         element: <ProfileUser />,
       },
     ],

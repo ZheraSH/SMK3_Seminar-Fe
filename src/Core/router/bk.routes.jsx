@@ -4,8 +4,8 @@ import VerifikasiIzin from "../../view/pages/BK/verifikasi/MainVerifyPermission"
 import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal";
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import BodyDashboard from "../../view/pages/BK/home/BodyDasboardBk";
-import { LayouthBK } from "../../view/layouts/BkLayouth";
 import ProtectedRoute from "./ProtectedRoute";
+import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermission";
 import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 
@@ -15,7 +15,7 @@ export const BkRoutes = [
         element: (<ProtectedRoute allowedRoles={["counselor"]} />),
         children: [
             {
-                element: <LayouthBK />,
+                element: <DashboardLayouth />,
                 children: [
                     { index: true, element: <BodyDashboard /> },
                     { path: "dashboard", element: <MainDashboard /> },

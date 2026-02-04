@@ -1,8 +1,8 @@
-import { LayouthHomeRoom } from "../../view/layouts/HomeRoomLayouth";
 import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/AttendanceRecap";
 import HomeRoomHome from "../../view/pages/homeroom-teacher/home/MainHomeroomHome";
 import ProtectedRoute from "./ProtectedRoute";
 import ProfileUser from "../../view/components/elements/profile/ProfileUser";
+import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 
 export const HomeRoomRoute = [
     {
@@ -10,7 +10,7 @@ export const HomeRoomRoute = [
         element: (<ProtectedRoute allowedRoles={["homeroom_teacher", "counselor"]} />),
         children: [
             {
-                element: <LayouthHomeRoom />,
+                element: <DashboardLayouth  />,
                 children: [
                     { index: true, element: <HomeRoomHome /> },
                     { path: "home", element: <HomeRoomHome /> },
