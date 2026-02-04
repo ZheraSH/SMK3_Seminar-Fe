@@ -1,0 +1,109 @@
+import { useState, useEffect, useRef } from "react";
+import { getAttendanceClassroom } from "../../../api/role-teacher/attendance/AttendanceClassroom";
+
+export const getTodayDateString = () => {
+  const today = new Date();
+  const day = today.getDay();
+
+  if (day === 6) today.setDate(today.getDate() + 2);
+  if (day === 0) today.setDate(today.getDate() + 1);
+
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, "0");
+  const d = String(today.getDate()).padStart(2, "0");
+
+  return `${y}-${m}-${d}`;
+};
+
+export function useAttendanceTeacher() {
+  const userData = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("userData"));
+    } catch {
+      return null;
+    }
+  })();
+
+  const isTeacher = userData?.roles?.includes("teacher");
+
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = getTodayDateString();
+    const saved = localStorage.getItem("selectedDate");
+
+    if (!saved) return today;
+
+    const savedDate = new Date(saved.replace(/-/g, "/"));
+    if (isNaN(savedDate.getTime())) return today;
+
+    const normalizedSaved = savedDate.toISOString().slice(0, 10);
+    return normalizedSaved === today ? saved : today;
+  });
+
+  useEffect(() => {
+    if (selectedDate) {
+      localStorage.setItem("selectedDate", selectedDate);
+    }
+  }, [selectedDate]);
+
+  const [classrooms, setClassrooms] = useState([]);
+  const [globalChanges, setGlobalChanges] = useState({});
+  const [submittedClasses, setSubmittedClasses] = useState({});
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);
+
+  const isFirstLoad = useRef(true);
+  const load = async () => {
+    if (!isTeacher || !selectedDate) return;
+
+    let active = true;
+    if (isFirstLoad.current) {
+      setLoading(true);
+    }
+    setError(null);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const data = await getAttendanceClassroom(selectedDate);
+      if (!active) return;
+
+      setClassrooms(data || []);
+
+      if (!data || data.length === 0) {
+        setError(`Tidak ada jadwal mengajar pada ${selectedDate}`);
+      }
+    } catch (err) {
+      if (!active) return;
+
+      setError(
+        err?.response?.data?.message || "Gagal memuat daftar kelas"
+      );
+      setClassrooms([]);
+    } finally {
+      if (active && isFirstLoad.current) {
+        setLoading(false);
+        isFirstLoad.current = false;
+      }
+    }
+
+    return () => {
+      active = false;
+    };
+  };
+
+  useEffect(() => {
+    load();
+  }, [selectedDate, isTeacher]);
+
+  return {
+    classrooms,
+    selectedDate,
+    setSelectedDate,
+    globalChanges,
+    setGlobalChanges,
+    submittedClasses,
+    setSubmittedClasses,
+    loading,
+    error,
+  };
+}

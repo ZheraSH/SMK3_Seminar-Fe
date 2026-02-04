@@ -7,7 +7,7 @@ const useLoading = (initialLoading = true) => {
   useEffect(() => {
     if (!isLoading) return;
 
-    // Deteksi kecepatan koneksi
+
     const detectConnectionSpeed = () => {
       const connection =
         navigator.connection ||
@@ -33,15 +33,12 @@ const useLoading = (initialLoading = true) => {
     const speed = detectConnectionSpeed();
     setConnectionSpeed(speed);
 
-    // Deteksi apakah semua resource sudah loaded
+
     const checkResourcesLoaded = () => {
-      // Cek apakah DOM sudah fully loaded
       if (document.readyState === "complete") {
-        // Cek apakah semua gambar sudah loaded
         const images = document.querySelectorAll("img");
         const allImagesLoaded = Array.from(images).every((img) => img.complete);
 
-        // Cek apakah ada font yang masih loading
         const fontsLoaded = document.fonts
           ? document.fonts.ready
           : Promise.resolve();
@@ -50,29 +47,25 @@ const useLoading = (initialLoading = true) => {
       }
       return Promise.resolve([false, false]);
     };
-
-    // Simulasi loading berdasarkan koneksi
     const getLoadingTime = () => {
       switch (speed) {
         case "slow":
-          return 4000; // 4 detik untuk koneksi lambat
+          return 4000; 
         case "fast":
-          return 1500; // 1.5 detik untuk koneksi cepat
+          return 1500; 
         default:
-          return 2500; // 2.5 detik untuk koneksi normal
+          return 2500; 
       }
     };
 
     const loadingTime = getLoadingTime();
 
-    // Kombinasi timer dan resource checking
+  
     const timer = setTimeout(() => {
       checkResourcesLoaded().then(([imagesLoaded, fontsLoaded]) => {
-        // Jika semua resource sudah loaded atau sudah mencapai waktu maksimal
         if ((imagesLoaded && fontsLoaded) || loadingTime >= 3000) {
           setIsLoading(false);
         } else {
-          // Tunggu sedikit lagi jika resource belum ready
           setTimeout(() => setIsLoading(false), 1000);
         }
       });

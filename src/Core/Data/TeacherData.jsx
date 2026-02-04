@@ -1,0 +1,55 @@
+export const attendanceData = [
+  {
+    day: "Senin",
+    className: "XII PPLG 1",
+    teacher: "Bu Rani",
+    year: "2025/2026",
+    studentCount: 36,
+    students: [
+      { nameStudent: "Aulia", NISN: "12345678" },
+      { nameStudent: "Bima", NISN: "12345679" },
+      { nameStudent: "Dwi", NISN: "12345679" },
+       { nameStudent: "Nadia", NISN: "22345678" },
+      { nameStudent: "Rico", NISN: "22345679" },
+       { nameStudent: "Nadia", NISN: "22345678" },
+      { nameStudent: "Rico", NISN: "22345679" },
+       { nameStudent: "Nadia", NISN: "22345678" },
+      { nameStudent: "Rico", NISN: "22345679" },
+       { nameStudent: "Nadia", NISN: "22345678" },
+      { nameStudent: "Rico", NISN: "22345679" },
+    ],
+  },
+  {
+    day: "Senin",
+    className: "XII PPLG 2",
+    teacher: "Bu Vita",
+    year: "2025/2026",
+    studentCount: 36,
+    students: [
+      { nameStudent: "Nadia", NISN: "22345678" },
+      { nameStudent: "Rico", NISN: "22345679" },
+    ],
+  },
+  {
+    day: "Senin",
+    className: "XII PPLG 3",
+    teacher: "Deddy Setiawan",
+    year: "2025/2026",
+    studentCount: 36,
+    students: [
+      { nameStudent: "Dinda Putri", NISN: "09729369" },
+      { nameStudent: "Rafi", NISN: "09729370" },
+    ],
+  },
+  {
+    day: "Selasa",
+    className: "XII PPLG 3",
+    teacher: "Deddy Setiawan",
+    year: "2025/2026",
+    studentCount: 36,
+    students: [
+      { nameStudent: "Dinda Putri", NISN: "09729369" },
+      { nameStudent: "Rafi", NISN: "09729370" },
+    ],
+  },
+];
