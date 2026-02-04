@@ -213,9 +213,9 @@ const KotakRfid2 = () => (
     const CradDouble1 = () => (
         <div className="flex animate-pulse">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 w-full h-48">
-                <div className="bg-white w-50% gap-3 shadow-[0_0_20px_rgba(0,0,0,0.20)] animate-pulse rounded-2xl p-4 border-2 border-gray-300 ">
+                <div className="bg-white w-50% gap-3 shadow-[0_0_20px_rgba(0,0,0,0.20)] animate-pulse rounded-2xl p-3 border-2 border-gray-300 ">
                     <Skeleton className=" h-7  w-35 bg-white"/>
-                    <div className=" flex mt-2 items-center gap-4">
+                    <div className=" flex items-center gap-4">
                         <Skeleton className=" h-30 w-30 bg-gray-100 rounded-full"/>
                         <div className=" flex-col gap-3">
                             <Skeleton className=" w-50 h-5 bg-gray-50 mb-2 "/>
