@@ -61,7 +61,6 @@ export default function Form({ onClassAdded, addClass, onError, initialMajorCode
 
   useEffect(() => {
     if (initialMajorCode && majors.length > 0) {
-      // Find major by code (as filter uses code) or name
       const foundMajor = majors.find(
         (m) =>
           m.code === initialMajorCode ||

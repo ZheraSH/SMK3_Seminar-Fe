@@ -24,7 +24,7 @@ export const useTeacherData = () => {
   const fetchReligions = async () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/api/religions");
-      console.log("📦 Data agama dari API:", res.data);
+      console.log(" Data agama dari API:", res.data);
       setReligions(res.data.data);
     } catch (err) {
       console.error("gagal", err);

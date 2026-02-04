@@ -59,7 +59,6 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
             </button>
           </div>
 
-          {/* Gender */}
           <DropdownSection
             title="Jenis Kelamin"
             options={optionMap.gender}
@@ -70,7 +69,6 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
             keyName="gender"
           />
 
-          {/* Major */}
           <DropdownSection
             title="Jurusan"
             options={optionMap.major}
@@ -81,7 +79,6 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
             keyName="major"
           />
 
-          {/* Level Class */}
           <DropdownSection
             title="Tingkatan"
             options={optionMap.level_class}

@@ -4,12 +4,10 @@ export const extractTeacherMasters = (teachers = []) => {
   const roles = new Map();
 
   teachers.forEach((t) => {
-    // ✅ GENDER (FIX)
     if (t.gender?.value && t.gender?.label) {
       genders.set(t.gender.value, t.gender.label);
     }
 
-    // ✅ SUBJECTS (AMAN)
     if (Array.isArray(t.subjects)) {
       t.subjects.forEach((s) => {
         if (s?.id && s?.name) {
@@ -18,7 +16,6 @@ export const extractTeacherMasters = (teachers = []) => {
       });
     }
 
-    // ✅ ROLES (AMAN)
     if (Array.isArray(t.roles)) {
       t.roles.forEach((r) => {
         if (r?.value && r?.label) {

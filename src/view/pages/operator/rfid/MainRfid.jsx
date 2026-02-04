@@ -88,7 +88,6 @@ export function RfidManagement() {
         />
       )}
 
-      {/* TABLE dengan prop onStatusUpdate */}
       {loading?(<LoadingData loading={loading} type="tableSchedule" count={10}/>)
       :(
         <>
@@ -100,7 +99,6 @@ export function RfidManagement() {
             onStatusUpdate={refreshData}
           />
 
-          {/* PAGINATION */}
           <PaginationRfid
             page={meta.current_page || 1}
             lastPage={meta.last_page || 1}
@@ -111,7 +109,6 @@ export function RfidManagement() {
         </>
       )}
 
-      {/* ADD */}
       <RfidAddModal
         show={showAdd}
         newData={newData}
@@ -135,7 +132,6 @@ export function RfidManagement() {
         onClose={() => setShowEdit(false)}
       />
 
-      {/* DELETE CONFIRMATION MODAL */}
       <DeleteConfirmModal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}

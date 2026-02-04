@@ -20,7 +20,6 @@ export function PaginationPermissionStudent({ page, lastPage, onPrev, onNext, on
     return pages;
   };
 
-  // Konstanta Style agar sama persis dengan Nomor 2
   const basePageStyle = "w-[28px] h-[28px] flex items-center justify-center font-medium text-sm rounded-sm transition-all duration-150"; 
   const activeStyle = "bg-[#3B82F6] text-white shadow-md"; 
   const defaultStyle = "text-[#3B82F6] hover:bg-gray-100 border border-transparent";
@@ -29,12 +28,10 @@ export function PaginationPermissionStudent({ page, lastPage, onPrev, onNext, on
 
   return (
     <div className="flex items-center justify-end space-x-2 font-sans mt-6"> 
-      {/* Tombol PREV menggunakan Ikon Lucide */}
       <button onClick={onPrev} disabled={page === 1} className={chevronStyle}>
         <ChevronLeft size={24} strokeWidth={2.5} />
       </button>
 
-      {/* RENDER NOMOR HALAMAN */}
       <div className="flex items-center space-x-1">
         {renderPages().map((p, i) =>
           p === "..." ? (
@@ -54,7 +51,6 @@ export function PaginationPermissionStudent({ page, lastPage, onPrev, onNext, on
         )}
       </div>
 
-      {/* Tombol NEXT menggunakan Ikon Lucide */}
       <button onClick={onNext} disabled={page === lastPage} className={chevronStyle}>
         <ChevronRight size={24} strokeWidth={2.5} />
       </button>

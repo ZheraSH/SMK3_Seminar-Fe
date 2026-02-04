@@ -20,7 +20,6 @@ export default function AttendanceTeacher() {
     setGlobalChanges,
     submittedClasses,
     setSubmittedClasses,
-    // getDateByDay,
   } = useAttendanceTeacher();
 
 

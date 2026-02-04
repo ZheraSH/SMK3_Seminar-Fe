@@ -34,7 +34,6 @@ export default function AttendanceDashboard() {
 
         const students = result?.data?.students || []
 
-        // hitung summary
         const summaryResult = students.reduce(
           (acc, cur) => {
             acc.hadir += cur.hadir
@@ -129,7 +128,6 @@ export default function AttendanceDashboard() {
           </div>
         )}
 
-        {/* Table */}
         {loading? (<LoadingData loading={loading} type='tableSchedule' count={10}/>) 
         : (
           <>
@@ -190,7 +188,6 @@ export default function AttendanceDashboard() {
               </table>
             </div>
 
-            {/* Pagination dummy */}
             <div className="flex justify-center gap-2 mt-6">
               <button className="p-2">
                 <ChevronLeft />

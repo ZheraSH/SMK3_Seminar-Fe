@@ -30,9 +30,6 @@ export function RfidTable({
     }
   };
 
-  /* =========================
-     EMPTY STATE — NO TABLE
-     ========================= */
   if (!filtered.length) {
     return (
       <div className="w-full flex flex-col items-center justify-center py-20">

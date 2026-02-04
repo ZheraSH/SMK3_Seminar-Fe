@@ -7,7 +7,7 @@ export default function fetchProfile () {
     const [data, setData] = useState({});
     const [isUpdating, setIsUpdating] = useState(false);
 
-    const token = localStorage.getItem("token"); // Simpan token di variabel agar re-usable
+    const token = localStorage.getItem("token"); 
 
     const profile = async () => {
         setLoading(true);

@@ -14,7 +14,6 @@ const Filter2 = ({ onTypeSelect }) => {
     { id: 'dispensasi', label: 'Dispensasi' },
   ];
 
-  // Menutup dropdown jika klik di luar
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

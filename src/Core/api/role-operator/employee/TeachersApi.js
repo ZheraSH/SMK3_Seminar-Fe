@@ -21,9 +21,7 @@ export const fetchTeachersApi = async (page = 1) => {
   }
 };
 
-/**
- * FETCH RELIGIONS
- */
+
 export const fetchReligionsApi = async () => {
   try {
     const res = await api.get("/religions");

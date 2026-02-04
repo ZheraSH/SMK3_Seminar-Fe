@@ -53,7 +53,6 @@ export const TeacherFilterDropdown = ({ category, setCategory, masters }) => {
 
       {openCategory && (
         <div className="absolute top-full mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 p-2 z-20">
-          {/* Tombol Tampilkan Semua */}
           <div className="border-b border-gray-100">
             <button
               onClick={handleResetFilter}
@@ -63,7 +62,6 @@ export const TeacherFilterDropdown = ({ category, setCategory, masters }) => {
             </button>
           </div>
 
-          {/* Gender */}
           <div className="border-b border-gray-100">
             <button
               onClick={() =>
@@ -103,7 +101,6 @@ export const TeacherFilterDropdown = ({ category, setCategory, masters }) => {
             )}
           </div>
 
-          {/* Role */}
           <div className="border-b border-gray-100">
             <button
               onClick={() =>

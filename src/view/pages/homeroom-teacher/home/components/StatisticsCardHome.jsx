@@ -63,7 +63,7 @@ export default function StatisticsCard() {
           const data = response.data;
           setDashboardData(data);
 
-          const totalStudents = data.total_students || 1; // Avoid division by zero
+          const totalStudents = data.total_students || 1;
 
           setStats([
             {

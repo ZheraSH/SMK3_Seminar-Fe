@@ -59,14 +59,12 @@ export function UseRecap(selectedDate) {
   }, [selectedDate,searchQuery,selectedStatus]);
 
 
-  // UseRecap.js
 const downloadRecap = async () => {
   if (downloading) return;
 
   setDownloading(true);
   try {
     console.log("Mendownload dengan filter:", { selectedDate, searchQuery, selectedStatus });
-    // Kirimkan date, searchQuery, dan selectedStatus ke API
     const response = await getCetakRecap(selectedDate, selectedStatus);
     
     const blob = new Blob([response], { 
@@ -77,7 +75,6 @@ const downloadRecap = async () => {
     const link = document.createElement('a');
     link.href = url;
     
-    // Penamaan file yang lebih informatif berdasarkan filter
     const filterInfo = selectedStatus ? `_${selectedStatus}` : "";
     link.setAttribute('download', `Recap_Absensi_${selectedDate}${filterInfo}.xlsx`);
     

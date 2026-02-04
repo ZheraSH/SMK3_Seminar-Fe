@@ -4,7 +4,7 @@ const MAX_VISIBLE_PAGES = 3;
 export function PaginationEmployee({
   page,
   lastPage,
-  onPageClick, // Mapping to onPageChange
+  onPageClick,
 }) {
   if (!lastPage || lastPage <= 1) {
     return null;
@@ -18,7 +18,7 @@ export function PaginationEmployee({
     startPage = 1;
     endPage = lastPage;
   } else {
-    const half = Math.floor(MAX_VISIBLE_PAGES / 2); // 1
+    const half = Math.floor(MAX_VISIBLE_PAGES / 2); 
 
     startPage = page - half;
     endPage = page + half;

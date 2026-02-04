@@ -67,11 +67,6 @@ export default function PermissionManagement() {
     }
   };
 
-  // const  = (item) => {
-  //   console.log("Data yang dikirim ke modal:", item);
-  //   setSelectedDetail(item);
-  //   setIsDetailOpen(true);
-  // };
 
   const handleViewDetail = useCallback(async (permission) => {
     setIsDetailOpen(true);

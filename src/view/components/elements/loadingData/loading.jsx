@@ -10,7 +10,7 @@ const Skeleton = ({ className = "", ...props }) => {
 };
 
 
-// Desain A: List Sederhana (Seperti kode awal kamu)
+// List Sederhana 
 const ListSkeleton = ({ count }) => (
   <div className="space-y-4">
     {[...Array(count)].map((_, i) => (

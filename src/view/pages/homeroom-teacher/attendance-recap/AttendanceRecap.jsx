@@ -39,14 +39,6 @@ export default function RecapClass() {
     { title: "Total Siswa Alpha", value:card.count?.alpha, color: "#F44336", color2: "#FEE2E2", IconComponent: TriangleAlert },
   ];
 
-  // if(loading){
-  //   return(
-  //     <div className="flex justify-center items-center mt-50 flex-col items-center gap-2">
-  //       <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-  //       <span className="text-gray-500 animate-pulse">Memuat data siswa...</span>
-  //     </div>
-  //   )
-  // }
   return (
     <div className=" bg-[#F8FAFC] min-h-screen mb-10 md:mb-0">
       <div className="">
@@ -136,8 +128,3 @@ export default function RecapClass() {
     </div>
   );
 }
-
-{/* <div className="flex flex-col items-center justify-center py-20  mt-4 animate-in fade-in duration-700">
-                        <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
-                        <p className="text-gray-500 text-center text-sm md:text-md"> Sepertinya belum ada data yang masuk untuk kriteria ini <br /> Coba pilih kelas lain atau ubah kata kunci pencarian Anda.!</p>
-                    </div> */}

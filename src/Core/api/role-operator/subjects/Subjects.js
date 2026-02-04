@@ -2,7 +2,6 @@ import axios from "axios"
 import { notify } from "../../../hooks/notification/notify"
 import api from "../../axiosConfig"
 
-const API_BASE_URL = "http://127.0.0.1:8000/api"
 
 export const getSubjects = async (page = 1, search = "") => {
 

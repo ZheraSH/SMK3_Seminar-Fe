@@ -40,7 +40,7 @@ export function SubjectModal({
               value={subject.name}
               onChange={(e) => {
                 onChange("name", e.target.value);
-                setErrors({}); // reset error pas mulai ngetik
+                setErrors({}); 
               }}
             />
 

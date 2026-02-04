@@ -24,7 +24,6 @@ export const StudentRoutes = [
         { path: "student-schedule", element: <MainScheduleStudent /> },
         { path: "student-license", element: <PermissionManagement /> },
         { path: "profile", element: <ProfileUser /> },
-        // { path: "student-profile", element: <ProfileStudent /> }
       ]
 
     }],

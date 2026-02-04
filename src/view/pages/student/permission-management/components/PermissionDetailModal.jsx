@@ -11,10 +11,8 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
 
   return (
     <>
-      {/* MAIN MODAL */}
       <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center p-4 z-50">
         <div className="bg-white rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto shadow-lg">
-          {/* HEADER */}
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-[24px] font-semibold text-gray-900">
               Detail Izin
@@ -27,7 +25,6 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
             </button>
           </div>
 
-          {/* PROOF IMAGE */}
           <div className="mb-6">
             <span className="font-medium text-[18px]">Bukti Pendukung</span>
 
@@ -48,7 +45,6 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
             />
           </div>
 
-          {/* INFORMASI SISWA */}
           <div className="mb-5">
             <h3 className="font-medium text-[18px] text-gray-900 mb-2">
               Informasi Siswa
@@ -61,7 +57,6 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
             />
           </div>
 
-          {/* INFORMASI IZIN */}
           <div className="mb-5">
             <h3 className="font-medium text-[18px] text-gray-900 mb-2">
               Informasi Izin
@@ -101,7 +96,6 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
         </div>
       </div>
 
-      {/* IMAGE PREVIEW OVERLAY */}
       {previewOpen && (
         <div
           onClick={() => setPreviewOpen(false)}

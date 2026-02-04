@@ -48,7 +48,6 @@ export const addStudentsToClassroom = async (classroomId, studentIds) => {
   }
 };
 
-// 4. Hapus Siswa dari Kelas
 export const removeStudentFromClass = async (classroomId, studentId) => {
     try {
         const res = await api.delete( `/classrooms/${classroomId}/student-remove/${studentId}`);

@@ -46,7 +46,6 @@ export const MainStudent = () => {
   const [page, setPage] = useState(1);
   const [meta, setMeta] = useState({ current_page: 1, last_page: 1, total: 0 });
 
-  // Delete Modal State
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -128,7 +127,6 @@ export const MainStudent = () => {
     const { name, type, files, value } = e.target;
     setPost({ ...post, [name]: type === "file" ? files[0] : value });
 
-    // Hapus error jika user mulai mengetik/memilih
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: null }));
     }
@@ -252,7 +250,6 @@ export const MainStudent = () => {
               </div>
 
               <div className="flex gap-3">
-                {/* Detail Modal */}
                 <DetailModal
                   isOpen={isDetailOpen}
                   onClose={() => setIsDetailOpen(false)}
@@ -268,7 +265,6 @@ export const MainStudent = () => {
                   loading={deleteLoading}
                 />
 
-                {/*Tambah Data */}
                 <button
                   onClick={() => {
                     setEditingId(null);
@@ -283,7 +279,6 @@ export const MainStudent = () => {
           </div>
         )}
 
-      {/* FORM MODAL */}
       <FormModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

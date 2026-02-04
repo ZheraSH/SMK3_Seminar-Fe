@@ -95,7 +95,6 @@ export default function AttendanceRulesPage() {
             />
           </svg>
 
-          {/* Text */}
           <p className="text-sm text-yellow-700 leading-relaxed">
             <span className="font-semibold">Catatan:</span>{" "}
             Jam Sudah Di Atur Ke Hari Libur, Silahkan Tekan Tombol Simpan Untuk Menyimpan Perubahan!

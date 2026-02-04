@@ -60,7 +60,6 @@ export default function MasterCard() {
 
   return (
     <div className="p-6 space-y-6">
-      {/* HEADER CARD */}
       <div>
         {loading ? (<LoadingData loading={loading} type="header1" />)
           : (
@@ -71,7 +70,6 @@ export default function MasterCard() {
             />
           )}
       </div>
-      {/* SEARCH & BUTTON */}
       {loading ? (<LoadingData loading={loading} type="create" />)
         : (
           <div className="flex flex-col sm:flex-row justify-between gap-3">
@@ -95,7 +93,6 @@ export default function MasterCard() {
           </div>
         )}
 
-      {/* TABLE */}
       <div className="overflow-x-auto border border-gray-200 rounded-lg">
         {loading ? (
           <LoadingData loading={loading} type="tableSchedule" cou />
@@ -144,7 +141,6 @@ export default function MasterCard() {
         )}
       </div>
 
-      {/* MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-[15px] w-full max-w-md">

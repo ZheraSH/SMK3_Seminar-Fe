@@ -12,11 +12,7 @@ export default function useAttendanceStatistics() {
 
         try {
             const result = await getAttendanceStatistics();
-
-            // Get current month (1-12)
             const currentMonthIndex = new Date().getMonth() + 1;
-
-            // Find current month data
             const currentMonthData = result.find(d => d.month === currentMonthIndex) || {
                 hadir: 0,
                 terlambat: 0,
@@ -33,8 +29,6 @@ export default function useAttendanceStatistics() {
                 alpha: currentMonthData.alpha,
                 total: totalCurrent
             };
-
-            // Process monthly trend
             const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
             const monthly_trend = {};
 

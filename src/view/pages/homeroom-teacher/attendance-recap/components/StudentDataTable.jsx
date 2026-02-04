@@ -29,9 +29,7 @@ export function StudentDataTable() {
     <div className="w-full mt-6">
       <h2 className="text-[24px] font-semibold mb-4">Data Siswa</h2>
 
-      {/* FILTER BAR RESPONSIVE */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-5">
-        {/* Search */}
         <div className="flex items-center gap-2 border border-gray-700 rounded-[15px] px-3 py-2 w-full sm:w-[220px]">
           <Search className="w-[22px] h-[22px] text-black-500" />
           <input
@@ -41,7 +39,6 @@ export function StudentDataTable() {
           />
         </div>
 
-        {/* Select */}
         <div className="border border-gray-700 rounded-[15px] px-3 py-2 text-sm flex items-center gap-2 w-full sm:w-fit">
           <select className="appearance-none bg-transparent outline-none text-sm pr-0 w-full sm:w-fit">
             <option>Pilih Kategori</option>
@@ -50,12 +47,10 @@ export function StudentDataTable() {
           <ChevronDown className="w-4 h-4 text-gray-600" />
         </div>
 
-        {/* Date */}
         <button className="border border-gray-700 rounded-[15px] px-3 py-2 text-sm flex items-center gap-2 w-full sm:w-fit">
           <input type="date" className="bg-transparent outline-none" />
         </button>
 
-        {/* RIGHT SIDE BUTTONS */}
         <div className="flex sm:ml-auto gap-3 w-full sm:w-fit">
           <button className="bg-[#10B981] text-white px-4 py-2 rounded-[12px] text-sm w-full sm:w-fit">
             <div className="flex justify-center gap-1.5">
@@ -73,7 +68,6 @@ export function StudentDataTable() {
         </div>
       </div>
 
-      {/* TABLE RESPONSIVE */}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[650px] text-left text-sm border-collapse">
           <thead>

@@ -4,9 +4,8 @@ const MAX_VISIBLE_PAGES = 3;
 export function Pagination({
   currentPage,
   totalPages,
-  onPageClick // Mapping to onPageChange
+  onPageClick 
 }) {
-  // Adapt props to standard names for internal logic
   const page = currentPage;
   const lastPage = totalPages;
   const onPageChange = onPageClick;

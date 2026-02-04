@@ -14,7 +14,6 @@ export default function AttendanceTable() {
       setLoading(true);
       try {
         const response = await fetchRfidLogs();
-        // Assuming the API returns { data: [...] } or just [...]
         if (response?.data) {
           setAttendanceData(response.data);
         } else if (Array.isArray(response)) {
@@ -39,7 +38,6 @@ export default function AttendanceTable() {
 
   return (
     <div className="bg-white rounded-sm shadow-lg overflow-hidden">
-      {/* HEADER */}
       <div className="p-6">
         {loading? (<LoadingData loading={loading} type="kotakKecil"/>)
         :(

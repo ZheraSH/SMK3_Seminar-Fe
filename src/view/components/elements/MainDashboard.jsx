@@ -24,7 +24,6 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
     const stored = localStorage.getItem("userData");
     if (stored) {
       const parsedData = JSON.parse(stored);
-      // Memastikan roles selalu dalam bentuk array agar .length bekerja
       setUser({
         ...parsedData,
         roles: Array.isArray(parsedData.roles) ? parsedData.roles : [parsedData.role || parsedData.roles]
@@ -79,7 +78,6 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
     if (path) {
       navigate(path);
     } else {
-      // Fallback jika role tidak terdaftar di objek di atas
       navigate("/dashboard/profile");
     }
   };

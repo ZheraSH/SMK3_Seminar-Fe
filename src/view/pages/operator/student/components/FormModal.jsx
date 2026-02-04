@@ -19,7 +19,6 @@ export function FormModal({
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
       <div className="bg-white rounded-xl shadow-2xl w-[700px] max-h-[90vh] overflow-y-auto p-6 relative">
-        {/* Tombol Close */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
@@ -32,7 +31,6 @@ export function FormModal({
         </h2>
 
         <form onSubmit={onSubmit} className="grid grid-cols-2 gap-4">
-          {/* Field Nama */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -53,7 +51,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Email */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -74,7 +71,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Foto */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -93,7 +89,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Jenis Kelamin */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -117,7 +112,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field NISN */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -141,7 +135,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Agama */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -170,7 +163,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Tempat Lahir */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -193,7 +185,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Tanggal Lahir */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -216,7 +207,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field No KK */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -240,7 +230,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Saudara Ke */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -266,7 +255,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field No Akta */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -292,7 +280,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Anak Ke */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -318,7 +305,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Alamat */}
           <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -339,7 +325,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Tombol Aksi */}
           <div className="col-span-2 flex justify-end mt-4">
             <button
               type="submit"

@@ -7,7 +7,7 @@ export const fetchDashboardCounters = async () => {
     const res = await api.get(`${API_BASE_URL}/counters`);
     return res.data.data;
   } catch (error) {
-    console.error("❌ API ERROR (counters):", error);
+    console.error(" API ERROR (counters):", error);
     throw error;
   }
 };

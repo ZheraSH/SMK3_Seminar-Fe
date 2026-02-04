@@ -5,13 +5,11 @@ const AddSchoolYearModal = ({ isOpen, onClose, onConfirm, nextYear }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center">
-      {/* Backdrop dengan blur sesuai gambar */}
       <div
         className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
         onClick={onClose}
       />
 
-      {/* Modal Content */}
       <div className="relative bg-white rounded-3xl p-8 shadow-2xl w-[90%] max-w-md transform transition-all animate-in fade-in zoom-in duration-200">
         <div className="text-center">
           <h3 className="text-xl font-semibold text-gray-800 mb-6 leading-relaxed">

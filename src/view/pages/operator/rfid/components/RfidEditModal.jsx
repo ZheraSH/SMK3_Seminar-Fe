@@ -30,7 +30,6 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
 
         <h2 className="text-[24px] font-medium mb-4">Edit Kartu RFID</h2>
 
-        {/* Nama */}
         <div className="mb-3">
           <label className="block text-[14px] text-gray-600 mb-1">Nama Siswa</label>
           <input
@@ -40,7 +39,6 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
           />
         </div>
 
-        {/* RFID */}
         <div className="mb-3">
           <label className="block text-[14px] text-gray-600 mb-1">ID Kartu</label>
           <input
@@ -50,7 +48,6 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
           />
         </div>
 
-        {/* Status */}
         <div className="mb-4">
           <label className="block text-[14px] text-gray-600 mb-1">Status</label>
           <select
@@ -63,7 +60,6 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
           </select>
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-2">
           <button
             onClick={onClose}

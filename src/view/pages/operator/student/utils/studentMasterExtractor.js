@@ -4,17 +4,15 @@ export const extractStudentMasters = (students) => {
   const levelClasses = new Map();
 
   students.forEach((student) => {
-    // gender
     if (student.gender?.value && student.gender?.label) {
       genders.set(student.gender.value, student.gender.label);
     }
 
-    // classroom.name = "XII PPLG 3"
     if (student.classroom?.name) {
       const parts = student.classroom.name.split(" ");
 
-      const level = parts[0]; // XI / XII
-      const major = parts[1]; // PPLG
+      const level = parts[0]; 
+      const major = parts[1]; 
 
       if (level) levelClasses.set(level, level);
       if (major) majors.set(major, major);

@@ -70,7 +70,7 @@ export default function MainStatistikGlobal() {
     total: 0,
   };
   const monthly_trend = statistics?.monthly_trend || {};
-  const proportion = { ...counts }; // Use counts for proportion as well
+  const proportion = { ...counts }; 
 
   const filterOptions = {
     Periode: [
@@ -177,10 +177,7 @@ export default function MainStatistikGlobal() {
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen lg:mb-4 mb-20 ">
-      {/* <Header
-        h1="Statistik Absensi Global"
-        p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
-      /> */}
+     
       {isLoadingStatistics ? (<LoadingData loading={isLoadingStatistics} type=""/>)
       :(
         <Header
@@ -189,36 +186,6 @@ export default function MainStatistikGlobal() {
           src="/images/particle/global01.png"
         />
       )}
-
-
-      {/* <div className="flex flex-wrap gap-3 justify-between items-center mb-6 bg-white px-6 h-[70px] rounded-xl shadow-md ">
-                <h2 className="text-lg font-semibold text-gray-800">Filter Data</h2>
-                <div className="flex flex-wrap gap-3">
-                    
-                    {filters.map((filter) => (
-                        <div key={filter.name} className="relative">
-                            <button onClick={() => toggleDropdown(filter.name)} className={`flex items-center border rounded-lg px-4 py-2 text-sm transition duration-150 ${activeFilter === filter.name ? 'border-blue-500 bg-blue-50' : 'border-gray-400 hover:bg-gray-50'}`}>
-                                {filter.selected.label} <ChevronRight className={`w-4 h-4 ml-2 text-gray-500 transition-transform duration-200 ${activeFilter === filter.name ? 'rotate-90' : 'rotate-0'}`} />
-                            </button>
-                            {activeFilter === filter.name && (
-                                <CustomDropdown title={`Pilih ${filter.name}`} options={filter.options} onClose={() => setActiveFilter(null)} onSelect={(option) => handleSelectOption(filter.name, option)}activeValue={filter.selected.value}/>
-                            )}
-                        </div>
-                    ))}
-
-                    <div className="relative">
-                        <button onClick={() => toggleDropdown('Tanggal')} className={`flex items-center border rounded-lg px-4 py-2 text-sm transition duration-150 ${activeFilter === 'Tanggal' ? 'border-blue-500 bg-blue-50' : 'border-gray-400 hover:bg-gray-50'}`}>
-                            <Calendar className="w-4 h-4 mr-2" /> 
-                            {selectedDateRange.label} 
-                            <ChevronRight className={`w-4 h-4 ml-2 text-gray-500 transition-transform duration-200 ${activeFilter === 'Tanggal' ? 'rotate-90' : 'rotate-0'}`} />
-                        </button>
-                        {activeFilter === 'Tanggal' && (
-                            <CustomDropdown  title="Pilih Tanggal" options={filterOptions.Tanggal} onClose={() => setActiveFilter(null)} onSelect={(option) => handleSelectOption('Tanggal', option)} activeValue={selectedDateRange.value}/>
-                        )}
-                    </div>
-
-                </div>
-            </div> */}
 
       <h2 className="lg:text-[24px] md:text-[18px] sm:text-[14px] font-bold text-gray-800 mb-4 sm:mb-6">
         Ringkasan Statistik Bulan Ini

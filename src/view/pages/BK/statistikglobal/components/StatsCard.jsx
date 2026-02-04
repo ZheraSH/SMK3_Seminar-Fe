@@ -6,7 +6,6 @@ import {
   AlertTriangle
 } from "lucide-react";
 
-/* ================== COLOR MAP ================== */
 
 const COLOR = {
   green: {
@@ -35,7 +34,6 @@ const COLOR = {
   }
 };
 
-/* ================== COMPONENT ================== */
 
 export default function StatsCard({
   title,
@@ -49,7 +47,6 @@ export default function StatsCard({
   return (
     <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 w-full h-[125px] flex flex-col justify-between shadow-sm">
 
-      {/* TOP */}
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[13px] text-gray-500">
@@ -71,7 +68,6 @@ export default function StatsCard({
         </div>
       </div>
 
-      {/* BOTTOM */}
       <div>
         <p className="text-[11px] text-gray-400 mb-1">
           Bulan ini

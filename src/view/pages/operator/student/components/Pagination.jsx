@@ -4,14 +4,14 @@ const MAX_VISIBLE_PAGES = 3;
 export function PaginationStudent({
   page,
   lastPage,
-  onPageClick // Mapping to onPageChange 
+  onPageClick 
 }) {
 
   if (!lastPage || lastPage <= 1) {
     return null;
   }
 
-  const onPageChange = onPageClick; // Adapt prop name
+  const onPageChange = onPageClick; 
 
   let startPage, endPage;
 

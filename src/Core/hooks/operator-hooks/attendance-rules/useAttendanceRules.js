@@ -27,7 +27,6 @@ export default function useAttendanceRules() {
   const [saving, setSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
 
-  // Definisi selectedDayData agar bisa dipakai di handleSave
   const selectedDayData = attendanceRules.find((r) => r.day === selectedDay);
 
   const fetchAttendanceRules = async () => {
@@ -45,7 +44,6 @@ export default function useAttendanceRules() {
             if (r.day === selectedDay) {
               return {
                 ...r,
-                // Mengambil value string jika day berupa object {value: 'monday', label: 'Senin'}
                 day: typeof ruleFromApi.day === 'object' ? ruleFromApi.day.value : ruleFromApi.day,
                 checkin_start: ruleFromApi.checkin_start?.substring(0, 5) || "",
                 checkin_end: ruleFromApi.checkin_end?.substring(0, 5) || "",
@@ -60,7 +58,6 @@ export default function useAttendanceRules() {
       }
     } catch (err) {
       setIsExistingData(false);
-      // Reset form ke kosong jika data tidak ditemukan di DB
       setAttendanceRules((prev) =>
         prev.map((r) => (r.day === selectedDay ? { ...r, checkin_start: "", checkin_end: "", checkout_start: "", checkout_end: "", is_holiday: false } : r))
       );

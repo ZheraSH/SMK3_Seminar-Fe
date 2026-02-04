@@ -120,7 +120,6 @@ export const Main = () => {
                   <th scope="col" className="px-10 py-3 text-center text-[14px] font-medium">Kelas</th>
                   <th scope="col" className="px-10 py-3 text-center text-[14px] font-medium">Status</th>
                   <th scope="col" className="px-10 py-3 text-center text-[14px] font-medium rounded-tr-lg">Total</th>
-                  {/* <th scope="col" className="px-6 py-3 text-center text-[14px] font-medium rounded-tr-lg">Aksi</th> */}
                 </tr>
               </thead>
               <tbody className="bg-white ">
@@ -140,11 +139,7 @@ export const Main = () => {
                     <td className="px-10 py-3 whitespace-nowrap text-sm font-semibold text-[#EF4444] text-center">
                       {siswa.total_alpha}
                     </td>
-                    {/* <td className="px-6 py-4 whitespace-nowrap text-center ">
-                      <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-medium transition shadow-sm">
-                        Lihat &rarr;
-                      </button>
-                    </td> */}
+                   
                   </tr>
                 ))}
                 {alphaStudents.length === 0 && !isLoading && (

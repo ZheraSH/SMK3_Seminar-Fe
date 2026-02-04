@@ -1,5 +1,4 @@
 import MainMonitoringAbsen from "../../view/pages/BK/monitoring Absen/MainAttendanceMonitoring";
-// import StatistikGlobal from "../../view/pages/BK/statistikglobal/MainStatistikGlobal";
 import VerifikasiIzin from "../../view/pages/BK/verifikasi/MainVerifyPermission";
 import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal";
 import MainDashboard from "../../view/components/elements/MainDashboard";

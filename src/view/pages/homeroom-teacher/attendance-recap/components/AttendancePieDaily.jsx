@@ -62,7 +62,6 @@ export function AttendancePieDaily() {
         </p>
       </div>
 
-      {/* Legend */}
       <div className="flex justify-between text-sm mt-2 px-3">
         {pieData.map((item, i) => (
           <div key={i} className="flex items-center gap-1">

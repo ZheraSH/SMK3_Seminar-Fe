@@ -14,11 +14,7 @@ export default function BodyDashboardTeacher() {
           if (storedUser) setUser(JSON.parse(storedUser));
       }, []);
 
-  // const todayDate = new Date().toLocaleDateString('id-ID', {
-  //   day: 'numeric',
-  //   month: 'long',
-  //   year: 'numeric'
-  // });
+  
   
   return (
     <div className="min-h-screen bg-gray-50">

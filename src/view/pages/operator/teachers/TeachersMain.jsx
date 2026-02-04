@@ -48,7 +48,6 @@ export const TeacherMain = () => {
 
   const { Teacher, meta, page, setPage, reload } = useTeacher();
 
-  // Delete Modal State
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -268,7 +267,6 @@ export const TeacherMain = () => {
           </div>
         )}
 
-      {/* FORM MODAL */}
       <TeacherForm
         isOpen={isOpen}
         setIsOpen={setIsOpen}

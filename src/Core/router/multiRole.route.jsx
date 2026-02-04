@@ -2,7 +2,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/TeachingSchedule";
 import AttendanceTeacher from "../../view/pages/teacher/attendance/MainAttendance";
 import MainMonitoringAbsen from "../../view/pages/BK/monitoring Absen/MainAttendanceMonitoring";
-// import StatistikGlobal from "../../view/pages/BK/statistikglobal/MainStatistikGlobal";
 import VerifikasiIzin from "../../view/pages/BK/verifikasi/MainVerifyPermission";
 import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal";
 import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermission";
@@ -28,7 +27,6 @@ export const MultiRoleRoutes = [
           { path: "attendance-teacher", element: <AttendanceTeacher /> },
           { path: "class-recap", element: <ClassRecapHomeRoom /> },
           { path: "monitoring-absen", element: <MainMonitoringAbsen /> },
-          //   { path: "monitoring-class", element: <MainMonitoringAbsen /> },
           { path: "verifikasi-izin", element: <VerifyPermission /> },
           { path: "statistik-global", element: <StatistikGlobal /> },
           { path: "profile", element: <ProfileUser /> },

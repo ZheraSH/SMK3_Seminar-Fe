@@ -16,29 +16,7 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
         );
     };
 
-    // const ActionButton = ({ icon: Icon, color, onClick }) => {
-    //     const isEyeIcon = Icon === Eye;
-    //     const iconBackgroundClass = isEyeIcon ? "" : "bg-white rounded-full";
-        
-    //     let iconColorClass;
-    //     if (isEyeIcon) {
-    //         iconColorClass = "text-white";
-    //     } else if (Icon === Check) {
-    //         iconColorClass = "text-green-600";
-    //     } else if (Icon === X) {
-    //         iconColorClass = "text-red-500";
-    //     } else {
-    //         iconColorClass = "text-blue-600";
-    //     }
-
-    //     return (
-    //         <button onClick={onClick} className={`w-8 h-8 p-2 rounded-lg text-white shadow-md transition-all duration-200 flex items-center justify-center ${color} hover:shadow-lg hover:brightness-105`}>
-    //             <div className={`flex items-center justify-center p-[1px] ${iconBackgroundClass}`}>
-    //                 <Icon size={isEyeIcon ? 20 : 16} strokeWidth={isEyeIcon ? 2.5 : 4} className={iconColorClass}/>
-    //             </div>
-    //         </button>
-    //     );
-    // };
+    
 
 
     return (

@@ -7,7 +7,7 @@ import LoadingData from "../../components/elements/loadingData/loading";
 export default function BodyDashboardMultiRole() {
   const [userRoles, setUserRoles] = useState([]);
   const [user, setUser] = useState({ name: "", email: "" });
-  const [loading, setLoading] = useState(true); // Tambahkan state loading
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("userData"));
@@ -21,7 +21,6 @@ export default function BodyDashboardMultiRole() {
       setUserRoles(roles);
     }
     
-    // Beri sedikit delay agar transisi loading terasa smooth
     const timer = setTimeout(() => setLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);

@@ -28,7 +28,6 @@ export default function FormStudent({ onClose, availableStudents, addStudents })
 
     const filteredStudents = students.filter(s =>
         s.name.toLowerCase().includes(search.toLowerCase()) 
-        // s.nisn.includes(search)
     );
     
     
@@ -78,9 +77,7 @@ export default function FormStudent({ onClose, availableStudents, addStudents })
                                         <div className="flex justify-end">
                                             <span>{s.name}</span>
                                         </div>
-                                        {/* <div className="flex justify-end">
-                                            <span>{s.nisn}</span>
-                                        </div> */}
+                                        
                                     </div>
                                 </label>
                             ))}

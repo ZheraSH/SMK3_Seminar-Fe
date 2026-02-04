@@ -7,7 +7,6 @@ import {
   ResponsiveContainer,
 } from "recharts"
 
-// Dummy data supaya pie tetap render
 const EMPTY_PIE = [
   { name: "Hadir", value: 1 },
   { name: "Terlambat", value: 1 },
@@ -15,7 +14,6 @@ const EMPTY_PIE = [
   { name: "Alpha", value: 1 },
 ]
 
-// Warna aktif & kosong
 const ACTIVE_COLORS = ["#22c55e", "#f59e0b", "#3b82f6", "#ef4444"]
 const EMPTY_COLORS = ["#9ca3af", "#9ca3af", "#9ca3af", "#9ca3af"]
 
@@ -72,7 +70,6 @@ export default function AttendanceChart({
         Hari ini
       </p>
 
-      {/* PIE */}
       <ResponsiveContainer width="100%" height={220}>
         <PieChart>
           <Pie
@@ -89,7 +86,6 @@ export default function AttendanceChart({
             ))}
           </Pie>
 
-          {/* CENTER LABEL */}
           <text
             x="50%"
             y="50%"
@@ -102,7 +98,6 @@ export default function AttendanceChart({
         </PieChart>
       </ResponsiveContainer>
 
-      {/* LEGEND */}
       <div className="mt-4 space-y-2 text-sm">
         {[
           { label: "Hadir", value: total.hadir, color: "#22c55e" },

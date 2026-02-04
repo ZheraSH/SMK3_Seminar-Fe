@@ -25,7 +25,6 @@ export function useStudentSchedule(activeDay) {
         setSchedule(data?.schedules || []);
         setClassroomId(data?.classroom?.name || "-");
 
-        // sementara hardcode (BE belum kirim)
         setSemesterType("Genap");
         setAcademicYear("2024/2025");
       } catch (e) {

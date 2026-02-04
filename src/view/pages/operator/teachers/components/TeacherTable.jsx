@@ -114,12 +114,10 @@ export const TeacherTable = ({
                 transition
               "
             >
-              {/* NO */}
               <td className="px-4 py-3">
                 {startIndex + index + 1}
               </td>
 
-              {/* FOTO */}
               <td className="px-4 py-3">
                 <img
                   src={teacher.image || "/placeholder.svg"}
@@ -128,24 +126,20 @@ export const TeacherTable = ({
                 />
               </td>
 
-              {/* NAMA */}
               <td className="px-4 py-3">
                 <span className="truncate font-medium">
                   {teacher.name}
                 </span>
               </td>
 
-              {/* NIP */}
               <td className="px-4 py-3 hidden sm:table-cell truncate">
                 {teacher.nip || "-"}
               </td>
 
-              {/* GENDER */}
               <td className="px-4 py-3 hidden sm:table-cell truncate">
                 {teacher.gender?.label || "-"}
               </td>
 
-              {/* ROLES */}
               <td className="px-4 py-3 hidden md:table-cell">
                 <div className="flex flex-wrap gap-1">
                   {Array.isArray(teacher.roles) &&
@@ -166,7 +160,6 @@ export const TeacherTable = ({
                 </div>
               </td>
 
-              {/* AKSI */}
               <td className="px-4 py-3">
                 <button
                   ref={(el) =>
@@ -186,7 +179,6 @@ export const TeacherTable = ({
                 </button>
               </td>
 
-              {/* DROPDOWN */}
               {openItemId === teacher.id &&
                 createPortal(
                   <div

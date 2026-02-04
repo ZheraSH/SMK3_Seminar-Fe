@@ -32,7 +32,6 @@ export const getVerifyPermissionBk = async (page = 1, search = "", classId = nul
     }
     };
 
-// show
 export const getPermissionDetailBk = async (permissionId) => {
     
     const url = `/counselor/attendance-permissions/${permissionId}`;

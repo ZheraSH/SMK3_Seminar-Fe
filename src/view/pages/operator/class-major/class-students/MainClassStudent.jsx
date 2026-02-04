@@ -27,7 +27,6 @@ function ModalAddStudent({ open, onClose, classroom, availableStudents, addStude
 }
 
 const ClassStudents = () => {
-    // const { id } = useParams(); 
     const location = useLocation(); 
     const classroomUUID = location.state?.classroomId;
 

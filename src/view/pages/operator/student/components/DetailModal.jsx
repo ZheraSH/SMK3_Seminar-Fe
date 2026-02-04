@@ -42,7 +42,6 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
     <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex justify-center items-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-2xl lg:w-[600px] md:w-[600px] w-full lg:h-[545px] md:h-[545px] h-[635px] -mt-10 transition-all">
 
-        {/* HEADER */}
         <div className="flex justify-between items-center p-6 lg:ml-3 md:ml-3">
           <h2 className="lg:text-[24px] md:text-[24px] text-[18px] font-semibold text-gray-800">
             Detail Siswa
@@ -55,10 +54,8 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
           </button>
         </div>
 
-        {/* CONTENT */}
         <div className="lg:ml-10 ml-6 max-h-[80vh] lg:mx-10 mx-6">
 
-          {/* PROFILE */}
           <div className="flex items-center border-b-2 border-[#9CA3AF] gap-6 pb-4 mb-4 flex-col sm:flex-row">
             <div className="w-[120px] h-[120px] rounded-full overflow-hidden bg-gray-200 border-2 border-[#6B7280] flex-shrink-0">
               {student.image ? (
@@ -87,7 +84,6 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
             </div>
           </div>
 
-          {/* DETAIL GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2 pt-2">
             {detailItems.map((item, index) => (
               <DetailItem
@@ -97,7 +93,6 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
               />
             ))}
 
-            {/* ALAMAT */}
             <div className="sm:col-span-2 mt-4">
               <span className="text-[14px] text-gray-800 flex gap-1">
                 <p className="font-medium">Alamat :</p>

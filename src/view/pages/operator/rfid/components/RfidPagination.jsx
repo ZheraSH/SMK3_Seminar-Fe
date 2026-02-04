@@ -4,7 +4,7 @@ const MAX_VISIBLE_PAGES = 3;
 export function PaginationRfid({
   page,
   lastPage,
-  onPageClick, // Mapping to onPageChange
+  onPageClick, 
 }) {
   if (!lastPage || lastPage <= 1) {
     return null;

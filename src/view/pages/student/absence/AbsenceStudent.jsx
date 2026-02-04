@@ -146,7 +146,7 @@ export default function AbsentStudentMain() {
                         </div>
                         <PaginationAbsenceStudent
                             currentPage={currentPage}
-                            totalPages={pagination.last_page || 1} // fallback 1 agar tetap muncul
+                            totalPages={pagination.last_page || 1} 
                             onPageChange={handlePageChange}
                         />
                     </>

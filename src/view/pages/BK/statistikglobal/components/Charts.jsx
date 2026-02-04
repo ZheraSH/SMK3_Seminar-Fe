@@ -224,14 +224,12 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
     const totalPresent = proportionData.hadir ?? 0;
     const totalLeave = proportionData.izin ?? 0;
     const totalAlpha = proportionData.alpha ?? 0;
-    // const totalSick = proportionData.sakit ?? 0; // Not available in API currently
 
     const finalTotal = totalPresent + totalLeave + totalAlpha;
 
     const formattedData = [
       { label: "Hadir", value: totalPresent, color: " #22C55E", textColor: " #047857" },
       { label: "Izin", value: totalLeave, color: "#0EA5E9", textColor: "#1d4ed8" },
-      // { label: "Sakit", value: totalSick, color: "#F59E0B", textColor: "#b45309" },
       { label: "Alpha", value: totalAlpha, color: "#EF4444", textColor: "#b91c1c" },
     ];
 

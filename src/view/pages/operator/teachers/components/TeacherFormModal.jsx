@@ -260,7 +260,6 @@ export const TeacherForm = ({
                 Pilih Role <span className="text-red-500">*</span>
               </p>
             </label>
-            {/* BUTTON DROPDOWN */}
             <button
               type="button"
               onClick={() =>
@@ -284,7 +283,6 @@ export const TeacherForm = ({
               </p>
             )}
 
-            {/* DROPDOWN */}
             {post.showRoleDropdown && (
               <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-20 max-h-40 overflow-y-auto p-2">
                 {Object.keys(RoleLabels).map((key) => (
@@ -297,7 +295,7 @@ export const TeacherForm = ({
                       checked={post.roles.includes(key)}
                       onChange={(e) => {
                         setPost((prev) => {
-                          let updated = prev.roles.filter((r) => r); // hapus nilai kosong
+                          let updated = prev.roles.filter((r) => r);
 
                           if (e.target.checked) {
                             updated.push(key);

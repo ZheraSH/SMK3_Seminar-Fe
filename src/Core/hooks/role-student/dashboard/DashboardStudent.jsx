@@ -45,8 +45,6 @@ export function DashboardStudent () {
                     setPermissions([]);
                     return;
                     }
-
-                    // ambil 3 terbaru (atau 1 kalau mau)
                     setPermissions(res.data.slice(0, 3));
                 } catch (error) {
                     console.error(error);

@@ -119,8 +119,6 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
 
   useEffect(() => {
     if (Object.keys(globalChanges).length > 0) {
-      // console.log("Isi Global Changes Saat Ini:", globalChanges);
-      // console.log(JSON.stringify(globalChanges, null, 2));
     }
   }, [globalChanges]);
 

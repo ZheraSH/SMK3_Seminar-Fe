@@ -196,7 +196,6 @@ export default function ChartsSection() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-[14px]">
-      {/* LEFT */}
       <div className="space-y-[14px]">
         <div className="space-y-[14px]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
@@ -279,7 +278,6 @@ export default function ChartsSection() {
         </div>
       </div>
 
-      {/* RIGHT */}
       <div className="space-y-6">
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-lg font-bold mb-4">Statistik Kehadiran</h2>

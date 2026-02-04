@@ -14,8 +14,6 @@ export const HomeRoomRoute = [
                 children: [
                     { index: true, element: <HomeRoomHome /> },
                     { path: "home", element: <HomeRoomHome /> },
-                    // { path: "student-class", element: <MainClassStudent /> },
-                    // { path: "student-schedule", element: <MainScheduleStudent  /> },
                     { path: "class-recap", element: <ClassRecapHomeRoom /> },
                     { path: "profile", element: <ProfileUser /> }
                 ]

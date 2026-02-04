@@ -11,8 +11,6 @@ export function PaginationAbsenceStudent({ currentPage, totalPages, onPageChange
         }
     }
 
-    // Selalu render pagination, walaupun 1 page
-    // if (finalTotalPages <= 1 && totalPages > 0) return null; // hapus
 
     return (
         <div className="flex justify-center items-center gap-2 mt-6 select-none">

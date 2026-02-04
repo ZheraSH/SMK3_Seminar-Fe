@@ -11,7 +11,6 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
 
   const {
     attendance,
-    // classroom,
     summary,
     loading,
     error,
