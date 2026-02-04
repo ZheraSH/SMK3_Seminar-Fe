@@ -1,12 +1,27 @@
 import { useState, useEffect, useCallback } from "react";
-import { getProfileOperator, schoolYear, updateProfileOperator } from "../../../api/role-operator/profile/ProfileOperator";
+import { 
+    getProfileOperator, 
+    schoolYear, 
+    updateProfileOperator,
+    getPublicLogo 
+} from "../../../api/role-operator/profile/ProfileOperator";
 
 export default function useProfile() {
     const [loading, setLoading] = useState(true);
-    const [updating, setUpdating] = useState(false); // State khusus saat proses update
+    const [updating, setUpdating] = useState(false);
     const [error, setError] = useState(null);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState(null); 
     const [year, setYear] = useState(null);
+    const [schoolInfo, setSchoolInfo] = useState(null); 
+
+    const fetchLogo = useCallback(async () => {
+        try {
+            const response = await getPublicLogo();
+            if (response) setSchoolInfo(response);
+        } catch (err) {
+            console.error("Gagal load logo sidebar:", err);
+        }
+    }, []);
 
     const fetchProfile = useCallback(async () => {
         setLoading(true);
@@ -38,6 +53,7 @@ export default function useProfile() {
         try {
             const result = await updateProfileOperator(formData);
             await fetchProfile(); 
+            await fetchLogo(); 
             return result;
         } catch (err) {
             setError(err.message || "Gagal memperbarui data");
@@ -48,12 +64,14 @@ export default function useProfile() {
     };
 
     useEffect(() => {
+        fetchLogo(); 
         fetchProfile();
         fetchSchoolYear();
-    }, [fetchProfile, fetchSchoolYear]);
+    }, [fetchProfile, fetchSchoolYear, fetchLogo]);
 
     return { 
         data, 
+        schoolInfo, 
         loading, 
         updating, 
         error, 
@@ -62,9 +80,3 @@ export default function useProfile() {
         handleUpdate 
     };
 }
-
-
-
-
-
-
