@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, ArrowLeftToLine, Type } from "lucide-react";
+import { LogOut, ArrowLeftToLine, EyeOff,Eye } from "lucide-react";
 import fetchProfile from "../../../../Core/hooks/profile/profileAkun/useProfile";
 import LoadingData from "../loadingData/loading";
 import { notify } from "../../../../Core/hooks/notification/notify";
@@ -149,6 +149,10 @@ function FormClassStudent({ onClose, user, refetchProfile }) {
     isUpdating
   } = fetchProfile();
 
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [form, setForm] = useState({
     email: user.email || "",
     current_password: "",
@@ -162,121 +166,131 @@ function FormClassStudent({ onClose, user, refetchProfile }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (imageFile) {
-        await updateUserPhoto(imageFile);
-      }
-
-      if (form.email !== user.email) {
-        await updateUserEmail(form.email);
-      }
-
+      if (imageFile) await updateUserPhoto(imageFile);
+      if (form.email !== user.email) await updateUserEmail(form.email);
       if (form.new_password) {
-        const passwordData = {
+        await updateUserPassword({
           current_password: form.current_password,
           new_password: form.new_password,
           new_password_confirmation: form.new_password_confirmation
-        };
-        await updateUserPassword(passwordData);
+        });
       }
-
       notify("Berhasil Memperbarui Data!", "success");
       if (refetchProfile) await refetchProfile();
       onClose();
     } catch (err) {
-      notify(err.response?.data?.message || "Terjadi kesalahan saat memperbarui data", "error");
+      notify(err.response?.data?.message || "Terjadi kesalahan", "error");
     }
   };
 
   return (
     <div className="relative justify-center mx-0 md:mx-5 pb-5 mt-4">
-      <div>
-        <div className="bg-white w-full rounded-3xl border border-gray-200 shadow-md py-5">
-          <div className="flex flex-col justify-center items-center gap-3">
-            <label className="relative cursor-pointer group">
-              <img
-                src={previewImage}
-                alt="Profile"
-                className="w-[150px] h-[150px] md:w-[180px] md:h-[180px] lg:w-[180px] lg:h-[180px] rounded-full object-cover border-4 border-white group-hover:blur-[3px]"
+      <div className="bg-white w-full rounded-3xl border border-gray-200 shadow-md py-5">
+        <div className="flex flex-col justify-center items-center gap-3">
+          <label className="relative cursor-pointer group">
+            <img src={previewImage} alt="Profile" className="w-[150px] h-[150px] rounded-full object-cover border-4 border-white group-hover:blur-[3px]" />
+            <div className="absolute inset-0 rounded-full flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100">
+              <span className="text-white text-sm font-medium text-center">Ganti Foto<br />Profil</span>
+            </div>
+            <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) { setImageFile(file); setPreviewImage(URL.createObjectURL(file)); }
+            }} />
+          </label>
+          <div className="text-center">
+            <h1 className="text-[24px] font-semibold">{user.name}</h1>
+            <p className="text-[14px]">{user.profile_type === 'student' ? 'Siswa' : 'Karyawan'}</p>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="px-5 md:px-10 mt-6">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
+              <label className="mb-2 font-medium">Email</label>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
               />
-              <div className="absolute inset-0 rounded-full flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100">
-                <span className="text-white text-[16px] md:text-lg font-medium text-center">
-                  Ganti Foto<br />Profil
-                </span>
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-2 font-medium">Password Sekarang</label>
+              <div className="relative">
+                <input
+                  type={showCurrentPassword ? "text" : "password"}
+                  value={form.current_password}
+                  onChange={(e) => setForm({ ...form, current_password: e.target.value })}
+                  className="w-full border border-gray-300 rounded-[8px] p-2 bg-gray-100 pr-10"
+                  placeholder="Masukkan password saat ini"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
-              <input type="file" accept="image/*" className="hidden" onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) { setImageFile(file); setPreviewImage(URL.createObjectURL(file)); }
-              }} />
-            </label>
-            <div className="text-center">
-              <h1 className="text-[24px] font-semibold">{user.name}</h1>
-              <p className="text-[14px]">Siswa</p>
+              <p className="text-sm text-gray-500 italic mt-1"><span className="text-red-600">*</span>Kosongkan jika tidak ingin mengubah</p>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-5">
+              <div className="flex flex-col flex-1">
+                <label className="mb-2 font-medium">Password Baru</label>
+                <div className="relative">
+                  <input
+                    type={showNewPassword ? "text" : "password"}
+                    value={form.new_password}
+                    onChange={(e) => setForm({ ...form, new_password: e.target.value })}
+                    className="w-full border border-gray-300 rounded-[8px] p-2 bg-gray-100 pr-10"
+                    placeholder="Minimal 8 karakter"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-col flex-1">
+                <label className="mb-2 font-medium">Konfirmasi Password Baru</label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={form.new_password_confirmation}
+                    onChange={(e) => setForm({ ...form, new_password_confirmation: e.target.value })}
+                    className="w-full border border-gray-300 rounded-[8px] p-2 bg-gray-100 pr-10"
+                    placeholder="Ulangi password baru"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="px-5 md:px-10 mt-6">
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col">
-                <label className="mb-2 font-medium">Email</label>
-                <input
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="mb-2 font-medium">Password Sekarang</label>
-                <input
-                  type="password"
-                  value={form.current_password}
-                  onChange={(e) => setForm({ ...form, current_password: e.target.value })}
-                  className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
-                  placeholder="Masukkan password saat ini"
-                />
-                <p className="text-sm text-gray-500 italic"><span className="text-red-600">*</span>Kosongkan password jika tidak ingin mengubahnya</p>
-              </div>
-
-              <div className="flex flex-col md:flex-row gap-5">
-                <div className="flex flex-col flex-1">
-                  <label className="mb-2 font-medium">Password Baru</label>
-                  <input
-                    type="password"
-                    value={form.new_password}
-                    onChange={(e) => setForm({ ...form, new_password: e.target.value })}
-                    className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
-                    placeholder="Minimal 8 karakter"
-                  />
-                </div>
-
-                <div className="flex flex-col flex-1">
-                  <label className="mb-2 font-medium">Konfirmasi Password Baru</label>
-                  <input
-                    type="password"
-                    value={form.new_password_confirmation}
-                    onChange={(e) => setForm({ ...form, new_password_confirmation: e.target.value })}
-                    className="border border-gray-300 rounded-[8px] p-2 bg-gray-100"
-                    placeholder="Ulangi password baru"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-4 mt-8">
-              <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-300 rounded-md font-medium">
-                Batal
-              </button>
-              <button
-                type="submit"
-                disabled={isUpdating}
-                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium"
-              >
-                {isUpdating ? "Memproses..." : "Simpan "}
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className="flex justify-end gap-4 mt-8">
+            <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-300 rounded-md font-medium">
+              Batal
+            </button>
+            <button
+              type="submit"
+              disabled={isUpdating}
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium transition-colors"
+            >
+              {isUpdating ? "Memproses..." : "Simpan"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
