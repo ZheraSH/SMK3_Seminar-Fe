@@ -41,7 +41,7 @@ export default function MainClassStudent() {
                 <div className="bg-white flex flex-col gap-3 shadow-md rounded-2xl p-4 border-2 border-gray-300">
                     <h1 className="text-sm md:text-lg font-semibold">Wali Kelas</h1>
                     <div className="flex gap-2 md:gap-5">
-                        <img src={classroom?.homeroom_teacher?.image} alt="wali kelas" className="w-12 h-12 md:w-24 md:h-24 rounded-full" />
+                        <img src={classroom?.homeroom_teacher?.image} alt="wali kelas" className="w-12 h-12 md:w-24 md:h-24 rounded-full object-cover" />
                         <div className="flex flex-col mt-2 md:mt-5">
                             <h2 className="text-[18px] md:text-lg font-medium">{classroom?.homeroom_teacher?.name}</h2>
                             <p className="font-light text-[10px] md:text-sm">Tahun Ajaran {classroom?.school_year}</p>
