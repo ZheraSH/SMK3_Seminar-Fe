@@ -28,32 +28,23 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
   ], []);
 
   const checkTimeValidity = useCallback(() => {
-    if (!date || !lessonSchedule?.lesson_hour) {
-      const selected = new Date(date).setHours(0, 0, 0, 0);
-      const today = new Date().setHours(0, 0, 0, 0);
-      setIsPastDate(selected < today);
-      setIsFutureDate(selected > today);
-      return;
-    }
+  const now = new Date();
+  const selectedDate = new Date(date);
+  
+  const endOfToday = new Date(selectedDate);
+  endOfToday.setHours(23, 59, 59, 999);
 
-    const now = new Date();
-    const selectedDate = new Date(date);
-
-    const endTime = lessonSchedule.lesson_hour.end_time;
-    const [endHour, endMinute, endSecond] = endTime.split(':').map(Number);
-
-    const startTime = lessonSchedule.lesson_hour.start_time;
-    const [startHour, startMinute, startSecond] = startTime.split(':').map(Number);
-
-    const endDateTime = new Date(selectedDate);
-    endDateTime.setHours(endHour, endMinute, endSecond || 0, 0);
-
+  const startTime = lessonSchedule?.lesson_hour?.start_time;
+  if (startTime) {
+    const [startHour, startMinute] = startTime.split(':').map(Number);
     const startDateTime = new Date(selectedDate);
-    startDateTime.setHours(startHour, startMinute, startSecond || 0, 0);
+    startDateTime.setHours(startHour, startMinute, 0, 0);
+    
+    setIsFutureDate(now < startDateTime); 
+  }
 
-    setIsPastDate(now > endDateTime);
-    setIsFutureDate(now < startDateTime);
-  }, [date, lessonSchedule]);
+  setIsPastDate(now > endOfToday);
+}, [date, lessonSchedule]);
 
   useEffect(() => {
     checkTimeValidity();
@@ -71,22 +62,28 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
 
   const fetchInitialSummary = useCallback(async () => {
     if (!selectedClass?.id || !date) return;
+    
     try {
       const currentOrder = selectedClass.lesson?.order || selectedClass.lesson_order;
       const firstRes = await getCrossCheckData(selectedClass.id, date, currentOrder, 1);
 
       if (firstRes.status && firstRes.data) {
         const lastPage = firstRes.data.pagination.last_page;
+        const allPagesData = [];
 
-        const pagePromises = [];
-        for (let i = 1; i <= lastPage; i++) {
-          pagePromises.push(
-            getCrossCheckData(selectedClass.id, date, currentOrder, i)
-              .then(res => ({ page: i, students: res.data.students }))
-          );
+        allPagesData.push({ page: 1, students: firstRes.data.students });
+
+        if (lastPage > 1) {
+          const promises = [];
+          for (let i = 2; i <= lastPage; i++) {
+            promises.push(
+              getCrossCheckData(selectedClass.id, date, currentOrder, i)
+                .then(res => ({ page: i, students: res.data.students }))
+            );
+          }
+          const remainingResults = await Promise.all(promises);
+          allPagesData.push(...remainingResults);
         }
-
-        const results = await Promise.all(pagePromises);
 
         setGlobalChanges((prev) => {
           const classKey = selectedClass.id;
@@ -95,7 +92,7 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
           if (!updated[classKey]) updated[classKey] = {};
           if (!updated[classKey][dateKey]) updated[classKey][dateKey] = {};
 
-          results.forEach(({ page: pNum, students }) => {
+          allPagesData.forEach(({ page: pNum, students }) => {
             if (!updated[classKey][dateKey][pNum]) updated[classKey][dateKey][pNum] = {};
             students.forEach(s => {
               if (!updated[classKey][dateKey][pNum][s.id]) {
@@ -105,10 +102,11 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
           });
           return updated;
         });
+        
         setIsInitialLoaded(true);
       }
     } catch (err) {
-      console.error("Gagal sinkronisasi summary:", err);
+      console.error("Gagal sinkronisasi summary seluruh halaman:", err);
     }
   }, [selectedClass?.id, date, setGlobalChanges]);
 
