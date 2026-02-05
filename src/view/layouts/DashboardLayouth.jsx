@@ -11,7 +11,7 @@ export const DashboardLayouth = () => {
   const location = useLocation();
   const scrollRef = useRef(null);
   
-  const { schoolInfo,data } = useProfile();
+  const { schoolInfo } = useProfile();
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState({ roles: [] });
@@ -99,7 +99,7 @@ export const DashboardLayouth = () => {
               <img src={schoolInfo?.logo} className="w-10 h-10 " alt="SMKN Logo"/>
               {sidebarOpen && (
                 <h1 className="flex-wrap text-[16px] font-semibold">
-                   {data?.name || "-"} 
+                   {schoolInfo ?.name || "-"} 
                 </h1>
               )}
             </div>
