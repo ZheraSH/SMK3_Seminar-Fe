@@ -1,7 +1,7 @@
 import { notify } from "../../../../Core/hooks/notification/notify";
 import api from "../../axiosConfig";
 
-export const getVerifyPermissionBk = async (page = 1, search = "", classId = null) => {
+export const getVerifyPermissionBk = async (page = 1, search = "", classId = null, type = null, status = null) => {
     const params = new URLSearchParams({ page: page });
 
     if (search) {
@@ -9,7 +9,15 @@ export const getVerifyPermissionBk = async (page = 1, search = "", classId = nul
     }
 
     if (classId && typeof classId === 'string' && classId.trim() !== '') {
-        params.append('filter', classId.trim()); 
+        params.append('classroom', classId.trim()); 
+    }
+
+    if (type && type !== 'all') {
+        params.append('type', type);
+    }
+
+    if (status && status !== 'all') {
+        params.append('status', status);
     }
 
     const url = `/counselor/attendance-permissions?${params.toString()}`;

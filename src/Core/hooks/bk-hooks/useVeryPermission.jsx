@@ -15,6 +15,8 @@ export function useVerifyPermissionData(fetchApi) {
     const [perPage, setPerPage] = useState(8);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [selectedClassId, setSelectedClassId] = useState(ALL_CLASSES_VALUE);
+    const [selectedType, setSelectedType] = useState('all');
+    const [selectedStatus, setSelectedStatus] = useState('all');
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -66,12 +68,22 @@ export function useVerifyPermissionData(fetchApi) {
         setCurrentPage(1);
     }, []);
 
+    const handleTypeSelect = useCallback((value) => {
+        setSelectedType(value);
+        setCurrentPage(1);
+    }, []);
+
+    const handleStatusSelect = useCallback((value) => {
+        setSelectedStatus(value);
+        setCurrentPage(1);
+    }, []);
+
     useEffect(() => {
         const fetchPermissions = async () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetchApi(currentPage, debouncedSearch, selectedClassId);
+                const response = await fetchApi(currentPage, debouncedSearch, selectedClassId,selectedType,selectedStatus);
 
                 if (!response || !response.data) {
                     setPermissions([]);
@@ -91,7 +103,7 @@ export function useVerifyPermissionData(fetchApi) {
             }
         };
         fetchPermissions();
-    }, [currentPage, fetchApi, refreshTrigger, debouncedSearch, selectedClassId]);
+    }, [currentPage, fetchApi, refreshTrigger, debouncedSearch, selectedClassId,selectedType,selectedStatus]);
 
     return {
         permissions,
@@ -107,6 +119,10 @@ export function useVerifyPermissionData(fetchApi) {
         handleSearchChange,
         selectedClassId,
         handleClassSelect,
-        options: { classes: classOptions } 
+        options: { classes: classOptions } ,
+        selectedType,
+        handleTypeSelect,
+        selectedStatus,
+        handleStatusSelect,
     };
 }
