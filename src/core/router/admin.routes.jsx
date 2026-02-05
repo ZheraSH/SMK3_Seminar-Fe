@@ -49,10 +49,6 @@ export const AdminRoutes = [
     ],
   },
   {
-    path: "/",
-    element: <Login />,
-  },
-  {
     path: "*",
     element: <NotFound />,
   },
