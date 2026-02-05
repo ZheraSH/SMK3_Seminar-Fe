@@ -76,7 +76,7 @@ export const Main = () => {
                   <span className="text-2xl font-semibold text-black">
                     {card.count}
                   </span>
-                  <p className="text-xs lg:text-sm font-medium text-gray-500 whitespace-nowrap">{card.label}</p>
+                  <p className="text-xs lg:text-[12px] font-bold  whitespace-nowrap">{card.label}</p>
                 </div>
                 <div className={`p-3 ${card.bgIcon} rounded-lg`}>
                   <svg
