@@ -9,6 +9,20 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
 
   if (!isOpen || !permission) return null;
 
+  const formatDate = (dateString) => {
+        if (!dateString) return "-";
+        
+        const date = new Date(dateString);
+        
+        if (isNaN(date.getTime())) return "-";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); 
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    };
+
   return (
     <>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center p-4 z-50">
@@ -67,8 +81,12 @@ export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
               value={permission.type?.label || "-"}
             />
             <DetailRow
-              label="Tanggal"
-              value={permission.date?.start || "-"}
+              label="Tanggal Mulai"
+              value={formatDate(permission.date?.start) || "-"}
+            />
+            <DetailRow
+              label="Tanggal Berakhir"
+              value={formatDate(permission.date?.end) || "-"}
             />
             <DetailRow
               label="Status"

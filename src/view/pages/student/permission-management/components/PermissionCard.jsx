@@ -2,10 +2,18 @@
 import { X } from "lucide-react";
 import { getStatusColor } from "../utils/statusHelpers";
 
-const formatDateIndonesia = (dateString) => {
+const formatDate = (dateString) => {
   if (!dateString) return "-";
+  
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }).format(date);
+  
+  if (isNaN(date.getTime())) return "-";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); 
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
 };
 
 export const PermissionCard = ({ permission, onViewDetail, onDelete }) => {
@@ -26,7 +34,7 @@ export const PermissionCard = ({ permission, onViewDetail, onDelete }) => {
         <div className="text-[14px] text-gray-600 mt-2 mb-2 flex justify-between">
           <div>
             <p className="pb-1 text-[10px]">Tanggal Izin: </p>
-            <span className="font-semibold text-[13px]"> {formatDateIndonesia(permission.date.start)} - {formatDateIndonesia(permission.date.end)} </span>
+            <span className="font-semibold text-[13px]"> {formatDate(permission.date.start)} - {formatDate(permission.date.end)} </span>
           </div>
           <div>
             <p className="pb-1 text-[10px]">Status :</p>

@@ -1,44 +1,46 @@
 "use client";
 
-import { useState, useEffect,} from "react";
-import {  fetchPermissionsApi,  fetchPendingPermissionsApi,  handleSubmitPermission } from "../../../api/role-student/student-permission/Permission";
+import { useState, useEffect, useCallback } from "react";
+import {  fetchPermissionsApi,  fetchPendingPermissionsApi,  handleSubmitPermission,deletePermissionApi } from "../../../api/role-student/student-permission/Permission";
 import { notify } from "../../notification/notify";
 
 export function usePermissions() {
   const [permissions, setPermissions] = useState([]);
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(1);
-  
   const [pendingPermissions, setPendingPermissions] = useState([]);
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchPending = async () => {
+  const [permissionToDelete, setPermissionToDelete] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  const fetchPending = useCallback(async (start = startDate, end = endDate) => {
     try {
-      const data = await fetchPendingPermissionsApi();
+      const data = await fetchPendingPermissionsApi(start, end);
       setPendingPermissions(data || []);
     } catch (err) {
       console.error("Gagal mengambil data pending:", err);
     }
-  };
+  }, [startDate, endDate]);
 
-  const fetchHistory = async (currentPage = page) => {
+  const fetchHistory = useCallback(async (currentPage = page, start = startDate, end = endDate) => {
     try {
       setLoading(true);
-      const data = await fetchPermissionsApi(currentPage);
+      const data = await fetchPermissionsApi(currentPage, start, end);
       setPermissions(data.data || []);
       setMeta(data.meta || {});
       setError(null);
     } catch (err) {
-      console.error(err);
-      setPermissions([]);
-      setMeta({});
       setError("Gagal mengambil data izin");
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, startDate, endDate]);
 
   const refreshAll = async () => {
     await Promise.all([fetchPending(), fetchHistory(1)]);
@@ -66,13 +68,48 @@ export function usePermissions() {
     }
   };
 
-  useEffect(() => {
-    fetchPending();
-  }, []);
+  const openDeleteModal = (id) => {
+    setPermissionToDelete(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setPermissionToDelete(null);
+    setIsDeleteModalOpen(false);
+  };
+
+  const confirmDelete = async () => {
+  if (!permissionToDelete) return;
+  setIsDeleting(true);
+  try {
+    await deletePermissionApi(permissionToDelete);
+    notify("Izin berhasil dibatalkan");
+    
+    await fetchPending(); 
+    await fetchHistory(page); 
+    
+    closeDeleteModal();
+  } catch (err) {
+   const serverMessage = err.response?.data?.message || "Gagal membatalkan izin";
+    notify(serverMessage, "error");
+    console.log(serverMessage);
+  } finally {
+    setIsDeleting(false);
+  }
+};
+
+  // useEffect(() => {
+  //   fetchPending();
+  // }, []);
 
   useEffect(() => {
-    fetchHistory(page);
-  }, [page]);
+    fetchPending(startDate, endDate);
+    fetchHistory(page,startDate, endDate);
+  }, [page,startDate, endDate, fetchPending, fetchHistory]);
 
-  return { permissions,pendingPermissions,meta, loading, error, page, setPage, fetchHistory, fetchPending, handleSubmit };
+  return { permissions,pendingPermissions,meta, loading, error, page, setPage, fetchHistory, fetchPending, handleSubmit,isDeleteModalOpen, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete, startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+};
 }

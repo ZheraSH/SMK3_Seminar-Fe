@@ -9,15 +9,24 @@ const getAuthHeaders = () => {
   return { Authorization: `Bearer ${token}` };
 };
 
-export async function fetchPendingPermissionsApi() {
+export async function fetchPendingPermissionsApi(startDate = "", endDate = "") {
   const res = await api.get(`/student/attendance-permissions/pending`, {
+    params: {
+      start_date: startDate,
+      end_date: endDate
+    }
   });
   return res.data.data;
 }
 
-export async function fetchPermissionsApi(page = 1) {
+export async function fetchPermissionsApi(page = 1,startDate = "", endDate = "") {
   const res = await api.get(`/student/attendance-permissions`, {
-    params: { page },
+    params: {
+      page,
+      start_date: startDate,
+      end_date: endDate
+      
+      },
   });
   return res.data;
 }
@@ -75,9 +84,6 @@ export async function handleSubmitPermission(formData) {
 }
 
 export async function deletePermissionApi(UuidPermit) {
-  const headers = getAuthHeaders();
-  await axios.delete(`${BASE_URL}/api/student/attendance-permissions/${UuidPermit}`, {
-    headers,
-  });
-  return { success: true };
+  const res = await api.delete(`/student/attendance-permissions/${UuidPermit}`);
+  return { success: true, data: res.data };
 }
