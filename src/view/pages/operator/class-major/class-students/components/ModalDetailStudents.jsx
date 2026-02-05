@@ -8,11 +8,26 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
         return genderCode === 'L' ? 'Laki-laki' : genderCode === 'P' ? 'Perempuan' : genderCode;
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return "-";
+        
+        const date = new Date(dateString);
+        
+        if (isNaN(date.getTime())) return "-";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); 
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    };
+
+
     const detailItems = [
         { label: "NISN", value: student?.nisn || '-' },
         { label: "Jenis Kelamin", value: getGenderLabel(student?.gender.label) || '-' },
         { label: "Tempat Lahir", value: student?.birth_place || '-' },
-        { label: "Tanggal Lahir", value: student?.birth_date || '-' },
+        { label: "Tanggal Lahir", value: formatDate(student?.birth_date) || '-' },
         { label: "Nomor KK", value: student?.number_kk || '-' },
         { label: "Nomor Akta", value: student?.number_akta || '-' },
         { label: "Anak ke -", value: student?.order_child || '-' },

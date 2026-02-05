@@ -1,4 +1,19 @@
 export default function TableRecap ({ table = [] ,calculateNumber,}) { 
+
+  const formatDate = (dateString) => {
+        if (!dateString) return "-";
+        
+        const date = new Date(dateString);
+        
+        if (isNaN(date.getTime())) return "-";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); 
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    };
+
     return(
         <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
@@ -37,7 +52,7 @@ export default function TableRecap ({ table = [] ,calculateNumber,}) {
                       {item.status ?? "—"}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-center text-gray-500 whitespace-nowrap">{item.date ?? "-"}</td>
+                  <td className="px-6 py-4 text-center text-gray-500 whitespace-nowrap">{formatDate(item.date) ?? "-"}</td>
                 </tr>
               ))
             ) : (

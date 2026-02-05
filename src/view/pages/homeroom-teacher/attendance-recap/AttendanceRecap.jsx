@@ -20,11 +20,20 @@ export default function RecapClass() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { header,card,table,pagination,goToPage,loading,calculateNumber,searchQuery,setSearchQuery,refreshData,downloading,downloadRecap,selectedStatus,setSelectedStatus } = UseRecap(selectedDate);
 
-  const formatDateDisplay = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric",});
-  };
+  const formatDate = (dateString) => {
+        if (!dateString) return "-";
+        
+        const date = new Date(dateString);
+        
+        if (isNaN(date.getTime())) return "-";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); 
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    };
+
 
     const handleRefresh = () => {
         refreshData()
@@ -85,7 +94,7 @@ export default function RecapClass() {
 
               <div className="relative w-full md:w-[170px] h-[45px] group">
                 <div className="absolute inset-0 z-0 bg-white rounded-full border border-gray-200 flex items-center justify-between px-5 pointer-events-none group-hover:border-blue-400 transition-all">
-                  <span className="text-sm font-semibold text-gray-600">{formatDateDisplay(selectedDate)}</span>
+                  <span className="text-sm font-semibold text-gray-600">{formatDate(selectedDate)}</span>
                   <CalendarCog size={18} className="text-gray-400" />
                 </div>
                 <input type="date" value={selectedDate} 
