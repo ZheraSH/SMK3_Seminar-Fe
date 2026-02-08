@@ -6,7 +6,7 @@ import Login from "../../view/components/elements/login/MainLogin";
 
 export const LandingRoutes = [
     {
-        path: "/kacaw",
+        path: "/lp",
         element: <HomeLayouth />,
         children: [
             // {
