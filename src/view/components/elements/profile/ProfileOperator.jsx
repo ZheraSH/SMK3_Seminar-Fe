@@ -1,8 +1,8 @@
 "use client";
 
-import { useState,useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, ArrowLeftToLine,ChevronRight  } from "lucide-react";
+import { LogOut, ArrowLeftToLine, ChevronRight } from "lucide-react";
 import LoadingData from "../loadingData/loading";
 import useProfile from "../../../../Core/hooks/operator-hooks/profile/useProfileOperator";
 import { notify } from "../../../../Core/hooks/notification/notify";
@@ -17,7 +17,7 @@ export default function ProfileOperator() {
       <FormClassStudent
         onClose={() => setIsOpenFrom(false)}
         user={data}
-        onUpdate={handleUpdate} 
+        onUpdate={handleUpdate}
         isUpdating={updating}
         error={error}
       />
@@ -46,14 +46,14 @@ export default function ProfileOperator() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
           <div className="flex items-center gap-4 w-full md:w-auto">
             <div className="w-20 h-20 md:w-28 md:h-28 flex-shrink-0 rounded-2xl border border-gray-100 flex items-center justify-center p-2 overflow-hidden bg-white shadow-sm">
-              <img 
-                src={data?.logo} 
-                alt="Logo Sekolah" 
-                className="w-full h-full object-contain" 
-                onError={(e) => {e.target.src = "https://via.placeholder.com/100?text=LOGO"}}
+              <img
+                src={data?.logo}
+                alt="Logo Sekolah"
+                className="w-full h-full object-contain"
+                onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=LOGO" }}
               />
             </div>
-              
+
             <div className="flex-1">
               <h1 className="text-lg md:text-xl font-bold text-gray-900 mb-1 leading-tight">
                 {data?.name || "-"}
@@ -89,7 +89,7 @@ export default function ProfileOperator() {
           <button onClick={() => navigate(-1)} className="text-gray-400 hover:text-gray-600 font-medium text-sm flex items-center gap-2">
             <ArrowLeftToLine size={18} /> <span>Kembali</span>
           </button>
-          <button onClick={() => { localStorage.clear(); navigate("/"); }} className="text-red-400 hover:text-red-600 font-medium text-sm flex items-center gap-2">
+          <button onClick={() => { localStorage.clear(); navigate("/login"); }} className="text-red-400 hover:text-red-600 font-medium text-sm flex items-center gap-2">
             <LogOut size={18} /> <span>Logout</span>
           </button>
         </div>
@@ -100,7 +100,7 @@ export default function ProfileOperator() {
 
 function InfoRow({ label, value, alignTop = false }) {
   return (
-    
+
     <div className={`flex flex-col sm:flex-row ${alignTop ? 'items-start' : 'items-start sm:items-center'} gap-1 sm:gap-0`}>
       <div className="w-full sm:w-40 md:w-48 flex-shrink-0 font-bold text-gray-800 text-sm md:text-base">
         {label}
@@ -139,9 +139,8 @@ const CustomSelect = ({ label, options, value, onChange }) => {
           {selectedOption ? selectedOption.label : label}
         </span>
         <ChevronRight
-          className={`w-4 h-4 text-gray-400 transition-transform ${
-            isOpen ? "rotate-90" : "rotate-0"
-          }`}
+          className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? "rotate-90" : "rotate-0"
+            }`}
         />
       </button>
 
@@ -155,11 +154,10 @@ const CustomSelect = ({ label, options, value, onChange }) => {
                 onChange(opt.value);
                 setIsOpen(false);
               }}
-              className={`block w-full text-left text-sm px-3 py-2 rounded-lg transition ${
-                value === opt.value
+              className={`block w-full text-left text-sm px-3 py-2 rounded-lg transition ${value === opt.value
                   ? "bg-blue-100 text-blue-700 font-semibold"
                   : "hover:bg-gray-50 text-gray-700"
-              }`}
+                }`}
             >
               {opt.label}
             </button>
@@ -184,7 +182,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
     email: user?.email || "",
     phone: user?.phone || "",
     address: user?.address || "",
-    school_type: getStringValue(user?.school_type), 
+    school_type: getStringValue(user?.school_type),
     accreditation: getStringValue(user?.accreditation),
     npsn: user?.npsn || "",
   });
@@ -201,7 +199,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
         email: user.email || "",
         phone: user.phone || "",
         address: user.address || "",
-        school_type: getStringValue(user.school_type), 
+        school_type: getStringValue(user.school_type),
         accreditation: getStringValue(user.accreditation),
         npsn: user.npsn || "",
       });
@@ -211,8 +209,8 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLocalError({}); 
-    
+    setLocalError({});
+
     try {
       const formData = new FormData();
       formData.append("name", form.name);
@@ -243,8 +241,8 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
 
   const inputStyle = (fieldName) => `
     w-full bg-[#F8FAFC] border rounded-xl px-4 py-2.5 text-sm outline-none transition
-    ${localError[fieldName] 
-      ? "border-red-500 focus:ring-2 focus:ring-red-500/20" 
+    ${localError[fieldName]
+      ? "border-red-500 focus:ring-2 focus:ring-red-500/20"
       : "border-gray-200 focus:ring-2 focus:ring-blue-500/20"}
   `;
 
@@ -262,7 +260,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
           </div>
 
           <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-6">
-            
+
             <div className="flex flex-col items-center justify-center gap-4 py-4">
               <div className="w-32 h-32 md:w-40 md:h-40 flex items-center justify-center border-2 border-dashed border-gray-200 rounded-xl overflow-hidden bg-gray-50">
                 <img src={previewImage} alt="Logo Sekolah" className="max-w-full max-h-full object-contain p-2" />
@@ -271,7 +269,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
                 Ganti Logo
                 <input type="file" className="hidden" accept="image/*" onChange={(e) => {
                   const file = e.target.files[0];
-                  if(file) {
+                  if (file) {
                     setImageFile(file);
                     setPreviewImage(URL.createObjectURL(file));
                   }
@@ -286,7 +284,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
                   required
                   type="text"
                   value={form.name}
-                  onChange={(e) => setForm({...form, name: e.target.value})}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className={inputStyle("name")}
                 />
                 {localError.name && <p className="text-red-500 text-[11px] mt-1 ml-1">* {localError.name}</p>}
@@ -298,7 +296,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
                   required
                   type="text"
                   value={form.principal_name}
-                  onChange={(e) => setForm({...form, principal_name: e.target.value})}
+                  onChange={(e) => setForm({ ...form, principal_name: e.target.value })}
                   className={inputStyle("principal_name")}
                 />
                 {localError.principal_name && <p className="text-red-500 text-[11px] mt-1 ml-1">* {localError.principal_name}</p>}
@@ -310,7 +308,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
                   required
                   type="email"
                   value={form.email}
-                  onChange={(e) => setForm({...form, email: e.target.value})}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
                   className={inputStyle("email")}
                 />
                 {localError.email && <p className="text-red-500 text-[11px] mt-1 ml-1">* {localError.email}</p>}
@@ -322,7 +320,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
                   required
                   type="text"
                   value={form.phone}
-                  onChange={(e) => setForm({...form, phone: e.target.value})}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className={inputStyle("phone")}
                 />
                 {localError.phone && <p className="text-red-500 text-[11px] mt-1 ml-1">* {localError.phone}</p>}
@@ -334,7 +332,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
                   required
                   rows="3"
                   value={form.address}
-                  onChange={(e) => setForm({...form, address: e.target.value})}
+                  onChange={(e) => setForm({ ...form, address: e.target.value })}
                   className={inputStyle("address") + " resize-none"}
                 ></textarea>
                 {localError.address && <p className="text-red-500 text-[11px] mt-1 ml-1">* {localError.address}</p>}
@@ -369,7 +367,7 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
                 <input
                   type="text"
                   value={form.npsn}
-                  onChange={(e) => setForm({...form, npsn: e.target.value})}
+                  onChange={(e) => setForm({ ...form, npsn: e.target.value })}
                   className={inputStyle("npsn")}
                 />
                 {localError.npsn && <p className="text-red-500 text-[11px] mt-1 ml-1">* {localError.npsn}</p>}

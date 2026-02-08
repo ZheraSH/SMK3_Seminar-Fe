@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, ArrowLeftToLine, EyeOff,Eye } from "lucide-react";
+import { LogOut, ArrowLeftToLine, EyeOff, Eye } from "lucide-react";
 import fetchProfile from "../../../../Core/hooks/profile/profileAkun/useProfile";
 import LoadingData from "../loadingData/loading";
 import { notify } from "../../../../Core/hooks/notification/notify";
@@ -111,7 +111,7 @@ export default function ProfileUser() {
             <button
               onClick={() => {
                 localStorage.removeItem("userData");
-                navigate("/");
+                navigate("/login");
               }}
               className="flex items-center gap-2 text-red-500 hover:text-red-900 md:text-[20px] lg:text-[16px] font-medium transition"
             >
