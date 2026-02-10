@@ -1,34 +1,45 @@
-import axios from "axios"
+import api from "../../axiosConfig";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api/dashboard"
+const API_BASE_URL = "/dashboard";
 
-export const fetchCounters = async () => {
+export const fetchDashboardCounters = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/counters`)
-    return res.data.data
-  } catch (err) {
-    console.error("Error fetching counters:", err)
-    return {}
+    const res = await api.get(`${API_BASE_URL}/counters`);
+    return res.data.data;
+  } catch (error) {
+    console.error(" API ERROR (counters):", error);
+    throw error;
   }
-}
+};
 
-export const fetchActivities = async () => {
-  try {
-    const res = await axios.get(`${API_BASE_URL}/activities`)
-    const payload = res.data?.data
-    return Array.isArray(payload) ? payload : []
-  } catch (err) {
-    console.error("Error fetching activities:", err)
-    return []
-  }
-}
 
-export const fetchStats = async () => {
+export const fetchTapHistory = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/stats`)
-    return res.data.data
+    const res = await api.get(`${API_BASE_URL}/tap-history`);
+    return res.data.data;
   } catch (err) {
-    console.error("Error fetching stats:", err)
-    return {}
+    console.error("TAP HISTORY ERROR:", err);
+    throw err;
   }
-}
+};
+
+export const fetchStatisticToday = async () => {
+  try {
+    const res = await api.get(`${API_BASE_URL}/statistic-today`);
+    return res.data.data;
+  } catch (err) {
+    console.error("STAT TODAY ERROR:", err);
+    throw err;
+  }
+};
+
+
+export const fetchStatisticMonthly = async () => {
+  try {
+    const res = await api.get(`${API_BASE_URL}/statistic-monthly`);
+    return res.data.data;
+  } catch (err) {
+    console.error("STAT MONTHLY ERROR:", err);
+    throw err;
+  }
+};

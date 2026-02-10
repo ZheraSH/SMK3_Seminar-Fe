@@ -1,53 +1,45 @@
-import { useEffect, useState } from "react";
-import {
-  getTodaySchedule,
-  getClassroomList,
-} from "../../../api/role-teacher/dashboard-teachers/teacherDashboard.api";
+import { useEffect, useState, useCallback } from "react";
+import { getDashboardClassroom, getDashboardSchedule } from "../../../api/role-teacher/dashboard-teachers/teacherDashboard.api";
 
 export function useTeacherDashboard() {
-  const [schedule, setSchedule] = useState([]);
-  const [classrooms, setClassrooms] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const load = async () => {
-    setLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const [scheduleRes, classroomRes] = await Promise.all([
-        getTodaySchedule(),
-        getClassroomList(),
-      ]);
-
-      setSchedule(scheduleRes || []);
-      setClassrooms(classroomRes || []);
-    } catch (err) {
-      console.error("Error load dashboard teacher:", err);
-      setSchedule([]);
-      setClassrooms([]);
-    } finally {
-      setLoading(false);
-    }
+  const getTodayIndonesian = () => {
+    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    return days[new Date().getDay()];
   };
 
-  useEffect(() => {
-    load();
-  }, []);
+  const [activeDay, setActiveDay] = useState(getTodayIndonesian());
+  const [schedule, setSchedule] = useState([]);
+  const [classrooms, setClassrooms] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); 
 
-  useEffect(() => {
+  const fetchData = useCallback(async (day) => {
+    setIsLoading(true); 
     try {
-      const stored = JSON.parse(localStorage.getItem("userData"));
-      setUserName(stored?.name ?? "");
-    } catch {
-      setUserName("");
+      
+      const [classroomData, scheduleData] = await Promise.all([
+        getDashboardClassroom(day),
+        getDashboardSchedule(day)
+      ]);
+
+      setClassrooms(classroomData || []);
+      setSchedule(scheduleData || []);
+      
+    } catch (error) {
+      console.error("Error loading dashboard data:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
+  useEffect(() => {
+    fetchData(activeDay);
+  }, [activeDay, fetchData]);
+
   return {
+    activeDay,
+    setActiveDay,
     schedule,
     classrooms,
-    userName,
-    loading,
+    isLoading,
   };
 }

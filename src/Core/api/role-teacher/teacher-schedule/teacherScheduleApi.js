@@ -1,18 +1,19 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
-export async function fetchDailyScheduleApi(date) {
-  const token = localStorage.getItem("token");
-  if (!token) return [];
+export async function fetchDailyScheduleApi(day) {
 
-  const res = await axios.get(
-    "http://127.0.0.1:8000/api/teacher/schedule/daily",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-      params: { date },
-    }
-  );
-  return res.data?.data ?? [];
+  try {
+    const res = await api.get(
+      `/teacher/schedules/${day}`, 
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+    return res.data?.data ?? [];
+  } catch (error) {
+    console.error("API Error:", error);
+    return [];
+  }
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   fetchLessonHoursByDay,
   addLessonHour,
+  UpdateLessonHour,
   deleteLessonHour,
 } from "../../../api/lesson-shedule/lessonHoursApi";
 
@@ -42,9 +43,18 @@ export default function useLessonHours(activeDayApi) {
     }
   };
 
-  const deleteLesson = async (id, name) => {
-   
+  const updateLesson = async (id, dataToSend) => {
+    try {
+      await UpdateLessonHour(id, dataToSend);
+      await loadLessonHours();
+      return { success: true };
+    } catch (error) {
+      const errorMessage = error.message || "Gagal memperbarui data.";
+      throw new Error(errorMessage);
+    }
+  };
 
+  const deleteLesson = async (id, name) => {
     try {
       await deleteLessonHour(id);
 
@@ -63,6 +73,7 @@ export default function useLessonHours(activeDayApi) {
     isLoadingHours,
     refetch: loadLessonHours,
     addLesson,
+    updateLesson,
     deleteLesson,
   };
 }

@@ -1,87 +1,81 @@
 "use client";
-
-import { ChevronLeft, ChevronRight } from "lucide-react";
+const MAX_VISIBLE_PAGES = 3;
 
 export function PaginationRfid({
   page,
   lastPage,
-  onPrev,
-  onNext,
-  onPageClick,
+  onPageClick, 
 }) {
-  if (lastPage <= 1) return null;
+  if (!lastPage || lastPage <= 1) {
+    return null;
+  }
 
-  let pages = [];
+  const onPageChange = onPageClick;
 
-  if (lastPage <= 4) {
-    for (let i = 1; i <= lastPage; i++) pages.push(i);
+  let startPage, endPage;
+
+  if (lastPage <= MAX_VISIBLE_PAGES) {
+    startPage = 1;
+    endPage = lastPage;
   } else {
-    if (page <= 3) {
-      pages = [1, 2, 3, "...", lastPage];
-    } else if (page >= lastPage - 2) {
-      pages = [1, "...", lastPage - 2, lastPage - 1, lastPage];
-    } else {
-      pages = [1, "...", page, "...", lastPage];
+    const half = Math.floor(MAX_VISIBLE_PAGES / 2); // 1
+
+    startPage = page - half;
+    endPage = page + half;
+
+    if (startPage < 1) {
+      startPage = 1;
+      endPage = MAX_VISIBLE_PAGES;
+    }
+
+    else if (endPage > lastPage) {
+      endPage = lastPage;
+      startPage = lastPage - MAX_VISIBLE_PAGES + 1;
     }
   }
 
-  const PageButton = ({ p, active }) => {
-    if (p === "...") {
-      return (
-        <span className="w-8 h-8 flex items-center justify-center text-blue-500 cursor-default">
-          ...
-        </span>
-      );
-    }
+  const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
-    return (
-      <button
-        onClick={() => onPageClick(p)}
-        className={`w-8 h-8 rounded-md flex items-center justify-center text-sm font-medium transition
-          ${
-            active
-              ? "bg-blue-600 text-white shadow"
-              : "text-blue-600 hover:bg-blue-100"
-          }`}
-      >
-        {p}
-      </button>
-    );
-  };
+  const PageButton = ({ p, active }) => (
+    <button
+      onClick={() => onPageChange(p)}
+      className={`w-8 h-8 rounded-lg flex items-center justify-center transition text-sm
+              ${active
+          ? "bg-blue-600 text-white font-semibold shadow-md"
+          : "text-blue-600 hover:bg-blue-100 "
+        }`}
+    >
+      {p}
+    </button>
+  );
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-6 select-none">
-      {/* PREV */}
-      <button
-        disabled={page === 1}
-        onClick={onPrev}
-        className={`w-9 h-9 flex items-center justify-center transition rounded-full
-          ${
-            page === 1
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-blue-600 hover:bg-gray-100"
-          }`}
-      >
-        <ChevronLeft size={18} />
+    <div className="flex items-center justify-center mt-8 gap-2 select-none">
+
+      <button disabled={page === 1} onClick={() => onPageChange(page - 1)} className={`w-8 h-8 flex items-center justify-center  ${page === 1 ? "opacity-50 cursor-not-allowed" : "text-gray-600"}`}>
+        &lt;
       </button>
 
-      {/* PAGE NUMBERS */}
-      {pages.map((p, i) => (
-        <PageButton key={i} p={p} active={p === page} />
+      {startPage > 1 && (
+        <>
+          <PageButton p={1} active={page === 1} />
+          {startPage > 2 && <span className="text-gray-500 mx-1">...</span>}
+        </>
+      )}
+
+      {visiblePages.map((p) => (
+        <PageButton key={p} p={p} active={p === page} />
       ))}
 
-      {/* NEXT */}
-      <button
-        disabled={page === lastPage}
-        onClick={onNext}
-        className={`w-9 h-9 flex items-center justify-center transition rounded-full
-          ${
-            page === lastPage
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-blue-600 hover:bg-gray-100"
-          }`}
-      >
-        <ChevronRight size={18} />
+      {endPage < lastPage && (
+        <>
+          {endPage < lastPage - 1 && <span className="text-gray-500 mx-1">...</span>}
+          <PageButton p={lastPage} active={page === lastPage} />
+        </>
+      )}
+
+      <button disabled={page === lastPage} onClick={() => onPageChange(page + 1)} className={`w-8 h-8 flex items-center justify-center ${page === lastPage ? "opacity-50 cursor-not-allowed" : "text-gray-600"}`}>
+        &gt;
       </button>
     </div>
   );

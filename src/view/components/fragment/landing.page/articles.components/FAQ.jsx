@@ -47,13 +47,11 @@ const FAQ = () => {
   return (
     <>
       <section id="FAQ" className="relative py-16 bg-[#001D3D]">
-        {/* Background + Overlay */}
         <div className="absolute inset-0">
           <div className="w-full h-full bg-[url('/images/background/VectorHD.jpg')] bg-cover bg-center"></div>
           <div className="absolute inset-0 bg-[#001D3D]/85"></div>
         </div>
 
-        {/* Konten */}
         <div
           data-aos="fade-down"
           data-aos-duration="3000"
@@ -61,11 +59,9 @@ const FAQ = () => {
         >
           <h2 className="text-center text-2xl md:text-3xl font-bold text-white">
             Frequently-Asked-Questions
-            {/* Garis Gradasi */}
             <div className="flex justify-center">
               <span className="block w-72 h-1 mt-2 bg-gradient-to-r from-blue-500 via-green-400 to-yellow-400 rounded"></span>
             </div>
-            {/* Garis Putus-Putus */}
             <div className="flex justify-center">
               <span className="block w-72 h-1 mb-6 border-b-2 border-dashed border-gray-300 mt-1"></span>
             </div>
@@ -75,14 +71,12 @@ const FAQ = () => {
             Temukan jawaban seputar TEFA SMK Negeri 3 Pamekasan.
           </p>
 
-          {/* FAQ List */}
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <div
                 key={index}
                 className="bg-[#012A4A] rounded-lg shadow-md overflow-hidden"
               >
-                {/* Header */}
                 <button
                   onClick={() => toggleFAQ(index)}
                   className="w-full flex justify-between items-center px-6 py-4 text-left text-white font-medium hover:bg-[#013A63] transition"
@@ -95,7 +89,6 @@ const FAQ = () => {
                   />
                 </button>
 
-                {/* Answer with slide animation */}
                 <div
                   className={`px-6 overflow-hidden transition-all duration-500 ease-in-out ${
                     openIndex === index ? "max-h-40 py-4" : "max-h-0"
@@ -110,10 +103,8 @@ const FAQ = () => {
           </div>
         </div>
 
-        {/* Garis Pembatas Section */}
         <div className="relative z-10 w-full h-1 mt-30 bg-gradient-to-r from-[#FFD60A] via-[#62B028] to-[#068599]"></div>
 
-        {/* Contact Section */}
         <div className="relative z-10 mt-16">
           <ContactSection />
         </div>

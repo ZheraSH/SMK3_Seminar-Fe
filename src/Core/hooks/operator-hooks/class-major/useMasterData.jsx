@@ -3,32 +3,6 @@ import { getMajors, getSchoolYears, getLevelClass, getTeachers } from "../../../
 
 const masterDataCache = {}; 
 
-const fetchAndCache = async (apiFunc, key) => {
-    try {
-        const res = await apiFunc();
-        let dataToCache = res?.data || res || []; 
-
-        if (key === 'teachers') {
-            dataToCache = dataToCache.filter((teacher) => {
-                const roleValues = teacher.roles.map(r => r.value);
-                const isPriorityTeacher = roleValues.includes('teacher') || roleValues.includes('homeroom_teacher');
-                if (isPriorityTeacher) return true;
-
-                const restrictedRoles = ['staff_tu', 'waka_kurikulum', 'bk'];
-                const hasRestrictedRole = roleValues.some(role => restrictedRoles.includes(role));
-                
-                return !hasRestrictedRole;
-            });
-        }
-
-        masterDataCache[key] = dataToCache;
-        return dataToCache;
-    } catch (error) {
-        console.error(`Error fetching ${key}:`, error);
-        return [];
-    }
-};
-
 export default function useMasterData() {
     const [majors, setMajors] = useState(masterDataCache.majors || []);
     const [schoolYears, setSchoolYears] = useState(masterDataCache.schoolYears || []); 
@@ -48,26 +22,39 @@ export default function useMasterData() {
         setLoading(true);
         setError(null);
 
-        const promises = [];
-        if (!masterDataCache.majors) promises.push(fetchAndCache(getMajors, 'majors'));
-        if (!masterDataCache.levelClass) promises.push(fetchAndCache(getLevelClass, 'levelClass'));
-        if (!masterDataCache.teachers) promises.push(fetchAndCache(getTeachers, 'teachers'));
-        
-        let schoolYearsPromise = !masterDataCache.schoolYears ? getSchoolYears() : null;
-
         try {
-            await Promise.all(promises);
-            setMajors(masterDataCache.majors || []);
-            setTeachers(masterDataCache.teachers || []);
-            setLevelClass(masterDataCache.levelClass || []);
+            const [resMajors, resLevel, resTeachers, resYears] = await Promise.all([
+                !masterDataCache.majors ? getMajors() : Promise.resolve(masterDataCache.majors),
+                !masterDataCache.levelClass ? getLevelClass() : Promise.resolve(masterDataCache.levelClass),
+                !masterDataCache.teachers ? getTeachers() : Promise.resolve(null),
+                !masterDataCache.schoolYears ? getSchoolYears() : Promise.resolve(masterDataCache.schoolYears)
+            ]);
 
-            if (schoolYearsPromise) {
-                const yearsResponse = await schoolYearsPromise;
-                const yearsArrayData = yearsResponse?.data || []; 
-                // const activeSchoolYears = yearsArrayData.filter((year) => year.active === true);
-                masterDataCache.schoolYears = yearsArrayData;
-                setSchoolYears(yearsArrayData);
+            if (!masterDataCache.majors) masterDataCache.majors = resMajors?.data || resMajors || [];
+
+            if (!masterDataCache.levelClass) masterDataCache.levelClass = resLevel?.data || resLevel || [];
+
+            if (!masterDataCache.teachers && resTeachers) {
+                const rawTeachers = resTeachers?.data || resTeachers || [];
+                
+                const allowedRoles = ["teacher", "homeroom_teacher"];
+
+                const filteredTeachers = rawTeachers.filter((guru) => {
+                    return guru.roles.some((role) => allowedRoles.includes(role.value));
+                });
+
+                masterDataCache.teachers = filteredTeachers;
             }
+
+            if (resYears && !masterDataCache.schoolYears) {
+                const yearsArray = resYears?.data || resYears || [];
+                masterDataCache.schoolYears = yearsArray;
+            }
+
+            setMajors(masterDataCache.majors);
+            setLevelClass(masterDataCache.levelClass);
+            setTeachers(masterDataCache.teachers);
+            setSchoolYears(masterDataCache.schoolYears);
             
         } catch (err) {
             setError(err.message || "Gagal memuat data master.");

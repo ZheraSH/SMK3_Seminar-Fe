@@ -1,31 +1,49 @@
-import { useStudentSchedule } from "../../../../Core/hooks/role-student/schedule-student/useStudentSchedule";
-import TableSchedule from "./components/TableSchedule";
-import ButtonSchedule from "./components/ButtonSchedule";
 import { useState } from "react";
-import HeaderPage from "../../../components/elements/header/Header.Page";
-import LoadingData from "../../../components/Loading/Data";
+import { useStudentSchedule } from "../../../../Core/hooks/role-student/schedule-student/useStudentSchedule";
+import ButtonSchedule from "./components/ButtonSchedule";
+import TableSchedule from "./components/TableSchedule";
+import Header from "../../../components/elements/header/Header-new";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 export default function MainScheduleStudent() {
-  const [activeDay, setActiveDay] = useState("monday");
+  const [activeDay, setActiveDay] = useState("monday"); 
 
-  const { schedule, classroomId, semesterType, loading,error } =
-    useStudentSchedule(activeDay);
+  const {
+    schedule,
+    classroomId,
+    semesterType,
+    academicYear,
+    loading,
+  } = useStudentSchedule(activeDay);
 
-    if (loading) {
-        return <LoadingData loading={loading} />;
-    }
   return (
-    <div className="justify-center mx-4 md:mx-7 mb-10 mt-5">
-      <HeaderPage
-        h1="Jadwal Pelajaran"
-        p={`Kelas ${classroomId} | ${semesterType}`}
-      />
-
-      <div className="mt-6 flex gap-2 flex-nowrap bg-white shadow-md p-2 rounded-lg overflow-x-auto">
-        <ButtonSchedule setActiveDay={setActiveDay} activeDay={activeDay} />
+    <div className="justify-center mx-7 mb-10 mt-5">
+      <div className="hidden md:block">
+          {loading? (<LoadingData loading={loading} type="header1"/>) 
+          : (
+            <Header
+              span="Jadwal Pelajaran"
+              p={`Kelas ${classroomId} | ${semesterType} ${academicYear}`}
+              src="/images/particle/studentschedule.png"
+            />
+          )}
       </div>
-      <div className="mt-4 w-full overflow-x-auto rounded-lg border border-gray-200 ">
-        <TableSchedule scheduleData={schedule} loading={loading} error={error} />
+
+      {loading? (<LoadingData loading={loading} type="tombolday" count={5} />) 
+      : (
+        <div className="mt-6 flex gap-2 flex-wrap bg-white shadow-md p-2 rounded-lg">
+          <ButtonSchedule
+            setActiveDay={setActiveDay}
+            activeDay={activeDay}
+          />
+        </div>
+      )}
+
+      <div className="mt-4 w-full overflow-x-auto rounded-lg border border-gray-200">
+        {loading? (<LoadingData loading={loading} type="tableSchedule" count={10}/>)
+        : (
+          <TableSchedule scheduleData={schedule}  />
+        )}
       </div>
     </div>
   );

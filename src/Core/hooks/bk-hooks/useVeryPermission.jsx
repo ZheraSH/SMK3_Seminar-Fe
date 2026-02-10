@@ -1,171 +1,114 @@
-import { useState, useEffect, useCallback } from "react";
-import useMaster from './AttendanceMonitoring/useMaster'; 
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 const ALL_CLASSES_VALUE = "";
-const formatClassValue = (name) => name;
-
-const formatNestedOptions = (majors, classroom) => {
-    const options = [{
-        label: "Semua Kelas",
-        value: ALL_CLASSES_VALUE, 
-        isMajor: false,
-    }];
-
-    const classesByMajorCode = classroom.reduce((acc, cls) => {
-        const majorCode = cls['major.code']; 
-        if (majorCode) {
-            if (!acc[majorCode]) {
-                acc[majorCode] = [];
-            }
-            acc[majorCode].push({
-                label: cls.name, 
-                value: formatClassValue(cls.name), 
-                isMajor: false, 
-            });
-        }
-        return acc;
-    }, {});
-
-    majors.forEach(major => {
-        const majorCode = major.code; 
-        const majorClasses = classesByMajorCode[majorCode] || [];
-
-       let children;
-        
-        if (majorClasses.length === 0) {
-            children = [{
-                label: "Kelas belum ada", 
-                value: `no_class_${majorCode}`,
-                isPlaceholder: true,
-                isMajor: false,
-            }];
-        } else {
-            children = majorClasses;
-        }
-
-        options.push({
-            label: major.code, 
-            value: majorCode, 
-            isMajor: true, 
-            children: children
-        });
-    });
-
-    return options;
-};
-
 
 export function useVerifyPermissionData(fetchApi) {
-    const {  majors: masterMajors, classroom: masterClassroom,  loading: masterLoading,  error: masterError } = useMaster(); 
-
     const [permissions, setPermissions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [classes, setClasses] = useState([]);
-    
+    const [allAvailableClasses, setAllAvailableClasses] = useState(new Map());
+    const [searchQuery, setSearchQuery] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const [perPage, setPerPage] = useState(8);
-
     const [refreshTrigger, setRefreshTrigger] = useState(0);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [selectedClassId, setSelectedClassId] = useState(ALL_CLASSES_VALUE); 
-    
-    const handlePageChange = useCallback((newPage) => {
-        if (newPage >= 1 && newPage <= lastPage) {
-            setCurrentPage(newPage);
+    const [selectedClassId, setSelectedClassId] = useState(ALL_CLASSES_VALUE);
+    const [selectedType, setSelectedType] = useState('all');
+    const [selectedStatus, setSelectedStatus] = useState('all');
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearch(searchQuery);
+            setCurrentPage(1);
+        }, 500);
+        return () => clearTimeout(handler);
+    }, [searchQuery]);
+
+    useEffect(() => {
+        if (permissions.length > 0) {
+            setAllAvailableClasses(prevMap => {
+                const newMap = new Map(prevMap); 
+                permissions.forEach(p => {
+                    if (p.classroom && p.classroom.name) {
+                        newMap.set(p.classroom.name, p.classroom);
+                    }
+                });
+                return newMap;
+            });
         }
+    }, [permissions]);
+
+    const classOptions = useMemo(() => {
+        const options = [{ label: "Semua Kelas", value: ALL_CLASSES_VALUE }];
+        
+        Array.from(allAvailableClasses.values()).forEach(cls => {
+            options.push({
+                label: cls.name,
+                value: cls.name,
+            });
+        });
+
+        return options.sort((a, b) => a.label.localeCompare(b.label));
+    }, [allAvailableClasses]);
+
+    const handlePageChange = useCallback((newPage) => {
+        if (newPage >= 1 && newPage <= lastPage) setCurrentPage(newPage);
     }, [lastPage]);
 
-    const refetchData = useCallback(() => {
-        setRefreshTrigger(prev => prev + 1); 
-    }, []);
-
+    const refetchData = useCallback(() => setRefreshTrigger(prev => prev + 1), []);
+    
     const handleSearchChange = useCallback((query) => {
         setSearchQuery(query);
-        setCurrentPage(1); 
     }, []);
 
     const handleClassSelect = useCallback((value) => {
-        const finalValue = Array.isArray(value) ? value[value.length - 1] : value;
-        
-        setSelectedClassId(finalValue);
+        setSelectedClassId(value);
+        setCurrentPage(1);
+    }, []);
+
+    const handleTypeSelect = useCallback((value) => {
+        setSelectedType(value);
+        setCurrentPage(1);
+    }, []);
+
+    const handleStatusSelect = useCallback((value) => {
+        setSelectedStatus(value);
         setCurrentPage(1);
     }, []);
 
     useEffect(() => {
         const fetchPermissions = async () => {
-            if (masterLoading) {
-                setLoading(true);
-                return;
-            }
-
             setLoading(true);
             setError(null);
-            
-            let classFilter = selectedClassId;
-            
             try {
-                const response = await fetchApi(currentPage, searchQuery, classFilter); 
+                const response = await fetchApi(currentPage, debouncedSearch, selectedClassId,selectedType,selectedStatus);
 
                 if (!response || !response.data) {
-                    setError("Data Izin Tidak Ditemukan");
                     setPermissions([]);
-                    setTotalItems(0);
-                    setLastPage(1);
                     return;
                 }
-                
-                setPermissions(response.data || []); 
-                
+
+                setPermissions(response.data || []);
                 if (response.meta) {
                     setLastPage(response.meta.last_page || 1);
                     setTotalItems(response.meta.total || 0);
                     setPerPage(response.meta.per_page || 8);
                 }
-
-                const rawClasses = response.data.map(item => item.classroom);
-                const validClasses = rawClasses.filter(cls => 
-                    cls && cls.name && cls.name.trim() !== ''
-                );
-
-                setClasses(prevClasses => {
-                    const uniqueClassesMap = new Map();
-                    prevClasses.forEach(item => uniqueClassesMap.set(item.name, item));
-                    validClasses.forEach(item => uniqueClassesMap.set(item.name, item));
-                    return Array.from(uniqueClassesMap.values());
-                });
-
             } catch (err) {
-                console.error("Fetching error:", err);
-                setError("Gagal memuat data Izin");
-                setPermissions([]);
+                setError("Gagal memuat data");
             } finally {
                 setLoading(false);
             }
         };
         fetchPermissions();
-    }, [
-        currentPage, 
-        fetchApi,
-        refreshTrigger,
-        searchQuery, 
-        selectedClassId, 
-        masterLoading
-    ]);
-
-    const nestedOptions = formatNestedOptions(masterMajors, masterClassroom);
-
-    const options = {
-        classes: nestedOptions, 
-    };
+    }, [currentPage, fetchApi, refreshTrigger, debouncedSearch, selectedClassId,selectedType,selectedStatus]);
 
     return {
         permissions,
-        loading: loading || masterLoading,
-        error: error || masterError,
-        classes,
+        loading,
+        error,
         currentPage,
         lastPage,
         totalItems,
@@ -176,6 +119,10 @@ export function useVerifyPermissionData(fetchApi) {
         handleSearchChange,
         selectedClassId,
         handleClassSelect,
-        options 
+        options: { classes: classOptions } ,
+        selectedType,
+        handleTypeSelect,
+        selectedStatus,
+        handleStatusSelect,
     };
 }

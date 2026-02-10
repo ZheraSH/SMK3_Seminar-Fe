@@ -3,19 +3,18 @@ import Card from "./components/AttendanceCards";
 import TableSchedule from "./components/TableSchedule";
 import TableHistory from "./components/TableHistory";
 import { DashboardStudent } from "../../../../Core/hooks/role-student/dashboard/DashboardStudent";
-import LoadingData from "../../../components/Loading/Data";
+import AttendanceChart from "./components/AttendanceChart";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 export default function BodyDashboard() {
 
     const {
-        attendance,
-        profile,
         schedule,
         error,
         loading,
-        classroom,
         permissions,
-
+        summary,
+        statistik,
     } = DashboardStudent ();
 
     if (loading) {
@@ -23,35 +22,39 @@ export default function BodyDashboard() {
     }
 
     return (
-        <div className="justify-center mx-4 md:mx-7 mb-10 mt-6">
-            <ProfileHeader user={profile} header={classroom}/>
-            <Card  attendance={attendance} />
-            <div className="flex flex-col lg:flex-row gap-5 w-full">
-                <div 
-                    className="flex flex-col gap-5 w-full lg:w-[670px] lg:h-[383px] overflow-y-hidden rounded-xl shadow-lg border border-gray-300 p-5
-                        [&::-webkit-scrollbar]:hidden 
-                        [-ms-overflow-style:'none'] 
-                        [scrollbar-width:'none']"
-                >
-                    <h1 className="text-[18px] md:text-[24px] font-semibold">Jadwal Pelajaran Hari Ini</h1>
-                    <TableSchedule 
-                        schedule={schedule}
-                        error={error}
-                    />
+        <div className=" mb-10">
+            <Card  summary={summary} loading={loading}/>
+            {loading ? ( <LoadingData loading={loading} type="2card" count={5} /> )
+             : (
+                <div className="flex flex-col md:flex-row lg:flex-row gap-5 w-full mt-5">
+                    <div 
+                        className="flex flex-col gap-5 w-full md:w-full lg:w-full lg:h-[360px]  rounded-xl shadow-lg border border-gray-300 p-4"
+                    >
+                        <h1 className="text-[18px] md:text-[24px] font-semibold">Jadwal Pelajaran Hari Ini</h1>
+                        <TableSchedule 
+                            schedule={schedule}
+                            error={error}
+                            loading={loading}
+                        />
+                    </div>
+                    <div 
+                        className="w-full lg:w-full lg:h-[360px] gap-5 rounded-xl shadow-lg border border-gray-300 p-4 flex flex-col justify-start "
+                    >
+                        <h1 className="text-[18px] md:text-[24px] font-semibold">Riwayat Izin Terbaru</h1>
+                        <TableHistory 
+                            history={permissions}
+                            error={error}
+                            loading={loading}
+                        />
+                    </div>
                 </div>
-                <div 
-                    className="w-full  lg:w-[474px] lg:h-[383px] gap-5 rounded-xl shadow-lg border border-gray-300 p-5 flex flex-col justify-start overflow-y-hidden
-                        [&::-webkit-scrollbar]:hidden 
-                        [-ms-overflow-style:'none'] 
-                        [scrollbar-width:'none']"
-                >
-                    <h1 className="text-[18px] md:text-[24px] font-semibold">Riwayat Izin Terbaru</h1>
-                    <TableHistory 
-                        history={permissions}
-                        error={error}
-                    />
-                </div>
-            </div>
+             )}
+            {loading ? ( <LoadingData loading={loading} type="kotak" count={4}/> )
+             : (
+                    <div className=" mt-10">
+                        <AttendanceChart statistik={statistik} />
+                    </div>
+             )}
         </div>
     );
 }

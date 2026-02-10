@@ -5,7 +5,7 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
 
     const generatePageNumbers = () => {
         const pages = [];
-        if (totalPages <= 5) {
+        if (totalPages <= 3) {
             for (let i = 1; i <= totalPages; i++) pages.push(i);
         } else {
             if (currentPage <= 3) {

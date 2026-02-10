@@ -36,7 +36,7 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
       <div className="flex gap-2 items-center w-full">
         <button
           onClick={() => setOpenCategory(!openCategory)}
-          className="flex items-center gap-2 bg-white border rounded-full px-4 py-2 shadow-sm hover:bg-gray-50 transition text-sm font-medium w-full sm:w-[200px] justify-between"
+          className="flex items-center gap-2 bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm hover:bg-gray-50 transition text-sm font-medium w-full sm:w-[200px] justify-between"
         >
           <span className="text-black truncate">{category.label}</span>
           <ChevronRight
@@ -59,7 +59,6 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
             </button>
           </div>
 
-          {/* Gender */}
           <DropdownSection
             title="Jenis Kelamin"
             options={optionMap.gender}
@@ -70,7 +69,6 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
             keyName="gender"
           />
 
-          {/* Major */}
           <DropdownSection
             title="Jurusan"
             options={optionMap.major}
@@ -81,7 +79,6 @@ export const StudentFilterDropdown = ({ category, setCategory, masters }) => {
             keyName="major"
           />
 
-          {/* Level Class */}
           <DropdownSection
             title="Tingkatan"
             options={optionMap.level_class}

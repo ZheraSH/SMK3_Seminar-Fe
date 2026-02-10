@@ -62,7 +62,6 @@ const MainNavbar = () => {
             </h1>
           </div>
 
-          {/* Desktop menu */}
           <ul className="hidden md:flex items-center space-x-10 text-white text-[16px] ml-50">
             {menuItems.map((item) => (
               <li key={item.name}>
@@ -79,7 +78,6 @@ const MainNavbar = () => {
               </li>
             ))}
             <li>
-              {/* ✅ Contact pakai HashLink */}
               <HashLink
                 smooth
                 to="/#contact"
@@ -90,14 +88,12 @@ const MainNavbar = () => {
             </li>
           </ul>
 
-          {/* Button Daftar */}
           <div className="flex items-center gap-3">
             <button className="transition-all duration-500 hover:bg-yellow-400 hover:text-black hidden md:inline-block bg-[#FFD60A] text-[#003566] px-[24px] py-[5px] rounded-[5px]">
               Daftar
             </button>
           </div>
 
-          {/* Mobile toggle */}
           <button
             aria-label="Toggle menu"
             className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none"
@@ -122,7 +118,6 @@ const MainNavbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-[#001D3D]/95 backdrop-blur-sm border-t border-white/10">
           <div className="px-6 py-4 space-y-4 text-white">
@@ -141,7 +136,6 @@ const MainNavbar = () => {
               </NavLink>
             ))}
 
-            {/* ✅ Contact pakai HashLink */}
             <HashLink
               smooth
               to="/#contact"

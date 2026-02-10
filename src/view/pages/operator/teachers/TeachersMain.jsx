@@ -13,14 +13,15 @@ import { TeacherForm } from "./components/TeacherFormModal";
 import { TeacherTable } from "./components/TeacherTable";
 import { PaginationEmployee } from "./components/TeachersPagination";
 import { validateTeacherForm } from "./components/utils/validateTeacherForm";
-import LoadingData from "../../../components/Loading/Data.jsx";
-import { TeacherFilterDropdown } from "./components/FilterDropdown";
-import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
 
 import {
   submitTeacherApi,
   deleteTeacherApi,
 } from "../../../../Core/api/role-operator/employee/TeachersApi";
+import { extractTeacherMasters } from "./components/utils/teacherMasterExtractor";
+import { TeacherFilterDropdown } from "./components/FilterDropdown";
+import LoadingData from "../../../components/elements/loadingData/loading.jsx";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete.jsx";
 
 // Import custom hooks
 import { useTeacherPagination } from "../../../../Core/hooks/operator-hooks/employee/usePagination";
@@ -39,6 +40,8 @@ const MemoizedPaginationEmployee = memo(PaginationEmployee);
    MAIN COMPONENT
 ========================== */
 export const TeacherMain = () => {
+  const [religions, setReligions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [openItemId, setOpenItemId] = useState(null);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
@@ -77,14 +80,71 @@ export const TeacherMain = () => {
   // State terpisah untuk masterTeachers (untuk filter options)
   const [masterTeachers, setMasterTeachers] = useState([]);
 
-  // Load masterTeachers sekali saat awal
-  const loadMasterTeachers = useCallback(async () => {
-    try {
-      const res = await fetchTeachersApi(1, {});
-      setMasterTeachers(res.data || []);
-    } catch (error) {
-      console.error("Failed to load master teachers:", error);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const [category, setCategory] = useState({
+    type: "",
+    value: "",
+    label: "Pilih Kategori",
+  });
+
+  const masters = useMemo(() => extractTeacherMasters(Teacher), [Teacher]);
+
+  const teachersByFilter = useMemo(() => {
+    if (!category.type || !category.value) return Teacher;
+
+    switch (category.type) {
+      case "gender":
+        return Teacher.filter((t) => t.gender?.value === category.value);
+
+      case "subjects":
+        return Teacher.filter((t) =>
+          t.subjects?.some((subject) => subject.id === category.value)
+        );
+
+      case "role":
+        return Teacher.filter((t) =>
+          t.roles?.some((role) => role.value === category.value)
+        );
+
+      default:
+        return Teacher;
     }
+  }, [Teacher, category]);
+
+  const filteredTeachers = useMemo(() => {
+    let result = teachersByFilter;
+    if (searchTerm) {
+      const lowerTerm = searchTerm.toLowerCase();
+      result = result.filter((t) => {
+        const matchName = t.name?.toLowerCase().includes(lowerTerm);
+        const matchNip = t.nip?.toString().toLowerCase().includes(lowerTerm);
+        const matchRole = t.roles?.some((role) => {
+          const rLabel = (role.label || role.value || role).toString().toLowerCase();
+          return rLabel.includes(lowerTerm);
+        });
+
+        return matchName || matchNip || matchRole;
+      });
+    }
+    return result;
+  }, [teachersByFilter, searchTerm]);
+
+  useEffect(() => {
+    const loadReligions = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchReligionsApi();
+        setReligions(data);
+      } catch (error) {
+        console.error("Gagal memuat data agama:", error);
+      } finally {
+        setTimeout(() => setLoading(false), 800);
+      }
+    };
+    loadReligions();
   }, []);
 
   // Wrapper untuk reload yang juga bisa update masterTeachers jika perlu
@@ -159,18 +219,18 @@ export const TeacherMain = () => {
 
   const handleEdit = (t) => {
     setPost({
-      name: t.name ?? "",
-      email: t.email ?? "",
-      image: t.image ?? null,
-      nik: t.nik ?? "",
-      birth_place: t.birth?.place ?? "",
-      birth_date: t.birth?.date ?? "",
-      nip: t.nip ?? "",
-      phone_number: t.phone_number ?? "",
-      address: t.address ?? "",
-      gender: t.gender?.value ?? "",
-      religion_id: t.religion?.id ?? "",
-      roles: t.roles?.map((r) => r.value) ?? [],
+      name: teacher.name || "",
+      email: teacher.email || "",
+      image: teacher.image,
+      nik: teacher.nik || "",
+      birth_place: teacher.birth_place || "",
+      birth_date: teacher.birth_date || "",
+      nip: teacher.nip || "",
+      phone_number: teacher.phone_number || "",
+      address: teacher.address || "",
+      gender: teacher.gender.value || "",
+      religion_id: teacher.religion.id || "",
+      roles: teacher.roles?.map((r) => r.value) || [],
     });
     setEditingId(t.id);
     setIsOpen(true);
@@ -183,36 +243,104 @@ export const TeacherMain = () => {
     setDeleteId(null);
   };
 
-  if (loading && !teachers.length) return <LoadingData loading />;
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleteLoading(true);
+
+    try {
+      const ok = await deleteTeacherApi(deleteId);
+      if (ok) reload();
+      setShowDeleteModal(false);
+      setDeleteId(null);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
+  const handleAddNewTeacher = () => {
+    setEditingId(null);
+    setPost({
+      name: "",
+      email: "",
+      image: null,
+      NIK: "",
+      birth_place: "",
+      birth_date: "",
+      NIP: "",
+      phone_number: "",
+      address: "",
+      gender: "",
+      religion_id: "",
+      roles: [],
+    });
+    setIsOpen(true);
+  };
+
+  const handleResetAll = () => {
+    setCategory({
+      type: "",
+      value: "",
+      label: "Pilih Kategori",
+    });
+    setSearchTerm("");
+  };
 
   return (
-    <div className="p-6">
-      <div className="flex gap-3 mb-4">
-        <MemoizedSearchBar 
-          key="search-bar"
-          searchTerm={searchTerm} 
-          setSearchTerm={handleSearch} 
-        />
+    <div className="">
+      {loading ?
+        (<LoadingData loading={loading} type="create" />)
+        : (
+          <div className="flex flex-col gap-3 mb-5">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch sm:items-center">
+                <SearchBar
+                  searchTerm={searchTerm}
+                  setSearchTerm={(v) => {
+                    setSearchTerm(v);
+                    setPage(1);
+                  }}
+                />
 
-        {masters && (
-          <MemoizedTeacherFilterDropdown
-            key="teacher-filter"
-            category={category}
-            setCategory={handleCategoryChange}
-            masters={masters}
-          />
+                <TeacherFilterDropdown
+                  category={category}
+                  setCategory={setCategory}
+                  masters={masters}
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <DetailModal
+                  isDetailOpen={isDetailOpen}
+                  selectedTeacher={selectedTeacher}
+                  setIsDetailOpen={setIsDetailOpen}
+                />
+
+                <DeleteConfirmModal
+                  isOpen={showDeleteModal}
+                  onClose={() => setShowDeleteModal(false)}
+                  onConfirm={confirmDelete}
+                  title="Hapus Guru?"
+                  message="Apakah Anda yakin ingin menghapus data guru ini? Tindakan ini tidak dapat dibatalkan."
+                  loading={deleteLoading}
+                />
+
+                <button
+                  onClick={handleAddNewTeacher}
+                  className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
+                >
+                  + Tambah Guru
+                </button>
+              </div>
+            </div>
+          </div>
         )}
-
-        <button
-          onClick={() => {
-            setEditingId(null);
-            setIsOpen(true);
-          }}
-          className="ml-auto bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
-        >
-          + Tambah Guru
-        </button>
-      </div>
 
       <TeacherForm
         isOpen={isOpen}
@@ -228,35 +356,27 @@ export const TeacherMain = () => {
         setShowRoleDropdown={setShowRoleDropdown}
       />
 
-      <MemoizedTeacherTable
-        currentTeachers={teachers}
-        openItemId={openItemId}
-        setOpenItemId={setOpenItemId}
-        handleDetail={(t) => {
-          setSelectedTeacher(t);
-          setIsDetailOpen(true);
-        }}
-        handleEdit={handleEdit}
-        handleDelete={(id) => setDeleteId(id)}
-      />
-
-      <MemoizedPaginationEmployee
-        page={page}
-        lastPage={meta.last_page}
-        onPageClick={setPage}
-      />
-
-      <DetailModal
-        isDetailOpen={isDetailOpen}
-        selectedTeacher={selectedTeacher}
-        setIsDetailOpen={setIsDetailOpen}
-      />
-
-      <DeleteConfirmModal
-        open={deleteId !== null}
-        onCancel={() => setDeleteId(null)}
-        onConfirm={handleDelete}
-      />
+      {loading ?
+        (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />)
+        : (
+          <>
+            <TeacherTable
+              currentTeachers={filteredTeachers}
+              openItemId={openItemId}
+              setOpenItemId={setOpenItemId}
+              handleDetail={handleDetail}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+            <PaginationEmployee
+              page={page}
+              lastPage={meta.last_page}
+              onPrev={() => setPage(page - 1)}
+              onNext={() => setPage(page + 1)}
+              onPageClick={(p) => setPage(p)}
+            />
+          </>
+        )}
     </div>
   );
 };

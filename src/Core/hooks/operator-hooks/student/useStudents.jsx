@@ -1,4 +1,3 @@
-// hooks/useStudents.js - DIHAPUS SEMUA KODE DROPDOWN
 "use client"
 
 import { useState, useEffect } from "react"
@@ -41,7 +40,6 @@ export const useStudents = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const rowsPerPage = 7
 
-  // Load all data on mount
   const loadAllData = async () => {
     try {
       const [studentsData, religionsData, majorsData, levelclassesData] = await Promise.all([
@@ -118,13 +116,13 @@ export const useStudents = () => {
       if (err.response?.data?.errors) {
         setErrors(err.response.data.errors)
       } else {
-        console.log("⚠️ Tidak ada field 'errors' di response")
+        console.log("Tidak ada field 'errors' di response")
       }
     }
   }
 
   const handleEdit = (student) => {
-    console.log("🔍 Student data for edit:", student)
+    console.log(" Student data for edit:", student)
 
     let normalizedGender = student.gender || ""
     if (student.gender === "L" || student.gender === "laki-laki") {
@@ -239,7 +237,6 @@ export const useStudents = () => {
     startIndex,
     currentStudents,
     filteredStudents,
-    // Methods
     handleInput,
     handleSubmit,
     handleEdit,

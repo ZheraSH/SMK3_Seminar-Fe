@@ -13,10 +13,8 @@ export default function ProtectedRoute({ allowedRoles = [] }) {
     ? [data.role]
     : [];
 
-  // tidak punya role sama sekali
   if (userRoles.length === 0) return <NotFound />;
 
-  // apakah user punya salah satu role yang diperbolehkan
   const allowed = userRoles.some((r) => allowedRoles.includes(r));
 
   if (!allowed) return <NotFound />;

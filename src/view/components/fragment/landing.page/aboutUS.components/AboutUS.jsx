@@ -12,9 +12,7 @@ const SecondAbout = () => {
   return (
     <section className="relative py-20 bg-gradient-to-b from-white via-blue-50 to-white">
       <div id="tentangkami" className="max-w-7xl mx-auto px-6 lg:px-16">
-        {/* Atas: Image + Text */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Image */}
           <div
             data-aos="fade-right"
             data-aos-duration="2000"
@@ -27,7 +25,6 @@ const SecondAbout = () => {
             />
           </div>
 
-          {/* Right: Text */}
           <div data-aos="fade-left" data-aos-duration="2500">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-800 mb-4">
               Tentang TEFA
@@ -47,7 +44,6 @@ const SecondAbout = () => {
           </div>
         </div>
 
-        {/* Features (Cards) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
           {[
             {

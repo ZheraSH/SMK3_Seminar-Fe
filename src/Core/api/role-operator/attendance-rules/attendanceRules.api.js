@@ -1,20 +1,16 @@
-// attendanceRules.api.js
-import axios from "axios";
+import api from "../../axiosConfig";
+import { notify } from "../../../hooks/notification/notify";
 
-const API_BASE = "http://127.0.0.1:8000/api";
-
-export const fetchAttendanceRulesAPI = () => {
-  return axios.get(`${API_BASE}/attendance-rules`);
+export const fetchAttendanceRulesAPI = (day) => {
+  return api.get(`/attendance-rules/${day}`);
 };
 
-export const saveAttendanceRuleAPI = (selectedDay, payload) => {
-  const formattedPayload = {
-    checkin_start: payload.checkin_start || null,
-    checkin_end: payload.checkin_end || null,
-    checkout_start: payload.checkout_start || null,
-    checkout_end: payload.checkout_end || null,
-    is_holiday: !!payload.is_holiday,
-  };
+export const saveAttendanceRuleAPI = async (selectedDay, payload) => {
+  const response = await api.put(`/attendance-rules/${selectedDay}`, payload);
+  notify("Berhasil menyimpan data!", "success");
+  return response;
+};
 
-  return axios.put(`${API_BASE}/attendance-rules/day/${selectedDay}`, formattedPayload);
+export const createAttendanceRuleApi = (payload) => {
+  return api.post(`/attendance-rules`, payload);
 };

@@ -1,9 +1,7 @@
-import axios from "axios"
-const API_BASE_URL = "http://127.0.0.1:8000/api";
 import { notify } from "../../../../Core/hooks/notification/notify";
+import api from "../../axiosConfig";
 
-export const getVerifyPermissionBk = async (page = 1, search = "", classId = null) => {
-    const token = localStorage.getItem("token");
+export const getVerifyPermissionBk = async (page = 1, search = "", classId = null, type = null, status = null) => {
     const params = new URLSearchParams({ page: page });
 
     if (search) {
@@ -11,16 +9,23 @@ export const getVerifyPermissionBk = async (page = 1, search = "", classId = nul
     }
 
     if (classId && typeof classId === 'string' && classId.trim() !== '') {
-        params.append('filter', classId.trim()); 
+        params.append('classroom', classId.trim()); 
     }
 
-    const url = `${API_BASE_URL}/counselor/attendance-permissions?${params.toString()}`;
+    if (type && type !== 'all') {
+        params.append('type', type);
+    }
+
+    if (status && status !== 'all') {
+        params.append('status', status);
+    }
+
+    const url = `/counselor/attendance-permissions?${params.toString()}`;
 
    try {
-    const res = await axios.get(url,
+    const res = await api.get(url,
         {
             headers: {
-                Authorization: token ? `Bearer ${token}` : "",
                 Accept: "application/json"
             }
         }
@@ -35,18 +40,15 @@ export const getVerifyPermissionBk = async (page = 1, search = "", classId = nul
     }
     };
 
-// show
 export const getPermissionDetailBk = async (permissionId) => {
-    const token = localStorage.getItem("token");
     
-    const url = `${API_BASE_URL}/counselor/attendance-permissions/${permissionId}`;
+    const url = `/counselor/attendance-permissions/${permissionId}`;
 
     try {
-        const res = await axios.get(
+        const res = await api.get(
             url,
             {
                 headers: {
-                    Authorization: token ? `Bearer ${token}` : "",
                     Accept: "application/json",
                 }
             }
@@ -60,17 +62,15 @@ export const getPermissionDetailBk = async (permissionId) => {
 };
 
 export const approvePermissionBk = async (permissionId) => {
-    const token = localStorage.getItem("token");
-    const url = `${API_BASE_URL}/counselor/attendance-permissions/${permissionId}/approve`;
+    const url = `/counselor/attendance-permissions/${permissionId}/approve`;
 
 
     try {
-        const res = await axios.post(
+        const res = await api.post(
             url,
             {}, 
             {
                 headers: {
-                    Authorization: token ? `Bearer ${token}` : "",
                     Accept: "application/json",
                 }
             }
@@ -84,18 +84,16 @@ export const approvePermissionBk = async (permissionId) => {
 };
 
 export const rejectPermissionBk = async (permissionId) => {
-    const token = localStorage.getItem("token");
     
-    const url = `${API_BASE_URL}/counselor/attendance-permissions/${permissionId}/reject`;
+    const url = `/counselor/attendance-permissions/${permissionId}/reject`;
 
 
     try {
-        const res = await axios.post(
+        const res = await api.post(
             url,
             {}, 
             {
                 headers: {
-                    Authorization: token ? `Bearer ${token}` : "",
                     Accept: "application/json",
                 }
             }

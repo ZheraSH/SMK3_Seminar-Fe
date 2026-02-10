@@ -1,9 +1,7 @@
-"use client";
+import { useState, useMemo } from "react";
+import { extractStudentMasters } from "../../../../view/pages/operator/student/utils/studentMasterExtractor";
 
-import { useState, useEffect } from "react";
-import { fetchMajors, fetchlevelclasses } from "@/Core/api/role-operator/student/StudentApi";
-
-export const useStudentFilter = () => {
+export const useStudentFilter = (students) => {
   const [category, setCategory] = useState({
     type: "",
     value: "",
@@ -21,37 +19,32 @@ export const useStudentFilter = () => {
   
   const [appliedFilters, setAppliedFilters] = useState({});
 
-  useEffect(() => {
-    const loadMasters = async () => {
-      try {
-        const [majorsData, levelClassesData] = await Promise.all([
-          fetchMajors(),
-          fetchlevelclasses(),
-        ]);
-        
-        setMasters(prev => ({
-          ...prev,
-          majors: majorsData.map(m => ({ value: m.name, label: m.name })),
-          levelClasses: levelClassesData.map(lc => ({ 
-            value: lc.name, 
-            label: lc.name 
-          })),
-        }));
-      } catch (err) {
-        console.error("Gagal load masters:", err);
-      }
-    };
-    
-    loadMasters();
-  }, []);
+  const masters = useMemo(
+    () => extractStudentMasters(students),
+    [students]
+  );
 
-  useEffect(() => {
-    if (category.type && category.value) {
-      setAppliedFilters({
-        [category.type]: category.value
-      });
-    } else {
-      setAppliedFilters({});
+  const filteredStudents = useMemo(() => {
+    if (!category.type || !category.value) return students;
+
+    switch (category.type) {
+      case "gender":
+        return students.filter(
+          (s) => s.gender?.value === category.value
+        );
+
+      case "level_class":
+        return students.filter((s) =>
+          s.classroom?.name?.startsWith(category.value)
+        );
+
+      case "major":
+        return students.filter((s) =>
+          s.classroom?.name?.includes(` ${category.value} `)
+        );
+
+      default:
+        return students;
     }
   }, [category]);
 

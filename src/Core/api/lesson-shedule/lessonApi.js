@@ -1,9 +1,9 @@
-import axios from "axios"
+import api from "../axiosConfig";
 import { notify } from "../../hooks/notification/notify";
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+
 export const fetchClass = async (page = 1) => {
    try {
-    const res = await axios.get(`${API_BASE_URL}/classrooms?page=${page}`);
+    const res = await api.get(`/classrooms?page=${page}`);
     return res.data.data;
   } catch (err) {
     return [];
@@ -16,9 +16,9 @@ export const fetchClassScheduleByDay = async (classroomId, day) => {
         return []; 
     }
     
-    const endpoint = `${API_BASE_URL}/lesson-schedules/${classroomId}/schedules/${day}`;
+    const endpoint = `/lesson-schedules/${classroomId}/schedules/${day}`;
     try {
-        const res = await axios.get(endpoint);
+        const res = await api.get(endpoint);
         if (res.data && res.data.data) {
             return res.data.data;
         } 
@@ -31,7 +31,7 @@ export const fetchClassScheduleByDay = async (classroomId, day) => {
 
 export const addSchedule = async (scheduleData) => {
     try {
-        const res = await axios.post(`${API_BASE_URL}/lesson-schedules`, scheduleData);
+        const res = await api.post(`/lesson-schedules`, scheduleData);
         notify("Data Berhasil Ditambah");
         return res.data;
     } catch (err) {
@@ -41,7 +41,7 @@ export const addSchedule = async (scheduleData) => {
 
 export const updateSchedule = async (scheduleId, scheduleData) => {
     try {
-        const res = await axios.put(`${API_BASE_URL}/lesson-schedules/${scheduleId}`, scheduleData);
+        const res = await api.put(`/lesson-schedules/${scheduleId}`, scheduleData);
         notify("Data Berhasil Diperbarui");
         return res.data;
     } catch (err) {
@@ -51,7 +51,7 @@ export const updateSchedule = async (scheduleId, scheduleData) => {
 
 export const deleteSchedule = async (scheduleId) => {
     try {
-        const res = await axios.delete(`${API_BASE_URL}/lesson-schedules/${scheduleId}`);
+        const res = await api.delete(`/lesson-schedules/${scheduleId}`);
         notify("Data Berhasil Dihapus");
         return res.data;
     } catch (err) {
@@ -67,8 +67,8 @@ export const fetchSubject = async () => {
 
     try {
         do {
-            const endpoint = `${API_BASE_URL}/subjects?page=${currentPage}`;
-            const res = await axios.get(endpoint);
+            const endpoint = `/subjects?page=${currentPage}`;
+            const res = await api.get(endpoint);
             const responseData = res.data;
             if (responseData && responseData.data) {
                 allSubjects = [...allSubjects, ...responseData.data];
@@ -93,13 +93,13 @@ export const fetchSubject = async () => {
 };
 
 export const fetchTeacher = async () => {
-    let allTeachers = [];
+   let allTeachers = [];
     let currentPage = 1;
     let lastPage = 1;
 
     try {
         do {
-            const res = await axios.get(`${API_BASE_URL}/employees?page=${currentPage}`);
+            const res = await api.get(`/employees?page=${currentPage}`);
             const responseData = res.data;
 
             if (responseData.data && Array.isArray(responseData.data)) {
@@ -115,7 +115,7 @@ export const fetchTeacher = async () => {
             }
 
             if (currentPage < lastPage) {
-                await delay(150); 
+                await delay(500); 
             }
             
             currentPage++;
@@ -129,17 +129,18 @@ export const fetchTeacher = async () => {
         throw err;
     }
 };
+
 export const fetchLesson = async (day = null) => { 
     let endpoint;
 
     if (day) {
-        endpoint = `${API_BASE_URL}/lesson-hours/day/${day}`;
+        endpoint = `/lesson-hours/${day}`;
     } else {
-        endpoint = `${API_BASE_URL}/lesson-hours`;
+        endpoint = `/lesson-hours`;
     }
 
     try {
-        const res = await axios.get(endpoint);
+        const res = await api.get(endpoint);
         return res.data.data;
     } catch (err) {
         return [];

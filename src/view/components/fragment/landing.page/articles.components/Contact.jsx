@@ -21,22 +21,17 @@ const ContactSection = () => {
         data-aos-duration="1000"
         className="max-w-7xl mx-auto px-6 lg:px-16"
       >
-        {/* Heading */}
         <h2 className=" text-2xl md:text-3xl font-bold text-white mb-4">
           Hubungi Kami
         </h2>
-        {/* Garis Gradasi */}
         <span className="block w-55 h-1 mt-2 bg-gradient-to-r from-[#0084FF] to-[#FFDF0C] rounded"></span>
-        {/* Garis Putus-Putus */}
         <span className="block w-55 border-b-2 border-dashed border-gray-300 mt-1 mb-5"></span>
         <p className="text-gray-300 mb-10 max-w-2xl">
           Kami siap bekerja sama dan menjawab pertanyaan Anda terkait Teaching
           Factory SMK Negeri 3 Pamekasan.
         </p>
 
-        {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-8">
-          {/* Contact Info */}
           <div className="bg-gradient-to-br from-[#003566] to-[#012A4A] text-white rounded-l-xl shadow-lg p-8 flex flex-col justify-between relative z-0">
             <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
             <ul className="space-y-5 text-gray-200">
@@ -65,10 +60,8 @@ const ContactSection = () => {
             </ul>
           </div>
 
-          {/* Form */}
           <div className="bg-white rounded-xl shadow-lg p-8 relative z-10 -ml-6 lg:-ml-12">
             <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Nama Depan */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium text-gray-700">
                   Nama Depan
@@ -80,7 +73,6 @@ const ContactSection = () => {
                 />
               </div>
 
-              {/* Nama Belakang */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium text-gray-700">
                   Nama Belakang
@@ -92,7 +84,6 @@ const ContactSection = () => {
                 />
               </div>
 
-              {/* Email */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium text-gray-700">
                   Email
@@ -104,7 +95,6 @@ const ContactSection = () => {
                 />
               </div>
 
-              {/* No Telepon */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium text-gray-700">
                   No Telepon
@@ -116,7 +106,6 @@ const ContactSection = () => {
                 />
               </div>
 
-              {/* Pesan */}
               <div className="flex flex-col md:col-span-2">
                 <label className="text-sm font-medium text-gray-700">
                   Pesan
@@ -128,7 +117,6 @@ const ContactSection = () => {
                 ></textarea>
               </div>
 
-              {/* Button */}
               <div className="md:col-span-2 flex justify-end">
                 <button
                   type="submit"

@@ -17,9 +17,8 @@ export function FormModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
       <div className="bg-white rounded-xl shadow-2xl w-[700px] max-h-[90vh] overflow-y-auto p-6 relative">
-        {/* Tombol Close */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
@@ -32,7 +31,6 @@ export function FormModal({
         </h2>
 
         <form onSubmit={onSubmit} className="grid grid-cols-2 gap-4">
-          {/* Field Nama */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -41,9 +39,8 @@ export function FormModal({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.name ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan nama lengkap"
               name="name"
               value={post.name}
@@ -54,7 +51,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Email */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -63,9 +59,8 @@ export function FormModal({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan Email"
               name="email"
               value={post.email}
@@ -76,12 +71,11 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Foto */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
                 {" "}
-                Foto <span className="text-red-500">*</span>
+                Foto
               </p>
             </label>
             <input
@@ -95,7 +89,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Jenis Kelamin */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -105,9 +98,8 @@ export function FormModal({
             </label>
             <select
               name="gender"
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.gender ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.gender ? "border-red-500" : "border-gray-300"
+                }`}
               onChange={onInputChange}
               value={post.gender}
             >
@@ -120,7 +112,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field NISN */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -129,10 +120,11 @@ export function FormModal({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.nisn ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full ${errors.nisn ? "border-red-500" : "border-gray-300"
+                }`}
               type="number"
+              min="0"
+              step="1"
               placeholder="Masukkan NISN"
               name="nisn"
               value={post.nisn}
@@ -143,7 +135,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Agama */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -153,9 +144,8 @@ export function FormModal({
             </label>
             <select
               name="religion_id"
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.religion_id ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.religion_id ? "border-red-500" : "border-gray-300"
+                }`}
               onChange={onInputChange}
               value={post.religion_id}
             >
@@ -173,7 +163,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Tempat Lahir */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -182,9 +171,8 @@ export function FormModal({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.birth_place ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full ${errors.birth_place ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan tempat lahir"
               name="birth_place"
               value={post.birth_place}
@@ -197,7 +185,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Tanggal Lahir */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -206,9 +193,8 @@ export function FormModal({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.birth_date ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full ${errors.birth_date ? "border-red-500" : "border-gray-300"
+                }`}
               type="date"
               name="birth_date"
               value={post.birth_date}
@@ -221,7 +207,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field No KK */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -230,11 +215,12 @@ export function FormModal({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.number_kk ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="-"
+              className={`border rounded-lg p-2 w-full ${errors.number_kk ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan nomer KK"
               type="number"
+              min="0"
+              step="1"
               name="number_kk"
               value={post.number_kk}
               onChange={onInputChange}
@@ -244,20 +230,20 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Saudara Ke */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
                 {" "}
-                Saudara Ke <span className="text-red-500">*</span>
+                Saudara Ke
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.count_siblings ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="-"
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.count_siblings ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan Saudara Ke"
               type="number"
+              min="0"
+              step="1"
               name="count_siblings"
               value={post.count_siblings}
               onChange={onInputChange}
@@ -269,7 +255,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field No Akta */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -278,11 +263,12 @@ export function FormModal({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${
-                errors.number_akta ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="-"
+              className={`border rounded-lg p-2 w-full ${errors.number_akta ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan Nomer Akta"
               type="number"
+              min="0"
+              step="1"
               name="number_akta"
               value={post.number_akta}
               onChange={onInputChange}
@@ -294,20 +280,20 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Anak Ke */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
               <p>
                 {" "}
-                Anak Ke <span className="text-red-500">*</span>
+                Anak Ke
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.order_child ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="-"
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.order_child ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan Anak Ke"
               type="number"
+              min="0"
+              step="1"
               name="order_child"
               value={post.order_child}
               onChange={onInputChange}
@@ -319,7 +305,6 @@ export function FormModal({
             )}
           </div>
 
-          {/* Field Alamat */}
           <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-600">
               <p>
@@ -328,9 +313,8 @@ export function FormModal({
               </p>
             </label>
             <textarea
-              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.address ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.address ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Masukkan alamat lengkap"
               name="address"
               value={post.address}
@@ -341,11 +325,14 @@ export function FormModal({
             )}
           </div>
 
-          {/* Tombol Aksi */}
           <div className="col-span-2 flex justify-end mt-4">
             <button
               type="submit"
-              className="ml-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              disabled={Object.values(errors).some((err) => err)}
+              className={`ml-3 px-4 py-2 rounded-lg text-white transition ${Object.values(errors).some((err) => err)
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+                }`}
             >
               {editingId ? "Update" : "Tambah"}
             </button>

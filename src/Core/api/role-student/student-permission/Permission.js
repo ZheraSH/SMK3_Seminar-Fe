@@ -1,21 +1,58 @@
 import axios from "axios";
+import api from "../../axiosConfig";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
-export async function fetchPermissionsApi(page = 1) {
+const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("User belum login");
+  return { Authorization: `Bearer ${token}` };
+};
 
-  await axios.get(`${BASE_URL}/sanctum/csrf-cookie`, { withCredentials: true });
-  const res = await axios.get(
-    `${BASE_URL}/api/student/attendance-permissions`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      params: { page },
+export async function fetchPendingPermissionsApi(startDate = "", endDate = "") {
+  const res = await api.get(`/student/attendance-permissions/pending`, {
+    params: {
+      start_date: startDate,
+      end_date: endDate
     }
-  );
+  });
+  return res.data.data;
+}
+
+export async function fetchPermissionsApi(page = 1,startDate = "", endDate = "") {
+  const res = await api.get(`/student/attendance-permissions`, {
+    params: {
+      page,
+      start_date: startDate,
+      end_date: endDate
+      
+      },
+  });
   return res.data;
 }
+
+export const getPermissionDetailStudent = async (permissionId) => {
+
+  const url = `/student/attendance-permissions/${permissionId}`;
+
+  try {
+    const res = await api.get(
+      url,
+      {
+        headers: {
+          Accept: "application/json",
+        }
+      }
+    );
+
+    return res.data.data;
+  } catch (err) {
+
+    throw new Error(err.response?.data?.message || "Gagal memuat detail izin. Silakan coba lagi.");
+  }
+};
+
+
 
 export async function handleSubmitPermission(formData) {
   const token = localStorage.getItem("token");
@@ -44,4 +81,9 @@ export async function handleSubmitPermission(formData) {
     }
     throw err;
   }
+}
+
+export async function deletePermissionApi(UuidPermit) {
+  const res = await api.delete(`/student/attendance-permissions/${UuidPermit}`);
+  return { success: true, data: res.data };
 }

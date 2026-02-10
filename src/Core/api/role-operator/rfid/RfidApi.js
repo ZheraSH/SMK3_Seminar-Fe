@@ -1,34 +1,29 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 import { notify } from "../../../hooks/notification/notify";
 
 export const fetchRfid = async (page = 1, search = "") => {
   try {
-    const res = await axios.get("http://127.0.0.1:8000/api/rfids", {
-
+    const res = await api.get("/rfids", {
       params: {
         page,
-        search
-      }
-      
+        search,
+      },
     });
 
     return {
       data: res.data.data || [],
-      meta: res.data.meta || {}
+      meta: res.data.meta || {},
     };
-    
   } catch (err) {
     console.error("Gagal mengambil RFID:", err);
     throw err;
   }
 };
 
-
-// Hapus RFID
 export const deleteRFID = async (id) => {
   try {
-    const res = await axios.delete(`http://127.0.0.1:8000/api/rfids/${id}`);
-    notify("Data berhasil Dihapus")
+    const res = await api.delete(`/rfids/${id}`);
+    notify("Data berhasil Dihapus");
     return res.data;
   } catch (err) {
     console.error("Gagal hapus RFID:", err.response?.data || err.message);
@@ -36,11 +31,10 @@ export const deleteRFID = async (id) => {
   }
 };
 
-// Update status RFID
 export const updateRfidStatus = async (rfidId, status) => {
   try {
     const payload = { status };
-    const res = await axios.put(`http://127.0.0.1:8000/api/rfids/${rfidId}`, payload);
+    const res = await api.put(`/rfids/${rfidId}`, payload);
     return res.data;
   } catch (err) {
     console.error("Update error:", err.response?.data || err);
@@ -48,10 +42,10 @@ export const updateRfidStatus = async (rfidId, status) => {
   }
 };
 
-// Tambah RFID baru
+
 export const addRfid = async (payload) => {
   try {
-    const res = await axios.post(`http://127.0.0.1:8000/api/rfids`, payload);
+    const res = await api.post("/rfids", payload);
     return res.data;
   } catch (err) {
     console.error("Add RFID error:", err.response?.data || err);
@@ -59,13 +53,14 @@ export const addRfid = async (payload) => {
   }
 };
 
-// Ambil siswa yang belum punya RFID
+
 export const fetchAvailableStudents = async () => {
   try {
-    const res = await axios.get(`http://127.0.0.1:8000/api/rfids/available-students`);
+    const res = await api.get("/rfids/students-available");
+    console.log(res.data.data);
     return res.data.data || [];
   } catch (error) {
-    console.error("Gagal fetch students:", error);
+    console.error("Gagal fetch students coy:", error);
     throw error;
   }
 };
