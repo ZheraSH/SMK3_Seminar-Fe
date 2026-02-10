@@ -10,31 +10,23 @@ export const extractStudentMasters = (students) => {
       genders.set(student.gender.value, student.gender.label);
     }
 
-    if (student.classroom?.id && student.classroom?.name) {
-      classrooms.set(student.classroom.id, student.classroom.name);
-    }
+    if (student.classroom?.name) {
+      const parts = student.classroom.name.split(" ");
 
-    if (student.classroom?.school_year) {
-      schoolYears.set(
-        student.classroom.school_year,
-        student.classroom.school_year
-      );
-    }
+      const level = parts[0]; 
+      const major = parts[1]; 
 
-    if (student.classroom?.major) {
-      majors.set(student.classroom.major, student.classroom.major);
-    }
-
-    if (student.classroom?.level_class) {
-      levelClasses.set(student.classroom.level_class, student.classroom.level_class);
+      if (level) levelClasses.set(level, level);
+      if (major) majors.set(major, major);
     }
   });
 
   return {
-    genders: Array.from(genders, ([value, label]) => ({ value, label })),
-    classrooms: Array.from(classrooms, ([value, label]) => ({ value, label })),
-    schoolYears: Array.from(schoolYears, ([value, label]) => ({ value, label })),
-    majors: Array.from(majors, ([value, label]) => ({ value, label })),
-    levelClasses: Array.from(levelClasses, ([value, label]) => ({ value, label })),
+    genders: [...genders].map(([value, label]) => ({ value, label })),
+    majors: [...majors].map(([value, label]) => ({ value, label })),
+    levelClasses: [...levelClasses].map(([value, label]) => ({
+      value,
+      label,
+    })),
   };
 };

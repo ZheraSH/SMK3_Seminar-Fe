@@ -101,13 +101,12 @@ export default function useSchedule({ initialMajor = "" }) {
       filters,
       handleFilterChange,
         
-        // 🚨 4. Ganti filterOptions dengan data dari useMasterData
       filterOptions: { 
             majors: majors || [], 
-            schoolYears: schoolYears || [], // Sudah berupa array yang difilter dan dicache
+            schoolYears: schoolYears || [], 
             levelClasses: levelClass || [],
         },
-        masterLoading: masterLoading, // Tambahkan status loading master data
+        masterLoading: masterLoading, 
       searchText,
       handleSearchChange,
   };

@@ -14,7 +14,7 @@ export const useTeacherData = () => {
       );
       const data = Array.isArray(res.data.data) ? res.data.data : [];
       console.log(data);
-      setAllTeachers(data); // WAJIB ADA
+      setAllTeachers(data);
       return data;
     } catch (err) {
       console.error("Gagal ambil employees:", err);
@@ -24,7 +24,7 @@ export const useTeacherData = () => {
   const fetchReligions = async () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/api/religions");
-      console.log("📦 Data agama dari API:", res.data);
+      console.log(" Data agama dari API:", res.data);
       setReligions(res.data.data);
     } catch (err) {
       console.error("gagal", err);

@@ -1,40 +1,25 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { LayouthTeacher } from "../../view/layouts/TeacherLayout";
 import AttendanceTeacher from "../../view/pages/teacher/attendance/MainAttendance";
 import ProtectedRoute from "./ProtectedRoute";
 import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/TeachingSchedule";
 import BodyDashboardTeacher from "../../view/pages/teacher/home/BodyDashboardTeacher";
-import ClassAttendance from "../../view/pages/teacher/attendance/components/ClassAttendance";
-
-
-export function AttendanceLayout() {
-  const [globalChanges, setGlobalChanges] = useState({});
-  const [submittedClasses, setSubmittedClasses] = useState({});
-
-  return (
-    <Outlet context={{ globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses }} />
-  );
-}
+import ProfileUser from "../../view/components/elements/profile/ProfileUser";
+import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 
 export const TeacherRoutes = [
-  {
-    path: "/teacher-home",
-    element: <ProtectedRoute allowedRoles={["teacher"]} />,
-    children: [
-      {
-        element: <LayouthTeacher />,
+    {
+        path: "/teacher-home",
+        element: (<ProtectedRoute allowedRoles={["teacher"]} />),
         children: [
-          { index: true, element: <BodyDashboardTeacher /> },
-          {
-            path: "attendance-teacher",
-            element: <AttendanceLayout />, 
-            children: [
-              { index: true, element: <AttendanceTeacher /> },
-              { path: "detail", element: <ClassAttendance /> },
-            ],
-          },
-          { path: "teacher-schedule", element: <TeacherSchedule /> },
+            {
+                element: <DashboardLayouth />,
+                children: [
+                    { index: true, element: <BodyDashboardTeacher /> },
+                    { path: "dashboard", element: <BodyDashboardTeacher /> },
+                    { path: "attendance-teacher", element: <AttendanceTeacher /> },
+                    { path: "teacher-schedule", element: <TeacherSchedule /> },
+                    { path: "profile", element: <ProfileUser /> },
+                ]
+            }
         ],
       },
     ],

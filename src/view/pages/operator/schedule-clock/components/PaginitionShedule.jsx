@@ -1,5 +1,6 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const MAX_VISIBLE_PAGES = 3;
 
 const Pagination = ({ page, lastPage, onPageChange }) => {
     if (lastPage <= 1) return null;
@@ -11,35 +12,42 @@ const Pagination = ({ page, lastPage, onPageChange }) => {
         startPage = 1;
         endPage = lastPage;
     } else {
-        if (page <= 2) {
+        const half = Math.floor(MAX_VISIBLE_PAGES / 2);
+
+        startPage = page - half;
+        endPage = page + half;
+
+        if (startPage < 1) {
             startPage = 1;
-            endPage = 3;
-        } else if (page >= lastPage - 1) {
-            startPage = lastPage - 2;
+            endPage = MAX_VISIBLE_PAGES;
+        }
+
+        else if (endPage > lastPage) {
             endPage = lastPage;
-        } else {
-            startPage = page - 1;
-            endPage = page + 1;
+            startPage = lastPage - MAX_VISIBLE_PAGES + 1;
         }
     }
 
     const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
     const PageButton = ({ p, active }) => (
-        <button onClick={() => onPageChange(p)} className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-all duration-200 text-sm font-bold
+        <button
+            onClick={() => onPageChange(p)}
+            className={`w-8 h-8 rounded-lg flex items-center justify-center transition text-sm
               ${active
-                ? "bg-[#3B82F6] text-white shadow-md" 
-                : "text-[#3B82F6] hover:bg-gray-100"
-              }`}
+                    ? "bg-blue-600 text-white font-semibold shadow-md"
+                    : "text-blue-600 hover:bg-blue-100 "
+                }`}
         >
             {p}
         </button>
     );
 
     return (
-        <div className="flex mt-8 items-center justify-center space-x-2 gap-1 select-none font-sans">
-            <button disabled={page === 1} onClick={() => onPageChange(page - 1)} className={`w-10 h-10 flex items-center justify-center transition ${page === 1 ? "text-gray-300 cursor-not-allowed" : "text-[#3B82F6] hover:bg-gray-50 rounded-lg"}`}>
-                <ChevronLeft size={24} strokeWidth={2.5} />
+        <div className="flex items-center justify-center mt-8 gap-2 select-none">
+
+            <button disabled={page === 1} onClick={() => onPageChange(page - 1)} className={`w-8 h-8 flex items-center justify-center  ${page === 1 ? "opacity-50 cursor-not-allowed" : "text-gray-600"}`}>
+                &lt;
             </button>
 
             {startPage > 1 && (
@@ -62,8 +70,8 @@ const Pagination = ({ page, lastPage, onPageChange }) => {
                 </>
             )}
 
-            <button  disabled={page === lastPage}  onClick={() => onPageChange(page + 1)}  className={`w-10 h-10 flex items-center justify-center transition ${page === lastPage ? "text-gray-300 cursor-not-allowed" : "text-[#3B82F6] hover:bg-gray-50 rounded-lg"}`}>
-                <ChevronRight size={24} strokeWidth={2.5} />
+            <button disabled={page === lastPage} onClick={() => onPageChange(page + 1)} className={`w-8 h-8 flex items-center justify-center ${page === lastPage ? "opacity-50 cursor-not-allowed" : "text-gray-600"}`}>
+                &gt;
             </button>
         </div>
     );

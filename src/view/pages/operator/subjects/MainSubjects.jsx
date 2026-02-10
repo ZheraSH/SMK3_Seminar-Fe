@@ -1,55 +1,63 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  addSubject,
-  updateSubject,
-  deleteSubject,
-} from "../../../../Core/api/role-operator/subjects/Subjects";
-
+import { addSubject, updateSubject, deleteSubject } from "../../../../Core/api/role-operator/subjects/Subjects";
 import { SubjectModal } from "./components/SubjectModal";
 import { SearchBar } from "./components/SearchBar";
 import { Pagination } from "./components/Pagination";
 import { SubjectCard } from "./components/SubjectCard";
 import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/useSubjects";
-import HeaderPage from "../../../components/elements/header/Header.Page";
-import DeleteConfirmModal from "../../../components/elements/deleteconfirm/DeleteConfirmModal";
-import LoadingData from "../../../components/Loading/Data";
+import Header from "../../../components/elements/header/Header-new";
+import LoadingData from "../../../components/elements/loadingData/loading";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
+
 
 export default function MainMaple() {
   const {
     subjects,
     currentPage,
-    setCurrentPage,
     totalPages,
+    totalItems,
     fetchSubjects,
     loading,
   } = useSubjects();
+
+  const [search, setSearch] = useState("");
+  const [globalTotal, setGlobalTotal] = useState(0);
 
   const [newSubject, setNewSubject] = useState({ name: "" });
   const [editSubject, setEditSubject] = useState({ id: null, name: "" });
   const [openMenu, setOpenMenu] = useState(null);
   const [openModal, setOpenModal] = useState(null);
-  const [search, setSearch] = useState("");
-  const [deleteId, setDeleteId] = useState(null);
-
-  const filteredSubjects = subjects.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
-
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: null, loading: false });
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+
+    if (search === "") {
+      setGlobalTotal(totalItems);
+    }
+  }, [totalItems, search]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchSubjects(1, search);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
+
   const handleAddSubject = async (e) => {
     e.preventDefault();
     try {
       await addSubject(newSubject);
       setOpenModal(null);
       setNewSubject({ name: "" });
-      fetchSubjects(currentPage);
+
+      fetchSubjects(1, "");
     } catch (err) {
       const message = err.response?.data?.errors?.name?.[0];
-      if (message) {
-        setErrors({ name: message });
-      }
+      if (message) setErrors({ name: message });
     }
   };
 
@@ -60,67 +68,66 @@ export default function MainMaple() {
         await updateSubject(editSubject.id, editSubject.name);
         setOpenModal(null);
         setEditSubject({ id: null, name: "" });
-        fetchSubjects(currentPage);
+        fetchSubjects(currentPage, search);
       }
     } catch (err) {
-      console.error("Error updating subject:", err);
+      const message = err.response?.data?.errors?.name?.[0];
+      if (message) setErrors({ name: message });
     }
   };
 
-  const askDeleteSubject = (id) => {
-    setDeleteId(id);
+  const handleDeleteSubject = (id) => {
+    setDeleteModal({ isOpen: true, id: id, loading: false });
   };
 
-  const handleDeleteSubject = async () => {
-    if (!deleteId) return;
-
+  const confirmDelete = async () => {
+    if (!deleteModal.id) return;
+    setDeleteModal((prev) => ({ ...prev, loading: true }));
     try {
-      await deleteSubject(deleteId);
-
-      const page =
-        subjects.length === 1 && currentPage > 1
-          ? currentPage - 1
-          : currentPage;
-
-      setCurrentPage(page);
-      fetchSubjects(page);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setDeleteId(null);
+      await deleteSubject(deleteModal.id);
+      fetchSubjects(currentPage, search);
+      setGlobalTotal((prev) => (prev > 0 ? prev - 1 : 0));
+      setDeleteModal({ isOpen: false, id: null, loading: false });
+    } catch (error) {
+      console.error("Error deleting subject:", error);
+      setDeleteModal((prev) => ({ ...prev, loading: false }));
     }
   };
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    fetchSubjects(newPage);
-    setSearch("");
+    fetchSubjects(newPage, search);
   };
 
-  if (loading && subjects.length === 0) {
-    return <LoadingData loading={loading} />;
-  }
+
 
   return (
-    <div className="justify-center mt-8 mx-7">
-      <HeaderPage
-        h1="Mata Pelajaran"
-        p=" Daftar seluruh mata pelajaran yang tersedia dalam sistem."
-      />
+    <div className="justify-center">
+      <div className=" hidden md:block">
+        {loading ?
+          (<LoadingData loading={loading} type="header1" />)
+          : (
+            <Header
+              src="/images/new/imageMapel.png"
+              span="Daftar Mata Pelajaran"
+              p={"Total Mata Pelajaran : " + globalTotal}
+            />
+          )
 
-      {/* CONTENT */}
-      <div className="">
-        {/* Search & Button */}
+        }
+      </div>
+
+      <div>
         <SearchBar
           search={search}
+          loading={loading}
           onSearchChange={setSearch}
           onAddClick={() => {
+            setErrors({});
             setNewSubject({ name: "" });
             setOpenModal("add");
           }}
         />
 
-        {/* Modal */}
         <SubjectModal
           isOpen={openModal === "add"}
           mode="add"
@@ -128,9 +135,7 @@ export default function MainMaple() {
           errors={errors}
           setErrors={setErrors}
           onClose={() => setOpenModal(null)}
-          onChange={(field, value) =>
-            setNewSubject({ ...newSubject, [field]: value })
-          }
+          onChange={(field, value) => setNewSubject({ ...newSubject, [field]: value })}
           onSubmit={handleAddSubject}
         />
 
@@ -141,40 +146,48 @@ export default function MainMaple() {
           errors={errors}
           setErrors={setErrors}
           onClose={() => setOpenModal(null)}
-          onChange={(field, value) =>
-            setEditSubject({ ...editSubject, [field]: value })
-          }
+          onChange={(field, value) => setEditSubject({ ...editSubject, [field]: value })}
           onSubmit={handleUpdateSubject}
         />
 
-        {/* CARD GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredSubjects.map((subject, index) => (
-            <SubjectCard
-              key={subject.id || index}
-              subject={subject}
-              index={index}
-              openMenu={openMenu}
-              setOpenMenu={setOpenMenu}
-              onEdit={(subject) => {
-                setEditSubject({ id: subject.id, name: subject.name });
-                setOpenModal("edit");
-              }}
-              onDelete={askDeleteSubject}
-            />
-          ))}
-        </div>
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={() => setDeleteModal({ isOpen: false, id: null, loading: false })}
+          onConfirm={confirmDelete}
+          title="Hapus Mata Pelajaran?"
+          message="Apakah Anda yakin ingin menghapus mata pelajaran ini? Data yang dihapus tidak dapat data mata pelajaran dikembalikan."
+          loading={deleteModal.loading}
+        />
 
-        {/* Show message when no results */}
-        {filteredSubjects.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            {search
-              ? "Tidak ada mata pelajaran yang sesuai dengan pencarian."
-              : "Tidak ada mata pelajaran."}
+        {loading ? (
+          <LoadingData loading={loading} type="cardMapel" count={8} />
+        ) : subjects.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-10">
+            <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-130 h-auto mb-4" />
+            <h1 className="text-[#4B5563]">Maaf yaaa.. datanya gaada, silahkan klik “Tambah Mapel” </h1>
+            <h1 className="text-[#4B5563]">buat nambah data Mapel baru!</h1>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {subjects.map((subject, index) => (
+              <SubjectCard
+                key={subject.id || index}
+                subject={subject}
+                index={index}
+                openMenu={openMenu}
+                setOpenMenu={setOpenMenu}
+                onEdit={(s) => {
+                  setErrors({});
+                  setEditSubject({ id: s.id, name: s.name });
+                  setOpenModal("edit");
+                }}
+                onDelete={handleDeleteSubject}
+              />
+            ))}
           </div>
         )}
 
-        {totalPages > 1 && (
+        {!loading && totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

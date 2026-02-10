@@ -10,7 +10,7 @@ const PIE_CHART_DATA = [
 const TooltipBubble = ({ x, y, value }) => {
   return (
     <foreignObject x={x - 40} y={y - 50} width="80" height="40">
-      <div style={{   background: "rgba(255,255,255,0.85)",   backdropFilter: "blur(6px)",   borderRadius: "8px",   padding: "4px 8px",   boxShadow: "0 2px 6px rgba(0,0,0,0.15)",   border: "1px solid rgba(200,200,200,0.6)",   fontSize: "12px",   textAlign: "center",   color: "#1d4ed8",   fontWeight: "bold",}}>
+      <div style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(6px)", borderRadius: "8px", padding: "4px 8px", boxShadow: "0 2px 6px rgba(0,0,0,0.15)", border: "1px solid rgba(200,200,200,0.6)", fontSize: "12px", textAlign: "center", color: "#1d4ed8", fontWeight: "bold", }}>
         {value}%
       </div>
     </foreignObject>
@@ -188,7 +188,7 @@ export const LineChartPlaceholder = ({ monthlyTrendData }) => {
               }
             />
 
-            <circle cx={pt.x} cy={pt.y} r="7" fill="white" stroke="#dbeafe" strokeWidth="1.5"/>
+            <circle cx={pt.x} cy={pt.y} r="7" fill="white" stroke="#dbeafe" strokeWidth="1.5" />
             <circle cx={pt.x} cy={pt.y} r="4" fill="#3b82f6" />
 
             {hoveredData && hoveredData.month === dataPoints[i].month && (
@@ -221,18 +221,16 @@ export const LineChartPlaceholder = ({ monthlyTrendData }) => {
 
 export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
   const rawData = useMemo(() => {
-    const totalPresent = proportionData.present ?? 0;
-    const totalLeave = proportionData.leave ?? 0;
-    const totalSick = proportionData.sick ?? 0;
+    const totalPresent = proportionData.hadir ?? 0;
+    const totalLeave = proportionData.izin ?? 0;
     const totalAlpha = proportionData.alpha ?? 0;
 
-    const finalTotal = totalPresent + totalLeave + totalSick + totalAlpha;
+    const finalTotal = totalPresent + totalLeave + totalAlpha;
 
     const formattedData = [
-      { label: "Hadir", value: totalPresent, color: " #10b981", textColor: " #047857" },
-      { label: "Izin", value: totalLeave, color: "#3B82F6", textColor: "#1d4ed8" },
-      { label: "Sakit", value: totalSick, color: "#fbbf24", textColor: "#b45309" },
-      { label: "Alpha", value: totalAlpha, color: "#ef4444", textColor: "#b91c1c" },
+      { label: "Hadir", value: totalPresent, color: " #22C55E", textColor: " #047857" },
+      { label: "Izin", value: totalLeave, color: "#0EA5E9", textColor: "#1d4ed8" },
+      { label: "Alpha", value: totalAlpha, color: "#EF4444", textColor: "#b91c1c" },
     ];
 
     return formattedData.map((d) => ({
@@ -247,13 +245,13 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
 
   if (totalLog === 0) {
     return (
-      <div className="bg-white p-6 rounded-lg shadow-sm border h-[347px] w-full flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-[347px] w-full flex items-center justify-center">
         <p className="text-gray-500">Tidak ada data absensi untuk periode ini.</p>
       </div>
     );
   }
 
-  const GAP_DEGREES = 2;
+  const GAP_DEGREES = 3;
   const INNER_RATIO = 0.5;
 
   let cumulative = 0;
@@ -280,7 +278,7 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
       <div className="relative flex items-center justify-center">
         <svg width="100%" height="100%" viewBox={`0 0 ${SIZE} ${SIZE}`} className="max-w-[280px] md:max-w-md mr-10 lg:-mt-7 md:-mt-12">
           {segments.map((seg, i) => (
-            <path key={i} d={describeArc(CENTER, CENTER, RADIUS, INNER, seg.start - 90, seg.end - 90)} fill={seg.color} className="transition-transform duration-300 hover:scale-[1.02]"/>
+            <path key={i} d={describeArc(CENTER, CENTER, RADIUS, INNER, seg.start - 90, seg.end - 90)} fill={seg.color} className="transition-transform duration-300 hover:scale-[1.02]" />
           ))}
 
           {segments.map((seg) => {
@@ -296,7 +294,7 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
 
             return (
               <React.Fragment key={seg.label}>
-                <LeaderLine midAngle={mid} color={seg.textColor} radius={RADIUS} center={{ x: CENTER, y: CENTER }}/>
+                <LeaderLine midAngle={mid} color={seg.textColor} radius={RADIUS} center={{ x: CENTER, y: CENTER }} />
                 <text x={horizontal} y={start.y - 5} textAnchor={isRight ? "start" : "end"} fill={seg.textColor} fontWeight="bold" fontSize="12">
                   {seg.label}
                 </text>

@@ -1,63 +1,53 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
-// Axios instance
-const API = axios.create({
-  baseURL: "http://localhost:8000/api",
-  headers: {
-    Accept: "application/json",
-  },
-});
 
-// Interceptor untuk inject token otomatis
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-// Fetch daily summary-class
-export const fetchSummaryClass = async (date) => {
+export const fetchSummaryClass = async () => {
   try {
-    const res = await API.get("/homeroom-teacher/summary-class", {
-      params: { date },
-    });
-    // console.log("summary class:",res.data.data)
-    return res.data;
+    const res = await api.get("/homeroom-teacher/summary-class/header");
+    return res.data.data;
   } catch (err) {
     console.error("Error fetchSummaryClass:", err.response || err);
     throw err;
   }
 };
 
-// Fetch weekly summary-class
-export const fetchSummaryClassWeekly = async (start_date, end_date) => {
+export const fetchSummaryClassCard = async () => {
   try {
-    const res = await API.get("/homeroom-teacher/summary-class/weekly-attendance", {
-      params: { start_date, end_date },
-    });
-    // console.log("Weekly:",res.data.data)
-    return res.data;
+    const res = await api.get("/homeroom-teacher/dashboard/attendance-counts");
+    return res.data.data;
   } catch (err) {
-    console.error("Error fetchSummaryClassWeekly:", err.response || err);
+    console.error("Error fetchSummaryClassCard:", err.response || err);
     throw err;
   }
 };
 
-export const fetchSummaryClassdaily = async (date) => {
+export const fetchSummaryClassdaily = async (date, page = 1, search = "", status = "") => {
   try {
-    const res = await API.get("/homeroom-teacher/summary-class/daily-attendance", {
-      params: { date },
+    const res = await api.get("/homeroom-teacher/summary-class/students", {
+      params: { 
+        date, 
+        page, 
+        search, 
+        status 
+      }
     });
-
-    // console.log("Daily Data:", res.data?.data);
-    return res.data?.data ?? null;
+    return res.data.data; 
   } catch (err) {
-    console.error("Error fetchSummaryClassdaily:", err.response || err);
-    throw err;
+    console.error("Error fetchSummaryClassDaily:", err.response || err);
+    return { students: [], pagination: {} }; 
   }
 };
 
 
-export default API; // kalau mau akses Axios instance langsung
+export const getCetakRecap = async (date, status = "") => {
+  try {
+    const response = await api.get("/homeroom-teacher/summary-class/recap", {
+      params: { date, status },
+      responseType: 'blob', 
+    });
+    return response.data;
+  } catch (err) {
+    console.error("Error getCetakRecap:", err.response || err);
+    throw err;
+  }
+};

@@ -14,7 +14,7 @@ const debounce = (func, delay) => {
 
 export default function useClasses({ initialMajor = "" }) {
    const master = useMasterData();
-   const { majors, schoolYears, levelClass, teachers, loading: masterLoading } = master; // schoolYears sudah berupa array yang sudah difilter
+   const { majors, schoolYears, levelClass, teachers, loading: masterLoading } = master; 
 
    const [data, setData] = useState([]);
    const [loading, setLoading] = useState(true); 
@@ -22,6 +22,7 @@ export default function useClasses({ initialMajor = "" }) {
    const [lastPage, setLastPage] = useState(1); 
    const [searchText, setSearchText] = useState("");
    const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "",});
+    const [total, setTotal] = useState(0);
 
    const fetchClass = async (pageNumber, currentFilters, currentSearchText) => {
         setLoading(true);
@@ -38,12 +39,14 @@ export default function useClasses({ initialMajor = "" }) {
 
            setData(res.data); 
            setPage(res.meta.current_page); 
-           setLastPage(res.meta.last_page); 
+           setLastPage(res.meta.last_page);
+           setTotal(res.meta.total); 
 
        } catch (error) {
            console.error("Error fetching Class:", error.response?.data || error);
            setData([]);
-           setLastPage(1); 
+           setLastPage(1);
+           setTotal(0); 
        } finally {
            setLoading(false);
        }
@@ -101,7 +104,7 @@ export default function useClasses({ initialMajor = "" }) {
        handleFilterChange, 
        searchText, 
        handleSearchChange,
-    
+       total,
        masterLoading: masterLoading,
        filterOptions: { 
            majors: majors || [], 

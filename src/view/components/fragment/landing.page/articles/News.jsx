@@ -44,8 +44,8 @@ const NewsSection = () => {
       ? newsData
       : newsData.filter((n) => n.category === selectedCategory);
 
-  const mainNews = filteredNews[0]; // berita utama
-  const otherNews = filteredNews.slice(1); // berita lainnya
+  const mainNews = filteredNews[0]; 
+  const otherNews = filteredNews.slice(1); 
 
   return (
     <section
@@ -53,7 +53,6 @@ const NewsSection = () => {
       data-aos-duration="3000"
       className="max-w-7xl mx-auto my-30 px-6 lg:px-16 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8"
     >
-      {/* Kolom kiri: Berita utama */}
       <div className="lg:col-span-2">
         {mainNews && (
           <div className="bg-white shadow-lg rounded-xl overflow-hidden">
@@ -78,9 +77,7 @@ const NewsSection = () => {
         )}
       </div>
 
-      {/* Kolom kanan */}
       <div className="space-y-6">
-        {/* Berita Lainnya */}
         <div>
           <h4 className="text-lg font-bold text-blue-700 mb-3">
             Berita Lainnya
@@ -107,7 +104,6 @@ const NewsSection = () => {
           </div>
         </div>
 
-        {/* Kategori */}
         <div>
           <h4 className="text-lg font-bold text-blue-700 mb-3">
             Kategori Lainnya

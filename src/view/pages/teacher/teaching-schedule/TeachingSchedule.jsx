@@ -1,165 +1,144 @@
 "use client";
-import { useState, useEffect } from "react";
-import { CalendarDays } from "lucide-react";
-import HeaderPage2 from "../../../components/elements/header/Header.Page2";
+import { useState } from "react";
+import Header from "../../../components/elements/header/Header-new";
 import { useTeacherSchedule } from "../../../../Core/hooks/role-teacher/teacher-schedule/useTeacherSchedule";
-import LoadingData from "../../../components/Loading/Data";
-
-function getMonday(dateString) {
-  const d = new Date(dateString);
-  const day = d.getDay(); 
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  d.setDate(diff);
-  return d;
-}
-
-function getDateFromWeek(selectedDate, targetDay) {
-  const monday = getMonday(selectedDate);
-
-  const dayIndexMap = {
-    monday: 0,
-    tuesday: 1,
-    wednesday: 2,
-    thursday: 3,
-    friday: 4,
-    saturday: 5,
-    sunday: 6,
-  };
-
-  const result = new Date(monday);
-  result.setDate(monday.getDate() + dayIndexMap[targetDay]);
-  return result.toISOString().split("T")[0];
-}
+import { getBgColorBySubject } from "../../../../Core/utils/SubjectHelper";
+import LoadingData from "../../../components/elements/loadingData/loading";
 
 export default function TeacherSchedule() {
   const today = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState(today);
-  const [userName, setUserName] = useState("");
+  const { schedule, activeDay,loading } = useTeacherSchedule(selectedDate);
+  const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
+  function getDateFromDay(dayLabel) {
+    const todayDate = new Date();
+    const todayIndex = todayDate.getDay(); 
 
-  const { schedule, activeDay, dayMap, loading } =
-    useTeacherSchedule(selectedDate);
+    const map = {
+      "Senin": 1,
+      "Selasa": 2,
+      "Rabu": 3,
+      "Kamis": 4,
+      "Jumat": 5,
+    };
 
-  const days = [
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-    "Jum'at",
-    "Sabtu",
-    "Minggu",
-  ];
+    const targetIndex = map[dayLabel];
+    const diff = targetIndex - todayIndex;
+    const result = new Date(todayDate);
+    result.setDate(todayDate.getDate() + diff);
 
-  const reverseDayMap = {
-    Senin: "monday",
-    Selasa: "tuesday",
-    Rabu: "wednesday",
-    Kamis: "thursday",
-    "Jum'at": "friday",
-    Sabtu: "saturday",
-    Minggu: "sunday",
-  };
-
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("userData"));
-    if (stored?.name) setUserName(stored.name);
-  }, []);
-
-  if (loading) {
-    return <LoadingData loading={loading} />;
+    return result.toISOString().split("T")[0];
   }
 
   return (
-    <div className="mx-4 sm:mx-7">
-      <HeaderPage2
-        h1="Jadwal Mengajar Guru XII PPLG 3"
-        p="Data Jadwal Mengajar"
-        user={userName}
-        count_student="-"
-        schoolyears={"2025/2026"}
-      />
+    <div className=" mt-5">
+      <div className="container mx-auto hidden md:block">
+        {loading?(<LoadingData loading={loading} type="header1"/>)
+        :(
+          <Header
+            span="Overview Jadwal Mengajar"
+            p="Akses kelas untuk mencatat kehadiran siswa secara real-time."
+            src="/images/background/bg-4.png"
+          />
+        )}
+      </div>
 
       <div className="w-full mt-6">
-        {/* Tabs & Date */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white border border-gray-200 p-2 rounded-2xl gap-2 sm:gap-0">
+        {loading?(<LoadingData loading={loading} type="tombolDay2" count={5} />)
+        :(
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white border border-[#000000]/15 shadow-sm p-1 rounded-2xl gap-3">
 
-          {/* TABS */}
-          <div className="flex gap-2 bg-gray-100 p-1 rounded-xl shadow-sm overflow-x-auto w-full sm:w-auto">
-            {days.map((d) => (
-              <button
-                key={d}
-                onClick={() => {
-                  const backendDay = reverseDayMap[d];
-                  setSelectedDate(
-                    getDateFromWeek(selectedDate, backendDay)
+            <h1 className="text-[20px] font-semibold ml-2">
+              Daftar Jadwal Mengajar
+            </h1>
+
+            <div className="flex gap-2 p-2 rounded-2xl overflow-x-auto w-full sm:w-fit bg-white">
+              {days.map((d) => (
+                <button
+                  key={d}
+                  onClick={() => {
+                    const newDate = getDateFromDay(d);
+                    setSelectedDate(newDate);
+                  }}
+                  className={`w-[72px] h-[36px] rounded-lg text-[12px]  font-semibold
+                    transition-all duration-200
+                    ${
+                      activeDay === d
+                        ? "bg-[#3B82F6] text-white shadow-md"
+                        : "bg-[#E5E7EB] text-[#374151] border border-[#CBD5E1] shadow-md hover:bg-[#3B82F6] hover:text-white"
+                    }`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-6 mb-20 overflow-x-auto rounded-md shadow">
+          {loading?(<LoadingData loading={loading} type="tableSchedule" count={10} />)
+          :schedule.length === 0 ?(
+            <div className="flex flex-col items-center ">
+                <img src="/images/null/null2.png" alt="Data Kosong" className="w-130 h-auto" />
+                <h1 className="text-[#4B5563]">Belum ada jadwal di hari ini,</h1>
+                <h1 className="text-[#4B5563] mb-4">Silahkan hubungi operator untuk menambahkan jadwal.</h1>
+            </div>
+          ):(
+            <table className="min-w-[600px] w-full text-sm text-left border-collapse">
+              <thead className="bg-[#3B82F6] text-white">
+                <tr>
+                  <th className="py-3 px-2 font-medium text-center">No</th>
+                  <th className="py-3 px-2 font-medium text-center">Penempatan</th>
+                  <th className="py-3 px-2 font-medium text-center">Jam</th>
+                  <th className="py-3 px-2 font-medium text-center">Mata Pelajaran</th>
+                  <th className="py-3 px-2 font-medium text-center">Kelas</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {schedule.map((item, i) => {
+                  const rowClass = i % 2 === 0 ? "bg-white" : "bg-[#EFF6FF]";
+
+                  return (
+                    <tr
+                      key={item.id}
+                      className={`${rowClass} border-b border-gray-200`}
+                    >
+                      <td className="px-4 py-4 text-center">{i + 1}.</td>
+                      
+                      <td className="px-4 py-4 text-center">{item.lesson || "-"}</td>
+                      
+                      <td className="px-4 py-4 text-center">
+                        <span className="inline-flex items-center justify-center bg-[#10B981]/20 text-[#10B981] w-[122px] h-[27px] rounded text-[15px] font-medium">
+                          {item.time || "-"}
+                        </span>
+                      </td>
+                      
+                      <td className="px-4 py-4 text-center">
+                        <span className={`inline-flex items-center justify-center text-white w-[120px]  rounded-2xl py-1.5 text-[12px] font-medium ${getBgColorBySubject (item.subject?.name)} `}>
+                        {item.subject?.name || "-"}
+                        </span>
+                      </td>
+                      
+                      <td className="px-4 py-4 text-center">
+                        <span className="inline-flex items-center justify-center bg-[#8B5CF6] text-white w-[80px]  rounded-2xl py-1.5 text-[12px] font-medium">
+                        {item.classroom?.name || "-"}
+                        </span>
+                      </td>
+                    </tr>
                   );
-                }}
-                className={`flex-shrink-0 px-4 sm:px-5 py-2 rounded-xl text-sm font-medium transition-all duration-150 ${
-                  activeDay === d
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {d}
-              </button>
-            ))}
-          </div>
+                })}
 
-          {/* DATE BADGE */}
-          <div className="flex items-center gap-2 text-white px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 rounded-xl shadow-md mt-2 sm:mt-0">
-            <CalendarDays size={18} />
-            <span className="text-sm sm:text-base font-medium">
-              {new Date(selectedDate).toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-        </div>
-
-        {/* TABLE */}
-        <div className="mt-6 mb-20 overflow-x-auto">
-          <div className="min-w-[600px] bg-blue-600 text-white rounded-[5px] py-4 px-4 grid grid-cols-5 font-medium text-center shadow text-sm sm:text-base">
-            <div>No</div>
-            <div>Hari</div>
-            <div>Jam</div>
-            <div>Kelas</div>
-            <div>Mata Pelajaran</div>
-          </div>
-
-          <div className="flex flex-col min-w-[600px]">
-            {schedule.map((item, i) => (
-              <div
-                key={item.id}
-                className="bg-white rounded-[5px] shadow-sm px-4 py-4 grid grid-cols-5 text-center border border-gray-200 text-sm sm:text-base"
-              >
-                <div>{i + 1}</div>
-
-                <div>{dayMap[item.day] || "-"}</div>
-
-                <div>
-                  {(item.lesson_hour?.start_time || "00:00").slice(0, 5)} -{" "}
-                  {(item.lesson_hour?.end_time || "00:00").slice(0, 5)}
-                </div>
-
-                <div>
-                  {`${item.classroom?.level || "-"} ${
-                    item.classroom?.major || "-"
-                  } ${
-                    item.classroom?.name?.replace(/\D/g, "") || "-"
-                  }`}
-                </div>
-
-                <div>{item.subject?.name || "-"}</div>
-              </div>
-            ))}
-
-            {schedule.length === 0 && (
-              <div className="text-center py-6 text-gray-500 min-w-[600px]">
-                Tidak ada jadwal hari ini.
-              </div>
-            )}
-          </div>
+                {schedule.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="text-center py-6 text-gray-500 border border-gray-200 bg-white">
+                      Tidak ada jadwal hari ini.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

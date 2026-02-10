@@ -1,11 +1,10 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+import api from "../../axiosConfig";
 import { notify } from "../../../hooks/notification/notify";
-import axios from "axios";
 
 export const getClass = async (params = {}) => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/classrooms`, { params });
-        return res.data; 
+        const res = await api.get(`/classrooms`, { params });
+        return res.data;
     } catch (err) {
         console.error("Gagal ambil classroom:", err);
         throw err;
@@ -14,9 +13,9 @@ export const getClass = async (params = {}) => {
 
 export const createClass = async (formData) => {
     try {
-        const res = await axios.post(`${API_BASE_URL}/classrooms`, formData)
+        const res = await api.post(`/classrooms`, formData)
         notify("Data Berhasil Ditambah");
-        return res.data; 
+        return res.data;
     } catch (err) {
         console.error("Gagal menambah classroom:", err.response ? err.response.data : err)
         throw err.response ? err.response.data : err;
@@ -26,7 +25,7 @@ export const createClass = async (formData) => {
 
 export const getMajors = async () => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/majors`);
+        const res = await api.get(`/majors`);
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil Jurusan:", err);
@@ -36,7 +35,7 @@ export const getMajors = async () => {
 
 export const getSchoolYears = async () => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/school-years`);
+        const res = await api.get(`/school-years`);
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil Tahun Ajaran:", err);
@@ -46,7 +45,7 @@ export const getSchoolYears = async () => {
 
 export const getLevelClass = async () => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/level-classes`);
+        const res = await api.get(`/level-classes`);
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil class Ajaran:", err);
@@ -62,7 +61,7 @@ export const getTeachers = async () => {
 
     try {
         do {
-            const res = await axios.get(`${API_BASE_URL}/employees?page=${currentPage}`);
+            const res = await api.get(`/employees?page=${currentPage}`);
             const responseData = res.data;
 
             if (responseData.data && Array.isArray(responseData.data)) {
@@ -74,21 +73,57 @@ export const getTeachers = async () => {
             } else if (responseData.links && responseData.links.next) {
 
             } else {
-                lastPage = currentPage; 
+                lastPage = currentPage;
             }
 
             if (currentPage < lastPage) {
-                await delay(150); 
+                await delay(150);
             }
-            
+
             currentPage++;
 
-        } while (currentPage <= lastPage); 
-        
+        } while (currentPage <= lastPage);
+
         return allTeachers;
-        
+
     } catch (err) {
         console.error("Gagal mengambil SEMUA Guru/Wali Kelas:", err.response ? err.response.data : err);
+        throw err;
+    }
+};
+
+export const getAllClasses = async () => {
+    let allClasses = [];
+    let currentPage = 1;
+    let lastPage = 1;
+
+    try {
+        do {
+            const res = await api.get(`/classrooms?page=${currentPage}`);
+            const responseData = res.data;
+
+            if (responseData.data && Array.isArray(responseData.data)) {
+                allClasses = allClasses.concat(responseData.data);
+            }
+
+            if (responseData.meta) {
+                lastPage = responseData.meta.last_page || currentPage;
+            } else {
+                lastPage = currentPage;
+            }
+
+            if (currentPage < lastPage) {
+                await delay(150);
+            }
+
+            currentPage++;
+
+        } while (currentPage <= lastPage);
+
+        return allClasses;
+
+    } catch (err) {
+        console.error("Gagal mengambil SEMUA Kelas:", err.response ? err.response.data : err);
         throw err;
     }
 };

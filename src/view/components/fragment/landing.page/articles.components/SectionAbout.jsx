@@ -11,17 +11,12 @@ const AboutSection = () => {
   return (
     <>
     <div className="relative py-16 overflow-hidden">
-      {/* Background Image di sebelah kanan */}
       <div className="absolute inset-y-0 right-0 w-1/2 bg-[url('images/particle01.png')] bg-no-repeat bg-right bg-contain opacity-20 pointer-events-none"></div>
      
-
-      {/* Pengguna TEFA */}
       <section className="relative max-w-7xl mx-auto px-6 lg:px-16 text-center mb-20">
         <div data-aos="fade-up" data-aos-duration="2000">
         <h2 className="text-2xl font-bold text-blue-800 mb-4">Pengguna TEFA</h2>
-        {/* Garis Gradasi */}
         <center><span className="block w-50 h-1 mt-2 bg-gradient-to-r from-[#0084FF] to-[#FFDF0C] rounded"></span></center>
-        {/* Garis Putus-Putus */}
         <center><span className="block w-50 border-b-2 border-dashed border-gray-300 mt-1"></span></center>
         
         <p className="text-gray-600 max-w-2xl mx-auto mb-12">
@@ -63,13 +58,10 @@ const AboutSection = () => {
         </div>
       </section>
 
-      {/* Berita & Update */}
       <section className="relative max-w-7xl mx-auto px-6 lg:px-16 text-center">
         <div data-aos="fade-up" data-aos-duration="2000">
         <h2 className="text-2xl font-bold text-blue-800 ">Berita & Update</h2>
-        {/* Garis Gradasi */}
         <center><span className="block w-50 h-1 mt-2 bg-gradient-to-r from-[#0084FF] to-[#FFDF0C] rounded"></span></center>
-        {/* Garis Putus-Putus */}
         <center><span className="block w-50 border-b-2 border-dashed border-gray-300 mt-1 mb-4"></span></center>
         <p className="text-gray-600 max-w-2xl mx-auto mb-12">
           Ikuti perkembangan terbaru kegiatan TEFA SMK Negeri 3 Pamekasan.
@@ -83,11 +75,9 @@ const AboutSection = () => {
               key={idx}
               className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col hover:shadow-2xl transition duration-500"
             >
-              {/* Thumbnail */}
               <div className="h-40 bg-gray-200 flex items-center justify-center">
                 <span className="text-gray-400">Thumbnail {idx}</span>
               </div>
-              {/* Content */}
               <div className="p-6 text-left flex flex-col flex-grow ">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-blue-500">
                   Judul Berita

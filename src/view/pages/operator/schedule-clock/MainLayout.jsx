@@ -4,109 +4,83 @@ import FilterDropdown from './components/FilterData';
 import useSchedule from '../../../../Core/hooks/operator-hooks/schedule/useSchedule';
 import ScheduleDetailPage from './SheduleDetail';
 import Pagination from "./components/PaginitionShedule";
-import {Search} from "lucide-react";
-import LoadingData from '../../../components/Loading/Data';
+import {Search,Settings } from "lucide-react";
+import Header1 from "../../../components/elements/header/Header-new";
+import LoadingData from '../../../components/elements/loadingData/loading';
 
 function ClassScheduleManager() {
 
-    const { activeTab, setActiveTab, scheduleData, loading, handleViewSchedule, selectedClassroomData, handleBackToClasses, filters, filterOptions, handleFilterChange, page, lastPage, handlePageChange,searchText, 
-        handleSearchChange} = useSchedule({ initialMajor: "" });
-    // const [searchText, setSearchText] = useState("");
+    const { activeTab, setActiveTab, scheduleData, loading, handleViewSchedule, selectedClassroomData, handleBackToClasses, filters, filterOptions, handleFilterChange, page, lastPage, handlePageChange,searchText, handleSearchChange} = useSchedule({ initialMajor: "" });
     const displayClassData = scheduleData;
+    const isMainTabActive = activeTab === 'kelas';
 
-    const isMainTabActive = activeTab === 'kelas' || activeTab === 'jam';
-    if (loading) {
-        return <LoadingData loading={loading} />;
-    }
     return (
-        <div className="p-3 bg-gray-50 min-h-screen font-sans lg:mb-10 mb-20 md:mb-30">
-            {activeTab !== 'jadwal-kelas' && (
-                <div className="relative w-full h-[166px] bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] mb-4">
-                    <div className="absolute inset-0 items-center justify-center rounded-[6px] w-64 md:w-full">
-                        <div className="ml-5 mt-2">
-                            <h1 className="text-white text-[22px] md:text-[30px] font-semibold">
-                                {activeTab === 'kelas' ? 'Jadwal Pelajaran' : 'Pengaturan Jam Belajar'}
-                            </h1>
-                            <p className="text-white text-[12px] md:text-[14px] font-light">
-                                {activeTab === 'kelas'
-                                    ? 'Pilih kelas untuk melihat dan mengatur jadwal belajar harian.'
-                                    : 'Atur waktu mulai dan selesai tiap jam belajar.'}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            )}
+        <div className=" bg-gray-50 min-h-screen  lg:mb-30 mb-20 md:mb-0">
+            <div className='hidden md:block'>
+                {isMainTabActive && (
+                    loading ? (
+                        <LoadingData loading={loading} type='header1' />
+                    ) : (
+                        <Header1 
+                            span="Kelola Jadwal Pelajaran" 
+                            p="Daftar Kelas" 
+                            src='/images/particle/particle11.png' 
+                        />
+                    )
+                )}
+            </div>
 
             {isMainTabActive && (
                 <>
-                    <div className="flex justify-between items-center mb-6 bg-white p-3 rounded-lg drop-shadow-md">
-                        <h1 className="md:text-xl text-md ml-2 text-gray-800">
-                            {activeTab === 'kelas' ? 'Daftar Kelas' : 'Pengaturan Jam Pelajaran'}
-                        </h1>
-
-                        <div className="flex gap-4 p-1">
-                            <button onClick={() => setActiveTab('kelas')}
-                                className={`px-4 md:text-sm text-[14px] font-semibold rounded-lg shadow-md transition-colors ${
-                                    activeTab === 'kelas'
-                                    ? 'bg-[#3B82F6] text-white'
-                                    : 'bg-[#F2F6FF] text-[#1E3A8A] hover:bg-blue-100'
-                                }`}>
-                                Kelas
-                            </button>
-                            <button onClick={() => setActiveTab('jam')}
-                                className={`px-4 py-2 md:text-sm lg:text-[14px] text-[10px] font-semibold rounded-lg shadow-md transition-colors ${
-                                    activeTab === 'jam'
-                                    ? 'bg-[#3B82F6] text-white'
-                                    : 'bg-[#F2F6FF] text-[#1E3A8A] hover:bg-blue-100'
-                                }`}>
-                                Jam Pelajaran
-                            </button>
-                        </div>
-                    </div>
-
                     {activeTab === 'kelas' && (
-                        <div className="flex justify-start items-center mb-6">
-                            <div className="relative flex items-center lg:w-80 mr-3">
-                               <Search className="absolute left-3 w-5 h-5 text-gray-400"/>
-                              <input 
-                                    type="text" 
-                                    placeholder="Cari Kelas/Wali Kelas..." 
-                                    value={searchText} 
-                                    onChange={(e) => handleSearchChange(e.target.value)} 
-                                    className="p-2 pl-10 border border-gray-300 rounded-full lg:w-full w-[220px] focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                                />
+                        loading? (<LoadingData loading={loading} type='create2'/>)
+                        : (
+                            <div className="flex justify-between items-center mb-6 lg:flex-row md:flex-row flex-col lg:mx-0 md:mx-3">
+                                <div>
+                                    <div className='flex flex-row'>
+                                        <div className="relative flex items-center lg:w-80 mr-3">
+                                            <Search className="absolute left-3 w-5 h-5 text-gray-400"/>
+                                            <input type="text" placeholder="Cari Kelas/Wali Kelas..." value={searchText} onChange={(e) => handleSearchChange(e.target.value)} className="p-2 pl-10 border border-gray-300 rounded-full lg:w-full bg-white w-[220px] focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        </div>
+                                        <div>
+                                            <FilterDropdown filters={filters} options={filterOptions} onChange={handleFilterChange}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className='lg:mt-0 md:mt-0 mt-4'>
+                                        <button onClick={() => setActiveTab('jam')} className='text-[14px] lg:w-[221px] md:w-[221px]  w-[340px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6]  hover:bg-[#2563EB] px-3 rounded-[8px] flex flex-row gap-2 justify-center items-center cursor-pointer'><Settings className='w-5 h-5'/>Setting Jam Pelajaran</button>
+                                    </div>
+                                </div>
                             </div>
-                            <FilterDropdown filters={filters} options={filterOptions} onChange={handleFilterChange}/>
-                        </div>
+                        )
                     )}
                 </>
             )}
 
            {activeTab === 'kelas' && (
                 <>
-                    
+                    {loading ? (
+                       <LoadingData loading={loading} type='cardclass' count={9}/>
+                    ) : (
+                        <>
                             {displayClassData && displayClassData.length > 0 ? (
                                 <>
                                     <CardList handleViewSchedule={handleViewSchedule} schedule={displayClassData}/>
                                     <Pagination page={page} lastPage={lastPage} onPageChange={handlePageChange}/>
                                 </>
                             ) : (
-                                <div className="text-center py-20 bg-white rounded-lg shadow-md">
-                                    <p className="text-lg text-gray-500 font-medium">
-                                        Tidak ada data kelas yang ditemukan.
-                                    </p>
-                                    <p className="text-sm text-gray-400 mt-2">
-                                        Coba ubah kriteria pencarian atau filter Anda.
-                                    </p>
+                                <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
+                                    <img  src="/images/null/null2.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                                    <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada jadwal di hari ini, silahkan klik “ Tambah Jam ” untuk <br />  menambahkan jam pelajaran!</p>
                                 </div>
                             )}
                         </>
                     )}
 
-            {activeTab === 'jam' && <ClockSchedule />}
-
+            {activeTab === 'jam' && <ClockSchedule handleBackToClasses={handleBackToClasses} />}
             {activeTab === 'jadwal-kelas' && (
-                <ScheduleDetailPage selectedClassroomData={selectedClassroomData} handleBackToClasses={handleBackToClasses}/>
+                <ScheduleDetailPage selectedClassroomData={selectedClassroomData} handleBackToClasses={handleBackToClasses} setActiveTab={setActiveTab}/>
             )}
         </div>
     );

@@ -1,35 +1,47 @@
 import axios from "axios"
 import { notify } from "../../../hooks/notification/notify"
+import api from "../../axiosConfig"
 
 
-const API_BASE_URL = "http://127.0.0.1:8000/api"
+export const getSubjects = async (page = 1, search = "") => {
 
-export const getSubjects = async (page = 1) => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/subjects?page=${page}`)
-    return res.data.data
+    const res = await api.get(`/subjects?page=${page}&search=${search}`, {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+    return res.data
   } catch (err) {
-    console.error("Gagal ambil classroom:", err)
+    console.error("Gagal ambil data subjects:", err)
     throw err
   }
 }
 
-
 export const addSubject = async (subject) => {
+
   try {
-    const response = await axios.post(`${API_BASE_URL}/subjects`, subject);
+    const response = await api.post(`/subjects`, subject, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
     notify("Data Berhasil Ditambah");
     return response.data;
   } catch (err) {
-    throw err; 
+    throw err;
   }
 };
 
-
 export const updateSubject = async (id, name) => {
+
   try {
-    const response = await axios.put(`${API_BASE_URL}/subjects/${id}`, {
+    const response = await api.put(`/subjects/${id}`, {
       name: name,
+    }, {
+      headers: {
+        Accept: "application/json",
+      },
     })
     notify("Data Berhasil Diperbarui")
     return response.data
@@ -40,8 +52,14 @@ export const updateSubject = async (id, name) => {
 }
 
 export const deleteSubject = async (id) => {
+
   try {
-    const response = await axios.delete(`${API_BASE_URL}/subjects/${id}`)
+    const response = await api.delete(`/subjects/${id}`, {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+    console.log(` Subject ${id} berhasil di hapus`)
     notify("Data Berhasil Dihapus")
     return response.data
   } catch (error) {

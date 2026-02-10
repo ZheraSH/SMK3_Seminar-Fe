@@ -8,6 +8,7 @@ export function useClassStudent() {
     const [students, setStudents] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [onError, setOnError] = useState (null);
 
     const fetchStudents = async (page) => {
         setLoading(true);
@@ -27,7 +28,7 @@ export function useClassStudent() {
         const classmates = data.data.classmates;
 
         setClassroom(data.data.classroom);
-        setStudents(classmates?.data || []);
+        setStudents(classmates?.Students || []);
         setTotalPages(classmates?.pagination?.last_page || 1);
         setLoading(false);
     };
@@ -44,5 +45,7 @@ export function useClassStudent() {
         currentPage,
         totalPages,
         setCurrentPage,
+        onError,
+        setOnError,
     };
 }

@@ -1,34 +1,40 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
-function getToken() {
-  return localStorage.getItem("token") || "";
-}
+export const getDashboardClassroom = async (day) => {
 
-async function apiGetTeacher(url) {
-  const token = getToken();
+    try {
+        const res = await api.get(
+            `/teacher/schedules/classrooms/${day}`,
+            {
+                headers: {
+                    Accept: "application/json",
+                },
+            }
+        );
 
-  if (!token) {
-    console.error("NO TOKEN FOUND");
-    return [];
-  }
+        return res.data.data;
+    } catch (err) {
+        console.error("Gagal memuat daftar kelas:", err.message);
+        return [];
+    }
+};
 
-  try {
-    const res = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json"
-      }
-    });
 
-    return res.data?.data ?? [];
-  } catch (err) {
-    console.error("API ERROR:", err);
-    return [];
-  }
-}
+export const getDashboardSchedule = async (day) => {
 
-export const getTodaySchedule = () =>
-  apiGetTeacher("http://127.0.0.1:8000/api/teacher/dashboard/today-schedule");
+    try {
+        const res = await api.get(
+            `/teacher/schedules/${day}`,
+            {
+                headers: {
+                    Accept: "application/json",
+                },
+            }
+        );
 
-export const getClassroomList = () =>
-  apiGetTeacher("http://127.0.0.1:8000/api/teacher/dashboard/classroom-list");
+        return res.data.data;
+    } catch (err) {
+        console.error("Gagal memuat daftar kelas:", err.message);
+        return [];
+    }
+};

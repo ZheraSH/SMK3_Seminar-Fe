@@ -6,7 +6,7 @@ export async function getRoles() {
     const roles = response.data?.data || response.data || [];
 
     
-    console.log("✅ Berhasil memuat roles:", roles); // ✅ log sukses
+    console.log("Berhasil memuat roles:", roles); 
 
     return roles;
   } catch (error) {

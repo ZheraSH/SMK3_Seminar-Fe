@@ -16,13 +16,13 @@ export const getStatusColor = (status) => {
     switch (s) {
       case "di setujui":
       case "approved":
-        return "bg-[#10B981]/20 text-[#10B981]";
+        return "bg-[#22C55E] text-white rounded-full";
       case "menunggu":
       case "pending":
-        return "bg-[#FACC15]/20 text-[#FACC15]";
+        return "bg-[#FACC15] text-white rounded-full";
       case "ditolak":
       case "rejected":
-        return "bg-[#FF5E53]/20 text-[#FF5E53]";
+        return "bg-[#FF5E53] text-white rounded-full";
       default:
         return "bg-gray-500 text-white";
     }

@@ -1,21 +1,12 @@
-import axios from "axios";
+import api from "../../axiosConfig";
 
-export const getDashboardStudent = async  () => {
-    const token = localStorage.getItem("token");
-    const userData = JSON.parse(localStorage.getItem("userData"));
-
-    const roles = userData?.roles || [];
-        if (!userData || !roles.includes("student")) {
-            console.warn("User bukan student atau data user tidak ditemukan.");
-            return null;
-    }
+export const getDashboardSummary = async  () => {
 
     try {
-        const res = await axios.get (
-            `http://127.0.0.1:8000/api/student/dashboard`,
+        const res = await api.get (
+            `student/dashboard/attendance-summary`,
             {
                 headers : {
-                    Authorization : token ? `Bearer ${token}` : "",
                     Accept : "application/json",
 
                 },
@@ -30,22 +21,13 @@ export const getDashboardStudent = async  () => {
 }
 
 
-export async function fetchStudentSchedule(day) {
-  const token = localStorage.getItem("token");
-  const userData = JSON.parse(localStorage.getItem("userData"));
-
-  const roles = userData?.roles || [];
-  if (!userData || !roles.includes("student")) {
-    console.warn("User bukan student atau data user tidak ditemukan.");
-    return null;
-  }
+export async function fetchStudentSchedule(Day) {
 
   try {
-    const res = await axios.get(
-      `http://127.0.0.1:8000/api/student/lesson-schedule?day=${day}`,
+    const res = await api.get(
+      `/student/lesson-schedule/${Day}`,
       {
         headers: {
-          Authorization: token ? `Bearer ${token}` : "",
           Accept: "application/json",
         },
       }
@@ -60,21 +42,12 @@ export async function fetchStudentSchedule(day) {
 
 
 export async function fetchAttendancePermissions() {
-  const token = localStorage.getItem("token");
-  const userData = JSON.parse(localStorage.getItem("userData"));
-
-  const roles = userData?.roles || [];
-  if (!userData || !roles.includes("student")) {
-    console.warn("User bukan student");
-    return null;
-  }
 
   try {
-    const res = await axios.get(
-      "http://127.0.0.1:8000/api/student/attendance-permissions",
+    const res = await api.get(
+      "/student/attendance-permissions",
       {
         headers: {
-          Authorization: token ? `Bearer ${token}` : "",
           Accept: "application/json",
         },
       }
@@ -87,3 +60,22 @@ export async function fetchAttendancePermissions() {
   }
 }
 
+
+export async function fetchAttendanceMonthly() {
+
+  try {
+    const res = await api.get(
+      "/student/dashboard/attendance-monthly",
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error("Gagal ambil izin:", error);
+    return null;
+  }
+}

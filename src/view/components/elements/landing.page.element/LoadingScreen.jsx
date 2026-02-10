@@ -14,7 +14,6 @@ const LoadingScreen = ({
   useEffect(() => {
     if (!isLoading) return;
 
-    // Progress animation berdasarkan koneksi
     const getProgressSpeed = () => {
       switch (connectionSpeed) {
         case "slow":
@@ -39,7 +38,6 @@ const LoadingScreen = ({
       });
     }, 50);
 
-    // Letter animation
     const letterInterval = setInterval(() => {
       setCurrentLetter((prev) => (prev + 1) % letters.length);
     }, 400);
@@ -54,12 +52,9 @@ const LoadingScreen = ({
 
   return (
     <div className="fixed inset-0 bg-white z-50 flex items-center justify-center">
-      {/* Simple Background */}
       <div className="absolute inset-0 bg-gray-50/50"></div>
 
-      {/* Main Content */}
       <div className="relative z-10 text-center">
-        {/* SEMINAR Text */}
         <div className="mb-16">
           <div className="flex justify-center space-x-3 mb-6">
             {letters.map((letter, index) => (
@@ -83,7 +78,6 @@ const LoadingScreen = ({
           </div>
         </div>
 
-        {/* Simple Progress Bar */}
         <div className="w-64 mx-auto">
           <div className="bg-gray-200 rounded-full h-1 overflow-hidden">
             <div

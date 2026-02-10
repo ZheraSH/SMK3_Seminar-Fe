@@ -18,7 +18,6 @@ const teamMembers = [
 const TeamSlider = () => {
   return (
     <section className="bg-[#123B5C] py-16 flex items-center relative overflow-hidden">
-      {/* Shadow kanan kiri */}
       <div className="absolute left-0 top-0 h-full w-100 bg-gradient-to-r from-[#123B5C] via-[#123B5C]/20 to-transparent z-20"></div>
       <div className="absolute right-0 top-0 h-full w-100 bg-gradient-to-l from-[#123B5C] via-[#123B5C]/20 to-transparent z-20"></div>
 
@@ -47,7 +46,6 @@ const TeamSlider = () => {
                            shadow-md hover:shadow-xl transition-all duration-500 
                            hover:scale-105"
               >
-                {/* Foto Profile */}
                 <img
                   src={person.img}
                   alt={person.name}
@@ -55,11 +53,9 @@ const TeamSlider = () => {
                              group-hover:scale-110 transition-transform duration-500"
                 />
 
-                {/* Nama & Role */}
                 <h3 className="text-lg font-semibold text-gray-900">{person.name}</h3>
                 <p className="text-sm text-gray-500">{person.role}</p>
 
-                {/* Sosial Icon */}
                 <div className="flex gap-4 mt-4 text-lg">
                   <a
                     href="#"

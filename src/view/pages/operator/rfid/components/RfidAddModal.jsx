@@ -41,7 +41,6 @@ export default function RfidAddModal({
     setErrors({});
     setLoading(true);
 
-    // VALIDASI FRONTEND
     if (!newData.studentId) {
       setErrors({ studentId: "Pilih siswa dulu." });
       setLoading(false);
@@ -83,10 +82,14 @@ export default function RfidAddModal({
   };
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-6 w-[560px] shadow-lg relative border border-gray-200">
-
-        {/* CLOSE BUTTON */}
+    <div
+      className="fixed inset-0 backdrop-blur-[2px] bg-black/30 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-2xl p-6 w-[560px] shadow-lg relative border border-gray-200"
+      >
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -100,18 +103,18 @@ export default function RfidAddModal({
           <p className="text-red-600 text-sm mb-3">{errors.general}</p>
         )}
 
-        {/* STUDENT SELECT */}
         <div className="mb-3">
-          <label className="block text-[14px] text-gray-600 mb-1">Pengguna</label>
+          <label className="block text-[14px] text-gray-600 mb-1">
+            Pengguna
+          </label>
 
           <select
             value={newData.studentId}
             onChange={(e) =>
               onDataChange({ ...newData, studentId: e.target.value })
             }
-            className={`w-full px-3 py-2 rounded-lg text-[14px] border ${
-              errors.studentId ? "border-red-500" : "border-gray-400"
-            }`}
+            className={`w-full px-3 py-2 rounded-lg text-[14px] border ${errors.studentId ? "border-red-500" : "border-gray-400"
+              }`}
           >
             <option value="">-- Pilih Siswa --</option>
             {students.map((s) => (
@@ -122,13 +125,16 @@ export default function RfidAddModal({
           </select>
 
           {errors.studentId && (
-            <p className="text-red-600 text-xs mt-1">{errors.studentId}</p>
+            <p className="text-red-600 text-xs mt-1">
+              {errors.studentId}
+            </p>
           )}
         </div>
 
-        {/* CARD INPUT */}
         <div className="mb-3">
-          <label className="block text-[14px] text-gray-600 mb-1">Id Kartu</label>
+          <label className="block text-[14px] text-gray-600 mb-1">
+            Id Kartu
+          </label>
 
           <input
             type="text"
@@ -137,9 +143,8 @@ export default function RfidAddModal({
             onChange={(e) =>
               onDataChange({ ...newData, idCard: e.target.value })
             }
-            className={`w-full px-3 py-2 rounded-lg text-[14px] border ${
-              errors.idCard ? "border-red-500" : "border-gray-400"
-            }`}
+            className={`w-full px-3 py-2 rounded-lg text-[14px] border ${errors.idCard ? "border-red-500" : "border-gray-400"
+              }`}
           />
 
           {errors.idCard && (
@@ -147,18 +152,6 @@ export default function RfidAddModal({
           )}
         </div>
 
-        {/* STATUS */}
-        <div className="mb-4">
-          <label className="block text-[14px] text-gray-600 mb-1">Status Awal</label>
-
-          <input
-            readOnly
-            placeholder="Auto Aktif"
-            className="w-full border border-gray-400 py-3 px-3 rounded-lg text-[14px] bg-gray-100 text-gray-700 cursor-not-allowed"
-          />
-        </div>
-
-        {/* ACTIONS */}
         <div className="flex justify-end gap-2">
           <button
             onClick={handleAdd}

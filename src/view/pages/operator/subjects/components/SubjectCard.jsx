@@ -17,7 +17,6 @@ export function SubjectCard({
 
   return (
     <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition p-4 flex flex-col">
-      {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <div
@@ -27,43 +26,45 @@ export function SubjectCard({
           >
             {getIconBySubject(subject.name)}
           </div>
-
-          <span className="text-[14px] font-medium text-[#446084]">
-            Mata Pelajaran
-          </span>
+          <h2 className="text-[18px] block md:hidden font-semibold text-gray-900  break-words">
+            {subject.name || "-"}
+          </h2>
         </div>
+        
 
         <button
           onClick={() => setOpenMenu(openMenu === id ? null : id)}
-          className="text-gray-500 hover:text-gray-700 transition"
+          className="text-[#1F2937] hover:text-gray-700 transition"
         >
           <MoreVertical size={20} />
         </button>
 
         {openMenu === id && (
-          <div className="absolute right-3 top-12 bg-white border border-gray-200 shadow-lg rounded-xl w-40 z-20 animate-fadeIn">
+          <div className="absolute right-3 top-10 bg-white border border-gray-200 shadow-lg rounded-xl w-[117px] z-20 animate-fadeIn">
             <button
               onClick={() => {
                 onEdit(subject);
                 setOpenMenu(null);
               }}
-              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-sm"
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-[14px] text-[#1F2937] justify-between font-medium"
             >
-              <Edit3 size={16} className="text-yellow-500" /> Edit
+              <Edit3 size={23} color="#F59E0B"/> Edit
             </button>
 
             <button
-              onClick={() => onDelete(subject.id)}
-              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-sm "
+              onClick={() => {
+                onDelete(id)
+                setOpenMenu(null)
+              }}
+              className="flex justify-between items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-[14px] text-[#1F2937] font-medium "
             >
-              <Trash2 size={16} className="text-red-500" /> Hapus
+              <Trash2 size={23} color="#EF4444" /> Hapus
             </button>
           </div>
         )}
       </div>
 
-      {/* Body */}
-      <h2 className="text-[18px] font-semibold text-gray-900 mt-4 break-words">
+      <h2 className="text-[18px] hidden md:block font-semibold text-gray-900 mt-4 break-words">
         {subject.name || "-"}
       </h2>
     </div>

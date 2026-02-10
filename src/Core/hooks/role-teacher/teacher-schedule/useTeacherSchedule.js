@@ -4,73 +4,75 @@ import { fetchDailyScheduleApi } from "../../../api/role-teacher/teacher-schedul
 export function useTeacherSchedule(selectedDate) {
   const [schedule, setSchedule] = useState([]);
   const [activeDay, setActiveDay] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  
-  const isFirstLoad = useRef(true);
+  const [loading,setLoading] = useState (true);
 
   const dayMap = {
     monday: "Senin",
     tuesday: "Selasa",
     wednesday: "Rabu",
     thursday: "Kamis",
-    friday: "Jum'at",
-    saturday: "Sabtu",
-    sunday: "Minggu",
+    friday: "Jumat",
   };
 
-  function getDayFromDate(dateString) {
-    const dayIndex = new Date(dateString).getDay();
-    return ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][dayIndex];
+  function getDayNameFromDate(dateString) {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const dayIndex = date.getDay();
+    const dayNames = [
+      null,        
+      "monday",    
+      "tuesday",   
+      "wednesday", 
+      "thursday",  
+      "friday",    
+      null,        
+    ];
+    return dayNames[dayIndex];
   }
 
-  const load = async () => {
-    if (!selectedDate) return;
-
-    if (isFirstLoad.current) {
-      setLoading(true);
+  async function fetchDaily() {
+    const dayName = getDayNameFromDate(selectedDate);
+    
+    if (!dayName) {
+      setSchedule([]);
+      setActiveDay("");
+      return;
     }
-    setError(null);
+    setLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const rawData = await fetchDailyScheduleApi(dayName);
 
-      const raw = await fetchDailyScheduleApi(selectedDate);
-
-      const normalized = raw.map((item) => ({
-        id: item.id,
-        day: item.day,
-        lesson_hour: item.lesson_hour,
-        classroom: item.classroom,
-        subject: item.subject,
+      const normalized = rawData.map((item) => ({
+        id: item.id ?? Math.random(),
+        dayValue: item.day?.value ?? "",
+        dayLabel: item.day?.label ?? "",
+        time: item.time ?? "-",
+        lesson: item.lesson_hour?.name ?? "-",
+        classroom: item.classroom ?? { name: "-" },
+        subject: item.subject ?? { name: "-" },
+        has_cross_checked: item.has_cross_checked ?? false,
+        can_cross_check: item.can_cross_check ?? false,
       }));
 
       setSchedule(normalized);
-      setActiveDay(dayMap[getDayFromDate(selectedDate)]);
-    } catch (err) {
-      console.error("Error fetch teacher schedule:", err);
+      setActiveDay(dayMap[dayName]);
+      
+    } catch (error) {
       setSchedule([]);
-      setError(
-        err?.response?.data?.message ||
-        "Gagal memuat jadwal mengajar"
-      );
-    } finally {
-      if (isFirstLoad.current) {
-        setLoading(false);
-        isFirstLoad.current = false;
-      }
+      setActiveDay("");
+    }finally{
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    load();
-  }, [selectedDate]);
+    useEffect(() => {
+      fetchDaily();
+    }, [selectedDate]); 
 
   return {
     schedule,
     activeDay,
-    dayMap,
-    loading,
-    error,
+    loading
   };
 }

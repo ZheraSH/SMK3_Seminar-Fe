@@ -25,13 +25,11 @@ export default function useMasterSchedule(activeDayApi) {
       const filteredTeachers = teacherData.filter((teacher) => {
         const roleValues = teacher.roles?.map(r => r.value) || [];
 
-        const isPriorityTeacher = roleValues.includes('teacher') || roleValues.includes('homeroom_teacher');
-        if (isPriorityTeacher) return true;
-        const restrictedRoles = ['staff_tu', 'waka_kurikulum', 'bk'];
-        const hasRestrictedRole = roleValues.some(role => restrictedRoles.includes(role));
-
-        return !hasRestrictedRole;
+      const allowedRoles = ["teacher", "homeroom_teacher"];
+      const filteredTeachers = (teachersRes?.data || teachersRes || []).filter((guru) => {
+        return guru.roles?.some((role) => allowedRoles.includes(role.value));
       });
+
       const processedLessons = lessonsRes.map(lesson => {
         const lessonName = (lesson.name || lesson.placement || '').toLowerCase();
         const isBreak = BREAK_KEYWORDS.some(keyword => lessonName.includes(keyword));

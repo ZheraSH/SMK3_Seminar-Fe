@@ -1,4 +1,4 @@
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect } from "react";
 import { fetchStudentSchedule } from "../../../api/role-student/schedule/schedule";
 
 export function useStudentSchedule(activeDay) {
@@ -6,44 +6,43 @@ export function useStudentSchedule(activeDay) {
   const [classroomId, setClassroomId] = useState("-");
   const [semesterType, setSemesterType] = useState("-");
   const [academicYear, setAcademicYear] = useState("-");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     if (!activeDay) return;
 
-    const loadSchedule = async () => {
-      if (isFirstLoad.current) {
+    let ignore = false;
+
+    async function load() {
       setLoading(true);
-    }
       setError(null);
 
       try {
-        await new Promise((r) => setTimeout(r, 500));
         const data = await fetchStudentSchedule(activeDay);
-        if (!data?.data) {
-          setError("Data jadwal tidak ditemukan.");
-          setSchedule([]);
-          return;
-        }
+        if (ignore) return;
 
-        setSchedule(data.data.jadwal || []);
-        setClassroomId(data.data.kelas || "-");
-        setSemesterType(data.data.semester || "-");
-        setAcademicYear(data.data.tahun_ajaran || "-");
-      } catch (err) {
-        console.error(err);
-        setError("Gagal memuat data jadwal.");
-        setSchedule([]);
-        setClassroomId("-");
+        setSchedule(data?.schedules || []);
+        setClassroomId(data?.classroom?.name || "-");
+
+        setSemesterType("Genap");
+        setAcademicYear("2024/2025");
+      } catch (e) {
+        if (!ignore) {
+          setError("Gagal memuat data jadwal.");
+          setSchedule([]);
+          setClassroomId("-");
+        }
       } finally {
-        if (isFirstLoad.current) {
-        setLoading(false);
-        isFirstLoad.current = false;
-      }}
+        if (!ignore) setLoading(false);
+      }
+    }
+
+    load();
+
+    return () => {
+      ignore = true;
     };
-    loadSchedule();
   }, [activeDay]);
 
   return {

@@ -1,189 +1,177 @@
+import React, { useEffect, useState } from "react";
+import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { ROLE_MENUS } from "../../../Core/Data/SidebarData";
+import { FaInstagram, FaFacebook, FaTwitter, FaGlobe, FaEnvelope, FaPhone } from "react-icons/fa";
+import { HashLink } from "react-router-hash-link";
 import Aos from "aos";
-import 'aos/dist/aos.css'
-import { useEffect } from "react";
-import React from "react";
-import { FaInstagram, FaFacebook, FaTwitter } from "react-icons/fa";
-import { HashLink } from "react-router-hash-link"; 
+import "aos/dist/aos.css";
 
+const HomeLayouth = () => {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const location = useLocation();
 
-const MainHomeLayouth = (props) => {
+    useEffect(() => {
+        Aos.init({});
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
-  useEffect(()=>{
-    Aos.init({})
-  },[])
+    const menus = ROLE_MENUS.landing_page || [];
 
-    const {Text,uppercase,yellowtext,deskripsi,ButtonA,ButtonB,img,imgVariant,variantA,variantB } = props
     return (
-      <div className=" w-full relative">
+        <div className="relative min-h-screen flex flex-col font-sans ">
 
-        
+            {/*Jangan di hapus ANJAY simpen bentar*/}
+            {/*bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] fixed top-0 left-0 w-full z-50 */}
+            
+            <nav
+                className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent py-6 ${isScrolled || location.pathname !== "/"
+                    }`}
+            >
+                <div className="container mx-auto px-6 lg:px-16 flex justify-between items-center">
+                    <NavLink to="/" className="flex items-center gap-3">
+                        <img
+                            src="/images/SMKNLOGO1.png"
+                            alt="SMK Negeri 3 Pamekasan"
+                            className="w-[26px] h-[29px] object-contain"
+                        />
+                        <div className="flex flex-col">
+                            <span className="text-white font-semibold text-[12px] leading-tight">
+                                SMK NEGERI 3
+                            </span>
+                            <span className="text-white font-semibold text-[12px] leading-tight">
+                                PAMEKASAN
+                            </span>
+                        </div>
+                    </NavLink>
 
-        <div className="absolute inset-0 bg-[url('/images/background/bgnew.png')] bg-cover bg-center"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#003566]/82 to-[#001D3D]/98"></div>
-  
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white mx-16">
-          <section className="relative min-h-screen flex items-center text-white">
-            <div className="container mx-auto px-6 lg:px-16 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              
-              <div 
-                  data-aos="fade-right"
-                  data-aos-duration="3000">
-                <h1 className="text-[48px] md:text-4xl font-bold leading-snug">
-                  <span  className="text-yellow-400 text-[40px] font-bold">{yellowtext}</span> {Text} <br />
-                  <span className="uppercase text-[40px]">{uppercase}</span>
-                </h1>
-  
-                <p className="mt-6 text-gray-300 max-w-lg">
-                    {deskripsi}
-                </p>
-  
-                <div 
+                    <div className="hidden md:flex items-center gap-10">
+                        <ul className="flex items-center space-x-8">
+                            {menus.filter(m => m.name !== "Masuk").map((menu, index) => (
+                                <li key={index}>
+                                    <NavLink
+                                        to={menu.path}
+                                        className={({ isActive }) =>
+                                            `text-[14px] font-medium transition-all duration-300 relative py-1 ${isActive
+                                                ? "text-white after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-white"
+                                                : "text-white/80 hover:text-white"
+                                            }`
+                                        }
+                                    >
+                                        {menu.name}
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </ul>
 
-                data-aos="fade-right"
-                data-aos-duration="2000"
-                               
-                className="mt-8 flex flex-wrap gap-4">
-                  <a
-                    href="/berita"
-                    className={variantB}
-                  >
-                    {ButtonB}
-                  </a>
-                  <a
-                    href="/tentangkami"
-                    className={variantA}
-                  >
-                    {ButtonA}
-                  </a>
+                        {menus.find(m => m.name === "Masuk") && (
+                            <NavLink
+                                to={menus.find(m => m.name === "Masuk").path}
+                                className={({ isActive }) =>
+                                    `ml-[188px] px-[20px] py-[8px] rounded-xl font-medium text-[14px] transition-all duration-300 shadow-lg ${isActive
+                                        ? "bg-blue-700 text-white"
+                                        : "bg-[#4285f4] text-white hover:bg-blue-600 hover:scale-105"
+                                    }`
+                                }
+                            >
+                                Masuk
+                            </NavLink>
+                        )}
+                    </div>
+
+                    <div className="md:hidden">
+                        <button className="text-white focus:outline-none">
+                            <svg
+                                className="w-6 h-6"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-              </div>
-  
-              <div 
-              data-aos="fade-up"
-              data-aos-duration="3000"
-              >
-              <div            
-              className="flex justify-center lg:justify-end">
-                <img
-                  src={img}
-                  alt=""
-                  className={imgVariant}
-                />
-              </div>
-              </div>
-            </div>
-          </section>
-        </div>
-        <footer  className="bg-[#001D3D] text-gray-300 py-8 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Logo & Description */}
-        <div>
-            <div className="flex">
-          <img
-            src="/images/SMKNLOGO1.png"
-            alt="SMK Negeri 3 Pamekasan"
-            className="w-10 mb-4 mr-5"
-          />
-          <h2 className="text-lg font-semibold w-30 ">SMK Negeri 3 Pamekasan</h2>
-          </div>
-          <p className="mt-2 text-sm leading-relaxed">
-            Teaching Factory SMK Negeri 3 Pamekasan menghadirkan pembelajaran
-            berbasis industri untuk mencetak generasi siap kerja.
-          </p>
-        </div>
+            </nav>
 
-        {/* Menu */}
-        <div>
-          <h3 className="text-white font-semibold mb-4">Menu</h3>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <a href="/" className="hover:text-yellow-400 transition">
-                Beranda
-              </a>
-            </li>
-            <li>
-              <a href="/tentangkami" className="hover:text-yellow-400 transition">
-                Tentang Kami
-              </a>
-            </li>
-            <li>
-              <a href="/berita" className="hover:text-yellow-400 transition">
-                Berita
-              </a>
-            </li>
-            <li>
-            <HashLink
-                smooth
-                to="/#FAQ"
-                className="hover:text-yellow-300 hover:underline transition-all duration-500"
-              >              
-                FAQ
-            </HashLink>
-            </li>
-            <li>
-            <HashLink
-                smooth
-                to="/#contact"
-                className="hover:text-yellow-300 hover:underline transition-all duration-500"
-              >              
-                Hubungi
-            </HashLink>
-            </li>
-          </ul>
-        </div>
+            <main className="flex-grow">
+                <Outlet />
+            </main>
 
-        {/* Contact */}
-        <div>
-          <h3 className="text-white font-semibold mb-4">Contact</h3>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <span className="block">
-                Alamat: Jl. Raya Larangan Tokol, Pamekasan
-              </span>
-            </li>
-            <li>
-              <span className="block">Telepon: (0324) 32xxxx</span>
-            </li>
-            <li>
-              <span className="block">Email: tefa@smkn3pamekasan.sch.id</span>
-            </li>
-          </ul>
-        </div>
+            <footer className="bg-[#0B1120] text-gray-400 py-12 px-6 border-t border-gray-800 font-sans">
+                <div className="max-w-7xl mx-[80px] grid grid-cols-1 md:grid-cols-4 gap-15">
+                    <div className="space-y-4">
+                        <div className="flex items-start gap-4">
+                            <img
+                                src="/images/SMKNLOGO1.png"
+                                alt="SMK Negeri 3 Pamekasan"
+                                className="w-12 h-14 object-contain"
+                            />
+                            <div>
+                                <h2 className="text-white text-[20px] font-semibold">SEMINAR</h2>
+                                <p className="text-white font-medium text-[14px] mt-1">
+                                    Sistem Management Izin & Absensi Real Time
+                                </p>
+                            </div>
+                        </div>
+                        <p className="text-[14px] leading-relaxed text-gray-400 mt-4">
+                            Platform manajemen sekolah untuk absensi real-time, nilai, jadwal, dan data siswa terpusat.
+                        </p>
+                        <div className="flex gap-4 mt-6">
+                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaInstagram /></a>
+                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaGlobe /></a>
+                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaEnvelope /></a>
+                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaPhone /></a>
+                        </div>
+                    </div>
 
-        {/* Media Social */}
-        <div>
-          <h3 className="text-white font-semibold mb-4">Media Social</h3>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-center gap-2">
-              <FaInstagram className="text-yellow-400" />
-              <a href="#" className="hover:text-yellow-400 transition">
-                @tefa.smkn3pamekasan
-              </a>
-            </li>
-            <li className="flex items-center gap-2">
-              <FaFacebook className="text-yellow-400" />
-              <a href="#" className="hover:text-yellow-400 transition">
-                @TEFASMKN3Pamekasan
-              </a>
-            </li>
-            <li className="flex items-center gap-2">
-              <FaTwitter className="text-yellow-400" />
-              <a href="#" className="hover:text-yellow-400 transition">
-                tefa.smkn3pamekasan
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+                    <div>
+                        <h3 className="text-white font-bold text-[16px] mb-6">Navigation</h3>
+                        <ul className="space-y-3 text-sm">
+                            <li><NavLink to="/" className="hover:text-white transition">Beranda</NavLink></li>
+                            <li><NavLink to="/tentangkami" className="hover:text-white transition">Tentang Kami</NavLink></li>
+                            <li><HashLink smooth to="/#FAQ" className="hover:text-white transition">FAQ</HashLink></li>
+                            <li><HashLink smooth to="/#contact" className="hover:text-white transition">Kontak</HashLink></li>
+                        </ul>
+                    </div>
 
-      {/* Bottom */}
-      <div className="border-t border-gray-600 mt-8 pt-4 text-center text-xs text-gray-400">
-        © 2025 TEFA SMK Negeri 3 Pamekasan. Semua Hak Dilindungi.
-      </div>
-    </footer>
-      </div>
+                    <div>
+                        <h3 className="text-white font-bold text-[16px] mb-6">Support</h3>
+                        <ul className="space-y-3 text-sm">
+                            <li><a href="#" className="hover:text-white transition">Pusat Bantuan</a></li>
+                            <li><a href="#" className="hover:text-white transition">Panduan Pengguna</a></li>
+                            <li><a href="#" className="hover:text-white transition">Cara Mengajukan Izin</a></li>
+                            <li><a href="#" className="hover:text-white transition">Troubleshooting Login</a></li>
+                            <li><a href="#" className="hover:text-white transition">Hubungi Admin</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 className="text-white font-bold text-[16px] mb-6">Legal</h3>
+                        <ul className="space-y-3 text-sm">
+                            <li><a href="#" className="hover:text-white transition">Kebijakan Privasi</a></li>
+                            <li><a href="#" className="hover:text-white transition">Syarat & Ketentuan</a></li>
+                            <li><a href="#" className="hover:text-white transition">Kebijakan Penggunaan Data</a></li>
+                            <li><a href="#" className="hover:text-white transition">Lisensi & Hak Cipta</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="max-w-7xl mx-auto border-t border-gray-800 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                    <p>© 2025 SMKN 3 Pamekasan. All Rights Reserved.</p>
+                    <p>Developed by TEFA SMKN 3 Pamekasan</p>
+                </div>
+            </footer>
+        </div>
     );
-  };
-  
-  export default MainHomeLayouth;
-  
+};
+
+export default HomeLayouth;

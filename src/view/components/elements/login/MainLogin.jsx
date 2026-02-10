@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Eye, EyeOff, CheckCircle } from "lucide-react";
+import { Eye, EyeOff, CheckCircle, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "@api/index";
 
 const loginUser = async ({ email, password }) => {
   try {
-    const response = await api.post("/login", { email, password });
+    const response = await api.post("/auth/login", { email, password });
 
     const result = response.data;
 
@@ -35,6 +35,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [generalError, setGeneralError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLoginn = async (e) => {
@@ -54,42 +55,55 @@ export default function Login() {
     }
     if (!isValid) return;
 
+    setLoading(true);
     try {
       const data = await loginUser({ email, password });
+
       localStorage.setItem("token", data.token);
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          image: data.user.image,
+          roles: data.roles,
+          activeRole: data.activeRole,
+        })
+      );
 
-      const userData = {
-        id: data.user.id,
-        name: data.user.name,
-        email: data.user.email,
-        image: data.user.image,
-        roles: data.roles,
-        activeRole: data.activeRole,
-      };
+      localStorage.setItem("loginSuccess", "true");
 
-      localStorage.setItem("userData", JSON.stringify(userData));
+      const roles = data.roles;
+      const activeRole = data.activeRole;
 
-      // Redirect berdasarkan role
-      setTimeout(() => {
-        localStorage.setItem("loginSuccess", "true");
+      if (roles.length > 1) { //klau 2 atau lebih role nya
+        navigate("/dashboard");
+        return;
+      }
 
-        // Tentukan halaman tujuan berdasarkan role
-        const roles = data.roles;
-
-        let redirectPath = "/";
-
-        if (roles.includes("school_operator")) redirectPath = "/home";
-        else if (roles.includes("teacher")) redirectPath = "/teacher-home";
-        else if (roles.includes("homeroom_teacher"))
-          redirectPath = "/homeroom-home";
-        else if (roles.includes("student")) redirectPath = "/student-home";
-        else if (roles.includes("guest")) redirectPath = "/guest/dashboard";
-        else if (roles.includes("counselor")) redirectPath = "/bk-home";
-
-        navigate(redirectPath);
-      }, 1000);
-    } catch (error) {
-      setGeneralError("Email atau password salah. Silakan coba lagi.");
+      switch (activeRole) { // 1 role
+        case "teacher":
+          navigate("/teacher-home");
+          break;
+        case "homeroom_teacher":
+          navigate("/homeroom-home");
+          break;
+        case "counselor":
+          navigate("/bk-home");
+          break;
+        case "student":
+          navigate("/student-home");
+          break;
+        case "school_operator":
+          navigate("/home");
+          break;
+        default:
+          navigate("/login");
+      }
+    } catch (err) {
+      setGeneralError(err.message || "Gagal login. Silakan coba lagi.");
+      setLoading(false);
     }
   };
 
@@ -139,9 +153,8 @@ export default function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${
-                    emailError ? "border-red-500" : "border-white/50"
-                  } 
+                  className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${emailError ? "border-red-500" : "border-white/50"
+                    } 
                     focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-500`}
                   placeholder="Masukkan email"
                 />
@@ -159,9 +172,8 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type={showPassword ? "text" : "password"}
-                    className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${
-                      passwordError ? "border-red-500" : "border-white/50"
-                    } 
+                    className={`w-full px-4 py-2 rounded-lg bg-white/40 border ${passwordError ? "border-red-500" : "border-white/50"
+                      } 
                       focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-500 pr-10`}
                     placeholder="Masukkan password"
                   />
@@ -186,10 +198,23 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="w-full mt-4 bg-gradient-to-br from-[#0077B6] via-[#2490C9] to-[#3EA2D6] 
-                  hover:bg-blue-600 text-white py-2 rounded-lg transition"
+                disabled={loading}
+                className={`w-full mt-4 bg-gradient-to-br from-[#0077B6] via-[#2490C9] to-[#3EA2D6] 
+                  text-white py-2.5 rounded-lg transition-all duration-300 font-medium shadow-md
+                  ${loading
+                    ? "opacity-80 cursor-wait"
+                    : "hover:shadow-blue-400/50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+                  }
+                  flex items-center justify-center gap-2`}
               >
-                Login
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin" size={20} />
+                    <span>Memproses...</span>
+                  </>
+                ) : (
+                  "Login"
+                )}
               </button>
             </form>
           </div>

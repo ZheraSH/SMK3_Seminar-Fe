@@ -12,7 +12,7 @@ export default function FilterDropdown({ filters, options, onChange }) {
       items: Array.isArray(options?.majors)
         ? options.majors.map((m) => ({
             label: m.code,    
-            value: m.name,
+            value: m.code,
           }))
         : [],
     },
