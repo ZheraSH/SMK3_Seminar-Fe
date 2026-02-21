@@ -82,10 +82,9 @@ const MajorCardGrid = () => {
               </div>
             ))}
           </div>
+        )}
       </div>
     </>
   );
 }
-
-
 export default MajorCardGrid;

@@ -90,8 +90,8 @@ export const TeacherFilterDropdown = ({ category, setCategory, masters }) => {
                       setOpenSubMenu("");
                     }}
                     className={`block w-full text-left text-sm px-3 py-1.5 rounded-md transition ${category.type === "gender" && category.value === g.value
-                        ? "bg-blue-100 text-blue-700 font-semibold"
-                        : "hover:bg-gray-100 text-gray-700"
+                      ? "bg-blue-100 text-blue-700 font-semibold"
+                      : "hover:bg-gray-100 text-gray-700"
                       }`}
                   >
                     {g.label}
@@ -129,8 +129,8 @@ export const TeacherFilterDropdown = ({ category, setCategory, masters }) => {
                       setOpenSubMenu("");
                     }}
                     className={`block w-full text-left text-sm px-3 py-1.5 rounded-md transition ${category.type === "role" && category.value === r.value
-                        ? "bg-blue-100 text-blue-700 font-semibold"
-                        : "hover:bg-gray-100 text-gray-700"
+                      ? "bg-blue-100 text-blue-700 font-semibold"
+                      : "hover:bg-gray-100 text-gray-700"
                       }`}
                   >
                     {r.label}

@@ -19,9 +19,8 @@ export const BkRoutes = [
                     { index: true, element: <BodyDashboard /> },
                     { path: "dashboard", element: <MainDashboard /> },
                     { path: "monitoring-absen", element: <MainMonitoringAbsen /> },
-                    { path: "verifikasi-izin", element: <VerifyPermission /> },
-                    { path: "statistik-global", element: <StatistikGlobal /> },
                     { path: "verifikasi-izin", element: <VerifikasiIzin /> },
+                    { path: "statistik-global", element: <StatistikGlobal /> },
                     { path: "profile", element: <ProfileUser /> },
                 ]
             }

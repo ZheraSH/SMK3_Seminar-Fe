@@ -4,7 +4,6 @@ import PermissionManagement from "../../view/pages/student/permission-management
 import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
 import ProtectedRoute from "./ProtectedRoute";
 import MainDashboard from "../../view/components/elements/MainDashboard";
-import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
 import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 import AbsentStudentMain from "../../view/pages/student/absence/AbsenceStudent";
 import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";

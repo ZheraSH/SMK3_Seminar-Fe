@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import {  getVerifyPermissionBk,  getPermissionDetailBk,  approvePermissionBk,  rejectPermissionBk } from '../../../../Core/api/role-bk/verify-permission/VerifyPermission';
-import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/useVeryPermission'; 
+import { getVerifyPermissionBk, getPermissionDetailBk, approvePermissionBk, rejectPermissionBk } from '../../../../Core/api/role-bk/verify-permission/VerifyPermission';
+import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/useVeryPermission';
 
 import DetailIzinModal from "./components/ModalDetail";
 import Table from './components/Table';
@@ -15,17 +15,17 @@ export default function VerifyPermission() {
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
     const [confirmType, setConfirmType] = useState('approve');
 
-    const { 
-        permissions, loading, error, currentPage, lastPage, totalItems, 
-        perPage, handlePageChange, refetchData, searchQuery, 
-        handleSearchChange, selectedClassId, handleClassSelect, options ,selectedType,
-        handleTypeSelect,selectedStatus,handleStatusSelect,
+    const {
+        permissions, loading, error, currentPage, lastPage, totalItems,
+        perPage, handlePageChange, refetchData, searchQuery,
+        handleSearchChange, selectedClassId, handleClassSelect, options, selectedType,
+        handleTypeSelect, selectedStatus, handleStatusSelect,
     } = useVerifyPermissionData(getVerifyPermissionBk);
 
     const handleAction = useCallback(async (type, permission) => {
         if (type === 'view') {
             setIsModalOpen(true);
-            setSelectedPermission(permission); 
+            setSelectedPermission(permission);
             setIsLoadingDetail(true);
             try {
                 const detail = await getPermissionDetailBk(permission.id);
@@ -39,21 +39,21 @@ export default function VerifyPermission() {
         } else {
             setConfirmType(type);
             setSelectedPermission(permission);
-            setIsModalOpen(false); 
+            setIsModalOpen(false);
             setIsConfirmOpen(true);
         }
     }, []);
 
     const handleFinalAction = async () => {
         if (!selectedPermission) return;
-        
+
         try {
             if (confirmType === 'approve') {
                 await approvePermissionBk(selectedPermission.id);
             } else {
                 await rejectPermissionBk(selectedPermission.id);
             }
-            
+
             setIsConfirmOpen(false);
             setSelectedPermission(null);
             refetchData?.();
@@ -62,20 +62,20 @@ export default function VerifyPermission() {
         }
     };
 
-    const closeModal = () => {~
+    const closeModal = () => {
         setIsModalOpen(false);
-        setSelectedPermission(null); 
+        setSelectedPermission(null);
     };
 
     return (
         <div className="min-h-screen bg-gray-50 lg:mb-4 md:mb-4 mb-24">
             <div className="max-w-7xl mx-auto">
-                <HeaderAndControls 
-                    classOptions={options.classes} 
-                    loading={loading} 
-                    selectedClassId={selectedClassId} 
+                <HeaderAndControls
+                    classOptions={options.classes}
+                    loading={loading}
+                    selectedClassId={selectedClassId}
                     handleClassSelect={handleClassSelect}
-                    searchQuery={searchQuery} 
+                    searchQuery={searchQuery}
                     onSearchChange={handleSearchChange}
                     selectedType={selectedType}
                     onTypeSelect={handleTypeSelect}
@@ -93,31 +93,31 @@ export default function VerifyPermission() {
                         </p>
                     </div>
                 ) : (
-                    <Table 
-                        data={permissions} 
-                        loading={loading} 
-                        error={error} 
-                        currentPage={currentPage} 
-                        lastPage={lastPage} 
-                        totalItems={totalItems} 
-                        perPage={perPage} 
-                        onPageChange={handlePageChange} 
-                        onAction={handleAction} 
+                    <Table
+                        data={permissions}
+                        loading={loading}
+                        error={error}
+                        currentPage={currentPage}
+                        lastPage={lastPage}
+                        totalItems={totalItems}
+                        perPage={perPage}
+                        onPageChange={handlePageChange}
+                        onAction={handleAction}
                     />
                 )}
             </div>
 
             {isModalOpen && selectedPermission && (
-                <DetailIzinModal 
-                    isOpen={isModalOpen} 
-                    onClose={closeModal} 
-                    loading={isLoadingDetail} 
-                    permissionData={selectedPermission} 
-                    onConfirmAction={handleAction} 
+                <DetailIzinModal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    loading={isLoadingDetail}
+                    permissionData={selectedPermission}
+                    onConfirmAction={handleAction}
                 />
             )}
 
-            <ConfirmationModal 
+            <ConfirmationModal
                 isOpen={isConfirmOpen}
                 type={confirmType}
                 studentName={selectedPermission?.student?.name}

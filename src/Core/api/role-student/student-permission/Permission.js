@@ -1,13 +1,5 @@
-import axios from "axios";
 import api from "../../axiosConfig";
 
-const BASE_URL = "http://127.0.0.1:8000";
-
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("User belum login");
-  return { Authorization: `Bearer ${token}` };
-};
 
 export async function fetchPendingPermissionsApi(startDate = "", endDate = "") {
   const res = await api.get(`/student/attendance-permissions/pending`, {
@@ -19,14 +11,14 @@ export async function fetchPendingPermissionsApi(startDate = "", endDate = "") {
   return res.data.data;
 }
 
-export async function fetchPermissionsApi(page = 1,startDate = "", endDate = "") {
+export async function fetchPermissionsApi(page = 1, startDate = "", endDate = "") {
   const res = await api.get(`/student/attendance-permissions`, {
     params: {
       page,
       start_date: startDate,
       end_date: endDate
-      
-      },
+
+    },
   });
   return res.data;
 }
@@ -55,9 +47,6 @@ export const getPermissionDetailStudent = async (permissionId) => {
 
 
 export async function handleSubmitPermission(formData) {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("User belum login");
-
   const form = new FormData();
   form.append("type", formData.type);
   form.append("start_date", formData.start_date);
@@ -66,9 +55,8 @@ export async function handleSubmitPermission(formData) {
   if (formData.proof) form.append("proof", formData.proof);
 
   try {
-    await axios.post(`${BASE_URL}/api/student/attendance-permissions`, form, {
+    await api.post(`/student/attendance-permissions`, form, {
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });

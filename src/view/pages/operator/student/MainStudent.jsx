@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FormModal } from "./components/FormModal";
 import { DetailModal } from "./components/DetailModal";
@@ -17,6 +17,7 @@ import { SearchFilterStudent } from "./components/Search";
 import { StudentFilterDropdown } from "./components/FilterDroopDownStudent";
 import { useStudentFilter } from "../../../../Core/hooks/operator-hooks/student/useStudentFilter";
 import LoadingData from "../../../components/elements/loadingData/loading";
+
 
 export const MainStudent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,17 +45,12 @@ export const MainStudent = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
-  const [deleteId, setDeleteId] = useState(null);
   const [meta, setMeta] = useState({ current_page: 1, last_page: 1, total: 0 });
-  const [loading, setLoading] = useState(false); // Added loading state
-
-  // Move the useStudentFilter hook call here, inside the component
-  const { category, setCategory, masters, appliedFilters, resetFilter } =
-    useStudentFilter();
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const { category, setCategory, masters, filteredStudents, resetFilter } = useStudentFilter(students);
 
   const loadReligionsData = async () => {
     try {
@@ -65,22 +61,19 @@ export const MainStudent = () => {
     }
   };
 
-  const loadStudentsData = async () => {
+  const loadStudentsData = useCallback(async () => {
     setLoading(true);
     try {
-      // Pass appliedFilters to fetchStudents if your API supports filtering
-      const res = await fetchStudents(page, searchTerm, appliedFilters);
+      const res = await fetchStudents(page, searchTerm);
       setStudents(res.data || []);
       setMeta(res.meta || { current_page: 1, last_page: 1, total: 0 });
     } catch (err) {
       console.error(err);
       setStudents([]);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 800);
+      setLoading(false);
     }
-  }, [page, searchTerm, appliedFilters]);
+  }, [page, searchTerm]);
 
   useEffect(() => {
     loadStudentsData();
@@ -101,12 +94,10 @@ export const MainStudent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setErrors({});
 
     try {
       const res = await submitStudent(post, editingId);
-
       if (res.success) {
         setPost({
           name: "",
@@ -128,17 +119,13 @@ export const MainStudent = () => {
         setPage(1);
         loadStudentsData();
         setIsOpen(false);
-      } else {
-        if (res.errors) {
-          setErrors(res.errors);
-        }
+      } else if (res.errors) {
+        setErrors(res.errors);
       }
     } catch (err) {
       console.error(err);
     }
   };
-
-
 
   const handleEdit = (student) => {
     setPost({
@@ -153,7 +140,7 @@ export const MainStudent = () => {
       order_child: student.order_child || "",
       count_siblings: student.count_siblings || "",
       address: student.address || "",
-      gender: student.gender.value || "",
+      gender: student.gender?.value || "",
       religion_id: student.religion_id || student.religion?.id || 1,
     });
 
@@ -195,56 +182,54 @@ export const MainStudent = () => {
 
   return (
     <div className="">
-      {loading ?
-        (<LoadingData loading={loading} type="create" />)
-        : (
-          <div className="flex flex-col gap-3 mb-5">
-            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-              <div className="flex flex-col sm:flex-row  gap-3 w-full items-start sm:items-center">
-                <SearchFilterStudent
-                  searchTerm={searchTerm}
-                  onSearchChange={(value) => {
-                    setPage(1);
-                    setSearchTerm(value);
-                  }}
-                />
 
-                <StudentFilterDropdown
-                  category={category}
-                  setCategory={setCategory}
-                  masters={masters}
-                />
-              </div>
 
-              <div className="flex gap-3">
-                <DetailModal
-                  isOpen={isDetailOpen}
-                  onClose={() => setIsDetailOpen(false)}
-                  student={selectedStudent}
-                />
+      <div className="flex flex-col gap-3 mb-5">
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-3 w-full items-start sm:items-center">
+            <SearchFilterStudent
+              searchTerm={searchTerm}
+              onSearchChange={(value) => {
+                setPage(1);
+                setSearchTerm(value);
+              }}
+            />
 
-                <DeleteConfirmModal
-                  isOpen={showDeleteModal}
-                  onClose={() => setShowDeleteModal(false)}
-                  onConfirm={confirmDelete}
-                  title="Hapus Siswa?"
-                  message="Apakah Anda yakin ingin menghapus data siswa ini? Tindakan ini tidak dapat dibatalkan."
-                  loading={deleteLoading}
-                />
-
-                <button
-                  onClick={() => {
-                    setEditingId(null);
-                    setIsOpen(true);
-                  }}
-                  className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
-                >
-                  + Tambah Siswa
-                </button>
-              </div>
-            </div>
+            <StudentFilterDropdown
+              category={category}
+              setCategory={setCategory}
+              masters={masters}
+            />
           </div>
-        )}
+
+          <div className="flex gap-3">
+            <DetailModal
+              isOpen={isDetailOpen}
+              onClose={() => setIsDetailOpen(false)}
+              student={selectedStudent}
+            />
+
+            <DeleteConfirmModal
+              isOpen={showDeleteModal}
+              onClose={() => setShowDeleteModal(false)}
+              onConfirm={confirmDelete}
+              title="Hapus Siswa?"
+              message="Apakah Anda yakin ingin menghapus data siswa ini? Tindakan ini tidak dapat dibatalkan."
+              loading={deleteLoading}
+            />
+
+            <button
+              onClick={() => {
+                setEditingId(null);
+                setIsOpen(true);
+              }}
+              className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
+            >
+              + Tambah Siswa
+            </button>
+          </div>
+        </div>
+      </div>
 
       <FormModal
         isOpen={isOpen}
@@ -257,25 +242,25 @@ export const MainStudent = () => {
         religions={religions}
       />
 
-      {loading ? (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />)
-        : (
-          <>
-            <StudentsTable
-              students={filteredStudents}
-              onDetail={handleDetail}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-            <PaginationStudent
-              page={page}
-              lastPage={meta.last_page}
-              onPrev={() => setPage(page - 1)}
-              onNext={() => setPage(page + 1)}
-              onPageClick={(p) => setPage(p)}
-            />
-          </>
-        )}
-
+      {loading ? (
+        <LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />
+      ) : (
+        <>
+          <StudentsTable
+            students={filteredStudents}
+            onDetail={handleDetail}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+          <PaginationStudent
+            page={page}
+            lastPage={meta.last_page}
+            onPrev={() => setPage((p) => Math.max(1, p - 1))}
+            onNext={() => setPage((p) => Math.min(meta.last_page, p + 1))}
+            onPageClick={(p) => setPage(p)}
+          />
+        </>
+      )}
     </div>
   );
 };

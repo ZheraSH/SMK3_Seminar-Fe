@@ -70,7 +70,7 @@ export default function MainStatistikGlobal() {
     total: 0,
   };
   const monthly_trend = statistics?.monthly_trend || {};
-  const proportion = { ...counts }; 
+  const proportion = { ...counts };
 
   const filterOptions = {
     Periode: [
@@ -132,7 +132,7 @@ export default function MainStatistikGlobal() {
       <>
         <LoadingData loading={isLoadingStatistics} type="header1" />
         <LoadingData loading={isLoadingStatistics} type="cardStatistikBk" />
-        <LoadingData loading={isLoadingStatistics} type="statistikBk"/>
+        <LoadingData loading={isLoadingStatistics} type="statistikBk" />
       </>
     );
   }
@@ -157,9 +157,6 @@ export default function MainStatistikGlobal() {
     );
   }
 
-  if (!statistics) {
-    return <div className="p-4">Tidak ada data untuk ditampilkan.</div>;
-  }
 
   const filters = [
     {
@@ -177,63 +174,75 @@ export default function MainStatistikGlobal() {
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen lg:mb-4 mb-20 ">
-     
-      {isLoadingStatistics ? (<LoadingData loading={isLoadingStatistics} type=""/>)
-      :(
-        <Header
-          span="Statistik Absensi Global"
-          p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
-          src="/images/particle/global01.png"
-        />
-      )}
 
-      <h2 className="lg:text-[24px] md:text-[18px] sm:text-[14px] font-bold text-gray-800 mb-4 sm:mb-6">
-        Ringkasan Statistik Bulan Ini
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <StatsCard
-          title="Rata-rata Kehadiran"
-          value={
-            counts.total > 0
-              ? ((counts.hadir / counts.total) * 100).toFixed(1) + "%"
-              : "0%"
-          }
-          color="green"
-          progress={counts.total > 0 ? (counts.hadir / counts.total) * 100 : 0}
-        />
-        <StatsCard
-          title="Total Telat"
-          value={counts.terlambat}
-          color="orange"
-          progress={
-            counts.total > 0 ? (counts.terlambat / counts.total) * 100 : 0
-          }
-        />
-        <StatsCard
-          title="Total Izin"
-          value={counts.izin}
-          color="blue"
-          progress={counts.total > 0 ? (counts.izin / counts.total) * 100 : 0}
-        />
-        <StatsCard
-          title="Total Alpha"
-          value={counts.alpha}
-          color="red"
-          progress={counts.total > 0 ? (counts.alpha / counts.total) * 100 : 0}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-2 lg:gap-6 max-w-7xl mx-auto">
-        <div className="lg:col-span-4 min-h-[400px]">
-          <LineChartPlaceholder monthlyTrendData={monthly_trend} />
-        </div>
-        <div className="lg:col-span-3 min-h-[450px] lg:-mt-0 md:-mt-10">
-          <PieChartPlaceholder
-            proportionData={proportion}
-            totalStudents={counts.total}
+      {isLoadingStatistics ? (<LoadingData loading={isLoadingStatistics} type="" />)
+        : (
+          <Header
+            span="Statistik Absensi Global"
+            p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
+            src="/images/particle/global01.png"
           />
+        )}
+
+      {!statistics || counts.total === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
+          <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+          <p className="text-gray-500 text-center text-sm md:text-md">
+            Maaf yaaa.. datanya gaada, <br />
+            Silahkan cek kembali nanti atau hubungi operator jika ini adalah kesalahan.
+          </p>
         </div>
-      </div>
+      ) : (
+        <>
+          <h2 className="lg:text-[24px] md:text-[18px] sm:text-[14px] font-bold text-gray-800 mb-4 sm:mb-6">
+            Ringkasan Statistik Bulan Ini
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+            <StatsCard
+              title="Rata-rata Kehadiran"
+              value={
+                counts.total > 0
+                  ? ((counts.hadir / counts.total) * 100).toFixed(1) + "%"
+                  : "0%"
+              }
+              color="green"
+              progress={counts.total > 0 ? (counts.hadir / counts.total) * 100 : 0}
+            />
+            <StatsCard
+              title="Total Telat"
+              value={counts.terlambat}
+              color="orange"
+              progress={
+                counts.total > 0 ? (counts.terlambat / counts.total) * 100 : 0
+              }
+            />
+            <StatsCard
+              title="Total Izin"
+              value={counts.izin}
+              color="blue"
+              progress={counts.total > 0 ? (counts.izin / counts.total) * 100 : 0}
+            />
+            <StatsCard
+              title="Total Alpha"
+              value={counts.alpha}
+              color="red"
+              progress={counts.total > 0 ? (counts.alpha / counts.total) * 100 : 0}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-7 gap-2 lg:gap-6 max-w-7xl mx-auto">
+            <div className="lg:col-span-4 min-h-[400px]">
+              <LineChartPlaceholder monthlyTrendData={monthly_trend} />
+            </div>
+            <div className="lg:col-span-3 min-h-[450px] lg:-mt-0 md:-mt-10">
+              <PieChartPlaceholder
+                proportionData={proportion}
+                totalStudents={counts.total}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

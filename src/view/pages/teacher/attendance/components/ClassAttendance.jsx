@@ -1,12 +1,11 @@
-import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
-import { useClassAttendance } from "../../../../../Core/hooks/role-teacher/attendance/useCrossCheck";
+import { UserRoundCheck, Users, GraduationCap, Calendar } from "lucide-react";
 import TotalClass from "./ClassTotal";
 import TableClass from "./ClassTable";
 import Pagination from "./Pagination";
-import { useClassAttendance } from "../../../../../Core/hooks/role-teacher/attendance/useCrossCheck";
 import Header from "../../../../components/elements/header/Header-new";
-import { FirstLessonView } from "./RIFD";
 import LoadingData from "../../../../components/elements/loadingData/loading";
+import { useClassAttendance } from "../../../../../Core/hooks/role-teacher/attendance/useCrossCheck";
+
 
 export default function ClassAttendance({ selectedClass, date, setIsOpenClass, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses }) {
 
@@ -22,6 +21,7 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
     canSubmit,
     submitting,
     isTimeValid,
+    canResubmit,
     status,
     handleSubmit,
     isPastDate,
@@ -39,15 +39,15 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
   return (
     <div className=" mb-32 md:mb-10">
       <div className="hidden md:block">
-        {loading? (<LoadingData loading={loading} type="header1" />)
-        :(
-          <Header span="Daftar Kehadiran Siswa" p="informasi kehadiran siswa sebagai bagian dari pemantauan aktivitas belajar" src="/images/background/bg-4.png" />
-        )}
+        {loading ? (<LoadingData loading={loading} type="header1" />)
+          : (
+            <Header span="Daftar Kehadiran Siswa" p="informasi kehadiran siswa sebagai bagian dari pemantauan aktivitas belajar" src="/images/background/bg-4.png" />
+          )}
 
       </div>
       {summary && (
         <TotalClass
-        loading={loading}
+          loading={loading}
           summary={summary}
           setIsOpenClass={setIsOpenClass}
           handleSubmit={handleSubmit}
@@ -61,20 +61,20 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
           isFutureDate={isFutureDate}
         />
       )}
-      {loading?(<LoadingData loading={loading} type="warning" />)
-      :(
-        <div className="bg-[#FFF5E3] p-3 md:p-4 rounded-md mb-4 mt-2">
-          <p className="text-sm md:text-base font-semibold text-[#FFAA05] mb-2">Informasi</p>
-          <ul className="list-disc text-xs md:text-sm space-y-1 ml-4">
-            <li>Halaman ini digunakan untuk mencatat absensi guru saat mengajar di setiap kelas.</li>
-            <li>Pilih status kehadiran sesuai kondisi sebelum melakukan cross check.</li>
-            <li>Perbaiki status yang tidak sesuai lalu tekan Submit untuk menyimpan data.</li>
-          </ul>
-        </div>
-      )}
+      {loading ? (<LoadingData loading={loading} type="warning" />)
+        : (
+          <div className="bg-[#FFF5E3] p-3 md:p-4 rounded-md mb-4 mt-2">
+            <p className="text-sm md:text-base font-semibold text-[#FFAA05] mb-2">Informasi</p>
+            <ul className="list-disc text-xs md:text-sm space-y-1 ml-4">
+              <li>Halaman ini digunakan untuk mencatat absensi guru saat mengajar di setiap kelas.</li>
+              <li>Pilih status kehadiran sesuai kondisi sebelum melakukan cross check.</li>
+              <li>Perbaiki status yang tidak sesuai lalu tekan Submit untuk menyimpan data.</li>
+            </ul>
+          </div>
+        )}
       <div className="mt-4 overflow-auto">
         {loading ? (
-          <LoadingData loading={loading} type="tableSchedule" count={10}/>
+          <LoadingData loading={loading} type="tableSchedule" count={10} />
         ) : error ? (
           <p className="text-center py-10 text-red-500">{error}</p>
         ) : (
@@ -95,4 +95,3 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
     </div>
   );
 }
-

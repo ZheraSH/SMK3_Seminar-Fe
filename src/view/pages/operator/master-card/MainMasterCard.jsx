@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Search, X } from "lucide-react";
 import Header from "../../../components/elements/header/Header-new";
-import LoadingData from "../../../components/elements/loadingData/loading"; 
+import LoadingData from "../../../components/elements/loadingData/loading";
 import { getMastercards, postMastercard } from "../../../../Core/api/role-operator/mastercard/MasterCard";
 
 export default function MasterCard() {
@@ -50,7 +50,7 @@ export default function MasterCard() {
       await postMastercard(newData);
       setIsModalOpen(false);
       setNewData({ name: "", email: "", rfid: "" });
-      fetchData(); 
+      fetchData();
     } catch (err) {
       setError(err.response?.data?.message || "Gagal menambahkan data");
     } finally {
@@ -95,7 +95,7 @@ export default function MasterCard() {
 
       <div className="overflow-x-auto border border-gray-200 rounded-lg">
         {loading ? (
-          <LoadingData loading={loading} type="tableSchedule" cou />
+          <LoadingData loading={loading} type="tableSchedule" count={10} />
         ) : (
           <table className="w-full text-left border-collapse">
             <thead>

@@ -1,18 +1,8 @@
 import api from "../../axiosConfig";
 
 export const getAttendanceStatistics = async () => {
-  const token = localStorage.getItem("token");
-
   try {
-    const res = await api.get(
-      `/counselor/attendance/statistic-monthly`,
-      {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
-          Accept: "application/json",
-        },
-      }
-    );
+    const res = await api.get(`/counselor/attendance/statistic-monthly`);
     console.log(res.data.data);
     return res.data.data;
   } catch (err) {
