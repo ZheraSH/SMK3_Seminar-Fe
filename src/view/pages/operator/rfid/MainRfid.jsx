@@ -67,46 +67,46 @@ export function RfidManagement() {
   return (
     <div className="min-h-screen bg-gray-50 px-6">
       <div className=" hidden md:block">
-        {loading?(<LoadingData loading={loading} type="header1" />)
-        :(
-          <Header
-            span="Daftar RFID"
-            p="Daftar Pengguna RFID"
-            src="/images/particle/rfid.png"
-          />
-        )}
+        {loading ? (<LoadingData loading={loading} type="header1" />)
+          : (
+            <Header
+              span="Daftar RFID"
+              p="Daftar Pengguna RFID"
+              src="/images/particle/rfid.png"
+            />
+          )}
       </div>
 
-     
-      {loading? (<LoadingData loading={loading} type="create" />)
-      :(
-        <RfidSearchBar
-          search={search}
-          onSearchChange={setSearch}
-          onAddClick={() => setShowAdd(true)}
-        />
-      )}
 
-      {loading?(<LoadingData loading={loading} type="tableSchedule" count={10}/>)
-      :(
-        <>
-          <RfidTable
-            filtered={rfid}
-            openMenu={openMenu}
-            onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
-            onDeleteClick={handleDelete}
-            onStatusUpdate={refreshData}
+      {loading ? (<LoadingData loading={loading} type="create" />)
+        : (
+          <RfidSearchBar
+            search={search}
+            onSearchChange={setSearch}
+            onAddClick={() => setShowAdd(true)}
           />
+        )}
 
-          <PaginationRfid
-            page={meta.current_page || 1}
-            lastPage={meta.last_page || 1}
-            onPrev={() => setPage(page - 1)}
-            onNext={() => setPage(page + 1)}
-            onPageClick={setPage}
-          />
-        </>
-      )}
+      {loading ? (<LoadingData loading={loading} type="tableSchedule" count={10} />)
+        : (
+          <>
+            <RfidTable
+              filtered={rfid}
+              openMenu={openMenu}
+              onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
+              onDeleteClick={handleDelete}
+              onStatusUpdate={refreshData}
+            />
+
+            <PaginationRfid
+              page={meta.current_page || 1}
+              lastPage={meta.last_page || 1}
+              onPrev={() => setPage(page - 1)}
+              onNext={() => setPage(page + 1)}
+              onPageClick={setPage}
+            />
+          </>
+        )}
 
       <RfidAddModal
         show={showAdd}

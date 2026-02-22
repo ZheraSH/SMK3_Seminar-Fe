@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
-import { fetchSubject, fetchTeacher, fetchLesson,} from "../../../api/lesson-shedule/lessonApi";
+import { fetchSubject, fetchTeacher, fetchLesson, } from "../../../api/lesson-shedule/lessonApi";
 
-const BREAK_KEYWORDS = ['istirahat', 'break', 'lainnya']; 
+const BREAK_KEYWORDS = ['istirahat', 'break', 'lainnya'];
 
 export default function useMasterSchedule(activeDayApi) {
   const [subjects, setSubjects] = useState([]);
@@ -15,24 +15,26 @@ export default function useMasterSchedule(activeDayApi) {
       if (subjects.length > 0) setIsLoading(false);
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
 
     try {
-      const [subjectsRes, teachersRes, lessonsRes] = await Promise.all([ fetchSubject(), fetchTeacher(), fetchLesson(activeDayApi),]);
-      const teacherData = Array.isArray(teachersRes) ? teachersRes : (teachersRes?.data || []);
-      const filteredTeachers = teacherData.filter((teacher) => {
-        const roleValues = teacher.roles?.map(r => r.value) || [];
+      const [subjectsRes, teachersRes, lessonsRes] = await Promise.all([
+        fetchSubject(),
+        fetchTeacher(),
+        fetchLesson(activeDayApi),
+      ]);
 
+      const rawTeachers = Array.isArray(teachersRes) ? teachersRes : (teachersRes?.data || []);
       const allowedRoles = ["teacher", "homeroom_teacher"];
-      const filteredTeachers = (teachersRes?.data || teachersRes || []).filter((guru) => {
+      const filteredTeachers = rawTeachers.filter((guru) => {
         return guru.roles?.some((role) => allowedRoles.includes(role.value));
       });
 
-      const processedLessons = lessonsRes.map(lesson => {
-        const lessonName = (lesson.name || lesson.placement || '').toLowerCase();
-        const isBreak = BREAK_KEYWORDS.some(keyword => lessonName.includes(keyword));
+      const processedLessons = (lessonsRes || []).map((lesson) => {
+        const lessonName = (lesson.name || lesson.placement || "").toLowerCase();
+        const isBreak = BREAK_KEYWORDS.some((keyword) => lessonName.includes(keyword));
 
         return {
           ...lesson,
@@ -40,7 +42,7 @@ export default function useMasterSchedule(activeDayApi) {
         };
       });
 
-      setSubjects(subjectsRes);
+      setSubjects(subjectsRes || []);
       setTeachers(filteredTeachers);
       setLessons(processedLessons);
     } catch (err) {

@@ -1,16 +1,8 @@
-import axios from "axios";
-
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+import api from "../../axiosConfig";
 
 export const getAbsenteeismMonitoring = async (params = {}) => {
-    const token = localStorage.getItem("token");
-
     try {
-        const res = await axios.get(`${API_BASE_URL}/counselor/attendance/monitoring-global`, {
-            headers: {
-                Authorization: token ? `Bearer ${token}` : "",
-                Accept: "application/json"
-            },
+        const res = await api.get(`/counselor/attendance/monitoring-global`, {
             params
         });
         return res.data.data;
@@ -31,7 +23,7 @@ export const getClass = async () => {
 
     try {
         do {
-            const res = await axios.get(`${API_BASE_URL}/classrooms?page=${currentPage}`);
+            const res = await api.get(`/classrooms?page=${currentPage}`);
             const responseData = res.data;
 
             if (responseData.data && Array.isArray(responseData.data)) {

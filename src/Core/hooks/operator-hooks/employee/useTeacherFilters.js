@@ -1,16 +1,46 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 
-export const useTeacherFilter = (applyFilters) => {
+export const useTeacherFilter = (teachers, applyFilters) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState({
     type: "",
     value: "",
     label: "Pilih Kategori",
   });
-  
+
   const searchTimeout = useRef(null);
+
+  // Client-side filtering
+  const filteredTeachers = useMemo(() => {
+    if (!teachers) return [];
+    if (!category.type || !category.value) return teachers;
+
+    switch (category.type) {
+      case "gender":
+        return teachers.filter(
+          (t) => t.gender?.value === category.value || t.gender === category.value
+        );
+
+      case "role":
+        return teachers.filter((t) => {
+          if (!Array.isArray(t.roles)) return false;
+          return t.roles.some(
+            (r) => r.value === category.value || r === category.value
+          );
+        });
+
+      case "subject_id":
+        return teachers.filter((t) => {
+          if (!Array.isArray(t.subjects)) return false;
+          return t.subjects.some((s) => String(s.id) === String(category.value));
+        });
+
+      default:
+        return teachers;
+    }
+  }, [category, teachers]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -27,28 +57,18 @@ export const useTeacherFilter = (applyFilters) => {
       clearTimeout(searchTimeout.current);
 
       searchTimeout.current = setTimeout(() => {
-        const filters = {};
-        if (value.trim()) filters.search = value.trim();
-        if (category.type && category.value)
-          filters[category.type] = category.value;
-
-        applyFilters(filters);
+        applyFilters(value.trim()); // Only apply search filter to API
       }, 500);
     },
-    [category, applyFilters]
+    [applyFilters]
   );
 
   const handleCategoryChange = useCallback(
     (cat) => {
       setCategory(cat);
-
-      const filters = {};
-      if (searchTerm.trim()) filters.search = searchTerm.trim();
-      if (cat.type && cat.value) filters[cat.type] = cat.value;
-
-      applyFilters(filters);
+      // No applyFilters here to avoid API reload/skeleton
     },
-    [searchTerm, applyFilters]
+    []
   );
 
   return {
@@ -56,6 +76,7 @@ export const useTeacherFilter = (applyFilters) => {
     category,
     handleSearch,
     handleCategoryChange,
+    filteredTeachers,
     setCategory,
   };
 };

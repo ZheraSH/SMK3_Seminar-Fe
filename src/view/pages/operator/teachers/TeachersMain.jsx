@@ -1,24 +1,18 @@
 "use client";
 
-import React, {
-  useState,
-  useMemo,
-  useCallback,
-  useRef,
-  memo,
-} from "react";
+import React, { useState, useEffect, useMemo, memo, useCallback } from "react";
 import { SearchBar } from "./components/SearchBar";
 import { DetailModal } from "./components/TeacherDetailModal.jsx";
 import { TeacherForm } from "./components/TeacherFormModal";
 import { TeacherTable } from "./components/TeacherTable";
 import { PaginationEmployee } from "./components/TeachersPagination";
 import { validateTeacherForm } from "./components/utils/validateTeacherForm";
+import api from "../../../../Core/api";
 
 import {
   submitTeacherApi,
   deleteTeacherApi,
 } from "../../../../Core/api/role-operator/employee/TeachersApi";
-import { extractTeacherMasters } from "./components/utils/teacherMasterExtractor";
 import { TeacherFilterDropdown } from "./components/FilterDropdown";
 import LoadingData from "../../../components/elements/loadingData/loading.jsx";
 import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete.jsx";
@@ -40,16 +34,18 @@ const MemoizedPaginationEmployee = memo(PaginationEmployee);
    MAIN COMPONENT
 ========================== */
 export const TeacherMain = () => {
-  const [religions, setReligions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [initLoading, setInitLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [openItemId, setOpenItemId] = useState(null);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
+  const [showRoleDropdown, setShowRoleDropdown] = useState(false);
+  const [masterTeachers, setMasterTeachers] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors] = useState({});
-  const [showRoleDropdown, setShowRoleDropdown] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // State untuk form
   const [post, setPost] = useState({
@@ -67,116 +63,39 @@ export const TeacherMain = () => {
     roles: [],
   });
 
-  // Hook untuk pagination dengan masterTeachers yang terpisah
-  const {
+  const { teachers, meta, page, setPage, reload, loading: teachersLoading } = useTeacherPagination();
+
+  const { searchTerm, category, handleSearch, handleCategoryChange, setCategory, filteredTeachers } = useTeacherFilter(
     teachers,
-    meta,
-    page,
-    setPage,
-    reload: reloadPagination,
-    loading,
-  } = useTeacherPagination();
+    (searchValue) => reload(1, { search: searchValue })
+  );
 
-  // State terpisah untuk masterTeachers (untuk filter options)
-  const [masterTeachers, setMasterTeachers] = useState([]);
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-
-  const [category, setCategory] = useState({
-    type: "",
-    value: "",
-    label: "Pilih Kategori",
-  });
-
-  const masters = useMemo(() => extractTeacherMasters(Teacher), [Teacher]);
-
-  const teachersByFilter = useMemo(() => {
-    if (!category.type || !category.value) return Teacher;
-
-    switch (category.type) {
-      case "gender":
-        return Teacher.filter((t) => t.gender?.value === category.value);
-
-      case "subjects":
-        return Teacher.filter((t) =>
-          t.subjects?.some((subject) => subject.id === category.value)
-        );
-
-      case "role":
-        return Teacher.filter((t) =>
-          t.roles?.some((role) => role.value === category.value)
-        );
-
-      default:
-        return Teacher;
+  const loadMasterTeachers = useCallback(async () => {
+    try {
+      const res = await api.get("/employees?per_page=100");
+      setMasterTeachers(res.data?.data || []);
+    } catch (error) {
+      console.error("Gagal memuat master teachers:", error);
     }
-  }, [Teacher, category]);
-
-  const filteredTeachers = useMemo(() => {
-    let result = teachersByFilter;
-    if (searchTerm) {
-      const lowerTerm = searchTerm.toLowerCase();
-      result = result.filter((t) => {
-        const matchName = t.name?.toLowerCase().includes(lowerTerm);
-        const matchNip = t.nip?.toString().toLowerCase().includes(lowerTerm);
-        const matchRole = t.roles?.some((role) => {
-          const rLabel = (role.label || role.value || role).toString().toLowerCase();
-          return rLabel.includes(lowerTerm);
-        });
-
-        return matchName || matchNip || matchRole;
-      });
-    }
-    return result;
-  }, [teachersByFilter, searchTerm]);
-
-  useEffect(() => {
-    const loadReligions = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchReligionsApi();
-        setReligions(data);
-      } catch (error) {
-        console.error("Gagal memuat data agama:", error);
-      } finally {
-        setTimeout(() => setLoading(false), 800);
-      }
-    };
-    loadReligions();
   }, []);
 
-  // Wrapper untuk reload yang juga bisa update masterTeachers jika perlu
-  const reload = useCallback(async (newPage = page, filters = {}) => {
-    await reloadPagination(newPage, filters);
-    
-    // Jika halaman pertama dan tanpa filter, update masterTeachers
-    if (newPage === 1 && Object.keys(filters).length === 0) {
-      loadMasterTeachers();
-    }
-  }, [page, reloadPagination, loadMasterTeachers]);
-
-  // Function untuk apply filters
-  const applyFilters = useCallback((filters) => {
-    setPage(1);
-    reload(1, filters);
-  }, [setPage, reload]);
-
-  // Hook untuk filter
-  const {
-    searchTerm,
-    category,
-    handleSearch,
-    handleCategoryChange,
-  } = useTeacherFilter(applyFilters);
-
-  // Hook untuk master data
+  // Gunakan master data dari hook
   const { religions, masters } = useTeacherMasterData(masterTeachers);
 
-  // Initial load untuk master teachers
-  React.useEffect(() => {
-    loadMasterTeachers();
+  const combinedLoading = teachersLoading || initLoading;
+
+  useEffect(() => {
+    const init = async () => {
+      setInitLoading(true);
+      try {
+        await loadMasterTeachers();
+      } catch (error) {
+        console.error("Gagal memuat master data:", error);
+      } finally {
+        setInitLoading(false);
+      }
+    };
+    init();
   }, [loadMasterTeachers]);
 
   const handleInput = (e) => {
@@ -211,36 +130,34 @@ export const TeacherMain = () => {
       return;
     }
 
-    setIsOpen(false);
-    setEditingId(null);
     setErrors({});
+    setEditingId(null);
+    setIsOpen(false);
     reload();
   };
 
   const handleEdit = (t) => {
     setPost({
-      name: teacher.name || "",
-      email: teacher.email || "",
-      image: teacher.image,
-      nik: teacher.nik || "",
-      birth_place: teacher.birth_place || "",
-      birth_date: teacher.birth_date || "",
-      nip: teacher.nip || "",
-      phone_number: teacher.phone_number || "",
-      address: teacher.address || "",
-      gender: teacher.gender.value || "",
-      religion_id: teacher.religion.id || "",
-      roles: teacher.roles?.map((r) => r.value) || [],
+      name: t.name || "",
+      email: t.email || "",
+      image: t.image,
+      nik: t.nik || "",
+      birth_place: t.birth_place || "",
+      birth_date: t.birth_date || "",
+      nip: t.nip || "",
+      phone_number: t.phone_number || "",
+      address: t.address || "",
+      gender: t.gender?.value || "",
+      religion_id: t.religion?.id || "",
+      roles: t.roles?.map((r) => r.value) || [],
     });
     setEditingId(t.id);
     setIsOpen(true);
   };
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    await deleteTeacherApi(deleteId);
-    reload();
-    setDeleteId(null);
+  const handleDetail = (teacher) => {
+    setSelectedTeacher(teacher);
+    setIsDetailOpen(true);
   };
 
   const handleDelete = (id) => {
@@ -270,16 +187,17 @@ export const TeacherMain = () => {
       name: "",
       email: "",
       image: null,
-      NIK: "",
+      nik: "",
       birth_place: "",
       birth_date: "",
-      NIP: "",
+      nip: "",
       phone_number: "",
       address: "",
       gender: "",
       religion_id: "",
       roles: [],
     });
+
     setIsOpen(true);
   };
 
@@ -289,63 +207,63 @@ export const TeacherMain = () => {
       value: "",
       label: "Pilih Kategori",
     });
-    setSearchTerm("");
+    handleSearch("");
+    setPage(1);
+    reload(1, {});
   };
 
   return (
     <div className="">
-      {loading ?
-        (<LoadingData loading={loading} type="create" />)
-        : (
-          <div className="flex flex-col gap-3 mb-5">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch sm:items-center">
-                <SearchBar
-                  searchTerm={searchTerm}
-                  setSearchTerm={(v) => {
-                    setSearchTerm(v);
-                    setPage(1);
-                  }}
-                />
+      {combinedLoading && teachers.length === 0 ? (
+        <LoadingData loading={combinedLoading} type="create" />
+      ) : (
+        <div className="flex flex-col gap-3 mb-5">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch sm:items-center">
+              <MemoizedSearchBar
+                searchTerm={searchTerm}
+                setSearchTerm={handleSearch}
+              />
 
-                <TeacherFilterDropdown
-                  category={category}
-                  setCategory={setCategory}
-                  masters={masters}
-                />
-              </div>
+              <MemoizedTeacherFilterDropdown
+                category={category}
+                setCategory={handleCategoryChange}
+                masters={masters}
+              />
+            </div>
 
-              <div className="flex gap-3">
-                <DetailModal
-                  isDetailOpen={isDetailOpen}
-                  selectedTeacher={selectedTeacher}
-                  setIsDetailOpen={setIsDetailOpen}
-                />
+            <div className="flex gap-3">
+              <DetailModal
+                isDetailOpen={isDetailOpen}
+                selectedTeacher={selectedTeacher}
+                setIsDetailOpen={setIsDetailOpen}
+              />
 
-                <DeleteConfirmModal
-                  isOpen={showDeleteModal}
-                  onClose={() => setShowDeleteModal(false)}
-                  onConfirm={confirmDelete}
-                  title="Hapus Guru?"
-                  message="Apakah Anda yakin ingin menghapus data guru ini? Tindakan ini tidak dapat dibatalkan."
-                  loading={deleteLoading}
-                />
+              <DeleteConfirmModal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Guru?"
+                message="Apakah Anda yakin ingin menghapus data guru ini? Tindakan ini tidak dapat dibatalkan."
+                loading={deleteLoading}
+              />
 
-                <button
-                  onClick={handleAddNewTeacher}
-                  className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
-                >
-                  + Tambah Guru
-                </button>
-              </div>
+              <button
+                onClick={handleAddNewTeacher}
+                className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
+              >
+                + Tambah Guru
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
       <TeacherForm
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         post={post}
+        setPost={setPost}
         religions={religions}
         errors={errors}
         editingId={editingId}
@@ -356,27 +274,28 @@ export const TeacherMain = () => {
         setShowRoleDropdown={setShowRoleDropdown}
       />
 
-      {loading ?
-        (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />)
-        : (
-          <>
-            <TeacherTable
-              currentTeachers={filteredTeachers}
-              openItemId={openItemId}
-              setOpenItemId={setOpenItemId}
-              handleDetail={handleDetail}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-            <PaginationEmployee
-              page={page}
-              lastPage={meta.last_page}
-              onPrev={() => setPage(page - 1)}
-              onNext={() => setPage(page + 1)}
-              onPageClick={(p) => setPage(p)}
-            />
-          </>
-        )}
+      {teachersLoading ? (
+        <LoadingData loading={teachersLoading} type="tableSiswaKaryawan" count={10} />
+      ) : (
+        <>
+          <MemoizedTeacherTable
+            startIndex={(page - 1) * 10}
+            currentTeachers={filteredTeachers}
+            openItemId={openItemId}
+            setOpenItemId={setOpenItemId}
+            handleDetail={handleDetail}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+          <MemoizedPaginationEmployee
+            page={page}
+            lastPage={meta?.last_page || 1}
+            onPrev={() => setPage((p) => Math.max(1, p - 1))}
+            onNext={() => setPage((p) => Math.min(meta?.last_page || 1, p + 1))}
+            onPageClick={(p) => setPage(p)}
+          />
+        </>
+      )}
     </div>
   );
 };

@@ -2,12 +2,19 @@ import { getBgColorBySubject } from "../../../../../Core/utils/SubjectHelper";
 
 export default function TableSchedule ({schedule,loading,error}){
 
-    
+    if (loading) {
+        return (
+            <div className="w-full h-[250px] flex justify-center items-center">
+                <p className="text-gray-500 text-sm animate-pulse">Loading jadwal...</p>
+            </div>
+        );
+    }
 
     if (!schedule || schedule.length === 0) {
         return (
-            <div className="w-full h-[250px] flex justify-center items-center">
-                <p className="text-gray-500 text-sm">Data belum ada.</p>
+            <div className="w-full flex flex-col justify-center items-center py-5">
+                <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-40 h-auto opacity-70 mb-2" />
+                <p className="text-gray-500 text-sm">Yahhh.. Jadwalnya belum ada nih.</p>
             </div>
         );
     }
@@ -22,7 +29,7 @@ export default function TableSchedule ({schedule,loading,error}){
 
 
     const displayedSchedule = schedule.filter(s => !s.lesson_hour?.name.toLowerCase().includes("istirahat"));
-    
+
     if (displayedSchedule.length === 0) {
         return (
             <div className="w-full h-[250px] flex justify-center items-center">
@@ -30,7 +37,7 @@ export default function TableSchedule ({schedule,loading,error}){
             </div>
         );
     }
-    
+
     return (
         <table className="w-full table-fixed border-collapse  rounded-lg ">
             <thead className="block">
@@ -48,33 +55,33 @@ export default function TableSchedule ({schedule,loading,error}){
                         [-ms-overflow-style:'none'] 
                         [scrollbar-width:'none']`}>
                 {displayedSchedule.map((s, index) => {
-                const rowClassName =
-                    index % 2 === 0 ? "bg-white" : "bg-[#EFF6FF]";
+                    const rowClassName =
+                        index % 2 === 0 ? "bg-white" : "bg-[#EFF6FF]";
 
-                return (
-                    <tr
-                    key={index}
-                    className={`${rowClassName} table w-full table-fixed text-[8px] md:text-[10px] lg:text-[14px] border border-[#000000]/20`}
+                    return (
+                        <tr
+                            key={index}
+                            className={`${rowClassName} table w-full table-fixed text-[8px] md:text-[10px] lg:text-[14px] border border-[#000000]/20`}
                         >
-                        <td className="w-[10%] h-[46px] text-center align-middle">
-                            {index + 1}.
-                        </td>
+                            <td className="w-[10%] h-[46px] text-center align-middle">
+                                {index + 1}.
+                            </td>
 
-                        <td className=" text-center w-[40%] h-[46px] px-2 align-middle overflow-hidden text-ellipsis whitespace-nowrap">
-                            <span className={`inline-block text-white px-3 py-0.5 mt-2 rounded-full text-[12px] font-medium shadow-sm max-w-full truncate ${getBgColorBySubject (s.subject)} `}>
-                                {s.subject || "-"}
-                            </span>
-                        </td>
-                        <td className="w-[40%] h-[46px] px-2 align-middle overflow-hidden text-ellipsis whitespace-nowrap">
-                            {s.teacher}
-                        </td>
+                            <td className=" text-center w-[40%] h-[46px] px-2 align-middle overflow-hidden text-ellipsis whitespace-nowrap">
+                                <span className={`inline-block text-white px-3 py-0.5 mt-2 rounded-full text-[12px] font-medium shadow-sm max-w-full truncate ${getBgColorBySubject(s.subject)} `}>
+                                    {s.subject || "-"}
+                                </span>
+                            </td>
+                            <td className="w-[40%] h-[46px] px-2 align-middle overflow-hidden text-ellipsis whitespace-nowrap">
+                                {s.teacher}
+                            </td>
 
-                        <td className="w-[30%] h-[46px] text-center align-middle">
-                            {s.lesson_hour?.name}
-                        </td>
-                    </tr>
+                            <td className="w-[30%] h-[46px] text-center align-middle">
+                                {s.lesson_hour?.name}
+                            </td>
+                        </tr>
 
-                );
+                    );
                 })}
             </tbody>
         </table>

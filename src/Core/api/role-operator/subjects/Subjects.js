@@ -1,4 +1,3 @@
-import axios from "axios"
 import { notify } from "../../../hooks/notification/notify"
 import api from "../../axiosConfig"
 

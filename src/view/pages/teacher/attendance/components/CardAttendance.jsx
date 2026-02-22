@@ -1,16 +1,16 @@
 import { GraduationCap, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-export default function CardAttendance({  classrooms,  loading,  error,  setSelectedClass,  setIsOpenClass }) {
+export default function CardAttendance({ classrooms, loading, error, setSelectedClass, setIsOpenClass }) {
 
   const handleOpenClass = (item) => {
-    setSelectedClass({ 
-      id: item.id, 
+    setSelectedClass({
+      id: item.id,
       lesson: {
-        order: item.lesson.order ?? 1 
+        order: item.lesson.order ?? 1
       },
       lesson_order: item.lesson.order ?? 1,
-      date:  item.lesson.date,
+      date: item.lesson.date,
     });
     setIsOpenClass(true);
   };
@@ -33,7 +33,7 @@ export default function CardAttendance({  classrooms,  loading,  error,  setSele
             <div className="flex items-center bg-blue-500 text-white px-2 py-1 rounded-md text-[18px] font-semibold">
               <GraduationCap className="w-[20px] h-[20px] mr-2" /> {item.name}
             </div>
-            <span className="text-sm font-semibold text-gray-700">{item.school_year}</span>
+            <span className="text-[14px] font-semibold text-gray-700">{item.school_year}</span>
           </div>
 
           <div className="mt-5 flex justify-between items-center">
@@ -55,6 +55,7 @@ export default function CardAttendance({  classrooms,  loading,  error,  setSele
           </button>
         </div>
       ))}
+      </div>
     </div>
   );
 }

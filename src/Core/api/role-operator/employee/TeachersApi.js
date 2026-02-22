@@ -6,6 +6,7 @@ export const fetchTeachersApi = async (page = 1, filters = {}) => {
     const res = await api.get("/employees", {
       params: {
         page,
+        ...filters,
       },
     });
 

@@ -13,13 +13,14 @@ export function useAttendanceTeacher() {
   if (todayIndex >= 1 && todayIndex <= 5) {
     initialDay = dayNames[todayIndex];
   } else if (todayIndex === 6 || todayIndex === 0) {
-    initialDay = "monday"; 
+    initialDay = "monday";
   }
 
+  const [activeDay, setActiveDay] = useState(initialDay);
   const [classrooms, setClassrooms] = useState([]);
   const [globalChanges, setGlobalChanges] = useState({});
   const [submittedClasses, setSubmittedClasses] = useState({});
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export function useAttendanceTeacher() {
         setClassrooms([]);
       })
       .finally(() => setLoading(false));
-  }, [activeDay]); 
+  }, [activeDay]);
 
   return {
     selectedClass,

@@ -108,8 +108,9 @@ export const LineChartPlaceholder = ({ monthlyTrendData }) => {
 
   if (dataPoints.length === 0) {
     return (
-      <div className="w-full bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-[337px] flex items-center justify-center">
-        <p className="text-gray-500">Data tren bulanan tidak tersedia.</p>
+      <div className="w-full bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-[337px] flex flex-col items-center justify-center">
+        <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-32 h-auto mb-4 opacity-60" />
+        <p className="text-gray-400 font-medium">Data tren bulanan tidak tersedia.</p>
       </div>
     );
   }
@@ -245,8 +246,9 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
 
   if (totalLog === 0) {
     return (
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-[347px] w-full flex items-center justify-center">
-        <p className="text-gray-500">Tidak ada data absensi untuk periode ini.</p>
+      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-[347px] w-full flex flex-col items-center justify-center">
+        <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-32 h-auto mb-4 opacity-60" />
+        <p className="text-gray-400 font-medium">Tidak ada data absensi untuk periode ini.</p>
       </div>
     );
   }

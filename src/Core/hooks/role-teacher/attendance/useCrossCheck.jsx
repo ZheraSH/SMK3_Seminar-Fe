@@ -11,9 +11,6 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [canResubmit, setCanResubmit] = useState(false);
@@ -31,23 +28,23 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
   ], []);
 
   const checkTimeValidity = useCallback(() => {
-  const now = new Date();
-  const selectedDate = new Date(date);
-  
-  const endOfToday = new Date(selectedDate);
-  endOfToday.setHours(23, 59, 59, 999);
+    const now = new Date();
+    const selectedDate = new Date(date);
 
-  const startTime = lessonSchedule?.lesson_hour?.start_time;
-  if (startTime) {
-    const [startHour, startMinute] = startTime.split(':').map(Number);
-    const startDateTime = new Date(selectedDate);
-    startDateTime.setHours(startHour, startMinute, 0, 0);
-    
-    setIsFutureDate(now < startDateTime); 
-  }
+    const endOfToday = new Date(selectedDate);
+    endOfToday.setHours(23, 59, 59, 999);
 
-  setIsPastDate(now > endOfToday);
-}, [date, lessonSchedule]);
+    const startTime = lessonSchedule?.lesson_hour?.start_time;
+    if (startTime) {
+      const [startHour, startMinute] = startTime.split(':').map(Number);
+      const startDateTime = new Date(selectedDate);
+      startDateTime.setHours(startHour, startMinute, 0, 0);
+
+      setIsFutureDate(now < startDateTime);
+    }
+
+    setIsPastDate(now > endOfToday);
+  }, [date, lessonSchedule]);
 
   useEffect(() => {
     checkTimeValidity();
@@ -65,7 +62,7 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
 
   const fetchInitialSummary = useCallback(async () => {
     if (!selectedClass?.id || !date) return;
-    
+
     try {
       const currentOrder = selectedClass.lesson?.order || selectedClass.lesson_order;
       const firstRes = await getCrossCheckData(selectedClass.id, date, currentOrder, 1);
@@ -105,7 +102,7 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
           });
           return updated;
         });
-        
+
         setIsInitialLoaded(true);
       }
     } catch (err) {
