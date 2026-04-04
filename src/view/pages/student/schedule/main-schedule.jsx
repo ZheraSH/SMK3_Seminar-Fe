@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useStudentSchedule } from "../../../../Core/hooks/role-student/schedule-student/useStudentSchedule";
-import ButtonSchedule from "./components/ButtonSchedule";
-import TableSchedule from "./components/TableSchedule";
+import { useStudentSchedule } from "../../../../Core/hooks/role-student/schedule-student/use-student-schedule";
+import ButtonSchedule from "./components/button-schedule";
+import TableSchedule from "./components/table-schedule";
 import Header from "../../../components/elements/header/Header-new";
 import LoadingData from "../../../components/elements/loadingData/loading";
 

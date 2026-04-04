@@ -1,5 +1,5 @@
 import { useEffect,useState } from "react";
-import { fetchStudentSchedule,fetchAttendancePermissions,getDashboardSummary,fetchAttendanceMonthly} from "../../../api/role-student/dashboard/useDashboard";
+import { fetchStudentSchedule,fetchAttendancePermissions,getDashboardSummary,fetchAttendanceMonthly} from "../../../api/role-student/dashboard/dashboard";
 
 export function DashboardStudent () {
         const [loading, setLoading] = useState(true);

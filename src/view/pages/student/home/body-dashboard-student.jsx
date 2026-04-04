@@ -1,9 +1,9 @@
-import ProfileHeader from "./components/ProfileHeader";
-import Card from "./components/AttendanceCards";
-import TableSchedule from "./components/TableSchedule";
-import TableHistory from "./components/TableHistory";
-import { DashboardStudent } from "../../../../Core/hooks/role-student/dashboard/DashboardStudent";
-import AttendanceChart from "./components/AttendanceChart";
+import ProfileHeader from "./components/profile-header";
+import Card from "./components/attendance-cards";
+import TableSchedule from "./components/table-schedule";
+import TableHistory from "./components/table-history";
+import { DashboardStudent } from "../../../../Core/hooks/role-student/dashboard/use-dashboard-student";
+import AttendanceChart from "./components/attendance-chart";
 import LoadingData from "../../../components/elements/loadingData/loading";
 
 export default function BodyDashboard() {

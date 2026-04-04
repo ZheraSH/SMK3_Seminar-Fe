@@ -1,6 +1,6 @@
 "use client";
 import { X } from "lucide-react";
-import { getStatusColor } from "../utils/statusHelpers";
+import { getStatusColor } from "../utils/status-helpers";
 
 const formatDate = (dateString) => {
   if (!dateString) return "-";

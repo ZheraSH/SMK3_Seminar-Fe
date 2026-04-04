@@ -1,4 +1,4 @@
-import { PermissionCard } from "./PermissionCard";
+import { PermissionCard } from "./permission-card";
 
 export const PermissionCardsSection = ({ permissions, onViewDetail }) => {
   const cardsPerView = 3;

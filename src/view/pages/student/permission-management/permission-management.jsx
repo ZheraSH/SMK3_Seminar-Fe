@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { PermissionCard } from "./components/PermissionCard";
-import { PermissionTable } from "./components/PermissionTable";
-import { PermissionFormModal } from "./components/PermissionFormModal";
-import { PermissionDetailModal } from "./components/PermissionDetailModal";
-import { usePermissions } from "../../../../Core/hooks/role-student/permission-student/PermissionStudent";
-import { PaginationPermissionStudent } from "./components/PermissionPagination";
+import { PermissionCard } from "./components/permission-card";
+import { PermissionTable } from "./components/permission-table";
+import { PermissionFormModal } from "./components/permission-form-modal";
+import { PermissionDetailModal } from "./components/permission-detail-modal";
+import { usePermissions } from "../../../../Core/hooks/role-student/permission-student/use-permission-student";
+import { PaginationPermissionStudent } from "./components/permission-pagination";
 import HeaderPage from "../../../components/elements/header/Header-new";
-import { getPermissionDetailStudent, deletePermissionApi } from "../../../../Core/api/role-student/student-permission/Permission";
+import { getPermissionDetailStudent, deletePermissionApi } from "../../../../Core/api/role-student/student-permission/permission";
 import LoadingData from "../../../components/elements/loadingData/loading";
 import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
 import { Plus, Calendar, RotateCcw,Filter,X } from "lucide-react";

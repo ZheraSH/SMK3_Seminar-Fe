@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import {  fetchPermissionsApi,  fetchPendingPermissionsApi,  handleSubmitPermission,deletePermissionApi } from "../../../api/role-student/student-permission/Permission";
+import {  fetchPermissionsApi,  fetchPendingPermissionsApi,  handleSubmitPermission,deletePermissionApi } from "../../../api/role-student/student-permission/permission";
 import { notify } from "../../notification/notify";
 
 export function usePermissions() {

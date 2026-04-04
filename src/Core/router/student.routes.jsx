@@ -1,11 +1,11 @@
-import MainClassStudent from "../../view/pages/student/Class/MainClass";
-import MainScheduleStudent from "../../view/pages/student/schedule/MainSchedule";
-import PermissionManagement from "../../view/pages/student/permission-management/PermissionManagement";
+import MainClassStudent from "../../view/pages/student/class/main-class";
+import MainScheduleStudent from "../../view/pages/student/schedule/main-schedule";
+import PermissionManagement from "../../view/pages/student/permission-management/permission-management";
 import ProtectedRoute from "./ProtectedRoute";
 import MainDashboard from "../../view/components/elements/MainDashboard";
-import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
+import BodyDashboard from "../../view/pages/student/home/body-dashboard-student";
 import ProfileUser from "../../view/components/elements/profile/ProfileUser";
-import AbsentStudentMain from "../../view/pages/student/absence/AbsenceStudent";
+import AbsentStudentMain from "../../view/pages/student/absence/absence-student";
 import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 
 export const StudentRoutes = [

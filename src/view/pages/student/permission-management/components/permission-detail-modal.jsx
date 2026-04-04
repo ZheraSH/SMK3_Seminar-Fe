@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import { useState } from "react";
-import { getStatusColor } from "../utils/statusHelpers";
+import { getStatusColor } from "../utils/status-helpers";
 
 export const PermissionDetailModal = ({ isOpen, onClose, permission }) => {
   const [previewOpen, setPreviewOpen] = useState(false);

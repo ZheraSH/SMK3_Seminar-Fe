@@ -1,5 +1,5 @@
 "use client";
-import { getStatusBadgeColor } from "../utils/statusHelpers";
+import { getStatusBadgeColor } from "../utils/status-helpers";
 
 const formatDate = (dateString) => {
   if (!dateString) return "-";
