@@ -1,5 +1,5 @@
-import { getClass } from "../../../api/role-bk/monitoring/absenteeismMonitoring";
-import { getMajors } from "../../../api/role-operator/class-major/classApi";
+import { getClass } from "../../../api/role-bk/monitoring/absenteeism-monitoring";
+import { getMajors } from "../../../api/role-operator/class-major/class-api";
 import { useState, useEffect } from "react";
 
 const masterDataCache = {}; 

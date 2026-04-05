@@ -1,4 +1,4 @@
-import {Main} from "../BK/home/BodyDasboardBk";
+import {Main} from "../bk/home/body-dasboard-bk";
 import HomeRoomHome from "../homeroom-teacher/home/MainHomeroomHome";
 import { useEffect, useState } from "react";
 import { MainTeacher } from "../teacher/home/BodyDashboardTeacher";

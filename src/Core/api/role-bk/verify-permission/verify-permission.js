@@ -1,4 +1,4 @@
-import { notify } from "../../../../Core/hooks/notification/notify";
+import { notify } from "../../../hooks/notification/notify";
 import api from "../../axiosConfig";
 
 export const getVerifyPermissionBk = async (page = 1, search = "", classId = null, type = null, status = null) => {

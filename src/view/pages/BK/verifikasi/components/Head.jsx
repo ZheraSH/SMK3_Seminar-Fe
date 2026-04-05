@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import HeaderPage from "../../../../components/elements/header/Header-new";
 import { Search} from "lucide-react";
-import Filter from './Filter';
+import Filter from './filter';
 import Filter2 from './filter2';
 import LoadingData from '../../../../components/elements/loadingData/loading';
 

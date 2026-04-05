@@ -1,10 +1,10 @@
 import ProtectedRoute from "./ProtectedRoute";
 import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/TeachingSchedule";
 import AttendanceTeacher from "../../view/pages/teacher/attendance/MainAttendance";
-import MainMonitoringAbsen from "../../view/pages/BK/monitoring Absen/MainAttendanceMonitoring";
-import VerifikasiIzin from "../../view/pages/BK/verifikasi/MainVerifyPermission";
-import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal";
-import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermission";
+import MainMonitoringAbsen from "../../view/pages/bk/monitoring-absen/main-attendance-monitoring";
+import VerifikasiIzin from "../../view/pages/bk/verifikasi/main-verify-permission";
+import StatistikGlobal from "../../view/pages/bk/statistik-global/statistik-global";
+import VerifyPermission from "../../view/pages/bk/verifikasi/main-verify-permission";
 import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 import BodyDashboardMultiRole from "../../view/pages/multiRole/BodyDashboard";
 import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/AttendanceRecap";

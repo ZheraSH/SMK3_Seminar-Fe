@@ -1,11 +1,11 @@
-import MainMonitoringAbsen from "../../view/pages/BK/monitoring Absen/MainAttendanceMonitoring";
-import VerifikasiIzin from "../../view/pages/BK/verifikasi/MainVerifyPermission";
-import StatistikGlobal from "../../view/pages/BK/statistikglobal/StatistikGlobal";
+import MainMonitoringAbsen from "../../view/pages/bk/monitoring-absen/main-attendance-monitoring";
+import VerifikasiIzin from "../../view/pages/bk/verifikasi/main-verify-permission";
+import StatistikGlobal from "../../view/pages/bk/statistik-global/statistik-global";
 import MainDashboard from "../../view/components/elements/MainDashboard";
-import BodyDashboard from "../../view/pages/BK/home/BodyDasboardBk";
+import BodyDashboard from "../../view/pages/bk/home/body-dasboard-bk";
 import ProtectedRoute from "./ProtectedRoute";
 import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
-import VerifyPermission from "../../view/pages/BK/verifikasi/MainVerifyPermission";
+import VerifyPermission from "../../view/pages/bk/verifikasi/main-verify-permission";
 import ProfileUser from "../../view/components/elements/profile/ProfileUser";
 
 export const BkRoutes = [

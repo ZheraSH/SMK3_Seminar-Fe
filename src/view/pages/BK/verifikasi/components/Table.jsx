@@ -1,5 +1,5 @@
 import { Check, X, Eye } from 'lucide-react';
-import Pagination from './Pagination';
+import Pagination from './pagination';
 
 export default function Table({  data, loading,  error,  currentPage,  lastPage,  totalItems,  perPage,  onPageChange, onAction}) {
 

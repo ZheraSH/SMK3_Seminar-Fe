@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import {  getVerifyPermissionBk,  getPermissionDetailBk,  approvePermissionBk,  rejectPermissionBk } from '../../../../Core/api/role-bk/verify-permission/VerifyPermission';
-import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/useVeryPermission'; 
+import {  getVerifyPermissionBk,  getPermissionDetailBk,  approvePermissionBk,  rejectPermissionBk } from '../../../../Core/api/role-bk/verify-permission/verify-permission';
+import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/use-very-permission'; 
 
-import DetailIzinModal from "./components/ModalDetail";
-import Table from './components/Table';
-import HeaderAndControls from './components/Head';
+import DetailIzinModal from "./components/modal-detail";
+import Table from './components/table';
+import HeaderAndControls from './components/head';
 import LoadingData from '../../../components/elements/loadingData/loading';
-import ConfirmationModal from './components/CorfimModal';
+import ConfirmationModal from './components/corfim-modal';
 
 export default function VerifyPermission() {
     const [isModalOpen, setIsModalOpen] = useState(false);
