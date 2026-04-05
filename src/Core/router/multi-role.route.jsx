@@ -1,14 +1,14 @@
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./protected-route";
 import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/teaching-schedule";
 import AttendanceTeacher from "../../view/pages/teacher/attendance/main-attendance";
 import MainMonitoringAbsen from "../../view/pages/bk/monitoring-absen/main-attendance-monitoring";
 import VerifikasiIzin from "../../view/pages/bk/verifikasi/main-verify-permission";
 import StatistikGlobal from "../../view/pages/bk/statistik-global/statistik-global";
 import VerifyPermission from "../../view/pages/bk/verifikasi/main-verify-permission";
-import ProfileUser from "../../view/components/elements/profile/ProfileUser";
+import ProfileUser from "../../view/components/elements/profile/profile-user";
 import BodyDashboardMultiRole from "../../view/pages/multi-role/body-dashboard";
-import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/AttendanceRecap";
-import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
+import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/attendance-recap";
+import { DashboardLayout } from "../../view/layouts/dashboard-layout";
 
 export const MultiRoleRoutes = [
   {
@@ -20,7 +20,7 @@ export const MultiRoleRoutes = [
     ),
     children: [
       {
-        element: <DashboardLayouth />,
+        element: <DashboardLayout />,
         children: [
           { index: true, element: <BodyDashboardMultiRole /> },
           { path: "teacher-schedule", element: <TeacherSchedule /> },

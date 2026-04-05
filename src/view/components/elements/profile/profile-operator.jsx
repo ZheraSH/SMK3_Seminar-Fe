@@ -4,13 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { LogOut, ArrowLeftToLine, ChevronRight } from "lucide-react";
 import LoadingData from "../loadingData/loading";
-import useProfile from "../../../../Core/hooks/operator-hooks/profile/use-profile-operator";
-import { notify } from "../../../../Core/hooks/notification/notify";
+import useProfileOperator from "../../../../core/hooks/operator-hooks/profile/use-profile-operator";
+import { notify } from "../../../../core/hooks/notification/notify";
 
 export default function ProfileOperator() {
   const [isOpenFrom, setIsOpenFrom] = useState(false);
   const navigate = useNavigate();
-  const { data, loading, error, year, handleUpdate, updating } = useProfile();
+  const { data, loading, error, year, handleUpdate, updating } = useProfileOperator();
 
   if (isOpenFrom) {
     return (
@@ -155,8 +155,8 @@ const CustomSelect = ({ label, options, value, onChange }) => {
                 setIsOpen(false);
               }}
               className={`block w-full text-left text-sm px-3 py-2 rounded-lg transition ${value === opt.value
-                  ? "bg-blue-100 text-blue-700 font-semibold"
-                  : "hover:bg-gray-50 text-gray-700"
+                ? "bg-blue-100 text-blue-700 font-semibold"
+                : "hover:bg-gray-50 text-gray-700"
                 }`}
             >
               {opt.label}

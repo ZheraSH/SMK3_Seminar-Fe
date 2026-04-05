@@ -1,4 +1,4 @@
-import ProfileIMG from "../../../../../Core/hooks/profile/Profil";
+import ProfileIMG from "../../../../../core/hooks/profile/Profil";
 
 export default function ProfileHeader ({user}) {
     return (

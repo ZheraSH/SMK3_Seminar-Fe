@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { addSubject, updateSubject, deleteSubject } from "../../../../Core/api/role-operator/subjects/subjects";
+import { addSubject, updateSubject, deleteSubject } from "../../../../core/api/role-operator/subjects/subjects";
 import { SubjectModal } from "./components/subject-modal";
 import { SearchBar } from "./components/search-bar";
 import { Pagination } from "./components/pagination";
 import { SubjectCard } from "./components/subject-card";
-import useSubjects from "../../../../Core/hooks/operator-hooks/subjects/use-subjects";
+import useSubjects from "../../../../core/hooks/operator-hooks/subjects/use-subjects";
 import Header from "../../../components/elements/header/Header-new";
 import LoadingData from "../../../components/elements/loadingData/loading";
 import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";

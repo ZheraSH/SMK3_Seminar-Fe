@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import StatCard from "../utils/StatCard";
-import { fetchAttendanceStatistics } from "../../../../../Core/api/role-homeroom/dashboard/HomeroomDashboard";
+import { fetchAttendanceStatistics } from "../../../../../core/api/role-homeroom/dashboard/HomeroomDashboard";
 import LoadingData from "../../../../components/elements/loadingData/loading";
 
 export default function StatisticsCard() {

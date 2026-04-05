@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { notify } from "../../../../../Core/hooks/notification/notify";
+import { notify } from "../../../../../core/hooks/notification/notify";
 import {
   addRfid,
   fetchAvailableStudents,
-} from "../../../../../Core/api/role-operator/rfid/rfid-api";
+} from "../../../../../core/api/role-operator/rfid/rfid-api";
 
 export default function RfidAddModal({
   show,

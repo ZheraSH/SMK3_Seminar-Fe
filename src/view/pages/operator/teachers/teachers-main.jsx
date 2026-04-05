@@ -6,14 +6,14 @@ import { DetailModal } from "./components/teacher-detail-modal.jsx";
 import { TeacherForm } from "./components/teacher-form-modal";
 import { TeacherTable } from "./components/teacher-table";
 import { PaginationEmployee } from "./components/teachers-pagination";
-import { useTeacher } from "../../../../Core/hooks/operator-hooks/employee/use-pagination";
+import { useTeacher } from "../../../../core/hooks/operator-hooks/employee/use-pagination";
 import { validateTeacherForm } from "./components/utils/validate-teacher-form";
 
 import {
   submitTeacherApi,
   deleteTeacherApi,
   fetchReligionsApi,
-} from "../../../../Core/api/role-operator/employee/teachers-api";
+} from "../../../../core/api/role-operator/employee/teachers-api";
 import { extractTeacherMasters } from "./components/utils/teacher-master-extractor";
 import { TeacherFilterDropdown } from "./components/filter-dropdown";
 import LoadingData from "../../../components/elements/loadingData/loading.jsx";

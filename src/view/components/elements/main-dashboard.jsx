@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { LogOut, X, Search, Menu } from "lucide-react";
-import { useAttendanceTeacher } from "../../../Core/hooks/role-teacher/attendance/use-attendance";
+import { useAttendanceTeacher } from "../../../core/hooks/role-teacher/attendance/use-attendance";
 
 const api = axios.create({
   baseURL: "http://localhost:8000/api",

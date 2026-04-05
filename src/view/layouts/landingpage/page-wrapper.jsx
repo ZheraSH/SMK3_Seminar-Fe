@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import LoadingScreen from "../../components/elements/landing.page.element/LoadingScreen";
 import useLoading from "../../hooks/useLoading";
 
-const PageWrapper = ({ children }) => {
+const page-wrapper = ({ children }) => {
   const { isLoading, connectionSpeed, stopLoading } = useLoading(true);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const PageWrapper = ({ children }) => {
   );
 };
 
-export default PageWrapper;
+export default page-wrapper;

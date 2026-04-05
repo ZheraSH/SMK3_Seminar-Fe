@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { fetchAttendanceHistory } from '../../../../Core/api/role-student/absence-student/absence-student';
+import { fetchAttendanceHistory } from '../../../../core/api/role-student/absence-student/absence-student';
 import Header from '../../../components/elements/header/Header-new';
 import LoadingData from '../../../components/elements/loadingData/loading';
 import { PaginationAbsenceStudent } from './components/pagination-absence-student';

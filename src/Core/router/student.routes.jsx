@@ -1,12 +1,12 @@
 import MainClassStudent from "../../view/pages/student/class/main-class";
 import MainScheduleStudent from "../../view/pages/student/schedule/main-schedule";
 import PermissionManagement from "../../view/pages/student/permission-management/permission-management";
-import ProtectedRoute from "./ProtectedRoute";
-import MainDashboard from "../../view/components/elements/MainDashboard";
+import ProtectedRoute from "./protected-route";
+import MainDashboard from "../../view/components/elements/main-dashboard";
 import BodyDashboard from "../../view/pages/student/home/body-dashboard-student";
-import ProfileUser from "../../view/components/elements/profile/ProfileUser";
+import ProfileUser from "../../view/components/elements/profile/profile-user";
 import AbsentStudentMain from "../../view/pages/student/absence/absence-student";
-import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
+import { DashboardLayout } from "../../view/layouts/dashboard-layout";
 
 export const StudentRoutes = [
 
@@ -15,7 +15,7 @@ export const StudentRoutes = [
     element: (<ProtectedRoute allowedRoles={["student"]}
     />),
     children: [{
-      element: <DashboardLayouth />,
+      element: <DashboardLayout />,
       children: [
         { index: true, element: < BodyDashboard /> },
         { path: "dashboard", element: <MainDashboard /> },

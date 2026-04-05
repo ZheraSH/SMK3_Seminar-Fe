@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchRfidLogs } from "../../../../../Core/api/role-homeroom/dashboard/HomeroomDashboard";
+import { fetchRfidLogs } from "../../../../../core/api/role-homeroom/dashboard/HomeroomDashboard";
 import LoadingData from "../../../../components/elements/loadingData/loading";
 
 export default function AttendanceTable() {

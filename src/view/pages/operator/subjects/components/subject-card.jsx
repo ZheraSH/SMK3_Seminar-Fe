@@ -4,7 +4,7 @@ import { MoreVertical, Edit3, Trash2 } from "lucide-react"
 import {
   getIconBySubject,
   getBgColorBySubject,
-} from "../../../../../Core/utils/SubjectHelper"
+} from "../../../../../core/utils/SubjectHelper"
 
 export function SubjectCard({
   subject = {},

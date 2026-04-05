@@ -1,17 +1,17 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { ROLE_MENUS, multiRoleCommon } from "@data/SidebarData"; 
+import { ROLE_MENUS, multiRoleCommon } from "@data/sidebar-data"; 
 import { useRef, useState, useEffect, useMemo } from "react";
-import MainDashboard from "../components/elements/MainDashboard";
+import MainDashboard from "../components/elements/main-dashboard";
 import { ChevronDown } from "lucide-react";
-import { Notification } from "../../Core/hooks/notification/Notification";
+import { Notification } from "../../core/hooks/notification/Notification";
 import LoginSuccessPopup from "../components/elements/succeslogin/LoginSuccessPopup";
-import useProfile from "../../Core/hooks/operator-hooks/profile/use-profile-operator";
+import useProfileOperator from "../../core/hooks/operator-hooks/profile/use-profile-operator";
 
-export const DashboardLayouth = () => {
+export const DashboardLayout = () => {
   const location = useLocation();
   const scrollRef = useRef(null);
   
-  const { schoolInfo } = useProfile();
+  const { schoolInfo } = useProfileOperator();
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState({ roles: [] });

@@ -1,8 +1,8 @@
-import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/AttendanceRecap";
-import HomeRoomHome from "../../view/pages/homeroom-teacher/home/MainHomeroomHome";
-import ProtectedRoute from "./ProtectedRoute";
-import ProfileUser from "../../view/components/elements/profile/ProfileUser";
-import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
+import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/attendance-recap";
+import HomeRoomHome from "../../view/pages/homeroom-teacher/home/main-homeroom-home";
+import ProtectedRoute from "./protected-route";
+import ProfileUser from "../../view/components/elements/profile/profile-user";
+import { DashboardLayout } from "../../view/layouts/dashboard-layout";
 
 export const HomeRoomRoute = [
     {
@@ -10,7 +10,7 @@ export const HomeRoomRoute = [
         element: (<ProtectedRoute allowedRoles={["homeroom_teacher", "counselor"]} />),
         children: [
             {
-                element: <DashboardLayouth  />,
+                element: <DashboardLayout  />,
                 children: [
                     { index: true, element: <HomeRoomHome /> },
                     { path: "home", element: <HomeRoomHome /> },

@@ -1,7 +1,7 @@
 import ButtonAttendance from "./components/button-attendance";
 import CardAttendance from "./components/card-attendance";
 import ClassAttendance from "./components/class-attendance";
-import { useAttendanceTeacher } from "../../../../Core/hooks/role-teacher/attendance/use-attendance";
+import { useAttendanceTeacher } from "../../../../core/hooks/role-teacher/attendance/use-attendance";
 import Header from "../../../components/elements/header/Header-new";
 import LoadingData from "../../../components/elements/loadingData/loading";
 

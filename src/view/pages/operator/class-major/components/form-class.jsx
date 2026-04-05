@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
-import useMasterData from "../../../../../Core/hooks/operator-hooks/class-major/use-master-data";
-import { getAllClasses } from "../../../../../Core/api/role-operator/class-major/class-api";
+import useMasterData from "../../../../../core/hooks/operator-hooks/class-major/use-master-data";
+import { getAllClasses } from "../../../../../core/api/role-operator/class-major/class-api";
 
 function Dropdown({ label, value, placeholder, data = [], onChange, error }) {
   const [open, setOpen] = useState(false);

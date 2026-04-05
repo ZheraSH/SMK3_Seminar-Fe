@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { ChevronRight, Calendar, Loader2, X } from "lucide-react";
-import useAttendanceStatistics from "../../../../Core/hooks/bk-hooks/statistik-global/use-statistik-global";
+import useAttendanceStatistics from "../../../../core/hooks/bk-hooks/statistik-global/use-statistik-global";
 import StatsCard from "./components/stats-card";
 import { LineChartPlaceholder, PieChartPlaceholder } from "./components/charts";
 import Header from "../../../components/elements/header/Header-new";

@@ -2,7 +2,7 @@ import ProfileHeader from "./components/profile-header";
 import Card from "./components/attendance-cards";
 import TableSchedule from "./components/table-schedule";
 import TableHistory from "./components/table-history";
-import { DashboardStudent } from "../../../../Core/hooks/role-student/dashboard/use-dashboard-student";
+import { DashboardStudent } from "../../../../core/hooks/role-student/dashboard/use-dashboard-student";
 import AttendanceChart from "./components/attendance-chart";
 import LoadingData from "../../../components/elements/loadingData/loading";
 

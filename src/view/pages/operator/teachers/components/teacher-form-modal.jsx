@@ -1,5 +1,5 @@
 import React from "react";
-import { RoleLabels, RoleEnum } from "../../../../../Core/enums/RoleEnum";
+import { RoleLabels, RoleEnum } from "../../../../../core/enums/RoleEnum";
 
 export const TeacherForm = ({
   isOpen,

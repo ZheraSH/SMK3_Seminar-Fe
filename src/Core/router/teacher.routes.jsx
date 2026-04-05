@@ -1,9 +1,9 @@
 import AttendanceTeacher from "../../view/pages/teacher/attendance/main-attendance";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./protected-route";
 import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/teaching-schedule";
 import BodyDashboardTeacher from "../../view/pages/teacher/home/body-dashboard-teacher";
-import ProfileUser from "../../view/components/elements/profile/ProfileUser";
-import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
+import ProfileUser from "../../view/components/elements/profile/profile-user";
+import { DashboardLayout } from "../../view/layouts/dashboard-layout";
 
 export const TeacherRoutes = [
     {
@@ -11,7 +11,7 @@ export const TeacherRoutes = [
         element: (<ProtectedRoute allowedRoles={["teacher"]} />),
         children: [
             {
-                element: <DashboardLayouth />,
+                element: <DashboardLayout />,
                 children: [
                     { index: true, element: <BodyDashboardTeacher /> },
                     { path: "dashboard", element: <BodyDashboardTeacher /> },

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CircleCheck, Clock, ClipboardCheck, TriangleAlert, CalendarCog, Search, Download, RefreshCw, ChevronRight } from "lucide-react";
 import TableRecap from "./components/TableAttendance";
 import CardRecap from "./components/CardRecap";
-import {UseRecap} from "../../../../Core/hooks/Homeroom-teacher/Recap";
+import {UseRecap} from "../../../../core/hooks/Homeroom-teacher/Recap";
 import Header from "../../../components/elements/header/Header-new";
 import Pagination from "./components/Paginition";
 import LoadingData from "../../../components/elements/loadingData/loading";

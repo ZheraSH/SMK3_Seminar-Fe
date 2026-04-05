@@ -6,7 +6,7 @@ import {
     getPublicLogo 
 } from "../../../api/role-operator/profile/profile-operator";
 
-export default function useProfile() {
+export default function useProfileOperator() {
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState(null);

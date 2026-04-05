@@ -10,12 +10,12 @@ import {
   fetchReligions,
   submitStudent,
   deleteStudent,
-} from "@/Core/api/role-operator/student/student-api";
+} from "@/core/api/role-operator/student/student-api";
 import { StudentsTable } from "./components/student-table";
 import { PaginationStudent } from "./components/pagination";
 import { SearchFilterStudent } from "./components/search";
 import { StudentFilterDropdown } from "./components/filter-dropdown-student";
-import { useStudentFilter } from "../../../../Core/hooks/operator-hooks/student/use-student-filter";
+import { useStudentFilter } from "../../../../core/hooks/operator-hooks/student/use-student-filter";
 import LoadingData from "../../../components/elements/loadingData/loading";
 
 export const MainStudent = () => {

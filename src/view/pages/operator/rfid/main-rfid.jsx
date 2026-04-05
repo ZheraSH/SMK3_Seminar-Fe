@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
-import { useRfidManagement } from "../../../../Core/hooks/operator-hooks/rfid/use-rfid-management";
+import { useRfidManagement } from "../../../../core/hooks/operator-hooks/rfid/use-rfid-management";
 import { RfidHeader } from "./components/rfid-header";
 import { RfidTable } from "./components/rfid-table";
 import RfidEditModal from "./components/rfid-edit-modal";
 import { RfidSearchBar } from "./components/rfid-search-bar";
 import { PaginationRfid } from "./components/rfid-pagination";
-import { useRfid } from "../../../../Core/hooks/operator-hooks/rfid/use-pagination";
+import { useRfid } from "../../../../core/hooks/operator-hooks/rfid/use-pagination";
 import RfidAddModal from "./components/rfid-add-modal";
-import { deleteRFID } from "../../../../Core/api/role-operator/rfid/rfid-api";
+import { deleteRFID } from "../../../../core/api/role-operator/rfid/rfid-api";
 import LoadingData from "../../../components/elements/loadingData/loading";
 import Header from "../../../components/elements/header/Header-new";
 

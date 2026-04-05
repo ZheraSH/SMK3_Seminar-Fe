@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Calendar, MoreVertical, ChevronLeft, ChevronRight, Trash2, Power } from 'lucide-react';
 import HeaderPage from '../../../components/elements/header/Header-new';
-import useSchoolYears from '../../../../Core/hooks/operator-hooks/school-year/school-year';
+import useSchoolYears from '../../../../core/hooks/operator-hooks/school-year/school-year';
 import AddSchoolYearModal from './components/form-school-year'; 
 import ModalDelete from '../../../components/elements/modaldelete/ModalDelete'; 
 import Pagination from './components/pagination';

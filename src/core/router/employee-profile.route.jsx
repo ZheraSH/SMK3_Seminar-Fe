@@ -1,5 +1,6 @@
-import ProtectedRoute from "./ProtectedRoute";
-import ProfileUser from "../../view/components/elements/profile/ProfileUser";
+
+import ProfileUser from "../../view/components/elements/profile/profile-user";
+import ProtectedRoute from "./protected-route";
 
 export const EmployeeProfileRoute = [
   {

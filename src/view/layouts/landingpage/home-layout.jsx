@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { ROLE_MENUS } from "../../../Core/Data/SidebarData";
+import { ROLE_MENUS } from "../../../core/data/sidebar-data";
 import { FaInstagram, FaFacebook, FaTwitter, FaGlobe, FaEnvelope, FaPhone } from "react-icons/fa";
 import { HashLink } from "react-router-hash-link";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-const HomeLayouth = () => {
+const HomeLayout = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const location = useLocation();
 
@@ -26,7 +26,7 @@ const HomeLayouth = () => {
 
             {/*Jangan di hapus ANJAY simpen bentar*/}
             {/*bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] fixed top-0 left-0 w-full z-50 */}
-            
+
             <nav
                 className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent py-6 ${isScrolled || location.pathname !== "/"
                     }`}
@@ -174,4 +174,4 @@ const HomeLayouth = () => {
     );
 };
 
-export default HomeLayouth;
+export default HomeLayout;

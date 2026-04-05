@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CardList from './components/card-schedule';
 import ClockSchedule from './components/clock-schedule';
 import FilterDropdown from './components/filter-data';
-import useSchedule from '../../../../Core/hooks/operator-hooks/schedule/use-schedule';
+import useSchedule from '../../../../core/hooks/operator-hooks/schedule/use-schedule';
 import ScheduleDetailPage from './schedule-detail';
 import Pagination from "./components/pagination-schedule";
 import {Search,Settings } from "lucide-react";

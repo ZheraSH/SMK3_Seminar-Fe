@@ -1,5 +1,5 @@
 import {Main} from "../bk/home/body-dasboard-bk";
-import HomeRoomHome from "../homeroom-teacher/home/MainHomeroomHome";
+import HomeRoomHome from "../homeroom-teacher/home/main-homeroom-home";
 import { useEffect, useState } from "react";
 import { MainTeacher } from "../teacher/home/body-dashboard-teacher";
 import LoadingData from "../../components/elements/loadingData/loading";

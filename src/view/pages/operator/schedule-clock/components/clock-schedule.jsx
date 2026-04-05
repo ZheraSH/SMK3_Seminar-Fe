@@ -1,6 +1,6 @@
 import React, { useState ,useRef, useEffect} from 'react';
 import { Trash2 ,Plus,ArrowLeftToLine,MoreVertical,PencilLine} from 'lucide-react';
-import useLessonHours from '../../../../../Core/hooks/operator-hooks/schedule/use-lesson-schedule';
+import useLessonHours from '../../../../../core/hooks/operator-hooks/schedule/use-lesson-schedule';
 import AddLessonHourModal from './form-lesson';
 import ModalDelete from '../../../../components/elements/modaldelete/ModalDelete'; 
 

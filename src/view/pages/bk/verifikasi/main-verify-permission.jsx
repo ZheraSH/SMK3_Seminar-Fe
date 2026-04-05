@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import {  getVerifyPermissionBk,  getPermissionDetailBk,  approvePermissionBk,  rejectPermissionBk } from '../../../../Core/api/role-bk/verify-permission/verify-permission';
-import { useVerifyPermissionData } from '../../../../Core/hooks/bk-hooks/use-very-permission'; 
+import {  getVerifyPermissionBk,  getPermissionDetailBk,  approvePermissionBk,  rejectPermissionBk } from '../../../../core/api/role-bk/verify-permission/verify-permission';
+import { useVerifyPermissionData } from '../../../../core/hooks/bk-hooks/use-very-permission'; 
 
 import DetailIzinModal from "./components/modal-detail";
 import Table from './components/table';
