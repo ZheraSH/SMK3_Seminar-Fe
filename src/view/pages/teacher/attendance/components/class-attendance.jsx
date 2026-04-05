@@ -1,10 +1,10 @@
 import { UserRoundCheck, Users, GraduationCap, Calendar } from "lucide-react";
-import TotalClass from "./ClassTotal";
-import TableClass from "./ClassTable";
-import Pagination from "./Pagination";
-import { useClassAttendance } from "../../../../../Core/hooks/role-teacher/attendance/useCrossCheck";
+import TotalClass from "./class-total";
+import TableClass from "./class-table";
+import Pagination from "./pagination";
+import { useClassAttendance } from "../../../../../Core/hooks/role-teacher/attendance/use-cross-check";
 import Header from "../../../../components/elements/header/Header-new";
-import { FirstLessonView } from "./RIFD";
+import { FirstLessonView } from "./rifd";
 import LoadingData from "../../../../components/elements/loadingData/loading";
 
 export default function ClassAttendance({ selectedClass, date, setIsOpenClass, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses }) {

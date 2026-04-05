@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Header from "../../../components/elements/header/Header-new";
-import { useTeacherSchedule } from "../../../../Core/hooks/role-teacher/teacher-schedule/useTeacherSchedule";
+import { useTeacherSchedule } from "../../../../Core/hooks/role-teacher/teacher-schedule/use-teacher-schedule";
 import { getBgColorBySubject } from "../../../../Core/utils/SubjectHelper";
 import LoadingData from "../../../components/elements/loadingData/loading";
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { getDashboardClassroom, getDashboardSchedule } from "../../../api/role-teacher/dashboard-teachers/teacherDashboard.api";
+import { getDashboardClassroom, getDashboardSchedule } from "../../../api/role-teacher/dashboard-teachers/teacher-dashboard-api";
 
 export function useTeacherDashboard() {
   const getTodayIndonesian = () => {

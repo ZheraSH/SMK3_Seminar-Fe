@@ -1,7 +1,7 @@
   "use client";
 import { useState,useEffect } from "react";
 import { School,GraduationCap } from "lucide-react";
-import { useTeacherDashboard } from "../../../../Core/hooks/role-teacher/dashboard-teachers/useTeacherDashboard";
+import { useTeacherDashboard } from "../../../../Core/hooks/role-teacher/dashboard-teachers/use-teacher-dashboard";
 import ProfileIMG from "../../../../Core/hooks/profile/Profil";
 import LoadingData from "../../../components/elements/loadingData/loading";
 
@@ -13,8 +13,6 @@ export default function BodyDashboardTeacher() {
           const storedUser = localStorage.getItem("userData");
           if (storedUser) setUser(JSON.parse(storedUser));
       }, []);
-
-  
   
   return (
     <div className="min-h-screen bg-gray-50">

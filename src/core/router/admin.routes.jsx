@@ -1,7 +1,7 @@
 import MainDashboard from "../../view/components/elements/MainDashboard";
 import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
 import Login from "../../view/components/elements/login/MainLogin";
-import NotFound from "../../view/pages/NotFound";
+import NotFound from "../../view/pages/not-found";
 import { MainStudent } from "../../view/pages/operator/student/MainStudent";
 import BodyDashboard from "../../view/pages/operator/home/BodyDashboard";
 import MainClass from "../../view/pages/operator/class-major/MainClass";

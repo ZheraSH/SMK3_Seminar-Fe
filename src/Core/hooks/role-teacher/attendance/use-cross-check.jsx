@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { notify } from "../../notification/notify";
-import { getCrossCheckData, postCrossCheck } from "../../../api/role-teacher/attendance/AttendanceClassroom";
+import { getCrossCheckData, postCrossCheck } from "../../../api/role-teacher/attendance/attendance-classroom";
 
 export function useClassAttendance(selectedClass, date, globalChanges, setGlobalChanges, submittedClasses, setSubmittedClasses) {
   const [attendance, setAttendance] = useState([]);
