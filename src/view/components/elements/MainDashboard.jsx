@@ -69,7 +69,7 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       counselor: "/bk-home/profile",
       teacher: "/teacher-home/profile",
       homeroom_teacher: "/homeroom-home/profile",
-      school_operator: "/home/ProfileOperator",
+      school_operator: "/home/profile-operator",
     };
 
     const activeRole = userRoles[0];

@@ -5,7 +5,7 @@ import MainDashboard from "../components/elements/MainDashboard";
 import { ChevronDown } from "lucide-react";
 import { Notification } from "../../Core/hooks/notification/Notification";
 import LoginSuccessPopup from "../components/elements/succeslogin/LoginSuccessPopup";
-import useProfile from "../../Core/hooks/operator-hooks/profile/useProfileOperator";
+import useProfile from "../../Core/hooks/operator-hooks/profile/use-profile-operator";
 
 export const DashboardLayouth = () => {
   const location = useLocation();

@@ -5,7 +5,7 @@ import { TeacherRoutes } from "./teacher.routes";
 import { HomeRoomRoute } from "./homeroom.route";
 import { BkRoutes } from "./bk.routes";
 import { EmployeeProfileRoute } from "./employeProfile.routes";
-import { MultiRoleRoutes } from "./multiRole.route";
+import { MultiRoleRoutes } from "./multi-role.route";
 import { LandingRoutes } from "./landing.routes";
 import NotFound from "../../view/pages/not-found";
 
