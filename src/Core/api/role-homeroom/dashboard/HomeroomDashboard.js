@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const fetchAttendanceStatistics = async () => {
     try {
@@ -19,3 +19,6 @@ export const fetchRfidLogs = async () => {
         throw err;
     }
 };
+
+
+

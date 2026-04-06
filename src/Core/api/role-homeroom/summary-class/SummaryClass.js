@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 
 export const fetchSummaryClass = async () => {
@@ -51,3 +51,6 @@ export const getCetakRecap = async (date, status = "") => {
     throw err;
   }
 };
+
+
+
