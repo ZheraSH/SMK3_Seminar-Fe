@@ -239,3 +239,4 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
 };
 
 export default ScheduleLayout;
+

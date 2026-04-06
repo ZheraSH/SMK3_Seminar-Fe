@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const getAlphaStudents = async () => {
     const token = localStorage.getItem("token");
@@ -53,3 +53,6 @@ export const getAttendancePending = async () => {
         console.error("Gagal mengambil data pending attendance:", err);
     }
 }
+
+
+

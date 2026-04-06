@@ -1,5 +1,5 @@
-import api from "../../axiosConfig";
-import { notify } from "../../../hooks/notification/notify";
+import api from "@api/axiosConfig";
+import { notify } from "@/core/hooks/notification/notify";
 
 export const getClass = async (params = {}) => {
     try {
@@ -127,4 +127,7 @@ export const getAllClasses = async () => {
         throw err;
     }
 };
+
+
+
 

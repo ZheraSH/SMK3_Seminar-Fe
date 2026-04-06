@@ -29,3 +29,4 @@ function Header2 ({title = "" , teacher = "" , studentCont= "", academicYear = "
 }
 
 export default Header2;
+

@@ -72,3 +72,4 @@ const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  o
 };
 
 export default ScheduleTable;
+

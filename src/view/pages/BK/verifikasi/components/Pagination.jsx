@@ -73,3 +73,4 @@ function Pagination({ currentPage, lastPage, totalItems, perPage, onPageChange, 
 }
 
 export default Pagination;
+

@@ -1,6 +1,6 @@
 import axios from "axios"
-import { notify } from "../../../hooks/notification/notify"
-import api from "../../axiosConfig"
+import { notify } from "@/core/hooks/notification/notify"
+import api from "@api/axiosConfig"
 
 
 export const getSubjects = async (page = 1, search = "") => {
@@ -67,3 +67,6 @@ export const deleteSubject = async (id) => {
     throw error
   }
 }
+
+
+

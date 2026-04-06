@@ -146,3 +146,4 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData, loadi
         </div>
     );
 }
+

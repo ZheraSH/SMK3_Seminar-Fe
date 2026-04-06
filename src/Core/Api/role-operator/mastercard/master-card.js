@@ -1,5 +1,5 @@
 
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const getMastercards = async (params = {}) => {
     console.log("[API] GET /mastercards", params);
@@ -39,3 +39,6 @@ export const postMastercardCheck = async (payload) => {
         throw error;
     }
 };
+
+
+

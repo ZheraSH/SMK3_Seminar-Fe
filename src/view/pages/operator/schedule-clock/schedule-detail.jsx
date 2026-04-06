@@ -186,3 +186,4 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses, setAct
     );
 };
 export default ScheduleDetailPage;
+

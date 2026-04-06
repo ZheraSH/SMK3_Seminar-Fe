@@ -142,3 +142,4 @@ export default function Form({ onClassAdded, addClass, onError, initialMajorCode
     </form>
   );
 }
+

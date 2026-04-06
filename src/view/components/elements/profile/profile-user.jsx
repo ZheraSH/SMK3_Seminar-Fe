@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { LogOut, ArrowLeftToLine, EyeOff, Eye } from "lucide-react";
 import fetchProfile from "../../../../core/hooks/profile/profile-akun/use-profile";
 import LoadingData from "../loadingData/loading";
-import { notify } from "../../../../core/hooks/notification/notify";
+import { notify } from "@/core/hooks/notification/notify";
 
 export default function ProfileUser() {
   const [isOpenFrom, setIsOpenFrom] = useState(false);
@@ -295,3 +295,4 @@ function FormClassStudent({ onClose, user, refetchProfile }) {
     </div>
   );
 }
+

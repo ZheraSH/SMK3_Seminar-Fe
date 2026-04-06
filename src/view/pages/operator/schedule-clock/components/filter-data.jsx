@@ -115,3 +115,4 @@ export default function FilterDropdown({ filters, options, onChange }) {
     </div>
   );
 }
+

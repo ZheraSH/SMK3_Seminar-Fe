@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { LogOut, ArrowLeftToLine, ChevronRight } from "lucide-react";
 import LoadingData from "../loadingData/loading";
 import useProfileOperator from "../../../../core/hooks/operator-hooks/profile/use-profile-operator";
-import { notify } from "../../../../core/hooks/notification/notify";
+import { notify } from "@/core/hooks/notification/notify";
 
 export default function ProfileOperator() {
   const [isOpenFrom, setIsOpenFrom] = useState(false);
@@ -388,3 +388,4 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
     </div>
   );
 }
+

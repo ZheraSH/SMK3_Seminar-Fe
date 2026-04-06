@@ -96,3 +96,4 @@ export default function TableHistory({ history, error, loading }) {
     </table>
   );
 }
+

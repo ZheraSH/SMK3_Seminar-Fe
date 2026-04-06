@@ -62,3 +62,4 @@ export function PaginationAbsenceStudent({ currentPage, totalPages, onPageChange
         </div>
     );
 }
+

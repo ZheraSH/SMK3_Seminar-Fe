@@ -322,3 +322,4 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
     </div>
   );
 };
+

@@ -33,3 +33,4 @@ export function SearchBar({ search, onSearchChange, onAddClick,loading }) {
     </div>
   );
 }
+

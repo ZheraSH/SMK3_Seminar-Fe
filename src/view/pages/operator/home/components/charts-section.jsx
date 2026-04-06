@@ -199,7 +199,7 @@ export default function ChartsSection() {
 
         <AttendanceTableSection attendanceData={attendanceData} />
 
-        {/* CUSTOM LINE CHART (BK STYLE) */}
+        {/* CUSTOM LINE CHART (bk style) */}
         <div ref={chartRef} className="bg-white rounded-xl shadow-sm p-6 overflow-hidden">
           <h2 className="text-lg font-bold">
             Statistik Absensi Kehadiran Siswa
@@ -349,3 +349,4 @@ export default function ChartsSection() {
     </div>
   );
 }
+

@@ -27,3 +27,4 @@ export default function ButtonAttendance({ setActiveDay, activeDay }) {
     </div>
   );
 }
+

@@ -55,3 +55,4 @@ const Filter2 = ({ onTypeSelect }) => {
 };
 
 export default Filter2;
+

@@ -81,3 +81,4 @@ export const PermissionTable = ({ permissions = [], onViewDetail }) => {
     </div>
   );
 };
+

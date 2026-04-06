@@ -94,3 +94,4 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
         </>
     );
 }
+

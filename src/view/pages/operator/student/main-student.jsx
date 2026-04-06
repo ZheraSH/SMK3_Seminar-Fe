@@ -312,3 +312,4 @@ export const MainStudent = () => {
     </div>
   );
 };
+

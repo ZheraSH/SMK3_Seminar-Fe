@@ -56,3 +56,4 @@ function StudentCard({ student }) {
     </div>
   );
 }
+

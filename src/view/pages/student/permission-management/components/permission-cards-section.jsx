@@ -37,3 +37,4 @@ export const PermissionCardsSection = ({ permissions, onViewDetail }) => {
     </div>
   );
 };
+

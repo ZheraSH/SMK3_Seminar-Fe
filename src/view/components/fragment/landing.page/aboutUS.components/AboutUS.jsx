@@ -93,3 +93,4 @@ const SecondAbout = () => {
 };
 
 export default SecondAbout;
+

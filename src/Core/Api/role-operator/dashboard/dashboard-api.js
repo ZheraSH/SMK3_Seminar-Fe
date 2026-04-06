@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 const API_BASE_URL = "/dashboard";
 
@@ -43,3 +43,6 @@ export const fetchStatisticMonthly = async () => {
     throw err;
   }
 };
+
+
+

@@ -35,3 +35,4 @@ const ClassCard = ({ classData }) => {
 };
 
 export default ClassCard
+

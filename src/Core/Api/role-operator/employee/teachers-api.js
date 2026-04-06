@@ -1,5 +1,5 @@
-import api from "../../axiosConfig";
-import { notify } from "../../../hooks/notification/notify";
+import api from "@api/axiosConfig";
+import { notify } from "@/core/hooks/notification/notify";
 
 export const fetchTeachersApi = async (page = 1) => {
   try {
@@ -102,3 +102,6 @@ export const deleteTeacherApi = async (id) => {
 
 export const submitTeacher = submitTeacherApi;
 export const deleteTeacher = deleteTeacherApi;
+
+
+

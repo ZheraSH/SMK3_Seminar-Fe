@@ -80,3 +80,4 @@ const TeamSlider = () => {
 };
 
 export default TeamSlider;
+

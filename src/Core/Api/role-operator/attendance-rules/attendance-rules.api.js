@@ -1,5 +1,5 @@
-import api from "../../axiosConfig";
-import { notify } from "../../../hooks/notification/notify";
+import api from "@api/axiosConfig";
+import { notify } from "@/core/hooks/notification/notify";
 
 export const fetchAttendanceRulesAPI = (day) => {
   return api.get(`/attendance-rules/${day}`);
@@ -14,3 +14,6 @@ export const saveAttendanceRuleAPI = async (selectedDay, payload) => {
 export const createAttendanceRuleApi = (payload) => {
   return api.post(`/attendance-rules`, payload);
 };
+
+
+

@@ -128,3 +128,4 @@ export default function AttendanceTableSection() {
     </div>
   );
 }
+

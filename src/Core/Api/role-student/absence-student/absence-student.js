@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const fetchAttendanceHistory = (page = 1) => {
     return api.get("/student/attendance-history", {
@@ -7,3 +7,6 @@ export const fetchAttendanceHistory = (page = 1) => {
         }
     });
 };
+
+
+

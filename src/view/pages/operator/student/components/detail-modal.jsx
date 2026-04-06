@@ -105,3 +105,4 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
     </div>
   );
 };
+

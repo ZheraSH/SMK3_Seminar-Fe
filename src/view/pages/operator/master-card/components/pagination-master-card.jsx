@@ -75,3 +75,4 @@ const PaginationMasterCard = ({ page, lastPage, onPageChange }) => {
 };
 
 export default PaginationMasterCard;
+

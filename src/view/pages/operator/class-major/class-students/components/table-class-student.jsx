@@ -199,3 +199,4 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
 };
 
 export default DataTable;
+

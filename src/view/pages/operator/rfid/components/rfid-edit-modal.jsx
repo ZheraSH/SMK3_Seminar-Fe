@@ -1,6 +1,6 @@
 "use client";
 import { X } from "lucide-react";
-import { notify } from "../../../../../core/hooks/notification/notify";
+import { notify } from "@/core/hooks/notification/notify";
 import { updateRfidStatus } from "../../../../../core/api/role-operator/rfid/rfid-api";
 
 export default function RfidEditModal({ show, selected, onDataChange, onSave, onClose }) {
@@ -79,3 +79,4 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
     </div>
   );
 }
+

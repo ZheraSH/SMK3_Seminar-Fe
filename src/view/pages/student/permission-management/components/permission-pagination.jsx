@@ -57,3 +57,4 @@ export function PaginationPermissionStudent({ page, lastPage, onPrev, onNext, on
     </div>
   );
 }
+

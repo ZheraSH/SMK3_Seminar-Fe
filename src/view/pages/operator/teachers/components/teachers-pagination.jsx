@@ -80,3 +80,4 @@ export function PaginationEmployee({
     </div>
   );
 }
+

@@ -158,3 +158,4 @@ const DetailRow = ({ label, value }) => (
     <span className="text-gray-900 break-words">{value}</span>
   </div>
 );
+

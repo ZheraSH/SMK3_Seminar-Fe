@@ -90,3 +90,4 @@ const MajorCardGrid = () => {
 
 
 export default MajorCardGrid;
+

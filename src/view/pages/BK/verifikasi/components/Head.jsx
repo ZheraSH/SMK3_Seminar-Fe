@@ -45,3 +45,4 @@ export default function HeaderAndControls ({handleClassSelect, searchQuery, onSe
         </>
     );
 }
+

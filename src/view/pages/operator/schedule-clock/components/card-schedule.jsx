@@ -30,3 +30,4 @@ const CardList = ({ schedule, handleViewSchedule}) => (
 );
 
 export default CardList;
+

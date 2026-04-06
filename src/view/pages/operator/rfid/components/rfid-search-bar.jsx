@@ -25,3 +25,4 @@ export function RfidSearchBar({ search, onSearchChange, onAddClick }) {
     </div>
   );
 }
+

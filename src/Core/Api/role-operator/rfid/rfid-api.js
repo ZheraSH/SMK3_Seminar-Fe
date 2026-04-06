@@ -1,5 +1,5 @@
-import api from "../../axiosConfig";
-import { notify } from "../../../hooks/notification/notify";
+import api from "@api/axiosConfig";
+import { notify } from "@/core/hooks/notification/notify";
 
 export const fetchRfid = async (page = 1, search = "") => {
   try {
@@ -64,3 +64,6 @@ export const fetchAvailableStudents = async () => {
     throw error;
   }
 };
+
+
+

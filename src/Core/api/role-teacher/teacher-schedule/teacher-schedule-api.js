@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export async function fetchDailyScheduleApi(day) {
 
@@ -17,3 +17,6 @@ export async function fetchDailyScheduleApi(day) {
     return [];
   }
 }
+
+
+

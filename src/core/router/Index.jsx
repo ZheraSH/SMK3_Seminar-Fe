@@ -3,7 +3,7 @@ import { AdminRoutes } from "./admin.routes";
 import { StudentRoutes } from "./student.routes";
 import { TeacherRoutes } from "./teacher.routes";
 import { HomeRoomRoute } from "./homeroom.route";
-import { BkRoutes } from "./bk.routes";
+import { bkRoutes } from "./bk.routes";
 import { EmployeeProfileRoute } from "./employee-profile.route";
 import { MultiRoleRoutes } from "./multi-role.route";
 import { LandingRoutes } from "./landing.routes";
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
     ...StudentRoutes,
     ...TeacherRoutes,
     ...HomeRoomRoute,
-    ...BkRoutes,
+    ...bkRoutes,
     ...EmployeeProfileRoute,
     ...MultiRoleRoutes,
     {

@@ -126,3 +126,4 @@ const FilterDropdown = ({ filters, filterOptions, onFilterChange }) => {
 };
 
 export default FilterDropdown;
+

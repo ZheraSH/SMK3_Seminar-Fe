@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const getDashboardSummary = async  () => {
 
@@ -79,3 +79,6 @@ export async function fetchAttendanceMonthly() {
     return null;
   }
 }
+
+
+

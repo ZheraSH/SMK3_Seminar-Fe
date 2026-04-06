@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const getDashboardClassroom = async (day) => {
 
@@ -38,3 +38,6 @@ export const getDashboardSchedule = async (day) => {
         return [];
     }
 };
+
+
+

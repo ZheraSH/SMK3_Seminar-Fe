@@ -73,3 +73,4 @@ const Pagination = ({ page, setPage, pagination }) => {
 };
 
 export default Pagination;
+

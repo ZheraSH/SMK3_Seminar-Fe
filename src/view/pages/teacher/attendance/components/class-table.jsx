@@ -76,3 +76,4 @@ export default function TableClass({ attendance = [], pagination, status, change
     </table>
   );
 }
+

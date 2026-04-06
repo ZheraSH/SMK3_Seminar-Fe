@@ -15,3 +15,4 @@ export const SearchBar = ({ searchTerm, setSearchTerm }) => {
     </div>
   );
 };
+

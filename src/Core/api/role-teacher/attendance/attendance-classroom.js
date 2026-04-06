@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const getAttendanceClassroom = async (day) => {
 
@@ -53,3 +53,6 @@ export async function postCrossCheck(payload) {
         }
     );
 }
+
+
+

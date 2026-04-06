@@ -60,3 +60,4 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
 };
 
 export default PaginationComponent;
+

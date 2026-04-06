@@ -42,3 +42,4 @@ export default function ConfirmationModal({ isOpen, onClose, onConfirm, type, st
         </div>
     );
 }
+

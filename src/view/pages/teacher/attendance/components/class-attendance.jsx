@@ -96,3 +96,4 @@ export default function ClassAttendance({ selectedClass, date, setIsOpenClass, g
   );
 }
 
+

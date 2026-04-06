@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const getMajors = async () => {
     try {
@@ -9,3 +9,6 @@ export const getMajors = async () => {
         throw err; 
     }
 }
+
+
+

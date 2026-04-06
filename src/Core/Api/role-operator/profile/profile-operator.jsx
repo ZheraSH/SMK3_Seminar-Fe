@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 import axios from "axios";
 
 
@@ -61,3 +61,6 @@ export const getPublicLogo = async () => {
         throw err;
     }
 };
+
+
+

@@ -37,3 +37,4 @@ const AddSchoolYearModal = ({ isOpen, onClose, onConfirm, nextYear }) => {
 };
 
 export default AddSchoolYearModal;
+

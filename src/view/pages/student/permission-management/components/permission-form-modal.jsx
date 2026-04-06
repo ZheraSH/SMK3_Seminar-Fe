@@ -187,3 +187,4 @@ export const PermissionFormModal = ({ isOpen, onClose, formData, onFormChange, o
     </div>
   );
 };
+

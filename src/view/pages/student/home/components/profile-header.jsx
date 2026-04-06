@@ -9,3 +9,4 @@ export default function ProfileHeader ({user}) {
         </div>
     );
 }
+

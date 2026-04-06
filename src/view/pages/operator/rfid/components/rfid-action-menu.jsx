@@ -19,3 +19,4 @@ export function RfidActionMenu({ onEdit, onDelete }) {
     </div>
   );
 }
+

@@ -29,3 +29,4 @@ const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, title = "Hapus Data In
 };
 
 export default DeleteConfirmModal;
+

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { ChevronRight, Calendar, Loader2, X } from "lucide-react";
-import useAttendanceStatistics from "../../../../core/hooks/bk-hooks/statistik-global/use-statistik-global";
+import useAttendanceStatistics from "../../../../core/hooks/bk/statistik-global/use-statistik-global";
 import StatsCard from "./components/stats-card";
 import { LineChartPlaceholder, PieChartPlaceholder } from "./components/charts";
 import Header from "../../../components/elements/header/Header-new";
@@ -70,7 +70,7 @@ export default function MainStatistikGlobal() {
     total: 0,
   };
   const monthly_trend = statistics?.monthly_trend || {};
-  const proportion = { ...counts }; 
+  const proportion = { ...counts };
 
   const filterOptions = {
     Periode: [
@@ -131,8 +131,8 @@ export default function MainStatistikGlobal() {
     return (
       <>
         <LoadingData loading={isLoadingStatistics} type="header1" />
-        <LoadingData loading={isLoadingStatistics} type="cardStatistikBk" />
-        <LoadingData loading={isLoadingStatistics} type="statistikBk"/>
+        <LoadingData loading={isLoadingStatistics} type="cardStatistikbk" />
+        <LoadingData loading={isLoadingStatistics} type="statistikbk" />
       </>
     );
   }
@@ -177,15 +177,15 @@ export default function MainStatistikGlobal() {
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen lg:mb-4 mb-20 ">
-     
-      {isLoadingStatistics ? (<LoadingData loading={isLoadingStatistics} type=""/>)
-      :(
-        <Header
-          span="Statistik Absensi Global"
-          p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
-          src="/images/particle/global01.png"
-        />
-      )}
+
+      {isLoadingStatistics ? (<LoadingData loading={isLoadingStatistics} type="" />)
+        : (
+          <Header
+            span="Statistik Absensi Global"
+            p="Analisis tingkat kehadiran siswa di seluruh sekolah berdasarkan periode dan kategori."
+            src="/images/particle/global01.png"
+          />
+        )}
 
       <h2 className="lg:text-[24px] md:text-[18px] sm:text-[14px] font-bold text-gray-800 mb-4 sm:mb-6">
         Ringkasan Statistik Bulan Ini
@@ -237,3 +237,4 @@ export default function MainStatistikGlobal() {
     </div>
   );
 }
+

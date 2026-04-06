@@ -1,5 +1,5 @@
 import axios from "axios";
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
@@ -87,3 +87,6 @@ export async function deletePermissionApi(UuidPermit) {
   const res = await api.delete(`/student/attendance-permissions/${UuidPermit}`);
   return { success: true, data: res.data };
 }
+
+
+

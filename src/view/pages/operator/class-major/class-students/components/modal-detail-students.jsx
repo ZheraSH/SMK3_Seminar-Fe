@@ -98,3 +98,4 @@ export default function ModalDetailStudent({ open, onClose, student, loading }) 
         </div>
     );
 }
+

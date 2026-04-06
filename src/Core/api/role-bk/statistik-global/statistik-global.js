@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axiosConfig";
 
 export const getAttendanceStatistics = async () => {
   const token = localStorage.getItem("token");
@@ -27,3 +27,6 @@ export const getAttendanceStatistics = async () => {
     };
   }
 };
+
+
+

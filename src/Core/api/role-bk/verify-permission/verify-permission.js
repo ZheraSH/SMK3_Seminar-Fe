@@ -1,7 +1,7 @@
-import { notify } from "../../../hooks/notification/notify";
-import api from "../../axiosConfig";
+import { notify } from "@/core/hooks/notification/notify";
+import api from "@api/axiosConfig";
 
-export const getVerifyPermissionBk = async (page = 1, search = "", classId = null, type = null, status = null) => {
+export const getVerifyPermissionbk = async (page = 1, search = "", classId = null, type = null, status = null) => {
     const params = new URLSearchParams({ page: page });
 
     if (search) {
@@ -9,7 +9,7 @@ export const getVerifyPermissionBk = async (page = 1, search = "", classId = nul
     }
 
     if (classId && typeof classId === 'string' && classId.trim() !== '') {
-        params.append('classroom', classId.trim()); 
+        params.append('classroom', classId.trim());
     }
 
     if (type && type !== 'all') {
@@ -22,26 +22,26 @@ export const getVerifyPermissionBk = async (page = 1, search = "", classId = nul
 
     const url = `/counselor/attendance-permissions?${params.toString()}`;
 
-   try {
-    const res = await api.get(url,
-        {
-            headers: {
-                Accept: "application/json"
+    try {
+        const res = await api.get(url,
+            {
+                headers: {
+                    Accept: "application/json"
+                }
             }
-        }
-    );
-    return res.data;
-    } catch (err) { 
+        );
+        return res.data;
+    } catch (err) {
         notify('Gagal memuat data izin: ' + (err.response?.data?.message || err.message), 'error');
         return {
-        data: [],
-        meta: { current_page: 1, last_page: 1, total: 0 }
+            data: [],
+            meta: { current_page: 1, last_page: 1, total: 0 }
         };
     }
-    };
+};
 
-export const getPermissionDetailBk = async (permissionId) => {
-    
+export const getPermissionDetailbk = async (permissionId) => {
+
     const url = `/counselor/attendance-permissions/${permissionId}`;
 
     try {
@@ -53,29 +53,29 @@ export const getPermissionDetailBk = async (permissionId) => {
                 }
             }
         );
-        
-        return res.data.data; 
+
+        return res.data.data;
     } catch (err) {
-        
+
         throw new Error(err.response?.data?.message || "Gagal memuat detail izin. Silakan coba lagi.");
     }
 };
 
-export const approvePermissionBk = async (permissionId) => {
+export const approvePermissionbk = async (permissionId) => {
     const url = `/counselor/attendance-permissions/${permissionId}/approve`;
 
 
     try {
         const res = await api.post(
             url,
-            {}, 
+            {},
             {
                 headers: {
                     Accept: "application/json",
                 }
             }
         );
-        
+
         notify('Data Berhasil Disetujui');
         return res.data;
     } catch (err) {
@@ -83,26 +83,29 @@ export const approvePermissionBk = async (permissionId) => {
     }
 };
 
-export const rejectPermissionBk = async (permissionId) => {
-    
+export const rejectPermissionbk = async (permissionId) => {
+
     const url = `/counselor/attendance-permissions/${permissionId}/reject`;
 
 
     try {
         const res = await api.post(
             url,
-            {}, 
+            {},
             {
                 headers: {
                     Accept: "application/json",
                 }
             }
         );
-        
+
         notify('Data Berhasil Ditolak');
         return res.data;
     } catch (err) {
-        
+
         throw new Error(err.response?.data?.message || "Gagal menolak izin. Silakan coba lagi.");
     }
 };
+
+
+

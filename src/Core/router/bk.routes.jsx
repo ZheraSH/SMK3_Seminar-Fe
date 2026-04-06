@@ -8,7 +8,7 @@ import { DashboardLayout } from "../../view/layouts/dashboard-layout";
 import VerifyPermission from "../../view/pages/bk/verifikasi/main-verify-permission";
 import ProfileUser from "../../view/components/elements/profile/profile-user";
 
-export const BkRoutes = [
+export const bkRoutes = [
     {
         path: "/bk-home",
         element: (<ProtectedRoute allowedRoles={["counselor"]} />),
