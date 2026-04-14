@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { TriangleAlert } from "lucide-react"
-import { getBgColorStatus } from "../../../../core/utils/SubjectHelper"
+import { getBgColorStatus } from "../../../../Core/utils/subject-helper"
 import { useDashboardData } from "../../../../core/hooks/bk/dashboard/dashboard"
 import { useNavigate } from "react-router-dom";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 
 export default function BodyDashboard() {

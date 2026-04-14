@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingData from "../../../../components/elements/loadingData/loading";
+import LoadingData from "../../../../components/elements/loading-data/loading";
 import { Search, Plus } from "lucide-react";
 
 export function SearchBar({ search, onSearchChange, onAddClick,loading }) {

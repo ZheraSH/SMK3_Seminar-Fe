@@ -3,11 +3,11 @@ import { X, Search, Plus } from "lucide-react";
 import ClassCard from "./components/class-card";
 import Pagination from "./components/pagination-class";
 import Form from "./components/form-class";
-import HeaderNew from "../../../components/elements/header/Header-new";
+import HeaderNew from "../../../components/elements/header/header-new";
 import FilterDropdown from "./components/filter-dropdown";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 const MainClass = () => {
     const location = useLocation();

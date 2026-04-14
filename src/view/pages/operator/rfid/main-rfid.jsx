@@ -9,11 +9,11 @@ import { PaginationRfid } from "./components/rfid-pagination";
 import { useRfid } from "../../../../core/hooks/operator-hooks/rfid/use-pagination";
 import RfidAddModal from "./components/rfid-add-modal";
 import { deleteRFID } from "../../../../core/api/role-operator/rfid/rfid-api";
-import LoadingData from "../../../components/elements/loadingData/loading";
-import Header from "../../../components/elements/header/Header-new";
+import LoadingData from "../../../components/elements/loading-data/loading";
+import Header from "../../../components/elements/header/header-new";
 
 
-import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/modal-delete";
 
 export function RfidManagement() {
   const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =

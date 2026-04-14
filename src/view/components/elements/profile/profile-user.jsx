@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LogOut, ArrowLeftToLine, EyeOff, Eye } from "lucide-react";
 import fetchProfile from "../../../../core/hooks/profile/profile-akun/use-profile";
-import LoadingData from "../loadingData/loading";
+import LoadingData from "../loading-data/loading";
 import { notify } from "@/core/hooks/notification/notify";
 
 export default function ProfileUser() {

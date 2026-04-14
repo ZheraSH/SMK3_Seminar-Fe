@@ -16,8 +16,8 @@ import {
 } from "../../../../core/api/role-operator/employee/teachers-api";
 import { extractTeacherMasters } from "./components/utils/teacher-master-extractor";
 import { TeacherFilterDropdown } from "./components/filter-dropdown";
-import LoadingData from "../../../components/elements/loadingData/loading.jsx";
-import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete.jsx";
+import LoadingData from "../../../components/elements/loading-data/loading.jsx";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/modal-delete.jsx";
 
 export const TeacherMain = () => {
   const [religions, setReligions] = useState([]);

@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FormModal } from "./components/form-modal";
 import { DetailModal } from "./components/detail-modal";
-import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/modal-delete";
 import {
   fetchStudents,
   fetchReligions,
@@ -16,7 +16,7 @@ import { PaginationStudent } from "./components/pagination";
 import { SearchFilterStudent } from "./components/search";
 import { StudentFilterDropdown } from "./components/filter-dropdown-student";
 import { useStudentFilter } from "../../../../core/hooks/operator-hooks/student/use-student-filter";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 export const MainStudent = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Search, X } from "lucide-react";
-import Header from "../../../components/elements/header/Header-new";
-import LoadingData from "../../../components/elements/loadingData/loading"; 
+import Header from "../../../components/elements/header/header-new";
+import LoadingData from "../../../components/elements/loading-data/loading"; 
 import { getMastercards, postMastercard } from "../../../../core/api/role-operator/mastercard/master-card";
 
 export default function MasterCard() {

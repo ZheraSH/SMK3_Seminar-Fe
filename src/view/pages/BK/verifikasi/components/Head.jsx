@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import HeaderPage from "../../../../components/elements/header/Header-new";
+import HeaderPage from "../../../../components/elements/header/header-new";
 import { Search} from "lucide-react";
 import Filter from './filter';
 import Filter2 from './filter2';
-import LoadingData from '../../../../components/elements/loadingData/loading';
+import LoadingData from '../../../../components/elements/loading-data/loading';
 
 export default function HeaderAndControls ({handleClassSelect, searchQuery, onSearchChange, 
     classOptions = [], selectedClassId,loading,selectedType, onTypeSelect,selectedStatus,onStatusSelect}) {

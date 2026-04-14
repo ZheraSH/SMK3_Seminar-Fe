@@ -1,7 +1,7 @@
 "use client";
 import { Save, ArrowRight } from "lucide-react";
 import useAttendanceRules from "../../../../core/hooks/operator-hooks/attendance-rules/use-attendance-rules";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 export default function AttendanceRulesPage() {
   const {

@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Settings, Plus, X } from 'lucide-react';
 import useClassSchedule from '../../../../core/hooks/operator-hooks/schedule/use-class-schedule';
 import AddScheduleModal from "./components/form-schedule";
-import Header2 from '../../../components/elements/header/Header-new';
+import Header2 from '../../../components/elements/header/header-new';
 import ScheduleTable from './components/table-schedule-detail';
-import ModalDelete from '../../../components/elements/modaldelete/ModalDelete';
-import LoadingData from '../../../components/elements/loadingData/loading';
+import ModalDelete from '../../../components/elements/modaldelete/modal-delete';
+import LoadingData from '../../../components/elements/loading-data/loading';
 
 const ErrorModal = ({ isOpen, message, onClose }) => {
     if (!isOpen) return null;

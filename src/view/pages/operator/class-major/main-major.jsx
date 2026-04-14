@@ -1,8 +1,8 @@
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import useMajors from "../../../../core/hooks/operator-hooks/class-major/use-major";
-import Headernew from "../../../components/elements/header/Header-new";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import Headernew from "../../../components/elements/header/header-new";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 const majorMappings = [
   {

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Calendar, MoreVertical, ChevronLeft, ChevronRight, Trash2, Power } from 'lucide-react';
-import HeaderPage from '../../../components/elements/header/Header-new';
+import HeaderPage from '../../../components/elements/header/header-new';
 import useSchoolYears from '../../../../core/hooks/operator-hooks/school-year/school-year';
 import AddSchoolYearModal from './components/form-school-year'; 
-import ModalDelete from '../../../components/elements/modaldelete/ModalDelete'; 
+import ModalDelete from '../../../components/elements/modaldelete/modal-delete'; 
 import Pagination from './components/pagination';
-import LoadingData from '../../../components/elements/loadingData/loading';
+import LoadingData from '../../../components/elements/loading-data/loading';
 
 const AcademicYearDashboard = () => {
   const { schoolYears, loading, error, addSchoolYear, activateYear, deleteSchoolYears,pagination,fetchSchoolYears,semester, searchQuery,setSearchQuery,  } = useSchoolYears();

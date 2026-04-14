@@ -2,7 +2,7 @@ import { Users,DoorOpen } from "lucide-react";
 import CardStudent from "./components/card-student";
 import { Pagination } from "./components/pagination";
 import { useClassStudent } from "../../../../core/hooks/role-student/classroom/use-classroom";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 
 export default function MainClassStudent() {

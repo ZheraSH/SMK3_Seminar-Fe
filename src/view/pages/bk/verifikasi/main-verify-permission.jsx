@@ -5,7 +5,7 @@ import { useVerifyPermissionData } from '../../../../core/hooks/bk/use-very-perm
 import DetailIzinModal from "./components/modal-detail";
 import Table from './components/table';
 import HeaderAndControls from './components/head';
-import LoadingData from '../../../components/elements/loadingData/loading';
+import LoadingData from '../../../components/elements/loading-data/loading';
 import ConfirmationModal from './components/corfim-modal';
 
 export default function VerifyPermission() {

@@ -7,9 +7,9 @@ import { SearchBar } from "./components/search-bar";
 import { Pagination } from "./components/pagination";
 import { SubjectCard } from "./components/subject-card";
 import useSubjects from "../../../../core/hooks/operator-hooks/subjects/use-subjects";
-import Header from "../../../components/elements/header/Header-new";
-import LoadingData from "../../../components/elements/loadingData/loading";
-import DeleteConfirmModal from "../../../components/elements/modaldelete/ModalDelete";
+import Header from "../../../components/elements/header/header-new";
+import LoadingData from "../../../components/elements/loading-data/loading";
+import DeleteConfirmModal from "../../../components/elements/modaldelete/modal-delete";
 
 
 export default function MainMaple() {

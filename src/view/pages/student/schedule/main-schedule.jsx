@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useStudentSchedule } from "../../../../core/hooks/role-student/schedule-student/use-student-schedule";
 import ButtonSchedule from "./components/button-schedule";
 import TableSchedule from "./components/table-schedule";
-import Header from "../../../components/elements/header/Header-new";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import Header from "../../../components/elements/header/header-new";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 export default function MainScheduleStudent() {
   const [activeDay, setActiveDay] = useState("monday"); 

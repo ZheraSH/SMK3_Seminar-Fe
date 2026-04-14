@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import Header from "../../../components/elements/header/Header-new";
+import Header from "../../../components/elements/header/header-new";
 import { useTeacherSchedule } from "../../../../core/hooks/role-teacher/teacher-schedule/use-teacher-schedule";
-import { getBgColorBySubject } from "../../../../core/utils/SubjectHelper";
-import LoadingData from "../../../components/elements/loadingData/loading";
+import { getBgColorBySubject } from "../../../../Core/utils/subject-helper";
+import LoadingData from "../../../components/elements/loading-data/loading";
 
 export default function TeacherSchedule() {
   const today = new Date().toISOString().split("T")[0];

@@ -6,8 +6,8 @@ import useSchedule from '../../../../core/hooks/operator-hooks/schedule/use-sche
 import ScheduleDetailPage from './schedule-detail';
 import Pagination from "./components/pagination-schedule";
 import {Search,Settings } from "lucide-react";
-import Header1 from "../../../components/elements/header/Header-new";
-import LoadingData from '../../../components/elements/loadingData/loading';
+import Header1 from "../../../components/elements/header/header-new";
+import LoadingData from '../../../components/elements/loading-data/loading';
 
 function ClassScheduleManager() {
 

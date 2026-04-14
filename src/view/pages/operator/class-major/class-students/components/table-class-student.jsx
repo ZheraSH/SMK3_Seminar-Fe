@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Trash2, MoreVertical, Eye } from 'lucide-react'; 
 import ModalDetailStudent from "./modal-detail-students"; 
-import ModalDelete from "../../../../../components/elements/modaldelete/ModalDelete";
+import ModalDelete from "../../../../../components/elements/modaldelete/modal-delete";
 
 const ActionDropdown = ({ onDetail, onDelete, onClose, position, direction }) => {
     const dropdownRef = useRef(null);
