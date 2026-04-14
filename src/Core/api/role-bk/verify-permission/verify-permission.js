@@ -1,5 +1,5 @@
 import { notify } from "@/core/hooks/notification/notify";
-import api from "@api/axiosConfig";
+import api from "@api/axios-config";
 
 export const getVerifyPermissionbk = async (page = 1, search = "", classId = null, type = null, status = null) => {
     const params = new URLSearchParams({ page: page });

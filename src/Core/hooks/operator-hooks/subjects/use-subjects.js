@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getSubjects, addSubject as apiAddSubject } from "../../../api/role-operator/subjects/Subjects";
+import { getSubjects, addSubject as apiAddSubject } from "../../../api/role-operator/subjects/subjects";
 
 export default function useSubjects() {
   const [data, setData] = useState([]);

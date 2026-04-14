@@ -1,5 +1,5 @@
 import axios from "axios";
-import api from "@api/axiosConfig";
+import api from "@api/axios-config";
 
 const BASE_URL = "http://127.0.0.1:8000";
 

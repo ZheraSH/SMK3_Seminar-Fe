@@ -1,4 +1,4 @@
-import api from "@api/axiosConfig";
+import api from "@api/axios-config";
 
 export async function fetchStudentSchedule(day) {
   if (!day) throw new Error("day wajib diisi");

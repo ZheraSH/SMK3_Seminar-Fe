@@ -4,7 +4,7 @@ import {
   addLessonHour,
   UpdateLessonHour,
   deleteLessonHour,
-} from "../../../api/lesson-shedule/lessonHoursApi";
+} from "../../../api/lesson-shedule/lesson-hours-api";
 
 export default function useLessonHours(activeDayApi) {
   const [lessonHours, setLessonHours] = useState([]);

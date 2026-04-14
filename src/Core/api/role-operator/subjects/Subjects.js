@@ -1,6 +1,6 @@
 import axios from "axios"
 import { notify } from "@/core/hooks/notification/notify"
-import api from "@api/axiosConfig"
+import api from "@api/axios-config"
 
 
 export const getSubjects = async (page = 1, search = "") => {

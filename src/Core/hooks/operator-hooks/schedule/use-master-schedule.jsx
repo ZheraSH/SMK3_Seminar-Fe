@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { fetchSubject, fetchTeacher, fetchLesson,} from "../../../api/lesson-shedule/lessonApi";
+import { fetchSubject, fetchTeacher, fetchLesson,} from "../../../api/lesson-shedule/lesson-api";
 
 const BREAK_KEYWORDS = ['istirahat', 'break', 'lainnya']; 
 

@@ -1,4 +1,4 @@
-import api from "@api/axiosConfig";
+import api from "@api/axios-config";
 import { notify } from "@/core/hooks/notification/notify";
 
 export const getClass = async (params = {}) => {
