@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchRfidLogs } from "../../../../../core/api/role-homeroom/dashboard/HomeroomDashboard";
-import LoadingData from "../../../../components/elements/loadingData/loading";
+import { fetchRfidLogs } from "../../../../../Core/api/role-homeroom/dashboard/homeroom-dashboard";
+import LoadingData from "../../../../components/elements/loading-data/loading";
 
 export default function AttendanceTable() {
   const [currentPage, setCurrentPage] = useState(1);

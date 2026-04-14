@@ -1,7 +1,7 @@
 
-import AttendanceChart from "./components/AttendanceChartHome"
-import AttendanceTable from "./components/AttendanceRecordHome"
-import StatisticsCard from "./components/StatisticsCardHome"
+import AttendanceChart from "./components/attendance-chart-home"
+import AttendanceTable from "./components/attendance-record-home"
+import StatisticsCard from "./components/statistics-card-home"
 
 export default function HomeRoomHome() {
   return (

@@ -9,9 +9,9 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import StatCard from "../utils/StatCard";
-import { fetchAttendanceStatistics } from "../../../../../core/api/role-homeroom/dashboard/HomeroomDashboard";
-import LoadingData from "../../../../components/elements/loadingData/loading";
+import StatCard from "../utils/stat-card";
+import { fetchAttendanceStatistics } from "../../../../../Core/api/role-homeroom/dashboard/homeroom-dashboard";
+import LoadingData from "../../../../components/elements/loading-data/loading";
 
 export default function StatisticsCard() {
   const [loading, setLoading] = useState(true);

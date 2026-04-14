@@ -32,7 +32,7 @@ export function AttendanceBarWeekly() {
       } catch (err) {
         console.error(err);
       }
-    };
+    }; 
     fetchData();
   }, []);
 
