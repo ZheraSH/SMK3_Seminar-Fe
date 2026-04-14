@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react";
-import { fetchStudentSchedule,fetchAttendancePermissions,getDashboardSummary,fetchAttendanceMonthly} from "../../../api/role-student/dashboard/dashboard";
+import { fetchStudentSchedule,fetchAttendancePermissions,getDashboardSummary,fetchAttendanceMonthly} from "@/core/api/role-student/dashboard/dashboard";
 
-export function DashboardStudent () {
+export function useDashboardStudent () {
         const [loading, setLoading] = useState(true);
         const [error, setError] = useState(null);
         const [schedule,setSchedule] = useState ([]);

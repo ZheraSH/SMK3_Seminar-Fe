@@ -1,5 +1,5 @@
 import { ClipboardCheck,ClockAlert } from "lucide-react";
-import LoadingData from "../../../../components/elements/loading-data/loading";
+import LoadingData from "@/view/components/elements/loading-data/loading";
 export default function BodyDashboard({ summary, loading}) {
   
 

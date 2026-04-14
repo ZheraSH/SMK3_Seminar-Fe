@@ -1,4 +1,4 @@
-import { days } from "../../../../../core/Data/siswa-data";
+import { days } from "@/Core/data/siswa-data";
 
 export default function ButtonSchedule ({setActiveDay,activeDay}){
     return (

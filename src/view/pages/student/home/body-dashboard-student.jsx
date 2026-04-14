@@ -2,9 +2,9 @@ import ProfileHeader from "./components/profile-header";
 import Card from "./components/attendance-cards";
 import TableSchedule from "./components/table-schedule";
 import TableHistory from "./components/table-history";
-import { DashboardStudent } from "../../../../core/hooks/role-student/dashboard/use-dashboard-student";
+import { useDashboardStudent } from "@/core/hooks/role-student/dashboard/use-dashboard-student";
 import AttendanceChart from "./components/attendance-chart";
-import LoadingData from "../../../components/elements/loading-data/loading";
+import LoadingData from "@/view/components/elements/loading-data/loading";
 
 export default function BodyDashboard() {
 
@@ -15,7 +15,7 @@ export default function BodyDashboard() {
         permissions,
         summary,
         statistik,
-    } = DashboardStudent ();
+    } = useDashboardStudent ();
 
     return (
         <div className=" mb-10">

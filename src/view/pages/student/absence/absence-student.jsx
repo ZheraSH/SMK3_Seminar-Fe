@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { fetchAttendanceHistory } from '../../../../core/api/role-student/absence-student/absence-student';
-import Header from '../../../components/elements/header/header-new';
-import LoadingData from '../../../components/elements/loading-data/loading';
+import { fetchAttendanceHistory } from '@/core/api/role-student/absence-student/absence-student';
+import Header from '@/view/components/elements/header/header-new';
+import LoadingData from '@/view/components/elements/loading-data/loading';
 import { PaginationAbsenceStudent } from './components/pagination-absence-student';
 
 const getStatusColor = (status) => {

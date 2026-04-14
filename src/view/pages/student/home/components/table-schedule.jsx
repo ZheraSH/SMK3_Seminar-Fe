@@ -1,4 +1,4 @@
-import { getBgColorBySubject } from "../../../../../Core/utils/subject-helper";
+import { getBgColorBySubject } from "@/Core/utils/subject-helper";
 
 export default function TableSchedule ({schedule,loading,error}){
 

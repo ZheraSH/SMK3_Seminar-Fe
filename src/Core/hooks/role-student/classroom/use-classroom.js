@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getClassroom } from "../../../../core/api/role-student/classroom/classroom";
+import { getClassroom } from "@/core/api/role-student/classroom/classroom";
 
 export function useClassStudent() {
     const [loading, setLoading] = useState(true);

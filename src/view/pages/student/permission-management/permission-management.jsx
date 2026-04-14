@@ -5,12 +5,12 @@ import { PermissionCard } from "./components/permission-card";
 import { PermissionTable } from "./components/permission-table";
 import { PermissionFormModal } from "./components/permission-form-modal";
 import { PermissionDetailModal } from "./components/permission-detail-modal";
-import { usePermissions } from "../../../../core/hooks/role-student/permission-student/use-permission-student";
+import { usePermissions } from "@/core/hooks/role-student/permission-student/use-permission-student";
 import { PaginationPermissionStudent } from "./components/permission-pagination";
-import HeaderPage from "../../../components/elements/header/header-new";
-import { getPermissionDetailStudent, deletePermissionApi } from "../../../../core/api/role-student/student-permission/permission";
-import LoadingData from "../../../components/elements/loading-data/loading";
-import DeleteConfirmModal from "../../../components/elements/modaldelete/modal-delete";
+import HeaderPage from "@/view/components/elements/header/header-new";
+import { getPermissionDetailStudent, deletePermissionApi } from "@/core/api/role-student/student-permission/permission";
+import LoadingData from "@/view/components/elements/loading-data/loading";
+import DeleteConfirmModal from "@/view/components/elements/modaldelete/modal-delete";
 import { Plus, Calendar, RotateCcw,Filter,X } from "lucide-react";
 
 export default function PermissionManagement() {
