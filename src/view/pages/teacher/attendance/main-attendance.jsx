@@ -1,9 +1,9 @@
 import ButtonAttendance from "./components/button-attendance";
 import CardAttendance from "./components/card-attendance";
 import ClassAttendance from "./components/class-attendance";
-import { useAttendanceTeacher } from "../../../../core/hooks/role-teacher/attendance/use-attendance";
-import Header from "../../../components/elements/header/header-new";
-import LoadingData from "../../../components/elements/loading-data/loading";
+import { useAttendanceTeacher } from "@/core/hooks/role-teacher/attendance/use-attendance";
+import Header from "@/view/components/elements/header/header-new";
+import LoadingData from "@/view/components/elements/loading-data/loading";
 
 export default function AttendanceTeacher() {
   const {

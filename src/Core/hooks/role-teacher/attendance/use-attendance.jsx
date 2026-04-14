@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAttendanceClassroom } from "../../../api/role-teacher/attendance/attendance-classroom";
+import { getAttendanceClassroom } from "@/core/api/role-teacher/attendance/attendance-classroom";
 
 export function useAttendanceTeacher() {
   const [selectedClass, setSelectedClass] = useState(null);

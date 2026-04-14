@@ -1,5 +1,5 @@
 import { Send, ChevronLeft, Users, AlertCircle, ArrowLeft, Clock, CheckCircle2, ClipboardCheck, AlertTriangle } from "lucide-react";
-import LoadingData from "../../../../components/elements/loading-data/loading";
+import LoadingData from "@/view/components/elements/loading-data/loading";
 
 export default function TotalClass({ setIsOpenClass, summary, handleSubmit, isSubmitted,loading, canSubmit, submitting, isTimeValid, selectedClass, lessonSchedule, isPastDate, isFutureDate }) {
   const safeSummary = summary || { present: 0, alpha: 0, leave: 0, late: 0, sick: 0 };

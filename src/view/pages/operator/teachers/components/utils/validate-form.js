@@ -1,4 +1,4 @@
-export const validateForm = (post) => {
+export const ValidateForm = (post) => {
     const newErrors = {};
   
     if (!post.name) newErrors.name = ["Nama wajib diisi."];

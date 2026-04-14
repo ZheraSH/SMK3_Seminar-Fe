@@ -1,9 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { School, GraduationCap } from "lucide-react";
-import { useTeacherDashboard } from "../../../../core/hooks/role-teacher/dashboard-teachers/use-teacher-dashboard";
-import ProfileIMG from "../../../../core/hooks/profile/Profil";
-import LoadingData from "../../../components/elements/loading-data/loading";
+import { useTeacherDashboard } from "@/core/hooks/role-teacher/dashboard-teachers/use-teacher-dashboard";
+import LoadingData from "@/view/components/elements/loading-data/loading";
 
 export default function BodyDashboardTeacher() {
   const { isLoading } = useTeacherDashboard();
