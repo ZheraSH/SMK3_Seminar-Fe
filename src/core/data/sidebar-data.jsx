@@ -53,7 +53,7 @@ export const ROLE_MENUS = {
     { name: "Jadwal Mengajar", icon: <CalendarDays size={20} />, path: "/teacher-home/teacher-schedule" },
   ],
   homeroom_teacher: [
-    { name: "Dashboard", icon: <LayoutGrid size={20} />, path: "/homeroom-home/home" },
+    { name: "Dashboard", icon: <LayoutGrid size={20} />, path: "/homeroom-home" },
     { name: "Rekap Absensi", icon: <FileText size={20} />, path: "/homeroom-home/class-recap" },
   ],
   counselor: [
