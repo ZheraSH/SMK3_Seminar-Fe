@@ -1,4 +1,4 @@
-import { emit } from "../../utils/eventBus";
+import { emit } from "../../utils/event-bus";
 
 
 export const notify = (message, type = "success") => {

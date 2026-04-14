@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { on } from "../../utils/eventBus";
+import { on } from "../../utils/event-bus";
 import { CircleCheckBig, CircleX } from "lucide-react";
 
 export const Notification = () => {

@@ -3,7 +3,7 @@ import { ROLE_MENUS, multiRoleCommon } from "@data/sidebar-data";
 import { useRef, useState, useEffect, useMemo } from "react";
 import MainDashboard from "../components/elements/main-dashboard";
 import { ChevronDown } from "lucide-react";
-import { Notification } from "../../core/hooks/notification/Notification";
+import { Notification } from "../../Core/hooks/notification/notification";
 import LoginSuccessPopup from "../components/elements/succeslogin/LoginSuccessPopup";
 import useProfileOperator from "../../core/hooks/operator-hooks/profile/use-profile-operator";
 
