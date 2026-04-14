@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { LogOut, ArrowLeftToLine, ChevronRight } from "lucide-react";
 import LoadingData from "../loading-data/loading";
-import useProfileOperator from "../../../../core/hooks/operator-hooks/profile/use-profile-operator";
+import useProfileOperator from "@/core/hooks/operator/profile/use-profile-operator";
 import { notify } from "@/core/hooks/notification/notify";
 
 export default function ProfileOperator() {

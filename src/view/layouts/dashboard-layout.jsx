@@ -1,11 +1,11 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ROLE_MENUS, multiRoleCommon } from "@data/sidebar-data";
 import { useRef, useState, useEffect, useMemo } from "react";
-import MainDashboard from "../components/elements/main-dashboard";
+import MainDashboard from "@elements/main-dashboard";
 import { ChevronDown } from "lucide-react";
-import { Notification } from "../../core/hooks/notification/Notification";
-import LoginSuccessPopup from "../components/elements/succes-login/login-success-popup";
-import useProfileOperator from "../../core/hooks/operator-hooks/profile/use-profile-operator";
+import { Notification } from "@/core/hooks/notification/notification";
+import LoginSuccessPopup from "@elements/succes-login/login-success-popup";
+import useProfileOperator from "@/core/hooks/operator/profile/use-profile-operator";
 
 export const DashboardLayout = () => {
   const location = useLocation();

@@ -1,8 +1,8 @@
-import React, { useState ,useRef, useEffect} from 'react';
-import { Trash2 ,Plus,ArrowLeftToLine,MoreVertical,PencilLine} from 'lucide-react';
-import useLessonHours from '../../../../../core/hooks/operator-hooks/schedule/use-lesson-schedule';
+import React, { useState, useRef, useEffect } from 'react';
+import { Trash2, Plus, ArrowLeftToLine, MoreVertical, PencilLine } from 'lucide-react';
+import useLessonHours from '@/core/hooks/operator/schedule/use-lesson-schedule';
 import AddLessonHourModal from './form-lesson';
-import ModalDelete from '../../../../components/elements/modaldelete/modal-delete'; 
+import ModalDelete from '@elements/modaldelete/modal-delete';
 
 const ActionMenu = ({ onEdit, onDelete, alignTop }) => {
     const positionClasses = alignTop ? "bottom-full mb-2" : "mt-2";
@@ -27,7 +27,7 @@ const ResultModal = ({ show, status, title, message, onClose }) => {
     const bgColor = isSuccess ? 'bg-green-500' : 'bg-red-500';
     const icon = isSuccess ? (
         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-        ) : (
+    ) : (
         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     );
 
@@ -50,15 +50,15 @@ const DAY_MAPPING = {
     'Kamis': 'thursday',
     'Jum\'at': 'friday',
 };
-const daysIndo = Object.keys(DAY_MAPPING); 
+const daysIndo = Object.keys(DAY_MAPPING);
 
-const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
+const ScheduleLayout = ({ mode, classScheduleData, handleBackToClasses }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [confirmModal, setConfirmModal] = useState({ show: false, id: null, name: '' });
     const [resultModal, setResultModal] = useState({ show: false, status: '', title: '', message: '' });
     const [isDeleting, setIsDeleting] = useState(false);
-    const [actionMenuOpen, setActionMenuOpen] = useState(null); 
+    const [actionMenuOpen, setActionMenuOpen] = useState(null);
     const [editingData, setEditingData] = useState(null);
     const actionMenuRef = useRef(null);
 
@@ -77,25 +77,25 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
 
     const activeDayApi = DAY_MAPPING[activeDayIndo] || 'monday';
 
-    const { lessonHours, isLoadingHours ,deleteLesson,refetch,addLesson,updateLesson} = useLessonHours(activeDayApi); 
+    const { lessonHours, isLoadingHours, deleteLesson, refetch, addLesson, updateLesson } = useLessonHours(activeDayApi);
 
-    const dataForDisplay = isClassMode ?classScheduleData : lessonHours;
+    const dataForDisplay = isClassMode ? classScheduleData : lessonHours;
 
-    const tableHeaders = ['No', 'Jam Mulai', 'Jam Berakhir', 'Penempatan',  ...(isClassMode ? ['Mata Pelajaran', 'Guru'] : []), 'Aksi'];
+    const tableHeaders = ['No', 'Jam Mulai', 'Jam Berakhir', 'Penempatan', ...(isClassMode ? ['Mata Pelajaran', 'Guru'] : []), 'Aksi'];
 
     const toggleActionMenu = (id) => {
         setActionMenuOpen(actionMenuOpen === id ? null : id);
-    };  
+    };
 
     const handleEdit = (slot) => {
         setActionMenuOpen(null);
-        setEditingData(slot); 
+        setEditingData(slot);
         setIsModalOpen(true);
     };
 
     const openConfirmDeleteModal = (id, name) => {
         setActionMenuOpen(null);
-        setConfirmModal({ show: true, id: id, name: name});
+        setConfirmModal({ show: true, id: id, name: name });
     };
 
     const handleConfirmDelete = async () => {
@@ -104,11 +104,11 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
         if (!id) return;
 
         setIsDeleting(true);
-        setConfirmModal({ show: false, id: null, name: '' }); 
+        setConfirmModal({ show: false, id: null, name: '' });
 
         try {
             const result = await deleteLesson(id);
-            refetch(); 
+            refetch();
         } catch (error) {
             let errorMessage = 'Data ini tidak dapat di hapus karena data ini sudah ada di jadwal.';
 
@@ -118,14 +118,14 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
                 errorMessage = `Jam pelajaran ${name} tidak dapat dihapus karena sudah digunakan dalam Jadwal Pelajaran atau memiliki data relasi yang terikat.`;
             }
 
-            setResultModal({ show: true, status: 'error', title: 'Peringatan.',message: errorMessage});
+            setResultModal({ show: true, status: 'error', title: 'Peringatan.', message: errorMessage });
         } finally {
             setIsDeleting(false);
         }
     };
 
     const handleCloseResultModal = () => {
-        setResultModal({ show: false, status: '', title: ''});
+        setResultModal({ show: false, status: '', title: '' });
     };
 
     useEffect(() => {
@@ -141,8 +141,8 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
     }, [actionMenuOpen]);
 
     return (
-    <div className=" bg-gray-50 min-h-screen"> 
-        <div className="bg-white p-2 md:p-6 rounded-lg shadow-xl mb-3 lg:h-[298px] md:h-[298px] h-auto mx-auto max-w-sm lg:max-w-full md:max-w-full "> 
+        <div className=" bg-gray-50 min-h-screen">
+            <div className="bg-white p-2 md:p-6 rounded-lg shadow-xl mb-3 lg:h-[298px] md:h-[298px] h-auto mx-auto max-w-sm lg:max-w-full md:max-w-full ">
                 <div className="bg-[#FEF3C7] h-[202px] lg:p-6 md:p-4 p-3 rounded-md mb-4">
                     <p className="lg:text-[20px] md:text-[18px] sm:text-[16px] font-semibold text-[#FFAA05] mb-3">Informasi</p>
                     <ul className="list-disc lg:text-[16px] md:text-[14px] text-[12px] space-y-1 ml-4">
@@ -151,27 +151,26 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
                         <li>Saat Menghapus Data, Maka Yang Terakhir Dalam Jam Pelajaran Akan Terhapus</li>
                     </ul>
                 </div>
-                <div className='flex flex-col lg:flex-row md:flex-row lg:justify-between md:justify-between'> 
-                    <div className="flex space-x-[6px] rounded-lg w-full overflow-x-auto mb-6 h-[52px]"> 
+                <div className='flex flex-col lg:flex-row md:flex-row lg:justify-between md:justify-between'>
+                    <div className="flex space-x-[6px] rounded-lg w-full overflow-x-auto mb-6 h-[52px]">
                         {daysIndo.map(day => (
                             <button key={day} onClick={() => setActiveDayIndo(day)}
-                                className={`flex-shrink-0 px-3 py-2 h-[36px] text-[12px] font-semibold shadow-md rounded-lg transition-colors duration-200 ${ 
-                                activeDayIndo === day ? 'bg-[#3B82F6] text-white' : 'bg-[#E5E7EB] border border-[#CBD5E1] text-gray-700 hover:bg-[#9CA3AF]'}`}>
-                            {day}
-                        </button>
-                    ))}
+                                className={`flex-shrink-0 px-3 py-2 h-[36px] text-[12px] font-semibold shadow-md rounded-lg transition-colors duration-200 ${activeDayIndo === day ? 'bg-[#3B82F6] text-white' : 'bg-[#E5E7EB] border border-[#CBD5E1] text-gray-700 hover:bg-[#9CA3AF]'}`}>
+                                {day}
+                            </button>
+                        ))}
                     </div>
                     <div className=' flex gap-4 justify-end xl:flex-row md:flex-row flex-row'>
-                        <button onClick={handleOpenModal} className='bg-[#3B82F6] hover:bg-[#2563EB] rounded-[8px] border h-[36px] w-[166px] border-gray-200 text-center flex items-center px-4 text-white flex flex-row gap-2 lg:text-[14px] md:text-[14px] text-[12px] font-medium cursor-pointer'> <Plus size={20}/>Tambah Jam</button>
-                        <button onClick={handleBackToClasses} className='bg-[#E5E7EB] rounded-[8px] border h-[36px] w-[166px] border-gray-200 flex flex-row items-center px-4 justify-center gap-2 font-medium lg:text-[14px] md:text-[14px] text-[12px] hover:bg-[#9CA3AF]'>< ArrowLeftToLine size={20}/> Kembali</button>
+                        <button onClick={handleOpenModal} className='bg-[#3B82F6] hover:bg-[#2563EB] rounded-[8px] border h-[36px] w-[166px] border-gray-200 text-center flex items-center px-4 text-white flex flex-row gap-2 lg:text-[14px] md:text-[14px] text-[12px] font-medium cursor-pointer'> <Plus size={20} />Tambah Jam</button>
+                        <button onClick={handleBackToClasses} className='bg-[#E5E7EB] rounded-[8px] border h-[36px] w-[166px] border-gray-200 flex flex-row items-center px-4 justify-center gap-2 font-medium lg:text-[14px] md:text-[14px] text-[12px] hover:bg-[#9CA3AF]'>< ArrowLeftToLine size={20} /> Kembali</button>
                     </div>
                 </div>
-            </div> 
+            </div>
             <div className="border border-gray-200 rounded-lg overflow-hidden">
                 {!isLoadingHours && dataForDisplay.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16 w-full animate-in fade-in duration-500">
                         <img src="/images/null/null2.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-4" />
-                         <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada penempatn jam pelajaran di hari ini, silahkan klik <br /> “ Tambah ” untuk  menambahkan jam pelajaran!</p>
+                        <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada penempatn jam pelajaran di hari ini, silahkan klik <br /> “ Tambah ” untuk  menambahkan jam pelajaran!</p>
                     </div>
                 ) : (
                     <table className="min-w-full divide-y divide-gray-200">
@@ -218,7 +217,7 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
                                                         <MoreVertical size={20} />
                                                     </button>
                                                     {actionMenuOpen === slot.id && (
-                                                        <ActionMenu alignTop={index >= dataForDisplay.length - 2} onEdit={() => handleEdit(slot)} onDelete={() => openConfirmDeleteModal(slot.id, slot.name)}/>
+                                                        <ActionMenu alignTop={index >= dataForDisplay.length - 2} onEdit={() => handleEdit(slot)} onDelete={() => openConfirmDeleteModal(slot.id, slot.name)} />
                                                     )}
                                                 </div>
                                             )}
@@ -230,10 +229,10 @@ const ScheduleLayout = ({ mode,classScheduleData,handleBackToClasses}) => {
                     </table>
                 )}
             </div>
-      
-            <AddLessonHourModal isVisible={isModalOpen} onClose={handleCloseModal} activeDay={activeDayApi} activeDayDisplay={activeDayIndo} onSuccessfulSubmit={refetch} addLesson={addLesson} updateLesson={updateLesson} initialData={editingData}/>
-            <ModalDelete isOpen={confirmModal.show} onConfirm={handleConfirmDelete} onClose={() => setConfirmModal({ show: false, id: null, name: '' })} isProcessing={isDeleting}/>
-            <ResultModal show={resultModal.show} status={resultModal.status} title={resultModal.title} message={resultModal.message} onClose={handleCloseResultModal}/>
+
+            <AddLessonHourModal isVisible={isModalOpen} onClose={handleCloseModal} activeDay={activeDayApi} activeDayDisplay={activeDayIndo} onSuccessfulSubmit={refetch} addLesson={addLesson} updateLesson={updateLesson} initialData={editingData} />
+            <ModalDelete isOpen={confirmModal.show} onConfirm={handleConfirmDelete} onClose={() => setConfirmModal({ show: false, id: null, name: '' })} isProcessing={isDeleting} />
+            <ResultModal show={resultModal.show} status={resultModal.status} title={resultModal.title} message={resultModal.message} onClose={handleCloseResultModal} />
         </div>
     );
 };

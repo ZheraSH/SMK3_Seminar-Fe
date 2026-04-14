@@ -12,8 +12,8 @@ import {
 } from "recharts";
 
 import AttendanceTableSection from "./activity-table";
-import { fetchStatisticToday, fetchStatisticMonthly } from "../../../../../core/api/role-operator/dashboard/dashboard-api";
-import LoadingData from "../../../../components/elements/loading-data/loading";
+import { fetchStatisticToday, fetchStatisticMonthly } from "@api/role-operator/dashboard/dashboard-api";
+import LoadingData from "@elements/loading-data/loading";
 
 const MONTHS_NAME = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
 

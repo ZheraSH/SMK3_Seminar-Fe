@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Users, UserCheck, Puzzle, School } from "lucide-react";
 import { fetchDashboardCounters } from "@/core/api/role-operator/dashboard/dashboard-api";
-import LoadingData from "../../../../components/elements/loading-data/loading";
+import LoadingData from "@elements/loading-data/loading";
 
 const CARD_CONFIG = [
   {
@@ -41,7 +41,7 @@ export default function CounterCardsSection() {
       } catch (err) {
         console.error("❌ LOAD COUNTERS FAILED:", err);
       } finally {
-       setLoading(false);
+        setLoading(false);
       }
     };
 
@@ -50,7 +50,7 @@ export default function CounterCardsSection() {
 
   if (loading) {
     return (
-      <LoadingData loading={loading} type="attendanceChart" count={4}/>
+      <LoadingData loading={loading} type="attendanceChart" count={4} />
     );
   }
 
