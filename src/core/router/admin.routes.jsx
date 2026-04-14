@@ -1,6 +1,6 @@
 import MainDashboard from "../../view/components/elements/main-dashboard";
 import { DashboardLayout } from "../../view/layouts/dashboard-layout";
-import Login from "../../view/components/elements/login/MainLogin";
+import Login from "../../view/components/elements/login/main-login";
 import NotFound from "../../view/pages/not-found";
 import { MainStudent } from "../../view/pages/operator/student/main-student";
 import BodyDashboard from "../../view/pages/operator/home/body-dashboard";
