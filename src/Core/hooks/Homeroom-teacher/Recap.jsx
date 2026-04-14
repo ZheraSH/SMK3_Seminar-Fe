@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { fetchSummaryClass as getHeaderAPI , fetchSummaryClassdaily as getTableApi,fetchSummaryClassCard as getCardApi,getCetakRecap } from "../../api/role-homeroom/summary-class/summary-class";
+import { fetchSummaryClass as getHeaderAPI , fetchSummaryClassdaily as getTableApi,fetchSummaryClassCard as getCardApi,getCetakRecap } from "@/core/api/role-homeroom/summary-class/summary-class";
 
 export function UseRecap(selectedDate) {
   const [header, setHeader] = useState(null);
