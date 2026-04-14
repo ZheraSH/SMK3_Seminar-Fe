@@ -35,7 +35,7 @@ export function StudentDataTable() {
           <input
             type="text"
             placeholder="Cari nama / NIS..."
-            className="outline-none text-sm w-full placeholder-gray-700"
+            className=" outline-none text-sm w-full placeholder-gray-700"
           />
         </div>
 
