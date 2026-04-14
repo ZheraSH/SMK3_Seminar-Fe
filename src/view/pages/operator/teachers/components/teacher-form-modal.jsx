@@ -6,7 +6,7 @@ export const TeacherForm = ({
   setIsOpen,
   post,
   setPost,
-  religions,
+  religions = [],
   errors,
   editingId,
   handleInput,

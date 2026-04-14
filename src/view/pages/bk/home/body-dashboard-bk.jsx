@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { TriangleAlert } from "lucide-react"
-import { getBgColorStatus } from "../../../../Core/utils/subject-helper"
-import { useDashboardData } from "../../../../core/hooks/bk/dashboard/dashboard"
+import { getBgColorStatus } from "@/core/utils/subject-helper"
+import { useDashboardData } from "@/core/hooks/bk/dashboard/use-dashboard"
 import { useNavigate } from "react-router-dom";
-import LoadingData from "../../../components/elements/loading-data/loading";
+import LoadingData from "@elements/loading-data/loading";
 
 
 export default function BodyDashboard() {
@@ -17,12 +17,12 @@ export default function BodyDashboard() {
   return (
     <div className="p-4 min-h-screen mb-20 lg:mb-10 bg-gray-50">
       <h1 className="font-semibold text-xl md:text-2xl mb-6 text-gray-700">Selamat datang, {user.name}</h1>
-      <Main />
+      <DashboardContent />
     </div>
   )
 }
 
-export const Main = () => {
+export const DashboardContent = () => {
   const { data, attendance, isLoading, attendancePending } = useDashboardData();
   const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-import {Main} from "../bk/home/body-dasboard-bk";
+import { DashboardContent } from "../bk/home/body-dashboard-bk";
 import HomeRoomHome from "../homeroom-teacher/home/main-homeroom-home";
 import { useEffect, useState } from "react";
 import { MainTeacher } from "../teacher/home/body-dashboard-teacher";
@@ -7,7 +7,7 @@ import LoadingData from "../../components/elements/loading-data/loading";
 export default function BodyDashboardMultiRole() {
   const [userRoles, setUserRoles] = useState([]);
   const [user, setUser] = useState({ name: "", email: "" });
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("userData"));
@@ -16,11 +16,11 @@ export default function BodyDashboardMultiRole() {
       const roles = Array.isArray(data.roles)
         ? data.roles
         : data.role
-        ? [data.role]
-        : [];
+          ? [data.role]
+          : [];
       setUserRoles(roles);
     }
-    
+
     const timer = setTimeout(() => setLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);
@@ -31,7 +31,7 @@ export default function BodyDashboardMultiRole() {
       dashboards.push(<div key="teacher" className="w-full"><MainTeacher classrooms={[]} schedule={[]} /></div>);
     }
     if (userRoles.includes("counselor")) {
-      dashboards.push(<div key="bk" className="w-full"><Main /></div>);
+      dashboards.push(<div key="bk" className="w-full"><DashboardContent /></div>);
     }
     if (userRoles.includes("homeroom_teacher")) {
       dashboards.push(<div key="homeroom" className="w-full"><HomeRoomHome /></div>);
@@ -41,11 +41,11 @@ export default function BodyDashboardMultiRole() {
 
   return (
     <div className=" bg-gray-50 min-h-screen mt-8">
-      {loading?(<LoadingData loading={loading} type="kotakKecil"/>)
-      :(
-        <h1 className="font-semibold text-xl md:text-2xl mb-6 text-gray-700">Selamat datang, {user.name}</h1>
-      )}
-      
+      {loading ? (<LoadingData loading={loading} type="kotakKecil" />)
+        : (
+          <h1 className="font-semibold text-xl md:text-2xl mb-6 text-gray-700">Selamat datang, {user.name}</h1>
+        )}
+
       {userRoles.length > 0 ? (
         <div className="flex flex-col gap-10 ">
           {renderDashboards()}

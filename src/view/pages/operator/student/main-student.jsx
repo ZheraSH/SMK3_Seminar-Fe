@@ -35,7 +35,7 @@ export const MainStudent = () => {
     count_siblings: "",
     address: "",
     gender: "",
-    religion_id: 1,
+    religion_id: "",
   });
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -154,7 +154,7 @@ export const MainStudent = () => {
           count_siblings: "",
           address: "",
           gender: "",
-          religion_id: 1,
+          religion_id: "",
         });
 
         setEditingId(null);
@@ -187,7 +187,7 @@ export const MainStudent = () => {
       count_siblings: student.count_siblings || "",
       address: student.address || "",
       gender: student.gender.value || "",
-      religion_id: student.religion_id || student.religion?.id || 1,
+      religion_id: student.religion_id || student.religion?.id || "",
     });
 
     setEditingId(student.id);

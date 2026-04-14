@@ -10,7 +10,7 @@ export function FormModal({
   onInputChange,
   editingId,
   errors,
-  religions,
+  religions = [],
   majors,
   levelclasses,
 }) {

@@ -54,10 +54,10 @@ export const fetchMajors = async () => {
 export const fetchReligions = async () => {
   try {
     const res = await api.get("/religions");
-    return res.data.data;
+    return res.data.data || [];
   } catch (err) {
-    console.error("gagal", err);
-    throw err;
+    console.error("Gagal ambil data agama:", err);
+    return [];
   }
 };
 
