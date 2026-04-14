@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import "./LoginNotification.css";
+import "./login-notification.css";
 
 export default function LoginSuccessToast({
   open,
