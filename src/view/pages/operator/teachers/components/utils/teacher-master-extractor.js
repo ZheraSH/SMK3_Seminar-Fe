@@ -1,4 +1,4 @@
-export const ExtractTeacherMasters = (teachers = []) => {
+export const extractTeacherMasters = (teachers = []) => {
   const genders = new Map();
   const subjects = new Map();
   const roles = new Map();

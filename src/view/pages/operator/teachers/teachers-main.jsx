@@ -7,14 +7,14 @@ import { TeacherForm } from "./components/teacher-form-modal";
 import { TeacherTable } from "./components/teacher-table";
 import { PaginationEmployee } from "./components/teachers-pagination";
 import { useTeacher } from "../../../../core/hooks/operator-hooks/employee/use-pagination";
-import { ValidateTeacherForm } from "./components/utils/validate-teacher-form";
+import { validateTeacherForm } from "./components/utils/validate-teacher-form";
 
 import {
   submitTeacherApi,
   deleteTeacherApi,
   fetchReligionsApi,
 } from "../../../../core/api/role-operator/employee/teachers-api";
-import { ExtractTeacherMasters } from "./components/utils/teacher-master-extractor";
+import { extractTeacherMasters } from "./components/utils/teacher-master-extractor";
 import { TeacherFilterDropdown } from "./components/filter-dropdown";
 import LoadingData from "../../../components/elements/loading-data/loading.jsx";
 import DeleteConfirmModal from "../../../components/elements/modaldelete/modal-delete.jsx";
@@ -58,7 +58,7 @@ export const TeacherMain = () => {
     label: "Pilih Kategori",
   });
 
-  const masters = useMemo(() => ExtractTeacherMasters(Teacher), [Teacher]);
+  const masters = useMemo(() => extractTeacherMasters(Teacher), [Teacher]);
 
   const teachersByFilter = useMemo(() => {
     if (!category.type || !category.value) return Teacher;
@@ -126,7 +126,7 @@ export const TeacherMain = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const frontendErrors = ValidateTeacherForm(post, editingId);
+    const frontendErrors = validateTeacherForm(post, editingId);
     if (Object.keys(frontendErrors).length > 0) {
       setErrors(frontendErrors);
       return;
