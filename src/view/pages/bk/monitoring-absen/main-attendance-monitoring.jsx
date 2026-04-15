@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import Header from '@elements/header/Header-new'
 import LoadingData from '@elements/loading-data/loading'
+import { getAbsenteeismMonitoring } from '@/core/api/role-bk/monitoring/absenteeism-monitoring'
 
 export default function AttendanceDashboard() {
   const [data, setData] = useState([])
@@ -26,24 +27,19 @@ export default function AttendanceDashboard() {
     const fetchMonitoring = async () => {
       setLoading(true)
       try {
-        const res = await fetch(
-          'http://127.0.0.1:8000/api/counselor/attendance/monitoring-global'
-        )
+        const result = await getAbsenteeismMonitoring()
 
-        const result = await res.json()
-
-        const students = result?.data?.students || []
+        const students = result?.students || []
 
         const summaryResult = students.reduce(
           (acc, cur) => {
-            acc.hadir += cur.hadir
-            acc.izin += cur.izin
-            acc.alpha += cur.alpha
+            acc.hadir += cur.hadir || 0
+            acc.izin += cur.izin || 0
+            acc.alpha += cur.alpha || 0
             return acc
           },
           { hadir: 0, telat: 0, izin: 0, alpha: 0 }
         )
-        console.log(res.data.data)
         setData(students)
         setSummary(summaryResult)
       } catch (err) {
@@ -131,52 +127,57 @@ export default function AttendanceDashboard() {
         {loading ? (<LoadingData loading={loading} type='tableSchedule' count={10} />)
           : (
             <>
-              <div className="bg-white rounded-lg  overflow-hidden">
-                <table className="w-full">
-                  <thead className="bg-blue-500 text-white">
-                    <tr className="grid grid-cols-6">
-                      <th className="px-6 py-3 text-left">Nama</th>
-                      <th className="px-6 py-3 text-left">Kelas</th>
-                      <th className="px-6 py-3 text-left">Hadir</th>
-                      <th className="px-6 py-3 text-left">Izin</th>
-                      <th className="px-6 py-3 text-left">Sakit</th>
-                      <th className="px-6 py-3 text-left">Alpha</th>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="bg-[#3B82F6] text-white">
+                      <th className="px-6 py-4 text-left font-semibold tracking-wide">Nama</th>
+                      <th className="px-6 py-4 text-left font-semibold tracking-wide">Kelas</th>
+                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Hadir</th>
+                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Izin</th>
+                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Sakit</th>
+                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Alpa</th>
                     </tr>
                   </thead>
 
-                  <tbody>
+                  <tbody className="divide-y divide-gray-100">
                     {data.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="text-center  py-6">
-                          Tidak ada data
+                        <td colSpan="6" className="text-center py-10 text-gray-500 italic">
+                          Tidak ada data tersedia
                         </td>
                       </tr>
                     ) : (
                       data.map((row, i) => (
                         <tr
                           key={i}
-                          className={`grid grid-cols-6 border-b ${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                            }`}
+                          className={`transition-colors hover:bg-blue-50/30 ${
+                            i % 2 === 0 ? "bg-white" : "bg-gray-50/50"
+                          }`}
                         >
-                          <td className="px-6 py-3">{row.student_name}</td>
-                          <td className="px-6 py-3">{row.classroom}</td>
-                          <td className="px-6 py-3">
-                            <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded text-xs">
+                          <td className="px-6 py-4 text-gray-700 font-medium capitalize">
+                            {row.student_name.toLowerCase()}
+                          </td>
+                          <td className="px-6 py-4 text-gray-600 uppercase text-sm">
+                            {row.classroom}
+                          </td>
+                          <td className="px-6 py-4 text-center">
+                            <span className="inline-flex items-center justify-center w-10 h-8 rounded-lg bg-emerald-50 text-emerald-600 font-semibold border border-emerald-100">
                               {row.hadir}
                             </span>
                           </td>
-                          <td className="px-6 py-3">
-                            <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded text-xs">
+                          <td className="px-6 py-4 text-center">
+                            <span className="inline-flex items-center justify-center w-10 h-8 rounded-lg bg-amber-50 text-amber-600 font-semibold border border-amber-100">
                               {row.izin}
                             </span>
                           </td>
-                          <td className="px-6 py-3">
-                            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-xs">
+                          <td className="px-6 py-4 text-center">
+                            <span className="inline-flex items-center justify-center w-10 h-8 rounded-lg bg-blue-50 text-blue-600 font-semibold border border-blue-100">
                               {row.sakit}
                             </span>
                           </td>
-                          <td className="px-6 py-3">
-                            <span className="bg-red-100 text-red-700 px-3 py-1 rounded text-xs">
+                          <td className="px-6 py-4 text-center">
+                            <span className="inline-flex items-center justify-center w-10 h-8 rounded-lg bg-red-50 text-red-600 font-semibold border border-red-100">
                               {row.alpha}
                             </span>
                           </td>
@@ -187,15 +188,17 @@ export default function AttendanceDashboard() {
                 </table>
               </div>
 
-              <div className="flex justify-center gap-2 mt-6">
-                <button className="p-2">
-                  <ChevronLeft />
-                </button>
-                <button className="w-8 h-8 bg-blue-500 text-white rounded">1</button>
-                <button className="p-2">
-                  <ChevronRight />
-                </button>
-              </div>
+              {data.length > 0 && (
+                <div className="flex justify-center gap-2 mt-6">
+                  <button className="p-2">
+                    <ChevronLeft />
+                  </button>
+                  <button className="w-8 h-8 bg-blue-500 text-white rounded">1</button>
+                  <button className="p-2">
+                    <ChevronRight />
+                  </button>
+                </div>
+              )}
             </>
           )}
       </div>

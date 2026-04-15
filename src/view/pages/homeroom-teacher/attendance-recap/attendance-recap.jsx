@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { CircleCheck, Clock, ClipboardCheck, TriangleAlert, CalendarCog, Search, Download, RefreshCw, ChevronRight } from "lucide-react";
 import TableRecap from "./components/table-attendance";
 import CardRecap from "./components/card-recap";
-import {UseRecap} from "@/Core/hooks/homeroom-teacher/recap";
-import Header from "@/view/components/elements/header/header-new";
+import {UseRecap} from "@/core/hooks/homeroom-teacher/recap";
+import Header from "@elements/header/header-new";
 import Pagination from "./components/paginition";
-import LoadingData from "@/view/components/elements/loading-data/loading";
+import LoadingData from "@elements/loading-data/loading";
 
 export default function RecapClass() {
   const getTodayDate = () => {

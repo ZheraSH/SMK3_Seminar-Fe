@@ -4,7 +4,7 @@ import TableSchedule from "./components/table-schedule";
 import TableHistory from "./components/table-history";
 import { useDashboardStudent } from "@/core/hooks/role-student/dashboard/use-dashboard-student";
 import AttendanceChart from "./components/attendance-chart";
-import LoadingData from "@/view/components/elements/loading-data/loading";
+import LoadingData from "@elements/loading-data/loading";
 
 export default function BodyDashboard() {
 

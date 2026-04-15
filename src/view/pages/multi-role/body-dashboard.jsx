@@ -2,7 +2,7 @@ import { DashboardContent } from "../bk/home/body-dashboard-bk";
 import HomeRoomHome from "../homeroom-teacher/home/main-homeroom-home";
 import { useEffect, useState } from "react";
 import { MainTeacher } from "../teacher/home/body-dashboard-teacher";
-import LoadingData from "../../components/elements/loading-data/loading";
+import LoadingData from "@elements/loading-data/loading";
 
 export default function BodyDashboardMultiRole() {
   const [userRoles, setUserRoles] = useState([]);
