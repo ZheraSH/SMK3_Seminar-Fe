@@ -1,4 +1,4 @@
-import api from "@api/index";
+import api from "@api/axios-config";
 
 export async function getRoles() {
   try {

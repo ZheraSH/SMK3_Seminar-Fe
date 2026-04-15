@@ -3,14 +3,7 @@ import api from "@api/axios-config";
 export async function fetchDailyScheduleApi(day) {
 
   try {
-    const res = await api.get(
-      `/teacher/schedules/${day}`, 
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
+    const res = await api.get(`/teacher/schedules/${day}`);
     return res.data?.data ?? [];
   } catch (error) {
     console.error("API Error:", error);

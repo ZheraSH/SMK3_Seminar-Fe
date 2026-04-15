@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, CheckCircle, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import api from "@api/index";
+import api from "@api/axios-config";
 
 const loginUser = async ({ email, password }) => {
   try {

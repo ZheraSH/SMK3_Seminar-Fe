@@ -1,35 +1,22 @@
-import axios from "axios";
+import api from "@api/axios-config";
 
 export const getProfile = async () => {
-    const token = localStorage.getItem("token");
-    
     try {
-        const res = await axios.get(
-            "http://127.0.0.1:8000/api/auth/profile",
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: "application/json",
-                },
-            }
-        );
+        const res = await api.get("/auth/profile");
         return res.data?.data ?? [];
-    }catch (error) {
+    } catch (error) {
         console.error("API Error:", error);
         return [];
     }
 }
 
-
-
-export const updatePhoto = async (photoData, token) => {
+export const updatePhoto = async (photoData) => {
     try {
-        const res = await axios.post(
-            "http://127.0.0.1:8000/api/auth/change-photo", 
+        const res = await api.post(
+            "/auth/change-photo", 
             photoData, 
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data' 
                 }
             }
@@ -41,15 +28,13 @@ export const updatePhoto = async (photoData, token) => {
     }
 }
 
-
-export const updateEmail = async (photoData, token) => {
+export const updateEmail = async (emailData) => {
     try {
-        const res = await axios.post(
-            "http://127.0.0.1:8000/api/auth/change-email", 
-            photoData, 
+        const res = await api.post(
+            "/auth/change-email", 
+            emailData, 
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data' 
                 }
             }
@@ -61,17 +46,14 @@ export const updateEmail = async (photoData, token) => {
     }
 }
 
-
-export const updatePassword = async (passwordData, token) => {
+export const updatePassword = async (passwordData) => {
     try {
-        const res = await axios.post(
-            "http://127.0.0.1:8000/api/auth/change-password", 
-            passwordData, // Ini harus berupa object {current_password, new_password, ...}
+        const res = await api.post(
+            "/auth/change-password", 
+            passwordData, 
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
                 }
             }
         );
