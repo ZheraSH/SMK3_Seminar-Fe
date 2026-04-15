@@ -66,7 +66,6 @@ export const ROLE_MENUS = {
     { name: "Beranda", icon: <Home size={20} />, path: "/" },
     { name: "Tentang", icon: <Info size={20} />, path: "/tentang" },
     { name: "Berita", icon: <Newspaper size={20} />, path: "/berita" },
-    { name: "Kontak", icon: <FaPhone size={20} />, path: "/#contact" },
     { name: "Masuk", icon: <LogIn size={20} />, path: "/login" },
   ]
 };

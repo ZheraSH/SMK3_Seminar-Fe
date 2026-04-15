@@ -85,7 +85,6 @@ const LandingPageHome = () => {
                         </button>
                     </div>
 
-                    {/* Hero Image / Blob */}
                     <div className="w-full lg:w-2/5 relative flex justify-center lg:justify-end" data-aos="fade-left">
                         <div className="relative z-10">
                             {/* Blue Blob Background */}
@@ -97,11 +96,10 @@ const LandingPageHome = () => {
                             {/* Main Image Container */}
                             <div className="relative rounded-[50px] overflow-hidden transform lg:rotate-3 hover:rotate-0 transition-all duration-700">
                                 <img 
-                                    src="/images/particle/landing-page-2.png" 
+                                    src="/images/particle/leading-page2.png" 
                                     alt="Student Representation"
                                     className="w-full max-w-[450px] object-cover"
                                 />
-                                <div className="absolute inset-0 bg-blue-900/10 pointer-events-none" />
                             </div>
                         </div>
                     </div>
@@ -152,9 +150,9 @@ const LandingPageHome = () => {
                     {/* Content Column */}
                     <div data-aos="fade-left">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E3A8A] mb-4">
-                            Apa itu <span className="text-[#3B82F6]">SEMINAR?</span>
+                            Apa itu <span className="text-[#1E3A8A]">SEMINAR?</span>
                         </h2>
-                        <div className="h-1.5 w-24 bg-blue-500 rounded-full mb-8" />
+                        <div className="h-1.5 w-20 bg-blue-500 rounded-full mb-8" />
                         
                         <p className="text-gray-600 text-lg md:text-xl leading-relaxed mb-12">
                             SEMINAR adalah sistem manajemen informasi sekolah yang mengintegrasikan data nilai, absensi, dan kegiatan siswa secara real-time dan terpusat, memudahkan guru, siswa, serta admin dalam memantau aktivitas akademik.
@@ -233,7 +231,7 @@ const LandingPageHome = () => {
                 <div className="container mx-auto px-6 lg:px-20">
                     <div className="text-center mb-16" data-aos="fade-up">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E3A8A]">
-                            Fitur <span className="text-[#3B82F6] relative">Utama<div className="absolute -bottom-1 left-0 w-full h-1 bg-blue-500 rounded-full" /></span> SEMINAR
+                            Fitur <span className="text-[#1E3A8A] relative">Utama<div className="absolute -bottom-1 left-0 w-50 h-1 bg-blue-500 rounded-full" /></span> SEMINAR
                         </h2>
                         <p className="mt-6 text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
                             Semua kebutuhan pengelolaan sekolah tersedia dalam satu sistem yang mudah digunakan dan siap mendukung kinerja guru serta siswa.
@@ -306,7 +304,7 @@ const LandingPageHome = () => {
                 <div className="container mx-auto px-6 lg:px-20 relative z-10">
                     <div className="text-center mb-16" data-aos="fade-up">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E3A8A]">
-                            Berita <span className="text-[#3B82F6] relative">Terbaru<div className="absolute -bottom-1 left-0 w-full h-1 bg-blue-500 rounded-full" /></span>
+                            Berita <span className="text-[#1E3A8A] relative">Terbaru<div className="absolute -bottom-1 right-15 w-full h-1 bg-blue-500 rounded-full" /></span>
                         </h2>
                         <p className="mt-4 text-gray-500 text-sm md:text-base">Temukan berita terkini seputar Seminar</p>
                     </div>
@@ -443,7 +441,7 @@ const LandingPageHome = () => {
                             </div>
                         </div>
                         <h2 className="text-3xl md:text-5xl font-extrabold text-[#1E3A8A] mb-6">
-                            <span className="relative">Frequently Asked<div className="absolute -bottom-1 left-0 w-full h-1.5 bg-blue-500 rounded-full" /></span> Questions
+                            <span className="relative">Frequently Asked<div className="absolute -bottom-1 left-35 w-full h-1.5 bg-blue-500 rounded-full" /></span> Questions
                         </h2>
                         <p className="text-gray-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
                             Jawaban Terperinci agar Kamu Lebih Mudah Memahami Fitur dan Cara Kerja SEMINAR.

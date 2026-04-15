@@ -43,8 +43,8 @@ export default function AboutLp() {
     ];
 
     const mentor = [
-        { img: "/images/landingPage/about/pakFery3.jpeg", name: "Bapak Mark Lee S.Pd.", role: "Pembimbing TEFA" },
-        { img: "/images/landingPage/about/kakFarah2.jpeg", name: "Bapak Lee Tae-yong S.Pd.", role: "Mentor TEFA" }
+        { img: "/images/landingPage/about/pakFery3.jpeg", name: "Jauhar Shafari, S.Kom", role: "Pembimbing TEFA" },
+        { img: "/images/landingPage/about/kakFarah2.jpeg", name: "Farah Amalia.", role: "Mentor TEFA" }
     ];
 
     return (
