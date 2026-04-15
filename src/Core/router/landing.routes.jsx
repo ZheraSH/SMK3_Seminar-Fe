@@ -3,6 +3,7 @@ import HomeLayout from "../../view/layouts/landingpage/home-layout";
 // import NewsPage from "../../view/pages/landingpage/NewsPage";
 import AboutLp from "@assets/layouts/landingpage/about";
 import Login from "@components/elements/login/main-login";
+import NewsPage from "../../view/layouts/landingpage/news-page";
 
 export const LandingRoutes = [
     {
@@ -17,10 +18,10 @@ export const LandingRoutes = [
                 path: "tentang",
                 element: <AboutLp />,
             },
-            // {
-            //     path: "berita",
-            //     element: <NewsPage />,
-            // },
+            {
+                path: "berita",
+                element: <NewsPage />,
+            },
         ],
     },
     {
