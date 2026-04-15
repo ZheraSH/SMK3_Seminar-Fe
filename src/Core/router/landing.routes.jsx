@@ -1,5 +1,5 @@
 import HomeLayout from "../../view/layouts/landingpage/home-layout";
-// import HomeLandingPage from "../../view/pages/landingpage/HomeLandingPage";
+import LandingPageHome from "../../view/layouts/landingpage/landing-page-home";
 // import NewsPage from "../../view/pages/landingpage/NewsPage";
 import AboutLp from "@assets/layouts/landingpage/about";
 import Login from "@components/elements/login/main-login";
@@ -10,10 +10,10 @@ export const LandingRoutes = [
         path: "/",
         element: <HomeLayout />,
         children: [
-            // {
-            //     index: true,
-            //     element: <HomeLandingPage />,
-            // },
+            {
+                index: true,
+                element: <LandingPageHome />,
+            },
             {
                 path: "tentang",
                 element: <AboutLp />,
