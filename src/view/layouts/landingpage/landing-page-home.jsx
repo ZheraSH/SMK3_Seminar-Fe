@@ -97,7 +97,7 @@ const LandingPageHome = () => {
                             {/* Main Image Container */}
                             <div className="relative rounded-[50px] overflow-hidden transform lg:rotate-3 hover:rotate-0 transition-all duration-700">
                                 <img 
-                                    src="/images/particle/landing-page.png" 
+                                    src="/images/particle/landing-page-2.png" 
                                     alt="Student Representation"
                                     className="w-full max-w-[450px] object-cover"
                                 />
@@ -127,23 +127,23 @@ const LandingPageHome = () => {
                             <div className="absolute w-[60%] h-[120%] bg-blue-400/20 rounded-full blur-2xl rotate-45" />
 
                             {/* Phones Mockup */}
-                            <div className="relative z-10 flex gap-6">
-                                <div className="w-44 h-80 md:w-56 md:h-[450px] bg-[#111827] border-[6px] border-[#374151] rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(30,64,175,0.3)] relative overflow-hidden transform -rotate-6">
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-[#374151] rounded-b-xl" />
+                            <div className="relative z-10 flex gap-3 sm:gap-6">
+                                <div className="w-32 h-60 sm:w-44 sm:h-80 md:w-56 md:h-[450px] bg-[#111827] border-[4px] sm:border-[6px] border-[#374151] rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(30,64,175,0.3)] relative overflow-hidden transform -rotate-6">
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 sm:w-20 h-4 sm:h-5 bg-[#374151] rounded-b-lg sm:rounded-b-xl" />
                                 </div>
-                                <div className="w-44 h-80 md:w-56 md:h-[450px] bg-[#111827] border-[6px] border-[#374151] rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(30,64,175,0.3)] relative overflow-hidden mt-12 transform rotate-6">
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-[#374151] rounded-b-xl" />
+                                <div className="w-32 h-60 sm:w-44 sm:h-80 md:w-56 md:h-[450px] bg-[#111827] border-[4px] sm:border-[6px] border-[#374151] rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(30,64,175,0.3)] relative overflow-hidden mt-8 sm:mt-12 transform rotate-6">
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 sm:w-20 h-4 sm:h-5 bg-[#374151] rounded-b-lg sm:rounded-b-xl" />
                                 </div>
                                 
                                 {/* Floating Card Detail */}
                                 <motion.div 
                                     animate={{ y: [0, -15, 0] }}
                                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="absolute right-0 bottom-1/4 translate-x-1/4 w-40 h-24 bg-white border border-gray-100 rounded-2xl shadow-2xl p-4 flex flex-col justify-center gap-2 z-20"
+                                    className="absolute right-0 bottom-1/4 translate-x-1/4 w-32 sm:w-40 h-20 sm:h-24 bg-white border border-gray-100 rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-4 flex flex-col justify-center gap-2 z-20"
                                 >
                                     <div className="h-2 w-full bg-blue-100 rounded" />
                                     <div className="h-2 w-3/4 bg-blue-100 rounded" />
-                                    <div className="h-6 w-12 bg-blue-500 rounded-lg mt-1" />
+                                    <div className="h-5 sm:h-6 w-10 sm:w-12 bg-blue-500 rounded-lg mt-1" />
                                 </motion.div>
                             </div>
                         </div>
