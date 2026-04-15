@@ -1,14 +1,14 @@
 import ProtectedRoute from "./protected-route";
-import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/teaching-schedule";
-import AttendanceTeacher from "../../view/pages/teacher/attendance/main-attendance";
-import MainMonitoringAbsen from "../../view/pages/bk/monitoring-absen/main-attendance-monitoring";
-import VerifikasiIzin from "../../view/pages/bk/verifikasi/main-verify-permission";
-import StatistikGlobal from "../../view/pages/bk/statistik-global/statistik-global";
-import VerifyPermission from "../../view/pages/bk/verifikasi/main-verify-permission";
-import ProfileUser from "../../view/components/elements/profile/profile-user";
-import BodyDashboardMultiRole from "../../view/pages/multi-role/body-dashboard";
-import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/attendance-recap";
-import { DashboardLayout } from "../../view/layouts/dashboard-layout";
+import TeacherSchedule from "@pages/teacher/teaching-schedule/teaching-schedule";
+import AttendanceTeacher from "@pages/teacher/attendance/main-attendance";
+import MainMonitoringAbsen from "@pages/bk/monitoring-absen/main-attendance-monitoring";
+import VerifikasiIzin from "@pages/bk/verifikasi/main-verify-permission";
+import StatistikGlobal from "@pages/bk/statistik-global/statistik-global";
+import VerifyPermission from "@pages/bk/verifikasi/main-verify-permission";
+import ProfileUser from "@elements/profile/profile-user";
+import BodyDashboardMultiRole from "@pages/multi-role/body-dashboard";
+import ClassRecapHomeRoom from "@pages/homeroom-teacher/attendance-recap/attendance-recap";
+import { DashboardLayout } from "@assets/layouts/dashboard-layout";
 
 export const MultiRoleRoutes = [
   {

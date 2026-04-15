@@ -1,8 +1,8 @@
 import HomeLayout from "../../view/layouts/landingpage/home-layout";
 // import HomeLandingPage from "../../view/pages/landingpage/HomeLandingPage";
 // import NewsPage from "../../view/pages/landingpage/NewsPage";
-import AboutLp from "../../view/layouts/landingpage/about";
-import Login from "../../view/components/elements/login/main-login";
+import AboutLp from "@assets/layouts/landingpage/about";
+import Login from "@components/elements/login/main-login";
 
 export const LandingRoutes = [
     {

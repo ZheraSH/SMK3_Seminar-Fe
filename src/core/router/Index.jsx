@@ -7,7 +7,7 @@ import { bkRoutes } from "./bk.routes";
 import { EmployeeProfileRoute } from "./employee-profile.route";
 import { MultiRoleRoutes } from "./multi-role.route";
 import { LandingRoutes } from "./landing.routes";
-import NotFound from "../../view/pages/not-found";
+import NotFound from "@/view/pages/not-found";
 
 export const router = createBrowserRouter([
     ...LandingRoutes,

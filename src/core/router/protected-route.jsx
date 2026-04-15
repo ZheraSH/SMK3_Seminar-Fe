@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import NotFound from "../../view/pages/not-found";
+import NotFound from "@pages/not-found";
 
 export default function ProtectedRoute({ allowedRoles = [] }) {
   const token = localStorage.getItem("token");

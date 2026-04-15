@@ -1,9 +1,9 @@
-import AttendanceTeacher from "../../view/pages/teacher/attendance/main-attendance";
+import AttendanceTeacher from "@pages/teacher/attendance/main-attendance";
 import ProtectedRoute from "./protected-route";
-import TeacherSchedule from "../../view/pages/teacher/teaching-schedule/teaching-schedule";
-import BodyDashboardTeacher from "../../view/pages/teacher/home/body-dashboard-teacher";
-import ProfileUser from "../../view/components/elements/profile/profile-user";
-import { DashboardLayout } from "../../view/layouts/dashboard-layout";
+import TeacherSchedule from "@pages/teacher/teaching-schedule/teaching-schedule";
+import BodyDashboardTeacher from "@pages/teacher/home/body-dashboard-teacher";
+import ProfileUser from "@elements/profile/profile-user";
+import { DashboardLayout } from "@assets/layouts/dashboard-layout";
 
 export const TeacherRoutes = [
     {

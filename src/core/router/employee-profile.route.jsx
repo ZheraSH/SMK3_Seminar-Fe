@@ -1,5 +1,5 @@
 
-import ProfileUser from "../../view/components/elements/profile/profile-user";
+import ProfileUser from "@components/elements/profile/profile-user";
 import ProtectedRoute from "./protected-route";
 
 export const EmployeeProfileRoute = [
