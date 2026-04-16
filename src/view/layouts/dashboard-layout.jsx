@@ -45,7 +45,7 @@ export const DashboardLayout = () => {
             const pathSegments = menu.path.split('/');
             const lastSegment = pathSegments[pathSegments.length - 1];
 
-            if (lastSegment === "home" || lastSegment === "teacher-home" || lastSegment === "bk-home") {
+            if (lastSegment === "home" || lastSegment === "teacher-home" || lastSegment === "bk-home" || lastSegment === "homeroom-home") {
               return { ...menu, path: "/dashboard" };
             }
             return { ...menu, path: `/dashboard/${lastSegment}` };
