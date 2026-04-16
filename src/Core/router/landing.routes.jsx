@@ -4,6 +4,7 @@ import LandingPageHome from "../../view/layouts/landingpage/landing-page-home";
 import AboutLp from "@assets/layouts/landingpage/about";
 import Login from "@components/elements/login/main-login";
 import NewsPage from "../../view/layouts/landingpage/news-page";
+import GaleryPage from "../../view/layouts/landingpage/galery-page";
 
 export const LandingRoutes = [
     {
@@ -21,6 +22,10 @@ export const LandingRoutes = [
             {
                 path: "berita",
                 element: <NewsPage />,
+            },
+            {
+                path: "galery",
+                element: <GaleryPage />,
             },
         ],
     },
