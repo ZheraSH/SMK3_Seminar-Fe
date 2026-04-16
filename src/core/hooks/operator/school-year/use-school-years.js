@@ -13,7 +13,6 @@ export default function useSchoolYears() {
         try {
             setLoading(true);
             const result = await getSchoolYears(page, search);
-            console.log("Data terbaru dari server:", result.data);
             setSchoolYears(result.data);
             if (result.pagination || result.meta) {
                 const pagin = result.pagination || result.meta;
