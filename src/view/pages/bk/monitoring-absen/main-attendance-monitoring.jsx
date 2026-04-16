@@ -1,35 +1,32 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import {
-  AlertTriangle,
-  ChevronLeft,
-  ChevronRight,
-  CircleCheckBig,
-  ClockAlert,
-  ClipboardCheck
-} from 'lucide-react'
+import { AlertTriangle, ChevronLeft, ChevronRight, CircleCheckBig, ClockAlert, ClipboardCheck} from 'lucide-react'
 import Header from '@elements/header/Header-new'
 import LoadingData from '@elements/loading-data/loading'
 import { getAbsenteeismMonitoring } from '@/core/api/role-bk/monitoring/absenteeism-monitoring'
+import Pagination from './components/pagination'
 
 export default function AttendanceDashboard() {
   const [data, setData] = useState([])
-  const [summary, setSummary] = useState({
-    hadir: 0,
-    telat: 0,
-    izin: 0,
-    alpha: 0
-  })
+  const [summary, setSummary] = useState({ hadir: 0, telat: 0, izin: 0, alpha: 0})
   const [loading, setLoading] = useState(true)
+
+  // State untuk Pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const [lastPage, setLastPage] = useState(1)
 
   useEffect(() => {
     const fetchMonitoring = async () => {
       setLoading(true)
       try {
-        const result = await getAbsenteeismMonitoring()
+        const result = await getAbsenteeismMonitoring({ page: currentPage })
 
         const students = result?.students || []
+        const pagination = result?.pagination || {}
+        
+        console.log("Students data fetched:", students)
+        console.log("Pagination data fetched:", pagination)
 
         const summaryResult = students.reduce(
           (acc, cur) => {
@@ -42,6 +39,7 @@ export default function AttendanceDashboard() {
         )
         setData(students)
         setSummary(summaryResult)
+        setLastPage(pagination.last_page || 1)
       } catch (err) {
         console.error('Fetch monitoring-global gagal:', err)
       } finally {
@@ -50,18 +48,14 @@ export default function AttendanceDashboard() {
     }
 
     fetchMonitoring()
-  }, [])
+  }, [currentPage])
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className='hidden md:block'>
         {loading ? (<LoadingData loading={loading} type='header1' />)
           : (
-            <Header
-              span="Monitoring Kehadiran Siswa"
-              p="Lihat perkembangan presensi siswa secara real-time"
-              src="/images/particle/particle12.png"
-            />
+            <Header span="Monitoring Kehadiran Siswa" p="Lihat perkembangan presensi siswa secara real-time" src="/images/particle/particle12.png"/>
           )}
 
       </div>
@@ -189,15 +183,7 @@ export default function AttendanceDashboard() {
               </div>
 
               {data.length > 0 && (
-                <div className="flex justify-center gap-2 mt-6">
-                  <button className="p-2">
-                    <ChevronLeft />
-                  </button>
-                  <button className="w-8 h-8 bg-blue-500 text-white rounded">1</button>
-                  <button className="p-2">
-                    <ChevronRight />
-                  </button>
-                </div>
+                <Pagination  currentPage={currentPage} totalPages={lastPage} onPageChange={(page) => setCurrentPage(page)}/>
               )}
             </>
           )}
