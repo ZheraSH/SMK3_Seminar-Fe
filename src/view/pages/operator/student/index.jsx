@@ -60,8 +60,8 @@ export default function StudentPage() {
     }
   };
 
-  const loadStudentsData = async () => {
-    setLoading(true);
+  const loadStudentsData = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const res = await fetchStudents(page, searchTerm);
       setStudents(res.data || []);
@@ -70,14 +70,18 @@ export default function StudentPage() {
       console.error(err);
       setStudents([]);
     } finally {
-      setTimeout(() => {
+      if (showLoading) {
+        setTimeout(() => {
+          setLoading(false);
+        }, 800);
+      } else {
         setLoading(false);
-      }, 800);
+      }
     }
   };
 
   useEffect(() => {
-    loadStudentsData();
+    loadStudentsData(searchTerm === "");
   }, [page, searchTerm]);
 
   useEffect(() => {

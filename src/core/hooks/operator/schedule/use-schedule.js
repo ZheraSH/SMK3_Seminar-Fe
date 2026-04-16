@@ -25,9 +25,9 @@ export default function useSchedule({ initialMajor = "" }) {
     const [activeTab, setActiveTab] = useState("kelas");
     const [selectedClassroomData, setSelectedClassroomData] = useState(null);
 
-    const fetchSchedule = async (pageNumber = page, currentFilters = filters, currentSearchText = searchText) => {
+    const fetchSchedule = async (pageNumber = page, currentFilters = filters, currentSearchText = searchText, showLoading = true) => {
         try {
-            setLoading(true);
+            if (showLoading) setLoading(true);
 
             const apiParams = {
                 page: pageNumber, search: currentSearchText,
@@ -63,7 +63,7 @@ export default function useSchedule({ initialMajor = "" }) {
 
     const debouncedFetch = useMemo(
         () => debounce((searchQuery) => {
-            fetchSchedule(1, filters, searchQuery);
+            fetchSchedule(1, filters, searchQuery, searchQuery === "");
         }, 500),
         [filters]
     );

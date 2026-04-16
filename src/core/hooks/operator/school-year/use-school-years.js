@@ -9,9 +9,9 @@ export default function useSchoolYears() {
     const [searchQuery, setSearchQuery] = useState("");
     const [pagination, setPagination] = useState({ current_page: 1, last_page: 1, total: 0 });
 
-    const fetchSchoolYears = async (page = 1, search = searchQuery) => {
+    const fetchSchoolYears = async (page = 1, search = searchQuery, showLoading = true) => {
         try {
-            setLoading(true);
+            if (showLoading) setLoading(true);
             const result = await getSchoolYears(page, search);
             setSchoolYears(result.data);
             if (result.pagination || result.meta) {
@@ -31,7 +31,7 @@ export default function useSchoolYears() {
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            fetchSchoolYears(1, searchQuery);
+            fetchSchoolYears(1, searchQuery, searchQuery === "");
         }, 500);
 
         return () => clearTimeout(handler);

@@ -42,7 +42,7 @@ export default function SubjectsPage() {
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      fetchSubjects(1, search);
+      fetchSubjects(1, search, search === "");
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);

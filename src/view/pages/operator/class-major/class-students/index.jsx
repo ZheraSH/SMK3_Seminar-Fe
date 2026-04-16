@@ -38,7 +38,7 @@ const ClassStudentsPage = () => {
 
     useEffect(() => {
         const delaySearch = setTimeout(() => {
-            fetchStudents(1, search);
+            fetchStudents(1, search, search === "");
         }, 500);
 
         return () => clearTimeout(delaySearch);

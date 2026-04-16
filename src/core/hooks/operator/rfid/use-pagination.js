@@ -11,8 +11,8 @@ export function useRfid() {
   const [search, setSearch] = useState("");
   const [refresh, setRefresh] = useState(0);
 
-  const load = async () => {
-    setLoading(true);
+  const load = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const res = await fetchRfid(page, search);
       setRfid(res.data);
@@ -24,7 +24,7 @@ export function useRfid() {
   };
 
   useEffect(() => {
-    load();
+    load(search === "");
   }, [page, search, refresh]);
 
   return {

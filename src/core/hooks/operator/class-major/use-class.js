@@ -24,9 +24,9 @@ export default function useClasses({ initialMajor = "" }) {
     const [filters, setFilters] = useState({ major: initialMajor, school_year: "", level_class: "", });
     const [total, setTotal] = useState(0);
 
-    const fetchClass = async (pageNumber, currentFilters, currentSearchText) => {
+    const fetchClass = async (pageNumber, currentFilters, currentSearchText, showLoading = true) => {
         try {
-            setLoading(true);
+            if (showLoading) setLoading(true);
             const apiParams = {
                 page: pageNumber, search: currentSearchText,
                 ...Object.fromEntries(
@@ -63,7 +63,7 @@ export default function useClasses({ initialMajor = "" }) {
 
     const debouncedFetch = useMemo(
         () => debounce((searchQuery) => {
-            fetchClass(1, filters, searchQuery);
+            fetchClass(1, filters, searchQuery, searchQuery === "");
         }, 500),
         [filters]
     );

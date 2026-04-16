@@ -10,9 +10,9 @@ export default function useSubjects() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  const fetchSubjects = async (pageNumber = 1, searchTerm = "") => {
+  const fetchSubjects = async (pageNumber = 1, searchTerm = "", showLoading = true) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       const res = await getSubjects(pageNumber, searchTerm);
 
       if (res && res.status === true) {

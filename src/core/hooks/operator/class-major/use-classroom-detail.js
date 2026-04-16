@@ -35,10 +35,10 @@ export default function useClassroomDetail(classroomId) {
         }
     }, [classroomId]);
 
-    const fetchStudents = useCallback(async (page = 1, search = "") => {
+    const fetchStudents = useCallback(async (page = 1, search = "", showLoading = true) => {
         if (!classroomId) return;
         try {
-            setStudentsLoading(true);
+            if (showLoading) setStudentsLoading(true);
 
             const res = await getClassroomStudents(classroomId, page, ITEMS_PER_PAGE, search);
             const fetchedStudents = res.data || [];

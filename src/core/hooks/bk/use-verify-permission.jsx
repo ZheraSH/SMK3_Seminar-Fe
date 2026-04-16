@@ -29,7 +29,7 @@ export function useVerifyPermissionData(fetchApi) {
     useEffect(() => {
         if (permissions.length > 0) {
             setAllAvailableClasses(prevMap => {
-                const newMap = new Map(prevMap); 
+                const newMap = new Map(prevMap);
                 permissions.forEach(p => {
                     if (p.classroom && p.classroom.name) {
                         newMap.set(p.classroom.name, p.classroom);
@@ -42,7 +42,7 @@ export function useVerifyPermissionData(fetchApi) {
 
     const classOptions = useMemo(() => {
         const options = [{ label: "Semua Kelas", value: ALL_CLASSES_VALUE }];
-        
+
         Array.from(allAvailableClasses.values()).forEach(cls => {
             options.push({
                 label: cls.name,
@@ -58,7 +58,7 @@ export function useVerifyPermissionData(fetchApi) {
     }, [lastPage]);
 
     const refetchData = useCallback(() => setRefreshTrigger(prev => prev + 1), []);
-    
+
     const handleSearchChange = useCallback((query) => {
         setSearchQuery(query);
     }, []);
@@ -80,10 +80,11 @@ export function useVerifyPermissionData(fetchApi) {
 
     useEffect(() => {
         const fetchPermissions = async () => {
-            setLoading(true);
+            const isSearching = debouncedSearch !== "";
+            if (!isSearching) setLoading(true);
             setError(null);
             try {
-                const response = await fetchApi(currentPage, debouncedSearch, selectedClassId,selectedType,selectedStatus);
+                const response = await fetchApi(currentPage, debouncedSearch, selectedClassId, selectedType, selectedStatus);
 
                 if (!response || !response.data) {
                     setPermissions([]);
@@ -103,7 +104,7 @@ export function useVerifyPermissionData(fetchApi) {
             }
         };
         fetchPermissions();
-    }, [currentPage, fetchApi, refreshTrigger, debouncedSearch, selectedClassId,selectedType,selectedStatus]);
+    }, [currentPage, fetchApi, refreshTrigger, debouncedSearch, selectedClassId, selectedType, selectedStatus]);
 
     return {
         permissions,
@@ -119,7 +120,7 @@ export function useVerifyPermissionData(fetchApi) {
         handleSearchChange,
         selectedClassId,
         handleClassSelect,
-        options: { classes: classOptions } ,
+        options: { classes: classOptions },
         selectedType,
         handleTypeSelect,
         selectedStatus,
