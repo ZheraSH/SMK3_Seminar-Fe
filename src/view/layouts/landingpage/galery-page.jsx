@@ -27,25 +27,25 @@ const GalleryPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   const journeySteps = [
-    { id: 1, tahap: "Tahap 1", title: "Ide dan Konsep Awal", desc: "ide pengembangan TEFA “Seminar” bermula dari kebutuhan sekolah yang mampu menyatukan berbagai data dalam satu platform yang rapi dan mudah dipantau. Sehingga membangun sebuah sistem informasi sekolah yang modern, terintegrasi, dan real time.", image: "/images/landingPage/galery/image1.jpg" },
-    { id: 2, tahap: "Tahap 2", title: "Perancangan dan Pembentukan", desc: "Proses desain UI/UX TEFA “Seminar” dimulai dengan memahami kebutuhan pengguna seperti guru, siswa, dan admin. Kemudian menjadi konsep tampilan yang sederhana, efisien, dan mudah dipahami.", image: "/images/landingPage/galery/image2.jpg" },
-    { id: 3, tahap: "Tahap 3", title: "Pengembangan Sistem", desc: "Pengembangan sistem TEFA “Seminar” dimulai dengan merancang dan mampu menangani kebutuhan integrasi data sekolah. Struktur sistem dirancang agar seluruh informasi nilai, absensi, dan kegiatan siswa dapat diolah secara terpusat dan real-time.", image: "/images/landingPage/galery/image3.jpg" },
-    { id: 4, tahap: "Tahap 4", title: "Pelaksanaan Uji Coba Awal", desc: "Tahap uji coba dimulai dengan mengimplementasikan sistem TEFA “Seminar”. Tujuannya adalah memastikan semua fungsi berjalan sesuai kebutuhan sebelum di luncurkan.", image: "/images/landingPage/galery/image2.jpg" },
-    { id: 5, tahap: "Tahap 5", title: "Perbaikan Serta Penyempurnaan Fitur", desc: "Proses perbaikan dimulai setelah seluruh hasil uji coba dari guru, siswa, serta admin dianalisis secara menyeluruh. Setiap kendala mulai dari tampilan, alur penggunaan, hingga performa sistem di identifikasi untuk menjadi dasar penyempurnaan fitur.", image: "/images/landingPage/galery/image2.jpg" },
-    { id: 6, tahap: "Tahap 6", title: "Peluncuran Versi Pertama", desc: "Setelah melalui rangkaian perencanaan, desain, uji coba, dan penyempurnaan fitur, TEFA “Seminar” akhirnya memasuki fase peluncuran versi pertama. Sistem telah dipastikan stabil, aman, dan siap digunakan oleh seluruh pengguna di lingkungan sekolah.", image: "/images/landingPage/galery/image1.jpg" }
+    { id: 1, tahap: "Tahap 1", title: "Ide dan Konsep Awal", desc: "ide pengembangan TEFA “Seminar” bermula dari kebutuhan sekolah yang mampu menyatukan berbagai data dalam satu platform yang rapi dan mudah dipantau. Sehingga membangun sebuah sistem informasi sekolah yang modern, terintegrasi, dan real time.", image: "/images/landing-page/galery/tahapan/ide.jpeg" },
+    { id: 2, tahap: "Tahap 2", title: "Perancangan dan Pembentukan", desc: "Proses desain UI/UX TEFA “Seminar” dimulai dengan memahami kebutuhan pengguna seperti guru, siswa, dan admin. Kemudian menjadi konsep tampilan yang sederhana, efisien, dan mudah dipahami.", image: "/images/landing-page/galery/tahapan/desain.png" },
+    { id: 3, tahap: "Tahap 3", title: "Pengembangan Sistem", desc: "Pengembangan sistem TEFA “Seminar” dimulai dengan merancang dan mampu menangani kebutuhan integrasi data sekolah. Struktur sistem dirancang agar seluruh informasi nilai, absensi, dan kegiatan siswa dapat diolah secara terpusat dan real-time.", image: "/images/landing-page/galery/tahapan/pengembangan.jpeg" },
+    { id: 4, tahap: "Tahap 4", title: "Pelaksanaan Uji Coba Awal", desc: "Tahap uji coba dimulai dengan mengimplementasikan sistem TEFA “Seminar”. Tujuannya adalah memastikan semua fungsi berjalan sesuai kebutuhan sebelum di luncurkan.", image: "/images/landing-page/galery/tahapan/uji1.jpeg" },
+    { id: 5, tahap: "Tahap 5", title: "Perbaikan Serta Penyempurnaan Fitur", desc: "Proses perbaikan dimulai setelah seluruh hasil uji coba dari guru, siswa, serta admin dianalisis secara menyeluruh. Setiap kendala mulai dari tampilan, alur penggunaan, hingga performa sistem di identifikasi untuk menjadi dasar penyempurnaan fitur.", image: "/images/landing-page/galery/tahapan/perbaikan.png" },
+    { id: 6, tahap: "Tahap 6", title: "Peluncuran Versi Pertama", desc: "Setelah melalui rangkaian perencanaan, desain, uji coba, dan penyempurnaan fitur, TEFA “Seminar” akhirnya memasuki fase peluncuran versi pertama. Sistem telah dipastikan stabil, aman, dan siap digunakan oleh seluruh pengguna di lingkungan sekolah.", image: "/images/landing-page/galery/tahapan/peluncuran.png" }
   ];
 
   const docImages = [
-    { id: 1, url: "/images/team/ega.jpg" },
-    { id: 2, url: "/images/team/fairouz.png" },
-    { id: 3, url: "/images/team/valen.jpg" },
-    { id: 4, url: "/images/team/giat.png" },
-    { id: 5, url: "/images/team/valen.jpg" },
-    { id: 6, url: "/images/team/ega2.png" },
-    { id: 7, url: "/images/team/ega3.jpg" },
-    { id: 8, url: "/images/team/giat.png" },
-    { id: 9, url: "/images/team/fairouz.png" },
-    { id: 10, url: "/images/team/giat.png" },
+    { id: 1, url: "/images/landing-page/galery/perjalanan/img1.png" },
+    { id: 2, url: "/images/landing-page/galery/perjalanan/img2.png" },
+    { id: 3, url: "/images/landing-page/galery/perjalanan/img3.png" },
+    { id: 4, url: "/images/landing-page/galery/perjalanan/img4.png" },
+    { id: 5, url: "/images/landing-page/galery/perjalanan/img5.png" },
+    { id: 6, url: "/images/landing-page/galery/tahapan/desain.png" },
+    { id: 7, url: "/images/landing-page/galery/perjalanan/img8.png" },
+    { id: 8, url: "/images/landing-page/galery/tahapan/ide.jpeg" },
+    { id: 9, url: "/images/landing-page/galery/tahapan/desain.png" },
+    { id: 10, url: "/images/landing-page/galery/perjalanan/img10.png" },
   ];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,9 +56,9 @@ const GalleryPage = () => {
   const currentImages = docImages.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <div className="bg-white min-h-screen text-gray-800">
+    <div className="bg-white min-h-screen text-gray-800 overflow-x-hidden">
       <div className="relative h-[400px] md:h-[500px] lg:h-[585px] w-full flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-center transition-transform duration-500 hover:scale-105" style={{ backgroundImage: `url('/images/landingPage/about/about.png')` }}></div>
+        <div className="absolute inset-0 bg-center transition-transform duration-500 hover:scale-105" style={{ backgroundImage: `url('/images/landing-page/about/about.png')` }}></div>
         <div className="relative z-10 text-center px-4">
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">Gallery</h2>
         </div>
@@ -107,29 +107,28 @@ const GalleryPage = () => {
                   </div>
                 </div>
 
-                {/* Konten Gambar */}
-<div className="flex-1 w-full" data-aos={isEven ? "fade-right" : "fade-left"}>
-  <div className={`aspect-video h-[225px] w-full rounded-3xl overflow-hidden border transition-all duration-500 bg-gray-100 flex items-center justify-center ${
-    isStepActive ? 'border-blue-100 grayscale-0' : 'border-transparent grayscale opacity-30'
-  }`}>
-    {step.image ? (
-      <img 
-        src={step.image} 
-        alt={step.title} 
-        className="w-full h-full object-cover" 
-        onError={(e) => { 
-          e.target.onerror = null; // STOP INFINITE LOOP DI SINI
-          e.target.src = 'https://placehold.co/600x400?text=Gambar+Tidak+Ada'; // Ganti ke layanan lain yang lebih stabil
-        }}
-      />
-    ) : (
-      // Jika step.image memang null dari awal, tampilkan ini saja (lebih aman)
-      <div className="text-gray-400 flex flex-col items-center">
-         <span className="text-sm italic">Dokumentasi Belum Tersedia</span>
-      </div>
-    )}
-  </div>
-</div>
+              <div className="flex-1 w-full" data-aos={isEven ? "fade-right" : "fade-left"}>
+                <div className={`aspect-video h-[225px] w-full rounded-3xl overflow-hidden border transition-all duration-500 bg-gray-100 flex items-center justify-center ${
+                  isStepActive ? 'border-blue-100 grayscale-0' : 'border-transparent grayscale opacity-30'
+                }`}>
+                  {step.image ? (
+                    <img 
+                      src={step.image} 
+                      alt={step.title} 
+                      className="w-full h-full object-cover" 
+                      onError={(e) => { 
+                        e.target.onerror = null; // STOP INFINITE LOOP DI SINI
+                        e.target.src = 'https://placehold.co/600x400?text=Gambar+Tidak+Ada'; // Ganti ke layanan lain yang lebih stabil
+                      }}
+                    />
+                  ) : (
+                    // Jika step.image memang null dari awal, tampilkan ini saja (lebih aman)
+                    <div className="text-gray-400 flex flex-col items-center">
+                      <span className="text-sm italic">Dokumentasi Belum Tersedia</span>
+                    </div>
+                  )}
+                </div>
+              </div>
 
               </div>
             );

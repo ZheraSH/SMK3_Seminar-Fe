@@ -43,19 +43,19 @@ export default function AboutLp() {
     ];
 
     const mentor = [
-        { img: "/images/landingPage/about/pakFery3.jpeg", name: "Jauhar Shafari, S.Kom", role: "Pembimbing TEFA" },
-        { img: "/images/landingPage/about/kakFarah2.jpeg", name: "Farah Amalia.", role: "Mentor TEFA" }
+        { img: "/images/landing-page/about/pak-fery3.jpeg", name: "Jauhar Shafari, S.Kom", role: "Pembimbing TEFA" },
+        { img: "/images/landing-page/about/kak-farah2.jpeg", name: "Farah Amalia.", role: "Mentor TEFA" }
     ];
 
     return (
         <div className="relative min-h-screen flex flex-col font-sans overflow-hidden">
-            <div className="bg-[url('/images/landingPage/about/about.png')] bg-cover bg-center h-[300px] md:h-[585px] flex items-center justify-center text-white ">
+            <div className="bg-[url('/images/landing-page/about/about.png')] bg-cover bg-center h-[300px] md:h-[585px] flex items-center justify-center text-white ">
                 <h1 
                 className="font-bold text-[40px] md:text-[96px] text-center">Tentang Kami</h1>
             </div>
 
             <div className="container mx-auto px-6 py-10 md:py-20 flex flex-col lg:flex-row gap-10 justify-center items-center bg-white">
-                <img data-aos="fade-right" src="/images/landingPage/about/modelAbout.png" alt="model About" className="w-full max-w-[450px] object-contain" />
+                <img data-aos="fade-right" src="/images/landing-page/about/model-about.png" alt="model About" className="w-full max-w-[450px] object-contain" />
                 <div className="lg:ml-8 w-full">
                     <h1 className="text-[28px] md:text-[36px] font-semibold mb-4 text-[#1E3A8A] flex flex-col items-start gap-1">
                         <span>Tentang Kami</span>
@@ -108,7 +108,7 @@ export default function AboutLp() {
                             >
                                 <img 
                                     className="absolute top-[-15px] left-3 w-8 md:w-10 opacity-90" 
-                                    src="/images/landingPage/about/petik.png" 
+                                    src="/images/landing-page/about/petik.png" 
                                     alt="quote" 
                                 />
                                 

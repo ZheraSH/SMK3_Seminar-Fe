@@ -3,19 +3,20 @@ import { Search, Calendar, ChevronRight } from 'lucide-react';
 
 const NEWS_DATA = {
   "Pengumuman": [
-    { id: 1, title: "Pendaftaran SMKN 3 Pamekasan telah di buka!", date: "12 Oktober 2026", img: "/images/landingPage/berita/img2.png" },
-    { id: 2, title: "Lorem Ipsum doremi fa sol lasi do", date: "10 Oktober 2026", img: "/images/landingPage/berita/img3.png" },
-    { id: 3, title: "Lorem Ipsum doremi fa sol lasi do", date: "03 Oktober 2026", img: "/images/landingPage/berita/img2.png" },
+    { id: 1, title: "Pendaftaran SMKN 3 Pamekasan telah di buka!", date: "12 Februari 2026", img: "/images/landing-page/berita/pendaftaran.png" },
+    
   ],
   "Kegiatan": [
-    { id: 4, title: "Lorem Ipsum doremi fa sol lasi do", date: "12 Oktober 2026", img: "/images/landingPage/berita/img1.png" },
-    { id: 5, title: "Lorem Ipsum doremi fa sol lasi do", date: "12 Oktober 2026", img: "/images/landingPage/berita/img3.png" },
+    { id: 2, title: "Wadah Bakat & Prestasi", date: "10 Januari 2026", img: "/images/landing-page/berita/ekskul.png" },
+    
   ],
   "Informasi": [
-    { id: 6, title: "Lorem Ipsum doremi fa sol lasi do", date: "12 Oktober 2026", img: "/images/landingPage/berita/img2.png" },
+    { id: 5, title: "Sekolah Lagi, Berprestasi Lagi", date: "12 Oktober 2026", img: "/images/landing-page/berita/informasi.png" },
+    { id: 5, title: "Vokasi Unggul, Skanetri Bersinar", date: "12 Oktober 2026", img: "/images/landing-page/berita/infotmasi2.png" },
   ],
   "Prestasi": [
-    { id: 7, title: "Lorem Ipsum doremi fa sol lasi do", date: "12 Oktober 2026", img: "/images/landingPage/berita/img3.png" },
+    { id: 6, title: "Prestasi SNBP 2026", date: "31 Maret 2026", img: "/images/landing-page/berita/snbp.png" },
+    { id: 7, title: "Sukses SPAN-PTKIN 2026", date: "07 April 2026", img: "/images/landing-page/berita/prestasi.png" },
   ]
 };
 
@@ -45,7 +46,7 @@ const DoubleScrollNews = () => {
 
   return (
     <div className="bg-white min-h-screen">
-        <div className="relative bg-[url('/images/landingPage/about/about.png')] bg-cover bg-center h-[585px] w-full flex items-center justify-center overflow-hidden">
+        <div className="relative bg-[url('/images/landing-page/about/about.png')] bg-cover bg-center h-[585px] w-full flex items-center justify-center overflow-hidden">
             <div className="relative z-10 text-center">
                 <h2 className="text-6xl md:text-7xl font-bold text-white tracking-tight">Berita</h2>
             </div>
@@ -59,7 +60,7 @@ const DoubleScrollNews = () => {
               </h2>
             </div>
             <div className="bg-gray-300 rounded-[12px] h-[425px] w-full aspect-[16/10] mb-6 shadow-sm">
-                <img  src="/images/landingPage/berita/img1.png"  alt="Seminar Pendidikan" className="w-full h-full rounded-[12px] object-cover"/>
+                <img  src="/images/landing-page/galery/tahapan/peluncuran.png"  alt="Seminar Pendidikan" className="w-full h-full rounded-[12px] object-cover"/>
             </div>
             <div className="flex justify-between items-center mb-4">
               <span className="bg-[#3B82F6] text-white text-[10px] px-4 py-1.5 rounded-full font-bold uppercase">

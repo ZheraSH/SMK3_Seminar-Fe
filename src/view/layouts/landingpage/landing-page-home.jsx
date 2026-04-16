@@ -87,13 +87,9 @@ const LandingPageHome = () => {
 
                     <div className="w-full lg:w-2/5 relative flex justify-center lg:justify-end" data-aos="fade-left">
                         <div className="relative z-10">
-                            {/* Blue Blob Background */}
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-400/20 rounded-full blur-[100px]" />
-                            
-                            {/* Shape Decor */}
                             <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-2xl animate-pulse" />
                             
-                            {/* Main Image Container */}
                             <div className="relative rounded-[50px] overflow-hidden transform lg:rotate-3 hover:rotate-0 transition-all duration-700">
                                 <img 
                                     src="/images/particle/leading-page2.png" 
