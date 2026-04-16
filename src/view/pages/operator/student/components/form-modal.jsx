@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { LoadingSpinner } from "@elements/loading-button/loading";
 
 export function FormModal({
   isOpen,
@@ -13,6 +14,7 @@ export function FormModal({
   religions = [],
   majors,
   levelclasses,
+  isSubmitting,
 }) {
   if (!isOpen) return null;
 
@@ -129,6 +131,11 @@ export function FormModal({
               name="nisn"
               value={post.nisn}
               onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors.nisn && (
               <p className="text-red-500 text-sm mt-1">{errors.nisn[0]}</p>
@@ -199,6 +206,11 @@ export function FormModal({
               name="birth_date"
               value={post.birth_date}
               onChange={onInputChange}
+              max={(() => {
+                const d = new Date();
+                d.setDate(d.getDate() - 1);
+                return d.toISOString().split("T")[0];
+              })()}
             />
             {errors.birth_date && (
               <p className="text-red-500 text-sm mt-1">
@@ -224,6 +236,11 @@ export function FormModal({
               name="number_kk"
               value={post.number_kk}
               onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors.number_kk && (
               <p className="text-red-500 text-sm mt-1">{errors.number_kk[0]}</p>
@@ -242,11 +259,16 @@ export function FormModal({
                 }`}
               placeholder="Masukkan Saudara Ke"
               type="number"
-              min="0"
+              min="1"
               step="1"
               name="count_siblings"
               value={post.count_siblings}
               onChange={onInputChange}
+             onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors.count_siblings && (
               <p className="text-red-500 text-sm mt-1">
@@ -272,6 +294,11 @@ export function FormModal({
               name="number_akta"
               value={post.number_akta}
               onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors.number_akta && (
               <p className="text-red-500 text-sm mt-1">
@@ -292,11 +319,16 @@ export function FormModal({
                 }`}
               placeholder="Masukkan Anak Ke"
               type="number"
-              min="0"
+              min="1"
               step="1"
               name="order_child"
               value={post.order_child}
               onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors.order_child && (
               <p className="text-red-500 text-sm mt-1">
@@ -328,13 +360,19 @@ export function FormModal({
           <div className="col-span-2 flex justify-end mt-4">
             <button
               type="submit"
-              disabled={Object.values(errors).some((err) => err)}
-              className={`ml-3 px-4 py-2 rounded-lg text-white transition ${Object.values(errors).some((err) => err)
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+              disabled={isSubmitting || Object.values(errors).some((err) => err)}
+              className={`bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-medium ${isSubmitting || Object.values(errors).some((err) => err)
+                ? "opacity-50 cursor-not-allowed"
+                : ""
                 }`}
             >
-              {editingId ? "Update" : "Tambah"}
+              {isSubmitting ? (
+                <LoadingSpinner />
+              ) : editingId ? (
+                "Update"
+              ) : (
+                "Tambah"
+              )}
             </button>
           </div>
         </form>

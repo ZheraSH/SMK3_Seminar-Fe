@@ -365,10 +365,15 @@ function FormClassStudent({ onClose, user, onUpdate, isUpdating }) {
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-gray-700">NPSN</label>
                 <input
-                  type="text"
+                  type="number"
                   value={form.npsn}
                   onChange={(e) => setForm({ ...form, npsn: e.target.value })}
                   className={inputStyle("npsn")}
+                  onKeyDown={(e) => {
+                    if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E"  || e.key === "_"  || e.key === "="  || e.key === "/") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 {localError.npsn && <p className="text-red-500 text-[11px] mt-1 ml-1">* {localError.npsn}</p>}
               </div>

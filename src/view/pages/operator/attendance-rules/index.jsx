@@ -2,6 +2,7 @@
 import { Save, ArrowRight } from "lucide-react";
 import useAttendanceRules from "@/core/hooks/operator/attendance-rules/use-attendance-rules";
 import LoadingData from "@elements/loading-data/loading";
+import { LoadingSpinner } from "@elements/loading-button/loading";
 
 export default function AttendanceRulesPage() {
   const {
@@ -218,13 +219,17 @@ export default function AttendanceRulesPage() {
                   <button
                     onClick={handleSave}
                     disabled={saving || loading}
-                    className={`flex items-center justify-center gap-2 px-8 py-3 rounded-lg font-medium transition-all
+                    className={`bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 px-8 py-3 rounded-lg font-medium transition-all
                         ${saving || loading
-                        ? "bg-gray-400 cursor-not-allowed text-white"
-                        : "bg-blue-600 hover:bg-blue-700 text-white shadow-md active:scale-95"}`}
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""}`}
                   >
-                    <Save className="w-4 h-4" />
-                    {saving ? "Menyimpan..." : "Simpan Perubahan"}
+                    {saving ? <LoadingSpinner /> : (
+                      <>
+                        <Save className="w-4 h-4" />
+                        Simpan Perubahan
+                      </>
+                    )}
                   </button>
                 </div>
               </>

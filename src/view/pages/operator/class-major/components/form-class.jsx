@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import useMasterData from "@/core/hooks/operator/class-major/use-master-data";
 import { getAllClasses } from "@api/role-operator/class-major/class-api";
+import { LoadingSpinner } from "@elements/loading-button/loading";
 
 function Dropdown({ label, value, placeholder, data = [], onChange, error }) {
   const [open, setOpen] = useState(false);
@@ -124,7 +125,11 @@ export default function Form({ onClassAdded, addClass, onError, initialMajorCode
           <label className="block text-gray-700 text-[14px] font-medium ml-1"> No Kelas </label>
           <input type="number"
             min="0"
-            step="1" placeholder="Masukkan No" className={`w-full px-4 py-3 bg-white border ${errors.classNameInput ? "border-red-500" : "border-gray-300"} rounded-xl`} value={classNameInput} onChange={(e) => { setClassNameInput(e.target.value); setErrors({ ...errors, classNameInput: "" }); }} />
+            step="1" placeholder="Masukkan No" className={`w-full px-4 py-3 bg-white border ${errors.classNameInput ? "border-red-500" : "border-gray-300"} rounded-xl`} value={classNameInput} onChange={(e) => { setClassNameInput(e.target.value); setErrors({ ...errors, classNameInput: "" }); }} onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }} />
           {errors.classNameInput && (<p className="text-red-500 text-xs mt-1">{errors.classNameInput}</p>)}
         </div>
 
@@ -135,8 +140,8 @@ export default function Form({ onClassAdded, addClass, onError, initialMajorCode
       </div>
 
       <div className="flex justify-end mt-6">
-        <button type="submit" disabled={isSubmitting} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow">
-          {isSubmitting ? "Menyimpan..." : "Tambah"}
+        <button type="submit" disabled={isSubmitting} className={`px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}>
+          {isSubmitting ? <LoadingSpinner /> : "Tambah"}
         </button>
       </div>
     </form>

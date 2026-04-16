@@ -9,7 +9,6 @@ export const fetchTeachersApi = async (page = 1) => {
       },
     });
 
-    console.log(res.data.data);
 
     return {
       data: res.data.data || [],

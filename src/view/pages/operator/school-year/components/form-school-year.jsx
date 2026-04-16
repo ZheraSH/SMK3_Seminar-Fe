@@ -1,6 +1,7 @@
 import React from 'react';
+import { LoadingSpinner } from "@elements/loading-button/loading";
 
-const AddSchoolYearModal = ({ isOpen, onClose, onConfirm, nextYear }) => {
+const AddSchoolYearModal = ({ isOpen, onClose, onConfirm, nextYear, isSubmitting }) => {
   if (!isOpen) return null;
 
   return (
@@ -25,9 +26,10 @@ const AddSchoolYearModal = ({ isOpen, onClose, onConfirm, nextYear }) => {
             </button>
             <button
               onClick={onConfirm}
-              className="flex-1 py-3 px-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-95"
+              disabled={isSubmitting}
+              className={`flex-1 py-3 px-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-95 ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              Simpan
+              {isSubmitting ? <LoadingSpinner /> : "Simpan"}
             </button>
           </div>
         </div>

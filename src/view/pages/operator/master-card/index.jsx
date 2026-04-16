@@ -5,6 +5,7 @@ import { Plus, Search, X } from "lucide-react";
 import Header from "@elements/header/header-new";
 import LoadingData from "@elements/loading-data/loading";
 import { getMastercards, postMastercard } from "@api/role-operator/mastercard/master-card-api";
+import { LoadingSpinner } from "@elements/loading-button/loading";
 
 export default function MasterCardPage() {
   const [data, setData] = useState([]);
@@ -193,9 +194,9 @@ export default function MasterCardPage() {
                 <button
                   type="submit"
                   disabled={submitLoading}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-[7px] hover:bg-blue-700 disabled:bg-blue-400"
+                  className={`px-4 py-2 bg-blue-600 text-white rounded-[7px] hover:bg-blue-700 disabled:bg-blue-400 ${submitLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
-                  {submitLoading ? "Menyimpan..." : "+ Tambah"}
+                  {submitLoading ? <LoadingSpinner /> : "+ Tambah"}
                 </button>
               </div>
             </form>

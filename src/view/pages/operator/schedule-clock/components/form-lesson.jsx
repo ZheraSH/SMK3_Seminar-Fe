@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Loader2, AlertTriangle, ChevronRight, BookOpen, Coffee } from 'lucide-react';
+import { LoadingSpinner } from "@elements/loading-button/loading";
 
 const ErrorModal = ({ show, title, message, onClose }) => {
     if (!show) return null;
@@ -147,7 +148,11 @@ function AddLessonHourModal({ isVisible, onClose, activeDay, addLesson, activeDa
                         <div className="flex gap-4">
                             <div className="flex-1">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Jam Mulai</label>
-                                <input type="text" name="start_time" value={formData.start_time} onChange={handleChange} placeholder="07.00" className={getInputClass('start_time')} disabled={isSubmitting} />
+                                <input type="text" name="start_time" value={formData.start_time} onChange={handleChange} placeholder="07.00" className={getInputClass('start_time')} disabled={isSubmitting} onKeyDown={(e) => {
+                                    if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "," || e.key === "E") {
+                                        e.preventDefault();
+                                    }
+                                }} />
                                 {validationErrors.start_time && (
                                     <p className="mt-1 text-xs text-red-600">{validationErrors.start_time}</p>
                                 )}
@@ -155,7 +160,11 @@ function AddLessonHourModal({ isVisible, onClose, activeDay, addLesson, activeDa
 
                             <div className="flex-1">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Jam Berakhir</label>
-                                <input type="text" name="end_time" value={formData.end_time} onChange={handleChange} placeholder="07.45" className={getInputClass('end_time')} disabled={isSubmitting} />
+                                <input type="text" name="end_time" value={formData.end_time} onChange={handleChange} placeholder="07.45" className={getInputClass('end_time')} disabled={isSubmitting} onKeyDown={(e) => {
+                                    if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "," || e.key === "E") {
+                                        e.preventDefault();
+                                    }
+                                }} />
                                 {validationErrors.end_time && (
                                     <p className="mt-1 text-xs text-red-600">{validationErrors.end_time}</p>
                                 )}
@@ -200,9 +209,9 @@ function AddLessonHourModal({ isVisible, onClose, activeDay, addLesson, activeDa
                     </div>
 
                     <div className="flex justify-end mt-6">
-                        <button type="submit" disabled={isSubmitting} className="px-4 py-2 text-sm font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition disabled:bg-blue-300 flex items-center">
+                        <button type="submit" disabled={isSubmitting} className={`px-4 py-2 text-sm font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition disabled:bg-blue-300 flex items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}>
                             {isSubmitting ? (
-                                <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Menyimpan...</>
+                                <LoadingSpinner />
                             ) : (
                                 isEditMode ? 'Simpan Perubahan' : 'Tambah'
                             )}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
+import { LoadingSpinner } from "../../../../../components/elements/loading-button/loading";
 
 export default function FormStudent({ onClose, availableStudents, addStudents }) {
 
@@ -85,8 +86,8 @@ export default function FormStudent({ onClose, availableStudents, addStudents })
                     )}
                 </div>
                 <div className="text-end">
-                    <button onClick={handleSubmit} disabled={isLoading} className={`px-4 text-white py-2 rounded-lg mt-3 ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3B82F6] hover:bg-blue-700'}`}>
-                    {isLoading ? "Memproses..." : "Tambah"}
+                    <button onClick={handleSubmit} disabled={isLoading} className={`bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-medium ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    {isLoading ? <LoadingSpinner /> : "Tambah"}
                     </button>
                 </div>
             </div>

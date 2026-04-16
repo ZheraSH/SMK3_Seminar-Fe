@@ -51,6 +51,7 @@ export default function TeachersPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [category, setCategory] = useState({
     type: "",
@@ -132,7 +133,9 @@ export default function TeachersPage() {
       return;
     }
 
+    setIsSubmitting(true);
     const result = await submitTeacherApi(editingId, post);
+    setIsSubmitting(false);
     if (!result.success) {
       setErrors(result.errors || {});
       return;
@@ -277,6 +280,7 @@ export default function TeachersPage() {
         editingId={editingId}
         handleInput={handleInput}
         handleSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
       />
 
       {loading ?

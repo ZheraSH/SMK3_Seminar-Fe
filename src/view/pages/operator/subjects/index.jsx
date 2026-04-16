@@ -31,6 +31,7 @@ export default function SubjectsPage() {
   const [openModal, setOpenModal] = useState(null);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: null, loading: false });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
 
@@ -49,6 +50,7 @@ export default function SubjectsPage() {
 
   const handleAddSubject = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       await addSubject(newSubject);
       setOpenModal(null);
@@ -58,11 +60,14 @@ export default function SubjectsPage() {
     } catch (err) {
       const message = err.response?.data?.errors?.name?.[0];
       if (message) setErrors({ name: message });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleUpdateSubject = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       if (editSubject.id) {
         await updateSubject(editSubject.id, editSubject.name);
@@ -73,6 +78,8 @@ export default function SubjectsPage() {
     } catch (err) {
       const message = err.response?.data?.errors?.name?.[0];
       if (message) setErrors({ name: message });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -137,6 +144,7 @@ export default function SubjectsPage() {
           onClose={() => setOpenModal(null)}
           onChange={(field, value) => setNewSubject({ ...newSubject, [field]: value })}
           onSubmit={handleAddSubject}
+          isSubmitting={isSubmitting}
         />
 
         <SubjectModal
@@ -148,6 +156,7 @@ export default function SubjectsPage() {
           onClose={() => setOpenModal(null)}
           onChange={(field, value) => setEditSubject({ ...editSubject, [field]: value })}
           onSubmit={handleUpdateSubject}
+          isSubmitting={isSubmitting}
         />
 
         <DeleteConfirmModal

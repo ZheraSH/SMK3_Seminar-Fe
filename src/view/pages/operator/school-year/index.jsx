@@ -13,6 +13,7 @@ const SchoolYearPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmModal, setConfirmModal] = useState({ show: false, id: null, name: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dropdownRef = useRef(null);
 
@@ -52,11 +53,14 @@ const SchoolYearPage = () => {
 
   const handleAddNewYear = async () => {
     const nextYear = getNextYear();
+    setIsSubmitting(true);
     try {
       await addSchoolYear({ name: nextYear, active: false });
       setIsModalOpen(false);
     } catch (err) {
       console.error("Gagal menambah tahun ajaran", err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -156,7 +160,7 @@ const SchoolYearPage = () => {
         </div>
       )}
 
-      <AddSchoolYearModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleAddNewYear} nextYear={getNextYear()} />
+      <AddSchoolYearModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleAddNewYear} nextYear={getNextYear()} isSubmitting={isSubmitting} />
       <ModalDelete isOpen={confirmModal.show} onConfirm={handleConfirmDelete} onClose={() => setConfirmModal({ show: false, id: null, name: '' })} isProcessing={isDeleting} />
 
       <div className="flex justify-center items-center mt-12 gap-2 pb-10">

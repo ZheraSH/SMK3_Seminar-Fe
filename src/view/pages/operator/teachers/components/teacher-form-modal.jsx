@@ -1,6 +1,6 @@
 import React from "react";
 import { RoleLabels, RoleEnum } from "../../../../../core/enums/role-enum";
-
+import { LoadingSpinner } from "../../../../components/elements/loading-button/loading";
 export const TeacherForm = ({
   isOpen,
   setIsOpen,
@@ -11,6 +11,7 @@ export const TeacherForm = ({
   editingId,
   handleInput,
   handleSubmit,
+  isSubmitting,
 }) => {
   if (!isOpen) return null;
 
@@ -127,8 +128,8 @@ export const TeacherForm = ({
               name="nik"
               value={post.nik}
               onChange={handleInput}
-              onKeyDown={(e) => {
-                if (e.key === "-" || e.key === "e" || e.key === "+") {
+             onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
                   e.preventDefault();
                 }
               }}
@@ -156,6 +157,11 @@ export const TeacherForm = ({
               name="nip"
               value={post.nip}
               onChange={handleInput}
+               onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors.nip && (
               <p className="text-red-500 text-sm mt-1">{errors.nip[0]}</p>
@@ -198,6 +204,11 @@ export const TeacherForm = ({
               name="birth_date"
               value={post.birth_date}
               onChange={handleInput}
+              max={(() => {
+                const d = new Date();
+                d.setDate(d.getDate() - 1);
+                return d.toISOString().split("T")[0];
+              })()}
             />
             {errors.birth_date && (
               <p className="text-red-500 text-sm mt-1">
@@ -241,11 +252,17 @@ export const TeacherForm = ({
             <input
               className={`border rounded-lg p-2 w-full ${errors.phone_number ? "border-red-500" : "border-gray-300"
                 }`}
-              type="text"
+              type="number"
+              min={0}
               placeholder="Masukkan nomor telepon"
               name="phone_number"
               value={post.phone_number}
               onChange={handleInput}
+             onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors.phone_number && (
               <p className="text-red-500 text-sm mt-1">
@@ -337,9 +354,10 @@ export const TeacherForm = ({
           <div className="col-span-2 flex justify-end mt-4">
             <button
               type="submit"
-              className="ml-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              disabled={isSubmitting}
+              className={`ml-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              {editingId ? "Update" : "Tambah"}
+              {isSubmitting ? <LoadingSpinner /> : (editingId ? "Update" : "Tambah")}
             </button>
           </div>
         </form>

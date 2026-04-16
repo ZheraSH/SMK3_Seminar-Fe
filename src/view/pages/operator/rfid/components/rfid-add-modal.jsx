@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { LoadingSpinner } from "@elements/loading-button/loading";
 import { notify } from "@/core/hooks/notification/notify";
 import {
   addRfid,
@@ -156,9 +157,9 @@ export default function RfidAddModal({
           <button
             onClick={handleAdd}
             disabled={loading}
-            className="bg-blue-500 text-white text-[14px] px-4 py-2 h-[37px] w-[90px] rounded-[10px] hover:bg-blue-700 disabled:bg-blue-300"
+            className={`bg-blue-500 text-white text-[14px] px-4 py-2 h-[37px] rounded-[10px] hover:bg-blue-700 disabled:bg-blue-300 flex items-center justify-center ${loading ? "w-[120px]" : "w-[90px]"}`}
           >
-            {loading ? "..." : "Tambah"}
+            {loading ? <LoadingSpinner /> : "Tambah"}
           </button>
         </div>
       </div>

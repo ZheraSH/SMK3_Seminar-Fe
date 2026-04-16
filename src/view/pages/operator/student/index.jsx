@@ -49,6 +49,7 @@ export default function StudentPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const loadReligionsData = async () => {
     try {
@@ -136,6 +137,7 @@ export default function StudentPage() {
     e.preventDefault();
 
     setErrors({});
+    setIsSubmitting(true);
 
     try {
       const res = await submitStudent(post, editingId);
@@ -168,6 +170,8 @@ export default function StudentPage() {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -288,6 +292,7 @@ export default function StudentPage() {
         editingId={editingId}
         errors={errors}
         religions={religions}
+        isSubmitting={isSubmitting}
       />
 
       {loading ? (<LoadingData loading={loading} type="tableSiswaKaryawan" count={10} />)

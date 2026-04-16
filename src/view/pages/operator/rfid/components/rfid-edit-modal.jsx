@@ -1,12 +1,16 @@
 "use client";
+import { useState } from "react";
 import { X } from "lucide-react";
+import { LoadingSpinner } from "@elements/loading-button/loading";
 import { notify } from "@/core/hooks/notification/notify";
 import { updateRfidStatus } from "../../../../../core/api/role-operator/rfid/rfid-api";
 
 export default function RfidEditModal({ show, selected, onDataChange, onSave, onClose }) {
+  const [loading, setLoading] = useState(false);
   if (!show || !selected) return null;
 
   const handleSave = async () => {
+    setLoading(true);
     try {
       await updateRfidStatus(selected.id, selected.status);
       notify("Data Berhasil Diperbarui");
@@ -14,6 +18,8 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
       onClose?.();
     } catch (err) {
       console.error("Save error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,9 +75,10 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
           </button>
           <button
             onClick={handleSave}
-            className="bg-[#3B82F6] text-white text-[14px] px-4 py-2 h-[37px] w-[90px] rounded-[10px] hover:bg-blue-700"
+            disabled={loading}
+            className={`bg-[#3B82F6] text-white text-[14px] px-4 py-2 h-[37px] rounded-[10px] hover:bg-blue-700 flex items-center justify-center ${loading ? "w-[120px]" : "w-[90px]"}`}
           >
-            Simpan
+            {loading ? <LoadingSpinner /> : "Simpan"}
           </button>
         </div>
 

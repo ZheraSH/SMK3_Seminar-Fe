@@ -2,8 +2,6 @@
 import api from "@api/axios-config";
 
 export const getMastercards = async (params = {}) => {
-    console.log("[API] GET /mastercards", params);
-
     try {
         const res = await api.get("/mastercards", { params });
         return res;
@@ -14,7 +12,6 @@ export const getMastercards = async (params = {}) => {
 };
 
 export const postMastercard = async (payload) => {
-    console.log("[API] POST /mastercards", payload);
 
     try {
         const res = await api.post("/mastercards", payload);

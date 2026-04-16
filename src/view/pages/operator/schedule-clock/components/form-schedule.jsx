@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Loader2, ChevronRight } from 'lucide-react';
+import { LoadingSpinner } from "@elements/loading-button/loading";
 import useMasterSchedule from "@/core/hooks/operator/schedule/use-master-schedule";
 
 const CustomSelect = ({ label, id, name, value, options, onChange, placeholder = "Pilih...", error, disabled, getDisplayLabel }) => {
@@ -218,9 +219,8 @@ function AddScheduleModal({ isOpen, onClose, initialData, activeDayApi, classroo
                         <CustomSelect label="Jam Ke / Penempatan" id="lesson_hour_id" name="lesson_hour_id" value={formData.lesson_hour_id} options={lessons} onChange={handleChange} placeholder="Pilih Jam Ke / Penempatan" error={validationErrors.lesson_hour_id} disabled={isSubmitting} getDisplayLabel={(lesson) => `${lesson.name} (${lesson.start_time} - ${lesson.end_time})`} />
                     </div>
                     <div className="flex justify-end mt-6">
-                        <button type="submit" className="px-5 py-2 text-sm font-semibold rounded-lg text-white bg-[#3B82F6] hover:bg-[#2563EB]  shadow-md flex items-center" disabled={isSubmitting}>
-                            {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                            {submitButtonLabel}
+                        <button type="submit" className={`px-5 py-2 text-sm font-semibold rounded-lg text-white bg-[#3B82F6] hover:bg-[#2563EB] shadow-md flex items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`} disabled={isSubmitting}>
+                            {isSubmitting ? <LoadingSpinner /> : submitButtonLabel}
                         </button>
                     </div>
                 </form>
