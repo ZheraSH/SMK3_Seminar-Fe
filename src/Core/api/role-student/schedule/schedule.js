@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axios-config";
 
 export async function fetchStudentSchedule(day) {
   if (!day) throw new Error("day wajib diisi");
@@ -12,3 +12,6 @@ export async function fetchStudentSchedule(day) {
   );
   return res.data.data;
 }
+
+
+

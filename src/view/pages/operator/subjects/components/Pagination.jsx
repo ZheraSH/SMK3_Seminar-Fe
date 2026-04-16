@@ -1,57 +1,36 @@
 "use client";
 const MAX_VISIBLE_PAGES = 3;
 
-export function Pagination({
-  currentPage,
-  totalPages,
-  onPageClick 
-}) {
-  const page = currentPage;
-  const lastPage = totalPages;
-  const onPageChange = onPageClick;
+export function Pagination({ currentPage, totalPages, onPrevious, onNext, onPageClick }) {
+  const renderPages = () => {
+    const pages = [];
 
-  if (!lastPage || lastPage <= 1) {
-    return null;
-  }
+    pages.push(1);
 
-  let startPage, endPage;
-
-  if (lastPage <= MAX_VISIBLE_PAGES) {
-    startPage = 1;
-    endPage = lastPage;
-  } else {
-    const half = Math.floor(MAX_VISIBLE_PAGES / 2); // 1
-
-    startPage = page - half;
-    endPage = page + half;
-
-    if (startPage < 1) {
-      startPage = 1;
-      endPage = MAX_VISIBLE_PAGES;
+    if (currentPage > 3) {
+      pages.push("...");
     }
 
-    else if (endPage > lastPage) {
-      endPage = lastPage;
-      startPage = lastPage - MAX_VISIBLE_PAGES + 1;
+    for (
+      let p = Math.max(2, currentPage - 1);
+      p <= Math.min(totalPages - 1, currentPage + 1);
+      p++
+    ) {
+      if (!pages.includes(p)) {
+        pages.push(p);
+      }
     }
-  }
 
-  const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+    if (currentPage < totalPages - 2) {
+      pages.push("...");
+    }
 
-  const PageButton = ({ p, active }) => (
-    <button
-      onClick={() => onPageChange(p)}
-      className={`w-8 h-8 rounded-lg flex items-center justify-center transition text-sm
-              ${active
-          ? "bg-blue-600 text-white font-semibold shadow-md"
-          : "text-blue-600 hover:bg-blue-100 "
-        }`}
-    >
-      {p}
-    </button>
-  );
+    if (totalPages > 1 && !pages.includes(totalPages)) {
+      pages.push(totalPages);
+    }
 
-  const pages = getPages();
+    return pages;
+  };
 
   return (
     <div className="flex items-center justify-center mt-8 gap-2 select-none">

@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "@api/axios-config";
 
 export const getClassroom = async (params = {}) =>  {
 
@@ -19,3 +19,6 @@ export const getClassroom = async (params = {}) =>  {
         return null;
     }
 }
+
+
+

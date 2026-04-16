@@ -1,33 +1,32 @@
-import MainClassStudent from "../../view/pages/student/Class/MainClass";
-import MainScheduleStudent from "../../view/pages/student/schedule/MainSchedule";
-import PermissionManagement from "../../view/pages/student/permission-management/PermissionManagement";
-import BodyDashboard from "../../view/pages/student/home/BodyDashboardStuent";
-import ProtectedRoute from "./ProtectedRoute";
-import MainDashboard from "../../view/components/elements/MainDashboard";
-import ProfileUser from "../../view/components/elements/profile/ProfileUser";
-import AbsentStudentMain from "../../view/pages/student/absence/AbsenceStudent";
-import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
+import MainClassStudent from "@pages/student/class/main-class";
+import MainScheduleStudent from "@pages/student/schedule/main-schedule";
+import PermissionManagement from "@pages/student/permission-management/permission-management";
+import ProtectedRoute from "./protected-route";
+import MainDashboard from "@elements/main-dashboard";
+import BodyDashboard from "@pages/student/home/body-dashboard-student";
+import ProfileUser from "@elements/profile/profile-user";
+import AbsentStudentMain from "@pages/student/absence/absence-student";
+import { DashboardLayout } from "@assets/layouts/dashboard-layout";
 
-export const StudentRoutes = [
-
-  {
-    path: "/student-home",
-    element: (<ProtectedRoute allowedRoles={["student"]}
-    />),
-    children: [{
-      element: <DashboardLayouth />,
-      children: [
-        { index: true, element: < BodyDashboard /> },
-        { path: "dashboard", element: <MainDashboard /> },
-        { path: "student-class", element: <MainClassStudent /> },
-        { path: "absen-student", element: <AbsentStudentMain /> },
-        { path: "student-schedule", element: <MainScheduleStudent /> },
-        { path: "student-license", element: <PermissionManagement /> },
-        { path: "profile", element: <ProfileUser /> },
-      ]
-
-    }],
-  },
+export const StudentRoutes =[
+   
+    {
+        path: "/student-home",
+            element:(<ProtectedRoute allowedRoles={"student"}
+            />),
+            children: [{
+              element : <LayouthSiswa />,
+              children : [
+                { index: true, element: < BodyDashboard/>  },
+                { path: "dashboard", element: <MainDashboard/> },
+                { path: "student-class", element: <MainClassStudent /> },
+                // { path: "absen-student", element: <AbsentStudentMain /> },
+                { path: "student-schedule", element: <MainScheduleStudent  /> },
+                { path: "student-license", element: <PermissionManagement/> },
+              ]
+        
+            }],
+    },
 
 
 ]

@@ -1,8 +1,8 @@
-import ClassRecapHomeRoom from "../../view/pages/homeroom-teacher/attendance-recap/AttendanceRecap";
-import HomeRoomHome from "../../view/pages/homeroom-teacher/home/MainHomeroomHome";
-import ProtectedRoute from "./ProtectedRoute";
-import ProfileUser from "../../view/components/elements/profile/ProfileUser";
-import { DashboardLayouth } from "../../view/layouts/DashboardLayouth";
+import ClassRecapHomeRoom from "@pages/homeroom-teacher/attendance-recap/attendance-recap";
+import HomeRoomHome from "@pages/homeroom-teacher/home/main-homeroom-home";
+import ProtectedRoute from "./protected-route";
+import ProfileUser from "@components/elements/profile/profile-user";
+import { DashboardLayout } from "@/view/layouts/dashboard-layout";
 
 export const HomeRoomRoute = [
     {
@@ -10,12 +10,13 @@ export const HomeRoomRoute = [
         element: (<ProtectedRoute allowedRoles={["homeroom_teacher", "counselor"]} />),
         children: [
             {
-                element: <DashboardLayouth  />,
-                children: [
-                    { index: true, element: <HomeRoomHome /> },
-                    { path: "home", element: <HomeRoomHome /> },
-                    { path: "class-recap", element: <ClassRecapHomeRoom /> },
-                    { path: "profile", element: <ProfileUser /> }
+                element : <LayouthHomeRoom />,
+                children : [
+                    { index: true, element: <BodyDashboard /> },
+                    // // { path: "dashboard", element: <MainDashboard/> },
+                    // { path: "student-class", element: <MainClassStudent /> },
+                    // { path: "student-schedule", element: <MainScheduleStudent  /> },
+                    { path: "class-recap", element: <ClassRecapHomeRoom/> },
                 ]
             }
         ]

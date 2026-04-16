@@ -1,25 +1,23 @@
-import api from "../../axiosConfig";
+import axios from "axios";
+import api from "@api/axios-config";
 
+const BASE_URL = "http://127.0.0.1:8000";
 
-export async function fetchPendingPermissionsApi(startDate = "", endDate = "") {
-  const res = await api.get(`/student/attendance-permissions/pending`, {
-    params: {
-      start_date: startDate,
-      end_date: endDate
+export async function fetchPermissionsApi(page = 1) {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("User belum login");
+
+  await axios.get(`${BASE_URL}/sanctum/csrf-cookie`, { withCredentials: true });
+  const res = await axios.get(
+    `${BASE_URL}/api/student/attendance-permissions`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      params: { page },
     }
-  });
-  return res.data.data;
-}
+  );
 
-export async function fetchPermissionsApi(page = 1, startDate = "", endDate = "") {
-  const res = await api.get(`/student/attendance-permissions`, {
-    params: {
-      page,
-      start_date: startDate,
-      end_date: endDate
-
-    },
-  });
+  // backend biasanya return { data: [...], meta: { last_page, total, ... } }
+  console.log(res.data.data);
   return res.data;
 }
 
@@ -69,9 +67,4 @@ export async function handleSubmitPermission(formData) {
     }
     throw err;
   }
-}
-
-export async function deletePermissionApi(UuidPermit) {
-  const res = await api.delete(`/student/attendance-permissions/${UuidPermit}`);
-  return { success: true, data: res.data };
 }

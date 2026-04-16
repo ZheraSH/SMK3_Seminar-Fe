@@ -1,9 +1,20 @@
-import api from "../../axiosConfig";
+import api from "@api/axios-config";
+
+export const getAlphaStudents = async () => {
+    const token = localStorage.getItem("token");
 
 export const getAlphaStudents = async () => {
     try {
-        const res = await api.get(`/counselor/dashboard/high-alpha-students`);
-        return res.data.data;
+        const res = await api.get(`/counselor/dashboard/high-alpha-students`,
+            {
+                headers: {
+                    Authorization: token ? `Bearer ${token}` : "",
+                    Accept: "application/json",
+                },
+            }
+        );
+
+        return res.data.data; 
     } catch (err) {
         console.error("Gagal mengambil Dashboard:", err);
     }
@@ -11,11 +22,18 @@ export const getAlphaStudents = async () => {
 
 
 export const getAttendance = async () => {
-    try {
-        const res = await api.get(`/counselor/dashboard/attendance-counts`);
+    try { 
+        const res = await api.get(
+            `/counselor/dashboard/attendance-counts`,
+            {
+                headers: {
+                    Accept: "application/json",
+                },
+            }
+        );
         return res.data.data;
     } catch (err) {
-        console.error("Gagal mengambil data kehadiran:", err);
+        console.error("Gagal mengambil data kehadiran:", err);  
     }
 }
 
@@ -23,9 +41,19 @@ export const getAttendance = async () => {
 export const getAttendancePending = async () => {
 
     try {
-        const res = await api.get(`/counselor/attendance-permissions/pending`);
+        const res = await api.get(
+            `/counselor/attendance-permissions/pending`,
+            {
+                headers: {
+                    Accept: "application/json",
+                },
+            }
+        );
         return res.data.data;
     } catch (err) {
         console.error("Gagal mengambil data pending attendance:", err);
     }
 }
+
+
+

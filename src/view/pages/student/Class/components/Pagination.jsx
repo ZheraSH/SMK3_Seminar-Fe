@@ -73,5 +73,6 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
                 &gt;
             </button>
         </div>
-    )
+  )
 }
+
