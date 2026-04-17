@@ -99,7 +99,7 @@ export const teamData = [
     {
         id: 11,
         name: "Valen Abdillah R.",
-        role: "QA Engineer",
+        role: "Quality Assurance",
         image: "/images/team/valen2.jpg",
         social: { whatsapp: "https://wa.me/6285150679165", github: "#", instagram: "https://www.instagram.com/veevvip?igsh=MXZoN2M4ODBiYmZ6ZA==" }
     },
