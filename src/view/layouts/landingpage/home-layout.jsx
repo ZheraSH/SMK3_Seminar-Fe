@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { ROLE_MENUS } from "../../../Core/data/sidebar-data";
+import { ROLE_MENUS } from "../../../core/mocks/sidebar-data";
 import { FaInstagram, FaGlobe, FaEnvelope, FaPhone, FaHome, FaInfoCircle, FaNewspaper, FaImages, FaSignInAlt } from "react-icons/fa";
 import { HashLink } from "react-router-hash-link";
 import Aos from "aos";
