@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { ROLE_MENUS } from "../../../Core/data/sidebar-data";
-import { FaInstagram, FaFacebook, FaTwitter, FaGlobe, FaEnvelope, FaPhone } from "react-icons/fa";
+import { FaInstagram, FaGlobe, FaEnvelope, FaPhone, FaHome, FaInfoCircle, FaNewspaper, FaImages, FaSignInAlt } from "react-icons/fa";
 import { HashLink } from "react-router-hash-link";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
 const HomeLayout = () => {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const location = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
 
     useEffect(() => {
         Aos.init({});
@@ -20,59 +23,55 @@ const HomeLayout = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Close mobile menu when route changes
-    useEffect(() => {
-        setIsMobileMenuOpen(false);
-    }, [location.pathname]);
-
     const menus = ROLE_MENUS.landing_page || [];
+    const transparentPaths = ["/", "/tentang", "/berita", "/galery"];
+    const navScrolled = isScrolled || !transparentPaths.includes(location.pathname);
 
-    const navScrolled = isScrolled || location.pathname !== "/";
+    // Helper untuk Icon Mobile
+    const getIcon = (name) => {
+        const iconName = name.toLowerCase();
+        if (iconName.includes('beranda') || iconName.includes('home')) return <FaHome className="text-xl" />;
+        if (iconName.includes('tentang')) return <FaInfoCircle className="text-xl" />;
+        if (iconName.includes('berita')) return <FaNewspaper className="text-xl" />;
+        if (iconName.includes('galery') || iconName.includes('galeri')) return <FaImages className="text-xl" />;
+        return <FaHome className="text-xl" />;
+    };
 
     return (
-        <div className="relative min-h-screen flex flex-col font-sans ">
-
-            {/*Jangan di hapus ANJAY simpen bentar*/}
-            {/*bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] fixed top-0 left-0 w-full z-50 */}
-
+        <div className="relative min-h-screen flex flex-col font-sans bg-gray-50">
+            
+            {/* --- NAVBAR DESKTOP --- */}
             <nav
                 className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
                     navScrolled ? "bg-white py-4 shadow-md" : "bg-transparent py-6"
                 }`}
             >
-                <div className="container mx-auto px-6 lg:px-16 flex justify-between items-center relative">
-                    <NavLink to="/" className="flex items-center gap-3 relative z-10">
-                        <img
-                            src="/images/SMKNLOGO1.png"
-                            alt="SMK Negeri 3 Pamekasan"
-                            className="w-[26px] h-[29px] object-contain"
-                        />
-                        <div className="flex flex-col">
-                            <span className={`font-semibold text-[12px] leading-tight transition-colors duration-300 ${navScrolled ? "text-[#1E3A8A]" : "text-white"}`}>
-                                SMK NEGERI 3
+                <div className="container mx-auto px-6 lg:px-16 flex justify-between items-center">
+                    <NavLink to="/" className="flex items-center gap-3">
+                        <img src="/images/SMKNLOGO1.png" alt="Logo" className="w-[26px] h-[29px] object-contain" />
+                        <div className="flex flex-col uppercase">
+                            <span className={`font-bold text-[12px] leading-tight transition-colors ${navScrolled ? "text-[#1E3A8A]" : "text-white"}`}>
+                                SMK Negeri 3
                             </span>
-                            <span className={`font-semibold text-[12px] leading-tight transition-colors duration-300 ${navScrolled ? "text-[#1E3A8A]" : "text-white"}`}>
-                                PAMEKASAN
+                            <span className={`font-bold text-[12px] leading-tight transition-colors ${navScrolled ? "text-[#1E3A8A]" : "text-white"}`}>
+                                Pamekasan
                             </span>
                         </div>
                     </NavLink>
 
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center gap-10">
+                    {/* Menu Desktop */}
+                    <div className="hidden md:flex items-center gap-8">
                         <ul className="flex items-center space-x-8">
                             {menus.filter(m => m.name !== "Masuk").map((menu, index) => (
                                 <li key={index}>
                                     <NavLink
                                         to={menu.path}
                                         className={({ isActive }) => {
-                                            const activeClass = navScrolled
-                                                ? "text-blue-600 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600"
-                                                : "text-white after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-white";
-                                            const inactiveClass = navScrolled
-                                                ? "text-gray-600 hover:text-blue-600"
-                                                : "text-white/80 hover:text-white";
-                                            
-                                            return `text-[14px] font-medium transition-all duration-300 relative py-1 ${isActive ? activeClass : inactiveClass}`;
+                                            const base = "text-[14px] font-medium transition-all relative py-1 ";
+                                            const active = isActive 
+                                                ? (navScrolled ? "text-blue-600 border-b-2 border-blue-600" : "text-white border-b-2 border-white")
+                                                : (navScrolled ? "text-gray-600 hover:text-blue-600" : "text-white/80 hover:text-white");
+                                            return base + active;
                                         }}
                                     >
                                         {menu.name}
@@ -80,140 +79,115 @@ const HomeLayout = () => {
                                 </li>
                             ))}
                         </ul>
-
-                        {menus.find(m => m.name === "Masuk") && (
-                            <NavLink
-                                to={menus.find(m => m.name === "Masuk").path}
-                                className={({ isActive }) =>
-                                    `ml-6 lg:ml-10 px-[20px] py-[8px] rounded-xl font-medium text-[14px] transition-all duration-300 shadow-lg ${isActive
-                                        ? "bg-blue-700 text-white"
-                                        : "bg-[#4285f4] text-white hover:bg-blue-600 hover:scale-105"
-                                    }`
-                                }
-                            >
-                                Masuk
-                            </NavLink>
-                        )}
+                        <NavLink to="/login" className="bg-[#4285f4] text-white px-6 py-2 rounded-xl text-sm font-medium hover:bg-blue-700 transition-all shadow-md">
+                            Masuk
+                        </NavLink>
                     </div>
-
-                    {/* Mobile Menu Toggle */}
-                    <div className="md:hidden relative z-10">
-                        <button 
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className={`focus:outline-none transition-colors duration-300 ${navScrolled || isMobileMenuOpen ? "text-gray-800" : "text-white"}`}
-                        >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                {isMobileMenuOpen ? (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                ) : (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                )}
-                                
-                            </svg>
-                        </button>
-                    </div>
-
-                    {/* Mobile Menu Dropdown */}
-                    {isMobileMenuOpen && (
-                        <div className="absolute top-full left-0 w-full bg-white shadow-xl flex flex-col md:hidden py-4 border-t border-gray-100 z-50">
-                            <ul className="flex flex-col space-y-4 px-6 mb-4">
-                                {menus.filter(m => m.name !== "Masuk").map((menu, index) => (
-                                    <li key={index}>
-                                        <NavLink
-                                            to={menu.path}
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                            className={({ isActive }) =>
-                                                `block text-[15px] font-medium transition-all ${isActive ? "text-blue-600" : "text-gray-600 hover:text-blue-600"}`
-                                            }
-                                        >
-                                            {menu.name}
-                                        </NavLink>
-                                    </li>
-                                ))}
-                            </ul>
-                            
-                            {menus.find(m => m.name === "Masuk") && (
-                                <div className="px-6 border-t border-gray-100 pt-4">
-                                    <NavLink
-                                        to={menus.find(m => m.name === "Masuk").path}
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                        className="block text-center w-full bg-[#4285f4] text-white py-3 rounded-xl font-medium text-[15px] hover:bg-blue-600 transition-all shadow-md"
-                                    >
-                                        Masuk
-                                    </NavLink>
-                                </div>
-                            )}
-                        </div>
-                    )}
                 </div>
             </nav>
 
-            <main className="flex-grow">
+            {/* --- CONTENT --- */}
+            <main className="flex-grow pb-24 md:pb-0"> 
                 <Outlet />
             </main>
 
-            <footer className="bg-[#0B1120] text-gray-400 py-12 px-6 border-t border-gray-800 font-sans">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-15">
+            {/* --- BOTTOM NAVIGATION (Mobile Only) --- */}
+            <div className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 z-[100] px-2 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] rounded-t-2xl">
+                <div className="flex justify-around items-center">
+                    {menus.filter(m => m.name !== "Masuk").map((menu, index) => (
+                        <NavLink
+                            key={index}
+                            to={menu.path}
+                            className={({ isActive }) => 
+                                `flex flex-col items-center justify-center gap-1 transition-all ${
+                                    isActive ? "text-blue-600 scale-105" : "text-gray-400"
+                                }`
+                            }
+                        >
+                            {getIcon(menu.name)}
+                            <span className="text-[10px] font-semibold">{menu.name}</span>
+                        </NavLink>
+                    ))}
+                    
+                    <NavLink
+                        to="/login"
+                        className={({ isActive }) => 
+                            `flex flex-col items-center justify-center gap-1 ${isActive ? "text-blue-600" : "text-gray-400"}`
+                        }
+                    >
+                        <FaSignInAlt className="text-xl" />
+                        <span className="text-[10px] font-semibold">Masuk</span>
+                    </NavLink>
+                </div>
+            </div>
+
+            <footer className=" bg-[#0B1120] text-gray-400 py-12 px-6 border-t border-gray-800 font-sans">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                     <div className="space-y-4">
                         <div className="flex items-start gap-4">
-                            <img
-                                src="/images/SMKNLOGO1.png"
-                                alt="SMK Negeri 3 Pamekasan"
-                                className="w-12 h-14 object-contain"
-                            />
+                            <img src="/images/SMKNLOGO1.png" alt="Logo" className="w-12 h-14 object-contain" />
                             <div>
-                                <h2 className="text-white text-[20px] font-semibold">SEMINAR</h2>
-                                <p className="text-white font-medium text-[14px] mt-1">
-                                    Sistem Management Izin & Absensi Real Time
-                                </p>
+                                <h2 className="text-white text-[20px] font-semibold uppercase">SEMINAR</h2>
+                                <p className="text-white font-medium text-[12px]">Sistem Management Izin & Absensi</p>
                             </div>
                         </div>
-                        <p className="text-[14px] leading-relaxed text-gray-400 mt-4">
+                        <p className="text-[14px] leading-relaxed">
                             Platform manajemen sekolah untuk absensi real-time, nilai, jadwal, dan data siswa terpusat.
                         </p>
-                        <div className="flex gap-4 mt-6">
-                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaInstagram /></a>
-                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaGlobe /></a>
-                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaEnvelope /></a>
-                            <a href="#" className="text-blue-500 hover:text-blue-400 transition text-lg"><FaPhone /></a>
+                        <div className="flex gap-4 mt-6 text-blue-500">
+                            <a href="https://www.instagram.com/smknegeri3pamekasan?igsh=MThmYzFoN29kODEyZA==" 
+                            className="hover:text-blue-400 transition text-lg" target="_blank" rel="noopener noreferrer">
+                                <FaInstagram />
+                            </a>
+                            <a href="https://smkn3pamekasan.sch.id/" className="hover:text-blue-400 transition text-lg" target="_blank" rel="noopener noreferrer">
+                                <FaGlobe />
+                            </a>
+                            <a href="mailto:smkn3pmk@yahoo.com" className="hover:text-blue-400 transition text-lg" target="_blank" rel="noopener noreferrer">
+                                <FaEnvelope />
+                            </a>
+                            <a href="tel:+62324322576" className="hover:text-blue-400 transition text-lg" target="_blank" rel="noopener noreferrer">
+                                <FaPhone />
+                            </a>
                         </div>
                     </div>
 
-                    <div>
-                        <h3 className="text-white font-bold text-[16px] mb-6">Navigation</h3>
-                        <ul className="space-y-3 text-sm">
-                            <li><NavLink to="/" className="hover:text-white transition">Beranda</NavLink></li>
-                            <li><NavLink to="/tentangkami" className="hover:text-white transition">Tentang Kami</NavLink></li>
-                            <li><HashLink smooth to="/#FAQ" className="hover:text-white transition">FAQ</HashLink></li>
-                            <li><HashLink smooth to="/#contact" className="hover:text-white transition">Kontak</HashLink></li>
-                        </ul>
+                    <div className=" hidden md:block">
+                        <h3 className="text-white font-bold text-[15px] mb-4 border-l-4 border-blue-600 pl-3">Visi</h3>
+                        <p className="text-[13px] leading-relaxed text-justify text-gray-300">
+                            Menjadikan SMK Negeri 3 Pamekasan sebagai basis pengembangan keterampilan dan wirausaha berwawasan lingkungan yang dilandasi IMTAK dan IPTEK untuk mengisi kebutuhan pembangunan di era global.
+                        </p>
                     </div>
 
-                    <div>
-                        <h3 className="text-white font-bold text-[16px] mb-6">Support</h3>
-                        <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="hover:text-white transition">Pusat Bantuan</a></li>
-                            <li><a href="#" className="hover:text-white transition">Panduan Pengguna</a></li>
-                            <li><a href="#" className="hover:text-white transition">Cara Mengajukan Izin</a></li>
-                            <li><a href="#" className="hover:text-white transition">Troubleshooting Login</a></li>
-                            <li><a href="#" className="hover:text-white transition">Hubungi Admin</a></li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="text-white font-bold text-[16px] mb-6">Legal</h3>
-                        <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="hover:text-white transition">Kebijakan Privasi</a></li>
-                            <li><a href="#" className="hover:text-white transition">Syarat & Ketentuan</a></li>
-                            <li><a href="#" className="hover:text-white transition">Kebijakan Penggunaan Data</a></li>
-                            <li><a href="#" className="hover:text-white transition">Lisensi & Hak Cipta</a></li>
+                    <div className="hidden md:block lg:col-span-2">
+                        <h3 className="text-white font-bold text-[15px] mb-4 border-l-4 border-blue-600 pl-3">Misi</h3>
+                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-[12px] leading-snug text-gray-300">
+                            <li className="flex items-start gap-2">
+                                <span className="text-blue-500">•</span>
+                                Melayani dan memfasilitasi masyarakat/siswa untuk mengembangkan keterampilan dalam memenuhi kebutuhan pembangunan.
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-blue-500">•</span>
+                                Meningkatkan kualitas sumber daya manusia.
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-blue-500">•</span>
+                                Melaksanakan layanan prima dalam pengelolaan sekolah melalui sistem manajemen mutu ISO 9001-2008.
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-blue-500">•</span>
+                                Meningkatkan mutu sekolah melalui pengembangan sekolah berstandar internasional.
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-blue-500">•</span>
+                                Menciptakan sekolah berwawasan lingkungan, bersih, dan hijau berseri.
+                            </li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="max-w-7xl mx-auto border-t border-gray-800 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left text-xs text-gray-500">
-                    <p>© 2025 SMKN 3 Pamekasan. All Rights Reserved.</p>
-                    <p>Developed by TEFA SMKN 3 Pamekasan</p>
+                <div className="max-w-7xl mx-auto border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-gray-500">
+                    <p>© 2026 SMKN 3 Pamekasan. All Rights Reserved.</p>
+                    <p>Developed by <span className="text-blue-600 font-medium">TEFA PPLG SMKN 3 Pamekasan</span></p>
                 </div>
             </footer>
         </div>
@@ -221,4 +195,3 @@ const HomeLayout = () => {
 };
 
 export default HomeLayout;
-

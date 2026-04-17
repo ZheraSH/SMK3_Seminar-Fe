@@ -40,7 +40,7 @@ const GalleryPage = () => {
     { id: 2, url: "/images/landing-page/galery/perjalanan/img2.png" },
     { id: 3, url: "/images/landing-page/galery/perjalanan/img3.png" },
     { id: 4, url: "/images/landing-page/galery/perjalanan/img4.png" },
-    { id: 5, url: "/images/landing-page/galery/perjalanan/img5.png" },
+    { id: 5, url: "/images/landing-page/galery/perjalanan/img11.png" },
     { id: 6, url: "/images/landing-page/galery/tahapan/desain.png" },
     { id: 7, url: "/images/landing-page/galery/perjalanan/img8.png" },
     { id: 8, url: "/images/landing-page/galery/tahapan/ide.jpeg" },
@@ -58,7 +58,7 @@ const GalleryPage = () => {
   return (
     <div className="bg-white min-h-screen text-gray-800 overflow-x-hidden">
       <div className="relative h-[400px] md:h-[500px] lg:h-[585px] w-full flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-center transition-transform duration-500 hover:scale-105" style={{ backgroundImage: `url('/images/landing-page/about/about.png')` }}></div>
+        <div className="absolute inset-0 bg-center transition-transform " style={{ backgroundImage: `url('/images/landing-page/about/about.png')` }}></div>
         <div className="relative z-10 text-center px-4">
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">Gallery</h2>
         </div>
@@ -88,7 +88,7 @@ const GalleryPage = () => {
               <div key={step.id} className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-0 ${isEven ? 'lg:flex-row-reverse' : ''}`}>
                 
                 <div className="flex-1 w-full" data-aos={isEven ? "fade-left" : "fade-right"}>
-                  <div className={`p-6 bg-white h-[225px] border rounded-3xl transition-all duration-500 ${isStepActive ? 'border-blue-200 shadow-xl' : 'border-gray-100 shadow-sm opacity-50'}`}>
+                  <div className={`p-6 bg-white h-auto lg:h-[225px] border rounded-3xl transition-all duration-500 ${isStepActive ? 'border-blue-200 shadow-xl' : 'border-gray-100 shadow-sm opacity-50'}`}>
                     <span className={`inline-block px-4 py-1 rounded-full mb-4 text-xs font-semibold ${isStepActive ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-400'}`}>
                       {step.tahap}
                     </span>
@@ -117,12 +117,11 @@ const GalleryPage = () => {
                       alt={step.title} 
                       className="w-full h-full object-cover" 
                       onError={(e) => { 
-                        e.target.onerror = null; // STOP INFINITE LOOP DI SINI
-                        e.target.src = 'https://placehold.co/600x400?text=Gambar+Tidak+Ada'; // Ganti ke layanan lain yang lebih stabil
+                        e.target.onerror = null; 
+                        e.target.src = 'https://placehold.co/600x400?text=Gambar+Tidak+Ada'; 
                       }}
                     />
                   ) : (
-                    // Jika step.image memang null dari awal, tampilkan ini saja (lebih aman)
                     <div className="text-gray-400 flex flex-col items-center">
                       <span className="text-sm italic">Dokumentasi Belum Tersedia</span>
                     </div>
@@ -135,7 +134,7 @@ const GalleryPage = () => {
           })}
         </div>
 
-        <div className="mt-32">
+        <div className=" mt-5 lg:mt-32">
           <div className="mb-12" data-aos="fade-right">
             <h2 className="text-2xl md:text-3xl font-bold mb-3 text-center lg:text-left">Tampilkan semua dokumentasi</h2>
             <p className="text-gray-500 text-center lg:text-left text-sm md:text-base">Lihat seluruh dokumentasi perjalanan TEFA dari awal hingga siap di gunakan.</p>

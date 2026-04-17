@@ -1,5 +1,6 @@
 import { IdCardLanyard, BookOpenCheck, ShieldCheck, Database, FileChartColumn, CalendarDays } from "lucide-react";
 import 'aos/dist/aos.css';
+import { program,fitur,mentor  } from "@data/leanding-page";
 import AOS from 'aos';
 import { useEffect } from "react";
 import CountUp from 'react-countup';
@@ -9,9 +10,10 @@ export default function AboutLp() {
 
     useEffect(() => {
         AOS.init({
-            duration: 1000,
+            duration: 800, 
             once: true,    
-            easing: 'ease-in-out',
+            easing: 'ease-out-cubic',
+            offset: 120,
         });
     }, []);
 
@@ -26,35 +28,16 @@ export default function AboutLp() {
         threshold: 0.5,    
     });
     
-    const program = [
-        "Menyelaraskan kompetensi siswa dengan standar industri.",
-        "Memberikan pengalaman kerja nyata melalui proyek dan layanan berbasis kebutuhan pasar.",
-        "Menjadi ruang kolaborasi antara siswa, guru, industri, dan pengguna layanan.",
-        "Menghasilkan produk layanan yang bernilai jual dan bermanfaat bagi masyarakat.",
-    ];
-
-    const fitur = [
-        { title: "Absensi Real-Time", description: "Pemantauan kehadiran otomatis berbasis RFID", icon: <IdCardLanyard /> },
-        { title: "Rekap Nilai Siswa", description: "Semua nilai ujian, tugas, rapor tersusun rapi", icon: <BookOpenCheck /> },
-        { title: "Monitoring Perilaku", description: "Catatan kedisiplinan, pelanggaran, dan reward.", icon: <ShieldCheck /> },
-        { title: "Jadwal Pelajaran Dinamis", description: "Jadwal update otomatis setiap semester.", icon: <CalendarDays /> },
-        { title: "Data Siswa Terpusat", description: "Profil siswa lengkap, aman, dan selalu sinkron.", icon: <Database /> },
-        { title: "Laporan Sekolah", description: "Laporan kinerja kelas, guru, dan siswa dalam satu klik.", icon: <FileChartColumn /> },
-    ];
-
-    const mentor = [
-        { img: "/images/landing-page/about/pak-fery3.jpeg", name: "Jauhar Shafari, S.Kom", role: "Pembimbing TEFA" },
-        { img: "/images/landing-page/about/kak-farah2.jpeg", name: "Farah Amalia.", role: "Mentor TEFA" }
-    ];
+   
 
     return (
-        <div className="relative min-h-screen flex flex-col font-sans overflow-hidden">
+        <div className=" font-sans overflow-hidden">
             <div className="bg-[url('/images/landing-page/about/about.png')] bg-cover bg-center h-[300px] md:h-[585px] flex items-center justify-center text-white ">
                 <h1 
-                className="font-bold text-[40px] md:text-[96px] text-center">Tentang Kami</h1>
+                className="font-bold text-6xl md:text-7xl text-center">Tentang Kami</h1>
             </div>
 
-            <div className="container mx-auto px-6 py-10 md:py-20 flex flex-col lg:flex-row gap-10 justify-center items-center bg-white">
+            <div  className="container mx-auto px-6 py-10 md:py-20 flex flex-col lg:flex-row gap-10 justify-center items-center bg-white">
                 <img data-aos="fade-right" src="/images/landing-page/about/model-about.png" alt="model About" className="w-full max-w-[450px] object-contain" />
                 <div className="lg:ml-8 w-full">
                     <h1 className="text-[28px] md:text-[36px] font-semibold mb-4 text-[#1E3A8A] flex flex-col items-start gap-1">
@@ -142,10 +125,10 @@ export default function AboutLp() {
                             <div  data-aos="zoom-in-up" className="text-white text-[28px] p-3 rounded-full bg-[#3B82F6]">
                                 {item.icon}
                             </div>
-                            <h2 data-aos="zoom-in" className="text-[18px] md:text-[20px] font-semibold text-[#1F2937]">
+                            <h2  className="text-[18px] md:text-[20px] font-semibold text-[#1F2937]">
                                 {item.title}
                             </h2>
-                            <p data-aos="zoom-in" className="text-[14px] md:text-[16px] font-normal text-gray-600 leading-relaxed">
+                            <p  className="text-[14px] md:text-[16px] font-normal text-gray-600 leading-relaxed">
                                 {item.description}
                             </p>
                         </div>
@@ -153,8 +136,8 @@ export default function AboutLp() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-6 py-10 flex flex-col items-center justify-center bg-white">
-                <h1 data-aos="fade-up" className="text-[28px] md:text-[30px] font-bold text-[#1E3A8A] flex flex-col items-center gap-1 text-center">
+            <div data-aos="fade-up" className="container mx-auto px-6 py-10 flex flex-col items-center justify-center bg-white">
+                <h1  className="text-[28px] md:text-[30px] font-bold text-[#1E3A8A] flex flex-col items-center gap-1 text-center">
                     Tim di Balik SEMINAR
                     <span className="h-[5px] w-[120px] md:w-[160px] bg-[#3B82F6] rounded-full"></span>
                 </h1>
@@ -163,8 +146,8 @@ export default function AboutLp() {
                     Factory berbasis kebutuhan nyata sekolah.
                 </p>
 
-                <div className="mt-12 w-full text-center">
-                    <span data-aos="zoom-in" data-aos-delay="400" className="inline-block bg-[#3B82F6] py-2 px-8 text-white text-[18px] md:text-[20px] font-semibold rounded-full shadow-md">
+                <div data-aos="fade-up" data-aos-delay="400" className="mt-12 w-full text-center">
+                    <span className="inline-block bg-[#3B82F6] py-2 px-8 text-white text-[18px] md:text-[20px] font-semibold rounded-full shadow-md">
                         Pembimbing & Mentor
                     </span>
                     
@@ -172,8 +155,6 @@ export default function AboutLp() {
                         {mentor.map((item, index) => (
                             <div 
                             key={index} 
-                            data-aos="fade-up" 
-                            data-aos-delay={600 + (index * 200)}
                             className="flex flex-col items-center gap-4 group">
                                 <div className="overflow-hidden rounded-2xl shadow-lg">
                                     <img src={item.img} alt={item.name} className="w-[280px] h-[360px] md:w-[325px] md:h-[420px] object-cover transition-transform duration-300 group-hover:scale-105" />
