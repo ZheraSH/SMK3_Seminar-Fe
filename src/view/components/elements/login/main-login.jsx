@@ -1,31 +1,7 @@
 import { useState } from "react";
-import { Eye, EyeOff, CheckCircle, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import api from "@api/axios-config";
-
-const loginUser = async ({ email, password }) => {
-  try {
-    const response = await api.post("/auth/login", { email, password });
-
-    const result = response.data;
-
-    if (result && result.data && result.data.token && result.data.user) {
-      const user = result.data.user;
-      const roles = user.roles.map((r) => r.value);
-      return {
-        token: result.data.token,
-        user: user,
-        roles: roles,
-        activeRole: result.data.role,
-      };
-    } else {
-      throw new Error("Format respons dari server tidak sesuai");
-    }
-  } catch (error) {
-    console.error("Error login:", error);
-    throw new Error("Gagal login. Periksa email/password atau server API.");
-  }
-};
+import { loginUserApi } from "@api/auth";
 
 
 export default function Login() {
@@ -57,7 +33,7 @@ export default function Login() {
 
     setLoading(true);
     try {
-      const data = await loginUser({ email, password });
+      const data = await loginUserApi({ email, password });
 
       localStorage.setItem("token", data.token);
       localStorage.setItem(
