@@ -14,7 +14,8 @@ export const fetchStudents = async (
         search,
         gender: filter.gender ?? "",
         major: filter.major ?? "",
-        level_class: filter.level_class ?? "",
+        classroom: filter.classroom ?? "",
+        school_year: filter.school_year ?? "",
       },
     });
 
@@ -118,6 +119,40 @@ export const deleteStudent = async (id) => {
   } catch (err) {
     console.error(err);
     notify("Gagal menghapus data siswa", "error");
+    throw err;
+  }
+};
+
+export const getAllStudents = async () => {
+  let allStudents = [];
+  let currentPage = 1;
+  let lastPage = 1;
+
+  try {
+    do {
+      const res = await api.get(`/students?page=${currentPage}`);
+      const responseData = res.data;
+
+      if (responseData.data && Array.isArray(responseData.data)) {
+        allStudents = allStudents.concat(responseData.data);
+      }
+
+      if (responseData.meta) {
+        lastPage = responseData.meta.last_page || currentPage;
+      } else {
+        lastPage = currentPage;
+      }
+
+      if (currentPage < lastPage) {
+        await new Promise((resolve) => setTimeout(resolve, 150));
+      }
+
+      currentPage++;
+    } while (currentPage <= lastPage);
+
+    return allStudents;
+  } catch (err) {
+    console.error("Gagal mengambil SEMUA Siswa:", err);
     throw err;
   }
 };

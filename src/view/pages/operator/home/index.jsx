@@ -8,8 +8,8 @@ export default function HomePage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center">
-      <div className="w-full max-w-7xl sm:p-[24px] mb-10 relative">
+    <div className="min-h-screen bg-gray-50 flex justify-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-7xl py-6 sm:py-8 lg:py-10 mb-10 relative">
         <CounterCardsSection />
         <ChartsSection />
       </div>

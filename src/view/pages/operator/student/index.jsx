@@ -10,7 +10,11 @@ import {
   fetchReligions,
   submitStudent,
   deleteStudent,
+  fetchMajors,
+  fetchlevelclasses,
+  getAllStudents,
 } from "@api/role-operator/student/student-api";
+import { getAllClasses } from "@api/role-operator/class-major/class-api";
 import { StudentsTable } from "./components/student-table";
 import { PaginationStudent } from "./components/pagination";
 import { SearchFilterStudent } from "./components/search";
@@ -51,6 +55,13 @@ export default function StudentPage() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [allMajors, setAllMajors] = useState([]);
+  const [allLevels, setAllLevels] = useState([]);
+  const [allClasses, setAllClasses] = useState([]);
+  const [allStudentsForFilter, setAllStudentsForFilter] = useState([]);
+  const [localPage, setLocalPage] = useState(1);
+  const itemsPerPage = 15;
+
   const loadReligionsData = async () => {
     try {
       const religionsData = await fetchReligions();
@@ -60,10 +71,55 @@ export default function StudentPage() {
     }
   };
 
+  const loadFilterMasters = async () => {
+    try {
+      const [majorsData, levelsData, classesData, allStudentsData] = await Promise.all([
+        fetchMajors(),
+        fetchlevelclasses(),
+        getAllClasses(),
+        getAllStudents()
+      ]);
+      setAllMajors(majorsData || []);
+      setAllLevels(levelsData || []);
+      setAllClasses(classesData || []);
+      setAllStudentsForFilter(allStudentsData || []);
+    } catch (err) {
+      console.error("Gagal load masters:", err);
+    }
+  };
+
+  const {
+    category,
+    setCategory,
+    resetFilter,
+  } = useStudentFilter([]);
+
   const loadStudentsData = async (showLoading = true) => {
     if (showLoading) setLoading(true);
     try {
-      const res = await fetchStudents(page, searchTerm);
+      let classroomFilter = "";
+      if (category.type === "level_class") {
+        const val = category.value.toUpperCase();
+        const matchingClasses = allClasses.filter((c) => {
+          const name = c.name.toUpperCase();
+          if (val === "10" || val === "X")
+            return name.startsWith("10") || name.startsWith("X");
+          if (val === "11" || val === "XI")
+            return name.startsWith("11") || name.startsWith("XI");
+          if (val === "12" || val === "XII")
+            return name.startsWith("12") || name.startsWith("XII");
+          return name.startsWith(val);
+        });
+        classroomFilter = matchingClasses.map((c) => c.name).join(",");
+      }
+
+      const filters = {
+        gender: category.type === "gender" ? category.value : "",
+        major: category.type === "major" ? category.value : "",
+        classroom: classroomFilter,
+      };
+
+      const res = await fetchStudents(page, searchTerm, filters);
       setStudents(res.data || []);
       setMeta(res.meta || { current_page: 1, last_page: 1, total: 0 });
     } catch (err) {
@@ -81,52 +137,53 @@ export default function StudentPage() {
   };
 
   useEffect(() => {
-    loadStudentsData(searchTerm === "");
-  }, [page, searchTerm]);
+    loadStudentsData(searchTerm === "" && !category.type);
+  }, [page, searchTerm, category]);
 
   useEffect(() => {
     loadReligionsData();
+    loadFilterMasters();
   }, []);
 
-  const {
-    category,
-    setCategory,
-    masters,
-    filteredStudents: studentsByFilter,
-    resetFilter,
-  } = useStudentFilter(students);
+  const masters = useMemo(() => {
+    return {
+      genders: [
+        { value: "male", label: "Laki-laki" },
+        { value: "female", label: "Perempuan" },
+      ],
+      majors: allMajors.map(m => ({ value: m.name, label: m.name })),
+      levelClasses: allLevels.map(l => ({ value: l.name, label: l.name })),
+    };
+  }, [allMajors, allLevels]);
 
-  const filteredStudents = useMemo(() => {
-    let result = studentsByFilter;
+  const { filteredStudents, localMeta } = useMemo(() => {
+    const isLocalOnly = category.type === "gender";
 
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      result = result.filter((student) => {
-        if (student.name?.toLowerCase().includes(searchLower)) return true;
+    if (isLocalOnly) {
+      const filtered = allStudentsForFilter.filter(
+        (s) =>
+          s.gender?.value?.toLowerCase() === category.value?.toLowerCase()
+      );
+      const total = filtered.length;
+      const lastPage = Math.ceil(total / itemsPerPage) || 1;
+      const start = (localPage - 1) * itemsPerPage;
+      const sliced = filtered.slice(start, start + itemsPerPage);
 
-        const nisnString = student.nisn ? student.nisn.toString() : "";
-        if (nisnString.toLowerCase().includes(searchLower)) return true;
-
-        if (student.classroom?.name?.toLowerCase().includes(searchLower))
-          return true;
-
-        if (student.classroom?.level_class?.toLowerCase().includes(searchLower))
-          return true;
-
-        if (student.classroom?.major?.toLowerCase().includes(searchLower))
-          return true;
-
-        const level = student.classroom?.level_class || "";
-        const major = student.classroom?.major || "";
-        const fullClass = `${level} ${major}`.toLowerCase().trim();
-        if (fullClass.includes(searchLower)) return true;
-
-        return false;
-      });
+      return {
+        filteredStudents: sliced,
+        localMeta: {
+          current_page: localPage,
+          last_page: lastPage,
+          total: total,
+        },
+      };
     }
 
-    return result;
-  }, [studentsByFilter, searchTerm]);
+    return {
+      filteredStudents: students,
+      localMeta: meta,
+    };
+  }, [students, allStudentsForFilter, category, localPage, meta]);
 
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
@@ -232,6 +289,7 @@ export default function StudentPage() {
     resetFilter();
     setSearchTerm("");
     setPage(1);
+    setLocalPage(1);
   };
 
   return (
@@ -252,7 +310,11 @@ export default function StudentPage() {
 
                 <StudentFilterDropdown
                   category={category}
-                  setCategory={setCategory}
+                  setCategory={(cat) => {
+                    setPage(1);
+                    setLocalPage(1);
+                    setCategory(cat);
+                  }}
                   masters={masters}
                 />
               </div>
@@ -309,11 +371,21 @@ export default function StudentPage() {
               onDelete={handleDelete}
             />
             <PaginationStudent
-              page={page}
-              lastPage={meta.last_page}
-              onPrev={() => setPage(page - 1)}
-              onNext={() => setPage(page + 1)}
-              onPageClick={(p) => setPage(p)}
+              page={category.type === "gender" ? localPage : page}
+              lastPage={localMeta.last_page}
+              onPrev={() =>
+                category.type === "gender"
+                  ? setLocalPage((p) => Math.max(1, p - 1))
+                  : setPage(page - 1)
+              }
+              onNext={() =>
+                category.type === "gender"
+                  ? setLocalPage((p) => Math.min(localMeta.last_page, p + 1))
+                  : setPage(page + 1)
+              }
+              onPageClick={(p) =>
+                category.type === "gender" ? setLocalPage(p) : setPage(p)
+              }
             />
           </>
         )}

@@ -12,7 +12,7 @@ import {
 } from "recharts";
 
 import AttendanceTableSection from "./activity-table";
-import { fetchStatisticToday, fetchStatisticMonthly } from "@api/role-operator/dashboard/dashboard-api";
+import { fetchStatisticToday, fetchStatisticMonthly, fetchActiveSchoolYear, fetchActiveSemester } from "@api/role-operator/dashboard/dashboard-api";
 import LoadingData from "@elements/loading-data/loading";
 
 const MONTHS_NAME = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
@@ -74,16 +74,23 @@ export default function ChartsSection() {
   const [monthlyTrendData, setMonthlyTrendData] = useState({});
   const [hoveredData, setHoveredData] = useState(null);
   const [activeData, setActiveData] = useState(null);
+  const [activeSchoolYear, setActiveSchoolYear] = useState(null);
+  const [activeSemester, setActiveSemester] = useState(null);
   const chartRef = useRef(null);
 
   useEffect(() => {
     const loadDashboardData = async () => {
       setLoading(true);
       try {
-        const [todayRes, monthlyRes] = await Promise.all([
+        const [todayRes, monthlyRes, schoolYearRes, semesterRes] = await Promise.all([
           fetchStatisticToday(),
-          fetchStatisticMonthly()
+          fetchStatisticMonthly(),
+          fetchActiveSchoolYear(),
+          fetchActiveSemester()
         ]);
+
+        if (schoolYearRes) setActiveSchoolYear(schoolYearRes);
+        if (semesterRes) setActiveSemester(semesterRes);
 
         if (todayRes) {
           const present = todayRes.present?.count ?? 0;
@@ -175,24 +182,28 @@ export default function ChartsSection() {
       {/* LEFT */}
       <div className="space-y-[14px]">
         {/* INFO */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6 flex justify-between items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[14px]">
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex justify-between items-center transition-all hover:border-blue-200">
             <div>
-              <p className="text-sm">Tahun Ajaran Saat Ini</p>
-              <p className="text-2xl font-semibold mt-1">2024/2025</p>
+              <p className="text-sm text-slate-500 font-medium">Tahun Ajaran Saat Ini</p>
+              <p className="text-2xl font-bold mt-1 text-slate-800">
+                {activeSchoolYear ? activeSchoolYear.name : "..."}
+              </p>
             </div>
-            <div className="bg-blue-100 p-4 rounded-xl">
+            <div className="bg-blue-50 p-4 rounded-xl">
               <Calendar1 className="w-7 h-7 text-blue-500" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 flex justify-between items-center">
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex justify-between items-center transition-all hover:border-indigo-200">
             <div>
-              <p className="text-sm">Semester Saat Ini</p>
-              <p className="text-2xl font-semibold mt-1">Genap</p>
+              <p className="text-sm text-slate-500 font-medium">Semester Saat Ini</p>
+              <p className="text-2xl font-bold mt-1 text-slate-800">
+                {activeSemester ? activeSemester.semester : "..."}
+              </p>
             </div>
-            <div className="bg-blue-200 p-4 rounded-xl">
-              <LayoutDashboard className="w-7 h-7 text-blue-500" />
+            <div className="bg-indigo-50 p-4 rounded-xl">
+              <LayoutDashboard className="w-7 h-7 text-indigo-500" />
             </div>
           </div>
         </div>

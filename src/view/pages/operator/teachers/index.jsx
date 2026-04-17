@@ -14,6 +14,7 @@ import {
   deleteTeacherApi,
   fetchReligionsApi,
 } from "@api/role-operator/employee/teachers-api";
+import { getTeachers } from "@api/role-operator/class-major/class-api";
 import { extractTeacherMasters } from "./components/utils/teacher-master-extractor";
 import { TeacherFilterDropdown } from "./components/filter-dropdown";
 import LoadingData from "@elements/loading-data/loading";
@@ -45,13 +46,9 @@ export default function TeachersPage() {
 
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors] = useState({});
-
-  const { Teacher, meta, page, setPage, reload } = useTeacher();
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [allTeachersForMasters, setAllTeachersForMasters] = useState([]);
+  const [localPage, setLocalPage] = useState(1);
+  const itemsPerPage = 15;
 
   const [category, setCategory] = useState({
     type: "",
@@ -59,61 +56,85 @@ export default function TeachersPage() {
     label: "Pilih Kategori",
   });
 
-  const masters = useMemo(() => extractTeacherMasters(Teacher), [Teacher]);
+  const { Teacher, meta, page, setPage, reload } = useTeacher(
+    searchTerm,
+    category.type === "role" ? category.value : "",
+    category.type === "gender" ? category.value : "",
+    category.type === "subjects" ? category.value : ""
+  );
 
-  const teachersByFilter = useMemo(() => {
-    if (!category.type || !category.value) return Teacher;
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    switch (category.type) {
-      case "gender":
-        return Teacher.filter((t) => t.gender?.value === category.value);
+  const masters = useMemo(() => {
+    const extracted = extractTeacherMasters(allTeachersForMasters);
+    return {
+      ...extracted,
+      genders: [
+        { value: "male", label: "Laki-laki" },
+        { value: "female", label: "Perempuan" },
+      ]
+    };
+  }, [allTeachersForMasters]);
 
-      case "subjects":
-        return Teacher.filter((t) =>
-          t.subjects?.some((subject) => subject.id === category.value)
-        );
+  const { filteredTeachers, localMeta } = useMemo(() => {
+    const isLocalOnly = category.type === "gender" || category.type === "subjects";
 
-      case "role":
-        return Teacher.filter((t) =>
-          t.roles?.some((role) => role.value === category.value)
-        );
-
-      default:
-        return Teacher;
-    }
-  }, [Teacher, category]);
-
-  const filteredTeachers = useMemo(() => {
-    let result = teachersByFilter;
-    if (searchTerm) {
-      const lowerTerm = searchTerm.toLowerCase();
-      result = result.filter((t) => {
-        const matchName = t.name?.toLowerCase().includes(lowerTerm);
-        const matchNip = t.nip?.toString().toLowerCase().includes(lowerTerm);
-        const matchRole = t.roles?.some((role) => {
-          const rLabel = (role.label || role.value || role).toString().toLowerCase();
-          return rLabel.includes(lowerTerm);
-        });
-
-        return matchName || matchNip || matchRole;
+    if (isLocalOnly) {
+      const filtered = allTeachersForMasters.filter((t) => {
+        if (category.type === "gender") {
+          return (
+            t.gender?.value?.toLowerCase() === category.value?.toLowerCase()
+          );
+        }
+        if (category.type === "subjects") {
+          return t.subjects?.some(
+            (s) => String(s.id) === String(category.value)
+          );
+        }
+        return true;
       });
+
+      const total = filtered.length;
+      const lastPage = Math.ceil(total / itemsPerPage) || 1;
+      const start = (localPage - 1) * itemsPerPage;
+      const sliced = filtered.slice(start, start + itemsPerPage);
+
+      return {
+        filteredTeachers: sliced,
+        localMeta: {
+          current_page: localPage,
+          last_page: lastPage,
+          total: total,
+        },
+      };
     }
-    return result;
-  }, [teachersByFilter, searchTerm]);
+
+    return {
+      filteredTeachers: Teacher,
+      localMeta: meta,
+    };
+  }, [Teacher, allTeachersForMasters, category, localPage, meta]);
 
   useEffect(() => {
-    const loadReligions = async () => {
+    const loadInitialData = async () => {
       setLoading(true);
       try {
-        const data = await fetchReligionsApi();
-        setReligions(data);
+        const [religionsData, allTeachersData] = await Promise.all([
+          fetchReligionsApi(),
+          getTeachers()
+        ]);
+        setReligions(religionsData);
+        setAllTeachersForMasters(allTeachersData);
       } catch (error) {
-        console.error("Gagal memuat data agama:", error);
+        console.error("Gagal memuat data awal:", error);
       } finally {
         setTimeout(() => setLoading(false), 800);
       }
     };
-    loadReligions();
+    loadInitialData();
   }, []);
 
   const handleInput = (e) => {
@@ -218,6 +239,8 @@ export default function TeachersPage() {
       label: "Pilih Kategori",
     });
     setSearchTerm("");
+    setPage(1);
+    setLocalPage(1);
   };
 
   return (
@@ -238,7 +261,11 @@ export default function TeachersPage() {
 
                 <TeacherFilterDropdown
                   category={category}
-                  setCategory={setCategory}
+                  setCategory={(cat) => {
+                    setCategory(cat);
+                    setPage(1);
+                    setLocalPage(1);
+                  }}
                   masters={masters}
                 />
               </div>
@@ -296,11 +323,27 @@ export default function TeachersPage() {
               handleDelete={handleDelete}
             />
             <PaginationEmployee
-              page={page}
-              lastPage={meta.last_page}
-              onPrev={() => setPage(page - 1)}
-              onNext={() => setPage(page + 1)}
-              onPageClick={(p) => setPage(p)}
+              page={
+                category.type === "gender" || category.type === "subjects"
+                  ? localPage
+                  : page
+              }
+              lastPage={localMeta.last_page}
+              onPrev={() =>
+                category.type === "gender" || category.type === "subjects"
+                  ? setLocalPage((p) => Math.max(1, p - 1))
+                  : setPage(page - 1)
+              }
+              onNext={() =>
+                category.type === "gender" || category.type === "subjects"
+                  ? setLocalPage((p) => Math.min(localMeta.last_page, p + 1))
+                  : setPage(page + 1)
+              }
+              onPageClick={(p) =>
+                category.type === "gender" || category.type === "subjects"
+                  ? setLocalPage(p)
+                  : setPage(p)
+              }
             />
           </>
         )}

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { fetchTeachersApi } from "@api/role-operator/employee/teachers-api";
 
-export function useTeacher() {
+export function useTeacher(searchTerm = "", role = "", gender = "", subject = "") {
   const [Teacher, setTeacher] = useState([])
   const [meta, setMeta] = useState({})
   const [loading, setLoading] = useState(false)
@@ -13,7 +13,7 @@ export function useTeacher() {
   const load = async () => {
     setLoading(true)
     try {
-      const res = await fetchTeachersApi(page)
+      const res = await fetchTeachersApi(page, searchTerm, role, gender, subject)
       setTeacher(res.data)
       setMeta(res.meta)
     } catch (err) {
@@ -24,7 +24,7 @@ export function useTeacher() {
 
   useEffect(() => {
     load()
-  }, [page])
+  }, [page, searchTerm, role, gender, subject])
 
   return {
     Teacher,

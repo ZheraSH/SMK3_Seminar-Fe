@@ -1,14 +1,17 @@
 import api from "@api/axios-config";
 import { notify } from "@/core/hooks/notification/notify";
 
-export const fetchTeachersApi = async (page = 1) => {
+export const fetchTeachersApi = async (page = 1, search = "", role = "", gender = "", subject = "") => {
   try {
     const res = await api.get("/employees", {
       params: {
         page,
+        search,
+        role,
+        gender,
+        subject,
       },
     });
-
 
     return {
       data: res.data.data || [],

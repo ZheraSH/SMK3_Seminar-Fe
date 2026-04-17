@@ -70,17 +70,17 @@ export function StudentsTable({
 
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-      <table className="min-w-[900px] w-full text-sm text-gray-700">
+      <table className="min-w-full w-full text-sm text-gray-700 bg-white">
         <thead>
           <tr className="bg-[#3B82F6] text-white">
-            <th className="px-4 py-3 text-center">No</th>
-            <th className="px-4 py-3 text-center">Foto</th>
-            <th className="px-4 py-3 text-center">Nama</th>
-            <th className="px-4 py-3 text-center">NISN</th>
-            <th className="px-4 py-3 text-center">Kelas</th>
-            <th className="px-4 py-3 text-center">Tahun Ajaran</th>
-            <th className="px-4 py-3 text-center">RFID</th>
-            <th className="px-4 py-3 text-center">Aksi</th>
+            <th className="px-4 py-3 text-left">No</th>
+            <th className="px-4 py-3 text-left">Foto</th>
+            <th className="px-4 py-3 text-left">Nama</th>
+            <th className="px-4 py-3 text-left hidden sm:table-cell">NISN</th>
+            <th className="px-4 py-3 text-left hidden sm:table-cell">Kelas</th>
+            <th className="px-4 py-3 text-left hidden md:table-cell">Tahun Ajaran</th>
+            <th className="px-4 py-3 text-left hidden lg:table-cell">RFID</th>
+            <th className="px-4 py-3 text-left">Aksi</th>
           </tr>
         </thead>
 
@@ -92,41 +92,41 @@ export function StudentsTable({
                 ${index % 2 === 0 ? "bg-white" : "bg-blue-50"}
                 hover:bg-blue-100`}
             >
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left font-medium">
                 {safeStartIndex + index + 1}
               </td>
 
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left">
                 <img
                   src={student.image || "/placeholder.png"}
                   alt={student.name}
-                  className="mx-auto w-[38px] h-[38px] rounded-full object-cover border border-gray-300"
+                  className="w-[38px] h-[38px] rounded-full object-cover border border-gray-300"
                 />
               </td>
 
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left font-medium">
                 {student.name || "-"}
               </td>
 
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left hidden sm:table-cell font-medium">
                 {student.nisn || "-"}
               </td>
 
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left hidden sm:table-cell">
                 {student.classroom?.name ? (
-                  <span className="px-3 py-1 rounded-full bg-purple-500 text-white text-xs font-semibold">
+                  <span className="px-3 py-1 rounded-full bg-purple-500 text-white text-[10px] font-semibold">
                     {student.classroom.name}
                   </span>
                 ) : (
-                  <span className="px-3 py-1 rounded-full bg-red-500 text-white text-xs">
+                  <span className="px-3 py-1 rounded-full bg-red-400 text-white text-[10px]">
                     No Class
                   </span>
                 )}
               </td>
 
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left hidden md:table-cell">
                 {student.classroom?.schoolYear ? (
-                  <span className="px-3 py-1 rounded-full bg-green-500 text-white text-xs font-semibold">
+                  <span className="px-3 py-1 rounded-full bg-green-500/10 text-green-600 text-[11px] font-bold border border-green-200">
                     {student.classroom.schoolYear}
                   </span>
                 ) : (
@@ -134,11 +134,11 @@ export function StudentsTable({
                 )}
               </td>
 
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left hidden lg:table-cell text-xs text-gray-500">
                 {student.rfid?.rfid || "-"}
               </td>
 
-              <td className="px-4 py-3 text-center">
+              <td className="px-4 py-3 text-left">
                 <button
                   ref={(el) => (btnRefs.current[student.id] = el)}
                   onClick={(e) => {

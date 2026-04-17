@@ -44,5 +44,25 @@ export const fetchStatisticMonthly = async () => {
   }
 };
 
+export const fetchActiveSchoolYear = async () => {
+  try {
+    const res = await api.get("/school-years/active");
+    return res.data.data;
+  } catch (err) {
+    console.error("ACTIVE SCHOOL YEAR ERROR:", err);
+    throw err;
+  }
+}
+
+export const fetchActiveSemester = async () => {
+  try {
+    const res = await api.get("/semesters/active");
+    return res.data.data;
+  } catch (err) {
+    console.error("ACTIVE SEMESTER ERROR:", err);
+    throw err;
+  }
+}
+
 
 
