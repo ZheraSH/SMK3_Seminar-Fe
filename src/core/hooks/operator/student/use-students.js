@@ -8,7 +8,7 @@ import {
   fetchReligions,
   submitStudent,
   deleteStudent,
-} from "@/api/studentApi"
+} from "@services/role-operator/student/student-api"
 
 export const useStudents = () => {
   const [isOpen, setIsOpen] = useState(false)

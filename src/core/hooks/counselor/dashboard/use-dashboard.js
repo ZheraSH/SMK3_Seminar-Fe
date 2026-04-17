@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import { getAlphaStudents, getAttendance,getAttendancePending } from '../../../api/role-bk/dashboard/dashboard';
+import { getAlphaStudents, getAttendance, getAttendancePending } from '@services/role-counselor/dashboard/dashboard';
 
 export const useDashboardData = () => {
-    const [data, setData] = useState([]); 
+    const [data, setData] = useState([]);
     const [attendance, setAttendance] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [attendancePending,setAttendancePending] = useState([])
+    const [attendancePending, setAttendancePending] = useState([])
 
     const fetchAllData = async () => {
         setIsLoading(true);
         setError(null);
-        
+
         try {
             const [alphaStudents, attendanceData, pendingAttendance] = await Promise.all([
                 getAlphaStudents(),
@@ -33,12 +33,12 @@ export const useDashboardData = () => {
 
     useEffect(() => {
         fetchAllData();
-    }, []); 
+    }, []);
 
-    return { 
-        data, 
-        isLoading, 
-        error, 
+    return {
+        data,
+        isLoading,
+        error,
         refetch: fetchAllData,
         attendance,
         attendancePending

@@ -8,7 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@services': path.resolve(__dirname, 'src/core/services'),
-      "@data": path.resolve(__dirname, "src/core/data"),
+      "@mock": path.resolve(__dirname, "src/core/mock"),
+      "@core": path.resolve(__dirname, "src/core"),
       "@components": path.resolve(__dirname, "src/view/components"),
       '@': path.resolve(__dirname, 'src'),
       '@assets': path.resolve(__dirname, 'src/view'),

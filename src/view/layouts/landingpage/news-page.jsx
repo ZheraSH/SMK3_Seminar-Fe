@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Search, Calendar, ChevronRight } from 'lucide-react';
 import AOS from 'aos';
-import {NEWS_DATA} from "@data/leanding-page";
+import {NEWS_DATA} from "@mock/landing-page";
 import { useEffect } from "react";
 
 

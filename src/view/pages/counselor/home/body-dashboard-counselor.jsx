@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { TriangleAlert } from "lucide-react"
 import { getBgColorStatus } from "@/core/utils/subject-helper"
-import { useDashboardData } from "@/core/hooks/bk/dashboard/use-dashboard"
+import { useDashboardData } from "@/core/hooks/counselor/dashboard/use-dashboard"
 import { useNavigate } from "react-router-dom";
 import LoadingData from "@elements/loading-data/loading";
 

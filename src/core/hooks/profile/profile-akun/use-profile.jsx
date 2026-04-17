@@ -1,4 +1,4 @@
-import { getProfile,updatePhoto,updateEmail,updatePassword } from "../../../api/profile";
+import { getProfile,updatePhoto,updateEmail,updatePassword } from "@services/profile";
 import { useState,useEffect } from "react";
 
 export default function fetchProfile () {

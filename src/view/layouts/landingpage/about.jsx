@@ -1,6 +1,6 @@
 import { IdCardLanyard, BookOpenCheck, ShieldCheck, Database, FileChartColumn, CalendarDays } from "lucide-react";
 import 'aos/dist/aos.css';
-import { program,fitur,mentor  } from "@data/leanding-page";
+import { program,fitur,mentor  } from "@mock/landing-page";
 import AOS from 'aos';
 import { useEffect } from "react";
 import CountUp from 'react-countup';

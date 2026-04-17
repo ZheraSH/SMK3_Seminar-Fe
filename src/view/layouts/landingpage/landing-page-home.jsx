@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { stats,teamData,faqs,NEWS_DATA  } from "@data/leanding-page";
+import { stats,teamData,faqs,NEWS_DATA  } from "@mock/landing-page";
 import { ArrowRight, ClipboardCheck, LayoutDashboard,Sparkle, Settings, Users, Home, ClipboardList, Zap, ChevronRight, ShieldCheck, CalendarDays, Database, Plus, Minus } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchTeachersApi } from '@/api/teacherApi';
+import { fetchTeachersApi } from '@services/role-operator/employee/teachers-api';
 
 export const useTeachers = () => {
   const [allTeachers, setAllTeachers] = useState([]);

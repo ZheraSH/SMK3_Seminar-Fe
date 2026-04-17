@@ -1,4 +1,4 @@
-import { DashboardContent } from "../bk/home/body-dashboard-bk";
+import { DashboardContent } from "../counselor/home/body-dashboard-counselor";
 import HomeRoomHome from "../homeroom-teacher/home/main-homeroom-home";
 import { useEffect, useState } from "react";
 import { MainTeacher } from "../teacher/home/body-dashboard-teacher";

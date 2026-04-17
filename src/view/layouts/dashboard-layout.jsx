@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { ROLE_MENUS, multiRoleCommon } from "@data/sidebar-data";
+import { ROLE_MENUS, multiRoleCommon } from "@mock/sidebar-data";
 import { useRef, useState, useEffect, useMemo } from "react";
 import MainDashboard from "@elements/main-dashboard";
 import { ChevronDown } from "lucide-react";

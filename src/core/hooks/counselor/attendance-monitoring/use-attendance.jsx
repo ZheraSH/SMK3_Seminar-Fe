@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { getAbsenteeismMonitoring } from "../../../api/role-bk/monitoring/absenteeism-monitoring";
+import { getAbsenteeismMonitoring } from "../../../api/role-counselor/monitoring/absenteeism-monitoring";
 
 export function useAttendanceMonitoring() {
     const [students, setStudents] = useState([]);

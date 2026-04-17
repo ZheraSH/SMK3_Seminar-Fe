@@ -1,13 +1,13 @@
-import AttendanceDashboard from "@pages/bk/monitoring-absen/main-attendance-monitoring";
-import VerifyPermission from "@pages/bk/verifikasi/main-verify-permission";
-import StatistikGlobal from "@pages/bk/statistik-global/statistik-global";
+import AttendanceDashboard from "@pages/counselor/monitoring-absen/main-attendance-monitoring";
+import VerifyPermission from "@pages/counselor/verifikasi/main-verify-permission";
+import StatistikGlobal from "@pages/counselor/statistik-global/statistik-global";
 import MainDashboard from "@components/elements/main-dashboard";
-import BodyDashboard from "@pages/bk/home/body-dashboard-bk";
+import BodyDashboard from "@pages/counselor/home/body-dashboard-counselor";
 import ProtectedRoute from "./protected-route";
 import { DashboardLayout } from "../../view/layouts/dashboard-layout";
 import ProfileUser from "../../view/components/elements/profile/profile-user";
 
-export const bkRoutes = [
+export const counselorRoutes = [
     {
         path: "/bk-home",
         element: (<ProtectedRoute allowedRoles={["counselor"]} />),

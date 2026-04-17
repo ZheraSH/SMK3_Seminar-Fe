@@ -1,4 +1,4 @@
-import { getClass } from "../../../api/role-bk/monitoring/absenteeism-monitoring";
+import { getClass } from "../../../api/role-counselor/monitoring/absenteeism-monitoring";
 import { getMajors } from "../../../api/role-operator/class-major/class-api";
 import { useState, useEffect } from "react";
 

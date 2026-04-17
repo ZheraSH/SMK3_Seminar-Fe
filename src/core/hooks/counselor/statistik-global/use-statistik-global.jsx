@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { getAttendanceStatistics } from "../../../api/role-bk/statistik-global/statistik-global";
+import { getAttendanceStatistics } from "@services/role-counselor/statistik-global/statistik-global";
 
 export default function useAttendanceStatistics() {
     const [statistics, setStatistics] = useState(null);
