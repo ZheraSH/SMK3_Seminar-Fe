@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchStudentSchedule } from "@/core/api/role-student/schedule/schedule";
+import { fetchStudentSchedule } from "@/core/services/role-student/schedule/schedule";
 
 export function useStudentSchedule(activeDay) {
   const [schedule, setSchedule] = useState([]);

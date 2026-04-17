@@ -4,7 +4,7 @@ import {
   addSchedule as apiAddSchedule,
   updateSchedule as apiUpdateSchedule,
   deleteSchedule as apiDeleteSchedule,
-} from "@api/role-operator/schedule/lesson-api";
+} from "@services/role-operator/schedule/lesson-api";
 
 export default function useClassSchedule(classroomId, activeDayApi) {
   const [classSchedule, setClassSchedule] = useState(null);

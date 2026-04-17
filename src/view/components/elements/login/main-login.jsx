@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { loginUserApi } from "@api/auth";
+import { loginUserApi } from "@services/auth";
 
 
 export default function Login() {

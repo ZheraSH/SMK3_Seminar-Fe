@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Plus, Search, X } from "lucide-react";
 import Header from "@elements/header/header-new";
 import LoadingData from "@elements/loading-data/loading";
-import { getMastercards, postMastercard } from "@api/role-operator/mastercard/master-card-api";
+import { getMastercards, postMastercard } from "@services/role-operator/mastercard/master-card-api";
 import { LoadingSpinner } from "@elements/loading-button/loading";
 
 export default function MasterCardPage() {

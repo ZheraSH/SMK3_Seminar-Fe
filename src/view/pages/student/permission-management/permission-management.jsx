@@ -8,7 +8,7 @@ import { PermissionDetailModal } from "./components/permission-detail-modal";
 import { usePermissions } from "@/core/hooks/role-student/permission-student/use-permission-student";
 import { PaginationPermissionStudent } from "./components/permission-pagination";
 import HeaderPage from "@elements/header/header-new";
-import { getPermissionDetailStudent, deletePermissionApi } from "@api/role-student/student-permission/permission";
+import { getPermissionDetailStudent, deletePermissionApi } from "@services/role-student/student-permission/permission";
 import LoadingData from "@elements/loading-data/loading";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";
 import { Plus, Calendar, RotateCcw,Filter,X } from "lucide-react";

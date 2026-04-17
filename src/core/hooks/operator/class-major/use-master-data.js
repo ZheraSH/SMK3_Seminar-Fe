@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getMajors, getSchoolYears, getLevelClass, getTeachers } from "@api/role-operator/class-major/class-api";
+import { getMajors, getSchoolYears, getLevelClass, getTeachers } from "@services/role-operator/class-major/class-api";
 
 const masterDataCache = {};
 

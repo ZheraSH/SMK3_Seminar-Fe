@@ -13,8 +13,8 @@ import {
   submitTeacherApi,
   deleteTeacherApi,
   fetchReligionsApi,
-} from "@api/role-operator/employee/teachers-api";
-import { getTeachers } from "@api/role-operator/class-major/class-api";
+} from "@services/role-operator/employee/teachers-api";
+import { getTeachers } from "@services/role-operator/class-major/class-api";
 import { extractTeacherMasters } from "./components/utils/teacher-master-extractor";
 import { TeacherFilterDropdown } from "./components/filter-dropdown";
 import LoadingData from "@elements/loading-data/loading";

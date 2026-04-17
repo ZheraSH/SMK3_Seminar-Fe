@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { fetchTapHistory } from "../../../../../core/api/role-operator/dashboard/dashboard-api";
+import { fetchTapHistory } from "../../../../../core/services/role-operator/dashboard/dashboard-api";
 
 export default function AttendanceTableSection() {
   const [data, setData] = useState([]);

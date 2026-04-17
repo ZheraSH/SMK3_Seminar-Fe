@@ -7,7 +7,7 @@ import { notify } from "@/core/hooks/notification/notify";
 import {
   addRfid,
   fetchAvailableStudents,
-} from "../../../../../core/api/role-operator/rfid/rfid-api";
+} from "../../../../../core/services/role-operator/rfid/rfid-api";
 
 export default function RfidAddModal({
   show,

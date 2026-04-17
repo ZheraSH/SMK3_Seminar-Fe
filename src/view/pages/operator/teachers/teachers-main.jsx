@@ -13,7 +13,7 @@ import {
   submitTeacherApi,
   deleteTeacherApi,
   fetchReligionsApi,
-} from "../../../../core/api/role-operator/employee/teachers-api.js";
+} from "../../../../core/services/role-operator/employee/teachers-api.js";
 import { extractTeacherMasters } from "./components/utils/teacher-master-extractor";
 import { TeacherFilterDropdown } from "./components/filter-dropdown";
 import LoadingData from "../../../components/elements/loading-data/loading.jsx";

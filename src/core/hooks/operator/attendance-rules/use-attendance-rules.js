@@ -4,7 +4,7 @@ import {
   fetchAttendanceRulesAPI,
   saveAttendanceRuleAPI,
   createAttendanceRuleApi
-} from "@api/role-operator/attendance-rules/attendance-rules-api";
+} from "@services/role-operator/attendance-rules/attendance-rules-api";
 
 export default function useAttendanceRules() {
   const [isExistingData, setIsExistingData] = useState(false);

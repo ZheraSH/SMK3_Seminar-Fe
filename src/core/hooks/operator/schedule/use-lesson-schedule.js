@@ -4,7 +4,7 @@ import {
   addLessonHour,
   UpdateLessonHour,
   deleteLessonHour,
-} from "@api/role-operator/schedule/lesson-hours-api";
+} from "@services/role-operator/schedule/lesson-hours-api";
 
 export default function useLessonHours(activeDayApi) {
   const [lessonHours, setLessonHours] = useState([]);

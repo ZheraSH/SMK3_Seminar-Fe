@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { fetchAttendanceStatistics } from "@api/role-homeroom/dashboard/homeroom-dashboard";
+import { fetchAttendanceStatistics } from "@services/role-homeroom/dashboard/homeroom-dashboard";
 import LoadingData from "@elements/loading-data/loading";
 
 export default function AttendanceChart() {

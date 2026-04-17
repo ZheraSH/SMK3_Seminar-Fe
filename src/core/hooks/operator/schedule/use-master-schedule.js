@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { fetchSubject, fetchTeacher, fetchLesson, } from "@api/role-operator/schedule/lesson-api";
+import { fetchSubject, fetchTeacher, fetchLesson, } from "@services/role-operator/schedule/lesson-api";
 
 const BREAK_KEYWORDS = ['istirahat', 'break', 'lainnya'];
 

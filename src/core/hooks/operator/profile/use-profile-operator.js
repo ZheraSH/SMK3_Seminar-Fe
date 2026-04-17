@@ -4,7 +4,7 @@ import {
     schoolYear,
     updateProfileOperator,
     getPublicLogo
-} from "@api/role-operator/profile/profile-operator-api";
+} from "@services/role-operator/profile/profile-operator-api";
 
 export default function useProfileOperator() {
     const [loading, setLoading] = useState(true);

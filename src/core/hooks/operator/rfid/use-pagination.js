@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchRfid } from "@api/role-operator/rfid/rfid-api";
+import { fetchRfid } from "@services/role-operator/rfid/rfid-api";
 
 export function useRfid() {
   const [rfid, setRfid] = useState([]);

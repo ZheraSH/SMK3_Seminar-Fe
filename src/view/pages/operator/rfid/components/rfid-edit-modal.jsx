@@ -3,7 +3,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { LoadingSpinner } from "@elements/loading-button/loading";
 import { notify } from "@/core/hooks/notification/notify";
-import { updateRfidStatus } from "../../../../../core/api/role-operator/rfid/rfid-api";
+import { updateRfidStatus } from "../../../../../core/services/role-operator/rfid/rfid-api";
 
 export default function RfidEditModal({ show, selected, onDataChange, onSave, onClose }) {
   const [loading, setLoading] = useState(false);

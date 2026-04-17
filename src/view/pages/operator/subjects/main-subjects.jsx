@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { addSubject, updateSubject, deleteSubject } from "../../../../Core/api/role-operator/subjects/subjects";
+import { addSubject, updateSubject, deleteSubject } from "../../../../core/services/role-operator/subjects/subjects";
 import { SubjectModal } from "./components/subject-modal";
 import { SearchBar } from "./components/search-bar";
 import { Pagination } from "./components/pagination";

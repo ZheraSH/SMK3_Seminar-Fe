@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ChevronDown, Download, RefreshCcw, Search } from "lucide-react";
-import { fetchSummaryClassdaily } from "@/core/api/role-homeroom/summary-class/SummaryClass";
+import { fetchSummaryClassdaily } from "@/core/services/role-homeroom/summary-class/SummaryClass";
 
 export function StudentDataTable() {
   const [students, setStudents] = useState([]);

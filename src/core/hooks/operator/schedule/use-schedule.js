@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { getClass } from "@api/role-operator/class-major/class-api";
+import { getClass } from "@services/role-operator/class-major/class-api";
 import useMasterData from "../class-major/use-master-data";
 
 const debounce = (func, delay) => {

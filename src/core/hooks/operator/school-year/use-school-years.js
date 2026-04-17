@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { getSchoolYears, createSchoolYears, activateSchoolYear, deleteSchoolYears as deleteSchoolYearsApi, getSemester } from "@api/role-operator/school-year/school-year-api";
+import { getSchoolYears, createSchoolYears, activateSchoolYear, deleteSchoolYears as deleteSchoolYearsApi, getSemester } from "@services/role-operator/school-year/school-year-api";
 
 export default function useSchoolYears() {
     const [schoolYears, setSchoolYears] = useState([]);

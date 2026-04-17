@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { fetchTeachersApi } from "@api/role-operator/employee/teachers-api";
+import { fetchTeachersApi } from "@services/role-operator/employee/teachers-api";
 
 export function useTeacher(searchTerm = "", role = "", gender = "", subject = "") {
   const [Teacher, setTeacher] = useState([])

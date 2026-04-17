@@ -13,8 +13,8 @@ import {
   fetchMajors,
   fetchlevelclasses,
   getAllStudents,
-} from "@api/role-operator/student/student-api";
-import { getAllClasses } from "@api/role-operator/class-major/class-api";
+} from "@services/role-operator/student/student-api";
+import { getAllClasses } from "@services/role-operator/class-major/class-api";
 import { StudentsTable } from "./components/student-table";
 import { PaginationStudent } from "./components/pagination";
 import { SearchFilterStudent } from "./components/search";
