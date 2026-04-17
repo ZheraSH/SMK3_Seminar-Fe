@@ -28,4 +28,9 @@ function Header2 ({title = "" , teacher = "" , studentCont= "", academicYear = "
   )
 }
 
+<<<<<<< HEAD
 export default Header2;
+=======
+export default Header2;
+
+>>>>>>> dev2

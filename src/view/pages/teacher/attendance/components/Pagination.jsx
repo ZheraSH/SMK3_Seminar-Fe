@@ -72,4 +72,9 @@ const Pagination = ({ page, setPage, pagination }) => {
     );
 };
 
+<<<<<<< HEAD
 export default Pagination;
+=======
+export default Pagination;
+
+>>>>>>> dev2

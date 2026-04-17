@@ -20,3 +20,4 @@ export function FirstLessonView({ setIsOpenClass }) {
     </div>
   );
 }
+

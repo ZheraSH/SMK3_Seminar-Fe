@@ -75,4 +75,8 @@ export function Pagination({ pagination, goToPage }) {
     );
 }
 
+<<<<<<< HEAD
 export default Pagination;
+=======
+export default Pagination;
+>>>>>>> dev2
