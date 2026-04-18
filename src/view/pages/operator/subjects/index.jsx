@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { addSubject, updateSubject, deleteSubject } from "@services/role-operator/subjects/subjects-api";
 import { SubjectModal } from "./components/subject-modal";
 import { SearchBar } from "./components/search-bar";
-import { Pagination } from "./components/pagination";
+import { Pagination } from "./components/subject-pagination";
 import { SubjectCard } from "./components/subject-card";
 import useSubjects from "@core/hooks/operator/subjects/use-subjects";
 import Header from "@elements/header/header-new";
