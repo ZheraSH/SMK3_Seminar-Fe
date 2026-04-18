@@ -4,38 +4,7 @@ import useMajors from "@core/hooks/operator/class-major/use-major";
 import Headernew from "@elements/header/header-new";
 import LoadingData from "@elements/loading-data/loading";
 
-const majorMappings = [
-  {
-    apiName: "Desain Komunikasi Visual",
-    fullName: "dkv",
-    logo: "/images/major/Dkvbaru.png",
-  },
-  {
-    apiName: "Kecantikan & Spa",
-    fullName: "KCS",
-    logo: "/images/major/KcsBaru.png",
-  },
-  {
-    apiName: "Desain & Produksi Busana",
-    fullName: "DPB",
-    logo: "/images/major/BusanaBaru.png",
-  },
-  {
-    apiName: "Perhotelan",
-    fullName: "PH",
-    logo: "/images/major/PhBaru.png",
-  },
-  {
-    apiName: "Kuliner",
-    fullName: "Kuliner",
-    logo: "/images/major/KulinerBaru.png",
-  },
-  {
-    apiName: "Pengembangan Perangkat Lunak & Game",
-    fullName: "PPLG",
-    logo: "/images/major/PPLGBaru.png",
-  },
-];
+import { majorMappings } from "@mock/major-mapping";
 
 const MajorPage = () => {
   const { majors, loading } = useMajors();
@@ -61,7 +30,7 @@ const MajorPage = () => {
         <div className=" hidden md:block">
           {loading ? (<LoadingData loading={loading} type="header1" />)
             : (
-              <Headernew span="Daftar Jurusan" p="Total Jurusan = 6" src="/images/particle/particle3.png" />
+              <Headernew span="Daftar Jurusan" p="Total Jurusan : 6" src="/images/particle/particle3.png" />
             )}
         </div>
         {loading ? (
