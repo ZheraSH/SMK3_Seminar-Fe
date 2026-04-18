@@ -1,4 +1,4 @@
-import MainClassStudent from "@pages/student/class/main-class";
+import MainClassStudent from "@pages/student/student-class/main-class";
 import MainScheduleStudent from "@pages/student/schedule/main-schedule";
 import PermissionManagement from "@pages/student/permission-management/permission-management";
 import ProtectedRoute from "./protected-route";
