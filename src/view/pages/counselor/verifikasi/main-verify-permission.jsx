@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { getVerifyPermissionbk, getPermissionDetailbk, approvePermissionbk, rejectPermissionbk } from '../../../../core/services/role-counselor/verify-permission/verify-permission';
-import { useVerifyPermissionData } from '../../../../core/hooks/counselor/use-verify-permission';
+import { getVerifyPermissionbk, getPermissionDetailbk, approvePermissionbk, rejectPermissionbk } from "@services/role-counselor/verify-permission/verify-permission";
+import { useVerifyPermissionData } from "@core/hooks/counselor/use-verify-permission";
 
 import DetailIzinModal from "./components/modal-detail";
 import Table from './components/table';

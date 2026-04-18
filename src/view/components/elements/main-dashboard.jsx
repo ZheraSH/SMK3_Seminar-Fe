@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { LogOut, X, Search, Menu } from "lucide-react";
-import { useAttendanceTeacher } from "../../../core/hooks/role-teacher/attendance/use-attendance";
+import { useAttendanceTeacher } from "@core/hooks/role-teacher/attendance/use-attendance";
 
 const api = axios.create({
   baseURL: "http://localhost:8000/api",
@@ -91,12 +91,16 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       { pattern: "/home/classStudents/detail", title: "Detail Siswa" },
       { pattern: "/home/class", title: "Daftar Kelas" },
       { pattern: "/home/major", title: "Daftar Jurusan" },
-      { pattern: "/home/Shedule", title: "Jadwal Pelajaran" },
+      { pattern: "/home/jadwal-pelajaran", title: "Jadwal Pelajaran" },
       { pattern: "/home/siswa", title: "Siswa" },
       { pattern: "/home/maple", title: "Mapel" },
+      { pattern: "/home/tahun-ajaran", title: "Tahun Ajaran" },
       { pattern: "/home/absen-rfid", title: "Pengaturan Jam RFID" },
       { pattern: "/home/rfid", title: "RFID" },
+      { pattern: "/home/mastercard", title: "Master Card" },
       { pattern: "/home/guru", title: "Guru" },
+      { pattern: "/home/profile-operator", title: "Profil Operator" },
+      { pattern: "/home/profile", title: "Profil" },
       { pattern: "/home", title: "Dashboard" },
     ];
 

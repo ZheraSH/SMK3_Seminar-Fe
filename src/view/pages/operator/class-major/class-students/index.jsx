@@ -4,7 +4,7 @@ import { Search, ArrowUpSquare, RefreshCw, Plus, ArrowLeftToLine, X } from 'luci
 import DataTable from './components/table-class-student';
 import PaginationComponent from './components/pagination-component';
 import FormStudents from "./components/form-class-student";
-import useClassroomDetail from '@/core/hooks/operator/class-major/use-classroom-detail';
+import useClassroomDetail from '@core/hooks/operator/class-major/use-classroom-detail';
 import Header2 from "@elements/header/header-new2";
 import LoadingData from '@elements/loading-data/loading';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { MoreVertical, PencilLine, Trash2, Plus } from 'lucide-react';
-import { getBgColorBySubject } from '../../../../../Core/utils/subject-helper';
+import { getBgColorBySubject } from '@core/utils/subject-helper';
 
 const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  openDropdownId,  dropdownRef,  onEdit,  onDelete,  onAdd,
 }) => {

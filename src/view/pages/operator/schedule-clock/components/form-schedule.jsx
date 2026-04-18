@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Loader2, ChevronRight } from 'lucide-react';
 import { LoadingSpinner } from "@elements/loading-button/loading";
-import useMasterSchedule from "@/core/hooks/operator/schedule/use-master-schedule";
+import useMasterSchedule from "@core/hooks/operator/schedule/use-master-schedule";
 
 const CustomSelect = ({ label, id, name, value, options, onChange, placeholder = "Pilih...", error, disabled, getDisplayLabel }) => {
     const [isOpen, setIsOpen] = useState(false);

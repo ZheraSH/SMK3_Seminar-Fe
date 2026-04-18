@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
-import useMasterData from "@/core/hooks/operator/class-major/use-master-data";
+import useMasterData from "@core/hooks/operator/class-major/use-master-data";
 import { getAllClasses } from "@services/role-operator/class-major/class-api";
 import { LoadingSpinner } from "@elements/loading-button/loading";
 

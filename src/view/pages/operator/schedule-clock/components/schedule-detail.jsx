@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Settings, Plus, X } from 'lucide-react';
-import useClassSchedule from '@/core/hooks/operator/schedule/use-class-schedule';
+import useClassSchedule from '@core/hooks/operator/schedule/use-class-schedule';
 import AddScheduleModal from "./form-schedule";
 import Header2 from "@elements/header/header-new";
 import ScheduleTable from "./table-schedule-detail";

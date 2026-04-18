@@ -1,6 +1,6 @@
 "use client";
 import { Save, ArrowRight } from "lucide-react";
-import useAttendanceRules from "@/core/hooks/operator/attendance-rules/use-attendance-rules";
+import useAttendanceRules from "@core/hooks/operator/attendance-rules/use-attendance-rules";
 import LoadingData from "@elements/loading-data/loading";
 import { LoadingSpinner } from "@elements/loading-button/loading";
 

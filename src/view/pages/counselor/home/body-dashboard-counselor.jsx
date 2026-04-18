@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { TriangleAlert } from "lucide-react"
-import { getBgColorStatus } from "@/core/utils/subject-helper"
-import { useDashboardData } from "@/core/hooks/counselor/dashboard/use-dashboard"
+import { getBgColorStatus } from "@core/utils/subject-helper"
+import { useDashboardData } from "@core/hooks/counselor/dashboard/use-dashboard"
 import { useNavigate } from "react-router-dom";
 import LoadingData from "@elements/loading-data/loading";
 
@@ -191,7 +191,12 @@ export const DashboardContent = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-center">
                         <button
-                          onClick={() => navigate("/dashboard/verifikasi-izin")}
+                          onClick={() => {
+                            const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+                            const roles = userData.roles || [];
+                            const basePath = roles.length > 1 ? "/dashboard" : "/bk-home";
+                            navigate(`${basePath}/verifikasi-izin`);
+                          }}
                           className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md text-xs font-medium transition shadow-sm">
                           Lihat Izin
                         </button>

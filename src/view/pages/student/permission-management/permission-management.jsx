@@ -5,7 +5,7 @@ import { PermissionCard } from "./components/permission-card";
 import { PermissionTable } from "./components/permission-table";
 import { PermissionFormModal } from "./components/permission-form-modal";
 import { PermissionDetailModal } from "./components/permission-detail-modal";
-import { usePermissions } from "@/core/hooks/role-student/permission-student/use-permission-student";
+import { usePermissions } from "@core/hooks/role-student/permission-student/use-permission-student";
 import { PaginationPermissionStudent } from "./components/permission-pagination";
 import HeaderPage from "@elements/header/header-new";
 import { getPermissionDetailStudent, deletePermissionApi } from "@services/role-student/student-permission/permission";

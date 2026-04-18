@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Users, UserCheck, Puzzle, School } from "lucide-react";
-import { fetchDashboardCounters } from "@/core/services/role-operator/dashboard/dashboard-api";
+import { fetchDashboardCounters } from "@core/services/role-operator/dashboard/dashboard-api";
 import LoadingData from "@elements/loading-data/loading";
 
 const CARD_CONFIG = [

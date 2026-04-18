@@ -1,5 +1,5 @@
 import React from "react";
-import { RoleLabels, RoleEnum } from "../../../../../core/enums/role-enum";
+import { RoleLabels, RoleEnum } from "@core/enums/role-enum";
 import { LoadingSpinner } from "../../../../components/elements/loading-button/loading";
 export const TeacherForm = ({
   isOpen,

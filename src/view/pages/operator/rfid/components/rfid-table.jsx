@@ -2,8 +2,8 @@
 import { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { MoreVertical, CheckCircle, XCircle, Trash2 } from "lucide-react";
-import { updateRfidStatus } from "../../../../../core/services/role-operator/rfid/rfid-api";
-import { notify } from "@/core/hooks/notification/notify";
+import { updateRfidStatus } from "@services/role-operator/rfid/rfid-api";
+import { notify } from "@core/hooks/notification/notify";
 
 export function RfidTable({
   filtered = [],

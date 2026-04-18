@@ -6,7 +6,7 @@ import { DetailModal } from "./components/teacher-detail-modal";
 import { TeacherForm } from "./components/teacher-form-modal";
 import { TeacherTable } from "./components/teacher-table";
 import { PaginationEmployee } from "./components/teachers-pagination";
-import { useTeacher } from "@/core/hooks/operator/employee/use-pagination";
+import { useTeacher } from "@core/hooks/operator/employee/use-pagination";
 import { validateTeacherForm } from "./components/utils/validate-teacher-form";
 
 import {

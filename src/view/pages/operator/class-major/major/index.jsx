@@ -1,6 +1,6 @@
 import Header from "../components/module-header";
 import { useNavigate } from "react-router-dom";
-import useMajors from "@/core/hooks/operator/class-major/use-major";
+import useMajors from "@core/hooks/operator/class-major/use-major";
 import Headernew from "@elements/header/header-new";
 import LoadingData from "@elements/loading-data/loading";
 

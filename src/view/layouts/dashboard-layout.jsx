@@ -3,9 +3,9 @@ import { ROLE_MENUS, multiRoleCommon } from "@mock/sidebar-data";
 import { useRef, useState, useEffect, useMemo } from "react";
 import MainDashboard from "@elements/main-dashboard";
 import { ChevronDown } from "lucide-react";
-import { Notification } from "@/core/hooks/notification/notification-master";
+import { Notification } from "@core/hooks/notification/notification-master";
 import LoginSuccessPopup from "@elements/succes-login/login-success-popup";
-import useProfileOperator from "@/core/hooks/operator/profile/use-profile-operator";
+import useProfileOperator from "@core/hooks/operator/profile/use-profile-operator";
 
 export const DashboardLayout = () => {
   const location = useLocation();

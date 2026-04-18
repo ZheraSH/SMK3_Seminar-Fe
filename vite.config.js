@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@services': path.resolve(__dirname, 'src/core/services'),
-      "@mock": path.resolve(__dirname, "src/core/mock"),
-      "@core": path.resolve(__dirname, "src/core"),
+      '@services': path.resolve(__dirname, 'src/cores/services'),
+      "@mock": path.resolve(__dirname, "src/cores/mock"),
+      "@core": path.resolve(__dirname, "src/cores"),
       "@components": path.resolve(__dirname, "src/view/components"),
       '@': path.resolve(__dirname, 'src'),
       '@assets': path.resolve(__dirname, 'src/view'),

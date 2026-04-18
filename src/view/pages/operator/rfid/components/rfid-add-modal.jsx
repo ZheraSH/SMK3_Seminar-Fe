@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { LoadingSpinner } from "@elements/loading-button/loading";
-import { notify } from "@/core/hooks/notification/notify";
+import { notify } from "@core/hooks/notification/notify";
 import {
   addRfid,
   fetchAvailableStudents,
-} from "../../../../../core/services/role-operator/rfid/rfid-api";
+} from "@services/role-operator/rfid/rfid-api";
 
 export default function RfidAddModal({
   show,

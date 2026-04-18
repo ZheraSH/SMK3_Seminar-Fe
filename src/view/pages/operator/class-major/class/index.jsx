@@ -1,4 +1,4 @@
-import useClasses from "@/core/hooks/operator/class-major/use-class";
+import useClasses from "@core/hooks/operator/class-major/use-class";
 import { X, Search, Plus } from "lucide-react";
 import ClassCard from "../components/class-card";
 import Pagination from "../components/pagination-class";

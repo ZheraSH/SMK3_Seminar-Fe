@@ -6,7 +6,7 @@ import { SubjectModal } from "./components/subject-modal";
 import { SearchBar } from "./components/search-bar";
 import { Pagination } from "./components/pagination";
 import { SubjectCard } from "./components/subject-card";
-import useSubjects from "@/core/hooks/operator/subjects/use-subjects";
+import useSubjects from "@core/hooks/operator/subjects/use-subjects";
 import Header from "@elements/header/header-new";
 import LoadingData from "@elements/loading-data/loading";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";

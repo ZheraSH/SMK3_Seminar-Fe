@@ -1,0 +1,79 @@
+﻿
+> tevafe@0.0.0 build
+> vite build
+
+[36mvite v7.1.7 [32mbuilding for production...[36m[39m
+transforming...
+node.exe : 
+At C:\Program 
+Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: (:String)   
+  [], RemoteException
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+/images/background/VectorHD.jp
+g referenced in /images/backgr
+ound/VectorHD.jpg didn't 
+resolve at build time, it 
+will remain unchanged to be 
+resolved at runtime
+
+/images/landingPage/about/bg-a
+bout3.png referenced in /image
+s/landingPage/about/bg-about3.
+png didn't resolve at build 
+time, it will remain 
+unchanged to be resolved at 
+runtime
+
+images/particle01.png 
+referenced in 
+images/particle01.png didn't 
+resolve at build time, it 
+will remain unchanged to be 
+resolved at runtime
+[32mΓ£ô[39m 1169 modules transformed.
+[31mΓ£ù[39m Build failed in 
+30.71s
+[31merror during build:
+[31m[vite:load-fallback] 
+Could not load C:\SMK3_Seminar
+-Be\SMK3_Seminar-Fe\src/core/h
+ooks/notification/notification
+-master (imported by src/view/
+layouts/dashboard-layout.jsx):
+ ENOENT: no such file or 
+directory, open 'C:\SMK3_Semin
+ar-Be\SMK3_Seminar-Fe\src\core
+\hooks\notification\notificati
+on-master'[31m
+    at async open (node:intern
+al/fs/promises:639:25)
+    at async Object.readFile (
+node:internal/fs/promises:1243
+:14)
+    at async Object.handler (f
+ile:///C:/SMK3_Seminar-Be/SMK3
+_Seminar-Fe/node_modules/vite/
+dist/node/chunks/dep-Bm2ujbhY.
+js:33589:21)
+    at async PluginDriver.hook
+FirstAndGetPlugin (file:///C:/
+SMK3_Seminar-Be/SMK3_Seminar-F
+e/node_modules/rollup/dist/es/
+shared/node-entry.js:22307:28)
+    at async file:///C:/SMK3_S
+eminar-Be/SMK3_Seminar-Fe/node
+_modules/rollup/dist/es/shared
+/node-entry.js:21307:33
+    at async Queue.work (file:
+///C:/SMK3_Seminar-Be/SMK3_Sem
+inar-Fe/node_modules/rollup/di
+st/es/shared/node-entry.js:225
+35:32)[39m
