@@ -1,10 +1,10 @@
 // ButtonAttendance.jsx
 const days = [
-  { label: "Senin", value: "monday", index: 1 },
-  { label: "Selasa", value: "tuesday", index: 2 },
-  { label: "Rabu", value: "wednesday", index: 3 },
-  { label: "Kamis", value: "thursday", index: 4 },
-  { label: "Jumat", value: "friday", index: 5 },
+  { label: "Senin", value: "monday" },
+  { label: "Selasa", value: "tuesday" },
+  { label: "Rabu", value: "wednesday" },
+  { label: "Kamis", value: "thursday" },
+  { label: "Jumat", value: "friday" },
 ];
 
 export default function ButtonAttendance({ setActiveDay, activeDay }) {
@@ -14,12 +14,8 @@ export default function ButtonAttendance({ setActiveDay, activeDay }) {
         <button
           key={day.value}
           onClick={() => setActiveDay(day.value)}
-<<<<<<< HEAD:src/view/pages/teacher/attendance/components/ButtonAttendance.jsx
-          className={`px-2 py-2 ml-1 h-[30px] w-full md:w-[80px] md:h-[40px] rounded-md border-none font-semibold text-[12px] md:text-[14px] transition-all duration-200 ${activeDay === day.value
-=======
           className={`px-2 py-2 ml-1 h-[30px] w-full md:w-[80px] md:h-[40px] rounded-md border-none font-semibold text-[12px] md:text-[14px] transition-all duration-200 ${
             activeDay === day.value
->>>>>>> dev2:src/view/pages/teacher/attendance/components/button-attendance.jsx
               ? "bg-[#3B82F6] text-white border-[#3B82F6]"
               : "bg-[#EFF1F3] text-black hover:bg-[#3B82F6] hover:text-white"
           }`}

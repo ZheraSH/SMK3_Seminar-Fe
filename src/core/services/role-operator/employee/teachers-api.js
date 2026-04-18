@@ -1,26 +1,11 @@
-<<<<<<< HEAD:src/Core/api/role-operator/employee/TeachersApi.js
-import api from "../../axiosConfig";
-import { notify } from "../../../hooks/notification/notify";
-
-export const fetchTeachersApi = async (page = 1, filters = {}) => {
-=======
 import api from "@services/axios-config";
 import { notify } from "@/core/hooks/notification/notify";
 
 export const fetchTeachersApi = async (page = 1, search = "", role = "", gender = "", subject = "") => {
->>>>>>> dev2:src/core/services/role-operator/employee/teachers-api.js
   try {
     const res = await api.get("/employees", {
       params: {
         page,
-<<<<<<< HEAD:src/Core/api/role-operator/employee/TeachersApi.js
-        ...filters,
-      },
-    });
-
-    console.log(res.data.data);
-
-=======
         search,
         role,
         gender,
@@ -28,7 +13,6 @@ export const fetchTeachersApi = async (page = 1, search = "", role = "", gender 
       },
     });
 
->>>>>>> dev2:src/core/services/role-operator/employee/teachers-api.js
     return {
       data: res.data.data || [],
       meta: res.data.meta || {},

@@ -1,18 +1,6 @@
+// CardAttendance.jsx
 import { GraduationCap, Users } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
-<<<<<<< HEAD:src/view/pages/teacher/attendance/components/CardAttendance.jsx
-export default function CardAttendance({ classrooms, loading, error, setSelectedClass, setIsOpenClass }) {
-
-  const handleOpenClass = (item) => {
-    setSelectedClass({
-      id: item.id,
-      lesson: {
-        order: item.lesson.order ?? 1
-      },
-      lesson_order: item.lesson.order ?? 1,
-      date: item.lesson.date,
-=======
 export default function CardAttendance({  classrooms,  loading,  error,  setSelectedClass,  setIsOpenClass }) {
 
   const handleOpenClass = (item) => {
@@ -23,16 +11,30 @@ export default function CardAttendance({  classrooms,  loading,  error,  setSele
       },
       lesson_order: item.lesson.order ?? 1,
       date:  item.lesson.date,
->>>>>>> dev2:src/view/pages/teacher/attendance/components/card-attendance.jsx
     });
     setIsOpenClass(true);
   };
 
+  if (loading) {
+    return (
+      <div className="w-full text-center py-10 text-gray-600 text-lg font-semibold">
+        Memuat data kelas...
+      </div>
+    );
+  }
 
   if (error) {
     return (
-      <div className="w-full text-center py-10 text-red-500 font-semibold">
+      <div className="w-full text-center py-10 text-red-500 text-lg font-semibold">
         {error}
+      </div>
+    );
+  }
+
+  if (!classrooms || classrooms.length === 0) {
+    return (
+      <div className="w-full text-center py-10 text-gray-600 text-lg font-semibold">
+        Tidak ada kelas mengajar
       </div>
     );
   }
@@ -71,9 +73,5 @@ export default function CardAttendance({  classrooms,  loading,  error,  setSele
       </div>
     </div>
   );
-<<<<<<< HEAD:src/view/pages/teacher/attendance/components/CardAttendance.jsx
-}
-=======
 }
 
->>>>>>> dev2:src/view/pages/teacher/attendance/components/card-attendance.jsx

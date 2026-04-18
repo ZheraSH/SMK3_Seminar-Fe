@@ -1,10 +1,5 @@
-<<<<<<< HEAD:src/Core/api/role-operator/class-major/classStudentsApi.jsx
-import { notify } from "../../../hooks/notification/notify";
-import api from "../../axiosConfig";
-=======
 import { notify } from "@/core/hooks/notification/notify";
 import api from "@services/axios-config";
->>>>>>> dev2:src/core/services/role-operator/class-major/class-students-api.js
 
 export const getClassroomDetail = async (id) => {
   try {

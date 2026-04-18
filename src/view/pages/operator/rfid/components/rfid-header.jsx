@@ -1,16 +1,19 @@
 "use client";
 
-import HeaderPage from "../../../../components/elements/header/Header.Page";
-
 export function RfidHeader() {
   return (
-    <HeaderPage
-      h1="Management RFID"
-      p=" Kelola daftar tahun ajaran yang tersedia."
-    />
+    <div className="relative w-full h-[166px] mt-6 bg-[url('/images/background/bg03.png')] bg-center bg-cover bg-no-repeat rounded-[15px] shadow-md">
+      <div className="absolute inset-0 flex flex-col mt-2 rounded-[6px]">
+        <div className="ml-6">
+          <h1 className="text-white text-[30px] font-semibold drop-shadow-lg">
+            Management RFID
+          </h1>
+          <p className="text-white text-[14px] font-light drop-shadow-md">
+            Kelola daftar tahun ajaran yang tersedia.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
-<<<<<<< HEAD:src/view/pages/operator/rfid/components/RfidHeader.jsx
-=======
 
->>>>>>> dev2:src/view/pages/operator/rfid/components/rfid-header.jsx

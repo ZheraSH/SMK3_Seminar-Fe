@@ -1,37 +1,7 @@
 import { useState } from "react";
-<<<<<<< HEAD:src/view/components/elements/login/MainLogin.jsx
-import { Eye, EyeOff, CheckCircle, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import api from "@api/index";
-
-const loginUser = async ({ email, password }) => {
-  try {
-    const response = await api.post("/auth/login", { email, password });
-
-    const result = response.data;
-
-    if (result && result.data && result.data.token && result.data.user) {
-      const user = result.data.user;
-      const roles = user.roles.map((r) => r.value);
-      return {
-        token: result.data.token,
-        user: user,
-        roles: roles,
-        activeRole: result.data.role,
-      };
-    } else {
-      throw new Error("Format respons dari server tidak sesuai");
-    }
-  } catch (error) {
-    console.error("Error login:", error);
-    throw new Error("Gagal login. Periksa email/password atau server API.");
-  }
-};
-=======
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { loginUserApi } from "@services/auth";
->>>>>>> dev2:src/view/components/elements/login/main-login.jsx
 
 
 export default function Login() {
@@ -63,11 +33,7 @@ export default function Login() {
 
     setLoading(true);
     try {
-<<<<<<< HEAD:src/view/components/elements/login/MainLogin.jsx
-      const data = await loginUser({ email, password });
-=======
       const data = await loginUserApi({ email, password });
->>>>>>> dev2:src/view/components/elements/login/main-login.jsx
 
       localStorage.setItem("token", data.token);
       localStorage.setItem(

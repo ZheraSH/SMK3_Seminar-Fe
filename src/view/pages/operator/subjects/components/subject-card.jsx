@@ -1,14 +1,10 @@
-"use client";
+"use client"
 
-import { MoreVertical, Edit3, Trash2 } from "lucide-react";
+import { MoreVertical, Edit3, Trash2 } from "lucide-react"
 import {
   getIconBySubject,
   getBgColorBySubject,
-<<<<<<< HEAD:src/view/pages/operator/subjects/components/SubjectCard.jsx
-} from "../../../../../Core/utils/SubjectHelper";
-=======
 } from "../../../../../Core/utils/subject-helper"
->>>>>>> dev2:src/view/pages/operator/subjects/components/subject-card.jsx
 
 export function SubjectCard({
   subject = {},
@@ -17,7 +13,7 @@ export function SubjectCard({
   openMenu,
   setOpenMenu,
 }) {
-  const id = subject.id;
+  const id = subject.id
 
   return (
     <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition p-4 flex flex-col">
@@ -25,7 +21,7 @@ export function SubjectCard({
         <div className="flex items-center gap-3">
           <div
             className={`w-10 h-10 p-2 rounded-[12px] flex items-center justify-center ${getBgColorBySubject(
-              subject.name
+              subject.name,
             )}`}
           >
             {getIconBySubject(subject.name)}
@@ -47,8 +43,8 @@ export function SubjectCard({
           <div className="absolute right-3 top-10 bg-white border border-gray-200 shadow-lg rounded-xl w-[117px] z-20 animate-fadeIn">
             <button
               onClick={() => {
-                onEdit(subject);
-                setOpenMenu(null);
+                onEdit(subject)
+                setOpenMenu(null)
               }}
               className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left text-[14px] text-[#1F2937] justify-between font-medium"
             >
@@ -72,6 +68,6 @@ export function SubjectCard({
         {subject.name || "-"}
       </h2>
     </div>
-  );
+  )
 }
 

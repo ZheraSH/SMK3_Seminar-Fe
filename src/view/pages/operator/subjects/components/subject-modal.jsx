@@ -1,9 +1,6 @@
 "use client";
 import { Plus } from "lucide-react";
-<<<<<<< HEAD:src/view/pages/operator/subjects/components/SubjectModal.jsx
-=======
 import { LoadingSpinner } from "@elements/loading-button/loading";
->>>>>>> dev2:src/view/pages/operator/subjects/components/subject-modal.jsx
 export function SubjectModal({
   isOpen,
   mode,
@@ -56,12 +53,8 @@ export function SubjectModal({
           <div className="flex justify-end">
             <button
               type="submit"
-<<<<<<< HEAD:src/view/pages/operator/subjects/components/SubjectModal.jsx
-              className="bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-medium"
-=======
               disabled={isSubmitting}
               className={`bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-medium ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
->>>>>>> dev2:src/view/pages/operator/subjects/components/subject-modal.jsx
             >
               {isSubmitting ? <LoadingSpinner /> : buttonText}
             </button>

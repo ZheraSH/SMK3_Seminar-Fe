@@ -88,32 +88,6 @@ export default function useSchedule({ initialMajor = "" }) {
         // fetchFilterOptions() dihapus
     }, [initialMajor]);
 
-<<<<<<< HEAD:src/Core/hooks/operator-hooks/schedule/useSchedule.jsx
-  return {
-      activeTab,
-      setActiveTab,
-      selectedClassroomData,
-      handleViewSchedule,
-      handleBackToClasses,
-      scheduleData,
-      loading,
-      page,
-      lastPage,
-      handlePageChange,
-      filters,
-      handleFilterChange,
-        
-      filterOptions: { 
-            majors: majors || [], 
-            schoolYears: schoolYears || [], 
-            levelClasses: levelClass || [],
-        },
-        masterLoading: masterLoading, 
-      searchText,
-      handleSearchChange,
-  };
-}
-=======
     return {
         activeTab,
         setActiveTab,
@@ -138,4 +112,3 @@ export default function useSchedule({ initialMajor = "" }) {
         handleSearchChange,
     };
 }
->>>>>>> dev2:src/core/hooks/operator/schedule/use-schedule.js

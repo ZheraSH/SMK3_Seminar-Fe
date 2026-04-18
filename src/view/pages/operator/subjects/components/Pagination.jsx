@@ -50,11 +50,6 @@ export function Pagination({
       {p}
     </button>
   );
-<<<<<<< HEAD
-
-  const pages = getPages();
-=======
->>>>>>> dev2
 
   return (
     <div className="flex items-center justify-center mt-8 gap-2 select-none">
@@ -86,9 +81,5 @@ export function Pagination({
       </button>
     </div>
   );
-<<<<<<< HEAD
-}
-=======
 }
 
->>>>>>> dev2

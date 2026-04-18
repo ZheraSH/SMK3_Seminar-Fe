@@ -13,9 +13,5 @@ function Header ({span = "isi ini brooo 🤷‍♂️🤦‍♂️🐱🐒" , p 
     </div>
   )
 } 
-<<<<<<< HEAD
-export default Header;
-=======
 export default Header;
 
->>>>>>> dev2

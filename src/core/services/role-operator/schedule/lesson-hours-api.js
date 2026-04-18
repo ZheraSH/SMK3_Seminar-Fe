@@ -1,10 +1,5 @@
-<<<<<<< HEAD:src/Core/api/lesson-shedule/lessonHoursApi.js
-import api from "../axiosConfig";
-import { notify } from "../../hooks/notification/notify";
-=======
 import api from "@services/axios-config";
 import { notify } from "@/core/hooks/notification/notify";
->>>>>>> dev2:src/core/services/role-operator/schedule/lesson-hours-api.js
 
 
 export const fetchLessonHoursByDay = async (day) => {

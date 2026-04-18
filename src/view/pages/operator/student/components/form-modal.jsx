@@ -259,11 +259,7 @@ export function FormModal({
                 }`}
               placeholder="Masukkan Saudara Ke"
               type="number"
-<<<<<<< HEAD:src/view/pages/operator/student/components/FormModal.jsx
-              min="0"
-=======
               min="1"
->>>>>>> dev2:src/view/pages/operator/student/components/form-modal.jsx
               step="1"
               name="count_siblings"
               value={post.count_siblings}
@@ -323,11 +319,7 @@ export function FormModal({
                 }`}
               placeholder="Masukkan Anak Ke"
               type="number"
-<<<<<<< HEAD:src/view/pages/operator/student/components/FormModal.jsx
-              min="0"
-=======
               min="1"
->>>>>>> dev2:src/view/pages/operator/student/components/form-modal.jsx
               step="1"
               name="order_child"
               value={post.order_child}
@@ -368,17 +360,10 @@ export function FormModal({
           <div className="col-span-2 flex justify-end mt-4">
             <button
               type="submit"
-<<<<<<< HEAD:src/view/pages/operator/student/components/FormModal.jsx
-              disabled={Object.values(errors).some((err) => err)}
-              className={`ml-3 px-4 py-2 rounded-lg text-white transition ${Object.values(errors).some((err) => err)
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-=======
               disabled={isSubmitting || Object.values(errors).some((err) => err)}
               className={`bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-medium ${isSubmitting || Object.values(errors).some((err) => err)
                 ? "opacity-50 cursor-not-allowed"
                 : ""
->>>>>>> dev2:src/view/pages/operator/student/components/form-modal.jsx
                 }`}
             >
               {isSubmitting ? (

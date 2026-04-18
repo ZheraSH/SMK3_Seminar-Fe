@@ -1,10 +1,5 @@
-<<<<<<< HEAD:src/Core/api/role-operator/rfid/RfidApi.js
-import api from "../../axiosConfig";
-import { notify } from "../../../hooks/notification/notify";
-=======
 import api from "@services/axios-config";
 import { notify } from "@/core/hooks/notification/notify";
->>>>>>> dev2:src/core/services/role-operator/rfid/rfid-api.js
 
 export const fetchRfid = async (page = 1, search = "") => {
   try {

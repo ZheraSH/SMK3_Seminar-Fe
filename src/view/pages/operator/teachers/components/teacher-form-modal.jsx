@@ -1,12 +1,6 @@
-<<<<<<< HEAD:src/view/pages/operator/teachers/components/TeacherFormModal.jsx
-import React, { useEffect } from "react";
-import { RoleLabels } from "../../../../../Core/enums/RoleEnum";
-
-=======
 import React from "react";
 import { RoleLabels, RoleEnum } from "../../../../../core/enums/role-enum";
 import { LoadingSpinner } from "../../../../components/elements/loading-button/loading";
->>>>>>> dev2:src/view/pages/operator/teachers/components/teacher-form-modal.jsx
 export const TeacherForm = ({
   isOpen,
   setIsOpen,
@@ -16,36 +10,16 @@ export const TeacherForm = ({
   errors,
   editingId,
   handleInput,
-  handleRoleChange,
   handleSubmit,
-<<<<<<< HEAD:src/view/pages/operator/teachers/components/TeacherFormModal.jsx
-  showRoleDropdown,
-  setShowRoleDropdown,
-=======
   isSubmitting,
->>>>>>> dev2:src/view/pages/operator/teachers/components/teacher-form-modal.jsx
 }) => {
   if (!isOpen) return null;
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (showRoleDropdown && !e.target.closest('.role-dropdown-container')) {
-        setShowRoleDropdown(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showRoleDropdown]);
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
       <div className="bg-white rounded-xl shadow-2xl w-[700px] max-h-[90vh] overflow-y-auto p-6 relative">
         <button
-          onClick={() => {
-            setIsOpen(false);
-            setShowRoleDropdown(false);
-          }}
+          onClick={() => setIsOpen(false)}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
         >
           ✕
@@ -154,21 +128,13 @@ export const TeacherForm = ({
               name="nik"
               value={post.nik}
               onChange={handleInput}
-<<<<<<< HEAD:src/view/pages/operator/teachers/components/TeacherFormModal.jsx
-              onKeyDown={(e) => {
-                if (e.key === "-" || e.key === "e" || e.key === "+") {
-=======
              onKeyDown={(e) => {
                 if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
->>>>>>> dev2:src/view/pages/operator/teachers/components/teacher-form-modal.jsx
                   e.preventDefault();
                 }
               }}
             />
-<<<<<<< HEAD:src/view/pages/operator/teachers/components/TeacherFormModal.jsx
-=======
 
->>>>>>> dev2:src/view/pages/operator/teachers/components/teacher-form-modal.jsx
             {errors.nik && (
               <p className="text-red-500 text-sm mt-1">{errors.nik[0]}</p>
             )}
@@ -286,12 +252,8 @@ export const TeacherForm = ({
             <input
               className={`border rounded-lg p-2 w-full ${errors.phone_number ? "border-red-500" : "border-gray-300"
                 }`}
-<<<<<<< HEAD:src/view/pages/operator/teachers/components/TeacherFormModal.jsx
-              type="text"
-=======
               type="number"
               min={0}
->>>>>>> dev2:src/view/pages/operator/teachers/components/teacher-form-modal.jsx
               placeholder="Masukkan nomor telepon"
               name="phone_number"
               value={post.phone_number}
@@ -308,9 +270,7 @@ export const TeacherForm = ({
               </p>
             )}
           </div>
-          
-          {/* ROLE DROPDOWN SECTION */}
-          <div className="relative role-dropdown-container">
+          <div className="relative">
             <label className="block text-sm font-medium text-gray-600">
               <p>
                 {" "}
@@ -319,11 +279,13 @@ export const TeacherForm = ({
             </label>
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowRoleDropdown(!showRoleDropdown);
-              }}
-              className="w-full border border-gray-300 px-3 py-2 rounded-md text-left bg-white hover:bg-gray-50"
+              onClick={() =>
+                setPost((prev) => ({
+                  ...prev,
+                  showRoleDropdown: !prev.showRoleDropdown,
+                }))
+              }
+              className="w-full border border-gray-300 px-3 py-2 rounded-md text-left bg-white"
             >
               {post.roles.length > 0
                 ? post.roles
@@ -343,7 +305,7 @@ export const TeacherForm = ({
                 {Object.keys(RoleLabels).map((key) => (
                   <label
                     key={key}
-                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
+                    className="flex items-center gap-2 p-1 hover:bg-gray-100 rounded"
                   >
                     <input
                       type="checkbox"
@@ -361,15 +323,11 @@ export const TeacherForm = ({
                           return { ...prev, roles: updated };
                         });
                       }}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                     />
-                    <span className="text-sm">{RoleLabels[key]}</span>
+                    <span>{RoleLabels[key]}</span>
                   </label>
                 ))}
               </div>
-            )}
-            {errors.roles && (
-              <p className="text-red-500 text-sm mt-1">{errors.roles[0]}</p>
             )}
           </div>
 
@@ -387,32 +345,17 @@ export const TeacherForm = ({
               name="address"
               value={post.address}
               onChange={handleInput}
-              rows="3"
             />
             {errors.address && (
               <p className="text-red-500 text-sm mt-1">{errors.address[0]}</p>
             )}
           </div>
 
-          <div className="col-span-2 flex justify-end mt-4 gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setIsOpen(false);
-                setShowRoleDropdown(false);
-              }}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition"
-            >
-              Batal
-            </button>
+          <div className="col-span-2 flex justify-end mt-4">
             <button
               type="submit"
-<<<<<<< HEAD:src/view/pages/operator/teachers/components/TeacherFormModal.jsx
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-=======
               disabled={isSubmitting}
               className={`ml-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
->>>>>>> dev2:src/view/pages/operator/teachers/components/teacher-form-modal.jsx
             >
               {isSubmitting ? <LoadingSpinner /> : (editingId ? "Update" : "Tambah")}
             </button>
@@ -421,9 +364,5 @@ export const TeacherForm = ({
       </div>
     </div>
   );
-<<<<<<< HEAD:src/view/pages/operator/teachers/components/TeacherFormModal.jsx
-};
-=======
 };
 
->>>>>>> dev2:src/view/pages/operator/teachers/components/teacher-form-modal.jsx
