@@ -42,10 +42,10 @@ export default function RecapClass() {
     };
 
   const data = [
-    { title: "Total Hadir", value: card.count?.present, color: "#4CAF50", color2: "#DBFFEE", IconComponent: CircleCheck },
-    { title: "Total Siswa Telat",value: card.count?.late, color: "#FF9800", color2: "#FEF3C7", IconComponent: Clock },
-    { title: "Total Siswa Izin", value:card.count?.permission, color: "#2196F3", color2: "#DBEAFE", IconComponent: ClipboardCheck },
-    { title: "Total Siswa Alpha", value:card.count?.alpha, color: "#F44336", color2: "#FEE2E2", IconComponent: TriangleAlert },
+    { title: "Total Hadir", value: card.count?.present ?? 0, color: "#4CAF50", color2: "#DBFFEE", IconComponent: CircleCheck },
+    { title: "Total Siswa Telat",value: card.count?.late ?? 0, color: "#FF9800", color2: "#FEF3C7", IconComponent: Clock },
+    { title: "Total Siswa Izin", value:card.count?.permission ?? 0, color: "#2196F3", color2: "#DBEAFE", IconComponent: ClipboardCheck },
+    { title: "Total Siswa Alpha", value:card.count?.alpha ?? 0, color: "#F44336", color2: "#FEE2E2", IconComponent: TriangleAlert },
   ];
 
   return (

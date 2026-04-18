@@ -3,7 +3,7 @@ import { fetchSummaryClass as getHeaderAPI, fetchSummaryClassdaily as getTableAp
 
 export function UseRecap(selectedDate) {
   const [header, setHeader] = useState(null);
-  const [card, setCard] = useState([]);
+  const [card, setCard] = useState({});
   const [table, setTable] = useState([]);
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
@@ -31,7 +31,7 @@ export function UseRecap(selectedDate) {
       setCard(response);
     } catch (error) {
       console.error("Gagal fetch summary:", error);
-      setCard(null);
+      setCard({});
     } finally {
       setLoading(false);
     }
