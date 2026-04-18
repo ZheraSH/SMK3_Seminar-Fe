@@ -49,7 +49,7 @@ export const teamData = [
     },
     {
         id: 4,
-        name: "Jaka Kusuma Admaja",
+        name: "Jaka Kusuma A.",
         role: "UI/UX Designer",
         image: "/images/team/jaka2.jpg",
         social: { whatsapp: "https://wa.me/6281352535558", github: "#", instagram: "https://www.instagram.com/uma_aa25?igsh=MXE3cmxzYnd3cWpvZA==" }
@@ -91,7 +91,7 @@ export const teamData = [
     },
     {
         id: 10,
-        name: "Fairuz Azadi Afza",
+        name: "Fairouz Azadi Afza",
         role: "Frontend Engineer",
         image: "/images/team/fairuz2.jpg",
         social: { whatsapp: "https://wa.me/6287701804529", github: "https://github.com/Rimexerr", instagram: "https://www.instagram.com/rimexer_uhuyy?igsh=cXA0amcxeWQ0NXIx" }
