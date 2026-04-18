@@ -25,8 +25,6 @@ export default function AttendanceDashboard() {
         const students = result?.students || []
         const pagination = result?.pagination || {}
         
-        console.log("Students data fetched:", students)
-        console.log("Pagination data fetched:", pagination)
 
         const summaryResult = students.reduce(
           (acc, cur) => {

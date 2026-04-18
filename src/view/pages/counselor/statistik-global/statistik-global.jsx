@@ -122,9 +122,7 @@ export default function MainStatistikGlobal() {
     }
 
     setActiveFilter(null);
-    console.log(
-      `Filter ${filterName} dipilih: ${option.label} (${option.value})`
-    );
+  
   };
 
   if (isLoadingStatistics) {
