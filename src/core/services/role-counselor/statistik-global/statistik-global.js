@@ -13,7 +13,6 @@ export const getAttendanceStatistics = async () => {
         },
       }
     );
-    console.log(res.data.data);
     return res.data.data;
   } catch (err) {
     console.error("Gagal mengambil statistik globalyyy:", err);
