@@ -31,3 +31,4 @@ const HeaderPage2 = (props) => {
 };
 
 export default HeaderPage2;
+

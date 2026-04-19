@@ -1,0 +1,383 @@
+"use client";
+
+import React from "react";
+import { LoadingSpinner } from "@elements/loading-button/loading";
+
+export function FormModal({
+  isOpen,
+  onClose,
+  onSubmit,
+  post,
+  onInputChange,
+  editingId,
+  errors,
+  religions = [],
+  majors,
+  levelclasses,
+  isSubmitting,
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
+      <div className="bg-white rounded-xl shadow-2xl w-[700px] max-h-[90vh] overflow-y-auto p-6 relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
+        >
+          ✕
+        </button>
+
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+          {editingId ? "Edit Siswa" : "Tambah Siswa"}
+        </h2>
+
+        <form onSubmit={onSubmit} className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Nama Lengkap <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan nama lengkap"
+              name="name"
+              value={post.name}
+              onChange={onInputChange}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name[0]}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Email <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan Email"
+              name="email"
+              value={post.email}
+              onChange={onInputChange}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Foto
+              </p>
+            </label>
+            <input
+              type="file"
+              name="image"
+              onChange={onInputChange}
+              className="border border-gray-300 rounded-lg p-2 w-full bg-gray-50"
+            />
+            {errors.image && (
+              <p className="text-red-500 text-sm mt-1">{errors.image[0]}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Jenis Kelamin <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <select
+              name="gender"
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.gender ? "border-red-500" : "border-gray-300"
+                }`}
+              onChange={onInputChange}
+              value={post.gender}
+            >
+              <option value="">Pilih jenis kelamin</option>
+              <option value="male">Laki-laki</option>
+              <option value="female">Perempuan</option>
+            </select>
+            {errors.gender && (
+              <p className="text-red-500 text-sm mt-1">{errors.gender[0]}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                NISN <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full ${errors.nisn ? "border-red-500" : "border-gray-300"
+                }`}
+              type="number"
+              min="0"
+              step="1"
+              placeholder="Masukkan NISN"
+              name="nisn"
+              value={post.nisn}
+              onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            {errors.nisn && (
+              <p className="text-red-500 text-sm mt-1">{errors.nisn[0]}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Agama <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <select
+              name="religion_id"
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.religion_id ? "border-red-500" : "border-gray-300"
+                }`}
+              onChange={onInputChange}
+              value={post.religion_id}
+            >
+              <option value="">Pilih agama</option>
+              {religions.map((religion) => (
+                <option key={religion.id} value={religion.id}>
+                  {religion.name}
+                </option>
+              ))}
+            </select>
+            {errors.religion_id && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.religion_id[0]}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Tempat Lahir <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full ${errors.birth_place ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan tempat lahir"
+              name="birth_place"
+              value={post.birth_place}
+              onChange={onInputChange}
+            />
+            {errors.birth_place && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.birth_place[0]}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Tanggal Lahir <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full ${errors.birth_date ? "border-red-500" : "border-gray-300"
+                }`}
+              type="date"
+              name="birth_date"
+              value={post.birth_date}
+              onChange={onInputChange}
+              max={(() => {
+                const d = new Date();
+                d.setDate(d.getDate() - 1);
+                return d.toISOString().split("T")[0];
+              })()}
+            />
+            {errors.birth_date && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.birth_date[0]}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Nomer KK <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full ${errors.number_kk ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan nomer KK"
+              type="number"
+              min="0"
+              step="1"
+              name="number_kk"
+              value={post.number_kk}
+              onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            {errors.number_kk && (
+              <p className="text-red-500 text-sm mt-1">{errors.number_kk[0]}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Saudara Ke
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.count_siblings ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan Saudara Ke"
+              type="number"
+              min="1"
+              step="1"
+              name="count_siblings"
+              value={post.count_siblings}
+              onChange={onInputChange}
+             onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            {errors.count_siblings && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.count_siblings[0]}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Nomer Akta <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full ${errors.number_akta ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan Nomer Akta"
+              type="number"
+              min="0"
+              step="1"
+              name="number_akta"
+              value={post.number_akta}
+              onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            {errors.number_akta && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.number_akta[0]}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Anak Ke
+              </p>
+            </label>
+            <input
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.order_child ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan Anak Ke"
+              type="number"
+              min="1"
+              step="1"
+              name="order_child"
+              value={post.order_child}
+              onChange={onInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            {errors.order_child && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.order_child[0]}
+              </p>
+            )}
+          </div>
+
+          <div className="col-span-2">
+            <label className="block text-sm font-medium text-gray-600">
+              <p>
+                {" "}
+                Alamat <span className="text-red-500">*</span>
+              </p>
+            </label>
+            <textarea
+              className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.address ? "border-red-500" : "border-gray-300"
+                }`}
+              placeholder="Masukkan alamat lengkap"
+              name="address"
+              value={post.address}
+              onChange={onInputChange}
+            />
+            {errors.address && (
+              <p className="text-red-500 text-sm mt-1">{errors.address[0]}</p>
+            )}
+          </div>
+
+          <div className="col-span-2 flex justify-end mt-4">
+            <button
+              type="submit"
+              disabled={isSubmitting || Object.values(errors).some((err) => err)}
+              className={`bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-medium ${isSubmitting || Object.values(errors).some((err) => err)
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+                }`}
+            >
+              {isSubmitting ? (
+                <LoadingSpinner />
+              ) : editingId ? (
+                "Update"
+              ) : (
+                "Tambah"
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+

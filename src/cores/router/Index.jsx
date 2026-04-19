@@ -1,0 +1,25 @@
+import { createBrowserRouter } from "react-router-dom";
+import { AdminRoutes } from "./admin.routes";
+import { StudentRoutes } from "./student.routes";
+import { TeacherRoutes } from "./teacher.routes";
+import { HomeRoomRoute } from "./homeroom.route";
+import { counselorRoutes } from "./counselor.routes";
+import { EmployeeProfileRoute } from "./employee-profile.route";
+import { MultiRoleRoutes } from "./multi-role.route";
+import { LandingRoutes } from "./landing.routes";
+import NotFound from "@pages/not-found";
+
+export const router = createBrowserRouter([
+    ...LandingRoutes,
+    ...AdminRoutes,
+    ...StudentRoutes,
+    ...TeacherRoutes,
+    ...HomeRoomRoute,
+    ...counselorRoutes,
+    ...EmployeeProfileRoute,
+    ...MultiRoleRoutes,
+    {
+        path: "*",
+        element: <NotFound />,
+    },
+]);

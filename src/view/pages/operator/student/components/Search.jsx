@@ -14,3 +14,4 @@ export function SearchFilterStudent({ searchTerm, onSearchChange }) {
     </div>
   );
 }
+
