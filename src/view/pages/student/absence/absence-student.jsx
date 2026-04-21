@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { fetchAttendanceHistory } from '@services/role-student/absence-student/absence-student';
-import Header from '@elements/header/header-new';
+import Header from '@elements/header/header-new-1';
 import LoadingData from '@elements/loading-data/loading';
 import { PaginationAbsenceStudent } from './components/pagination-absence-student';
 

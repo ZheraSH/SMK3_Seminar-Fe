@@ -1,9 +1,9 @@
 import { UserRoundCheck, Users, GraduationCap, Calendar } from "lucide-react";
 import TotalClass from "./class-total";
 import TableClass from "./class-table";
-import Pagination from "./pagination";
+import Pagination from "./pagination-attendance";
 import { useClassAttendance } from "@core/hooks/role-teacher/attendance/use-cross-check";
-import Header from "@elements/header/header-new";
+import Header from "@elements/header/header-new-1";
 import { FirstLessonView } from "./rfid";
 import LoadingData from "@elements/loading-data/loading";
 

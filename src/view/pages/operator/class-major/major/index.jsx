@@ -1,7 +1,7 @@
 import Header from "../components/module-header";
 import { useNavigate } from "react-router-dom";
 import useMajors from "@core/hooks/operator/class-major/use-major";
-import Headernew from "@elements/header/header-new";
+import Headernew from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
 
 import { majorMappings } from "@mock/major-mapping";

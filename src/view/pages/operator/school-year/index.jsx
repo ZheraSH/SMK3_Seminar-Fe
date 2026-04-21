@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Calendar, MoreVertical, ChevronLeft, ChevronRight, Trash2, Power } from 'lucide-react';
-import HeaderPage from '@elements/header/header-new';
+import HeaderPage from '@elements/header/header-new-1';
 import useSchoolYears from '@core/hooks/operator/school-year/use-school-years';
 import AddSchoolYearModal from './components/form-school-year';
 import ModalDelete from '@elements/modaldelete/modal-delete';

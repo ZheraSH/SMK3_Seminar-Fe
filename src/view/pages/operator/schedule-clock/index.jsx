@@ -6,7 +6,7 @@ import useSchedule from '@core/hooks/operator/schedule/use-schedule';
 import ScheduleDetailPage from './components/schedule-detail';
 import Pagination from "./components/pagination-schedule";
 import { Search, Settings } from "lucide-react";
-import Header1 from "@elements/header/header-new";
+import Header1 from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
 
 export default function SchedulePage() {

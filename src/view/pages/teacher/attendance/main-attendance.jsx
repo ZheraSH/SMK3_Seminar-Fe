@@ -2,7 +2,7 @@ import ButtonAttendance from "./components/button-attendance";
 import CardAttendance from "./components/card-attendance";
 import ClassAttendance from "./components/class-attendance";
 import { useAttendanceTeacher } from "@core/hooks/role-teacher/attendance/use-attendance";
-import Header from "@elements/header/header-new";
+import Header from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
 
 export default function AttendanceTeacher() {
