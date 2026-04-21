@@ -16,8 +16,8 @@ import {
 } from "@services/role-operator/student/student-api";
 import { getAllClasses } from "@services/role-operator/class-major/class-api";
 import { StudentsTable } from "./components/student-table";
-import { PaginationStudent } from "./components/pagination";
-import { SearchFilterStudent } from "./components/search";
+import { PaginationStudent } from "./components/pagination-student";
+import { SearchFilterStudent } from "./components/search-student";
 import { StudentFilterDropdown } from "./components/filter-dropdown-student";
 import { useStudentFilter } from "@core/hooks/operator/student/use-student-filter";
 import LoadingData from "@elements/loading-data/loading";
