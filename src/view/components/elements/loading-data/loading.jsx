@@ -15,10 +15,10 @@ const ListSkeleton = ({ count }) => (
   <div className="space-y-4">
     {[...Array(count)].map((_, i) => (
       <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-        <Skeleton className="h-12 w-12 rounded-full" /> {/* Avatar */}
+        <Skeleton className="h-12 w-12 rounded-full" /> 
         <div className="flex-1 space-y-2">
-          <Skeleton className="h-4 w-3/4 rounded" /> {/* Title */}
-          <Skeleton className="h-3 w-1/2 rounded" /> {/* Subtitle */}
+          <Skeleton className="h-4 w-3/4 rounded" /> 
+          <Skeleton className="h-3 w-1/2 rounded" /> 
         </div>
       </div>
     ))}
@@ -176,7 +176,7 @@ const CradDoubleSkeleton = ({ count = 5 }) => (
           {[...Array(count)].map((_, i) => (
             <div key={i} className="p-4 flex items-center gap-4">
               <Skeleton className="h-4 w-6 rounded" />
-              <Skeleton className="h-6 w-24 rounded-full" /> {/* Badge Mapel */}
+              <Skeleton className="h-6 w-24 rounded-full" /> 
               <Skeleton className="h-4 w-1/3 rounded" />
               <Skeleton className="h-4 w-25 rounded ml-auto" />
             </div>
@@ -186,7 +186,7 @@ const CradDoubleSkeleton = ({ count = 5 }) => (
     </div>
     <div className="bg-white rounded-2xl shadow-md border border-gray-100 w-full overflow-hidden">
       <div className="p-5 border-b border-gray-50">
-        <Skeleton className="h-7 w-48 rounded-md mb-2" /> {/* Judul: Riwayat Izin */}
+        <Skeleton className="h-7 w-48 rounded-md mb-2" /> 
       </div>
       <div className="p-0">
         <div className="bg-gray-100 mx-2 p-3 flex gap-4">
@@ -296,10 +296,10 @@ const TableSkeleton = ({ count }) => (
       {[...Array(count)].map((_, i) => (
         <div key={i} className="flex items-center space-x-4 h-10 ">
           <Skeleton className="h-8 w-5 rounded-full" />
-          <Skeleton className="h-8 w-8 rounded-full" /> {/* Avatar/No */}
+          <Skeleton className="h-8 w-8 rounded-full" /> 
           <Skeleton className="h-4 w-1/3 rounded" />
           <Skeleton className="h-4 w-1/3 rounded" />
-          <Skeleton className="h-4 w-1/6 rounded ml-auto" /> {/* Action Button */}
+          <Skeleton className="h-4 w-1/6 rounded ml-auto" />
         </div>
       ))}
     </div>
@@ -493,8 +493,8 @@ const ClassroomsSkeleton = ({ count = 4 }) => (
 
           <hr className="border-gray-100" />
           <div className="flex justify-between mt-3">
-            <Skeleton className="h-3 w-24 rounded" /> {/* Jumlah Siswa */}
-            <Skeleton className="h-3 w-16 rounded" /> {/* Nama Kelas */}
+            <Skeleton className="h-3 w-24 rounded" /> 
+            <Skeleton className="h-3 w-16 rounded" /> 
           </div>
         </div>
       ))}
@@ -508,14 +508,14 @@ const StatGridSkeleton = () => (
       <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 animate-pulse">
         <div className="flex justify-between items-start mb-4">
           <div className="space-y-3">
-            <Skeleton className="h-4 w-32 rounded" /> {/* Label */}
-            <Skeleton className="h-8 w-20 rounded-lg" /> {/* Angka Besar */}
+            <Skeleton className="h-4 w-32 rounded" />
+            <Skeleton className="h-8 w-20 rounded-lg" /> 
           </div>
-          <Skeleton className="h-10 w-10 rounded-xl bg-gray-100" /> {/* Icon Box */}
+          <Skeleton className="h-10 w-10 rounded-xl bg-gray-100" /> 
         </div>
         <div className="space-y-2 mt-6">
-          <Skeleton className="h-3 w-16 rounded" /> {/* Teks "Bulan ini" */}
-          <Skeleton className="h-2 w-full rounded-full bg-gray-100" /> {/* Progress Bar */}
+          <Skeleton className="h-3 w-16 rounded" /> 
+          <Skeleton className="h-2 w-full rounded-full bg-gray-100" /> 
         </div>
       </div>
     ))}
@@ -592,7 +592,7 @@ const ProfilePageOperator = () => (
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-0">
               <Skeleton className="h-5 w-full sm:w-40 md:w-48 rounded" />
-              <div className="hidden sm:block mr-3 w-1 h-5 bg-transparent" /> {/* Spacer pengganti titik dua */}
+              <div className="hidden sm:block mr-3 w-1 h-5 bg-transparent" /> 
               <Skeleton className="h-5 flex-1 rounded" />
             </div>
           ))}
@@ -670,8 +670,8 @@ const HeaderDaftarSiswaSkeleton = () => (
   <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 animate-pulse">
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div className="space-y-2">
-        <Skeleton className="h-7 w-48 rounded-lg" /> {/* Judul: Daftar Nama Siswa */}
-        <Skeleton className="h-4 w-64 rounded-md" /> {/* Subtitle: Ringkasan kehadiran */}
+        <Skeleton className="h-7 w-48 rounded-lg" /> 
+        <Skeleton className="h-4 w-64 rounded-md" /> 
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
