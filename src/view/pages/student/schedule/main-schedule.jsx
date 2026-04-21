@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useStudentSchedule } from "@core/hooks/role-student/schedule-student/use-student-schedule";
 import ButtonSchedule from "./components/button-schedule";
 import TableSchedule from "./components/table-schedule";
-import Header from "@elements/header/header-new";
+import Header from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
 
 export default function MainScheduleStudent() {

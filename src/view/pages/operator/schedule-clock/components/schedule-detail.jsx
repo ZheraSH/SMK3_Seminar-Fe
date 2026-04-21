@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Settings, Plus, X } from 'lucide-react';
 import useClassSchedule from '@core/hooks/operator/schedule/use-class-schedule';
 import AddScheduleModal from "./form-schedule";
-import Header2 from "@elements/header/header-new";
+import Header2 from "@elements/header/header-new-1";
 import ScheduleTable from "./table-schedule-detail";
 import ModalDelete from "@elements/modaldelete/modal-delete";
 import LoadingData from "@elements/loading-data/loading";

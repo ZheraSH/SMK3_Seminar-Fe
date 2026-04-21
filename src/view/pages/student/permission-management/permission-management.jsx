@@ -7,7 +7,7 @@ import { PermissionFormModal } from "./components/permission-form-modal";
 import { PermissionDetailModal } from "./components/permission-detail-modal";
 import { usePermissions } from "@core/hooks/role-student/permission-student/use-permission-student";
 import { PaginationPermissionStudent } from "./components/permission-pagination";
-import HeaderPage from "@elements/header/header-new";
+import HeaderPage from "@elements/header/header-new-1";
 import { getPermissionDetailStudent, deletePermissionApi } from "@services/role-student/student-permission/permission";
 import LoadingData from "@elements/loading-data/loading";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";

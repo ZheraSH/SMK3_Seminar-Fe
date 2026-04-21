@@ -7,7 +7,7 @@ import { SearchBar } from "./components/search-bar";
 import { Pagination } from "./components/subject-pagination";
 import { SubjectCard } from "./components/subject-card";
 import useSubjects from "@core/hooks/operator/subjects/use-subjects";
-import Header from "@elements/header/header-new";
+import Header from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";
 

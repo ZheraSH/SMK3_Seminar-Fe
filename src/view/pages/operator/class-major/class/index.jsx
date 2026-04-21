@@ -3,7 +3,7 @@ import { X, Search, Plus } from "lucide-react";
 import ClassCard from "../components/class-card";
 import Pagination from "../components/pagination-class";
 import Form from "../components/form-class";
-import HeaderNew from "@elements/header/header-new";
+import HeaderNew from "@elements/header/header-new-1";
 import FilterDropdown from "../components/filter-dropdown";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";

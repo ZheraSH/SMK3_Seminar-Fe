@@ -10,7 +10,7 @@ import { useRfid } from "@core/hooks/operator/rfid/use-pagination";
 import RfidAddModal from "./components/rfid-add-modal";
 import { deleteRFID } from "@services/role-operator/rfid/rfid-api";
 import LoadingData from "@elements/loading-data/loading";
-import Header from "@elements/header/header-new";
+import Header from "@elements/header/header-new-1";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";
 
 export default function RfidPage() {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { AlertTriangle, ChevronLeft, ChevronRight, CircleCheckBig, ClockAlert, ClipboardCheck} from 'lucide-react'
-import Header from '@elements/header/Header-new'
+import Header from '@elements/header/header-new-1'
 import LoadingData from '@elements/loading-data/loading'
 import { getAbsenteeismMonitoring } from '@core/services/role-counselor/monitoring/absenteeism-monitoring'
 import Pagination from './components/pagination'

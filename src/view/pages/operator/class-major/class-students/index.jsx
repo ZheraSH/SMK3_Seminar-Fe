@@ -5,7 +5,7 @@ import DataTable from './components/table-class-student';
 import PaginationComponent from './components/pagination-component';
 import FormStudents from "./components/form-class-student";
 import useClassroomDetail from '@core/hooks/operator/class-major/use-classroom-detail';
-import Header2 from "@elements/header/header-new2";
+import Header2 from "@elements/header/header-new-2";
 import LoadingData from '@elements/loading-data/loading';
 
 function ModalAddStudent({ open, onClose, classroom, availableStudents, addStudents }) {

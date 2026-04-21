@@ -3,7 +3,7 @@ import { CircleCheck, Clock, ClipboardCheck, TriangleAlert, CalendarCog, Search,
 import TableRecap from "./components/table-attendance";
 import CardRecap from "./components/card-recap";
 import {UseRecap} from "@core/hooks/homeroom-teacher/use-recap";
-import Header from "@elements/header/header-new";
+import Header from "@elements/header/header-new-1";
 import Pagination from "./components/paginition";
 import LoadingData from "@elements/loading-data/loading";
 

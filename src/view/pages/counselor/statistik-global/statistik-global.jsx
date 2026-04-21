@@ -3,7 +3,7 @@ import { ChevronRight, Calendar, Loader2, X } from "lucide-react";
 import useAttendanceStatistics from "@core/hooks/counselor/statistik-global/use-statistik-global";
 import StatsCard from "./components/stats-card";
 import { LineChartPlaceholder, PieChartPlaceholder } from "./components/charts";
-import Header from "@elements/header/Header-new";
+import Header from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
 
 const CustomDropdown = ({ title, options, onClose, onSelect, activeValue }) => {
