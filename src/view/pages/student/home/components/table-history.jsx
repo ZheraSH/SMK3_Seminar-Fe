@@ -21,8 +21,27 @@ export default function TableHistory({ history, error, loading }) {
 
   if (!filteredHistory || filteredHistory.length === 0) {
     return (
-      <div className="w-full min-h-[200px] flex items-center justify-center text-gray-500 text-sm">
-        Data belum ada.
+      <div className="w-full min-h-[250px] flex flex-col items-center justify-center p-6 transition-all">
+
+        {/* Container Gambar */}
+        <div className="mb-4 transform transition-transform hover:scale-105">
+          <img
+            src="/images/null/null5.png"
+            alt="Data Kosong"
+            className="w-26 h-26 md:w-36 md:h-36 object-contain opacity-80"
+          />
+        </div>
+
+        {/* Konten Teks */}
+        <div className="text-center">
+          <h3 className="text-sm md:text-base font-bold text-gray-700 tracking-tight">
+            Riwayat Belum Ada
+          </h3>
+          <p className="mt-1 text-[11px] md:text-sm text-gray-400 max-w-[220px] md:max-w-xs mx-auto leading-relaxed">
+            Sepertinya belum ada data riwayat yang tersedia untuk saat ini.
+          </p>
+        </div>
+
       </div>
     );
   }
@@ -82,9 +101,8 @@ export default function TableHistory({ history, error, loading }) {
 
               <td className="w-[30%] text-center">
                 <span
-                  className={`px-4 py-1 rounded-3xl w-[88px] inline-flex justify-center items-center font-medium text-[12px] ${
-                    matchStatus?.style ?? ""
-                  }`}
+                  className={`px-4 py-1 rounded-3xl w-[88px] inline-flex justify-center items-center font-medium text-[12px] ${matchStatus?.style ?? ""
+                    }`}
                 >
                   {h.status?.label}
                 </span>
