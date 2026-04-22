@@ -73,7 +73,7 @@ export default function MasterCardPage() {
       </div>
       {loading ? (<LoadingData loading={loading} type="create" />)
         : (
-          <div className="flex flex-col sm:flex-row justify-between gap-3">
+          <div className="flex flex-row justify-between gap-3">
             <div className="flex items-center w-full max-w-full sm:max-w-[300px] md:max-w-[320px] border rounded-full px-3 py-2 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-2 border-[#CBD5E1]">
               <Search size={20} className="text-gray-600 flex-shrink-0" />
               <input
@@ -86,7 +86,7 @@ export default function MasterCardPage() {
             </div>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+              className="bg-[#3B82F6] text-white px-3 py-1 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
             >
               <Plus size={16} />
               <span className="hidden md:block">Tambah Master Card</span>
