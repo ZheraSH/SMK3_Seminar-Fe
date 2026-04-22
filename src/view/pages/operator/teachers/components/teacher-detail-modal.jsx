@@ -29,20 +29,21 @@ export const DetailModal = ({
   ];
 
   const DetailItem = ({ label, value }) => (
-    <div className="flex flex-col mb-4">
-      <div className="flex justify-between items-start w-64">
-        <span className="text-[14px] text-gray-800 flex gap-1">
-          <p className="font-medium">{label} :</p> {value}
-        </span>
+    <div className="flex flex-col mb-3">
+      {/* Menghapus fixed width w-64 dan mengganti flex agar teks panjang bisa turun ke bawah (wrap) */}
+      <div className="text-[14px] text-gray-800 break-words">
+        <span className="font-medium mr-1">{label} :</span> 
+        <span>{value}</span>
       </div>
     </div>
   );
 
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl lg:w-[600px] md:w-[600px] w-full lg:h-[545px] md:h-[545px] h-[635px] -mt-10 transition-all">
-        <div className="flex justify-between items-center p-6 lg:ml-3 md:ml-3">
-          <h2 className="lg:text-[24px] md:text-[24px] text-[18px] font-semibold text-gray-800">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-[600px] max-h-[95vh] flex flex-col transition-all">
+        
+        <div className="flex justify-between items-center p-6 border-b border-gray-100 shrink-0">
+          <h2 className="text-[18px] md:text-[24px] font-semibold text-gray-800">
             Detail Guru
           </h2>
           <button
@@ -53,8 +54,9 @@ export const DetailModal = ({
           </button>
         </div>
 
-        <div className="lg:ml-10 ml-6 max-h-[80vh] lg:mx-10 mx-6">
-          <div className="flex items-center border-b-2 border-[#9CA3AF] gap-6 pb-4 mb-4 flex-col sm:flex-row">
+        <div className="p-6 overflow-y-auto">
+          
+          <div className="flex flex-col sm:flex-row items-center sm:items-start border-b-2 border-[#9CA3AF] gap-6 pb-6 mb-6">
             <div className="w-[120px] h-[120px] rounded-full overflow-hidden bg-gray-200 border-2 border-[#6B7280] flex-shrink-0">
               {selectedTeacher.image ? (
                 <img
@@ -69,34 +71,34 @@ export const DetailModal = ({
               )}
             </div>
 
-            <div className="flex flex-col items-center sm:items-start sm:pt-4">
+            <div className="flex flex-col items-center sm:items-start text-center sm:text-left mt-2 sm:mt-0 sm:pt-2">
               <h3 className="text-[18px] font-semibold text-gray-900">
                 {renderText(selectedTeacher.name)}
               </h3>
-              <p className="text-[14px] text-gray-600 mt-0.5">
+              <p className="text-[14px] text-gray-600 mt-0.5 break-all sm:break-normal">
                 {renderText(selectedTeacher.email)}
               </p>
-              <span className="mt-2 text-[12px] font-medium text-white bg-[#3B82F6] py-[3px] px-3 rounded-full">
+              <span className="mt-3 text-[12px] font-medium text-white bg-[#3B82F6] py-[3px] px-3 rounded-full">
                 Guru
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-32 gap-y-2 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
             {detailItems.map((item, index) => (
               <DetailItem key={index} label={item.label} value={item.value} />
             ))}
 
-            <div className="sm:col-span-2 mt-4">
-              <span className="text-[14px] text-gray-800 flex gap-1">
-                <p className="font-medium">Alamat :</p>
-                {renderText(selectedTeacher.address)}
-              </span>
+            <div className="sm:col-span-2 mt-2">
+              <div className="text-[14px] text-gray-800 break-words">
+                <span className="font-medium mr-1">Alamat :</span>
+                <span>{renderText(selectedTeacher.address)}</span>
+              </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
   );
 };
-

@@ -36,21 +36,32 @@ export default function SchedulePage() {
                     {activeTab === 'kelas' && (
                         loading ? (<LoadingData loading={loading} type='create2' />)
                             : (
-                                <div className="flex justify-between items-center mb-6 lg:flex-row md:flex-row flex-col lg:mx-0 md:mx-3">
+                                <div className="flex justify-between  mb-6 lg:flex-row md:flex-row flex-col lg:mx-0 md:mx-3">
                                     <div>
-                                        <div className='flex flex-row'>
-                                            <div className="relative flex items-center lg:w-80 mr-3">
+                                        <div className='flex flex-row justify-between '>
+                                            <div className="relative flex items-center lg:w-80 mr-3 w-full md:w-auto">
                                                 <Search className="absolute left-3 w-5 h-5 text-gray-400" />
-                                                <input type="text" placeholder="Cari Kelas/Wali Kelas..." value={searchText} onChange={(e) => handleSearchChange(e.target.value)} className="p-2 pl-10 border border-gray-300 rounded-full lg:w-full bg-white w-[220px] focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                                <input type="text" placeholder="Cari Kelas/Wali Kelas..." value={searchText} onChange={(e) => handleSearchChange(e.target.value)} className="p-2 pl-10 border border-gray-300 w-full w-auto rounded-full lg:w-full bg-white w-[220px] focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                             </div>
-                                            <div>
+                                            <div className=' hidden md:block'>
                                                 <FilterDropdown filters={filters} options={filterOptions} onChange={handleFilterChange} />
+                                            </div>
+                                            <div className=' block md:hidden'>
+                                                <button onClick={() => setActiveTab('jam')} className='bg-[#3B82F6] text-white px-2 py-2 items-center flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap'>
+                                                    <Settings className='w-5 h-5' />
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div>
-                                        <div className='lg:mt-0 md:mt-0 mt-4'>
-                                            <button onClick={() => setActiveTab('jam')} className='text-[14px] lg:w-[221px] md:w-[221px]  w-[340px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6]  hover:bg-[#2563EB] px-3 rounded-[8px] flex flex-row gap-2 justify-center items-center cursor-pointer'><Settings className='w-5 h-5' />Setting Jam Pelajaran</button>
+                                        <div className=' hidden md:block'>
+                                            <button onClick={() => setActiveTab('jam')} className='text-[14px] lg:w-[221px] md:w-[221px]  w-[340px] font-medium drop-shadow-sm border border-gray-200 text-white h-[40px] bg-[#3B82F6]  hover:bg-[#2563EB] px-3 rounded-[8px] flex flex-row gap-2 justify-center items-center cursor-pointer'>
+                                                <Settings className='w-5 h-5' />
+                                                Setting Jam Pelajaran
+                                            </button>
+                                        </div>
+                                        <div className='block md:hidden mt-2 w-full'>
+                                            <FilterDropdown filters={filters} options={filterOptions} onChange={handleFilterChange} />
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +83,7 @@ export default function SchedulePage() {
                                 </>
                             ) : (
                                 <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
-                                    <img src="/images/null/null2.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                                    <img src="/images/null/null2.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
                                     <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada jadwal di hari ini, silahkan klik “ Tambah Jam ” untuk <br />  menambahkan jam pelajaran!</p>
                                 </div>
                             )}

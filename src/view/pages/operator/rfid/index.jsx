@@ -64,7 +64,7 @@ export default function RfidPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6">
+    <div className="min-h-screen bg-gray-50">
       <div className=" hidden md:block">
         {loading ? (<LoadingData loading={loading} type="header1" />)
           : (

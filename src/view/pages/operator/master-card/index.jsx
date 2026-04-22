@@ -60,7 +60,7 @@ export default function MasterCardPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className=" space-y-6">
       <div>
         {loading ? (<LoadingData loading={loading} type="header1" />)
           : (
@@ -89,7 +89,7 @@ export default function MasterCardPage() {
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
             >
               <Plus size={16} />
-              Tambah Master Card
+              <span className="hidden md:block">Tambah Master Card</span>
             </button>
           </div>
         )}
@@ -97,7 +97,19 @@ export default function MasterCardPage() {
       <div className="overflow-x-auto border border-gray-200 rounded-lg">
         {loading ? (
           <LoadingData loading={loading} type="tableSchedule" cou />
-        ) : (
+        ) : filteredData.length === 0 ? (
+            <div className="w-full flex flex-col items-center justify-center py-10">
+              <img
+                src="../../../../images/null/nullimage.png"
+                alt="Data siswa kosong"
+                className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+              />
+              <p className="text-sm font-medium text-center">
+                Maaf yaaa.. datanya gaada, silahkan klik “Tambah Master Card” <br /> buat
+                tambah data Master Card!
+              </p>
+            </div>
+          ): (
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#3B82F6] text-white">
@@ -114,7 +126,7 @@ export default function MasterCardPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredData.length > 0 ? filteredData.map((item, idx) => (
+              {filteredData.map((item, idx) => (
                 <tr
                   key={item.id || idx}
                   className={idx % 2 === 0 ? "bg-white" : "bg-gray-100"}
@@ -132,11 +144,7 @@ export default function MasterCardPage() {
                     {item.rfid}
                   </td>
                 </tr>
-              )) : (
-                <tr>
-                  <td colSpan="4" className="text-center py-4 text-gray-500">Tidak ada data</td>
-                </tr>
-              )}
+              ))}
             </tbody>
           </table>
         )}

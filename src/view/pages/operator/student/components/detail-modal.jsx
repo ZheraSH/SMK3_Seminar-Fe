@@ -15,35 +15,32 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
 
   const detailItems = [
     { label: "NISN", value: renderText(student.nisn) },
-    { label: "Jenis Kelamin",  value: renderText(student.gender_label || student.gender), },
-    
+    { label: "Jenis Kelamin", value: renderText(student.gender_label || student.gender) },
     { label: "Tempat Lahir", value: renderText(student.birth_place) },
     { label: "Tanggal Lahir", value: renderText(student.birth_date) },
     { label: "No KK", value: renderText(student.number_kk) },
     { label: "No Akta", value: renderText(student.number_akta) },
     { label: "Anak Ke-", value: renderText(student.order_child) },
-    {
-      label: "Jumlah Saudara",
-      value: renderText(student.count_siblings),
-    },
+    { label: "Jumlah Saudara", value: renderText(student.count_siblings) },
   ];
 
   const DetailItem = ({ label, value }) => (
-    <div className="flex flex-col mb-4">
-      <div className="flex justify-between items-start w-64">
-        <span className="text-[14px] text-gray-800 flex gap-1">
-          <p className="font-medium">{label} :</p> {value}
-        </span>
+    <div className="flex flex-col mb-3">
+      {/* w-64 dihapus agar fleksibel, menggunakan break-words supaya teks panjang tidak hancur */}
+      <div className="text-[14px] text-gray-800 break-words">
+        <span className="font-medium">{label} :</span> {value}
       </div>
     </div>
   );
 
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl lg:w-[600px] md:w-[600px] w-full lg:h-[545px] md:h-[545px] h-[635px] -mt-10 transition-all">
-
-        <div className="flex justify-between items-center p-6 lg:ml-3 md:ml-3">
-          <h2 className="lg:text-[24px] md:text-[24px] text-[18px] font-semibold text-gray-800">
+      {/* Lebar tetap sama dengan code awal Anda, tapi tinggi dibuat otomatis (auto) */}
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-[600px] max-h-[90vh] flex flex-col transition-all overflow-hidden">
+        
+        {/* Header Tetap di Atas */}
+        <div className="flex justify-between items-center p-6 shrink-0">
+          <h2 className="text-[18px] md:text-[24px] font-semibold text-gray-800">
             Detail Siswa
           </h2>
           <button
@@ -54,9 +51,11 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
           </button>
         </div>
 
-        <div className="lg:ml-10 ml-6 max-h-[80vh] lg:mx-10 mx-6">
-
-          <div className="flex items-center border-b-2 border-[#9CA3AF] gap-6 pb-4 mb-4 flex-col sm:flex-row">
+        {/* Konten dengan Scroll jika layar kekecilan */}
+        <div className="overflow-y-auto px-6 pb-8 lg:px-10">
+          
+          {/* Bagian Foto dan Nama */}
+          <div className="flex items-center border-b-2 border-[#9CA3AF] gap-6 pb-6 mb-6 flex-col sm:flex-row">
             <div className="w-[120px] h-[120px] rounded-full overflow-hidden bg-gray-200 border-2 border-[#6B7280] flex-shrink-0">
               {student.image ? (
                 <img
@@ -71,20 +70,21 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
               )}
             </div>
 
-            <div className="flex flex-col items-center sm:items-start sm:pt-4">
+            <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
               <h3 className="text-[18px] font-semibold text-gray-900">
                 {renderText(student.name)}
               </h3>
-              <p className="text-[14px] text-gray-600 mt-0.5">
+              <p className="text-[14px] text-gray-600 mt-0.5 break-all">
                 {renderText(student.email)}
               </p>
-              <span className="mt-2 text-[12px] font-medium text-white bg-[#00C4E6] py-[3px] px-3 rounded-full">
+              <span className="mt-2 text-[12px] font-medium text-white bg-[#00C4E6] py-[3px] px-3 rounded-full inline-block">
                 {renderText(student.classroom?.name || student.role)}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2 pt-2">
+          {/* Bagian Data Detail */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
             {detailItems.map((item, index) => (
               <DetailItem
                 key={index}
@@ -93,16 +93,15 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
               />
             ))}
 
-            <div className="sm:col-span-2 mt-4">
-              <span className="text-[14px] text-gray-800 flex gap-1">
-                <p className="font-medium">Alamat :</p>
-                {renderText(student.address)}
-              </span>
+            <div className="sm:col-span-2 mt-3">
+              <div className="text-[14px] text-gray-800 break-words leading-relaxed">
+                <span className="font-medium">Alamat :</span> {renderText(student.address)}
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   );
 };
-

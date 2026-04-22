@@ -71,7 +71,7 @@ const FilterDropdown = ({ filters, filterOptions, onFilterChange }) => {
 
     return (
         <div className="relative">
-            <button onClick={toggleDropdown} className="flex items-center space-x-1 px-4 py-2 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onClick={toggleDropdown} className="flex items-center space-x-1 w-full md:auto justify-between px-4 py-2 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="text-sm">{getActiveFilterValue()}</span>
                 <span className={`transform transition-transform duration-200 ${isDropdownOpen ? "rotate-90" : "rotate-0"}`}>
                     &gt;

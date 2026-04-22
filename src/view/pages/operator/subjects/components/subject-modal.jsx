@@ -15,7 +15,7 @@ export function SubjectModal({
   if (!isOpen) return null;
 
   const title = mode === "add" ? "Tambah Mapel Baru" : "Edit Mapel";
-  const buttonText = mode === "add" ? <div className="flex gap-2 font-medium"><Plus size={20} /> Tambah </div> : "Simpan";
+  const buttonText = mode === "add" ? <div className=" font-medium"> Tambah </div> : "Simpan";
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[2px] z-50">

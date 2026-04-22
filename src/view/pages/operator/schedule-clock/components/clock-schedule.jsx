@@ -168,8 +168,8 @@ const ScheduleLayout = ({ mode, classScheduleData, handleBackToClasses }) => {
             </div>
             <div className="border border-gray-200 rounded-lg overflow-hidden">
                 {!isLoadingHours && dataForDisplay.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-16 w-full animate-in fade-in duration-500">
-                        <img src="/images/null/null2.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-4" />
+                    <div className="flex flex-col items-center justify-center py-10 w-full animate-in fade-in duration-500">
+                        <img src="/images/null/null2.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
                         <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada penempatn jam pelajaran di hari ini, silahkan klik <br /> “ Tambah ” untuk  menambahkan jam pelajaran!</p>
                     </div>
                 ) : (
