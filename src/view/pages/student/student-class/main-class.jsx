@@ -28,9 +28,9 @@ export default function MainClassStudent() {
 
     if (!loading && students.length === 0) {
         return (
-            <div className="flex flex-col items-center -mt-10">
-                <img src="/images/null/null5.png" alt="Data Kosong" className="w-130 h-auto" />
-                <h1 className="text-[#4B5563] -mt-10">Belum masuk kelas</h1>
+            <div className="flex flex-col items-center mt-10">
+                <img src="/images/null/null5.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                <h1 className="text-[#4B5563]">Belum masuk kelas</h1>
             </div>
         );
     }
