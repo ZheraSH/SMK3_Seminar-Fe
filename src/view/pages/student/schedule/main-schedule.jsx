@@ -17,7 +17,7 @@ export default function MainScheduleStudent() {
   } = useStudentSchedule(activeDay);
 
   return (
-    <div className="justify-center mx-7 mb-10 mt-5">
+    <div className="justify-center p-4 mb-10">
       <div className="hidden md:block">
           {loading? (<LoadingData loading={loading} type="header1"/>) 
           : (
@@ -39,7 +39,7 @@ export default function MainScheduleStudent() {
         </div>
       )}
 
-      <div className="mt-4 w-full overflow-x-auto rounded-lg border border-gray-200">
+      <div className="mt-4 w-full overflow-x-auto">
         {loading? (<LoadingData loading={loading} type="tableSchedule" count={10}/>)
         : (
           <TableSchedule scheduleData={schedule}  />
