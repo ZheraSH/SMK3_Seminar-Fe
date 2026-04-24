@@ -35,14 +35,17 @@ export function SubjectModal({
             <input
               type="text"
               placeholder="Nama Mapel"
-              className={`w-full border rounded-lg px-3 py-2 mt-1 text-[14px] text-[#374151] focus:outline-none ${errors.name
+              className={`w-full border rounded-lg px-3 py-2 mt-1 text-[14px] text-[#374151] focus:outline-none ${
+                errors.name
                   ? "border-red-500 focus:ring-2 focus:ring-red-500"
                   : "border-gray-300 focus:ring-2 focus:ring-blue-500"
-                }`}
+              }`}
               value={subject.name}
               onChange={(e) => {
-                onChange("name", e.target.value);
-                setErrors({}); 
+                const cleanValue = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
+                
+                onChange("name", cleanValue);
+                setErrors({});
               }}
             />
 
