@@ -166,7 +166,7 @@ const ScheduleLayout = ({ mode, classScheduleData, handleBackToClasses }) => {
                     </div>
                 </div>
             </div>
-            <div className="border border-gray-200 rounded-lg overflow-hidden">
+            <div className="border border-gray-200 rounded-lg overflow-x-auto">
                 {!isLoadingHours && dataForDisplay.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-10 w-full animate-in fade-in duration-500">
                         <img src="/images/null/null2.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />

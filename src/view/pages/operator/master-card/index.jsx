@@ -94,7 +94,7 @@ export default function MasterCardPage() {
           </div>
         )}
 
-      <div className="overflow-x-auto border border-gray-200 rounded-lg">
+      <div className="overflow-x-auto  rounded-lg">
         {loading ? (
           <LoadingData loading={loading} type="tableSchedule" cou />
         ) : filteredData.length === 0 ? (
@@ -110,7 +110,8 @@ export default function MasterCardPage() {
               </p>
             </div>
           ): (
-          <table className="w-full text-left border-collapse">
+         <div className="border border-gray-300 overflow-x-auto  rounded-lg">
+             <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#3B82F6] text-white">
                 <th className="px-4 py-3 text-sm font-semibold border-r border-blue-500">
@@ -147,6 +148,7 @@ export default function MasterCardPage() {
               ))}
             </tbody>
           </table>
+         </div>
         )}
       </div>
 

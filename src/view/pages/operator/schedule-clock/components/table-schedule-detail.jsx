@@ -6,7 +6,7 @@ const ScheduleTable = ({  isLoading,  activeDay,  schedules,  toggleDropdown,  o
 }) => {
     return (
         <div className="rounded-2xl shadow-lg">
-            <div className="rounded-md ">
+            <div className="rounded-md overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                     <thead className="bg-[#3B82F6] text-white">
                         <tr className="text-xs">
