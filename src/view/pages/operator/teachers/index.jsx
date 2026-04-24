@@ -340,6 +340,7 @@ export default function TeachersPage() {
           <>
             <TeacherTable
               currentTeachers={filteredTeachers}
+              startIndex={(localMeta.current_page - 1) * (localMeta.per_page || itemsPerPage)}
               openItemId={openItemId}
               setOpenItemId={setOpenItemId}
               handleDetail={handleDetail}

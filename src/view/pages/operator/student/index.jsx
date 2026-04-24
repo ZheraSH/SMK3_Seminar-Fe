@@ -390,6 +390,7 @@ export default function StudentPage() {
           <>
             <StudentsTable
               students={filteredStudents}
+              startIndex={(localMeta.current_page - 1) * (localMeta.per_page || itemsPerPage)}
               onDetail={handleDetail}
               onEdit={handleEdit}
               onDelete={handleDelete}

@@ -91,6 +91,7 @@ export default function RfidPage() {
           <>
             <RfidTable
               filtered={rfid}
+              startIndex={(meta.current_page - 1) * (meta.per_page || 10)}
               openMenu={openMenu}
               onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
               onDeleteClick={handleDelete}

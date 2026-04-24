@@ -7,6 +7,7 @@ import { notify } from "@core/hooks/notification/notify";
 
 export function RfidTable({
   filtered = [],
+  startIndex = 0,
   openMenu,
   onMenuClick,
   onDeleteClick,
@@ -65,6 +66,7 @@ export function RfidTable({
               key={item.id}
               item={item}
               index={index}
+              startIndex={startIndex}
               openMenu={openMenu}
               onMenuClick={onMenuClick}
               onDeleteClick={onDeleteClick}
@@ -83,6 +85,7 @@ export function RfidTable({
 function TableRow({
   item,
   index,
+  startIndex,
   openMenu,
   onMenuClick,
   onDeleteClick,
@@ -155,7 +158,7 @@ function TableRow({
 
   return (
     <tr className={index % 2 === 0 ? "bg-white" : "bg-blue-50"}>
-      <td className="px-6 py-2">{index + 1}</td>
+      <td className="px-6 py-2">{startIndex + index + 1}</td>
       <td className="px-6 py-2">{item.student?.name || "-"}</td>
       <td className="px-6 py-2">{item.rfid}</td>
 
