@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react"; 
 import { X } from "lucide-react";
 
 const renderText = (val) => {
@@ -11,6 +11,8 @@ const renderText = (val) => {
 };
 
 export const DetailModal = ({ isOpen, student, onClose }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   if (!isOpen || !student) return null;
 
   const detailItems = [
@@ -24,10 +26,16 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
     { label: "Jumlah Saudara", value: renderText(student.count_siblings) },
   ];
 
+  const fullAddress = renderText(student.address);
+  const CHAR_LIMIT = 60; 
+  const isLongAddress = fullAddress.length > CHAR_LIMIT;
+  const displayedAddress = isLongAddress && !isExpanded 
+    ? `${fullAddress.substring(0, CHAR_LIMIT)}...` 
+    : fullAddress;
+
   const DetailItem = ({ label, value }) => (
     <div className="flex flex-col mb-3">
-      {/* w-64 dihapus agar fleksibel, menggunakan break-words supaya teks panjang tidak hancur */}
-      <div className="text-[14px] text-gray-800 break-words">
+      <div className="text-[14px] text-gray-800 break-words py-1">
         <span className="font-medium">{label} :</span> {value}
       </div>
     </div>
@@ -35,10 +43,8 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex justify-center items-center z-50 p-4">
-      {/* Lebar tetap sama dengan code awal Anda, tapi tinggi dibuat otomatis (auto) */}
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-[600px] max-h-[90vh] flex flex-col transition-all overflow-hidden">
         
-        {/* Header Tetap di Atas */}
         <div className="flex justify-between items-center p-6 shrink-0">
           <h2 className="text-[18px] md:text-[24px] font-semibold text-gray-800">
             Detail Siswa
@@ -51,10 +57,8 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
           </button>
         </div>
 
-        {/* Konten dengan Scroll jika layar kekecilan */}
         <div className="overflow-y-auto px-6 pb-8 lg:px-10">
           
-          {/* Bagian Foto dan Nama */}
           <div className="flex items-center border-b-2 border-[#9CA3AF] gap-6 pb-6 mb-6 flex-col sm:flex-row">
             <div className="w-[120px] h-[120px] rounded-full overflow-hidden bg-gray-200 border-2 border-[#6B7280] flex-shrink-0">
               {student.image ? (
@@ -83,7 +87,6 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
             </div>
           </div>
 
-          {/* Bagian Data Detail */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
             {detailItems.map((item, index) => (
               <DetailItem
@@ -95,7 +98,15 @@ export const DetailModal = ({ isOpen, student, onClose }) => {
 
             <div className="sm:col-span-2 mt-3">
               <div className="text-[14px] text-gray-800 break-words leading-relaxed">
-                <span className="font-medium">Alamat :</span> {renderText(student.address)}
+                <span className="font-medium">Alamat :</span> {displayedAddress}
+                {isLongAddress && (
+                  <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="ml-1 text-blue-500 hover:text-blue-700 font-semibold text-[13px] transition"
+                  >
+                    {isExpanded ? " Tampilkan sedikit" : " Selengkapnya"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

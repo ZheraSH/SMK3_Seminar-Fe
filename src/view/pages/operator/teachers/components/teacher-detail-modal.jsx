@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react"; 
 import { X } from "lucide-react";
 
 const renderText = (val) => {
@@ -13,6 +15,8 @@ export const DetailModal = ({
   selectedTeacher,
   setIsDetailOpen,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   if (!isDetailOpen || !selectedTeacher) return null;
 
   const detailItems = [
@@ -24,13 +28,19 @@ export const DetailModal = ({
       label: "Jenis Kelamin",
       value: renderText(selectedTeacher.gender_label || selectedTeacher.gender),
     },
-    { label: "Agama", value: renderText(selectedTeacher.religion.name) },
+    { label: "Agama", value: renderText(selectedTeacher.religion?.name) },
     { label: "No Telepon", value: renderText(selectedTeacher.phone_number) },
   ];
 
+  const address = renderText(selectedTeacher.address);
+  const CHAR_LIMIT = 60;
+  const isLongAddress = address.length > CHAR_LIMIT;
+  const displayAddress = isLongAddress && !isExpanded 
+    ? `${address.substring(0, CHAR_LIMIT)}...` 
+    : address;
+
   const DetailItem = ({ label, value }) => (
     <div className="flex flex-col mb-3">
-      {/* Menghapus fixed width w-64 dan mengganti flex agar teks panjang bisa turun ke bawah (wrap) */}
       <div className="text-[14px] text-gray-800 break-words">
         <span className="font-medium mr-1">{label} :</span> 
         <span>{value}</span>
@@ -40,14 +50,17 @@ export const DetailModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-[600px] max-h-[95vh] flex flex-col transition-all">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-[600px] max-h-[95vh] flex flex-col transition-all overflow-hidden">
         
         <div className="flex justify-between items-center p-6 border-b border-gray-100 shrink-0">
           <h2 className="text-[18px] md:text-[24px] font-semibold text-gray-800">
             Detail Guru
           </h2>
           <button
-            onClick={() => setIsDetailOpen(false)}
+            onClick={() => {
+                setIsDetailOpen(false);
+                setIsExpanded(false); 
+            }}
             className="text-gray-400 hover:text-gray-600 p-1 rounded-full transition"
           >
             <X size={24} />
@@ -90,9 +103,17 @@ export const DetailModal = ({
             ))}
 
             <div className="sm:col-span-2 mt-2">
-              <div className="text-[14px] text-gray-800 break-words">
+              <div className="text-[14px] text-gray-800 break-words leading-relaxed">
                 <span className="font-medium mr-1">Alamat :</span>
-                <span>{renderText(selectedTeacher.address)}</span>
+                <span>{displayAddress}</span>
+                {isLongAddress && (
+                  <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="ml-1 text-blue-600 hover:text-blue-800 font-semibold text-[13px] transition-colors"
+                  >
+                    {isExpanded ? "Tampilkan sedikit" : "Selengkapnya"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -325,7 +325,7 @@ export default function StudentPage() {
                     setEditingId(null);
                     setIsOpen(true);
                   }}
-                  className="bg-[#3B82F6] text-white px-3 py-1 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
+                  className="bg-[#3B82F6] text-white block md:hidden px-3 py-1 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
                 >
                   + <span className=" hidden">Tambah Siswa</span>
                 </button>
