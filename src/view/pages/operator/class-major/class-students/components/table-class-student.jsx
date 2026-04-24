@@ -142,15 +142,22 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
                                     {students.map((data, index) => (
                                         <tr key={data.id} className={`${index % 2 === 1 ? 'bg-indigo-50' : 'bg-white'} text-gray-700 hover:bg-indigo-100 transition-colors text-[14px]`}>
                                             <td className="px-4 py-3 whitespace-nowrap">{calculateIndex(index)}</td>
-                                            <td className="px-2 py-2 whitespace-nowrap flex justify-center">
-                                                <div className='rounded-full w-10 h-10 overflow-hidden bg-gray-200 border border-gray-300'>
-                                                    {data.image ? (
-                                                        <img src={data.image} alt={data.name} className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <div className="flex items-center justify-center h-full font-bold text-gray-500">
-                                                            {data.name?.charAt(0).toUpperCase()}
-                                                        </div>
-                                                    )}
+                                            <td className="px-2 py-2 whitespace-nowrap">
+                                                <div className="flex justify-center">
+                                                    <div className='rounded-full w-10 h-10 overflow-hidden bg-gray-200 border border-gray-300 flex items-center justify-center'>
+                                                        {data.image || data.student?.image ? (
+                                                            <img 
+                                                                src={data.image || data.student?.image} 
+                                                                alt={data.name} 
+                                                                className="w-full h-full object-cover" 
+                                                                onError={(e) => { e.target.src = "/placeholder.png" }}
+                                                            />
+                                                        ) : (
+                                                            <div className="font-bold text-gray-500">
+                                                                {data.name?.charAt(0).toUpperCase() || "?"}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td className="px-2 py-3 whitespace-nowrap font-medium text-gray-900">{data.name}</td>
