@@ -57,7 +57,7 @@ export default function FormStudent({ onClose, availableStudents, addStudents })
                 <div className="relative">
                     <label className="text-sm font-semibold">Pilih Siswa</label>
                     <div className="relative mt-1">
-                        <input type="text" value={ !dropdownOpen && search === "" && selectedStudents.length > 0 ? `${selectedStudents.length} siswa dipilih` : search } onChange={(e) => setSearch(e.target.value)} placeholder="Cari nama/NISN"
+                        <input type="text" value={ !dropdownOpen && search === "" && selectedStudents.length > 0 ? `${selectedStudents.length} siswa dipilih` : search } onChange={(e) => setSearch(e.target.value)} placeholder="Cari nama"
                             className={`w-full border p-2 rounded-lg pr-10 ${ isError ? "border-red-500 ring-1 ring-red-500" : "border-gray-300" }`} onFocus={() => { setDropdownOpen(true); setFormError(""); }} />
                         <ChevronRight onClick={(e) => {e.stopPropagation(); setDropdownOpen(!dropdownOpen); setFormError(""); }} className={`absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer transition-transform duration-200 ${dropdownOpen ? "rotate-90" : ""}`}/>
                     </div>

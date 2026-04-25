@@ -49,7 +49,7 @@ export default function AttendanceDashboard() {
   }, [currentPage])
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 mb-10">
       <div className='hidden md:block'>
         {loading ? (<LoadingData loading={loading} type='header1' />)
           : (
@@ -58,10 +58,10 @@ export default function AttendanceDashboard() {
 
       </div>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto ">
         {loading ? (<LoadingData loading={loading} type='attendanceChart' count={4} />)
           : (
-            <div className="grid grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="bg-white rounded-xl p-4 flex justify-between shadow-md">
                 <div className="bg-[#22C55E] w-[4px] h-[52px] rounded-full" />
                 <div>
@@ -119,7 +119,7 @@ export default function AttendanceDashboard() {
         {loading ? (<LoadingData loading={loading} type='tableSchedule' count={10} />)
           : (
             <>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-[#3B82F6] text-white">

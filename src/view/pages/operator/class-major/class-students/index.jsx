@@ -110,8 +110,8 @@ const ClassStudentsPage = () => {
                     <>
                         <div className="h-4"></div>
                         {students.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
-                                <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                            <div className="flex flex-col items-center justify-center py-10 w-full animate-in fade-in duration-500">
+                                <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
                                 <div className="text-center">
                                     <p className="text-gray-500 text-sm md:text-md text-center">
                                         Maaf yaaa.. datanya gaada, silahkan klik “Tambah Siswa” buat <br /> nambah data siswa ke kelas ini!

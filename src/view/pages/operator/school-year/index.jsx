@@ -93,7 +93,7 @@ const SchoolYearPage = () => {
         )}
       {loading ? (<LoadingData loading={loading} type='create' />)
         : (
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 mt-6">
+          <div className="flex flex-row justify-between items-center mb-8 gap-4 mt-6">
             <div className="relative w-full md:w-80">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                 <Search size={18} />
@@ -101,8 +101,8 @@ const SchoolYearPage = () => {
               <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Cari Tahun Ajaran" className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
             </div>
 
-            <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors font-medium w-full flex justify-center items-center md:w-[258px] ">
-              <Plus size={20} /> Tambah Tahun Ajaran
+            <button onClick={() => setIsModalOpen(true)} className="bg-[#3B82F6] text-white px-3 py-3 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap">
+              <Plus size={20} /> <span className=' hidden md:block'>Tambah Tahun Ajaran</span>
             </button>
           </div>
         )}
@@ -110,8 +110,8 @@ const SchoolYearPage = () => {
       {loading ? (
         <LoadingData loading={loading} type='cardclass' />
       ) : schoolYears.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 w-full">
-          <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-4" />
+        <div className="flex flex-col items-center justify-center w-full">
+          <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
           <p className="text-gray-500 text-center max-w-[550px] text-sm md:text-md">
             Maaf yaaa.. datanya gaada, silahkan klik “Tambah Tahun Ajaran” buat nambah data Tahun ajaran!
           </p>

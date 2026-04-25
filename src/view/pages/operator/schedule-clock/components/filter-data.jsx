@@ -69,7 +69,7 @@ export default function FilterDropdown({ filters, options, onChange }) {
 
   return (
     <div className="relative">
-      <button onClick={() => setOpen(!open)} className="flex items-center w-auto max-w-[110px] md:max-w-full px-4 py-2 bg-white rounded-full border border-gray-300 shadow-sm text-gray-700 overflow-hidden">
+      <button onClick={() => setOpen(!open)} className="flex items-center justify-between w-full md:w-auto md:max-w-[110px] md:max-w-full px-4 py-2 bg-white rounded-full border border-gray-300 shadow-sm text-gray-700 overflow-hidden">
         <span className="lg:text-sm md:text-sm text-[12px] truncate mr-1">
           {getFilterLabel()}
         </span>

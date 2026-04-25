@@ -11,7 +11,7 @@ import HeaderPage from "@elements/header/header-new-1";
 import { getPermissionDetailStudent, deletePermissionApi } from "@services/role-student/student-permission/permission-student";
 import LoadingData from "@elements/loading-data/loading";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";
-import { Plus, Calendar, RotateCcw,Filter,X } from "lucide-react";
+import { Plus, Calendar, RotateCcw, Filter, X } from "lucide-react";
 
 export default function PermissionManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,12 +21,12 @@ export default function PermissionManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({ type: "", start_date: "", end_date: "", proof: "", reason: "", });
 
-  const { permissions, pendingPermissions, meta, page, setPage, loading, error, handleSubmit, fetchPending, fetchHistory,isDeleteModalOpen, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete,startDate, setStartDate, endDate, setEndDate } = usePermissions();
+  const { permissions, pendingPermissions, meta, page, setPage, loading, error, handleSubmit, fetchPending, fetchHistory, isDeleteModalOpen, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete, startDate, setStartDate, endDate, setEndDate } = usePermissions();
 
   const submitForm = async (e) => {
-   e.preventDefault();
+    e.preventDefault();
     setIsSubmitting(true);
-    setFormErrors({}); 
+    setFormErrors({});
 
     let clientErrors = {};
     const charCount = formData.reason ? formData.reason.length : 0;
@@ -49,7 +49,7 @@ export default function PermissionManagement() {
     if (Object.keys(clientErrors).length > 0) {
       setFormErrors(clientErrors);
       setIsSubmitting(false);
-      return; 
+      return;
     }
 
     try {
@@ -127,7 +127,7 @@ export default function PermissionManagement() {
                       <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500">
                         <Calendar size={14} />
                       </div>
-                      <input  type="date"  value={startDate} onChange={(e) => setStartDate(e.target.value)}
+                      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}
                         className="w-full bg-white cursor-pointer border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-xl pl-8 pr-2 py-2.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all shadow-sm"
                         placeholder="Mulai"
                       />
@@ -144,19 +144,19 @@ export default function PermissionManagement() {
                     </div>
                   </div>
                   {(startDate || endDate) && (
-                    <button  onClick={() => { setStartDate(""); setEndDate(""); }} className="hidden sm:flex p-2 hover:text-white cursor-pointer duration-800 bg-white hover:bg-red-500 border border-gray-200 rounded-xl transition-all shadow-sm hover:shadow"
+                    <button onClick={() => { setStartDate(""); setEndDate(""); }} className="hidden sm:flex p-2 hover:text-white cursor-pointer duration-800 bg-white hover:bg-red-500 border border-gray-200 rounded-xl transition-all shadow-sm hover:shadow"
                       title="Hapus Filter"
                     >
                       <X size={16} />
                     </button>
                   )}
                   {(startDate || endDate) && (
-              <div className="flex justify-end sm:hidden w-full">
-                <button  onClick={() => { setStartDate(""); setEndDate(""); }} className="py-2 bg-white text-gray-400 hover:text-white hover:bg-red-400 border border-gray-200 rounded-xl transition-all w-full cursor-pointer shadow-sm hover:shadow duration-800">
-                     Hapus Filter Tanggal
-                  </button>
-              </div>
-            )}
+                    <div className="flex justify-end sm:hidden w-full">
+                      <button onClick={() => { setStartDate(""); setEndDate(""); }} className="py-2 bg-white text-gray-400 hover:text-white hover:bg-red-400 border border-gray-200 rounded-xl transition-all w-full cursor-pointer shadow-sm hover:shadow duration-800">
+                        Hapus Filter Tanggal
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <button onClick={handleOpenModal} className="flex items-center justify-center gap-2 bg-[#3B82F6] cursor-pointer from-blue-600 to-blue-500 py-3 hover:from-blue-700 hover:to-blue-600 text-white px-6  rounded-xl font-semibold shadow-lg shadow-blue-200 transition-all active:scale-95 w-full md:w-auto whitespace-nowrap">
                   <Plus size={20} strokeWidth={2.5} />
@@ -165,21 +165,21 @@ export default function PermissionManagement() {
 
               </div>
             </div>
-            
+
           </div>
         )}
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-            {error}
-          </div>
-        )}
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+          {error}
+        </div>
+      )}
 
       {loading ? (<LoadingData loading={loading} type="cardclass" count={3} />
 
       ) : pendingPermissions.length > 0 ? (
         <div className="flex gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
           {pendingPermissions.map((p) => (
-            <PermissionCard key={p.id} permission={p} onViewDetail={handleViewDetail}  onDelete={openDeleteModal} />
+            <PermissionCard key={p.id} permission={p} onViewDetail={handleViewDetail} onDelete={openDeleteModal} />
           ))}
         </div>
       ) : null}
@@ -188,9 +188,12 @@ export default function PermissionManagement() {
         <div className="mt-8">
           {loading ? (<LoadingData loading={loading} type="kotakKecil" />)
             : permissions.length > 0 && pendingPermissions.length > 0 ? (
-              <h2 className="text-2xl font-bold text-gray-900 mb-8 mt-8">
-                Daftar Riwayat Izin
-              </h2>
+              <div className="flex flex-col gap-2 mb-6 mt-10">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight">
+                  Riwayat Pengajuan Izin
+                </h2>
+                <div className="h-1 w-20 bg-blue-500 rounded-full"></div>
+              </div>
             ) : null}
 
           {loading ? (
@@ -202,12 +205,21 @@ export default function PermissionManagement() {
       )}
 
       {permissions.length === 0 && pendingPermissions.length === 0 && !loading && (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-10 px-4 text-gray-500">
           <div className="flex flex-col items-center justify-center">
-            <div className="w-[350px] h-[320px] mb-6 flex items-center">
-              <img src="../../../../images/people/10.png" alt="Empty state" className="w-full h-full object-contain" />
+
+            <div className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6">
+              <img
+                src="/images/null/nullimage.png"
+                alt="Empty state"
+                className="w-full h-auto object-contain"
+              />
             </div>
-            <p className="text-gray-500 text-center text-sm"> Belum ada izin yang dikiukan, klik tombol buat izin untuk memulai. </p>
+
+            <p className="text-gray-500 text-center text-xs sm:text-sm md:text-base max-w-xs sm:max-w-md">
+              Belum ada izin yang diajukan, klik tombol buat izin untuk memulai.
+            </p>
+
           </div>
         </div>
       )}

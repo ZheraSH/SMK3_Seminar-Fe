@@ -46,7 +46,6 @@ const HomeLayout = () => {
     const transparentPaths = ["/", "/tentang", "/berita", "/galery"];
     const navScrolled = isScrolled || !transparentPaths.includes(location.pathname);
 
-    // Helper untuk Icon Mobile
     const getIcon = (name) => {
         const iconName = name.toLowerCase();
         if (iconName.includes('beranda') || iconName.includes('home')) return <FaHome className="text-xl" />;
@@ -67,7 +66,6 @@ const HomeLayout = () => {
             {!isLoading && (
                 <div className="relative min-h-screen flex flex-col font-sans bg-gray-50">
 
-                    {/* --- NAVBAR DESKTOP --- */}
                     <nav
                         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${navScrolled ? "bg-white py-4 shadow-md" : "bg-transparent py-6"
                             }`}
@@ -85,7 +83,6 @@ const HomeLayout = () => {
                                 </div>
                             </NavLink>
 
-                            {/* Menu Desktop */}
                             <div className="hidden md:flex items-center gap-8">
                                 <ul className="flex items-center space-x-8">
                                     {menus.filter(m => m.name !== "Masuk").map((menu, index) => (
@@ -112,12 +109,10 @@ const HomeLayout = () => {
                         </div>
                     </nav>
 
-                    {/* --- CONTENT --- */}
-                    <main className="flex-grow pb-24 md:pb-0">
+                    <main className="flex-grow ">
                         <Outlet />
                     </main>
 
-                    {/* --- BOTTOM NAVIGATION (Mobile Only) --- */}
                     <div className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 z-[100] px-2 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] rounded-t-2xl">
                         <div className="flex justify-around items-center">
                             {menus.filter(m => m.name !== "Masuk").map((menu, index) => (

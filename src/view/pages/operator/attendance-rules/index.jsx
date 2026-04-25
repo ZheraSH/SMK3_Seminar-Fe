@@ -227,7 +227,7 @@ export default function AttendanceRulesPage() {
                     {saving ? <LoadingSpinner /> : (
                       <>
                         <Save className="w-4 h-4" />
-                        Simpan Perubahan
+                        Simpan <span className=" hidden md:block"> Perubahan </span>
                       </>
                     )}
                   </button>

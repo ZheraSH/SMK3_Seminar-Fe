@@ -55,11 +55,11 @@ export function StudentsTable({
 
   if (isEmpty) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-gray-400">
+      <div className="flex flex-col items-center justify-center py-10 text-gray-400">
         <img
           src="../../../../images/null/nullimage.png"
           alt="Data siswa kosong"
-          className="w-100 mb-4"
+          className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
         />
         <p className="text-sm font-medium text-center">
           Maaf yaaa.. datanya gaada, silahkan klik “Tambah Siswa” <br /> buat tambah data Siswa!

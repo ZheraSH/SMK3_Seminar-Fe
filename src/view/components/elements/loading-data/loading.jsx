@@ -707,11 +707,43 @@ const StatusGridFiveSkeleton = () => (
 
 
 
+// absence card skeleton
+const AbsenceCardSkeleton = ({ count = 3 }) => (
+  <div className="space-y-4 px-2">
+    {[...Array(count)].map((_, i) => (
+      <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-50 relative overflow-hidden">
+        <Skeleton className="absolute left-0 top-0 bottom-0 w-1 bg-gray-200" />
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-6 h-6 rounded-md" />
+            <Skeleton className="h-3 w-24 rounded" />
+          </div>
+          <Skeleton className="h-4 w-16 rounded-full" />
+        </div>
+        <Skeleton className="h-5 w-40 rounded mb-5" />
+        <div className="flex items-center gap-4 border-t border-gray-50 pt-4">
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-3 w-12 rounded" />
+            <Skeleton className="h-4 w-16 rounded" />
+          </div>
+          <div className="w-[1px] h-8 bg-gray-100" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-3 w-12 rounded" />
+            <Skeleton className="h-4 w-16 rounded" />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
 export default function LoadingData({ loading, type = "list", count = 3 }) {
   if (!loading) return null;
 
   const renderContent = () => {
     switch (type) {
+      case "absenceCard":
+        return <AbsenceCardSkeleton count={count} />;
       case "statusCardsFive":
         return <StatusGridFiveSkeleton />;
       case "headerDaftarSiswa":

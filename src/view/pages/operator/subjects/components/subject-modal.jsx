@@ -15,7 +15,7 @@ export function SubjectModal({
   if (!isOpen) return null;
 
   const title = mode === "add" ? "Tambah Mapel Baru" : "Edit Mapel";
-  const buttonText = mode === "add" ? <div className="flex gap-2 font-medium"><Plus size={20} /> Tambah </div> : "Simpan";
+  const buttonText = mode === "add" ? <div className=" font-medium"> Tambah </div> : "Simpan";
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[2px] z-50">
@@ -35,14 +35,17 @@ export function SubjectModal({
             <input
               type="text"
               placeholder="Nama Mapel"
-              className={`w-full border rounded-lg px-3 py-2 mt-1 text-[14px] text-[#374151] focus:outline-none ${errors.name
+              className={`w-full border rounded-lg px-3 py-2 mt-1 text-[14px] text-[#374151] focus:outline-none ${
+                errors.name
                   ? "border-red-500 focus:ring-2 focus:ring-red-500"
                   : "border-gray-300 focus:ring-2 focus:ring-blue-500"
-                }`}
+              }`}
               value={subject.name}
               onChange={(e) => {
-                onChange("name", e.target.value);
-                setErrors({}); 
+                const cleanValue = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
+                
+                onChange("name", cleanValue);
+                setErrors({});
               }}
             />
 

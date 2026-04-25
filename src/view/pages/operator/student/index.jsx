@@ -299,7 +299,7 @@ export default function StudentPage() {
         : (
           <div className="flex flex-col gap-3 mb-5">
             <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-              <div className="flex flex-col sm:flex-row  gap-3 w-full items-start sm:items-center">
+              <div className="flex flex-row  gap-3 w-full items-start sm:items-center">
                 <SearchFilterStudent
                   searchTerm={searchTerm}
                   onSearchChange={(value) => {
@@ -308,18 +308,30 @@ export default function StudentPage() {
                   }}
                 />
 
-                <StudentFilterDropdown
-                  category={category}
-                  setCategory={(cat) => {
-                    setPage(1);
-                    setLocalPage(1);
-                    setCategory(cat);
+                <div className=" hidden md:block">
+                  <StudentFilterDropdown
+                    category={category}
+                    setCategory={(cat) => {
+                      setPage(1);
+                      setLocalPage(1);
+                      setCategory(cat);
+                    }}
+                    masters={masters}
+                  />
+                </div>
+
+                <button
+                  onClick={() => {
+                    setEditingId(null);
+                    setIsOpen(true);
                   }}
-                  masters={masters}
-                />
+                  className="bg-[#3B82F6] text-white block md:hidden px-3 py-1 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
+                >
+                  + <span className=" hidden">Tambah Siswa</span>
+                </button>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 w-full md:w-auto">
                 <DetailModal
                   isOpen={isDetailOpen}
                   onClose={() => setIsDetailOpen(false)}
@@ -340,10 +352,22 @@ export default function StudentPage() {
                     setEditingId(null);
                     setIsOpen(true);
                   }}
-                  className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
+                  className="bg-[#3B82F6] text-white hidden md:block px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium w-full sm:w-auto whitespace-nowrap"
                 >
                   + Tambah Siswa
                 </button>
+                <div className=" block md:hidden w-full">
+                  <StudentFilterDropdown
+                    category={category}
+                    setCategory={(cat) => {
+                      setPage(1);
+                      setLocalPage(1);
+                      setCategory(cat);
+                    }}
+                    masters={masters}
+                  />
+                </div>
+
               </div>
             </div>
           </div>
@@ -366,6 +390,7 @@ export default function StudentPage() {
           <>
             <StudentsTable
               students={filteredStudents}
+              startIndex={(localMeta.current_page - 1) * (localMeta.per_page || itemsPerPage)}
               onDetail={handleDetail}
               onEdit={handleEdit}
               onDelete={handleDelete}

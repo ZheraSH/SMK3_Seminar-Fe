@@ -5,9 +5,9 @@ const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, title = "Hapus Data In
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 h-full z-[100] flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] transition-opacity" onClick={onClose}></div>
-            <div className="relative bg-white rounded-[16px] shadow-xl max-w-md h-[274] w-[408px] p-5 overflow-hidden transform transition-all flex flex-col items-center text-center">
+            <div className="relative bg-white rounded-[16px] shadow-xl max-w-md h-auto pb-10 w-[408px] p-5 overflow-hidden transform transition-all flex flex-col items-center text-center">
                 <div className="mb-1 p-4"> <Trash2 className="w-[48px] h-[48px] text-red-500" strokeWidth={1.5} /></div>
                 <h3 className="text-[20px] font-semibold text-gray-900 mb-2"> {title} </h3>
                 <p className="text-gray-600 text-[14px]  leading-relaxed mb-10 px-4"> {message} </p>

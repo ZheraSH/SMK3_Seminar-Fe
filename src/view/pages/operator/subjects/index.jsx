@@ -171,8 +171,8 @@ export default function SubjectsPage() {
         {loading ? (
           <LoadingData loading={loading} type="cardMapel" count={8} />
         ) : subjects.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-10">
-            <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-130 h-auto mb-4" />
+          <div className="flex flex-col items-center justify-center py-5">
+            <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
             <h1 className="text-[#4B5563]">Maaf yaaa.. datanya gaada, silahkan klik “Tambah Mapel” </h1>
             <h1 className="text-[#4B5563]">buat nambah data Mapel baru!</h1>
           </div>

@@ -250,7 +250,7 @@ export default function TeachersPage() {
         : (
           <div className="flex flex-col gap-3 mb-5">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch sm:items-center">
+              <div className="flex flex-row gap-3 w-full items-stretch sm:items-center">
                 <SearchBar
                   searchTerm={searchTerm}
                   setSearchTerm={(v) => {
@@ -259,18 +259,28 @@ export default function TeachersPage() {
                   }}
                 />
 
-                <TeacherFilterDropdown
-                  category={category}
-                  setCategory={(cat) => {
-                    setCategory(cat);
-                    setPage(1);
-                    setLocalPage(1);
-                  }}
-                  masters={masters}
-                />
+                <div className=" hidden md:block">
+                  <TeacherFilterDropdown
+                    category={category}
+                    setCategory={(cat) => {
+                      setCategory(cat);
+                      setPage(1);
+                      setLocalPage(1);
+                    }}
+                    masters={masters}
+                  />
+                </div>
+                <div className=" block md:hidden">
+                  <button
+                    onClick={handleAddNewTeacher}
+                    className="bg-[#3B82F6] text-white px-3 py-1 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
+                  >
+                    + <span className=" hidden md:block"> Tambah Guru</span>
+                  </button>
+                </div>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 w-full md:w-auto">
                 <DetailModal
                   isDetailOpen={isDetailOpen}
                   selectedTeacher={selectedTeacher}
@@ -286,9 +296,23 @@ export default function TeachersPage() {
                   loading={deleteLoading}
                 />
 
+               
+
+                <div className=" block md:hidden w-full">
+                    <TeacherFilterDropdown
+                    category={category}
+                    setCategory={(cat) => {
+                      setCategory(cat);
+                      setPage(1);
+                      setLocalPage(1);
+                    }}
+                    masters={masters}
+                  />
+                </div>
+                
                 <button
                   onClick={handleAddNewTeacher}
-                  className="bg-[#3B82F6] text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
+                  className="bg-[#3B82F6] hidden md:block text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
                 >
                   + Tambah Guru
                 </button>
@@ -316,6 +340,7 @@ export default function TeachersPage() {
           <>
             <TeacherTable
               currentTeachers={filteredTeachers}
+              startIndex={(localMeta.current_page - 1) * (localMeta.per_page || itemsPerPage)}
               openItemId={openItemId}
               setOpenItemId={setOpenItemId}
               handleDetail={handleDetail}

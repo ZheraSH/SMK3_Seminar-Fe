@@ -38,16 +38,26 @@ const ClassPage = () => {
             {loading ? (<LoadingData loading={loading} type="create" />)
                 : (
                     <header className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-                        <div className="flex items-center space-x-2 w-full md:w-auto ">
-                            <div className="relative flex items-center mr-4">
+                        <div className="flex items-center justify-between space-x-2 w-full md:w-auto ">
+                            <div className="relative flex items-center mr-4 w-full md:w-auto">
                                 <Search className="absolute left-3 text-gray-400" />
                                 <input type="text" placeholder="Cari Kelas/Wali Kelas..." value={searchText} onChange={(e) => handleSearchChange(e.target.value)} className="p-2 pl-10 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
-                            <FilterDropdown filters={filters} filterOptions={filterOptions} onFilterChange={handleFilterChange} />
+                            <div className=" hidden md:block">
+                                <FilterDropdown filters={filters} filterOptions={filterOptions} onFilterChange={handleFilterChange} />
+                            </div>
+                            <div className=" block md:hidden">
+                                <button onClick={toggleForm} className="bg-[#3B82F6] text-white px-2 py-2 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap">
+                                     <Plus />
+                                </button>
+                            </div>
                         </div>
-                        <button onClick={toggleForm} className="w-full md:w-auto px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
+                        <button onClick={toggleForm} className="w-full md:w-auto  hidden md:block px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
                             <span className="flex flex-row items-center gap-2"> <Plus size={18} /> Tambah Kelas</span>
                         </button>
+                        <div className=" block md:hidden w-full">
+                            <FilterDropdown filters={filters} filterOptions={filterOptions} onFilterChange={handleFilterChange} />
+                        </div>
                     </header>
                 )}
 
@@ -74,8 +84,8 @@ const ClassPage = () => {
             )}
 
             {classesData.length === 0 && !loading ? (
-                <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
-                    <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                <div className="flex flex-col items-center justify-center py-10 w-full animate-in fade-in duration-500">
+                    <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
                     <p className="text-gray-500 text-center text-sm md:text-md"> Maaf yaaa.. datanya gaada, silahkan klik “Tambah kelas” buat <br />  nambah data kelas!
                     </p>
                 </div>

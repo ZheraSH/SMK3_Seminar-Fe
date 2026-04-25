@@ -7,6 +7,7 @@ import { notify } from "@core/hooks/notification/notify";
 
 export function RfidTable({
   filtered = [],
+  startIndex = 0,
   openMenu,
   onMenuClick,
   onDeleteClick,
@@ -32,11 +33,11 @@ export function RfidTable({
 
   if (!filtered.length) {
     return (
-      <div className="w-full flex flex-col items-center justify-center py-20">
+      <div className="w-full flex flex-col items-center justify-center py-10">
         <img
           src="../../../../images/null/nullimage.png"
           alt="Data siswa kosong"
-          className="w-100 mb-4"
+          className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
         />
         <p className="text-sm font-medium text-center">
           Maaf yaaa.. datanya gaada, silahkan klik “Tambah RFID” <br /> buat
@@ -65,6 +66,7 @@ export function RfidTable({
               key={item.id}
               item={item}
               index={index}
+              startIndex={startIndex}
               openMenu={openMenu}
               onMenuClick={onMenuClick}
               onDeleteClick={onDeleteClick}
@@ -83,6 +85,7 @@ export function RfidTable({
 function TableRow({
   item,
   index,
+  startIndex,
   openMenu,
   onMenuClick,
   onDeleteClick,
@@ -155,7 +158,7 @@ function TableRow({
 
   return (
     <tr className={index % 2 === 0 ? "bg-white" : "bg-blue-50"}>
-      <td className="px-6 py-2">{index + 1}</td>
+      <td className="px-6 py-2">{startIndex + index + 1}</td>
       <td className="px-6 py-2">{item.student?.name || "-"}</td>
       <td className="px-6 py-2">{item.rfid}</td>
 

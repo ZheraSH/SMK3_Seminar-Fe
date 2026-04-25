@@ -167,7 +167,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses, setAct
                     <>
                         {schedulesToDisplay.length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-20">
-                                <img src="/images/null/null2.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
+                                <img src="/images/null/null2.png" alt="Data Kosong" className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6" />
                                 <div className="text-center">
                                     <p className="text-gray-500 text-center text-sm md:text-md"> Belum ada jadwal di hari ini, silahkan klik “ Tambah Jam ” untuk <br />  menambahkan jam pelajaran!</p>
                                 </div>

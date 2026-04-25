@@ -60,7 +60,7 @@ const LoadingScreen = ({
             {letters.map((letter, index) => (
               <span
                 key={index}
-                className={`text-7xl md:text-9xl font-bold transition-all duration-300 ${
+                className={`text-4xl md:text-9xl font-bold transition-all duration-300 ${
                   index === currentLetter
                     ? "text-blue-600 transform scale-110"
                     : "text-gray-400 transform scale-100"
