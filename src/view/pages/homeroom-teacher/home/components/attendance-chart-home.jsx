@@ -71,22 +71,22 @@ export default function AttendanceChart() {
       </p>
 
       <ResponsiveContainer width="100%" height={280}>
-        <PieChart>
+        <PieChart margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
           <Pie
             data={chartData}
             cx="50%"
             cy="50%"
             innerRadius={85}
-            outerRadius={115}
+            outerRadius={110}
             paddingAngle={isEmptyData ? 0 : 4}
             dataKey="value"
             cornerRadius={12}
             stroke="none"
             labelLine={false}
-            label={() => (
+            label={({ cx, cy }) => (
               <text
-                x="50%"
-                y="50%"
+                x={cx}
+                y={cy}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="fill-gray-400 text-4xl font-bold"
@@ -95,10 +95,10 @@ export default function AttendanceChart() {
               </text>
             )}
           >
-            {chartData.map((_, i) => (
+            {chartData.map((entry, i) => (
               <Cell
-                key={i}
-                fill={isEmptyData ? EMPTY_COLOR : COLORS[i]}
+                key={`cell-${i}`}
+                fill={isEmptyData ? EMPTY_COLOR : COLORS[i % COLORS.length]}
               />
             ))}
           </Pie>
