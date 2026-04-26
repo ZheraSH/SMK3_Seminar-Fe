@@ -1,20 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, Search, X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Plus, Search, CreditCard, MoreVertical, Trash2, X } from "lucide-react";
 import Header from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
 import { getMastercards, postMastercard } from "@services/role-operator/mastercard/master-card-api";
 import { LoadingSpinner } from "@elements/loading-button/loading";
+import ModalDelete from "@elements/modaldelete/modal-delete";
+import PaginationMasterCard from "./components/pagination-master-card";
 
 export default function MasterCardPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newData, setNewData] = useState({ name: "", email: "", rfid: "" });
+  const [newRfid, setNewRfid] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+  const [confirmModal, setConfirmModal] = useState({ show: false, id: null });
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const dropdownRef = useRef(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -32,25 +39,28 @@ export default function MasterCardPage() {
     fetchData();
   }, []);
 
-  const filteredData = data.filter(
-    (item) =>
-      item.name?.toLowerCase().includes(search.toLowerCase()) ||
-      item.email?.toLowerCase().includes(search.toLowerCase()) ||
-      item.rfid?.includes(search)
-  );
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const handleInputChange = (e) => {
-    setNewData({ ...newData, [e.target.name]: e.target.value });
-  };
+  const filteredData = data.filter((item) =>
+    item.rfid?.toLowerCase().includes(search.toLowerCase())
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitLoading(true);
     setError(null);
     try {
-      await postMastercard(newData);
+      await postMastercard({ rfid: newRfid });
       setIsModalOpen(false);
-      setNewData({ name: "", email: "", rfid: "" });
+      setNewRfid("");
       fetchData();
     } catch (err) {
       setError(err.response?.data?.message || "Gagal menambahkan data");
@@ -59,161 +69,213 @@ export default function MasterCardPage() {
     }
   };
 
+  const openDeleteConfirm = (item) => {
+    setConfirmModal({ show: true, id: item.id });
+    setOpenDropdownId(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    setIsDeleting(true);
+    try {
+      // deleteMastercard(confirmModal.id) — tambahkan saat API delete tersedia
+      setConfirmModal({ show: false, id: null });
+      fetchData();
+    } catch (err) {
+      console.error("Gagal menghapus mastercard:", err);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
-    <div className=" space-y-6">
-      <div>
-        {loading ? (<LoadingData loading={loading} type="header1" />)
-          : (
-            <Header
-              span="Master Card"
-              p="Data inti dan identitas siswa"
-              src="/images/particle/mastercard.png"
+    <div className="min-h-screen bg-gray-50 font-sans mb-10 md:mb-0">
+      {/* Header */}
+      {loading ? (
+        <LoadingData loading={loading} type="header1" />
+      ) : (
+        <Header
+          span="Master Card"
+          p="Data kartu RFID siswa"
+          src="/images/particle/mastercard.png"
+        />
+      )}
+
+      {/* Search + Tambah */}
+      {loading ? (
+        <LoadingData loading={loading} type="create" />
+      ) : (
+        <div className="flex flex-row justify-between items-center mb-8 gap-4 mt-6">
+          <div className="relative w-full md:w-80">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+              <Search size={18} />
+            </span>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Cari RFID..."
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
             />
-          )}
-      </div>
-      {loading ? (<LoadingData loading={loading} type="create" />)
-        : (
-          <div className="flex flex-row justify-between gap-3">
-            <div className="flex items-center w-full max-w-full sm:max-w-[300px] md:max-w-[320px] border rounded-full px-3 py-2 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition gap-2 border-[#CBD5E1]">
-              <Search size={20} className="text-gray-600 flex-shrink-0" />
-              <input
-                type="text"
-                placeholder="Cari nama / Email / RFID..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full outline-none text-sm bg-transparent placeholder:text-gray-600"
-              />
-            </div>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-[#3B82F6] text-white px-3 py-1 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
-            >
-              <Plus size={16} />
-              <span className="hidden md:block">Tambah Master Card</span>
-            </button>
           </div>
-        )}
 
-      <div className="overflow-x-auto  rounded-lg">
-        {loading ? (
-          <LoadingData loading={loading} type="tableSchedule" cou />
-        ) : filteredData.length === 0 ? (
-            <div className="w-full flex flex-col items-center justify-center py-10">
-              <img
-                src="../../../../images/null/nullimage.png"
-                alt="Data siswa kosong"
-                className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
-              />
-              <p className="text-sm font-medium text-center">
-                Maaf yaaa.. datanya gaada, silahkan klik “Tambah Master Card” <br /> buat
-                tambah data Master Card!
-              </p>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#3B82F6] text-white px-3 py-3 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
+          >
+            <Plus size={20} />
+            <span className="hidden md:block">Tambah Master Card</span>
+          </button>
+        </div>
+      )}
+
+      {/* Card Grid */}
+      {loading ? (
+        <LoadingData loading={loading} type="cardclass" />
+      ) : filteredData.length === 0 ? (
+        <div className="flex flex-col items-center justify-center w-full">
+          <img
+            src="/images/null/nullimage.png"
+            alt="Data Kosong"
+            className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+          />
+          <p className="text-gray-500 text-center max-w-[550px] text-sm md:text-md">
+            Maaf yaaa.. datanya gaada, silahkan klik "Tambah Master Card" buat
+            nambah data Master Card!
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredData.map((item, idx) => (
+            <div
+              key={item.id || idx}
+              className="bg-white h-[140px] p-6 rounded-2xl shadow-sm border border-gray-100 relative"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-blue-500 rounded-lg text-white">
+                    <CreditCard size={18} />
+                  </div>
+                  <span className="text-blue-500 font-bold text-[12px]">
+                    Master Card
+                  </span>
+                </div>
+
+                <div className="relative">
+                  {/* <button
+                    onClick={() =>
+                      setOpenDropdownId(
+                        openDropdownId === (item.id || idx) ? null : (item.id || idx)
+                      )
+                    }
+                    className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-50"
+                  >
+                    <MoreVertical size={20} />
+                  </button> */}
+{/* 
+                  {openDropdownId === (item.id || idx) && (
+                    <div
+                      ref={dropdownRef}
+                      className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden py-1 animate-in fade-in zoom-in duration-100"
+                    >
+                      <button
+                        onClick={() => openDeleteConfirm(item)}
+                        className="w-full text-left px-4 py-3 text-sm hover:bg-red-50 flex items-center gap-3 text-red-600"
+                      >
+                        <Trash2 size={16} /> Hapus Master Card
+                      </button>
+                    </div>
+                  )} */}
+                </div>
+              </div>
+
+              <h2 className="text-[22px] font-black text-gray-800 tracking-tight truncate">
+                {item.rfid}
+              </h2>
             </div>
-          ): (
-         <div className="border border-gray-300 overflow-x-auto  rounded-lg">
-             <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-[#3B82F6] text-white">
-                <th className="px-4 py-3 text-sm font-semibold border-r border-blue-500">
-                  No
-                </th>
-                <th className="px-4 py-3 text-sm font-semibold border-r border-blue-500">
-                  Nama
-                </th>
-                <th className="px-4 py-3 text-sm font-semibold border-r border-blue-500">
-                  Email
-                </th>
-                <th className="px-4 py-3 text-sm font-semibold">RFID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.map((item, idx) => (
-                <tr
-                  key={item.id || idx}
-                  className={idx % 2 === 0 ? "bg-white" : "bg-gray-100"}
-                >
-                  <td className="px-4 py-3 border-b border-gray-200 text-sm">
-                    {idx + 1}.
-                  </td>
-                  <td className="px-4 py-3 border-b border-gray-200 text-sm">
-                    {item.name}
-                  </td>
-                  <td className="px-4 py-3 border-b border-gray-200 text-sm">
-                    {item.email}
-                  </td>
-                  <td className="px-4 py-3 border-b border-gray-200 text-sm">
-                    {item.rfid}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-         </div>
-        )}
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-12 gap-2 pb-10">
+        <PaginationMasterCard
+          page={1}
+          lastPage={1}
+          onPageChange={() => { }}
+        />
       </div>
 
+      {/* Modal Tambah Master Card */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-[15px] w-full max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Tambah Master Card</h2>
-              <button onClick={() => setIsModalOpen(false)}><X size={24} /></button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
+            onClick={() => setIsModalOpen(false)}
+          />
+          <div className="relative bg-white rounded-3xl p-8 shadow-2xl w-[90%] max-w-md transform transition-all animate-in fade-in zoom-in duration-200">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">
+                Tambah Master Card
+              </h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-400 hover:text-gray-600 transition"
+              >
+                <X size={24} />
+              </button>
             </div>
 
-            {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">{error}</div>}
+            {error && (
+              <div className="bg-red-100 text-red-700 p-3 rounded-xl mb-4 text-sm">
+                {error}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Nama<span className="text-red-500">*</span></label>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Masukkan Nama"
-                  value={newData.name}
-                  onChange={handleInputChange}
-                  className="w-full border border-[#CBD5E1] rounded-[7px] p-2"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Email<span className="text-red-500">*</span></label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Masukkan email"
-                  value={newData.email}
-                  onChange={handleInputChange}
-                  className="w-full border border-[#CBD5E1] rounded-[7px] p-2"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">RFID<span className="text-red-500">*</span></label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  RFID <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   name="rfid"
-                  placeholder="Masukkan RFID"
-                  value={newData.rfid}
-                  onChange={handleInputChange}
-                  className="w-full border border-[#CBD5E1] rounded-[7px] p-2"
+                  placeholder="Masukkan kode RFID"
+                  value={newRfid}
+                  onChange={(e) => setNewRfid(e.target.value)}
+                  className="w-full border border-[#CBD5E1] rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                   required
                 />
               </div>
 
-              <div className="flex justify-end gap-2 mt-4">
+              <div className="flex gap-3 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="flex-1 py-3 px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-colors"
+                >
+                  Batal
+                </button>
                 <button
                   type="submit"
                   disabled={submitLoading}
-                  className={`px-4 py-2 bg-blue-600 text-white rounded-[7px] hover:bg-blue-700 disabled:bg-blue-400 ${submitLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                  className={`flex-1 py-3 px-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-95 ${submitLoading ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                 >
-                  {submitLoading ? <LoadingSpinner /> : "+ Tambah"}
+                  {submitLoading ? <LoadingSpinner /> : "Simpan"}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* Modal Konfirmasi Hapus */}
+      <ModalDelete
+        isOpen={confirmModal.show}
+        onConfirm={handleConfirmDelete}
+        onClose={() => setConfirmModal({ show: false, id: null })}
+        isProcessing={isDeleting}
+      />
     </div>
   );
 }
-
