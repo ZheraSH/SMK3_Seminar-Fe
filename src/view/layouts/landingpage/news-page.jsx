@@ -1,10 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { Search, Calendar, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, Calendar, ChevronRight, X } from 'lucide-react';
 import AOS from 'aos';
-import {NEWS_DATA} from "@mock/landing-page";
-import { useEffect } from "react";
-
-
+import { NEWS_DATA } from "@mock/landing-page";
 
 const CATEGORIES = ["Semua", ...Object.keys(NEWS_DATA)];
 
@@ -13,6 +10,8 @@ const DoubleScrollNews = () => {
   const [searchQuery, setSearchQuery] = useState(""); 
   const rightColumnRef = useRef(null);
   const sectionRefs = useRef({});
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
@@ -35,14 +34,14 @@ const DoubleScrollNews = () => {
     items.some(news => news.title.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-   useEffect(() => {
-          AOS.init({
-              duration: 800, 
-              once: true,    
-              easing: 'ease-out-cubic',
-              offset: 120,
-          });
-      }, []);
+  useEffect(() => {
+    AOS.init({
+        duration: 800, 
+        once: true,    
+        easing: 'ease-out-cubic',
+        offset: 120,
+    });
+  }, []);
 
   return (
     <div className="bg-white min-h-screen">
@@ -52,15 +51,20 @@ const DoubleScrollNews = () => {
             </div>
         </div>
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="flex flex-col lg:flex-row gap-8 lg:h-[calc(148vh-100px)]">
+        <div className="flex flex-col lg:flex-row gap-8 lg:h-[calc(156vh-100px)]">
           <div data-aos="fade-up" className="lg:w-[100%] lg:overflow-y-auto no-scrollbar lg:pr-6">
             <div className="mb-6">
               <h2 className="text-2xl lg:text-3xl font-bold text-[#25397d] inline-block border-b-4 border-blue-500 pb-1">
                 Berita Teratas
               </h2>
             </div>
-            <div className="bg-gray-300 rounded-[12px] h-[425px] w-full aspect-[16/10] mb-6 shadow-sm">
-                <img  src="/images/landing-page/galery/tahapan/peluncuran.png"  alt="Seminar Pendidikan" className="w-full h-full rounded-[12px] object-cover"/>
+            <div className="bg-gray-300 rounded-[12px] h-[425px] w-full aspect-[16/10] mb-6 shadow-sm relative group">
+                <img  
+                  src="/images/landing-page/galery/tahapan/peluncuran.png"  
+                  alt="Seminar Pendidikan" 
+                  onClick={() => setPreviewImage("/images/landing-page/galery/tahapan/peluncuran.png")} 
+                  className="w-full h-full rounded-[12px] object-cover cursor-zoom-in group-hover:scale-[1.02] transition-transform duration-300"
+                />
             </div>
             <div className="flex justify-between items-center mb-4">
               <span className="bg-[#3B82F6] text-white text-[10px] px-4 py-1.5 rounded-full font-bold uppercase">
@@ -73,23 +77,33 @@ const DoubleScrollNews = () => {
               Seminar Terbaru: Tranformasi digital dalam dunia pendidikan
             </h1>
 
-            <div className="text-gray-500 text-[14px] leading-relaxed text-justify space-y-4 pr-2">
-              <p>
-                Di era transformasi digital yang terus berkembang, pengelolaan kehadiran siswa secara
-                manual dinilai kurang efektif dan rentan terhadap kesalahan data. Merespons tantangan tersebut, 
-                kami menghadirkan sistem absensi berbasis kartu RFID (Radio Frequency Identification) sebagai 
-                bagian dari program Teaching Factory (TEFA) sekolah. Sistem ini dirancang untuk mencatat kehadiran 
-                siswa secara otomatis, akurat, dan real-time hanya dengan menempelkan kartu pada perangkat pembaca.
-              </p>
-              <p>
-                Sistem absensi RFID ini tidak hanya mempercepat proses pencatatan kehadiran, tetapi juga meminimalisir 
-                potensi kecurangan dan kehilangan data yang sering terjadi pada metode konvensional. Setiap kartu RFID 
-                terhubung langsung ke identitas siswa dalam database, sehingga rekap kehadiran dapat diakses kapan saja 
-                oleh guru maupun pihak administrasi sekolah secara transparan dan efisien. Sebagai produk nyata dari program
-                TEFA, sistem ini merupakan bukti bahwa siswa SMK mampu merancang dan mengimplementasikan solusi teknologi yang
-                berdampak langsung bagi lingkungan sekolah. Ke depannya, sistem absensi RFID ini diharapkan dapat terus dikembangkan 
-                dan menjadi standar pengelolaan kehadiran yang modern, andal, serta siap digunakan di berbagai institusi pendidikan.
-              </p>
+            <div className="text-gray-500 text-[14px] leading-relaxed text-left space-y-4 pr-2">
+              <div className={`transition-all duration-500 overflow-hidden ${!isExpanded ? 'line-clamp-[5]' : ''}`}>
+                <p>
+                  Di era transformasi digital yang terus berkembang, pengelolaan kehadiran siswa secara
+                  manual dinilai kurang efektif dan rentan terhadap kesalahan data. Merespons tantangan tersebut, 
+                  kami menghadirkan sistem absensi berbasis kartu RFID (Radio Frequency Identification) sebagai 
+                  bagian dari program Teaching Factory (TEFA) sekolah. Sistem ini dirancang untuk mencatat kehadiran 
+                  siswa secara otomatis, akurat, dan real-time hanya dengan menempelkan kartu pada perangkat pembaca.
+                </p>
+                <p className="mt-4">
+                  Sistem absensi RFID ini tidak hanya mempercepat proses pencatatan kehadiran, tetapi juga meminimalisir 
+                  potensi kecurangan dan kehilangan data yang sering terjadi pada metode konvensional. Setiap kartu RFID 
+                  terhubung langsung ke identitas siswa dalam database, sehingga rekap kehadiran dapat diakses kapan saja 
+                  oleh guru maupun pihak administrasi sekolah secara transparan dan efisien. Sebagai produk nyata dari program
+                  TEFA, sistem ini merupakan bukti bahwa siswa SMK mampu merancang dan mengimplementasikan solusi teknologi yang
+                  berdampak langsung bagi lingkungan sekolah. Ke depannya, sistem absensi RFID ini diharapkan dapat terus dikembangkan 
+                  dan menjadi standar pengelolaan kehadiran yang modern, andal, serta siap digunakan di berbagai institusi pendidikan.
+                </p>
+              </div>
+              
+              <button 
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="text-blue-600 font-bold text-sm flex items-center gap-1 hover:text-blue-800 transition-colors mt-2"
+              >
+                {isExpanded ? 'Sembunyikan' : 'Baca Selengkapnya'}
+                <ChevronRight size={16} className={`transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} />
+              </button>
             </div>
           </div>
 
@@ -149,10 +163,11 @@ const DoubleScrollNews = () => {
                               ${activeCategory !== "Semua" && activeCategory !== category ? 'hidden' : 'flex'}
                             `}
                           >
-                            <div 
-                                className="w-20 h-20 bg-cover bg-center rounded-xl shrink-0 group-hover:scale-105 transition-transform"
-                                style={{ backgroundImage: `url(${news.img})` }}
-                            ></div>
+                            <img
+                                src={news.img} alt={news.title} 
+                                onClick={() => setPreviewImage(news.img)}
+                                className="w-20 h-20 object-cover bg-center rounded-xl shrink-0 group-hover:scale-105 transition-transform"
+                              />
                             <div className="flex flex-col justify-center overflow-hidden">
                               <h4 className="font-bold text-gray-800 text-sm leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
                                 {news.title}
@@ -186,6 +201,30 @@ const DoubleScrollNews = () => {
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
+
+      {previewImage && (
+        <div 
+          onClick={() => setPreviewImage(null)} 
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+        >
+          <div className="relative w-full h-full flex flex-col items-center justify-center ">
+            <button 
+              onClick={() => setPreviewImage(null)} 
+              className="absolute top-0 right-0 text-white hover:text-gray-300 transition-colors bg-black/50 p-2 rounded-full"
+            >
+                <X size={24} />
+            </button>
+            
+            <img 
+              src={previewImage} 
+              alt="Preview bukti" 
+              onClick={(e) => e.stopPropagation()} 
+              className="w-auto h-auto max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain animate-zoomIn"
+            />
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

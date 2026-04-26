@@ -38,7 +38,7 @@ const LandingPageHome = () => {
 
     return (
         <div className="font-sans overflow-hidden">
-            <section className="relative bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A]  pt-28 pb-16 md:pt-40 md:pb-24 lg:pb-32 overflow-hidden">
+            <section className="relative bg-gradient-to-r w-full from-[#3B82F6] to-[#1E3A8A]  pt-28 pb-16 md:pt-40 md:pb-24 lg:pb-32 overflow-hidden">
                 <div className="container mx-auto px-6  relative z-10 flex flex-col lg:flex-row items-center justify-between ">
                     <div className="w-full lg:w-3/5 text-white" data-aos="fade-right">
                         <motion.h1 
