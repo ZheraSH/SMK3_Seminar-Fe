@@ -70,7 +70,7 @@ const DoubleScrollNews = () => {
               <span className="bg-[#3B82F6] text-white text-[10px] px-4 py-1.5 rounded-full font-bold uppercase">
                 Informasi
               </span>
-              <span className="text-gray-400 text-[11px] font-medium tracking-tight">30  2026</span>
+              <span className="text-gray-400 text-[11px] font-medium tracking-tight">30 April 2026</span>
             </div>
 
             <h1 className="text-2xl lg:text-3xl font-bold text-[#1e293b] mb-6 leading-tight">
