@@ -4,6 +4,7 @@ import { Search, ArrowUpSquare, RefreshCw, Plus, ArrowLeftToLine, X } from 'luci
 import DataTable from './components/table-class-student';
 import PaginationComponent from './components/pagination-component';
 import FormStudents from "./components/form-class-student";
+import FormImportStudent from "./components/form-import-student";
 import useClassroomDetail from '@core/hooks/operator/class-major/use-classroom-detail';
 import Header2 from "@elements/header/header-new-2";
 import LoadingData from '@elements/loading-data/loading';
@@ -26,15 +27,39 @@ function ModalAddStudent({ open, onClose, classroom, availableStudents, addStude
     );
 }
 
+function ModalImportStudent({ open, onClose, classroom, onImport, loading }) {
+    if (!open) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl p-6 animate-scaleIn relative">
+                <button className="absolute right-4 top-4 text-gray-600" onClick={onClose}>
+                    <X size={24} className='text-gray-400 hover:text-gray-600' />
+                </button>
+                <h2 className="text-start text-[20px] font-semibold mb-6 pr-10">
+                    Import Siswa ke {classroom?.name}
+                </h2>
+                <FormImportStudent 
+                    classroom={classroom} 
+                    onImport={onImport} 
+                    onClose={onClose} 
+                    loading={loading} 
+                />
+            </div>
+        </div>
+    );
+}
+
 const ClassStudentsPage = () => {
     const location = useLocation();
     const classroomUUID = location.state?.classroomId;
 
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
+    const [openImportModal, setOpenImportModal] = useState(false);
     const [search, setSearch] = useState("");
 
-    const { classroom, students, paginationMeta, loading, studentsLoading, availableStudents, actionLoading, addStudents, removeStudent, fetchStudents, fetchAvailableStudents, fetchStudentDetail, selectedStudentDetail, detailLoading, } = useClassroomDetail(classroomUUID);
+    const { classroom, students, paginationMeta, loading, studentsLoading, availableStudents, actionLoading, addStudents, removeStudent, fetchStudents, fetchAvailableStudents, fetchStudentDetail, selectedStudentDetail, detailLoading, importStudents } = useClassroomDetail(classroomUUID);
 
     useEffect(() => {
         const delaySearch = setTimeout(() => {
@@ -67,7 +92,7 @@ const ClassStudentsPage = () => {
 
     const BackButton = () => (
         <Link to="/home/class">
-            <button className="flex items-center justify-center lg:w-[130px] md:w-[87px] w-full px-3 py-2 border border-gray-300 rounded-lg lg:text-[14px] text-[10px]  gap-1 shadow-md ">
+            <button className="flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg lg:text-[14px] text-[10px] gap-1 shadow-md whitespace-nowrap w-full md:w-auto">
                 <ArrowLeftToLine size={16} /> Kembali
             </button>
         </Link>
@@ -85,23 +110,23 @@ const ClassStudentsPage = () => {
                     )}
                 {loading ? (<LoadingData loading={loading} type='create2' />)
                     : (
-                        <div className="flex items-center justify-between pt-4 md:flex-row flex-col ">
-                            <div className="relative flex-grow md:max-w-sm w-full">
-                                <input type="text" placeholder="Cari Nama,NISN" value={search} onChange={(e) => setSearch(e.target.value)} className="w-full py-2 pl-10 pr-4 rounded-full text-gray-700 border border-gray-300 " />
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4">
+                            <div className="relative w-full md:max-w-sm">
+                                <input type="text" placeholder="Cari Nama,NISN" value={search} onChange={(e) => setSearch(e.target.value)} className="w-full py-2 pl-10 pr-4 rounded-full text-gray-700 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-700" />
                             </div>
 
-                            <div className="flex xl:space-x-3 sm:space-x-3 lg:flex-row md:flex-row flex-col justify-end w-full md:mt-0 mt-4 font-medium w-full">
-                                <div className='flex flex-row gap-2 mb-2 lg:mb-0 md:mb-0'>
-                                    <button onClick={onSyncClick} className="flex flex-row items-center px-4 py-2 bg-[#22C55E] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white shadow-md">
-                                        <RefreshCw size={16} className={`${isSyncing ? 'animate-spin' : ''}`} /><span className="hidden md:inline ml-2">Sync</span>
-                                    </button>
-                                    <button onClick={() => setOpenModal(true)} className="flex items-center justify-center w-full px-3 md:py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px]  text-white gap-2 shadow-md">
-                                        <Plus size={16} /> Tambah Siswa
-                                    </button>
-                                    <BackButton />
-                                </div>
-
+                            <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-end gap-2 w-full md:w-auto">
+                                <button onClick={onSyncClick} className="flex flex-row items-center justify-center px-4 py-2 bg-[#22C55E] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white shadow-md whitespace-nowrap w-full md:w-auto">
+                                    <RefreshCw size={16} className={`${isSyncing ? 'animate-spin' : ''}`} /><span className="ml-2">Sync</span>
+                                </button>
+                                <button onClick={() => setOpenModal(true)} className="flex items-center justify-center px-3 py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md whitespace-nowrap w-full md:w-auto">
+                                    <Plus size={16} /> Tambah Siswa
+                                </button>
+                                <button onClick={() => setOpenImportModal(true)} className="flex items-center justify-center px-3 py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md whitespace-nowrap w-full md:w-auto">
+                                    <Plus size={16} /> Import Siswa
+                                </button>
+                                <BackButton />
                             </div>
                         </div>
                     )}
@@ -129,6 +154,7 @@ const ClassStudentsPage = () => {
                             </>
                         )}
                         <ModalAddStudent open={openModal} onClose={() => setOpenModal(false)} classroom={classroom} availableStudents={availableStudents} addStudents={addStudents} />
+                        <ModalImportStudent open={openImportModal} onClose={() => setOpenImportModal(false)} classroom={classroom} onImport={importStudents} loading={actionLoading} />
                     </>
                 )}
             </div>
