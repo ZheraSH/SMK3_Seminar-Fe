@@ -72,15 +72,25 @@ export const importStudentsToClassroom = async (classroomId, file) => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const res = await api.post(`/classrooms/${classroomId}/students-import`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    notify("Data Berhasil Diimport");
+    const res = await api.post(`/classrooms/${classroomId}/students-import`, formData);
+    
+    const { status, message, data } = res.data;
+    const importedCount = data?.imported_count;
+
+    if (status && importedCount > 0) {
+      notify(message , "success");
+    } else {
+      const errorMsg = importedCount === 0 
+        ? "Gagal: Data mungkin sudah ada" 
+        : (message || "Gagal mengimport");
+        
+      notify(errorMsg, "error");
+    }
+
     return res.data;
   } catch (err) {
-    console.error("Gagal mengimport siswa:", err);
+    const msg = err.response?.data?.message || "Terjadi kesalahan sistem";
+    notify(msg, "error"); 
     throw err;
   }
 }

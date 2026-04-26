@@ -35,10 +35,9 @@ export const Notification = () => {
 
   return (
     <div
-      className={`
-        fixed top-6 right-6 z-[9999]
-        ${closing ? "animate-slideOutRight" : "animate-slideInRight"}
-      `}
+      className={`fixed top-6 right-6 z-[9999] transition-all duration-300 ${
+        closing ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
+      }`}
     >
       <div className="bg-white rounded-xl shadow-md border border-gray-200 px-4 py-3 flex items-center gap-3 w-[260px] relative overflow-hidden">
         
