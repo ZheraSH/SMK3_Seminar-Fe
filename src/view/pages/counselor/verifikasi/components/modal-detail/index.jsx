@@ -53,7 +53,7 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData, loadi
                                 <h4 className="font-semibold text-gray-700 mb-2">Bukti Pendukung</h4>
                                 <div className="bg-gray-100 h-40 flex items-center justify-center text-gray-500 rounded-lg overflow-hidden border-2 border-dashed border-gray-200">
                                     {proof ? (
-                                            <img src={proof} alt="Bukti Izin" onClick={() => setPreviewOpen(true)} className=' w-full h-32 mt-2 rounded-md object-cover border border-gray-300 bg-gray-200 shadow-sm cursor-zoom-in hover:scale-[1.02] hover:shadow-md transition-all duration-300' />
+                                            <img src={proof} alt="Bukti Izin" onClick={() => setPreviewOpen(true)} className=' w-full h-full  rounded-md object-cover border border-gray-300 bg-gray-200 shadow-sm cursor-zoom-in hover:scale-[1.02] hover:shadow-md transition-all duration-300' />
                                     ) : (
                                         <span className="text-gray-400 text-sm">Tidak ada bukti gambar</span>
                                     )}
@@ -131,10 +131,10 @@ export default function DetailIzinModal({ isOpen, onClose, permissionData, loadi
                                 </div>
                             )}
                             {previewOpen && (
-                                <div onClick={() => setPreviewOpen(false)} className=" fixed inset-0 z-[999] bg-black/70 backdrop-blur-md flex items-center justify-center animate-fadeIn">
-                                    <img src={permission.proof} alt="Preview bukti" className=" max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl animate-zoomIn"/>
-                                    <button
-                                        onClick={() => setPreviewOpen(false)} className=" absolute top-6 right-6 text-white/80 hover:text-white transition " >
+                                <div onClick={() => setPreviewOpen(false)} className="fixed inset-0 z-[999] bg-black/70 backdrop-blur-md flex items-center justify-center animate-fadeIn">
+                                    <img src={proof} alt="Preview bukti" className="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl animate-zoomIn"/>
+                                    
+                                    <button onClick={() => setPreviewOpen(false)} className="absolute top-6 right-6 text-white/80 hover:text-white transition">
                                         <X size={28} />
                                     </button>
                                 </div>
