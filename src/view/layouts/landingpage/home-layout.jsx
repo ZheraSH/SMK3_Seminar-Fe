@@ -173,7 +173,7 @@ const HomeLayout = () => {
 
                             <div className=" hidden md:block">
                                 <h3 className="text-white font-bold text-[15px] mb-4 border-l-4 border-blue-600 pl-3">Visi</h3>
-                                <p className="text-[13px] leading-relaxed text-justify text-gray-300">
+                                <p className="text-[13px] leading-relaxed text-gray-300">
                                     Menjadikan SMK Negeri 3 Pamekasan sebagai basis pengembangan keterampilan dan wirausaha berwawasan lingkungan yang dilandasi IMTAK dan IPTEK untuk mengisi kebutuhan pembangunan di era global.
                                 </p>
                             </div>
