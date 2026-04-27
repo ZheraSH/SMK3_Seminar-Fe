@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { Plus, Search, CreditCard, MoreVertical, Trash2, X } from "lucide-react";
 import Header from "@elements/header/header-new-1";
 import LoadingData from "@elements/loading-data/loading";
-import { getMastercards, postMastercard } from "@services/role-operator/mastercard/master-card-api";
+import { getMastercards, postMastercard, deleteMastercard } from "@services/role-operator/mastercard/master-card-api";
 import { LoadingSpinner } from "@elements/loading-button/loading";
 import ModalDelete from "@elements/modaldelete/modal-delete";
+import { notify } from "@core/hooks/notification/notify";
 import PaginationMasterCard from "./components/pagination-master-card";
 
 export default function MasterCardPage() {
@@ -77,10 +78,12 @@ export default function MasterCardPage() {
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
     try {
-      // deleteMastercard(confirmModal.id) — tambahkan saat API delete tersedia
+      await deleteMastercard(confirmModal.id);
+      notify("Master Card Berhasil Dihapus", "success");
       setConfirmModal({ show: false, id: null });
       fetchData();
     } catch (err) {
+      notify("Gagal menghapus Master Card", "error");
       console.error("Gagal menghapus mastercard:", err);
     } finally {
       setIsDeleting(false);
@@ -161,7 +164,7 @@ export default function MasterCardPage() {
                 </div>
 
                 <div className="relative">
-                  {/* <button
+                  <button
                     onClick={() =>
                       setOpenDropdownId(
                         openDropdownId === (item.id || idx) ? null : (item.id || idx)
@@ -170,8 +173,8 @@ export default function MasterCardPage() {
                     className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-50"
                   >
                     <MoreVertical size={20} />
-                  </button> */}
-{/* 
+                  </button>
+
                   {openDropdownId === (item.id || idx) && (
                     <div
                       ref={dropdownRef}
@@ -184,7 +187,7 @@ export default function MasterCardPage() {
                         <Trash2 size={16} /> Hapus Master Card
                       </button>
                     </div>
-                  )} */}
+                  )}
                 </div>
               </div>
 

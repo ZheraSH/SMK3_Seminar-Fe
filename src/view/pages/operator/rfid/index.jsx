@@ -12,6 +12,7 @@ import { deleteRFID } from "@services/role-operator/rfid/rfid-api";
 import LoadingData from "@elements/loading-data/loading";
 import Header from "@elements/header/header-new-1";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";
+import { notify } from "@core/hooks/notification/notify";
 
 export default function RfidPage() {
   const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =
@@ -46,14 +47,27 @@ export default function RfidPage() {
 
   const confirmDelete = async () => {
     if (!deleteId) return;
+
+    // Temukan data rfid yang akan dihapus untuk mengecek statusnya
+    const findRfid = rfid.find((item) => item.id === deleteId);
+    const isNonActive = findRfid?.status?.value !== "active";
+
     setDeleteLoading(true);
 
     try {
       await deleteRFID(deleteId);
+
+      if (isNonActive) {
+        notify("RFID sudah dihapus", "error");
+      } else {
+        notify("RFID Berhasil Dihapus", "success");
+      }
+
       setRefresh((r) => r + 1);
       setShowDeleteModal(false);
       setDeleteId(null);
     } catch (e) {
+      notify("Gagal menghapus RFID", "error");
       console.error("Gagal hapus RFID", e);
     } finally {
       setDeleteLoading(false);
