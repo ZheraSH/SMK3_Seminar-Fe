@@ -87,7 +87,7 @@ export const TeacherForm = ({
             <label className="block text-sm font-medium text-gray-600">
               <p>
                 {" "}
-                Foto <span className="text-red-500">*</span>
+                Foto {editingId ? "(Kosongkan jika tidak diubah)" : ""}
               </p>
             </label>
             <input

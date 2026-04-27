@@ -33,6 +33,12 @@ export const postMastercardCheck = async (payload) => {
         throw error;
     }
 };
-
-
-
+export const deleteMastercard = async (id) => {
+    try {
+        const res = await api.delete(`/mastercards/${id}`);
+        return res;
+    } catch (error) {
+        console.error("[API] ERROR DELETE /mastercards", error.response?.data || error);
+        throw error;
+    }
+};

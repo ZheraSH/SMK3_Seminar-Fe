@@ -42,7 +42,7 @@ const MajorPage = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {renderedMajors.map((major, index) => (
               <div key={major.id} delay={index * 0.1} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col items-center text-center border border-gray-100 ">
                 <div className="w-[66px] h-[66px] mb-4 flex items-center justify-center rounded-[12px] mt-[20px] bg-gray-200"> <img src={major.logo} alt={major.fullName} className="w-[56px] h-[56px]" /></div>

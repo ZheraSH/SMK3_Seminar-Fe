@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { getClassroomDetail, getClassroomStudents, getAvailableStudents, addStudentsToClassroom, removeStudentFromClass, getStudentDetail } from "@services/role-operator/class-major/class-students-api";
+import { getClassroomDetail, getClassroomStudents, getAvailableStudents, addStudentsToClassroom, removeStudentFromClass, getStudentDetail, importStudentsToClassroom } from "@services/role-operator/class-major/class-students-api";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -126,7 +126,21 @@ export default function useClassroomDetail(classroomId) {
             await fetchStudents(paginationMeta.current_page);
             return { success: true, data: res };
         } catch (err) {
-            console.error("Gagal menghapus siswa:", err.response?.data || err);
+            console.error("Gagal menghapus siswa:", err);
+            throw err;
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    const importStudents = async (file) => {
+        try {
+            setActionLoading(true);
+            const res = await importStudentsToClassroom(classroomId, file);
+            await fetchStudents(1); // Refresh to first page
+            return { success: true, data: res };
+        } catch (err) {
+            console.error("Gagal mengimport siswa:", err);
             throw err;
         } finally {
             setActionLoading(false);
@@ -148,5 +162,6 @@ export default function useClassroomDetail(classroomId) {
         fetchAvailableStudents,
         addStudents,
         removeStudent,
+        importStudents,
     };
 }

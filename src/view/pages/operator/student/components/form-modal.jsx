@@ -264,7 +264,7 @@ export function FormModal({
               name="count_siblings"
               value={post.count_siblings}
               onChange={onInputChange}
-             onKeyDown={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
                   e.preventDefault();
                 }
@@ -288,17 +288,10 @@ export function FormModal({
               className={`border rounded-lg p-2 w-full ${errors.number_akta ? "border-red-500" : "border-gray-300"
                 }`}
               placeholder="Masukkan Nomer Akta"
-              type="number"
-              min="0"
-              step="1"
+              type="text"
               name="number_akta"
               value={post.number_akta}
               onChange={onInputChange}
-              onKeyDown={(e) => {
-                if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === "." || e.key === "," || e.key === "E") {
-                  e.preventDefault();
-                }
-              }}
             />
             {errors.number_akta && (
               <p className="text-red-500 text-sm mt-1">

@@ -100,8 +100,40 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       { pattern: "/home/mastercard", title: "Master Card" },
       { pattern: "/home/guru", title: "Guru" },
       { pattern: "/home/profile-operator", title: "Profil Operator" },
-      { pattern: "/home/profile", title: "Profil" },
-      { pattern: "/home", title: "Dashboard" },
+      { pattern: "/home/profile", title: "Profil Operator" },
+
+      { pattern: "/dashboard/monitoring-absen", title: "Monitoring" },
+      { pattern: "/dashboard/statistik-global", title: "Statistik Global" },
+      { pattern: "/dashboard/teacher-schedule", title: "Jadwal Mengajar" },
+      { pattern: "/dashboard/attendance-teacher", title: "Absensi Kelas" },
+      { pattern: "/dashboard/verifikasi-izin", title: "Verifikasi Izin" },
+      { pattern: "/dashboard/profile", title: "Profile Guru" },
+      { pattern: "/dashboard/class-recap", title: "Rekap Absensi" },
+
+      { pattern: "/student-home/student-class", title: "Kelas Saya" },
+      { pattern: "/student-home/absen-student", title: "Riwayat" },
+      { pattern: "/student-home/student-schedule", title: "Jadwal Pelajaran" },
+      { pattern: "/student-home/student-license", title: "Izin" },
+      { pattern: "/student-home/profile", title: "Profil Siswa" },
+
+      { pattern: "/bk-home/monitoring-absen", title: "Monitoring" },
+      { pattern: "/bk-home/verifikasi-izin", title: "Izin" },
+      { pattern: "/bk-home/statistik-global", title: "Statistik Global" },
+      { pattern: "/bk-home/profile", title: "Profile Guru" },
+
+      { pattern: "/homeroom-home/class-recap", title: "Rekap Absensi" },
+      { pattern: "/homeroom-home/profile", title: "Profile Guru" },
+
+      { pattern: "/teacher-home/attendance-teacher", title: "Absensi Kelas" },
+      { pattern: "/teacher-home/teacher-schedule", title: "Jadwal Mengajar" },
+      { pattern: "/teacher-home/profile", title: "Profile Guru" },
+
+      { pattern: "/student-home", title: "Dashboard Siswa" },
+      { pattern: "/homeroom-home", title: "Dashboard Wali Kelas" },
+      { pattern: "/bk-home", title: "Dashboard BK" },
+      { pattern: "/teacher-home", title: "Dashboard Guru" },
+      { pattern: "/dashboard", title: "Dashboard" },
+      { pattern: "/home", title: "Dashboard Admin" },
     ];
 
     const match = titles.find(t => path.startsWith(t.pattern));
@@ -153,7 +185,6 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
         </div>
       </div>
 
-      {/* LOGOUT MODAL */}
       {showLogout && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-white w-[330px] p-6 rounded-2xl shadow-2xl relative">

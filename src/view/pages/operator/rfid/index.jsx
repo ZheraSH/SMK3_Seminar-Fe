@@ -12,6 +12,7 @@ import { deleteRFID } from "@services/role-operator/rfid/rfid-api";
 import LoadingData from "@elements/loading-data/loading";
 import Header from "@elements/header/header-new-1";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";
+import { notify } from "@core/hooks/notification/notify";
 
 export default function RfidPage() {
   const { rfid, meta, page, setPage, search, setSearch, loading, setRefresh } =
@@ -28,11 +29,13 @@ export default function RfidPage() {
     setNewData,
     openMenu,
     setOpenMenu,
-    handleAdd,
-    handleEdit,
   } = useRfidManagement();
 
-  // State for Delete Modal
+  const handleEditClick = (item) => {
+    setSelected(item);
+    setShowEdit(true);
+  };
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -44,14 +47,27 @@ export default function RfidPage() {
 
   const confirmDelete = async () => {
     if (!deleteId) return;
+
+    // Temukan data rfid yang akan dihapus untuk mengecek statusnya
+    const findRfid = rfid.find((item) => item.id === deleteId);
+    const isNonActive = findRfid?.status?.value !== "active";
+
     setDeleteLoading(true);
 
     try {
       await deleteRFID(deleteId);
+
+      if (isNonActive) {
+        notify("RFID sudah dihapus", "error");
+      } else {
+        notify("RFID Berhasil Dihapus", "success");
+      }
+
       setRefresh((r) => r + 1);
       setShowDeleteModal(false);
       setDeleteId(null);
     } catch (e) {
+      notify("Gagal menghapus RFID", "error");
       console.error("Gagal hapus RFID", e);
     } finally {
       setDeleteLoading(false);
@@ -95,6 +111,7 @@ export default function RfidPage() {
               openMenu={openMenu}
               onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
               onDeleteClick={handleDelete}
+              onEditClick={handleEditClick}
               onStatusUpdate={refreshData}
             />
 
@@ -112,7 +129,6 @@ export default function RfidPage() {
         show={showAdd}
         newData={newData}
         onDataChange={setNewData}
-        onAdd={handleAdd}
         onClose={() => {
           setShowAdd(false);
           setNewData({ nama: "", idKartu: "", status: "Aktif" });
@@ -125,7 +141,6 @@ export default function RfidPage() {
         selected={selected}
         onDataChange={setSelected}
         onSave={() => {
-          handleEdit();
           refreshData();
         }}
         onClose={() => setShowEdit(false)}
@@ -135,8 +150,8 @@ export default function RfidPage() {
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={confirmDelete}
-        title="Hapus RFID?"
-        message="Apakah Anda yakin ingin menghapus data RFID ini? Tindakan ini tidak dapat dibatalkan."
+        title="Hapus Pengguna dari Kartu?"
+        message="Apakah Anda yakin ingin menghapus pengguna dari kartu RFID ini? Kartu akan tetap terdaftar dan dapat digunakan untuk pengguna lain."
         loading={deleteLoading}
       />
     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Search, Plus, Calendar, MoreVertical, ChevronLeft, ChevronRight, Trash2, Power } from 'lucide-react';
 import HeaderPage from '@elements/header/header-new-1';
 import useSchoolYears from '@core/hooks/operator/school-year/use-school-years';
@@ -13,11 +14,19 @@ const SchoolYearPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmModal, setConfirmModal] = useState({ show: false, id: null, name: '' });
+  const [warningModalOpen, setWarningModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dropdownRef = useRef(null);
 
   const openDeleteConfirm = (item) => {
+    const isActive = item.active === true || item.active === 1 || item.active === '1' || item.active;
+    
+    if (isActive) {
+      setWarningModalOpen(true);
+      setOpenDropdownId(null);
+      return;
+    }
     setConfirmModal({ show: true, id: item.id, name: item.name });
     setOpenDropdownId(null);
   };
@@ -163,6 +172,30 @@ const SchoolYearPage = () => {
       <AddSchoolYearModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleAddNewYear} nextYear={getNextYear()} isSubmitting={isSubmitting} />
       <ModalDelete isOpen={confirmModal.show} onConfirm={handleConfirmDelete} onClose={() => setConfirmModal({ show: false, id: null, name: '' })} isProcessing={isDeleting} />
 
+      {warningModalOpen && createPortal(
+        <div className="fixed inset-0 h-full z-[9999] flex items-center justify-center p-4">
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] transition-opacity" onClick={() => setWarningModalOpen(false)}></div>
+            <div className="relative bg-white rounded-[16px] shadow-2xl max-w-md h-auto pb-10 w-[408px] p-5 overflow-hidden transform transition-all flex flex-col items-center text-center">
+                <div className="mb-2 p-4 flex items-center justify-center">
+                   <div className="w-[60px] h-[60px] rounded-full mx-auto flex items-center justify-center bg-red-100 text-red-500 font-bold text-3xl shadow-sm italic">!</div>
+                </div>
+                <h3 className="text-[22px] font-bold text-gray-900 mb-2">Peringatan</h3>
+                <p className="text-gray-600 text-[15px] font-medium leading-relaxed mb-10 px-6">
+                    Data tidak dapat di hapus karena aktif
+                </p>
+                <div className="flex space-x-4 w-full justify-center">
+                    <button 
+                      onClick={() => setWarningModalOpen(false)} 
+                      className="min-w-[120px] h-[45px] bg-[#3B82F6] text-white rounded-[12px] text-[15px] font-semibold hover:bg-blue-600 transition shadow-md hover:shadow-lg flex items-center justify-center cursor-pointer"
+                    >
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>,
+        document.body
+      )}
+
       <div className="flex justify-center items-center mt-12 gap-2 pb-10">
         <Pagination page={pagination.current_page} lastPage={pagination.last_page} onPageChange={(page) => fetchSchoolYears(page, searchQuery)} />
       </div>
@@ -172,5 +205,3 @@ const SchoolYearPage = () => {
 };
 
 export default SchoolYearPage;
-
-
