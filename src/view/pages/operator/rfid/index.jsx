@@ -28,11 +28,13 @@ export default function RfidPage() {
     setNewData,
     openMenu,
     setOpenMenu,
-    handleAdd,
-    handleEdit,
   } = useRfidManagement();
 
-  // State for Delete Modal
+  const handleEditClick = (item) => {
+    setSelected(item);
+    setShowEdit(true);
+  };
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -95,6 +97,7 @@ export default function RfidPage() {
               openMenu={openMenu}
               onMenuClick={(id) => setOpenMenu(openMenu === id ? null : id)}
               onDeleteClick={handleDelete}
+              onEditClick={handleEditClick}
               onStatusUpdate={refreshData}
             />
 
@@ -112,7 +115,6 @@ export default function RfidPage() {
         show={showAdd}
         newData={newData}
         onDataChange={setNewData}
-        onAdd={handleAdd}
         onClose={() => {
           setShowAdd(false);
           setNewData({ nama: "", idKartu: "", status: "Aktif" });
@@ -125,7 +127,6 @@ export default function RfidPage() {
         selected={selected}
         onDataChange={setSelected}
         onSave={() => {
-          handleEdit();
           refreshData();
         }}
         onClose={() => setShowEdit(false)}
@@ -135,8 +136,8 @@ export default function RfidPage() {
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={confirmDelete}
-        title="Hapus RFID?"
-        message="Apakah Anda yakin ingin menghapus data RFID ini? Tindakan ini tidak dapat dibatalkan."
+        title="Hapus Pengguna dari Kartu?"
+        message="Apakah Anda yakin ingin menghapus pengguna dari kartu RFID ini? Kartu akan tetap terdaftar dan dapat digunakan untuk pengguna lain."
         loading={deleteLoading}
       />
     </div>

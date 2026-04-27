@@ -42,8 +42,12 @@ export const submitTeacherApi = async (editingId, post) => {
       post.roles.forEach((r) => {
         formData.append("roles[]", r);
       });
-    } else {
-      formData.append(key, value);
+    } else if (key === "image") {
+      if (value instanceof File) {
+        formData.append(key, value);
+      }
+    } else if (key !== "showRoleDropdown") {
+      formData.append(key, value === null ? "" : value);
     }
   });
 

@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { MoreVertical, CheckCircle, XCircle, Trash2 } from "lucide-react";
+import { MoreVertical, CheckCircle, XCircle, Trash2, Edit } from "lucide-react";
 import { updateRfidStatus } from "@services/role-operator/rfid/rfid-api";
 import { notify } from "@core/hooks/notification/notify";
 
@@ -12,6 +12,7 @@ export function RfidTable({
   onMenuClick,
   onDeleteClick,
   onStatusUpdate,
+  onEditClick,
 }) {
   const [updatingId, setUpdatingId] = useState(null);
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
@@ -69,6 +70,7 @@ export function RfidTable({
               startIndex={startIndex}
               openMenu={openMenu}
               onMenuClick={onMenuClick}
+              onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}
               onStatusChange={handleStatusChange}
               menuPos={menuPos}
@@ -88,6 +90,7 @@ function TableRow({
   startIndex,
   openMenu,
   onMenuClick,
+  onEditClick,
   onDeleteClick,
   onStatusChange,
   menuPos,
@@ -190,23 +193,15 @@ function TableRow({
               className="fixed bg-white border border-gray-300 rounded-lg shadow-lg w-44 z-[9999]"
               style={{ top: menuPos.top, left: menuPos.left }}
             >
-              {statusValue === "active" && (
-                <button
-                  onClick={() => onStatusChange(item.id, "inactive")}
-                  className="w-full px-4 py-3 flex gap-2 text-red-600 hover:bg-red-50"
-                >
-                  <XCircle size={18} /> Nonaktifkan
-                </button>
-              )}
-
-              {statusValue === "inactive" && (
-                <button
-                  onClick={() => onStatusChange(item.id, "active")}
-                  className="w-full px-4 py-3 flex gap-2 text-green-600 hover:bg-green-50"
-                >
-                  <CheckCircle size={18} /> Aktifkan
-                </button>
-              )}
+              <button
+                onClick={() => {
+                  onEditClick(item);
+                  onMenuClick(-1);
+                }}
+                className="w-full px-4 py-3 flex gap-2 text-blue-600 hover:bg-blue-50"
+              >
+                <Edit size={18} /> Ganti Siswa
+              </button>
 
               <div className="border-t border-gray-300" />
 

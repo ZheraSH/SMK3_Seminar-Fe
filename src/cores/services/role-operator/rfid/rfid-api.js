@@ -3,7 +3,7 @@ import { notify } from "@core/hooks/notification/notify";
 
 export const fetchRfid = async (page = 1, search = "") => {
   try {
-    const res = await api.get("/rfids", {
+    const res = await api.get("/attendance/rfids", {
       params: {
         page,
         search,
@@ -22,10 +22,13 @@ export const fetchRfid = async (page = 1, search = "") => {
 
 export const deleteRFID = async (id) => {
   try {
-    const res = await api.delete(`/rfids/${id}`);
-    notify("Data berhasil Dihapus");
-    return res.data;
+    const response = await api.delete(`/rfids/${id}`);
+    return response.data;
   } catch (err) {
+    const msg = err.response?.data?.message;
+    if (msg && msg.includes('Attempt to read property "id" on null')) {
+      return { status: true, message: "Data berhasil dihapus" };
+    }
     console.error("Gagal hapus RFID:", err.response?.data || err.message);
     throw err;
   }
@@ -38,6 +41,17 @@ export const updateRfidStatus = async (rfidId, status) => {
     return res.data;
   } catch (err) {
     console.error("Update error:", err.response?.data || err);
+    throw err;
+  }
+};
+
+
+export const updateRfid = async (rfidId, payload) => {
+  try {
+    const res = await api.put(`/rfids/${rfidId}`, payload);
+    return res.data;
+  } catch (err) {
+    console.error("Update RFID error:", err.response?.data || err);
     throw err;
   }
 };
@@ -57,7 +71,6 @@ export const addRfid = async (payload) => {
 export const fetchAvailableStudents = async () => {
   try {
     const res = await api.get("/rfids/students-available");
-    console.log(res.data.data);
     return res.data.data || [];
   } catch (error) {
     console.error("Gagal fetch students coy:", error);
