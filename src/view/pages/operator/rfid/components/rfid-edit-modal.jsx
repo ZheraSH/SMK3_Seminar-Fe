@@ -17,7 +17,7 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
       loadStudents();
       setErrors({});
       setFormData({
-        student_id: selected.student?.id || "",
+        student_id: selected.student_id || selected.id || "",
       });
     }
   }, [show, selected]);
@@ -36,7 +36,7 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
   const handleSave = async () => {
     setErrors({});
     
-    if (formData.student_id === (selected.student?.id || "")) {
+    if (formData.student_id === (selected.student_id || selected.id || "")) {
        onClose?.();
        return;
     }
@@ -48,7 +48,7 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
 
     setLoading(true);
     try {
-      if (selected.student) {
+      if (selected.name || selected.student) {
         await deleteRFID(selected.id);
       }
 
@@ -79,9 +79,11 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
     }
   };
 
-  const currentStudent = selected.student;
-  const isCurrentStudentInList = students.some((s) => s.id === currentStudent?.id);
-  const displayStudents = currentStudent && !isCurrentStudentInList
+  const currentStudentId = selected.student_id || selected.id;
+  const isCurrentStudentInList = students.some((s) => s.id === currentStudentId);
+  const currentStudent = isCurrentStudentInList ? null : { id: currentStudentId, name: selected.name };
+  
+  const displayStudents = currentStudent && currentStudent.id
     ? [currentStudent, ...students]
     : students;
 

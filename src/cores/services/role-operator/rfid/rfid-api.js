@@ -3,7 +3,7 @@ import { notify } from "@core/hooks/notification/notify";
 
 export const fetchRfid = async (page = 1, search = "") => {
   try {
-    const res = await api.get("/attendance/rfids", {
+    const res = await api.get("/rfids", {
       params: {
         page,
         search,
