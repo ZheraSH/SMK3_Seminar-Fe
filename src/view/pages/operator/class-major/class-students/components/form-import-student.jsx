@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Upload, FileText, X, CheckCircle2, AlertCircle } from 'lucide-react';
+import { validateImportFile } from "@services/role-operator/class-major/class-students-api";
 
 const FormImportStudent = ({ classroom, onImport, onClose, loading }) => {
     const [file, setFile] = useState(null);
@@ -8,13 +9,13 @@ const FormImportStudent = ({ classroom, onImport, onClose, loading }) => {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
-            if (['xlsx', 'xls', 'csv'].includes(fileExtension)) {
+            try {
+                validateImportFile(selectedFile);
                 setFile(selectedFile);
                 setError(null);
-            } else {
+            } catch (err) {
                 setFile(null);
-                setError('Hanya file Excel (.xlsx, .xls) atau .csv yang diperbolehkan');
+                setError(err.message);
             }
         }
     };
@@ -34,15 +35,7 @@ const FormImportStudent = ({ classroom, onImport, onClose, loading }) => {
                 onClose();
             }
         } catch (err) {
-            let msg = err.response?.data?.message || 'Gagal mengimport data siswa';
-
-            if (msg.includes('Duplicate entry')) {
-                msg = "Data sudah terdaftar di sistem. Mohon hapus data lama secara permanen sebelum import ulang.";
-            } else if (msg.includes('SQLSTATE')) {
-                msg = "Gagal: Terjadi duplikasi data atau kesalahan database.";
-            }
-
-            setError(msg);
+            setError(err.message || 'Gagal mengimport data siswa');
         }
     };
 
