@@ -15,6 +15,7 @@ export const fetchStudents = async (
         gender: filter.gender ?? "",
         major: filter.major ?? "",
         classroom: filter.classroom ?? "",
+        level_class: filter.level_class ?? "",
         school_year: filter.school_year ?? "",
       },
     });

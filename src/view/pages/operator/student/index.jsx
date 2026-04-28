@@ -97,26 +97,11 @@ export default function StudentPage() {
   const loadStudentsData = async (showLoading = true) => {
     if (showLoading) setLoading(true);
     try {
-      let classroomFilter = "";
-      if (category.type === "level_class") {
-        const val = category.value.toUpperCase();
-        const matchingClasses = allClasses.filter((c) => {
-          const name = c.name.toUpperCase();
-          if (val === "10" || val === "X")
-            return name.startsWith("10") || name.startsWith("X");
-          if (val === "11" || val === "XI")
-            return name.startsWith("11") || name.startsWith("XI");
-          if (val === "12" || val === "XII")
-            return name.startsWith("12") || name.startsWith("XII");
-          return name.startsWith(val);
-        });
-        classroomFilter = matchingClasses.map((c) => c.name).join(",");
-      }
-
       const filters = {
         gender: category.type === "gender" ? category.value : "",
         major: category.type === "major" ? category.value : "",
-        classroom: classroomFilter,
+        level_class: category.type === "level_class" ? category.value : "",
+        classroom: "",
       };
 
       const res = await fetchStudents(page, searchTerm, filters);
@@ -156,14 +141,29 @@ export default function StudentPage() {
     };
   }, [allMajors, allLevels]);
 
-  const { filteredStudents, localMeta } = useMemo(() => {
-    const isLocalOnly = category.type === "gender";
+  const isLocalOnly = useMemo(() => {
+    return ["gender"].includes(category.type);
+  }, [category.type]);
 
+  const { filteredStudents, localMeta } = useMemo(() => {
     if (isLocalOnly) {
-      const filtered = allStudentsForFilter.filter(
-        (s) =>
-          s.gender?.value?.toLowerCase() === category.value?.toLowerCase()
-      );
+      let filtered = [...allStudentsForFilter];
+
+      if (category.type === "gender") {
+        filtered = filtered.filter(
+          (s) => s.gender?.value?.toLowerCase() === category.value?.toLowerCase()
+        );
+      }
+
+      if (searchTerm) {
+        const search = searchTerm.toLowerCase();
+        filtered = filtered.filter((s) =>
+          (s.name || "").toLowerCase().includes(search) ||
+          (s.nisn || "").toLowerCase().includes(search) ||
+          (s.classroom?.name || "").toLowerCase().includes(search)
+        );
+      }
+
       const total = filtered.length;
       const lastPage = Math.ceil(total / itemsPerPage) || 1;
       const start = (localPage - 1) * itemsPerPage;
@@ -175,6 +175,7 @@ export default function StudentPage() {
           current_page: localPage,
           last_page: lastPage,
           total: total,
+          per_page: itemsPerPage,
         },
       };
     }
@@ -183,7 +184,7 @@ export default function StudentPage() {
       filteredStudents: students,
       localMeta: meta,
     };
-  }, [students, allStudentsForFilter, category, localPage, meta]);
+  }, [students, allStudentsForFilter, category, localPage, meta, isLocalOnly, searchTerm]);
 
   const handleInput = (e) => {
     const { name, type, files, value } = e.target;
@@ -223,6 +224,7 @@ export default function StudentPage() {
         setEditingId(null);
         setPage(1);
         loadStudentsData();
+        loadFilterMasters();
         setIsOpen(false);
       } else {
         if (res.errors) {
@@ -276,6 +278,7 @@ export default function StudentPage() {
     try {
       await deleteStudent(deleteId);
       loadStudentsData();
+      loadFilterMasters();
       setShowDeleteModal(false);
       setDeleteId(null);
     } catch (err) {
@@ -304,6 +307,7 @@ export default function StudentPage() {
                   searchTerm={searchTerm}
                   onSearchChange={(value) => {
                     setPage(1);
+                    setLocalPage(1);
                     setSearchTerm(value);
                   }}
                 />
@@ -396,20 +400,20 @@ export default function StudentPage() {
               onDelete={handleDelete}
             />
             <PaginationStudent
-              page={category.type === "gender" ? localPage : page}
+              page={isLocalOnly ? localPage : page}
               lastPage={localMeta.last_page}
               onPrev={() =>
-                category.type === "gender"
+                isLocalOnly
                   ? setLocalPage((p) => Math.max(1, p - 1))
                   : setPage(page - 1)
               }
               onNext={() =>
-                category.type === "gender"
+                isLocalOnly
                   ? setLocalPage((p) => Math.min(localMeta.last_page, p + 1))
                   : setPage(page + 1)
               }
               onPageClick={(p) =>
-                category.type === "gender" ? setLocalPage(p) : setPage(p)
+                isLocalOnly ? setLocalPage(p) : setPage(p)
               }
             />
           </>
