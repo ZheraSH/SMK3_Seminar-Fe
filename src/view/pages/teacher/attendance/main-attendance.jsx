@@ -56,10 +56,16 @@ export default function AttendanceTeacher() {
          classrooms.length > 0 ? (
            <CardAttendance classrooms={classrooms} loading={loading} error={error} setIsOpenClass={setIsOpenClass} setSelectedClass={setSelectedClass} />
          ) : (
-           <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
-              <img  src="/images/null/nullimage.png"  alt="Data Kosong"  className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
-              <p className="text-gray-500 text-center text-sm md:text-md"> Maaf yaaa.. datanya gaada, silahkan konsultasi kelas <br /> mengajar anda ke operator!</p>
-            </div>
+           <div className="flex flex-col items-center justify-center py-10 text-gray-400">
+                    <img
+                      src="../../../../images/null/null2.png"
+                      alt="Data siswa kosong"
+                      className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+                    />
+                    <p className="text-sm font-medium text-center">
+                      Belum ada daftar mengajar hari ini.<br />
+                    </p>
+                  </div>
          )
        }
       </div>
