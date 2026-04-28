@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { LogOut, X, Search, Menu } from "lucide-react";
 import { useAttendanceTeacher } from "@core/hooks/role-teacher/attendance/use-attendance";
+import useProfileOperator from "@core/hooks/operator/profile/use-profile-operator";
 
 const api = axios.create({
   baseURL: "http://localhost:8000/api",
@@ -14,6 +15,7 @@ const api = axios.create({
 
 export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
   const [user, setUser] = useState({ name: "", email: "", image: "", roles: [] });
+   const { schoolInfo } = useProfileOperator();
   const location = useLocation();
   const [showLogout, setShowLogout] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -54,6 +56,16 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       localStorage.removeItem("userData");
       window.location.href = "/login";
     }
+  };
+
+  const getImage = () => {
+    const roles = user.roles;
+
+    if (roles.includes("school_operator")) {
+      return schoolInfo?.logo ?? "/images/default-operator.png";
+    }
+
+    return user.image ?? "/images/team/valen.jpg";
   };
 
   const handleProfile = () => {
@@ -176,7 +188,7 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
             </div>
 
             <img
-              src={user.image || "/images/team/valen.jpg"}
+              src={getImage() || "/images/team/valen.jpg"}
               className="w-10 h-10 rounded-full ring-2 ring-blue-500 cursor-pointer object-cover"
               onClick={handleProfile}
               alt="Profile"
