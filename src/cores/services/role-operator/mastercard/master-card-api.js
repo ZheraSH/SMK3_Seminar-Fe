@@ -3,7 +3,7 @@ import api from "@services/axios-config";
 
 export const getMastercards = async (params = {}) => {
     try {
-        const res = await api.get("/mastercards", { params });
+        const res = await api.get("/attendance/mastercards", { params });
         return res;
     } catch (error) {
         console.error("[API] ERROR /mastercards", error.response?.data || error);
@@ -14,7 +14,7 @@ export const getMastercards = async (params = {}) => {
 export const postMastercard = async (payload) => {
 
     try {
-        const res = await api.post("/mastercards", payload);
+        const res = await api.post("/attendance/mastercards", payload);
         return res;
     } catch (error) {
         console.error("[API] ERROR POST /mastercards", error.response?.data || error);
@@ -23,10 +23,10 @@ export const postMastercard = async (payload) => {
 };
 
 export const postMastercardCheck = async (payload) => {
-    console.log("[API] POST /mastercards/check", payload);
+    console.log("[API] POST /attendance/mastercards/check", payload);
 
     try {
-        const res = await api.post("/mastercards/check", payload);
+        const res = await api.post("/attendance/mastercards/check", payload);
         return res;
     } catch (error) {
         console.error("[API] ERROR /mastercards/check", error.response?.data || error);
@@ -35,7 +35,7 @@ export const postMastercardCheck = async (payload) => {
 };
 export const deleteMastercard = async (id) => {
     try {
-        const res = await api.delete(`/mastercards/${id}`);
+        const res = await api.delete(`/attendance/mastercards/${id}`);
         return res;
     } catch (error) {
         console.error("[API] ERROR DELETE /mastercards", error.response?.data || error);
