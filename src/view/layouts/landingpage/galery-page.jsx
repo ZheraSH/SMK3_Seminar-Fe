@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 
@@ -7,6 +7,7 @@ const GalleryPage = () => {
 
     const [scrollProgress, setScrollProgress] = useState(0);
     const timelineRef = useRef(null);
+    const [showImg,setShowImg] = useState(null);
 
     useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -144,7 +145,10 @@ const GalleryPage = () => {
              <div className="w-full md:w-1/4 h-[300px] md:h-full" data-aos="fade-up" data-aos-delay="100">
               {currentImages[0] && (
                 <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-100 group shadow-sm border border-gray-100">
-                  <img src={currentImages[0].url} alt="doc" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={currentImages[0].url} 
+                  alt="doc" 
+                  onClick={() =>setShowImg(currentImages[0].url)}
+                  className="w-full h-full object-cover cursor-zoom-in group-hover:scale-105 transition-transform duration-500" />
                 </div>
               )}
             </div>
@@ -153,7 +157,10 @@ const GalleryPage = () => {
               <div className="h-[250px] md:h-3/5" data-aos="fade-up" data-aos-delay="200">
                 {currentImages[1] && (
                   <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-100 group shadow-sm border border-gray-100">
-                    <img src={currentImages[1].url} alt="doc" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={currentImages[1].url} 
+                    alt="doc" 
+                    onClick={ () =>setShowImg(currentImages[1].url)}
+                    className="w-full h-full object-cover cursor-zoom-in group-hover:scale-105 transition-transform duration-500" />
                   </div>
                 )}
               </div>
@@ -161,14 +168,20 @@ const GalleryPage = () => {
                 <div className="w-1/2 h-full" data-aos="fade-up" data-aos-delay="300">
                   {currentImages[2] && (
                     <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-100 group shadow-sm border border-gray-100">
-                      <img src={currentImages[2].url} alt="doc" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={currentImages[2].url} 
+                      alt="doc" 
+                      onClick={() =>setShowImg(currentImages[2].url)}
+                      className="w-full h-full object-cover cursor-zoom-in group-hover:scale-105 transition-transform duration-500" />
                     </div>
                   )}
                 </div>
                 <div className="w-1/2 h-full" data-aos="fade-up" data-aos-delay="400">
                   {currentImages[3] && (
                     <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-100 group shadow-sm border border-gray-100">
-                      <img src={currentImages[3].url} alt="doc" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={currentImages[3].url} 
+                      alt="doc" 
+                      onClick={() =>setShowImg(currentImages[3].url)}
+                      className="w-full h-full object-cover cursor-zoom-in group-hover:scale-105 transition-transform duration-500" />
                     </div>
                   )}
                 </div>
@@ -178,7 +191,10 @@ const GalleryPage = () => {
             <div className="w-full md:w-1/4 h-[300px] md:h-full" data-aos="fade-up" data-aos-delay="500">
               {currentImages[4] && (
                 <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-100 group shadow-sm border border-gray-100">
-                  <img src={currentImages[4].url} alt="doc" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={currentImages[4].url} 
+                  alt="doc" 
+                  onClick={() =>setShowImg(currentImages[4].url)}
+                  className="w-full h-full object-cover group-hover:scale-105 cursor-zoom-in transition-transform duration-500" />
                 </div>
               )}
             </div>
@@ -199,6 +215,28 @@ const GalleryPage = () => {
           </div>
         </div>
       </div>
+      {showImg && (
+        <div 
+          onClick={() => setShowImg(null)} 
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+        >
+          <div className="relative w-full h-full flex flex-col items-center justify-center ">
+            <button 
+              onClick={() => setShowImg(null)} 
+              className="absolute top-0 right-0 text-white hover:text-gray-300 transition-colors bg-black/50 p-2 rounded-full"
+            >
+                <X size={24} />
+            </button>
+            
+            <img 
+              src={showImg} 
+              alt="Preview bukti" 
+              onClick={(e) => e.stopPropagation()} 
+              className="w-auto h-auto max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain animate-zoomIn"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

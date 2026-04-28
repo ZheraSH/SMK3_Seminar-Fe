@@ -166,7 +166,7 @@ const DoubleScrollNews = () => {
                             <img
                                 src={news.img} alt={news.title} 
                                 onClick={() => setPreviewImage(news.img)}
-                                className="w-20 h-20 object-cover bg-center rounded-xl shrink-0 group-hover:scale-105 transition-transform"
+                                className="w-20 h-20 object-cover bg-center rounded-xl cursor-zoom-in shrink-0 group-hover:scale-105 transition-transform"
                               />
                             <div className="flex flex-col justify-center overflow-hidden">
                               <h4 className="font-bold text-gray-800 text-sm leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
