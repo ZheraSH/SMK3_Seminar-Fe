@@ -2,16 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { LogOut, X, Search, Menu } from "lucide-react";
 import { useAttendanceTeacher } from "@core/hooks/role-teacher/attendance/use-attendance";
 import useProfileOperator from "@core/hooks/operator/profile/use-profile-operator";
+import api from "@services/axios-config";
 
-const api = axios.create({
-  baseURL: "http://localhost:8000/api",
-  withCredentials: true,
-});
+
 
 export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
   const [user, setUser] = useState({ name: "", email: "", image: "", roles: [] });
