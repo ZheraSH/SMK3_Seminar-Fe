@@ -110,108 +110,150 @@ export const DashboardContent = () => {
             </div>
           )}
         <div className="overflow-x-auto w-full">
-          {isLoading ? (<LoadingData loading={isLoading} type="tableSchedule" count={10} />)
-            : (
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-blue-500 text-white">
-                  <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium rounded-tl-lg">No</th>
-                    <th scope="col" className="px-10 py-3 text-left text-[14px] font-medium">Nama</th>
-                    <th scope="col" className="px-10 py-3 text-center text-[14px] font-medium">Kelas</th>
-                    <th scope="col" className="px-10 py-3 text-center text-[14px] font-medium">Status</th>
-                    <th scope="col" className="px-10 py-3 text-center text-[14px] font-medium rounded-tr-lg">Total</th>
+          {isLoading ? (
+            <LoadingData loading={isLoading} type="tableSchedule" count={10} />
+          ) : alphaStudents.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-10 text-gray-400">
+              <img
+                src="/images/null/nullimage.png"
+                alt="Data siswa kosong"
+                className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+              />
+              <p className="text-sm font-medium text-center">
+                Belum ada data siswa<br />
+              </p>
+            </div>
+          ) : (
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-blue-500 text-white">
+                <tr>
+                  <th className="px-6 py-3 text-left text-[14px] font-medium rounded-tl-lg">No</th>
+                  <th className="px-10 py-3 text-left text-[14px] font-medium">Nama</th>
+                  <th className="px-10 py-3 text-center text-[14px] font-medium">Kelas</th>
+                  <th className="px-10 py-3 text-center text-[14px] font-medium">Status</th>
+                  <th className="px-10 py-3 text-center text-[14px] font-medium rounded-tr-lg">Total</th>
+                </tr>
+              </thead>
+
+              <tbody className="bg-white">
+                {alphaStudents.map((siswa, index) => (
+                  <tr
+                    key={siswa.id || index}
+                    className="hover:bg-gray-50 transition-colors border border-[#CBD5E1]"
+                  >
+                    <td className="px-6 py-3 text-sm">{index + 1}.</td>
+
+                    <td className="px-10 py-3 text-sm font-medium text-gray-900">
+                      {siswa.name}
+                    </td>
+
+                    <td className="px-10 py-3 text-center">
+                      <span className="inline-flex items-center justify-center w-20 text-white px-2 py-1 text-[12px] font-medium bg-[#00C4E6] rounded-2xl">
+                        {siswa.classroom}
+                      </span>
+                    </td>
+
+                    <td className="px-10 py-3 text-center">
+                      <span
+                        className={`inline-flex items-center justify-center text-white px-4 rounded-2xl py-1 text-[12px] font-medium ${getBgColorStatus(
+                          siswa.status
+                        )}`}
+                      >
+                        {siswa.status}
+                      </span>
+                    </td>
+
+                    <td className="px-10 py-3 text-sm font-semibold text-[#EF4444] text-center">
+                      {siswa.total_alpha}
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="bg-white ">
-                  {alphaStudents.map((siswa, index) => (
-                    <tr key={index} className="hover:bg-gray-50 transition-colors border border-[#CBD5E1]">
-                      <td className="px-6 py-3 whitespace-nowrap text-sm ">{index + 1}.</td>
-                      <td className="px-10 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{siswa.name}</td>
-                      <td className="px-10 py-3 whitespace-nowrap text-center">
-                        <span className="inline-flex items-center justify-center w-20 text-white px-2 py-1 text-[12px] font-medium bg-[#00C4E6] rounded-2xl">
-                          {siswa.classroom}
-                        </span>
-                      </td>
-
-                      <td className="px-10 py-3 whitespace-nowrap text-center">
-                        <span className={`inline-flex items-center justify-center text-white px-4  rounded-2xl py-1 text-[12px] font-medium ${getBgColorStatus(siswa.status)} `}> {siswa.status} </span>
-                      </td>
-                      <td className="px-10 py-3 whitespace-nowrap text-sm font-semibold text-[#EF4444] text-center">
-                        {siswa.total_alpha}
-                      </td>
-
-                    </tr>
-                  ))}
-                  {alphaStudents.length === 0 && !isLoading && (
-                    <tr>
-                      <td colSpan="6" className="text-center py-4 text-gray-500">Data tidak ada</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            )}
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 md:p-6">
-        {isLoading ? (<LoadingData loading={isLoading} type="kotakKecil" />)
-          : (
-            <h2 className="text-lg md:text-xl font-bold text-gray-800 mb-4">Daftar Menunggu Approval Izin</h2>
-          )}
+      <div className="overflow-x-auto w-full">
+        {isLoading ? (
+          <LoadingData loading={isLoading} type="tableSchedule" count={10} />
+        ) : attendancePending.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-10 text-gray-400 border border-gray-200 rounded-lg bg-white">
+            <img
+              src="/images/null/null4.png"
+              alt="Data kosong"
+              className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+            />
+            <p className="text-sm font-medium text-center">
+              Belum ada izin yang menunggu approval
+            </p>
+          </div>
+        ) : (
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-blue-500 text-white">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium rounded-tl-lg">No</th>
+                <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium">Nama</th>
+                <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium">Kelas</th>
+                <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium">Tipe</th>
+                <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium">Keterangan</th>
+                <th scope="col" className="px-6 py-3 text-center text-[14px] font-medium rounded-tr-lg">Aksi</th>
+              </tr>
+            </thead>
 
-        <div className="overflow-x-auto w-full">
-          {isLoading ? (<LoadingData loading={isLoading} type="tableSchedule" count={10} />)
-            : (
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-blue-500 text-white">
-                  <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium  rounded-tl-lg">No</th>
-                    <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium ">Nama</th>
-                    <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium ">Kelas</th>
-                    <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium ">Tipe</th>
-                    <th scope="col" className="px-6 py-3 text-left text-[14px] font-medium ">Keterangan</th>
-                    <th scope="col" className="px-6 py-3 text-center text-[14px] font-medium  rounded-tr-lg">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200 border border-[#CBD5E1]">
-                  {attendancePending.map((item, index) => (
-                    <tr key={index} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm ">{index + 1}.</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.student?.name || "-"}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        <span className="inline-block bg-[#00C4E6] text-white px-3 py-1.5 mt-2 rounded-full text-[12px] font-medium shadow-sm max-w-full truncate">{item.classroom?.name}</span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center justify-center text-white px-4  rounded-2xl py-1 text-[12px] font-medium ${getBgColorStatus(item.type?.label)} `}>
-                          {item.type?.label}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm  max-w-xs truncate">
-                        {item.reason}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-center">
-                        <button
-                          onClick={() => {
-                            const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-                            const roles = userData.roles || [];
-                            const basePath = roles.length > 1 ? "/dashboard" : "/bk-home";
-                            navigate(`${basePath}/verifikasi-izin`);
-                          }}
-                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md text-xs font-medium transition shadow-sm">
-                          Lihat Izin
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                  {attendancePending.length === 0 && !isLoading && (
-                    <tr>
-                      <td colSpan="6" className="text-center py-4 text-gray-500">Data tidak ada</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            )}
-        </div>
+            <tbody className="bg-white divide-y divide-gray-200 border border-[#CBD5E1]">
+              {attendancePending.map((item, index) => (
+                <tr
+                  key={item.id || index}
+                  className="hover:bg-gray-50 transition-colors"
+                >
+                  <td className="px-6 py-4 text-sm">{index + 1}.</td>
+
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    {item.student?.name || "-"}
+                  </td>
+
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    <span className="inline-block bg-[#00C4E6] text-white px-3 py-1.5 rounded-full text-[12px] font-medium shadow-sm max-w-[120px] truncate">
+                      {item.classroom?.name}
+                    </span>
+                  </td>
+
+                  <td className="px-6 py-4">
+                    <span
+                      className={`inline-flex items-center justify-center text-white px-4 rounded-2xl py-1 text-[12px] font-medium ${getBgColorStatus(
+                        item.type?.label
+                      )}`}
+                    >
+                      {item.type?.label}
+                    </span>
+                  </td>
+
+                  <td className="px-6 py-4 text-sm max-w-[200px] truncate">
+                    {item.reason}
+                  </td>
+
+                  <td className="px-6 py-4 text-center">
+                    <button
+                      onClick={() => {
+                        const userData = JSON.parse(
+                          localStorage.getItem("userData") || "{}"
+                        );
+                        const roles = userData.roles || [];
+                        const basePath =
+                          roles.length > 1 ? "/dashboard" : "/bk-home";
+                        navigate(`${basePath}/verifikasi-izin`);
+                      }}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md text-xs font-medium transition shadow-sm"
+                    >
+                      Lihat Izin
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );
