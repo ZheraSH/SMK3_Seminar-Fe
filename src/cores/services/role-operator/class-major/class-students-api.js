@@ -67,30 +67,57 @@ export const getStudentDetail = async (id) => {
   }
 };
 
+export const validateImportFile = (file) => {
+  if (!file) {
+    throw new Error("File Excel wajib di-upload.");
+  }
+
+  if (file.size > 5120 * 1024) {
+    throw new Error("Ukuran file maksimal 5MB.");
+  }
+
+  const allowedExtensions = ['xlsx', 'xls', 'csv'];
+  const fileExtension = file.name?.split('.').pop()?.toLowerCase();
+  if (!allowedExtensions.includes(fileExtension)) {
+    throw new Error("Format file harus berupa xlsx, xls, atau csv.");
+  }
+  return true;
+};
+
 export const importStudentsToClassroom = async (classroomId, file) => {
+  validateImportFile(file);
+
   try {
     const formData = new FormData();
     formData.append('file', file);
 
     const res = await api.post(`/classrooms/${classroomId}/students-import`, formData);
-    
+
     const { status, message, data } = res.data;
     const importedCount = data?.imported_count;
 
-    if (status && importedCount > 0) {
-      notify(message , "success");
-    } else {
-      const errorMsg = importedCount === 0 
-        ? "Gagal: Data mungkin sudah ada" 
-        : (message || "Gagal mengimport");
-        
-      notify(errorMsg, "error");
+    if (!status || importedCount === 0) {
+      throw new Error(message || "Gagal: Data mungkin sudah ada atau tidak ada data yang diimport");
     }
 
+    notify(message || "Data Berhasil Diimport", "success");
     return res.data;
   } catch (err) {
-    const msg = err.response?.data?.message || "Terjadi kesalahan sistem";
-    notify(msg, "error"); 
-    throw err;
+    if (err instanceof Error && !err.response) {
+      throw err;
+    }
+
+    if (err.response?.status === 422 && err.response?.data?.errors) {
+      const firstError = Object.values(err.response.data.errors)[0][0];
+      throw new Error(firstError || "Terjadi kesalahan validasi");
+    }
+
+    const msg = err.response?.data?.message || err.message || "Terjadi kesalahan sistem";
+
+    if (msg.includes('Duplicate entry') || msg.includes('SQLSTATE')) {
+      throw new Error("Gagal: Terjadi duplikasi data atau kesalahan database. Mohon periksa data anda.");
+    }
+
+    throw new Error(msg);
   }
 }

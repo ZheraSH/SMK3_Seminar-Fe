@@ -163,7 +163,7 @@ function TableRow({
     <tr className={index % 2 === 0 ? "bg-white" : "bg-blue-50"}>
       <td className="px-6 py-2">{startIndex + index + 1}</td>
       <td className="px-6 py-2">{item.student?.name || "-"}</td>
-      <td className="px-6 py-2">{item.rfid}</td>
+      <td className="px-6 py-2">{item.rfid || "-"}</td>
 
       <td className="px-6 py-2">
         <span

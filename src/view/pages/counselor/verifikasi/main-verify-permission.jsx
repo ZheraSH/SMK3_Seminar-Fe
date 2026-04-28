@@ -86,10 +86,14 @@ export default function VerifyPermission() {
                 {loading ? (
                     <LoadingData loading={loading} type='tableSchedule' count={10} />
                 ) : permissions.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-20 mt-4 animate-in fade-in duration-700">
-                        <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />
-                        <p className="text-gray-500 text-center text-sm md:text-md">
-                            Sepertinya belum ada data yang masuk untuk kriteria ini.
+                    <div className="flex flex-col items-center justify-center py-10 text-gray-400 border border-gray-200 rounded-lg bg-white">
+                        <img
+                            src="/images/null/nullimage.png"
+                            alt="Data kosong"
+                            className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+                        />
+                        <p className="text-sm font-medium text-center">
+                            Belum ada izin yang menunggu approval
                         </p>
                     </div>
                 ) : (

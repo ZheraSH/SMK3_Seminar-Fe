@@ -245,8 +245,16 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
 
   if (totalLog === 0) {
     return (
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-[347px] w-full flex items-center justify-center">
-        <p className="text-gray-500">Tidak ada data absensi untuk periode ini.</p>
+
+       <div className="flex flex-col items-center justify-center py-10 text-gray-400 border border-gray-200 rounded-lg bg-white">
+        <img
+          src="/images/null/null4.png"
+          alt="Data kosong"
+          className="w-72 h-auto md:w-[300px] md:h-[220px] mb-6"
+        />
+        <p className="text-sm font-medium text-center">
+          Tidak ada data absensi untuk periode ini.
+        </p>
       </div>
     );
   }

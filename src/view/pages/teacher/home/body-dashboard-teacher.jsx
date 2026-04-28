@@ -52,18 +52,28 @@ export const MainTeacher = () => {
             ))}
           </div>
         ) :
-          (<p className="text-gray-600 text-sm italic">Data kelas kosong.</p>)}
+          (<div className="border border-gray-300 rounded-[8px] p-2 bg-white">
+            <p className="text-gray-600 text-sm italic">Jadwal mengajar kelas belum ada.</p>
+          </div>)}
       </div>
       {isLoading ? (<LoadingData loading={isLoading} type="2card" />)
         : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-[#00000026] p-5">
               <h2 className="text-lg font-semibold text-gray-900 mb-4"> Jadwal Mengajar Hari Ini </h2>
-              <div className="overflow-x-auto  rounded-lg border border-gray-300">
+              <div className="overflow-x-auto  rounded-lg">
                 {schedule.length === 0 ? (
-                  <p className="text-gray-600 text-sm italic py-3">
-                    Tidak ada jadwal hari ini.
-                  </p>
+
+                  <div className="flex flex-col items-center justify-center py-10 text-gray-400">
+                    <img
+                      src="../../../../images/null/null2.png"
+                      alt="Data siswa kosong"
+                      className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+                    />
+                    <p className="text-sm font-medium text-center">
+                      Belum ada jadwal mengajar hari ini<br />
+                    </p>
+                  </div>
                 ) : (
                   <table className="w-full text-[14px]  font-medium overflow-x-auto ">
                     <thead>
@@ -88,9 +98,18 @@ export const MainTeacher = () => {
             </div>
             <div className="bg-white rounded-2xl  shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-[#00000026] p-5">
               <h2 className="text-lg font-semibold text-gray-900 mb-4"> Status Absensi </h2>
-              <div className="overflow-x-auto  rounded-lg border border-gray-300">
+              <div className="overflow-x-auto  rounded-lg">
                 {schedule.length === 0 ? (
-                  <p className="text-gray-600 text-sm italic py-3"> Belum ada data absensi hari ini. </p>
+                  <div className="flex flex-col items-center justify-center py-10 text-gray-400">
+                    <img
+                      src="../../../../images/null/null4.png"
+                      alt="Data siswa kosong"
+                      className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+                    />
+                    <p className="text-sm font-medium text-center">
+                      Belum ada yang absen hari ini<br />
+                    </p>
+                  </div>
                 ) : (
                   <table className="w-full text-[14px] border-collapse text-center font-medium">
                     <thead className="sticky top-0 z-10">
