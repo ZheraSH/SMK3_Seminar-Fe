@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { AlertTriangle, ChevronLeft, ChevronRight, CircleCheckBig, ClockAlert, ClipboardCheck} from 'lucide-react'
+import { AlertTriangle, ChevronLeft, ChevronRight, CircleCheckBig, ClockAlert, ClipboardCheck, Search} from 'lucide-react'
 import Header from '@elements/header/header-new-1'
 import LoadingData from '@elements/loading-data/loading'
 import { getAbsenteeismMonitoring } from '@core/services/role-counselor/monitoring/absenteeism-monitoring'
@@ -58,7 +58,7 @@ export default function AttendanceDashboard() {
 
       </div>
 
-      <div className="max-w-7xl mx-auto ">
+      <div className="max-w-10xl mx-auto ">
         {loading ? (<LoadingData loading={loading} type='attendanceChart' count={4} />)
           : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -115,7 +115,35 @@ export default function AttendanceDashboard() {
               </div>
             </div>
           )}
+         
+  
+   {loading ? (<LoadingData loading={loading} type='create' />)
+   :(
+     <>
+     <div className="flex items-center mt-10 mb-10 border rounded-2xl p-3 w-full w-full">
+      <div className="relative w-full">
+        <Search
+          size={18}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+        />
+          
+          <input
+            type="text"
+            placeholder="Cari Kelas/Nama..."
+            className="w-52 pl-10 pr-4 py-2 border-2 border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+      </div>
 
+          
+      <button
+            className="w-24 h-10 ml-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition"
+            >
+            Sync Data
+      </button>
+      </div>
+     </>
+   )}
+  
         {loading ? (<LoadingData loading={loading} type='tableSchedule' count={10} />)
           : (
             <>
