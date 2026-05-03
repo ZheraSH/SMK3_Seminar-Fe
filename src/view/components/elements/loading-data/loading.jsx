@@ -96,7 +96,7 @@ const Day = ({ count }) => (
   <div className="flex flex-wrap gap-1 bg-white animate-pulse shadow-md p-2 rounded-lg">
     {[...Array(count)].map((_, i) => (
       <div key={i} className="animate-pulse">
-        <Skeleton className="h-10 w-21 rounded-xl" />
+        <Skeleton className="h-8 w-16 sd:h-10 md:w-21 rounded-lg" />
       </div>
     ))}
   </div>
@@ -125,7 +125,7 @@ const Create = () => (
 
 // header 
 const HeaderSkeleton = () => (
-  <div className="mb-6 w-full">
+  <div className="mb-6 w-full hidden md:block">
     <div className="w-full h-[130px] bg-gray-100 animate-pulse rounded-[16px] flex justify-between">
       <div className="lg:pt-4 md:pt-4 pt-6 pl-6 space-y-3">
         <Skeleton className="h-7 w-48 bg-gray-300 rounded-md" />
@@ -211,35 +211,40 @@ const CradDoubleSkeleton = ({ count = 5 }) => (
 );
 // 2 card 1:1
 const CradDouble1 = () => (
-  <div className="flex animate-pulse">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 w-full h-48">
-      <div className="bg-white w-50% gap-3 shadow-[0_0_20px_rgba(0,0,0,0.20)] animate-pulse rounded-2xl p-3 border-2 border-gray-300 ">
-        <Skeleton className=" h-7  w-35 bg-white" />
-        <div className=" flex items-center gap-4">
-          <Skeleton className=" h-30 w-30 bg-gray-100 rounded-full" />
-          <div className=" flex-col gap-3">
-            <Skeleton className=" w-50 h-5 bg-gray-50 mb-2 " />
-            <Skeleton className="w-60 h-5 bg-gray-50" />
+  <div className="w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 w-full">
+      
+      <div className="bg-white shadow-[0_0_20px_rgba(0,0,0,0.08)] animate-pulse rounded-2xl p-2 md:p-5 border border-gray-100">
+        <div className="h-6 w-32 bg-gray-200 rounded-md mb-3 md:mb-6" />
+        
+        <div className="flex items-center gap-4">
+          <div className="h-20 w-20 md:h-24 md:w-24 bg-gray-100 rounded-full flex-shrink-0" />
+          
+          <div className="flex-1 space-y-3">
+            <div className="w-full h-4 bg-gray-100 rounded" />
+            <div className="w-3/4 h-4 bg-gray-100 rounded" />
           </div>
         </div>
       </div>
 
-      <div className="bg-white w-50% gap-3 shadow-[0_0_20px_rgba(0,0,0,0.20)] animate-pulse rounded-2xl p-4 border-2 border-gray-300 ">
-        <div className=" flex mt-2 items-center gap-4">
-          <div className=" flex-col gap-3">
-            <Skeleton className=" w-50 h-5 bg-gray-50 mb-2 " />
-            <Skeleton className="w-60 h-5 bg-gray-50" />
+      <div className="bg-white shadow-[0_0_20px_rgba(0,0,0,0.08)] animate-pulse rounded-2xl p-2 md:p-5 border border-gray-100">
+        <div className="h-6 w-32 bg-gray-200 rounded-md mb-3 md:mb-6" /> 
+        
+        <div className="flex items-center gap-4">
+          <div className="flex-1 space-y-3">
+            <div className="w-full h-4 bg-gray-100 rounded" />
+            <div className="w-3/4 h-4 bg-gray-100 rounded" />
           </div>
-          <Skeleton className=" h-30 w-30 bg-gray-100 " />
+          <div className="h-20 w-20 md:h-24 md:w-24 bg-gray-100 rounded-xl flex-shrink-0" />
         </div>
       </div>
+
     </div>
-
   </div>
 );
 // card student
 const CardStudentSkeleton = ({ count }) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4  mt-10">
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  mt-10">
     {[...Array(count)].map((_, i) => (
       <div key={i} className="bg-white flex flex-col justify-center items-center gap-3 h-40 shadow-md rounded-2xl p-4 border-2 border-gray-300 animate-pulse">
         <Skeleton className=" h-20 w-20 rounded-full " />
@@ -737,6 +742,40 @@ const AbsenceCardSkeleton = ({ count = 3 }) => (
   </div>
 );
 
+
+// bentuk hp di halaman jadwal pelajaran role siswa
+const ScheduleMobileSkeleton = ({ count = 5 }) => (
+  <div className="md:hidden space-y-3 px-2 py-6">
+    {[...Array(count)].map((_, i) => (
+      <div 
+        key={i} 
+        className="relative bg-white rounded-2xl border border-gray-100 shadow-[0_2px_12px_-3px_rgba(0,0,0,0.04)] p-5 flex flex-col gap-4 animate-pulse"
+      >
+        <div className="flex items-center justify-between border-b border-gray-50 pb-3">
+          <div className="flex items-center gap-2">
+            <div className="h-6 w-16 bg-gray-200 rounded-lg" />
+            <div className="h-4 w-[1px] bg-gray-100" />
+            <div className="flex items-center gap-1.5">
+              <div className="h-3 w-3 bg-gray-200 rounded-full" /> 
+              <div className="h-3 w-12 bg-gray-200 rounded" />
+            </div>
+          </div>
+          <div className="h-3 w-4 bg-gray-100 rounded" />
+        </div>
+
+        <div className="flex justify-between items-center">
+          <div className="flex-1 space-y-2">
+            <div className="h-5 w-3/4 bg-gray-200 rounded-md" />
+            <div className="h-4 w-1/2 bg-gray-100 rounded-md" />
+          </div>
+        </div>
+
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-200" />
+      </div>
+    ))}
+  </div>
+);
+
 export default function LoadingData({ loading, type = "list", count = 3 }) {
   if (!loading) return null;
 
@@ -748,6 +787,8 @@ export default function LoadingData({ loading, type = "list", count = 3 }) {
         return <StatusGridFiveSkeleton />;
       case "headerDaftarSiswa":
         return <HeaderDaftarSiswaSkeleton />;
+      case "scheduleMobile":
+        return <ScheduleMobileSkeleton />
       case "DashboardWaliKelas2":
         return <Dashboard1 />
       case "DashboardWaliKelas":
