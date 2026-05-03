@@ -40,7 +40,6 @@ export default function AttendanceTableSection() {
     loadData(1);
   }, [selectedClassroom]);
 
-  // Handle search with a small delay (debounce)
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setPage(1);
@@ -79,7 +78,6 @@ export default function AttendanceTableSection() {
         </h2>
 
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-          {/* SEARCH */}
           <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
@@ -91,14 +89,12 @@ export default function AttendanceTableSection() {
             />
           </div>
 
-          {/* CUSTOM DROPDOWN COMPONENT */}
           <div className="flex flex-row gap-4">
             <ClassDropdown
               selectedId={selectedClassroom}
               onSelect={(id) => setSelectedClassroom(id)}
             />
 
-            {/* REFRESH BUTTON */}
             <button
               onClick={loadData}
               className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-all shadow-sm shadow-emerald-200"

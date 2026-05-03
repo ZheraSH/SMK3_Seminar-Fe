@@ -141,7 +141,7 @@ const HeaderSkeleton = () => (
 
 //attendance chart skeleton 
 const AttendanceChartSkeleton = ({ count }) => (
-  <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4 ">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
     {[...Array(count)].map((_, i) => (
       <div key={i} className="flex bg-white shadow-md rounded-xl p-4 animate-pulse">
         <Skeleton className={`w-1 h-14 mr-4 rounded-full bg-gray-300 animate-pulse`} />
@@ -337,66 +337,50 @@ const TableChedule = ({ count }) => (
 
 // Skeleton Dashboard Operator
 const DashboardChartsSkeleton = () => (
-  <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-[14px] animate-pulse mt-5">
-    <div className="space-y-[14px]">
-      <div className="grid grid-cols-2 gap-6">
-        {[...Array(2)].map((_, i) => (
-          <div key={i} className="bg-white rounded-xl shadow-sm p-6 flex justify-between items-center border border-gray-100">
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-32 rounded" />
-              <Skeleton className="h-8 w-24 rounded" />
+  <div className="animate-pulse mt-5 space-y-6">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_245px] gap-[14px]">
+      <div className="space-y-[14px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[14px]">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="bg-white rounded-xl shadow-sm p-6 flex justify-between items-center border border-gray-100">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-32 rounded" />
+                <Skeleton className="h-8 w-24 rounded" />
+              </div>
+              <Skeleton className="w-14 h-14 rounded-xl bg-blue-50" />
             </div>
-            <Skeleton className="w-14 h-14 rounded-xl bg-blue-50" />
-          </div>
-        ))}
-      </div>
-
-
-      <div className="bg-white rounded-xl shadow-sm p-6 h-[300px]">
-        <Skeleton className="h-6 w-48 mb-4 rounded" />
-        <div className="space-y-3">
-          {[...Array(4)].map((_, i) => (
-            <Skeleton key={i} className="h-10 w-full rounded" />
           ))}
         </div>
-      </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <Skeleton className="h-6 w-64 mb-2 rounded" />
-        <Skeleton className="h-4 w-32 mb-6 rounded" />
-        <Skeleton className="h-[260px] w-full rounded-lg bg-gray-50" />
-      </div>
-    </div>
-
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <Skeleton className="h-6 w-40 mb-8 rounded" />
-        <div className="flex justify-center mb-8">
-          <div className="w-40 h-40 rounded-full border-[12px] border-gray-100 flex items-center justify-center" />
+        <div className="bg-white rounded-2xl shadow-sm p-6 h-[353px] border border-slate-100">
+          <div className="flex justify-between items-center mb-6">
+            <Skeleton className="h-6 w-48 rounded" />
+            <Skeleton className="h-4 w-20 rounded" />
+          </div>
+          <Skeleton className="h-[220px] w-full rounded-xl bg-gray-50" />
         </div>
-        <div className="space-y-3">
+      </div>
+
+      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex flex-col items-center">
+        <Skeleton className="h-6 w-40 mb-8 self-start rounded" />
+        <div className="relative w-40 h-40 rounded-full border-[12px] border-gray-100 flex items-center justify-center mb-10" />
+        <div className="w-full space-y-3 mt-auto">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex justify-between">
-              <Skeleton className="h-4 w-24 rounded" />
+            <div key={i} className="flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-3 w-3 rounded-full" />
+                <Skeleton className="h-4 w-20 rounded" />
+              </div>
               <Skeleton className="h-4 w-8 rounded" />
             </div>
           ))}
         </div>
       </div>
-
-      <div className="space-y-2">
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-white rounded-xl shadow-sm p-3 flex gap-4 border border-gray-200">
-            <Skeleton className="w-1 h-14 rounded-full bg-gray-300" />
-            <div className="flex-1 space-y-2">
-              <Skeleton className="h-7 w-12 rounded" />
-              <Skeleton className="h-4 w-28 rounded" />
-            </div>
-            <Skeleton className="w-12 h-12 rounded-lg bg-gray-100" />
-          </div>
-        ))}
-      </div>
     </div>
+
+    <AttendanceChartSkeleton count={4} />
+
+    <TableSkeleton count={5} />
   </div>
 );
 
@@ -838,9 +822,10 @@ export default function LoadingData({ loading, type = "list", count = 3 }) {
       case "cardclass":
         return <CardClass count={count} />
       case "tableSiswaKaryawan":
-        return <TableSkeleton count={count} />
+      case "activityTable":
+        return <TableSkeleton count={count} />;
       case "tableSchedule":
-        return <TableChedule count={count} />
+        return <TableChedule count={count} />;
       case "dashboardCharts":
         return <DashboardChartsSkeleton />;
       case "list":

@@ -81,7 +81,6 @@ const getCurvePath = (points, svgHeight, padding, isArea = false) => {
   return path;
 };
 
-// DEFAULT
 const DEFAULT_PIE = [
   { name: "Hadir", value: 0, color: "#22C55E" },
   { name: "Telat", value: 0, color: "#FACC15" },
@@ -163,7 +162,6 @@ export default function ChartsSection() {
           });
           setMonthlyTrendData(trend);
 
-          // Set default active month to current month
           const currentMonthIdx = new Date().getMonth();
           const currentMonthName = MONTHS_NAME[currentMonthIdx];
           setActiveData({ 
@@ -233,9 +231,7 @@ export default function ChartsSection() {
   return (
     <div>
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_245px] gap-[14px]">
-      {/* LEFT */}
       <div className="space-y-[14px]">
-        {/* INFO */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-[14px]">
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex justify-between items-center transition-all hover:border-blue-200">
             <div>
@@ -264,7 +260,6 @@ export default function ChartsSection() {
 
         
 
-        {/* CUSTOM LINE CHART (bk style) */}
         <div ref={chartRef} className="bg-white rounded-2xl shadow-sm p-6 md:h-[353px] overflow-hidden border border-blue-100/50">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
             <h2 className="text-md md:text-lg  font-bold">
@@ -361,9 +356,7 @@ export default function ChartsSection() {
         </div>
       </div>
 
-      {/* RIGHT */}
       <div className="space-y-6">
-        {/* PIE */}
         <div className="bg-white rounded-xl shadow-sm p-6 md:w-[248px]">
           <h2 className="text-lg font-bold mb-4">
             Statistik Kehadiran
@@ -389,7 +382,6 @@ export default function ChartsSection() {
                   )}
                 </Pie>
 
-                {/* CENTER TEXT */}
                 <text
                   x="50%"
                   y="50%"
@@ -412,7 +404,6 @@ export default function ChartsSection() {
             </ResponsiveContainer>
           </div>
 
-          {/* LEGEND */}
           <div className="mt-10 space-y-1">
             {DEFAULT_PIE.map((item, i) => (
               <div key={i} className="flex justify-between text-sm">
@@ -428,7 +419,7 @@ export default function ChartsSection() {
 
       </div>
     </div>
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4 mt-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           {smallCards.map((i, k) => (
             <div key={k} className="bg-white rounded-xl shadow-sm p-3 flex gap-4 border border-gray-300">
               <div className={`w-1 h-14 rounded-full ${i.barColor}`} />
