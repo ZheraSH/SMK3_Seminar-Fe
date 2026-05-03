@@ -2,26 +2,41 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchTapHistory } from "@core/services/role-operator/dashboard/dashboard-api";
+import { Search, RefreshCcw } from "lucide-react";
+import ClassDropdown from "./class-dropdown";
 
 export default function AttendanceTableSection() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedClassroom, setSelectedClassroom] = useState(null);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const result = await fetchTapHistory(selectedClassroom, searchTerm);
+      if (Array.isArray(result)) {
+        setData(result);
+      }
+    } catch (error) {
+      console.error("Failed to fetch tap history:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const result = await fetchTapHistory();
-        if (Array.isArray(result)) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Failed to fetch tap history:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadData();
-  }, []);
+  }, [selectedClassroom]);
+
+  // Handle search with a small delay (debounce)
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      loadData();
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -42,11 +57,44 @@ export default function AttendanceTableSection() {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-      <h2 className="text-lg font-semibold p-6 pb-[14px]">
-        Monitoring Kehadiran Hari Ini
-      </h2>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-6 pb-[14px] gap-4">
+        <h2 className="text-lg font-bold text-slate-800">
+          Monitoring Kehadiran Hari Ini
+        </h2>
+        
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          {/* SEARCH */}
+          <div className="relative flex-1 md:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input 
+              type="text" 
+              placeholder="Cari nama, kelas..." 
+              className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
 
-      <div className="overflow-x-auto px-3 pb-5 h-[285px]">
+          {/* CUSTOM DROPDOWN COMPONENT */}
+          <div className="flex flex-row gap-4">
+            <ClassDropdown 
+            selectedId={selectedClassroom} 
+            onSelect={(id) => setSelectedClassroom(id)} 
+          />
+
+          {/* REFRESH BUTTON */}
+          <button 
+            onClick={loadData}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-all shadow-sm shadow-emerald-200"
+          >
+            <span>Refresh</span>
+            <RefreshCcw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto px-3 pb-5 h-[285px] overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-blue-500 text-white">
@@ -54,7 +102,7 @@ export default function AttendanceTableSection() {
                 (h, i) => (
                   <th
                     key={i}
-                    className={`px-4 py-3 text-xs font-medium ${i === 0 ? "rounded-tl-lg" : ""
+                    className={`px-4 py-3 text-xs whitespace-nowrap font-medium ${i === 0 ? "rounded-tl-lg" : ""
                       } ${i === 4 ? "rounded-tr-lg" : ""
                       } border-b border-blue-700`}
                   >

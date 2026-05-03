@@ -13,12 +13,26 @@ export const fetchDashboardCounters = async () => {
 };
 
 
-export const fetchTapHistory = async () => {
+export const fetchTapHistory = async (classroomId = "", search = "") => {
   try {
-    const res = await api.get(`${API_BASE_URL}/tap-history`);
+    const params = {};
+    if (classroomId) params.classroom_id = classroomId;
+    if (search) params.search = search;
+    
+    const res = await api.get(`${API_BASE_URL}/tap-history`, { params });
     return res.data.data;
   } catch (err) {
     console.error("TAP HISTORY ERROR:", err);
+    throw err;
+  }
+};
+
+export const fetchClassrooms = async () => {
+  try {
+    const res = await api.get("/classrooms");
+    return res.data.data;
+  } catch (err) {
+    console.error("CLASSROOMS ERROR:", err);
     throw err;
   }
 };
