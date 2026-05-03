@@ -64,7 +64,7 @@ export default function AbsentStudentMain() {
     };
 
     return (
-        <div className="w-full bg-gray-50 p-4 mb-10">
+        <div className="w-full bg-gray-50 mb-10">
             {loading ? (
                 <LoadingData loading={true} type="header1" />
             ) : (
