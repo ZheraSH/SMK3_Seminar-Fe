@@ -13,14 +13,17 @@ export const fetchDashboardCounters = async () => {
 };
 
 
-export const fetchTapHistory = async (classroomId = "", search = "") => {
+export const fetchTapHistory = async (classroomId = "", search = "", page = 1) => {
   try {
-    const params = {};
+    const params = { page };
     if (classroomId) params.classroom_id = classroomId;
     if (search) params.search = search;
-    
+
     const res = await api.get(`${API_BASE_URL}/tap-history`, { params });
-    return res.data.data;
+    return {
+      data: res.data.data || [],
+      meta: res.data.meta || {}
+    };
   } catch (err) {
     console.error("TAP HISTORY ERROR:", err);
     throw err;

@@ -10,12 +10,20 @@ export const data = [
 ];
 
 export const aktivitas = [
-  { nama: "Valen Abdul", kelas: "XII PPLG 3", jam: "07.30", status: "Terlambat" },
-  { nama: "Budi Santoso", kelas: "XII PPLG 2", jam: "07.00", status: "Masuk" },
-  { nama: "Rina Kartika", kelas: "XII PPLG 1", jam: "07.05", status: "Masuk" },
-  { nama: "Dewi Lestari", kelas: "XII PPLG 4", jam: "07.15", status: "Masuk" },
-  { nama: "Eka Saputra", kelas: "XII PPLG 3", jam: "07.00", status: "Masuk" },
-  { nama: "Tono Hadi", kelas: "XII PPLG 1", jam: "07.10", status: "Masuk" },
+  { id: 1, checkin_time: "07.30", student_name: "Valen Abdul", classroom: "XII PPLG 3", status: "terlambat" },
+  { id: 2, checkin_time: "07.00", student_name: "Budi Santoso", classroom: "XII PPLG 2", status: "hadir" },
+  { id: 3, checkin_time: "07.05", student_name: "Rina Kartika", classroom: "XII PPLG 1", status: "hadir" },
+  { id: 4, checkin_time: "07.15", student_name: "Dewi Lestari", classroom: "XII PPLG 4", status: "hadir" },
+  { id: 5, checkin_time: "07.00", student_name: "Eka Saputra", classroom: "XII PPLG 3", status: "hadir" },
+  { id: 6, checkin_time: "07.10", student_name: "Tono Hadi", classroom: "XII PPLG 1", status: "hadir" },
+  { id: 7, checkin_time: "07.12", student_name: "Siti Aminah", classroom: "XII PPLG 2", status: "hadir" },
+  { id: 8, checkin_time: "07.35", student_name: "Andi Wijaya", classroom: "XII PPLG 3", status: "terlambat" },
+  { id: 9, checkin_time: "07.02", student_name: "Maya Sari", classroom: "XII PPLG 1", status: "hadir" },
+  { id: 10, checkin_time: "07.08", student_name: "Fajar Siddiq", classroom: "XII PPLG 4", status: "hadir" },
+  { id: 11, checkin_time: "07.15", student_name: "Gita Permata", classroom: "XII PPLG 3", status: "hadir" },
+  { id: 12, checkin_time: "07.40", student_name: "Hendra Gunawan", classroom: "XII PPLG 2", status: "terlambat" },
+  { id: 13, checkin_time: "07.15", student_name: "Lilis", classroom: "XII PPLG 3", status: "hadir" },
+  { id: 14, checkin_time: "07.40", student_name: "Gunawan", classroom: "XII PPLG 2", status: "terlambat" },
 ];
 
 
