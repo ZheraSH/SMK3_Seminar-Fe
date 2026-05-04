@@ -55,7 +55,7 @@ export default function CounterCardsSection() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-[16px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[14px] mb-[16px]">
       {CARD_CONFIG.map((item, i) => (
         <div
           key={i}
