@@ -20,6 +20,7 @@ import {
   Info,
   Newspaper,
   LogIn,
+  ClipboardClock,
 } from "lucide-react";
 import { FaPhone } from "react-icons/fa";
 
@@ -37,6 +38,7 @@ export const ROLE_MENUS = {
     { name: "Mata Pelajaran", icon: <BookMarked size={20} />, path: "/home/maple" },
     { name: "Jadwal Pelajaran", icon: <CalendarSearch size={20} />, path: "/home/jadwal-pelajaran" },
     { name: "Pengaturan Jam Absen", icon: <CalendarClock size={20} />, path: "/home/absen-rfid" },
+    { name: "Monitoring Kehadiran", icon: <ClipboardClock size={20} />, path: "/home/monitoring" },
     { name: "Management RFID", icon: <IdCard size={20} />, path: "/home/rfid" },
     { name: "Master Card", icon: <KeyRound size={20} />, path: "/home/mastercard" },
   ],

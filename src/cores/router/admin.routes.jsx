@@ -16,6 +16,7 @@ import SchoolYearPage from "@pages/operator/school-year";
 import SubjectsPage from "@pages/operator/subjects";
 import ProfileOperator from "@elements/profile/profile-operator";
 import MasterCardPage from "@pages/operator/master-card";
+import MonitoringPage from "@pages/operator/monitoring";
 
 
 export const AdminRoutes = [
@@ -37,6 +38,7 @@ export const AdminRoutes = [
           { path: "maple", element: <SubjectsPage /> },
           { path: "jadwal-pelajaran", element: <SchedulePage /> },
           { path: "absen-rfid", element: <AttendanceRulesPage /> },
+          { path: "monitoring", element: <MonitoringPage /> },
           { path: "rfid", element: <RfidPage /> },
           { path: "mastercard", element: <MasterCardPage /> },
           { path: "profile", element: <ProfileUser /> },

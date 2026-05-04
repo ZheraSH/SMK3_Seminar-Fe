@@ -105,6 +105,7 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       { pattern: "/home/maple", title: "Mapel" },
       { pattern: "/home/tahun-ajaran", title: "Tahun Ajaran" },
       { pattern: "/home/absen-rfid", title: "Pengaturan Jam RFID" },
+      { pattern: "/home/monitoring", title: "Monitoring Kehadiran" },
       { pattern: "/home/rfid", title: "RFID" },
       { pattern: "/home/mastercard", title: "Master Card" },
       { pattern: "/home/guru", title: "Guru" },
