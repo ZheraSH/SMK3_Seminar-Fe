@@ -24,10 +24,10 @@ export const MultiRoleRoutes = [
           { index: true, element: <BodyDashboardMultiRole /> },
           { path: "teacher-schedule", element: <TeacherSchedule /> },
           { path: "attendance-teacher", element: <AttendanceTeacher /> },
-          { path: "class-recap", element: <ClassRecapHomeRoom /> },
-          { path: "monitoring-absen", element: <MainMonitoringAbsen /> },
-          { path: "verifikasi-izin", element: <VerifyPermission /> },
-          { path: "statistik-global", element: <StatistikGlobal /> },
+          { path: "classroom-recap", element: <ClassRecapHomeRoom /> },
+          { path: "monitoring-absence", element: <MainMonitoringAbsen /> },
+          { path: "permission-verification", element: <VerifyPermission /> },
+          { path: "global-statistics", element: <StatistikGlobal /> },
           { path: "profile", element: <ProfileUser /> },
         ]
       }

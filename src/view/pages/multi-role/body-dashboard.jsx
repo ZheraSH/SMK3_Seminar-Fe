@@ -31,7 +31,7 @@ export default function BodyDashboardMultiRole() {
       dashboards.push(<div key="teacher" className="w-full"><MainTeacher classrooms={[]} schedule={[]} /></div>);
     }
     if (userRoles.includes("counselor")) {
-      dashboards.push(<div key="bk" className="w-full"><DashboardContent /></div>);
+      dashboards.push(<div key="counselor" className="w-full"><DashboardContent /></div>);
     }
     if (userRoles.includes("homeroom_teacher")) {
       dashboards.push(<div key="homeroom" className="w-full"><HomeRoomHome /></div>);

@@ -1,20 +1,21 @@
-import { ArrowRight,
-    ClipboardCheck, 
-    LayoutDashboard, 
+import {
+    ArrowRight,
+    ClipboardCheck,
+    LayoutDashboard,
     Settings,
-    Users, 
-    Home, 
-    ClipboardList, 
-    Zap, 
-    ChevronRight, 
-    ShieldCheck, 
-    CalendarDays, 
-    Database, 
-    Plus, 
+    Users,
+    Home,
+    ClipboardList,
+    Zap,
+    ChevronRight,
+    ShieldCheck,
+    CalendarDays,
+    Database,
+    Plus,
     Minus,
-    IdCardLanyard, 
+    IdCardLanyard,
     BookOpenCheck,
-    FileChartColumn, 
+    FileChartColumn,
 } from "lucide-react";
 
 
@@ -37,7 +38,7 @@ export const teamData = [
         id: 2,
         name: "Angga Rahmadani",
         role: "UI/UX Designer",
-        image: "/images/team/angga2.jpg", 
+        image: "/images/team/angga2.jpg",
         social: { whatsapp: "https://wa.me/6287872784941", github: "https://github.com/NekoDayouu ", instagram: "https://www.instagram.com/ghaaa_0" }
     },
     {
@@ -107,7 +108,7 @@ export const teamData = [
 ];
 
 export const faqs = [
-    { q: "Apa itu SEMINAR dan siapa yang bisa menggunakannya?", a: "SEMINAR adalah sistem manajemen sekolah yang mempermudah pencatatan absensi, pengajuan izin, monitoring kehadiran, serta pengelolaan jadwal belajar. Platform ini dapat digunakan oleh siswa, guru pengajar, wali kelas, guru BK, operator, dan pihak sekolah lainnya sesuai hak akses masing-masing." },
+    { q: "Apa itu SEMINAR dan siapa yang bisa menggunakannya?", a: "SEMINAR adalah sistem manajemen sekolah yang mempermudah pencatatan absensi, pengajuan izin, monitoring kehadiran, serta pengelolaan jadwal belajar. Platform ini dapat digunakan oleh siswa, guru pengajar, wali kelas, Counselor, operator, dan pihak sekolah lainnya sesuai hak akses masing-masing." },
     { q: "Bagaimana cara login sebagai siswa/guru/wali kelas?", a: "Pengguna dapat login menggunakan akun yang telah diberikan oleh operator sekolah melalui halaman login dengan memasukkan NISN/NIP dan password yang terdaftar." },
     { q: "Apakah data absensi diperbarui secara real-time?", a: "Ya, setiap transaksi absensi (baik melalui RFID maupun manual oleh guru) akan langsung tercatat di sistem saat itu juga dan dapat dipantau oleh admin serta orang tua." },
     { q: "Bagaimana cara mengajukan izin melalui sistem?", a: "Siswa dapat masuk ke dashboard mereka, pilih menu Layanan Izin, dan mengisi formulir digital dengan melampirkan alasan atau bukti surat yang diperlukan." },
@@ -120,7 +121,7 @@ export const faqs = [
 //about page
 
 
- export const program = [
+export const program = [
     "Menyelaraskan kompetensi siswa dengan standar industri.",
     "Memberikan pengalaman kerja nyata melalui proyek dan layanan berbasis kebutuhan pasar.",
     "Menjadi ruang kolaborasi antara siswa, guru, industri, dan pengguna layanan.",
@@ -144,40 +145,42 @@ export const mentor = [
 
 
 export const NEWS_DATA = {
-  "Pengumuman": [
-    {   id: 1, 
-        title: "Pendaftaran SMKN 3 Pamekasan telah di buka!", 
-        date: "12 Februari 2026", 
-        img: "/images/landing-page/berita/pendaftaran.png",
-        deskripsi: "Pendaftaran untuk tahun ajaran 2026/2027 di SMKN 3 Pamekasan resmi dibuka! Segera daftarkan diri Anda untuk bergabung dengan lingkungan belajar yang inspiratif dan inovatif. Kunjungi website resmi kami untuk informasi lebih lanjut tentang jurusan, persyaratan, dan proses pendaftaran. Jangan lewatkan kesempatan emas ini untuk menjadi bagian dari komunitas pendidikan yang unggul!"
-     },
-  ],
-  "Kegiatan": [
-    {   id: 2, 
-        title: "Wadah Bakat & Prestasi", 
-        date: "10 Januari 2026", 
-        img: "/images/landing-page/berita/ekskul.png",
-        deskripsi: "SMKN 3 Pamekasan dengan bangga mempersembahkan 'Wadah Bakat & Prestasi', sebuah acara tahunan yang dirancang untuk menampilkan bakat luar biasa dan prestasi gemilang siswa kami. Acara ini akan menjadi panggung bagi para siswa untuk menunjukkan keahlian mereka dalam berbagai bidang, mulai dari seni, olahraga, hingga akademik. Bergabunglah dengan kami untuk merayakan kreativitas dan dedikasi siswa kami dalam menciptakan prestasi yang membanggakan!",
-    },
-  ],
-  "Informasi": [
-    { id: 3, title: "Sekolah Lagi, Berprestasi Lagi", date: "12 Oktober 2026", img: "/images/landing-page/berita/informasi.png", deskripsi: "Informasi terkini tentang kegiatan dan program di SMKN 3 Pamekasan." },
-    { id: 4, title: "Vokasi Unggul, Skanetri Bersinar", date: "12 Oktober 2026", img: "/images/landing-page/berita/infotmasi2.png", deskripsi: "Penjelasan tentang program vokasi yang ditawarkan di sekolah." },
-  ],
-  "Prestasi": [
-    { 
-        id: 5, 
-        title: "Prestasi SNBP 2026", 
-        date: "31 Maret 2026", 
-        img: "/images/landing-page/berita/snbp.png",
-        deskripsi: "SMKN 3 Pamekasan dengan bangga mempersembahkan 'Wadah Bakat & Prestasi', sebuah acara tahunan yang dirancang untuk menampilkan bakat luar biasa dan prestasi gemilang siswa kami. Acara ini akan menjadi panggung bagi para siswa untuk menunjukkan keahlian mereka dalam berbagai bidang, mulai dari seni, olahraga, hingga akademik. Bergabunglah dengan kami untuk merayakan kreativitas dan dedikasi siswa kami dalam menciptakan prestasi yang membanggakan!",
-    },
-    { 
-        id: 6, 
-        title: "Sukses SPAN-PTKIN 2026", 
-        date: "07 April 2026", 
-        img: "/images/landing-page/berita/prestasi.png",
-        deskripsi: "SMKN 3 Pamekasan dengan bangga mempersembahkan 'Wadah Bakat & Prestasi', sebuah acara tahunan yang dirancang untuk menampilkan bakat luar biasa dan prestasi gemilang siswa kami. Acara ini akan menjadi panggung bagi para siswa untuk menunjukkan keahlian mereka dalam berbagai bidang, mulai dari seni, olahraga, hingga akademik. Bergabunglah dengan kami untuk merayakan kreativitas dan dedikasi siswa kami dalam menciptakan prestasi yang membanggakan!",
-    },
-  ]
+    "Pengumuman": [
+        {
+            id: 1,
+            title: "Pendaftaran SMKN 3 Pamekasan telah di buka!",
+            date: "12 Februari 2026",
+            img: "/images/landing-page/berita/pendaftaran.png",
+            deskripsi: "Pendaftaran untuk tahun ajaran 2026/2027 di SMKN 3 Pamekasan resmi dibuka! Segera daftarkan diri Anda untuk bergabung dengan lingkungan belajar yang inspiratif dan inovatif. Kunjungi website resmi kami untuk informasi lebih lanjut tentang jurusan, persyaratan, dan proses pendaftaran. Jangan lewatkan kesempatan emas ini untuk menjadi bagian dari komunitas pendidikan yang unggul!"
+        },
+    ],
+    "Kegiatan": [
+        {
+            id: 2,
+            title: "Wadah Bakat & Prestasi",
+            date: "10 Januari 2026",
+            img: "/images/landing-page/berita/ekskul.png",
+            deskripsi: "SMKN 3 Pamekasan dengan bangga mempersembahkan 'Wadah Bakat & Prestasi', sebuah acara tahunan yang dirancang untuk menampilkan bakat luar biasa dan prestasi gemilang siswa kami. Acara ini akan menjadi panggung bagi para siswa untuk menunjukkan keahlian mereka dalam berbagai bidang, mulai dari seni, olahraga, hingga akademik. Bergabunglah dengan kami untuk merayakan kreativitas dan dedikasi siswa kami dalam menciptakan prestasi yang membanggakan!",
+        },
+    ],
+    "Informasi": [
+        { id: 3, title: "Sekolah Lagi, Berprestasi Lagi", date: "12 Oktober 2026", img: "/images/landing-page/berita/informasi.png", deskripsi: "Informasi terkini tentang kegiatan dan program di SMKN 3 Pamekasan." },
+        { id: 4, title: "Vokasi Unggul, Skanetri Bersinar", date: "12 Oktober 2026", img: "/images/landing-page/berita/infotmasi2.png", deskripsi: "Penjelasan tentang program vokasi yang ditawarkan di sekolah." },
+    ],
+    "Prestasi": [
+        {
+            id: 5,
+            title: "Prestasi SNBP 2026",
+            date: "31 Maret 2026",
+            img: "/images/landing-page/berita/snbp.png",
+            deskripsi: "SMKN 3 Pamekasan dengan bangga mempersembahkan 'Wadah Bakat & Prestasi', sebuah acara tahunan yang dirancang untuk menampilkan bakat luar biasa dan prestasi gemilang siswa kami. Acara ini akan menjadi panggung bagi para siswa untuk menunjukkan keahlian mereka dalam berbagai bidang, mulai dari seni, olahraga, hingga akademik. Bergabunglah dengan kami untuk merayakan kreativitas dan dedikasi siswa kami dalam menciptakan prestasi yang membanggakan!",
+        },
+        {
+            id: 6,
+            title: "Sukses SPAN-PTKIN 2026",
+            date: "07 April 2026",
+            img: "/images/landing-page/berita/prestasi.png",
+            deskripsi: "SMKN 3 Pamekasan dengan bangga mempersembahkan 'Wadah Bakat & Prestasi', sebuah acara tahunan yang dirancang untuk menampilkan bakat luar biasa dan prestasi gemilang siswa kami. Acara ini akan menjadi panggung bagi para siswa untuk menunjukkan keahlian mereka dalam berbagai bidang, mulai dari seni, olahraga, hingga akademik. Bergabunglah dengan kami untuk merayakan kreativitas dan dedikasi siswa kami dalam menciptakan prestasi yang membanggakan!",
+        },
+    ]
 };

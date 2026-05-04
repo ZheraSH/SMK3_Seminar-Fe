@@ -15,11 +15,11 @@ export const LandingRoutes = [
                 element: <LandingPageHome />,
             },
             {
-                path: "tentang",
+                path: "about",
                 element: <AboutLp />,
             },
             {
-                path: "berita",
+                path: "news",
                 element: <NewsPage />,
             },
             {

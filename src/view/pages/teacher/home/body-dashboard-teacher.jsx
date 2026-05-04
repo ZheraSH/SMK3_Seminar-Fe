@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { School, GraduationCap } from "lucide-react";
 import { useTeacherDashboard } from "@core/hooks/role-teacher/dashboard-teachers/use-teacher-dashboard";
 import LoadingData from "@elements/loading-data/loading";
@@ -28,6 +29,7 @@ export default function BodyDashboardTeacher() {
 
 export const MainTeacher = () => {
   const { classrooms, schedule, activeDay, setActiveDay, isLoading } = useTeacherDashboard();
+  const navigate = useNavigate();
   return (
     <>
       <div className="mb-8 mt-2">
@@ -138,7 +140,17 @@ export const MainTeacher = () => {
                               </span>
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap">
-                              <a href="/dashboard/attendance-teacher" className="inline-block px-3 py-1.5 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition"> Lihat Kelas </a>
+                              <button
+                                onClick={() => {
+                                  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+                                  const roles = userData.roles || [];
+                                  const basePath = roles.length > 1 ? "/dashboard" : "/teacher-home";
+                                  navigate(`${basePath}/attendance-teacher`);
+                                }}
+                                className="inline-block px-3 py-1.5 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition"
+                              >
+                                Lihat Kelas
+                              </button>
                             </td>
                           </tr>
                         );

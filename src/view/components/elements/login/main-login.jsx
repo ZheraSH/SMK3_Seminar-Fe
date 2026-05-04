@@ -66,7 +66,7 @@ export default function Login() {
           navigate("/homeroom-home");
           break;
         case "counselor":
-          navigate("/bk-home");
+          navigate("/counselor-home");
           break;
         case "student":
           navigate("/student-home");

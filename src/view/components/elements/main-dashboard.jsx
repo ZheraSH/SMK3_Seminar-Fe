@@ -12,7 +12,7 @@ import api from "@services/axios-config";
 
 export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
   const [user, setUser] = useState({ name: "", email: "", image: "", roles: [] });
-   const { schoolInfo } = useProfileOperator();
+  const { schoolInfo } = useProfileOperator();
   const location = useLocation();
   const [showLogout, setShowLogout] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -75,7 +75,7 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
 
     const SINGLE_ROLE_ROUTES = {
       student: "/student-home/profile",
-      counselor: "/bk-home/profile",
+      counselor: "/counselor-home/profile",
       teacher: "/teacher-home/profile",
       homeroom_teacher: "/homeroom-home/profile",
       school_operator: "/home/profile-operator",
@@ -97,41 +97,41 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
     const path = location.pathname;
 
     const titles = [
-      { pattern: "/home/classStudents/detail", title: "Detail Siswa" },
-      { pattern: "/home/class", title: "Daftar Kelas" },
-      { pattern: "/home/major", title: "Daftar Jurusan" },
-      { pattern: "/home/jadwal-pelajaran", title: "Jadwal Pelajaran" },
-      { pattern: "/home/siswa", title: "Siswa" },
-      { pattern: "/home/maple", title: "Mapel" },
-      { pattern: "/home/tahun-ajaran", title: "Tahun Ajaran" },
-      { pattern: "/home/absen-rfid", title: "Pengaturan Jam RFID" },
-      { pattern: "/home/monitoring", title: "Monitoring Kehadiran" },
-      { pattern: "/home/rfid", title: "RFID" },
-      { pattern: "/home/mastercard", title: "Master Card" },
-      { pattern: "/home/guru", title: "Guru" },
+      { pattern: "/home/class-students/detail", title: "Detail Siswa" },
+      { pattern: "/home/class-students", title: "Daftar Kelas" },
+      { pattern: "/home/majors", title: "Daftar Jurusan" },
+      { pattern: "/home/lesson-schedules", title: "Jadwal Pelajaran" },
+      { pattern: "/home/students", title: "Siswa" },
+      { pattern: "/home/subjects", title: "Mapel" },
+      { pattern: "/home/school-years", title: "Tahun Ajaran" },
+      { pattern: "/home/attendance-rules", title: "Pengaturan Jam Absen" },
+      { pattern: "/home/monitoring-students", title: "Monitoring Kehadiran" },
+      { pattern: "/home/rfids", title: "RFID" },
+      { pattern: "/home/mastercards", title: "Master Card" },
+      { pattern: "/home/employees", title: "Guru" },
       { pattern: "/home/profile-operator", title: "Profil Operator" },
       { pattern: "/home/profile", title: "Profil Operator" },
 
-      { pattern: "/dashboard/monitoring-absen", title: "Monitoring" },
-      { pattern: "/dashboard/statistik-global", title: "Statistik Global" },
+      { pattern: "/dashboard/monitoring-absence", title: "Monitoring" },
+      { pattern: "/dashboard/global-statistics", title: "Statistik Global" },
       { pattern: "/dashboard/teacher-schedule", title: "Jadwal Mengajar" },
       { pattern: "/dashboard/attendance-teacher", title: "Absensi Kelas" },
-      { pattern: "/dashboard/verifikasi-izin", title: "Verifikasi Izin" },
+      { pattern: "/dashboard/permission-verification", title: "Verifikasi Izin" },
       { pattern: "/dashboard/profile", title: "Profile Guru" },
-      { pattern: "/dashboard/class-recap", title: "Rekap Absensi" },
+      { pattern: "/dashboard/classroom-recap", title: "Rekap Absensi" },
 
-      { pattern: "/student-home/student-class", title: "Kelas Saya" },
-      { pattern: "/student-home/absen-student", title: "Riwayat" },
+      { pattern: "/student-home/student-classroom", title: "Kelas Saya" },
+      { pattern: "/student-home/absence-student", title: "Riwayat" },
       { pattern: "/student-home/student-schedule", title: "Jadwal Pelajaran" },
       { pattern: "/student-home/student-license", title: "Izin" },
       { pattern: "/student-home/profile", title: "Profil Siswa" },
 
-      { pattern: "/bk-home/monitoring-absen", title: "Monitoring" },
-      { pattern: "/bk-home/verifikasi-izin", title: "Izin" },
-      { pattern: "/bk-home/statistik-global", title: "Statistik Global" },
-      { pattern: "/bk-home/profile", title: "Profile Guru" },
+      { pattern: "/counselor-home/monitoring-absence", title: "Monitoring" },
+      { pattern: "/counselor-home/permission-verification", title: "Izin" },
+      { pattern: "/counselor-home/global-statistics", title: "Statistik Global" },
+      { pattern: "/counselor-home/profile", title: "Profile Counselor" },
 
-      { pattern: "/homeroom-home/class-recap", title: "Rekap Absensi" },
+      { pattern: "/homeroom-home/classroom-recap", title: "Rekap Absensi" },
       { pattern: "/homeroom-home/profile", title: "Profile Guru" },
 
       { pattern: "/teacher-home/attendance-teacher", title: "Absensi Kelas" },
@@ -140,7 +140,7 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
 
       { pattern: "/student-home", title: "Dashboard Siswa" },
       { pattern: "/homeroom-home", title: "Dashboard Wali Kelas" },
-      { pattern: "/bk-home", title: "Dashboard BK" },
+      { pattern: "/counselor-home", title: "Dashboard Counselor" },
       { pattern: "/teacher-home", title: "Dashboard Guru" },
       { pattern: "/dashboard", title: "Dashboard" },
       { pattern: "/home", title: "Dashboard Admin" },

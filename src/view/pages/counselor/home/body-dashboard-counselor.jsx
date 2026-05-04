@@ -241,8 +241,8 @@ export const DashboardContent = () => {
                         );
                         const roles = userData.roles || [];
                         const basePath =
-                          roles.length > 1 ? "/dashboard" : "/bk-home";
-                        navigate(`${basePath}/verifikasi-izin`);
+                          roles.length > 1 ? "/dashboard" : "/counselor-home";
+                        navigate(`${basePath}/permission-verification`);
                       }}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md text-xs font-medium transition shadow-sm"
                     >

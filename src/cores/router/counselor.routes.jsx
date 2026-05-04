@@ -9,7 +9,7 @@ import ProfileUser from "@elements/profile/profile-user";
 
 export const counselorRoutes = [
     {
-        path: "/bk-home",
+        path: "/counselor-home",
         element: (<ProtectedRoute allowedRoles={["counselor"]} />),
         children: [
             {
@@ -17,9 +17,9 @@ export const counselorRoutes = [
                 children: [
                     { index: true, element: <BodyDashboard /> },
                     { path: "dashboard", element: <MainDashboard /> },
-                    { path: "monitoring-absen", element: <AttendanceDashboard /> },
-                    { path: "verifikasi-izin", element: <VerifyPermission /> },
-                    { path: "statistik-global", element: <StatistikGlobal /> },
+                    { path: "monitoring-absence", element: <AttendanceDashboard /> },
+                    { path: "permission-verification", element: <VerifyPermission /> },
+                    { path: "global-statistics", element: <StatistikGlobal /> },
                     { path: "profile", element: <ProfileUser /> },
                 ]
             }
