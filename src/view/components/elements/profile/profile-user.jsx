@@ -28,7 +28,7 @@ export default function ProfileUser() {
   }
 
   if (loading) {
-    return (<LoadingData loading={loading} type=" profilePage" />)
+    return (<LoadingData loading={loading} type="profilePage" />)
   }
   return (
     <div className="relative justify-center pb-5">

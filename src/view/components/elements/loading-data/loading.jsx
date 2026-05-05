@@ -419,25 +419,23 @@ const Warning = () => (
 
 
 const ProfilePageSkeleton = () => (
-  <div className="relative justify-center mx-5 pb-5 animate-pulse">
+  <div className="relative justify-center pb-5 animate-pulse">
     <Skeleton className="w-full h-[140px] rounded-3xl mt-4" />
 
-    <div className="-mt-9 relative z-10 px-0 ">
+    <div className="-mt-9 relative z-10 px-0 lg:px-[10px]">
       <div className="bg-white rounded-3xl border border-gray-200 shadow-md">
-
         <div className="px-4 md:px-7 pt-12 pb-16">
           <div className="flex flex-col md:flex-row items-start justify-between gap-6">
-
             <div className="flex gap-6">
               <div className="-mt-24 relative z-20">
-                <div className="bg-white rounded-full ml-2 p-1">
-                  <Skeleton className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] lg:w-[180px] lg:h-[180px] rounded-full" />
+                <div className="bg-white rounded-full ml-2">
+                  <Skeleton className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] lg:w-[180px] lg:h-[180px] rounded-full border-4 border-white" />
                 </div>
               </div>
 
               <div className="mb-2 -mt-5 space-y-3">
-                <Skeleton className="h-8 w-30 md:w-64 rounded-lg" />
-                <Skeleton className="h-5 w-20 rounded-lg" />
+                <Skeleton className="h-8 w-40 md:w-64 rounded-lg" />
+                <Skeleton className="h-5 w-24 rounded-lg" />
               </div>
             </div>
 
@@ -453,16 +451,16 @@ const ProfilePageSkeleton = () => (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 px-5">
               <div className="space-y-6">
                 {[...Array(2)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    <Skeleton className="h-6 w-25  rounded" />
+                  <div key={i} className="flex flex-col sm:flex-row gap-4">
+                    <Skeleton className="h-6 w-full sm:w-40 md:w-48 rounded" />
                     <Skeleton className="h-6 flex-1 rounded" />
                   </div>
                 ))}
               </div>
               <div className="space-y-6">
                 {[...Array(2)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    <Skeleton className="h-6 w-24  rounded" />
+                  <div key={i} className="flex flex-col sm:flex-row gap-4">
+                    <Skeleton className="h-6 w-full sm:w-40 md:w-48 rounded" />
                     <Skeleton className="h-6 flex-1 rounded" />
                   </div>
                 ))}
@@ -477,6 +475,7 @@ const ProfilePageSkeleton = () => (
     </div>
   </div>
 );
+
 
 
 // Classrooms List Skeleton di Dashboard Teacher
