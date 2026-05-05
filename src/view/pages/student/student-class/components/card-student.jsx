@@ -23,7 +23,7 @@ export default function CardStudent({ student, loading, error }) {
         Daftar Siswa
       </h1>
 
-      <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 md:gap-4 mt-4 ml-2 md:ml-0">
+      <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-4 mt-4 justify-items-center">
         {student.map((s) => (
           <StudentCard key={s.id} student={s} />
         ))}
