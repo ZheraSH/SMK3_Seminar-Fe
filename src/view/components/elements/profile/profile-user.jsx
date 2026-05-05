@@ -57,10 +57,10 @@ export default function ProfileUser() {
 
                 <div className="mb-2 -mt-5">
                   <h1 className="md:text-[30px] lg:text-[24px] font-semibold text-black">
-                    {data.name || "Irwandi Mustabir"}
+                    {data.name || "-"}
                   </h1>
                   <p className="text-black text-[15px] md:text-[20px] lg:text-lg">
-                    {data.profile_type === 'student' ? 'Siswa' : 'Karyawan'}
+                    {data.profile_type === 'student' ? 'Siswa' : data.profile_type === 'employee' ? 'Karyawan' : '-'}
                   </p>
                 </div>
               </div>
@@ -199,7 +199,7 @@ function FormClassStudent({ onClose, user, refetchProfile }) {
           </label>
           <div className="text-center">
             <h1 className="text-[24px] font-semibold">{user.name}</h1>
-            <p className="text-[14px]">{user.profile_type === 'student' ? 'Siswa' : 'Karyawan'}</p>
+            <p className="text-[14px]">{user.profile_type === 'student' ? 'Siswa' : user.profile_type === 'employee' ? 'Karyawan' : '-'}</p>
           </div>
         </div>
 

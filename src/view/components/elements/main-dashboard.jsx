@@ -171,17 +171,21 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
           <div className="flex items-center mr-5 gap-3">
             <div className=" hidden sm:inline text-right">
               <h1 className="font-semibold text-gray-800 text-sm">
-                {user.name}
+                {user.name || "-"}
               </h1>
               <div className="flex flex-wrap justify-end gap-1 mt-0.5">
-                {user.roles.map((role, idx) => (
-                  <span
-                    key={idx}
-                    className="px-2 py-0.5 text-[10px] font-medium text-white bg-blue-500 rounded-full capitalize"
-                  >
-                    {role.replace('_', ' ')}
-                  </span>
-                ))}
+                {user.roles.length > 0 ? (
+                  user.roles.map((role, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 text-[10px] font-medium text-white bg-blue-500 rounded-full capitalize"
+                    >
+                      {role.replace('_', ' ')}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-[10px] font-medium text-gray-400">-</span>
+                )}
               </div>
             </div>
 
