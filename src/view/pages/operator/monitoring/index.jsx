@@ -10,7 +10,7 @@ const MonitoringPage = () => {
     const {data, meta, loading, params, handleSearch, handleStatusFilter, handlePageChange, refreshData, searchTerm} = useMonitoring();
 
     return (
-    <div className="bg-gray-50 min-h-screen mb-32 lg:mb-4">
+    <div className="bg-gray-50 min-h-screen mb-5">
         {(loading && data.length === 0) ? (
             <LoadingData loading={loading} type="header1" />
         ) : (
@@ -42,7 +42,7 @@ const MonitoringPage = () => {
         </header>
         )}
         {loading ? (
-            <LoadingData loading={loading} type="activityTable" />
+            <LoadingData loading={loading} type="tableSchedule" count={10} />
         ) : data.length === 0 && params.search === "" && params.status === "" ? (
             <div className="flex flex-col items-center justify-center py-20 w-full animate-in fade-in duration-500">
                 <img src="/images/null/nullimage.png" alt="Data Kosong" className="w-48 h-auto md:w-[400px] md:h-[285px] mb-6" />

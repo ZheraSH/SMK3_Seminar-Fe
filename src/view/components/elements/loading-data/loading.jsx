@@ -803,7 +803,7 @@ export default function LoadingData({ loading, type = "list", count = 3 }) {
         return <Warning />
       case "cardClassroom":
         return <ClassroomsSkeleton count={count} />
-      case " profilePage":
+      case "profilePage":
         return <ProfilePageSkeleton />
       case "kotakKecil":
         return <KotakKecil />
