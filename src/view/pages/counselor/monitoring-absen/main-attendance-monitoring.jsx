@@ -1,52 +1,72 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { AlertTriangle, ChevronLeft, ChevronRight, CircleCheckBig, ClockAlert, ClipboardCheck, Search} from 'lucide-react'
+import { useEffect, useState,useCallback } from 'react'
+import { AlertTriangle, ChevronLeft, ChevronRight, CircleCheckBig, ClockAlert, ClipboardCheck, Search, RefreshCw} from 'lucide-react'
 import Header from '@elements/header/header-new-1'
 import LoadingData from '@elements/loading-data/loading'
 import { getAbsenteeismMonitoring } from '@core/services/role-counselor/monitoring/absenteeism-monitoring'
 import Pagination from './components/pagination'
+import { useAttendanceMonitoring } from '@/cores/hooks/counselor/attendance-monitoring/use-attendance';
 
 export default function AttendanceDashboard() {
   const [data, setData] = useState([])
   const [summary, setSummary] = useState({ hadir: 0, telat: 0, izin: 0, alpha: 0})
   const [loading, setLoading] = useState(true)
-
-  // State untuk Pagination
+  const [isSyncing, setIsSyncing] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [lastPage, setLastPage] = useState(1)
+  const { attendance, error } = useAttendanceMonitoring();
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const fetchMonitoring = useCallback(async () => {
+    if (data.length > 0) {
+    setIsSyncing(true);
+  } else {
+    setLoading(true);
+  }
+    try {
+      const result = await getAbsenteeismMonitoring({ 
+        page: currentPage, 
+        search: debouncedSearch 
+      });
+
+      const students = result?.students || []
+      const pagination = result?.pagination || {}
+
+      const summaryResult = students.reduce(
+        (acc, cur) => {
+          acc.hadir += cur.hadir || 0
+          acc.izin += cur.izin || 0
+          acc.alpha += cur.alpha || 0
+          return acc
+        },
+        { hadir: 0, telat: 0, izin: 0, alpha: 0 }
+      )
+
+      setData(students)
+      setSummary(summaryResult)
+      setLastPage(pagination.last_page || 1)
+    } catch (err) {
+      console.error('Fetch monitoring-global gagal:', err)
+    } finally {
+      setLoading(false)
+      setIsSyncing(false)
+    }
+  }, [currentPage, debouncedSearch,data.length]); 
+
 
   useEffect(() => {
-    const fetchMonitoring = async () => {
-      setLoading(true)
-      try {
-        const result = await getAbsenteeismMonitoring({ page: currentPage })
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+      setCurrentPage(1);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [search]);
 
-        const students = result?.students || []
-        const pagination = result?.pagination || {}
-        
 
-        const summaryResult = students.reduce(
-          (acc, cur) => {
-            acc.hadir += cur.hadir || 0
-            acc.izin += cur.izin || 0
-            acc.alpha += cur.alpha || 0
-            return acc
-          },
-          { hadir: 0, telat: 0, izin: 0, alpha: 0 }
-        )
-        setData(students)
-        setSummary(summaryResult)
-        setLastPage(pagination.last_page || 1)
-      } catch (err) {
-        console.error('Fetch monitoring-global gagal:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchMonitoring()
-  }, [currentPage])
+  useEffect(() => {
+    fetchMonitoring();
+  }, [fetchMonitoring]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 mb-10">
@@ -59,13 +79,14 @@ export default function AttendanceDashboard() {
       </div>
 
       <div className="max-w-10xl mx-auto ">
-        {loading ? (<LoadingData loading={loading} type='attendanceChart' count={4} />)
-          : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {loading ? (
+        <LoadingData loading={loading} type='attendanceChart' count={4} />
+      ) : (
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="bg-white rounded-xl p-4 flex justify-between shadow-md">
                 <div className="bg-[#22C55E] w-[4px] h-[52px] rounded-full" />
                 <div>
-                  <div className="text-3xl font-medium">{summary.hadir}</div>
+                  <div className="text-3xl font-medium">{attendance?.hadir}</div>
                   <div className="text-sm text-gray-600 mt-1">
                     Total Siswa Hadir
                   </div>
@@ -78,7 +99,7 @@ export default function AttendanceDashboard() {
               <div className="bg-white rounded-xl p-4 flex justify-between shadow-md">
                 <div className="bg-[#F59E0B] w-[4px] h-[52px] rounded-full" />
                 <div>
-                  <div className="text-3xl font-medium">{summary.telat}</div>
+                  <div className="text-3xl font-medium">{attendance.telat}</div>
                   <div className="text-sm text-gray-600 mt-1">
                     Total Siswa Telat
                   </div>
@@ -91,7 +112,7 @@ export default function AttendanceDashboard() {
               <div className="bg-white rounded-xl p-4 flex justify-between shadow-md">
                 <div className="bg-[#0EA5E9] w-[4px] h-[52px] rounded-full" />
                 <div>
-                  <div className="text-3xl font-medium">{summary.izin}</div>
+                  <div className="text-3xl font-medium">{attendance.izin}</div>
                   <div className="text-sm text-gray-600 mt-1">
                     Total Siswa Izin
                   </div>
@@ -104,7 +125,7 @@ export default function AttendanceDashboard() {
               <div className="bg-white rounded-xl p-4 flex justify-between shadow-md">
                 <div className="bg-[#EF4444] w-[4px] h-[52px] rounded-full" />
                 <div>
-                  <div className="text-3xl font-medium">{summary.alpha}</div>
+                  <div className="text-3xl font-medium">{attendance.alpha}</div>
                   <div className="text-sm text-gray-600 mt-1">
                     Total Siswa Alpha
                   </div>
@@ -114,13 +135,15 @@ export default function AttendanceDashboard() {
                 </div>
               </div>
             </div>
-          )}
+      )}
+        
          
   
-   {loading ? (<LoadingData loading={loading} type='create' />)
-   :(
+   {loading ? (
+        <LoadingData loading={loading} type='create' count={4} />
+      ) : (
      <>
-     <div className="flex items-center mt-10 mb-10 border rounded-2xl p-3 w-full w-full">
+     <div className="flex items-center mt-10 mb-10 border border-gray-400 rounded-2xl p-3 w-full w-full">
       <div className="relative w-full">
         <Search
           size={18}
@@ -130,23 +153,48 @@ export default function AttendanceDashboard() {
           <input
             type="text"
             placeholder="Cari Kelas/Nama..."
-            className="w-52 pl-10 pr-4 py-2 border-2 border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="md:w-52 w-full pl-10 pr-4 py-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={search} 
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1); 
+            }}
           />
-      </div>
+      </div>  
 
           
       <button
-            className="w-24 h-10 ml-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition"
-            >
-            Sync Data
+          onClick={() => fetchMonitoring()}
+          disabled={isSyncing}
+          className={`
+          ml-4 bg-blue-500 text-white transition active:scale-95 disabled:opacity-50 flex items-center justify-center
+           /* Tampilan Desktop (md ke atas) */
+          md:w-32 md:h-10 md:rounded-xl 
+          
+          w-12 h-10 rounded-full
+        `}
+        >
+           
+           <span className="hidden md:block">
+             {isSyncing ? "Syncing..." : "Sync Data"}
+           </span>
+
+           
+           <div className="md:hidden">
+            <RefreshCw 
+              size={20} 
+              className={isSyncing ? "animate-spin" : ""} 
+            />
+          </div>
       </button>
       </div>
      </>
    )}
   
-        {loading ? (<LoadingData loading={loading} type='tableSchedule' count={10} />)
-          : (
-            <>
+        {loading || isSyncing ? (
+        <LoadingData loading={true} type='tableSchedule' count={10} />
+      ) : (
+        <>
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
@@ -156,7 +204,7 @@ export default function AttendanceDashboard() {
                       <th className="px-6 py-4 text-center font-semibold tracking-wide">Hadir</th>
                       <th className="px-6 py-4 text-center font-semibold tracking-wide">Izin</th>
                       <th className="px-6 py-4 text-center font-semibold tracking-wide">Sakit</th>
-                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Alpa</th>
+                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Alpha</th>
                     </tr>
                   </thead>
 
