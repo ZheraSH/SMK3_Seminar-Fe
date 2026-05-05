@@ -91,7 +91,7 @@ const ClassStudentsPage = () => {
     };
 
     const BackButton = () => (
-        <Link to="/home/class">
+        <Link to="/home/class-students">
             <button className="flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg lg:text-[14px] text-[10px] gap-1 shadow-md whitespace-nowrap w-full md:w-auto">
                 <ArrowLeftToLine size={16} /> Kembali
             </button>

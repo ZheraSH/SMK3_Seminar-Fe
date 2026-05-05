@@ -12,7 +12,7 @@ const MajorPage = () => {
 
   const handleViewDetail = (majorCode) => {
     const encodedName = encodeURIComponent(majorCode);
-    navigate(`/home/class?major=${encodedName}`);
+    navigate(`/home/class-students?major=${encodedName}`);
   };
 
   const renderedMajors = majors.map((major) => {
