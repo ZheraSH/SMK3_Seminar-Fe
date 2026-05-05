@@ -98,7 +98,7 @@ export default function PermissionManagement() {
   };
 
   return (
-    <div className=" mb-10">
+    <div className=" mb-16 md:mb-10">
       <div>
         {loading ? (<LoadingData loading={loading} type="header1" />)
           : (
@@ -109,62 +109,73 @@ export default function PermissionManagement() {
         : (
           <div className="bg-white border border-gray-100 p-4 sm:p-3 rounded-2xl shadow-xl shadow-gray-100/50 mb-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-            <div className="relative flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-              <div className="flex flex-col gap-1 px-2">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight">
-                    Daftar Izin Aktif
-                  </h2>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row gap-3 w-full xl:w-auto px-2">
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-gray-50 border border-gray-200 p-1.5 rounded-2xl w-full xl:w-auto transition-all hover:border-blue-300">
-                  <div className="hidden sm:flex items-center justify-center px-3 text-gray-400">
-                    <Filter size={18} />
+              <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div className="flex flex-col gap-1 px-2">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight whitespace-nowrap">
+                      Daftar Izin Aktif
+                    </h2>
                   </div>
-                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full">
-                    <div className="relative group w-full sm:w-auto">
-                      <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500">
-                        <Calendar size={14} />
-                      </div>
-                      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full bg-white cursor-pointer border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-xl pl-8 pr-2 py-2.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all shadow-sm"
-                        placeholder="Mulai"
-                      />
-                    </div>
-                    <span className="hidden sm:block text-gray-300 font-light">-</span>
-                    <div className="relative group w-full sm:w-auto">
-                      <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500">
-                        <Calendar size={14} />
-                      </div>
-                      <input type="date" value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        className="w-full bg-white border cursor-pointer border-gray-200 text-gray-700 text-xs sm:text-sm rounded-xl pl-8 pr-2 py-2.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all shadow-sm"
-                      />
-                    </div>
-                  </div>
-                  {(startDate || endDate) && (
-                    <button onClick={() => { setStartDate(""); setEndDate(""); }} className="hidden sm:flex p-2 hover:text-white cursor-pointer duration-800 bg-white hover:bg-red-500 border border-gray-200 rounded-xl transition-all shadow-sm hover:shadow"
-                      title="Hapus Filter"
-                    >
-                      <X size={16} />
-                    </button>
-                  )}
-                  {(startDate || endDate) && (
-                    <div className="flex justify-end sm:hidden w-full">
-                      <button onClick={() => { setStartDate(""); setEndDate(""); }} className="py-2 bg-white text-gray-400 hover:text-white hover:bg-red-400 border border-gray-200 rounded-xl transition-all w-full cursor-pointer shadow-sm hover:shadow duration-800">
-                        Hapus Filter Tanggal
-                      </button>
-                    </div>
-                  )}
                 </div>
-                <button onClick={handleOpenModal} className="flex items-center justify-center gap-2 bg-[#3B82F6] cursor-pointer from-blue-600 to-blue-500 py-3 hover:from-blue-700 hover:to-blue-600 text-white px-6  rounded-xl font-semibold shadow-lg shadow-blue-200 transition-all active:scale-95 w-full md:w-auto whitespace-nowrap">
-                  <Plus size={20} strokeWidth={2.5} />
-                  <span>Buat Izin</span>
-                </button>
+                <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full lg:w-auto px-2">
+                  <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-2.5 bg-transparent md:bg-gray-50 border-none md:border md:border-gray-200 p-0 md:p-2 rounded-none md:rounded-2xl w-full lg:w-auto transition-all">
+                    <div className="flex items-center gap-2 px-1 md:px-3 text-gray-500 md:border-r border-gray-200 md:h-10 mb-1 md:mb-0">
+                      <Filter size={16} />
+                      <span className="text-sm font-semibold whitespace-nowrap">Filter Tanggal</span>
+                    </div>
 
+                    <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-2 w-full">
+                      <div className="flex flex-col w-full">
+                        <label className="md:hidden text-[10px] font-extrabold text-gray-400 uppercase mb-2 ml-4 tracking-wider">Mulai</label>
+                        <div className="flex flex-col flex-1 w-full bg-[#F8FAFC] md:bg-white border border-gray-100 rounded-[20px] md:rounded-xl px-5 md:px-3 py-3.5 md:py-1.5 shadow-sm group focus-within:border-blue-400 transition-all">
+                          <span className="hidden md:block text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1 group-focus-within:text-blue-500 transition-colors">Mulai</span>
+                          <div className="flex items-center gap-2">
+                            <div className="text-gray-400 group-focus-within:text-blue-500 transition-colors">
+                              <Calendar size={16} />
+                            </div>
+                            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}className="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer w-full"/>
+                            <div className="md:hidden text-gray-300">
+                               <RotateCcw size={14} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="hidden sm:block text-gray-300 px-1 opacity-50">
+                        <RotateCcw size={12} />
+                      </div>
+
+                      <div className="flex flex-col w-full">
+                        <label className="md:hidden text-[10px] font-extrabold text-gray-400 uppercase mb-2 ml-4 tracking-wider">Berakhir</label>
+                        <div className="flex flex-col flex-1 w-full bg-[#F8FAFC] md:bg-white border border-gray-100 rounded-[20px] md:rounded-xl px-5 md:px-3 py-3.5 md:py-1.5 shadow-sm group focus-within:border-blue-400 transition-all">
+                          <span className="hidden md:block text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1 group-focus-within:text-blue-500 transition-colors">Berakhir</span>
+                          <div className="flex items-center gap-2">
+                            <div className="text-gray-400 group-focus-within:text-blue-500 transition-colors">
+                              <Calendar size={16} />
+                            </div>
+                            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}className="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer w-full"/>
+                            <div className="md:hidden text-gray-300">
+                               <RotateCcw size={14} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {(startDate || endDate) && (
+                      <button  onClick={() => { setStartDate(""); setEndDate(""); }}  className="flex items-center justify-center gap-2 p-2.5 md:p-2 bg-white text-gray-400 hover:text-white hover:bg-red-500 border border-gray-200 rounded-full transition-all shadow-sm hover:shadow duration-300 w-full md:w-16 md:h-12 "  title="Hapus Filter">
+                        <X size={18} />
+                        <span className="md:hidden text-xs font-bold uppercase">Hapus Filter</span>
+                      </button>
+                    )}
+                  </div>
+
+                  <button onClick={handleOpenModal} className="flex items-center justify-center gap-2 bg-[#3B82F6] cursor-pointer from-blue-600 to-blue-500 py-4 md:py-3.5 hover:from-blue-700 hover:to-blue-600 text-white px-8 rounded-[18px] md:rounded-xl font-bold shadow-lg shadow-blue-200 transition-all active:scale-95 w-full md:w-auto whitespace-nowrap mt-2 md:mt-0 text-base md:text-sm">
+                    <Plus size={20} strokeWidth={2.5} />
+                    <span>Buat Izin</span>
+                  </button>
+                </div>
               </div>
-            </div>
 
           </div>
         )}
@@ -177,7 +188,7 @@ export default function PermissionManagement() {
       {loading ? (<LoadingData loading={loading} type="cardclass" count={3} />
 
       ) : pendingPermissions.length > 0 ? (
-        <div className="flex gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
+        <div className="flex gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
           {pendingPermissions.map((p) => (
             <PermissionCard key={p.id} permission={p} onViewDetail={handleViewDetail} onDelete={openDeleteModal} />
           ))}

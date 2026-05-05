@@ -48,7 +48,7 @@ function StudentCard({ student }) {
         className="w-[40px] h-[40px] md:w-[64px] md:h-[64px] rounded-full border border-white absolute left-1/2 -translate-x-1/2 top-[30px] z-30"
       />
 
-      <div className="absolute bottom-0 bg-white w-full h-[60px] md:h-[82px] rounded-2xl flex items-center justify-center pt-5 pb-3 z-20">
+      <div className="absolute bottom-0 bg-white w-full h-[60px] md:h-[82px] rounded-2xl flex items-center text-center justify-center pt-5 pb-3 z-20">
         <p className="text-[10px] md:text-[14px] font-semibold text-black">
           {student.name}
         </p>
