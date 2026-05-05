@@ -142,7 +142,7 @@ export default function StudentPage() {
   }, [allMajors, allLevels]);
 
   const isLocalOnly = useMemo(() => {
-    return ["gender"].includes(category.type);
+    return ["gender", "level_class"].includes(category.type);
   }, [category.type]);
 
   const { filteredStudents, localMeta } = useMemo(() => {
@@ -152,6 +152,12 @@ export default function StudentPage() {
       if (category.type === "gender") {
         filtered = filtered.filter(
           (s) => s.gender?.value?.toLowerCase() === category.value?.toLowerCase()
+        );
+      }
+
+      if (category.type === "level_class") {
+        filtered = filtered.filter(
+          (s) => s.classroom?.name?.split(" ")[0] === category.value
         );
       }
 

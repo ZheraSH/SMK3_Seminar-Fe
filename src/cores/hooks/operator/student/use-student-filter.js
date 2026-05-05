@@ -24,7 +24,7 @@ export const useStudentFilter = (students) => {
 
       case "level_class":
         return students.filter((s) =>
-          s.classroom?.name?.startsWith(category.value)
+          s.classroom?.name?.split(" ")[0] === category.value
         );
 
       case "major":
