@@ -121,3 +121,17 @@ export const importStudentsToClassroom = async (classroomId, file) => {
     throw new Error(msg);
   }
 }
+
+
+export const promoteStudents = async (classroomId, homeroomTeacherId) => {
+  try {
+    const res = await api.post(`/classrooms/${classroomId}/promote`, {
+      homeroom_teacher_id: homeroomTeacherId
+    });
+    notify("Data Berhasil Naik Kelas");
+    return res.data;
+  } catch (err) {
+    const msg = err.response?.data?.message || "Gagal menaikkan kelas";
+    throw new Error(msg);
+  }
+}
