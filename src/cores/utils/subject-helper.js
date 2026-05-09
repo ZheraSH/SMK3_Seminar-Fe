@@ -60,7 +60,7 @@ import {
     if (name.toLowerCase() === "dispensasi") return "bg-[#22C55E]"
     if (name.toLowerCase() === "hadir") return "bg-[#22C55E]"
     if (name.toLowerCase() === "telat") return "bg-[#F59E0B]"
-    if (name.toLowerCase() === "alpha") return "bg-[#EF4444]"
+    if (name.toLowerCase() === "alpa") return "bg-[#EF4444]"
     return "bg-black"
 
   }
