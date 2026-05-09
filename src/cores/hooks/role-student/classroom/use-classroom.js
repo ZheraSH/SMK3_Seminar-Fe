@@ -29,7 +29,7 @@ export function useClassStudent() {
 
         setClassroom(data.data.classroom);
         setStudents(classmates?.Students || []);
-        setTotalPages(classmates?.pagination?.last_page || 1);
+        setTotalPages(classmates?.meta?.last_page || 1);
         setLoading(false);
     };
 
