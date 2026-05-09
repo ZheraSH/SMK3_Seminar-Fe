@@ -6,7 +6,7 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
   const [attendance, setAttendance] = useState([]);
   const [classroom, setClassroom] = useState({});
   const [lessonSchedule, setLessonSchedule] = useState(null);
-  const [summary, setSummary] = useState({ total: 0, present: 0, alpha: 0, leave: 0, late: 0, sick: 0 });
+  const [summary, setSummary] = useState({ total: 0, present: 0, alpha: 0, permission: 0, sick: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
@@ -20,11 +20,10 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
   const [justSubmitted, setJustSubmitted] = useState(false);
 
   const statusOptions = useMemo(() => [
-    { id: 1, value: "hadir", label: "Hadir" },
+    { id: 1, value: "present", label: "Hadir" },
     { id: 2, value: "alpha", label: "Alpha" },
-    { id: 3, value: "izin", label: "Izin" },
-    { id: 4, value: "terlambat", label: "Terlambat" },
-    { id: 5, value: "sakit", label: "Sakit" },
+    { id: 3, value: "permission", label: "Izin" },
+    { id: 4, value: "sick", label: "Sakit" },
   ], []);
 
   const checkTimeValidity = useCallback(() => {
@@ -68,7 +67,7 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
       const firstRes = await getCrossCheckData(selectedClass.id, date, currentOrder, 1);
 
       if (firstRes.status && firstRes.data) {
-        const lastPage = firstRes.data.pagination.last_page;
+        const lastPage = firstRes.data.meta.last_page;
         const allPagesData = [];
 
         allPagesData.push({ page: 1, students: firstRes.data.students });
@@ -127,18 +126,17 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
     const dateKey = date;
     const classDateChanges = globalChanges[classKey]?.[dateKey];
 
-    const newSummary = { total: 0, present: 0, alpha: 0, leave: 0, late: 0, sick: 0 };
+    const newSummary = { total: 0, present: 0, alpha: 0, permission: 0, sick: 0 };
 
     if (classDateChanges) {
       Object.values(classDateChanges).forEach((pageData) => {
         Object.values(pageData).forEach((statusValue) => {
           if (statusValue) {
             newSummary.total++;
-            if (statusValue === "hadir") newSummary.present++;
+            if (statusValue === "present") newSummary.present++;
             else if (statusValue === "alpha") newSummary.alpha++;
-            else if (statusValue === "izin") newSummary.leave++;
-            else if (statusValue === "terlambat") newSummary.late++;
-            else if (statusValue === "sakit") newSummary.sick++;
+            else if (statusValue === "permission") newSummary.permission++;
+            else if (statusValue === "sick") newSummary.sick++;
           }
         });
       });
@@ -159,7 +157,7 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
 
         setAttendance(students);
         setClassroom(apiData.classroom || {});
-        setPagination(apiData.pagination || null);
+        setPagination(apiData.meta || null);
         setLessonSchedule(apiData.lesson_schedule || null);
 
         setIsSubmitted(apiData.submission_status?.has_submitted || false);
