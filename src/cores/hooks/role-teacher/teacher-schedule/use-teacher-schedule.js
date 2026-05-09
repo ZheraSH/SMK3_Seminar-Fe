@@ -36,6 +36,7 @@ export function useTeacherSchedule(selectedDate) {
     if (!dayName) {
       setSchedule([]);
       setActiveDay("");
+      setLoading(false);
       return;
     }
     setLoading(true);
