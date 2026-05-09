@@ -64,4 +64,11 @@ import {
     return "bg-black"
 
   }
+
+
+  export const getBgColorTipe = (name) => {
+    if (name.toLowerCase() === "disetujui") return "bg-[#22C55E]"
+    if (name.toLowerCase() === "ditolak") return "bg-[#EF4444]"
+    return "bg-[#FBBF24]"
+  }
   

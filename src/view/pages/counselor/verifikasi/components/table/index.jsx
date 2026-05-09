@@ -1,33 +1,9 @@
 import { Check, X, Eye } from 'lucide-react';
 import Pagination from '../pagination/index';
+import { getBgColorStatus, getBgColorTipe} from "@core/utils/subject-helper"
 
 
 export default function Table({  data, loading,  error,  currentPage,  lastPage,  totalItems,  perPage,  onPageChange, onAction}) {
-
-    const StatusBadge = ({ status }) => {
-        const color =
-            status === "Sakit" ? "bg-[#F59E0B]" :
-            status === "Dispensasi" ? "bg-[#22C55E]" :
-            "bg-[#0EA5E9] ";
-
-        return (
-            <span className={`px-3 py-1 text-[12px] text-white w-[105px] font-medium rounded-full inline-block ${color}`}>
-                {status}
-            </span>
-        );
-    };
-
-    const VerificationBadge = ({ statusLabel, statusValue }) => {
-        const color =
-            statusValue === "approved" ? "bg-[#22C55E]" :
-            statusValue === "rejected" ? "bg-[#EF4444]" :
-            "bg-[#FBBF24] ";    
-        return (
-            <span className={`px-3 py-1 text-[12px] text-white w-[105px] font-medium rounded-full inline-block ${color}`}>
-                {statusLabel}
-            </span>
-        );
-    }
 
     const formatDate = (dateString) => {
         if (!dateString) return "-";
@@ -74,8 +50,16 @@ export default function Table({  data, loading,  error,  currentPage,  lastPage,
                                             {s.classroom?.name || "-"}
                                         </span>
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap"><StatusBadge status={s.type.label} /></td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-md text-gray-700"><VerificationBadge  statusLabel={s.status.label}  statusValue={s.status.value}/></td>
+                                    <td className={`px-4 py-3  whitespace-nowrap`}>
+                                        <span className={`px-3 py-1 text-[12px] text-white w-[105px] font-medium rounded-full inline-block ${getBgColorStatus(s.type.label)}`}>
+                                            {s.type.label}
+                                        </span>
+                                    </td>
+                                    <td className="px-4 py-3 whitespace-nowrap text-md text-gray-700">
+                                        <span className={`px-3 py-1 text-[12px] text-white w-[105px] font-medium rounded-full inline-block ${getBgColorTipe(s.status.label)}`}>
+                                            {s.status.label}
+                                        </span>
+                                    </td>
                                     <td className="px-4 py-3 whitespace-nowrap text-md text-gray-700">{formatDate(s.date.start || "-")}</td>
                                     <td className="px-4 py-3 whitespace-nowrap text-sm font-medium w-[150px] sm:w-auto text-center">
                                         <button onClick={() => onAction("view", s)} className="bg-[#3B82F6] text-[12px] rounded-md h-[30px] py-[7px] px-3 text-white font-medium hover:bg-[#2563EB] transition-200 cursor-pointer">Lihat Detail</button>
