@@ -43,15 +43,15 @@ export default function Login() {
           name: data.user.name,
           email: data.user.email,
           image: data.user.image,
-          roles: data.roles,
-          activeRole: data.activeRole,
+          roles: data.user.roles,
+          activeRole: data.role,
         })
       );
 
       localStorage.setItem("loginSuccess", "true");
 
-      const roles = data.roles;
-      const activeRole = data.activeRole;
+      const roles = data.user.roles;
+      const activeRole = data.role;
 
       if (roles.length > 1) { //klau 2 atau lebih role nya
         navigate("/dashboard");

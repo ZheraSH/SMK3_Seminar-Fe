@@ -13,11 +13,12 @@ export default function BodyDashboardMultiRole() {
     const data = JSON.parse(localStorage.getItem("userData"));
     if (data) {
       setUser(data);
-      const roles = Array.isArray(data.roles)
+      const rawRoles = Array.isArray(data.roles)
         ? data.roles
         : data.role
           ? [data.role]
           : [];
+      const roles = rawRoles.map(r => r?.value ?? r);
       setUserRoles(roles);
     }
 

@@ -8,12 +8,11 @@ export const loginUserApi = async ({ email, password }) => {
 
     if (result && result.data && result.data.token && result.data.user) {
       const user = result.data.user;
-      const roles = user.roles.map((r) => r.value);
       return {
         token: result.data.token,
         user: user,
-        roles: roles,
-        activeRole: result.data.role,
+        roles: user.roles,
+        role: result.data.role,
       };
     } else {
       throw new Error("Format respons tidak sesuai. Silakan coba lagi.");

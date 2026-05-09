@@ -58,12 +58,20 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
   const getImage = () => {
     const roles = user.roles;
 
-    if (roles.includes("school_operator")) {
+    if (roles.some(r => (r?.value ?? r) === "school_operator")) {
       return schoolInfo?.logo ?? "/images/default-operator.png";
     }
 
     return user.image ?? "/images/team/valen.jpg";
   };
+
+  const ROLE_MENUS_STYLE = {
+    student: "bg-[#6B7280]",
+    counselor: "bg-[#F59E0B]",
+    teacher: "bg-[#8B5CF6]",
+    homeroom_teacher: "bg-[#10B981]",
+    school_operator: "bg-[#3B82F6]",
+  }
 
   const handleProfile = () => {
     const userRoles = user.roles;
@@ -81,7 +89,7 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       school_operator: "/home/profile-operator",
     };
 
-    const activeRole = userRoles[0];
+    const activeRole = userRoles[0]?.value ?? userRoles[0];
     const path = SINGLE_ROLE_ROUTES[activeRole];
 
     if (path) {
@@ -178,9 +186,9 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
                   user.roles.map((role, idx) => (
                     <span
                       key={idx}
-                      className="px-2 py-0.5 text-[10px] font-medium text-white bg-blue-500 rounded-full capitalize"
+                      className={`px-2 py-0.5 text-[10px] ${ROLE_MENUS_STYLE[role?.value] || 'bg-gray-500'} font-medium text-white rounded-full capitalize`}
                     >
-                      {role.replace('_', ' ')}
+                      {role?.label ?? role?.value?.replace(/_/g, ' ') ?? role}
                     </span>
                   ))
                 ) : (

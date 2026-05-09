@@ -21,9 +21,14 @@ export const DashboardLayout = () => {
     const stored = localStorage.getItem("userData");
     if (stored) {
       const parsedData = JSON.parse(stored);
+      
+      let rolesArray = Array.isArray(parsedData.roles) 
+        ? parsedData.roles 
+        : [parsedData.role || parsedData.roles];
+
       setUser({
         ...parsedData,
-        roles: Array.isArray(parsedData.roles) ? parsedData.roles : [parsedData.role || parsedData.roles]
+        roles: rolesArray
       });
     }
   }, []);
@@ -37,20 +42,22 @@ export const DashboardLayout = () => {
       combined = [...multiRoleCommon];
     }
 
-    user.roles.forEach(role => {
-      const menus = ROLE_MENUS[role];
+    user.roles.forEach(roleData => {
+      const roleKey = typeof roleData === 'object' ? roleData.value : roleData;
+      
+      const menus = ROLE_MENUS[roleKey]; 
+      
       if (menus) {
         const processedMenus = menus.map(menu => {
           if (isMultiRole) {
             const pathSegments = menu.path.split('/');
             const lastSegment = pathSegments[pathSegments.length - 1];
 
-            if (lastSegment === "home" || lastSegment === "teacher-home" || lastSegment === "counselor-home" || lastSegment === "homeroom-home") {
+            if (["home", "teacher-home", "counselor-home", "homeroom-home"].includes(lastSegment)) {
               return { ...menu, path: "/dashboard" };
             }
             return { ...menu, path: `/dashboard/${lastSegment}` };
           }
-
           return menu;
         });
 

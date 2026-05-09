@@ -15,7 +15,7 @@ export default function ProtectedRoute({ allowedRoles = [] }) {
 
   if (userRoles.length === 0) return <NotFound />;
 
-  const allowed = userRoles.some((r) => allowedRoles.includes(r));
+  const allowed = userRoles.some((r) => allowedRoles.includes(r?.value ?? r));
 
   if (!allowed) return <NotFound />;
 
