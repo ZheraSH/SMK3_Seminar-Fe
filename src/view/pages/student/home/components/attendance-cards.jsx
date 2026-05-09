@@ -1,4 +1,4 @@
-import { ClipboardCheck,ClockAlert } from "lucide-react";
+import { ClipboardCheck, ClockAlert, Users } from "lucide-react";
 import LoadingData from "@elements/loading-data/loading";
 export default function BodyDashboard({ summary, loading}) {
   
@@ -26,14 +26,14 @@ export default function BodyDashboard({ summary, loading}) {
     },
     
     {
-      label: "Telat",
-      count: summary?.telat ?? null,
+      label: "Sakit",
+      count: summary?.sakit ?? null,
       icon: (
-        <div className="p-3 bg-yellow-100 rounded-lg">
-          <ClockAlert className="w-6 h-6 text-yellow-500" />
+        <div className="p-3 bg-purple-100 rounded-lg">
+          <Users className="w-6 h-6 text-purple-500" />
         </div>
       ),
-      colorBar: "bg-yellow-500",
+      colorBar: "bg-purple-500",
     },
     {
       label: "Izin",
@@ -48,7 +48,7 @@ export default function BodyDashboard({ summary, loading}) {
     },
     {
       label: "Alpha",
-      count: summary?.alpha ?? null,
+      count: summary?.alpa ?? null,
       icon: (
         <div className="p-3 bg-red-100 rounded-lg">
           <svg

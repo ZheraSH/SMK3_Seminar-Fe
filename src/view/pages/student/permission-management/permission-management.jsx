@@ -112,12 +112,12 @@ export default function PermissionManagement() {
               <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="flex flex-col gap-1 px-2">
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight whitespace-nowrap">
+                    <h2 className="text-xl sm:text-xl font-bold text-gray-800 tracking-tight whitespace-nowrap">
                       Daftar Izin Aktif
                     </h2>
                   </div>
                 </div>
-                <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full lg:w-auto px-2">
+                <div className="flex flex-col md:flex-row  items-stretch md:items-center gap-4 w-full lg:w-auto px-2">
                   <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-2.5 bg-transparent md:bg-gray-50 border-none md:border md:border-gray-200 p-0 md:p-2 rounded-none md:rounded-2xl w-full lg:w-auto transition-all">
                     <div className="flex items-center gap-2 px-1 md:px-3 text-gray-500 md:border-r border-gray-200 md:h-10 mb-1 md:mb-0">
                       <Filter size={16} />
@@ -127,13 +127,13 @@ export default function PermissionManagement() {
                     <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-2 w-full">
                       <div className="flex flex-col w-full">
                         <label className="md:hidden text-[10px] font-extrabold text-gray-400 uppercase mb-2 ml-4 tracking-wider">Mulai</label>
-                        <div className="flex flex-col flex-1 w-full bg-[#F8FAFC] md:bg-white border border-gray-100 rounded-[20px] md:rounded-xl px-5 md:px-3 py-3.5 md:py-1.5 shadow-sm group focus-within:border-blue-400 transition-all">
+                        <div className="flex flex-col flex-1 w-full md:w-[180px] bg-[#F8FAFC] md:bg-white border border-gray-100 rounded-[20px] md:rounded-xl px-5 md:px-3 py-3.5 md:py-1.5 shadow-sm group focus-within:border-blue-400 transition-all">
                           <span className="hidden md:block text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1 group-focus-within:text-blue-500 transition-colors">Mulai</span>
                           <div className="flex items-center gap-2">
                             <div className="text-gray-400 group-focus-within:text-blue-500 transition-colors">
                               <Calendar size={16} />
                             </div>
-                            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}className="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer w-full"/>
+                            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}className="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer w-full md:w-[130px]"/>
                             <div className="md:hidden text-gray-300">
                                <RotateCcw size={14} />
                             </div>
@@ -147,13 +147,13 @@ export default function PermissionManagement() {
 
                       <div className="flex flex-col w-full">
                         <label className="md:hidden text-[10px] font-extrabold text-gray-400 uppercase mb-2 ml-4 tracking-wider">Berakhir</label>
-                        <div className="flex flex-col flex-1 w-full bg-[#F8FAFC] md:bg-white border border-gray-100 rounded-[20px] md:rounded-xl px-5 md:px-3 py-3.5 md:py-1.5 shadow-sm group focus-within:border-blue-400 transition-all">
+                        <div className="flex flex-col flex-1 w-full md:w-[180px] bg-[#F8FAFC] md:bg-white border border-gray-100 rounded-[20px] md:rounded-xl px-5 md:px-3 py-3.5 md:py-1.5 shadow-sm group focus-within:border-blue-400 transition-all">
                           <span className="hidden md:block text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1 group-focus-within:text-blue-500 transition-colors">Berakhir</span>
                           <div className="flex items-center gap-2">
                             <div className="text-gray-400 group-focus-within:text-blue-500 transition-colors">
                               <Calendar size={16} />
                             </div>
-                            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}className="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer w-full"/>
+                            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}className="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer w-full md:w-[130px]"/>
                             <div className="md:hidden text-gray-300">
                                <RotateCcw size={14} />
                             </div>
