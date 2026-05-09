@@ -109,5 +109,34 @@ export const deleteTeacherApi = async (id) => {
 export const submitTeacher = submitTeacherApi;
 export const deleteTeacher = deleteTeacherApi;
 
+export const importTeachersApi = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const res = await api.post('/employees-import', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
+    const payload = res.data.data;
+    if (payload && payload.error_count > 0) {
+      if (payload.imported_count > 0) {
+        notify(`Berhasil mengimpor ${payload.imported_count} guru. ${payload.error_count} baris gagal.`, "warning");
+      } else {
+        notify("Gagal mengimpor data guru", "error");
+      }
+      return { success: true, hasErrors: true, data: payload };
+    }
 
+    notify("Berhasil mengimpor data guru");
+    return { success: true, hasErrors: false, data: payload };
+  } catch (err) {
+    if (err.response?.data?.message) {
+      notify("Gagal mengimpor data guru", "error");
+    } else {
+      notify("Gagal mengimpor data guru", "error");
+    }
+    throw err;
+  }
+};

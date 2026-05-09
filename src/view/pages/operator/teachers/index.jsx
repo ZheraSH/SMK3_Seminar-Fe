@@ -19,6 +19,27 @@ import { extractTeacherMasters } from "./components/utils/teacher-master-extract
 import { TeacherFilterDropdown } from "./components/filter-dropdown";
 import LoadingData from "@elements/loading-data/loading";
 import DeleteConfirmModal from "@elements/modaldelete/modal-delete";
+import FormImportTeacher from "./components/teacher-import-form";
+import { importTeachersApi } from "@services/role-operator/employee/teachers-api";
+import { X } from "lucide-react";
+
+function ModalImportTeacher({ open, onClose, onImport, loading }) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl p-6 animate-scaleIn relative">
+        <button className="absolute right-4 top-4 text-gray-600" onClick={onClose}>
+          <X size={24} className='text-gray-400 hover:text-gray-600' />
+        </button>
+        <h2 className="text-start text-[20px] font-semibold mb-6 pr-10">
+          Import Guru
+        </h2>
+        <FormImportTeacher onImport={onImport} onClose={onClose} loading={loading} />
+      </div>
+    </div>
+  );
+}
 
 export default function TeachersPage() {
   const [religions, setReligions] = useState([]);
@@ -28,6 +49,8 @@ export default function TeachersPage() {
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isImportOpen, setIsImportOpen] = useState(false);
+  const [importLoading, setImportLoading] = useState(false);
 
   const [post, setPost] = useState({
     name: "",
@@ -213,6 +236,22 @@ export default function TeachersPage() {
     }
   };
 
+  const handleImport = async (file) => {
+    setImportLoading(true);
+    try {
+      const res = await importTeachersApi(file);
+      if (res.success) {
+        reload();
+        if (!res.hasErrors) {
+          setIsImportOpen(false);
+        }
+      }
+      return res;
+    } finally {
+      setImportLoading(false);
+    }
+  };
+
   const handleAddNewTeacher = () => {
     setEditingId(null);
     setPost({
@@ -270,7 +309,13 @@ export default function TeachersPage() {
                     masters={masters}
                   />
                 </div>
-                <div className=" block md:hidden">
+                <div className=" block md:hidden flex gap-2">
+                  <button
+                    onClick={() => setIsImportOpen(true)}
+                    className="bg-[#10B981] text-white px-3 py-1 items-center flex gap-1 rounded-full hover:bg-green-600 transition text-sm font-medium whitespace-nowrap"
+                  >
+                    + Import
+                  </button>
                   <button
                     onClick={handleAddNewTeacher}
                     className="bg-[#3B82F6] text-white px-3 py-1 items-center md:px-4 md:py-2 flex gap-1 rounded-full md:rounded-[6px] hover:bg-blue-700 transition text-2xl md:text-sm font-medium whitespace-nowrap"
@@ -296,10 +341,10 @@ export default function TeachersPage() {
                   loading={deleteLoading}
                 />
 
-               
+
 
                 <div className=" block md:hidden w-full">
-                    <TeacherFilterDropdown
+                  <TeacherFilterDropdown
                     category={category}
                     setCategory={(cat) => {
                       setCategory(cat);
@@ -309,7 +354,13 @@ export default function TeachersPage() {
                     masters={masters}
                   />
                 </div>
-                
+
+                <button
+                  onClick={() => setIsImportOpen(true)}
+                  className="bg-[#10B981] hidden md:block text-white px-4 py-2 rounded-[6px] hover:bg-green-600 transition text-sm font-medium whitespace-nowrap"
+                >
+                  + Import Guru
+                </button>
                 <button
                   onClick={handleAddNewTeacher}
                   className="bg-[#3B82F6] hidden md:block text-white px-4 py-2 rounded-[6px] hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
@@ -320,6 +371,13 @@ export default function TeachersPage() {
             </div>
           </div>
         )}
+
+      <ModalImportTeacher
+        open={isImportOpen}
+        onClose={() => setIsImportOpen(false)}
+        onImport={handleImport}
+        loading={importLoading}
+      />
 
       <TeacherForm
         isOpen={isOpen}
