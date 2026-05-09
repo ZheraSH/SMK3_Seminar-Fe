@@ -74,7 +74,7 @@ const MonitoringPage = () => {
                                             {(meta.current_page - 1) * meta.per_page + index + 1}.
                                         </td>
                                         <td className={`px-3 py-4 text-[14px] font-medium text-center ${
-                                            (item.status === 'terlambat' || item.status === 'alpha' || item.status === 'sakit') ? 'text-[#EF4444]' : 'text-[#3B82F6]'
+                                            (item.status?.label === 'Terlambat' || item.status?.label === 'Alpha' || item.status?.label === 'Sakit') ? 'text-[#EF4444]' : 'text-[#3B82F6]'
                                         }`}>
                                             {item.checkin_time || "--:--"}
                                         </td>
@@ -92,15 +92,15 @@ const MonitoringPage = () => {
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <span className={`px-4 py-1 rounded-[6px] text-xs font-medium ${
-                                                item.status === 'hadir' 
+                                                item.status?.label === 'Masuk' 
                                                     ? 'bg-[#DBFFEE] text-[#047857]' 
-                                                    : item.status === 'terlambat'
+                                                    : item.status?.label === 'Terlambat'
                                                     ? 'bg-[#FEF3C7] text-[#F59E0B]'
-                                                    : item.status === 'sakit'
+                                                    : item.status?.label === 'Sakit'
                                                     ? 'bg-purple-100 text-purple-600'
                                                     : 'bg-red-100 text-red-600'
                                             }`}>
-                                                {item.status_label}
+                                                {item.status?.label}
                                             </span>
                                         </td>
                                     </tr>

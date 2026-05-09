@@ -688,8 +688,8 @@ const HeaderDaftarSiswaSkeleton = () => (
 
 //attendance card
 const StatusGridFiveSkeleton = () => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
-    {[...Array(5)].map((_, i) => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+    {[...Array(4)].map((_, i) => (
       <div
         key={i}
         className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 animate-pulse"

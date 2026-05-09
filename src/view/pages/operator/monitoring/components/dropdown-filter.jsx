@@ -7,8 +7,8 @@ const DropdownFilter = ({ onSelect, currentStatus }) => {
 
   const options = [
     { label: "Semua Status", value: "" },
-    { label: "Hadir", value: "hadir" },
-    { label: "Terlambat", value: "terlambat" },
+    { label: "Masuk", value: "present" },
+    { label: "Terlambat", value: "late" },
     { label: "Alpha", value: "alpha" },
   ];
 

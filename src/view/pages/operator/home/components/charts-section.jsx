@@ -4,7 +4,7 @@
 
 import { useEffect, useState, useMemo, useRef } from "react";
 import React from "react";
-import { CheckCircle, Clock, ClipboardList, AlertTriangle, CalendarX as Calendar1, LayoutDashboard } from "lucide-react";
+import { CheckCircle, Clock, ClipboardList, AlertTriangle, CalendarX as Calendar1, LayoutDashboard, Users } from "lucide-react";
 
 import {
   ResponsiveContainer,
@@ -61,8 +61,8 @@ const getCurvePath = (points, svgHeight, padding, isArea = false) => {
 // DEFAULT
 const DEFAULT_PIE = [
   { name: "Hadir", value: 0, color: "#22C55E" },
-  { name: "Telat", value: 0, color: "#FACC15" },
   { name: "Izin", value: 0, color: "#3B82F6" },
+  { name: "Sakit", value: 0, color: "#A855F7" },
   { name: "Alpha", value: 0, color: "#EF4444" },
 ];
 
@@ -97,26 +97,26 @@ export default function ChartsSection() {
         if (todayRes) {
           const present = todayRes.present?.count ?? 0;
           const presentPercentage = todayRes.present?.percentage ?? 0;
-          const late = todayRes.late?.count ?? 0;
           const permission = todayRes.permission?.count ?? 0;
-          const absent = todayRes.absent?.count ?? 0;
+          const sick = todayRes.sick?.count ?? 0;
+          const alpa = todayRes.alpa?.count ?? 0;
 
-          const isEmpty = present === 0 && late === 0 && permission === 0 && absent === 0;
+          const isEmpty = present === 0 && permission === 0 && sick === 0 && alpa === 0;
           setIsDataEmpty(isEmpty);
 
           setPresentPercent(presentPercentage);
           setPieData([
             { name: "Hadir", value: present, color: isEmpty ? "#9CA3AF" : "#22C55E" },
-            { name: "Telat", value: late, color: isEmpty ? "#9CA3AF" : "#FACC15" },
             { name: "Izin", value: permission, color: isEmpty ? "#9CA3AF" : "#3B82F6" },
-            { name: "Alpha", value: absent, color: isEmpty ? "#9CA3AF" : "#EF4444" },
+            { name: "Sakit", value: sick, color: isEmpty ? "#9CA3AF" : "#A855F7" },
+            { name: "Alpha", value: alpa, color: isEmpty ? "#9CA3AF" : "#EF4444" },
           ]);
 
           setSmallCards([
             { value: present, label: "Total Siswa Hadir", barColor: "bg-green-500", iconBg: "bg-green-100", iconColor: "text-green-600", Icon: CheckCircle },
-            { value: late, label: "Total Siswa Telat", barColor: "bg-yellow-500", iconBg: "bg-yellow-100", iconColor: "text-yellow-600", Icon: Clock },
             { value: permission, label: "Total Siswa Izin", barColor: "bg-blue-500", iconBg: "bg-blue-100", iconColor: "text-blue-600", Icon: ClipboardList },
-            { value: absent, label: "Total Siswa Alpha", barColor: "bg-red-500", iconBg: "bg-red-100", iconColor: "text-red-600", Icon: AlertTriangle },
+            { value: sick, label: "Total Siswa Sakit", barColor: "bg-purple-500", iconBg: "bg-purple-100", iconColor: "text-purple-600", Icon: Users },
+            { value: alpa, label: "Total Siswa Alpha", barColor: "bg-red-500", iconBg: "bg-red-100", iconColor: "text-red-600", Icon: AlertTriangle },
           ]);
         }
 
