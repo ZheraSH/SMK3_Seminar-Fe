@@ -190,21 +190,17 @@ export default function MainStatistikGlobal() {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <StatsCard
-          title="Rata-rata Kehadiran"
-          value={
-            counts.total > 0
-              ? ((counts.hadir / counts.total) * 100).toFixed(1) + "%"
-              : "0%"
-          }
+          title="Total Hadir"
+          value={counts.hadir}
           color="green"
           progress={counts.total > 0 ? (counts.hadir / counts.total) * 100 : 0}
         />
         <StatsCard
-          title="Total Telat"
-          value={counts.terlambat}
+          title="Total Sakit"
+          value={counts.sakit}
           color="orange"
           progress={
-            counts.total > 0 ? (counts.terlambat / counts.total) * 100 : 0
+            counts.total > 0 ? (counts.sakit / counts.total) * 100 : 0
           }
         />
         <StatsCard

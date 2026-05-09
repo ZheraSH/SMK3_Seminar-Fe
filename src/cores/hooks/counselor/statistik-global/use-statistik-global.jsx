@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { getAttendanceStatistics } from "@services/role-counselor/statistik-global/statistik-global";
+import { getAttendanceStatistics, getMonthlyAttendanceTrend } from "@services/role-counselor/statistik-global/statistik-global";
 
 export default function useAttendanceStatistics() {
     const [statistics, setStatistics] = useState(null);
@@ -11,37 +11,29 @@ export default function useAttendanceStatistics() {
         setErrorStatistics(null);
 
         try {
-            const result = await getAttendanceStatistics();
-            const currentMonthIndex = new Date().getMonth() + 1;
-            const currentMonthData = result.find(d => d.month === currentMonthIndex) || {
-                hadir: 0,
-                terlambat: 0,
-                izin: 0,
-                alpha: 0
-            };
+            const [globalRes, monthlyRes] = await Promise.all([
+                getAttendanceStatistics(),
+                getMonthlyAttendanceTrend()
+            ]);
 
-            const totalCurrent = currentMonthData.hadir + currentMonthData.terlambat + currentMonthData.izin + currentMonthData.alpha;
+            if (!globalRes) throw new Error("Gagal mengambil statistik global");
 
             const counts = {
-                hadir: currentMonthData.hadir,
-                terlambat: currentMonthData.terlambat,
-                izin: currentMonthData.izin,
-                alpha: currentMonthData.alpha,
-                total: totalCurrent
+                hadir: globalRes.counts?.hadir || 0,
+                sakit: globalRes.counts?.sakit || 0,
+                terlambat: globalRes.counts?.terlambat || 0, 
+                izin: globalRes.counts?.izin || 0,
+                alpha: globalRes.counts?.alpa || globalRes.counts?.alpha || 0,
+                total: globalRes.counts?.total || 0
             };
-            const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
-            const monthly_trend = {};
 
-            result.forEach(item => {
-                if (item.month >= 1 && item.month <= 12) {
-                    const monthName = months[item.month - 1];
-                    const total = item.hadir + item.terlambat + item.izin + item.alpha;
-                    const percentage = total > 0
-                        ? ((item.hadir + item.terlambat) / total) * 100
-                        : 0;
-                    monthly_trend[monthName] = parseFloat(percentage.toFixed(1));
-                }
-            });
+            const monthly_trend = {};
+            if (Array.isArray(monthlyRes)) {
+              monthlyRes.forEach(item => {
+                  const shortMonth = item.month.substring(0, 3);
+                  monthly_trend[shortMonth] = item.attendance_percentage || 0;
+              });
+            }
 
             setStatistics({ counts, monthly_trend });
         } catch (err) {

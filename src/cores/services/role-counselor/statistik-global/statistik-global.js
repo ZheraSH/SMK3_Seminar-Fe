@@ -5,6 +5,26 @@ export const getAttendanceStatistics = async () => {
 
   try {
     const res = await api.get(
+      `/counselor/attendance/statistic-global`,
+      {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+          Accept: "application/json",
+        },
+      }
+    );
+    return res.data.data;
+  } catch (err) {
+    console.error("Gagal mengambil statistik global:", err);
+    return null;
+  }
+};
+
+export const getMonthlyAttendanceTrend = async () => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await api.get(
       `/counselor/attendance/statistic-monthly`,
       {
         headers: {
@@ -15,15 +35,8 @@ export const getAttendanceStatistics = async () => {
     );
     return res.data.data;
   } catch (err) {
-    console.error("Gagal mengambil statistik globalyyy:", err);
-
-    return {
-      total: 0,
-      hadir: 0,
-      sakit: 0,
-      izin: 0,
-      alpha: 0,
-    };
+    console.error("Gagal mengambil statistik bulanan:", err);
+    return [];
   }
 };
 
