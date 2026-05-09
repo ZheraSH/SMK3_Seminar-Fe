@@ -37,10 +37,10 @@ export default function AttendanceDashboard() {
         (acc, cur) => {
           acc.hadir += cur.hadir || 0
           acc.izin += cur.izin || 0
-          acc.alpha += cur.alpha || 0
+          acc.alpa += cur.alpha || 0
           return acc
         },
-        { hadir: 0, telat: 0, izin: 0, alpha: 0 }
+        { hadir: 0, sakit: 0, izin: 0, alpa: 0 }
       )
 
       setData(students)
@@ -99,9 +99,9 @@ export default function AttendanceDashboard() {
               <div className="bg-white rounded-xl p-4 flex justify-between shadow-md">
                 <div className="bg-[#F59E0B] w-[4px] h-[52px] rounded-full" />
                 <div>
-                  <div className="text-3xl font-medium">{attendance.telat}</div>
+                  <div className="text-3xl font-medium">{attendance.sakit}</div>
                   <div className="text-sm text-gray-600 mt-1">
-                    Total Siswa Telat
+                    Total Siswa Sakit
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-[#FEF3C7] rounded-md flex items-center justify-center">
@@ -125,9 +125,9 @@ export default function AttendanceDashboard() {
               <div className="bg-white rounded-xl p-4 flex justify-between shadow-md">
                 <div className="bg-[#EF4444] w-[4px] h-[52px] rounded-full" />
                 <div>
-                  <div className="text-3xl font-medium">{attendance.alpha}</div>
+                  <div className="text-3xl font-medium">{attendance.alpa}</div>
                   <div className="text-sm text-gray-600 mt-1">
-                    Total Siswa Alpha
+                    Total Siswa Alpa
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-[#FEE2E2] rounded-md flex items-center justify-center">
@@ -143,7 +143,7 @@ export default function AttendanceDashboard() {
         <LoadingData loading={loading} type='create' count={4} />
       ) : (
      <>
-     <div className="flex items-center mt-10 mb-10 border border-gray-400 rounded-2xl p-3 w-full w-full">
+     <div className="flex items-center mt-10 mb-10 border border-gray-300 rounded-2xl p-3 w-full w-full">
       <div className="relative w-full">
         <Search
           size={18}
@@ -204,7 +204,7 @@ export default function AttendanceDashboard() {
                       <th className="px-6 py-4 text-center font-semibold tracking-wide">Hadir</th>
                       <th className="px-6 py-4 text-center font-semibold tracking-wide">Izin</th>
                       <th className="px-6 py-4 text-center font-semibold tracking-wide">Sakit</th>
-                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Alpha</th>
+                      <th className="px-6 py-4 text-center font-semibold tracking-wide">Alpa</th>
                     </tr>
                   </thead>
 
@@ -246,7 +246,7 @@ export default function AttendanceDashboard() {
                           </td>
                           <td className="px-6 py-4 text-center">
                             <span className="inline-flex items-center justify-center w-10 h-8 rounded-lg bg-red-50 text-red-600 font-semibold border border-red-100">
-                              {row.alpha}
+                              {row.alpa}
                             </span>
                           </td>
                         </tr>
