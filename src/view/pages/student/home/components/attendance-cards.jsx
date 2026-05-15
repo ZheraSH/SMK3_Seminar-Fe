@@ -29,11 +29,11 @@ export default function BodyDashboard({ summary, loading}) {
       label: "Sakit",
       count: summary?.sakit ?? null,
       icon: (
-        <div className="p-3 bg-purple-100 rounded-lg">
-          <Users className="w-6 h-6 text-purple-500" />
+        <div className="p-3 bg-yellow-100 rounded-lg">
+          <ClockAlert className="w-6 h-6 text-yellow-500" />
         </div>
       ),
-      colorBar: "bg-purple-500",
+      colorBar: "bg-yellow-500",
     },
     {
       label: "Izin",

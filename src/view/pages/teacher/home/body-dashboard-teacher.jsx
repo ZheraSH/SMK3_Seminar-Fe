@@ -16,153 +16,234 @@ export default function BodyDashboardTeacher() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {isLoading ? (<LoadingData loading={isLoading} type="kotakKecil" />)
-        : (
-          <h2 className="text-[20px] font-semibold text-gray-900 mb-4"> Selama Datang , {user.name || 'Guru bk'}</h2>
-        )}
+      {isLoading ? (
+        <LoadingData loading={isLoading} type="kotakKecil" />
+      ) : (
+        <h2 className="text-[20px] font-semibold text-gray-900 mb-4">
+          {" "}
+          Selama Datang , {user.name || "Guru bk"}
+        </h2>
+      )}
       <MainTeacher />
     </div>
   );
 }
 
-
-
 export const MainTeacher = () => {
-  const { classrooms, schedule, activeDay, setActiveDay, isLoading } = useTeacherDashboard();
+  const { classrooms, schedule, activeDay, setActiveDay, isLoading } =
+    useTeacherDashboard();
   const navigate = useNavigate();
   return (
     <>
       <div className="mb-8 mt-2">
-        {isLoading ? (<LoadingData loading={isLoading} type="cardClassroom" count={4} />
+        {isLoading ? (
+          <LoadingData loading={isLoading} type="cardClassroom" count={4} />
         ) : classrooms.length > 0 ? (
           <div className="flex flex-wrap gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
             {classrooms.map((item) => (
-              <div key={item.id} className="bg-white rounded-2xl p-3 drop-shadow-lg border border-gray-200 w-full h-[117px]">
+              <div
+                key={item.id}
+                className="bg-white rounded-2xl p-3 drop-shadow-lg border border-gray-200 w-full h-[117px]"
+              >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-[10px] flex items-center justify-center text-white font-semibold text-sm"> <School /> </div>
+                  <div className="w-10 h-10 bg-blue-500 rounded-[10px] flex items-center justify-center text-white font-semibold text-sm">
+                    {" "}
+                    <School />{" "}
+                  </div>
                   <div>
-                    <p className=" font-semibold text-[15px]"> {item.homeroom_teacher.name ?? "—"} </p>
-                    <p className="font-medium text-[#3B82F6] text-[12px] truncate w-full"> Wali Kelas </p>
+                    <p className=" font-semibold text-[15px]">
+                      {" "}
+                      {item.homeroom_teacher.name ?? "—"}{" "}
+                    </p>
+                    <p className="font-medium text-[#3B82F6] text-[12px] truncate w-full">
+                      {" "}
+                      Wali Kelas{" "}
+                    </p>
                   </div>
                 </div>
                 <hr />
                 <div className="flex justify-between mt-2">
-                  <p className="text-[12px] mb-1"> Jumlah Siswa:{" "} <span className="text-[#3B82F6]"> {item.students?.total ?? 0} </span> </p>
-                  <p className="text-[12px] text-gray-600"> {item.name ?? "—"}</p>
+                  <p className="text-[12px] mb-1">
+                    {" "}
+                    Jumlah Siswa:{" "}
+                    <span className="text-[#3B82F6]">
+                      {" "}
+                      {item.students?.total ?? 0}{" "}
+                    </span>{" "}
+                  </p>
+                  <p className="text-[12px] text-gray-600">
+                    {" "}
+                    {item.name ?? "—"}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-        ) :
-          (<div className="border border-gray-300 rounded-[8px] p-2 bg-white">
-            <p className="text-gray-600 text-sm italic">Jadwal mengajar kelas belum ada.</p>
-          </div>)}
-      </div>
-      {isLoading ? (<LoadingData loading={isLoading} type="2card" />)
-        : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-[#00000026] p-5">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4"> Jadwal Mengajar Hari Ini </h2>
-              <div className="overflow-x-auto  rounded-lg">
-                {schedule.length === 0 ? (
-
-                  <div className="flex flex-col items-center justify-center py-10 text-gray-400">
-                    <img
-                      src="../../../../images/null/null2.png"
-                      alt="Data siswa kosong"
-                      className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
-                    />
-                    <p className="text-sm font-medium text-center">
-                      Belum ada jadwal mengajar hari ini<br />
-                    </p>
-                  </div>
-                ) : (
-                  <table className="w-full text-[14px]  font-medium overflow-x-auto ">
-                    <thead>
-                      <tr className="bg-blue-500 text-white">
-                        <th className="px-4 py-3 text-center font-medium whitespace-nowrap">Mapel</th>
-                        <th className="px-4 py-3 text-center font-medium whitespace-nowrap">Jam</th>
-                        <th className="px-4 py-3 text-center font-medium whitespace-nowrap">Kelas</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {schedule.map((item, index) => (
-                        <tr key={item.id} className={`${index % 2 === 1 ? 'bg-[#EFF6FF]' : 'bg-white'} border-b border-gray-200 hover:bg-gray-50 transition`}>
-                          <td className="px-4 py-3 text-center whitespace-nowrap">{item.subject?.name ?? "—"}</td>
-                          <td className="px-4 py-3 text-center whitespace-nowrap"> {item.lesson_hour?.name ?? "—"} </td>
-                          <td className="px-4 py-3 text-center whitespace-nowrap"> {item.classroom?.name ?? "—"} </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            </div>
-            <div className="bg-white rounded-2xl  shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-[#00000026] p-5">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4"> Status Absensi </h2>
-              <div className="overflow-x-auto  rounded-lg">
-                {schedule.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-10 text-gray-400">
-                    <img
-                      src="../../../../images/null/null4.png"
-                      alt="Data siswa kosong"
-                      className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
-                    />
-                    <p className="text-sm font-medium text-center">
-                      Belum ada yang absen hari ini<br />
-                    </p>
-                  </div>
-                ) : (
-                  <table className="w-full text-[14px] border-collapse text-center font-medium">
-                    <thead className="sticky top-0 z-10">
-                      <tr className="bg-blue-500 text-white">
-                        <th className="px-4 py-3 rounded-tl-lg font-medium whitespace-nowrap">Kelas</th>
-                        <th className="px-4 py-3 font-medium whitespace-nowrap">Status</th>
-                        <th className="px-4 py-3 rounded-tr-lg font-medium whitespace-nowrap">Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {schedule.map((item, index) => {
-                        const isSudahAbsen = item.has_cross_checked === true;
-
-                        const statusText = isSudahAbsen ? "Sudah Absen" : "Belum Absen";
-
-                        const statusClass = isSudahAbsen
-                          ? "bg-[#10B98133] text-[#10B981]"
-                          : "bg-[#FF5E5333] text-[#FF4245]";
-
-                        return (
-                          <tr key={item.id} className={`${index % 2 === 1 ? 'bg-[#EFF6FF]' : 'bg-white'} border-b border-gray-200 hover:bg-gray-50 transition`}>
-                            <td className="px-4 py-2 whitespace-nowrap"> {item.classroom?.name ?? "—"} </td>
-                            <td className="px-4 py-2 whitespace-nowrap">
-                              <span className={`px-2 py-1 rounded-md font-medium text-xs ${statusClass}`}>
-                                {statusText}
-                              </span>
-                            </td>
-                            <td className="px-4 py-2 whitespace-nowrap">
-                              <button
-                                onClick={() => {
-                                  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-                                  const roles = userData.roles || [];
-                                  const basePath = roles.length > 1 ? "/dashboard" : "/teacher-home";
-                                  navigate(`${basePath}/attendance-teacher`);
-                                }}
-                                className="inline-block px-3 py-1.5 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition"
-                              >
-                                Lihat Kelas
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            </div>
+        ) : (
+          <div className="border border-gray-300 rounded-[8px] p-2 bg-white">
+            <p className="text-gray-600 text-sm italic">
+              Jadwal mengajar kelas belum ada.
+            </p>
           </div>
         )}
-    </>
-  )
-}
+      </div>
+      {isLoading ? (
+        <LoadingData loading={isLoading} type="2card" />
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-[#00000026] p-5">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              {" "}
+              Jadwal Mengajar Hari Ini{" "}
+            </h2>
+            <div className="overflow-x-auto  rounded-lg">
+              {schedule.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-10 text-gray-400">
+                  <img
+                    src="../../../../images/null/null2.png"
+                    alt="Data siswa kosong"
+                    className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+                  />
+                  <p className="text-sm font-medium text-center">
+                    Belum ada jadwal mengajar hari ini
+                    <br />
+                  </p>
+                </div>
+              ) : (
+                <table className="w-full text-[14px] font-medium overflow-x-auto">
+                  <thead>
+                    <tr className="bg-blue-500 text-white">
+                      <th className="px-4 py-3 text-center font-medium whitespace-nowrap">
+                        Mapel
+                      </th>
+                      <th className="px-4 py-3 text-center font-medium whitespace-nowrap">
+                        Jam
+                      </th>
+                      <th className="px-4 py-3 text-center font-medium whitespace-nowrap">
+                        Kelas
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {schedule.map((item, index) => (
+                      <tr
+                        key={item.id}
+                        className={`${
+                          index % 2 === 1 ? "bg-[#EFF6FF]" : "bg-white"
+                        } border-b border-gray-200 hover:bg-gray-50 transition`}
+                      >
+                        <td className="px-4 py-3 text-center whitespace-nowrap">
+                          <span className="bg-[#0EA5E9] text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            {item.subject?.name ?? "—"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-center whitespace-nowrap text-gray-600">
+                          {item.lesson_hour?.name ?? "—"}
+                        </td>
+                        <td className="px-4 py-3 text-center whitespace-nowrap">
+                          <span className="bg-[#00C4E6] text-white border border-[#00C4E6] px-3 py-1 rounded-[13px] text-xs font-bold">
+                            {item.classroom?.name ?? "—"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl  shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-[#00000026] p-5">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              {" "}
+              Status Absensi{" "}
+            </h2>
+            <div className="overflow-x-auto  rounded-lg">
+              {schedule.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-10 text-gray-400">
+                  <img
+                    src="../../../../images/null/null4.png"
+                    alt="Data siswa kosong"
+                    className="w-72 h-auto md:w-[400px] md:h-[285px] mb-6"
+                  />
+                  <p className="text-sm font-medium text-center">
+                    Belum ada yang absen hari ini
+                    <br />
+                  </p>
+                </div>
+              ) : (
+                <table className="w-full text-[14px] border-collapse text-center font-medium">
+                  <thead className="sticky top-0 z-10">
+                    <tr className="bg-blue-500 text-white">
+                      <th className="px-4 py-3 rounded-tl-lg font-medium whitespace-nowrap">
+                        Kelas
+                      </th>
+                      <th className="px-4 py-3 font-medium whitespace-nowrap">
+                        Status
+                      </th>
+                      <th className="px-4 py-3 rounded-tr-lg font-medium whitespace-nowrap">
+                        Aksi
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {schedule.map((item, index) => {
+                      const isSudahAbsen = item.has_cross_checked === true;
 
+                      const statusText = isSudahAbsen
+                        ? "Sudah Absen"
+                        : "Belum Absen";
+
+                      const statusClass = isSudahAbsen
+                        ? "bg-[#22C55E] text-[#FFFFFF]"
+                        : "bg-[#EF4444] text-[#FFFFFF]";
+
+                      return (
+                        <tr
+                          key={item.id}
+                          className={`${
+                            index % 2 === 1 ? "bg-[#EFF6FF]" : "bg-white"
+                          } border-b border-gray-200 hover:bg-gray-50 transition`}
+                        >
+                          <td className="px-4 py-2 whitespace-nowrap text-center">
+                            <span className="bg-[#00C4E6] text-white px-3 py-1 rounded-full text-xs font-semibold">
+                              {item.classroom?.name ?? "—"}
+                            </span>
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            <span
+                              className={`px-2 py-1 rounded-[12px] font-medium text-xs ${statusClass}`}
+                            >
+                              {statusText}
+                            </span>
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            <button
+                              onClick={() => {
+                                const userData = JSON.parse(
+                                  localStorage.getItem("userData") || "{}"
+                                );
+                                const roles = userData.roles || [];
+                                const basePath =
+                                  roles.length > 1
+                                    ? "/dashboard"
+                                    : "/teacher-home";
+                                navigate(`${basePath}/attendance-teacher`);
+                              }}
+                              className="inline-block px-3 py-1.5 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition"
+                            >
+                              Lihat Kelas
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
