@@ -120,7 +120,7 @@ export default function RfidAddModal({
             <option value="">-- Pilih Siswa --</option>
             {students.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.name} ({s.nisn})
+                {s.name} 
               </option>
             ))}
           </select>

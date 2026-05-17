@@ -4,7 +4,7 @@
 
 import { useEffect, useState, useMemo, useRef } from "react";
 import React from "react";
-import { CheckCircle, Clock, ClipboardList, AlertTriangle, CalendarX as Calendar1, LayoutDashboard, Users } from "lucide-react";
+import { CheckCircle, Clock, ClipboardList, AlertTriangle, CalendarX as Calendar1, LayoutDashboard, Users ,ClockAlert} from "lucide-react";
 
 import {
   ResponsiveContainer,
@@ -115,7 +115,7 @@ export default function ChartsSection() {
           setSmallCards([
             { value: present, label: "Total Siswa Hadir", barColor: "bg-green-500", iconBg: "bg-green-100", iconColor: "text-green-600", Icon: CheckCircle },
             { value: permission, label: "Total Siswa Izin", barColor: "bg-blue-500", iconBg: "bg-blue-100", iconColor: "text-blue-600", Icon: ClipboardList },
-            { value: sick, label: "Total Siswa Sakit", barColor: "bg-purple-500", iconBg: "bg-purple-100", iconColor: "text-purple-600", Icon: Users },
+            { value: sick, label: "Total Siswa Sakit", barColor: "bg-[#F59E0B]", iconBg: "bg-[#FEF3C7]", iconColor: "text-[#F59E0B]", Icon: ClockAlert },
             { value: alpa, label: "Total Siswa Alpha", barColor: "bg-red-500", iconBg: "bg-red-100", iconColor: "text-red-600", Icon: AlertTriangle },
           ]);
         }
@@ -352,7 +352,7 @@ export default function ChartsSection() {
                 <p className="text-2xl font-semibold">{i.value}</p>
                 <p className="text-sm text-slate-600">{i.label}</p>
               </div>
-              <div className={`${i.iconBg} p-3 rounded-lg`}>
+              <div className={`${i.iconBg} p-3 rounded-lg flex items-center justify-center`}>
                 <i.Icon className={`w-6 h-6 ${i.iconColor}`} />
               </div>
             </div>

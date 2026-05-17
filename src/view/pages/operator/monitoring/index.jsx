@@ -58,11 +58,11 @@ const MonitoringPage = () => {
                         <thead>
                             <tr className="bg-[#3B82F6] text-white">
                                 <th className="px-4 py-4 font-semibold whitespace-nowrap text-[12px] rounded-tl-xl text-center">No</th>
-                                <th className="px-3 py-4 font-semibold whitespace-nowrap text-[12px] text-center">Waktu Masuk</th>
-                                <th className="px-3 py-4 font-semibold whitespace-nowrap text-[12px] text-center">-</th>
-                                <th className="px-3 py-4 font-semibold whitespace-nowrap text-[12px] text-center">Waktu Keluar</th>
                                 <th className="px-6 py-4 font-semibold whitespace-nowrap text-[12px] text-center">Nama</th>
                                 <th className="px-6 py-4 font-semibold whitespace-nowrap text-[12px] text-center">Kelas</th>
+                                <th className="px-3 py-4 font-semibold whitespace-nowrap text-[12px] text-center">Waktu masuk</th>
+                                <th className="px-3 py-4 font-semibold whitespace-nowrap text-[12px] text-center">-</th>
+                                <th className="px-3 py-4 font-semibold whitespace-nowrap text-[12px] text-center">Waktu Keluar</th>
                                 <th className="px-6 py-4 font-semibold whitespace-nowrap text-[12px] text-center">Status</th>
                             </tr>
                         </thead>
@@ -73,6 +73,14 @@ const MonitoringPage = () => {
                                         <td className="px-4 py-4 text-sm text-gray-600 text-center">
                                             {(meta.current_page - 1) * meta.per_page + index + 1}.
                                         </td>
+                                        <td className="px-6 py-4 text-[14px] whitespace-nowrap text-center text-gray-700 font-medium">
+                                            {item.student_name}
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <span className="px-3 py-1 bg-[#00C4E6] text-white text-xs font-bold rounded-full">
+                                                {item.classroom}
+                                            </span>
+                                        </td>
                                         <td className={`px-3 py-4 text-[14px] font-medium text-center ${
                                             (item.status?.label === 'Terlambat' || item.status?.label === 'Alpha' || item.status?.label === 'Sakit') ? 'text-[#EF4444]' : 'text-[#3B82F6]'
                                         }`}>
@@ -81,14 +89,6 @@ const MonitoringPage = () => {
                                         <td className="px-3 py-4 text-sm text-gray-400 text-center">-</td>
                                         <td className="px-3 py-4 text-[14px] font-medium text-blue-600 text-center">
                                             {item.checkout_time || "15:15"}
-                                        </td>
-                                        <td className="px-6 py-4 text-[14px] whitespace-nowrap text-center text-gray-700 font-medium">
-                                            {item.student_name}
-                                        </td>
-                                        <td className="px-6 py-4 text-center">
-                                            <span className="px-3 py-1 bg-[#00C4E6] text-white text-xs font-bold rounded-full">
-                                                {item.classroom}
-                                            </span>
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <span className={`px-4 py-1 rounded-[6px] text-xs font-medium ${

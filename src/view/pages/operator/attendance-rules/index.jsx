@@ -1,5 +1,5 @@
 "use client";
-import { Save, ArrowRight } from "lucide-react";
+import { Save, ArrowRight,CircleAlert } from "lucide-react";
 import useAttendanceRules from "@core/hooks/operator/attendance-rules/use-attendance-rules";
 import LoadingData from "@elements/loading-data/loading";
 import { LoadingSpinner } from "@elements/loading-button/loading";
@@ -80,23 +80,9 @@ export default function AttendanceRulesPage() {
         )}
 
       {selectedDayData.is_holiday && (
-        <div className="w-full rounded-md border border-yellow-400 bg-yellow-50 px-4 py-3 flex items-start gap-3 mb-5">
-          {/* Icon */}
-          <svg
-            className="w-5 h-5 text-yellow-500 mt-[2px] shrink-0"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v4m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"
-            />
-          </svg>
-
-          <p className="text-sm text-yellow-700 leading-relaxed">
+        <div className="w-full rounded-md border border-blue-100 bg-[#DBEAFE] px-4 py-3 flex items-start gap-3 mb-5">
+          <CircleAlert className="w-5 h-5 mt-[2px] shrink-0 text-blue-500" />
+          <p className="text-sm leading-relaxed">
             <span className="font-semibold">Catatan:</span>{" "}
             Jam Sudah Di Atur Ke Hari Libur, Silahkan Tekan Tombol Simpan Untuk Menyimpan Perubahan!
           </p>
