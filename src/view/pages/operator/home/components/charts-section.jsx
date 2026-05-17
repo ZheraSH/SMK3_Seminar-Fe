@@ -4,7 +4,7 @@
 
 import { useEffect, useState, useMemo, useRef } from "react";
 import React from "react";
-import { CheckCircle, Clock, ClipboardList, AlertTriangle, CalendarX as Calendar1, LayoutDashboard, Users ,ClockAlert} from "lucide-react";
+import { CheckCircle, Clock, ClipboardList, AlertTriangle, CalendarX as Calendar1, LayoutDashboard, Users, ClockAlert } from "lucide-react";
 
 import {
   ResponsiveContainer,
@@ -66,11 +66,19 @@ const DEFAULT_PIE = [
   { name: "Alpha", value: 0, color: "#EF4444" },
 ];
 
+// DEFAULT SMALL CARDS
+const DEFAULT_SMALL_CARDS = [
+  { value: 0, label: "Total Siswa Hadir", barColor: "bg-green-500", iconBg: "bg-green-100", iconColor: "text-green-600", Icon: CheckCircle },
+  { value: 0, label: "Total Siswa Izin", barColor: "bg-blue-500", iconBg: "bg-blue-100", iconColor: "text-blue-600", Icon: ClipboardList },
+  { value: 0, label: "Total Siswa Sakit", barColor: "bg-[#F59E0B]", iconBg: "bg-[#FEF3C7]", iconColor: "text-[#F59E0B]", Icon: ClockAlert },
+  { value: 0, label: "Total Siswa Alpha", barColor: "bg-red-500", iconBg: "bg-red-100", iconColor: "text-red-600", Icon: AlertTriangle },
+];
+
 export default function ChartsSection() {
   const [attendanceData] = useState([]);
   const [pieData, setPieData] = useState(DEFAULT_PIE);
   const [presentPercent, setPresentPercent] = useState(0);
-  const [smallCards, setSmallCards] = useState([]);
+  const [smallCards, setSmallCards] = useState(DEFAULT_SMALL_CARDS);
   const [loading, setLoading] = useState(false);
   const [isDataEmpty, setIsDataEmpty] = useState(true);
   const [monthlyTrendData, setMonthlyTrendData] = useState({});
