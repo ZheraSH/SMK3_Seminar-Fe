@@ -197,11 +197,17 @@ const ScheduleLayout = ({ mode, classScheduleData, handleBackToClasses }) => {
                                 dataForDisplay.map((slot, index) => (
                                     <tr key={slot.id || index} className={`${index % 2 === 1 ? 'bg-[#EFF6FF]' : 'bg-white'} hover:bg-gray-50 text-[14px] font-medium transition-colors`}>
                                         <td className="py-3 whitespace-nowrap text-gray-900">{index + 1}</td>
-                                        <td className={`py-3 whitespace-nowrap ${slot.name?.toLowerCase().includes('istirahat') || !slot.is_lesson ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
-                                            {slot.start_time}
+                                        <td className="py-3 whitespace-nowrap">
+                                            <span className={`inline-block px-3 py-1 rounded-full text-white text-[12px] font-semibold shadow-sm
+                                                ${slot.name?.toLowerCase().includes('istirahat') || !slot.is_lesson ? 'bg-[#F59E0B]' : 'bg-[#22C55E]'}`}>
+                                                {slot.start_time}
+                                            </span>
                                         </td>
-                                        <td className={`py-3 whitespace-nowrap ${slot.name?.toLowerCase().includes('istirahat') || !slot.is_lesson ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
-                                            {slot.end_time}
+                                        <td className="py-3 whitespace-nowrap">
+                                            <span className={`inline-block px-3 py-1 rounded-full text-white text-[12px] font-semibold shadow-sm
+                                                ${slot.name?.toLowerCase().includes('istirahat') || !slot.is_lesson ? 'bg-[#F59E0B]' : 'bg-[#22C55E]'}`}>
+                                                {slot.end_time}
+                                            </span>
                                         </td>
                                         <td className="py-3 whitespace-nowrap text-gray-500">{slot.name || slot.designation}</td>
                                         {isClassMode && (
