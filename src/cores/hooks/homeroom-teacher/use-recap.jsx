@@ -42,12 +42,12 @@ export function UseRecap(selectedDate) {
     try {
       const res = await getTableApi(selectedDate, page, search, status);
       setTable(res?.students || []);
-      if (res?.pagination) {
+      if (res?.meta) {
         setPagination({
-          current_page: res.pagination.current_page,
-          last_page: res.pagination.last_page,
-          total: res.pagination.total,
-          per_page: res.pagination.per_page
+          current_page: res.meta.current_page,
+          last_page: res.meta.last_page,
+          total: res.meta.total,
+          per_page: res.meta.per_page
         });
       }
     } catch (error) {

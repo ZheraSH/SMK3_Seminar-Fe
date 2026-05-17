@@ -93,19 +93,18 @@ export function StudentDataTable() {
 
                 <td className="py-3 px-4">
                   <span
-                    className={`inline-flex items-center justify-center px-5 py-[3px] rounded-lg text-xs font-semibold ${
-                      item.status === "alpha"
+                    className={`inline-flex items-center justify-center px-5 py-[3px] rounded-lg text-xs font-semibold ${item.status === "alpha"
                         ? "bg-red-100 text-red-700"
                         : item.status === "permission"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : item.status === "present"
-                        ? "bg-green-100 text-green-700"
-                        : item.status === "sick"
-                        ? "bg-yellow-200 text-yellow-900"
-                        : "bg-gray-100 text-gray-700"
-                    }`}
+                          ? "bg-yellow-100 text-yellow-700"
+                          : item.status === "present"
+                            ? "bg-green-100 text-green-700"
+                            : item.status === "sick"
+                              ? "bg-yellow-200 text-yellow-900"
+                              : "bg-gray-100 text-gray-700"
+                      }`}
                   >
-                    {item.status}
+                    {typeof item.status === 'object' ? (item.status?.label || item.status?.value || "—") : (item.status ?? "—")}
                   </span>
                 </td>
 

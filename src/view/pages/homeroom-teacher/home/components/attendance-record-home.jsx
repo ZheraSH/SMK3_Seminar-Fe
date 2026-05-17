@@ -7,7 +7,7 @@ import LoadingData from "@elements/loading-data/loading";
 export default function AttendanceTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [attendanceData, setAttendanceData] = useState([]);
-  const [loading,setLoading] = useState (true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
@@ -21,7 +21,7 @@ export default function AttendanceTable() {
         }
       } catch (error) {
         console.error("Failed to fetch RFID logs:", error);
-      }finally {
+      } finally {
         setTimeout(() => setLoading(false), 800);
       }
     };
@@ -39,26 +39,26 @@ export default function AttendanceTable() {
   return (
     <div className="bg-white rounded-sm shadow-lg overflow-hidden">
       <div className="p-6">
-        {loading? (<LoadingData loading={loading} type="kotakKecil"/>)
-        :(
-          <>
-            <h2 className="text-lg font-bold text-gray-900">Absensi Hari Ini</h2>
-            <p className="text-sm text-gray-500 mt-1">
-              {new Date().toLocaleDateString("id-ID", {
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-              })}
-            </p>
-          </>
-        )}
+        {loading ? (<LoadingData loading={loading} type="kotakKecil" />)
+          : (
+            <>
+              <h2 className="text-lg font-bold text-gray-900">Absensi Hari Ini</h2>
+              <p className="text-sm text-gray-500 mt-1">
+                {new Date().toLocaleDateString("id-ID", {
+                  weekday: "long",
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            </>
+          )}
       </div>
 
       <div className="overflow-x-auto px-[25px] mb-10">
-        {loading? (
-          <LoadingData loading={loading} type="tableSchedule" count={6}/>
-        ):displayedData.length === 0 ? (
+        {loading ? (
+          <LoadingData loading={loading} type="tableSchedule" count={6} />
+        ) : displayedData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <img
               src="/images/particle/homeroom01.png"
@@ -107,10 +107,10 @@ export default function AttendanceTable() {
                     {startIndex + index + 1}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800">
-                    {record.student_name || record.name}
+                    {typeof (record.student_name || record.name) === 'object' ? ((record.student_name || record.name)?.label || (record.student_name || record.name)?.value || "-") : (record.student_name || record.name || "-")}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800">
-                    {record.nisn}
+                    {typeof record.nisn === 'object' ? (record.nisn?.label || record.nisn?.value || "-") : (record.nisn || "-")}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800">
                     {record.checkin_time || record.entryTime || "-"}
