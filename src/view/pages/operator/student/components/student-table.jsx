@@ -114,12 +114,12 @@ export function StudentsTable({
 
               <td className="px-4 py-3 text-left hidden sm:table-cell">
                 {student.classroom?.name ? (
-                  <span className="px-3 py-1 rounded-full bg-purple-500 text-white text-[10px] font-semibold">
+                  <span className="inline-flex justify-center items-center py-1 rounded-full w-[72px] bg-[#00C4E6] text-white text-[10px] font-semibold">
                     {student.classroom.name}
                   </span>
                 ) : (
-                  <span className="px-3 py-1 rounded-full bg-red-400 text-white text-[10px]">
-                    No Class
+                  <span className="inline-flex justify-center items-center py-1 rounded-full w-[72px] bg-[#EF4444] text-white text-[10px]">
+                    No Class !
                   </span>
                 )}
               </td>

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"; 
 import { X } from "lucide-react";
+import { getBgColorRole } from "@core/utils/subject-helper";
 
 const renderText = (val) => {
   if (!val) return "-";
@@ -91,9 +92,22 @@ export const DetailModal = ({
               <p className="text-[14px] text-gray-600 mt-0.5 break-all sm:break-normal">
                 {renderText(selectedTeacher.email)}
               </p>
-              <span className="mt-3 text-[12px] font-medium text-white bg-[#3B82F6] py-[3px] px-3 rounded-full">
-                Guru
-              </span>
+              <div className="flex flex-wrap gap-2 mt-3">
+                {selectedTeacher.roles && selectedTeacher.roles.length > 0 ? (
+                  selectedTeacher.roles.map((role, index) => (
+                    <span
+                      key={index}
+                      className={`text-[12px] font-medium py-[3px] px-3 rounded-full ${getBgColorRole(role)}`}
+                    >
+                      {role.label || role.value || (typeof role === 'string' ? role : 'Karyawan')}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-[12px] font-medium text-white bg-[#3B82F6] py-[3px] px-3 rounded-full">
+                    Guru
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 

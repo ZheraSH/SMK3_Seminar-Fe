@@ -72,3 +72,18 @@ import {
     return "bg-[#FBBF24]"
   }
   
+  export const getBgColorRole = (role) => {
+    const label = (role?.label || "").toLowerCase();
+    const value = (role?.value || (typeof role === "string" ? role : "")).toLowerCase();
+    const name = `${label} ${value}`;
+
+    if (name.includes("wali kelas") || name.includes("homeroom")) return "bg-[#10B981] text-white";
+    if (name.includes("guru pengajar") || name.includes("teacher")) return "bg-[#8B5CF6] text-white";
+    if (name.includes("bk") || name.includes("counselor") || name.includes("bimbingan") || name.includes("konseling")) return "bg-[#F59E0B] text-white";
+    if (name.includes("admin")) return "bg-[#EF4444] text-white";
+    if (name.includes("staff") || name.includes("tata usaha")) return "bg-[#6366F1] text-white";
+    if (name.includes("kepala") || name.includes("wakil") || name.includes("waka") || name.includes("coordinator") || name.includes("kurikulum")) return "bg-[#0EA5E9] text-white";
+    
+    return "bg-[#3B82F6] text-white";
+  }
+
