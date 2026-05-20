@@ -5,8 +5,7 @@ export const fetchRfidHistory = async (status = "", search = "", page = 1) => {
         const params = {  page, status, search};
         const res = await api.get("/rfid-tap-history", { params });
         return res.data;
-    } catch (err) {
-        console.error("TAP HISTORY ERROR:", err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
+

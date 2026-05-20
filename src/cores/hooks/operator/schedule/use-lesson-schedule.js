@@ -21,9 +21,7 @@ export default function useLessonHours(activeDayApi) {
     try {
       const data = await fetchLessonHoursByDay(activeDayApi);
       setLessonHours(data);
-    } catch (error) {
-      console.error("Error loading lesson hours:", error);
-      setLessonHours([]);
+    } catch (error) {setLessonHours([]);
     } finally {
       setIsLoadingHours(false);
     }
@@ -77,3 +75,4 @@ export default function useLessonHours(activeDayApi) {
     deleteLesson,
   };
 }
+

@@ -5,9 +5,7 @@ export const getClassroomDetail = async (id) => {
   try {
     const res = await api.get(`/classrooms/${id}`);
     return res.data.data;
-  } catch (err) {
-    console.error("Gagal mengambil detail kelas:", err);
-    throw err;
+  } catch (err) {throw err;
   }
 };
 
@@ -135,3 +133,4 @@ export const promoteStudents = async (classroomId, homeroomTeacherId) => {
     throw new Error(msg);
   }
 }
+

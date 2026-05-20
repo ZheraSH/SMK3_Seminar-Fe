@@ -31,9 +31,7 @@ export default function useClassroomDetail(classroomId) {
             setLoading(true);
             const detail = await getClassroomDetail(classroomId);
             setClassroom(detail);
-        } catch (err) {
-            console.error("Error fetching classroom detail:", err.response?.data || err);
-        } finally {
+        } catch (err) {} finally {
             setLoading(false);
         }
     }, [classroomId]);
@@ -65,9 +63,7 @@ export default function useClassroomDetail(classroomId) {
                 }));
             }
 
-        } catch (err) {
-            console.error("Error fetching students:", err.response?.data || err);
-        } finally {
+        } catch (err) {} finally {
             setStudentsLoading(false);
         }
     }, [classroomId]);
@@ -82,9 +78,7 @@ export default function useClassroomDetail(classroomId) {
 
             setSelectedStudentDetail(detail);
             return { success: true, data: detail };
-        } catch (err) {
-            console.error(`Gagal memuat detail siswa ID: ${studentId}`, err.response?.data || err);
-            setSelectedStudentDetail(null);
+        } catch (err) {setSelectedStudentDetail(null);
             throw err;
         } finally {
             setDetailLoading(false);
@@ -96,9 +90,7 @@ export default function useClassroomDetail(classroomId) {
         try {
             const available = await getAvailableStudents(classroomId);
             setAvailableStudents(available || []);
-        } catch (err) {
-            console.error("Error fetching available students:", err.response?.data || err);
-        }
+        } catch (err) {}
     }, [classroomId]);
 
     const fetchTeachers = useCallback(async () => {
@@ -106,9 +98,7 @@ export default function useClassroomDetail(classroomId) {
             setTeachersLoading(true);
             const allTeachers = await getTeachers();
             setTeachers(allTeachers || []);
-        } catch (err) {
-            console.error("Error fetching teachers:", err);
-        } finally {
+        } catch (err) {} finally {
             setTeachersLoading(false);
         }
     }, []);
@@ -127,9 +117,7 @@ export default function useClassroomDetail(classroomId) {
             await fetchAvailableStudents();
             await fetchStudents(1);
             return { success: true, data: res };
-        } catch (err) {
-            console.error("Gagal menambahkan siswa:", err.response?.data || err);
-            throw err;
+        } catch (err) {throw err;
         } finally {
             setActionLoading(false);
         }
@@ -141,9 +129,7 @@ export default function useClassroomDetail(classroomId) {
             const res = await removeStudentFromClass(classroomId, studentId);
             await fetchStudents(paginationMeta.current_page);
             return { success: true, data: res };
-        } catch (err) {
-            console.error("Gagal menghapus siswa:", err);
-            throw err;
+        } catch (err) {throw err;
         } finally {
             setActionLoading(false);
         }
@@ -155,9 +141,7 @@ export default function useClassroomDetail(classroomId) {
             const res = await importStudentsToClassroom(classroomId, file);
             fetchStudents(1); 
             return { success: true, data: res };
-        } catch (err) {
-            console.error("Gagal mengimport siswa:", err);
-            throw err;
+        } catch (err) {throw err;
         } finally {
             setActionLoading(false);
         }
@@ -170,9 +154,7 @@ export default function useClassroomDetail(classroomId) {
             fetchDetail();
             fetchStudents(1);
             return { success: true, data: res };
-        } catch (err) {
-            console.error("Error promote class:", err.message);
-            throw err;
+        } catch (err) {throw err;
         } finally {
             setActionLoading(false);
         }
@@ -199,3 +181,4 @@ export default function useClassroomDetail(classroomId) {
         promoteClass,
     };
 }
+

@@ -40,9 +40,7 @@ export default function useMasterSchedule(activeDayApi) {
       setSubjects(subjectsRes);
       setTeachers(filteredTeachers);
       setLessons(processedLessons);
-    } catch (err) {
-      console.error("Gagal mengambil data master:", err);
-      setError("Gagal memuat data master. Pastikan koneksi dan API berfungsi.");
+    } catch (err) {setError("Gagal memuat data master. Pastikan koneksi dan API berfungsi.");
     } finally {
       setIsLoading(false);
     }
@@ -61,3 +59,4 @@ export default function useMasterSchedule(activeDayApi) {
     refetch: loadMasterData,
   };
 }
+

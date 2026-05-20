@@ -16,9 +16,7 @@ export default function useMajors() {
       } else {
         setMajors([]);
       }
-    } catch (error) {
-      console.error("Error fetch majors di hook:", error);
-      setMajors([]);
+    } catch (error) {setMajors([]);
     } finally {
       setLoading(false);
     }
@@ -29,3 +27,4 @@ export default function useMajors() {
   }, []);
   return { majors, loading };
 }
+

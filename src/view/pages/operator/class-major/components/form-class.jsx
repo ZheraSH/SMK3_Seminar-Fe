@@ -51,9 +51,7 @@ export default function Form({ onClassAdded, addClass, onError, initialMajorCode
         const allClasses = await getAllClasses();
         const usedIds = allClasses.map(c => c.homeroom_teacher_id).filter(id => id != null);
         setUsedTeacherIds(usedIds);
-      } catch (err) {
-        console.error("Failed to fetch used teachers usage:", err);
-      } finally {
+      } catch (err) {} finally {
         setLoadingUsedIds(false);
       }
     };
@@ -147,4 +145,5 @@ export default function Form({ onClassAdded, addClass, onError, initialMajorCode
     </form>
   );
 }
+
 

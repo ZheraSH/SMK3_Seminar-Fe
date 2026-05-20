@@ -24,9 +24,7 @@ export function AttendanceSummary() {
             alpha: data.summary.attendance.alpha,
           });
         }
-      } catch (err) {
-        console.error(err);
-      } finally {
+      } catch (err) {} finally {
         setLoading(false);
       }
     };
@@ -61,3 +59,4 @@ export function AttendanceSummary() {
     </div>
   );
 }
+

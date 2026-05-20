@@ -23,9 +23,7 @@ export function RfidTable({
       await updateRfidStatus(id, newStatus);
       notify("Data Berhasil Diperbarui");
       onStatusUpdate();
-    } catch (err) {
-      console.error(err);
-      notify("Gagal memperbarui status", "error");
+    } catch (err) {notify("Gagal memperbarui status", "error");
     } finally {
       setUpdatingId(null);
       onMenuClick(-1);
@@ -221,4 +219,5 @@ function TableRow({
     </tr>
   );
 }
+
 

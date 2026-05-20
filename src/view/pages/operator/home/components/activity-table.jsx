@@ -15,9 +15,7 @@ export default function AttendanceTableSection() {
         if (Array.isArray(result)) {
           setData(result);
         }
-      } catch (error) {
-        console.error("Failed to fetch tap history:", error);
-      } finally {
+      } catch (error) {} finally {
         setLoading(false);
       }
     };
@@ -129,3 +127,4 @@ export default function AttendanceTableSection() {
     </div>
   );
 }
+

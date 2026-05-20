@@ -22,9 +22,7 @@ export default function useClassSchedule(classroomId, activeDayApi) {
     try {
       const data = await fetchClassScheduleByDay(classroomId, activeDayApi);
       setClassSchedule(data);
-    } catch (err) {
-      console.error("Gagal memuat jadwal kelas:", err);
-      setError(err);
+    } catch (err) {setError(err);
       setClassSchedule(null);
     } finally {
       setIsLoadingSchedule(false);
@@ -90,3 +88,4 @@ export default function useClassSchedule(classroomId, activeDayApi) {
     removeSchedule,
   };
 }
+

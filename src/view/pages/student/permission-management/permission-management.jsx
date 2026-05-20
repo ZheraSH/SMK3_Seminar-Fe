@@ -83,11 +83,9 @@ export default function PermissionManagement() {
     try {
       const detail = await getPermissionDetailStudent(permission.id);
       setSelectedDetail(detail);
-      console.log('berhasil ambil data detail ');
 
-    } catch (error) {
-      console.error("Error fetching detail:", error);
-      setIsModalOpen(false);
+
+    } catch (error) {setIsModalOpen(false);
     }
   }, []);
 
@@ -242,4 +240,5 @@ export default function PermissionManagement() {
     </div>
   );
 }
+
 

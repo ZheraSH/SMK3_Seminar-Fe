@@ -29,9 +29,7 @@ export default function MasterCardPage() {
     try {
       const res = await getMastercards();
       setData(res.data?.data || res.data || []);
-    } catch (err) {
-      console.error("Failed to fetch mastercards", err);
-    } finally {
+    } catch (err) {} finally {
       setLoading(false);
     }
   };
@@ -83,9 +81,7 @@ export default function MasterCardPage() {
       setConfirmModal({ show: false, id: null });
       fetchData();
     } catch (err) {
-      notify("Gagal menghapus Master Card", "error");
-      console.error("Gagal menghapus mastercard:", err);
-    } finally {
+      notify("Gagal menghapus Master Card", "error");} finally {
       setIsDeleting(false);
     }
   };
@@ -282,3 +278,4 @@ export default function MasterCardPage() {
     </div>
   );
 }
+

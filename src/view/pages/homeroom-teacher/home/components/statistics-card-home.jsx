@@ -104,9 +104,7 @@ export default function StatisticsCard() {
             },
           ]);
         }
-      } catch (error) {
-        console.error("Failed to load statistics", error);
-      } finally {
+      } catch (error) {} finally {
         setTimeout(() => {
           setLoading(false);
         }, 800);
@@ -141,3 +139,4 @@ export default function StatisticsCard() {
     </div>
   );
 }
+

@@ -55,7 +55,6 @@ export const scheduleData = [
     ];
 
 
-
   export const days = [
   { label: "Senin", value: "monday" },
   { label: "Selasa", value: "tuesday" },
@@ -63,8 +62,6 @@ export const scheduleData = [
   { label: "Kamis", value: "thursday" },
   { label: "Jumat", value: "friday" },
 ];
-
-
 
 
   export const studentData = [
@@ -219,3 +216,4 @@ export const schedule = [
       },
   ]
   
+

@@ -24,9 +24,7 @@ export const fetchStudents = async (
       data: res.data.data || [],
       meta: res.data.meta || {},
     };
-  } catch (err) {
-    console.error("Gagal ambil data siswa:", err);
-    throw err;
+  } catch (err) {throw err;
   }
 };
 
@@ -35,9 +33,7 @@ export const fetchlevelclasses = async () => {
   try {
     const res = await api.get("/level-classes");
     return res.data.data;
-  } catch (err) {
-    console.error("Gagal ambil data:", err);
-    throw err;
+  } catch (err) {throw err;
   }
 };
 
@@ -46,9 +42,7 @@ export const fetchMajors = async () => {
   try {
     const res = await api.get("/majors");
     return res.data.data;
-  } catch (err) {
-    console.error("Gagal ambil majors:", err);
-    throw err;
+  } catch (err) {throw err;
   }
 };
 
@@ -57,9 +51,7 @@ export const fetchReligions = async () => {
   try {
     const res = await api.get("/religions");
     return res.data.data || [];
-  } catch (err) {
-    console.error("Gagal ambil data agama:", err);
-    return [];
+  } catch (err) {return [];
   }
 };
 
@@ -102,7 +94,7 @@ export const submitStudent = async (post, editingId) => {
       message: response.data?.message,
     };
   } catch (err) {
-    console.log(" ERROR RESPONSE:", err.response?.data);
+
 
     return {
       success: false,
@@ -117,9 +109,7 @@ export const deleteStudent = async (id) => {
   try {
     await api.delete(`/students/${id}`);
     notify("Data Berhasil Dihapus");
-  } catch (err) {
-    console.error(err);
-    notify("Gagal menghapus data siswa", "error");
+  } catch (err) {notify("Gagal menghapus data siswa", "error");
     throw err;
   }
 };
@@ -152,9 +142,7 @@ export const getAllStudents = async () => {
     } while (currentPage <= lastPage);
 
     return allStudents;
-  } catch (err) {
-    console.error("Gagal mengambil SEMUA Siswa:", err);
-    throw err;
+  } catch (err) {throw err;
   }
 };
 

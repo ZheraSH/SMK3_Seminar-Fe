@@ -15,7 +15,7 @@ export const getClassroom = async (params = {}) =>  {
         return res.data;
     }
     catch (error) {
-        console.log("Gagal mengambil jadwal: ", error);
+
         return null;
     }
 }

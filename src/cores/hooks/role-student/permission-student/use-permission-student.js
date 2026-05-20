@@ -23,9 +23,7 @@ export function usePermissions() {
     try {
       const data = await fetchPendingPermissionsApi(start, end);
       setPendingPermissions(data || []);
-    } catch (err) {
-      console.error("Gagal mengambil data pending:", err);
-    }
+    } catch (err) {}
   }, [startDate, endDate]);
 
   const fetchHistory = useCallback(async (currentPage = page, start = startDate, end = endDate) => {
@@ -59,9 +57,7 @@ export function usePermissions() {
       await refreshAll();
       return { success: true, errors: null };
       
-    } catch (err) {
-      console.error(err.response?.data || err);
-      if (err.response?.status === 422) {
+    } catch (err) {if (err.response?.status === 422) {
         return { success: false, errors: err.response.data.errors };
       }
       throw err;
@@ -92,7 +88,7 @@ export function usePermissions() {
   } catch (err) {
    const serverMessage = err.response?.data?.message || "Gagal membatalkan izin";
     notify(serverMessage, "error");
-    console.log(serverMessage);
+
   } finally {
     setIsDeleting(false);
   }
@@ -113,3 +109,4 @@ export function usePermissions() {
     setEndDate,
 };
 }
+

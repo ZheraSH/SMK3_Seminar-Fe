@@ -312,7 +312,6 @@ const TableSkeleton = ({ count }) => (
 );
 
 
-
 // tabel schedule
 const TableChedule = ({ count }) => (
   <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -477,7 +476,6 @@ const ProfilePageSkeleton = () => (
 );
 
 
-
 // Classrooms List Skeleton di Dashboard Teacher
 const ClassroomsSkeleton = ({ count = 4 }) => (
   <div className="mb-8 mt-2">
@@ -525,7 +523,6 @@ const StatGridSkeleton = () => (
     ))}
   </div>
 );
-
 
 
 const ChartsGlobalSkeleton = () => (
@@ -632,8 +629,6 @@ const ProfilePageOperator = () => (
 );
 
 
-
-
 // Dashboard Wali kelas
 const DashboardHomeroom = () => (
   <div className="bg-white p-6 h-120 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between items-center">
@@ -708,7 +703,6 @@ const StatusGridFiveSkeleton = () => (
     ))}
   </div>
 );
-
 
 
 // absence card skeleton
@@ -854,4 +848,5 @@ export default function LoadingData({ loading, type = "list", count = 3 }) {
     </div>
   );
 }
+
 

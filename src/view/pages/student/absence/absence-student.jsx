@@ -57,9 +57,7 @@ export default function AbsentStudentMain() {
                     setPagination(response.data.meta);
                 }
             }
-        } catch (error) {
-            console.error("Error fetching attendance:", error);
-        } finally {
+        } catch (error) {} finally {
             setLoading(false);
         }
     };
@@ -223,4 +221,5 @@ export default function AbsentStudentMain() {
         </div>
     );
 }
+
 

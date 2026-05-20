@@ -21,9 +21,7 @@ export default function useSubjects() {
         setTotalItems(res.meta?.total || 0);
         setCurrentPage(res.meta?.current_page || pageNumber);
       }
-    } catch (error) {
-      console.error("Error fetching Subjects:", error);
-      setData([]);
+    } catch (error) {setData([]);
     } finally {
       setLoading(false);
     }
@@ -35,9 +33,7 @@ export default function useSubjects() {
       const result = await apiAddSubject(formData);
       await fetchSubjects(1, ""); // Reset ke page 1 tanpa filter setelah tambah data
       return { success: true, data: result };
-    } catch (error) {
-      console.error("Error adding subject:", error);
-      throw error;
+    } catch (error) {throw error;
     } finally {
       setLoading(false);
     }
@@ -58,3 +54,4 @@ export default function useSubjects() {
     totalItems,
   };
 }
+

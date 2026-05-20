@@ -36,9 +36,7 @@ const SchoolYearPage = () => {
     try {
       await deleteSchoolYears(confirmModal.id);
       setConfirmModal({ show: false, id: null, name: '' });
-    } catch (err) {
-      console.error("Gagal menghapus tahun ajaran:", err);
-    } finally {
+    } catch (err) {} finally {
       setIsDeleting(false);
     }
   };
@@ -66,9 +64,7 @@ const SchoolYearPage = () => {
     try {
       await addSchoolYear({ name: nextYear, active: false });
       setIsModalOpen(false);
-    } catch (err) {
-      console.error("Gagal menambah tahun ajaran", err);
-    } finally {
+    } catch (err) {} finally {
       setIsSubmitting(false);
     }
   };
@@ -78,9 +74,7 @@ const SchoolYearPage = () => {
     if (action === 'toggle_status') {
       try {
         await activateYear(item.id);
-      } catch (err) {
-        console.error("Gagal mengaktifkan:", err);
-      }
+      } catch (err) {}
     }
   };
 
@@ -205,3 +199,4 @@ const SchoolYearPage = () => {
 };
 
 export default SchoolYearPage;
+

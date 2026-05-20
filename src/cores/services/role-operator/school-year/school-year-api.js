@@ -2,16 +2,13 @@ import api from "@services/axios-config";
 import { notify } from "@core/hooks/notification/notify"
 
 
-
 export const getSchoolYears = async (page = 1, search = "") => {
   try {
     const res = await api.get(`/school-years`, {
       params: { page: page, search: search }
     })
     return res.data
-  } catch (err) {
-    console.error("Gagal ambil data subjects:", err)
-    throw err
+  } catch (err) {throw err
   }
 }
 
@@ -20,9 +17,7 @@ export const createSchoolYears = async (formData) => {
     const res = await api.post(`/school-years`, formData)
     notify("Data Berhasil Ditambah");
     return res.data;
-  } catch (err) {
-    console.error("Gagal menambah school year:", err.response ? err.response.data : err)
-    throw err.response ? err.response.data : err;
+  } catch (err) {throw err.response ? err.response.data : err;
   }
 }
 
@@ -31,9 +26,7 @@ export const activateSchoolYear = async (id) => {
     const res = await api.post(`/school-years/${id}/activate`)
     notify("Data Berhasil Diaktifkan");
     return res.data;
-  } catch (err) {
-    console.error("Gagal mengaktifkan school year:", err.response ? err.response.data : err)
-    throw err.response ? err.response.data : err;
+  } catch (err) {throw err.response ? err.response.data : err;
   }
 }
 
@@ -52,9 +45,7 @@ export const getSemester = async () => {
   try {
     const res = await api.get(`/semesters/active`);
     return res.data.data
-  } catch (err) {
-    console.error("Gagal ambil data subjects:", err)
-    throw err
+  } catch (err) {throw err
   }
 }
 

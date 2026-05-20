@@ -18,9 +18,7 @@ export default function useProfileOperator() {
         try {
             const response = await getPublicLogo();
             if (response) setSchoolInfo(response);
-        } catch (err) {
-            console.error("Gagal load logo sidebar:", err);
-        }
+        } catch (err) {}
     }, []);
 
     const fetchProfile = useCallback(async () => {
@@ -43,9 +41,7 @@ export default function useProfileOperator() {
         try {
             const result = await schoolYear();
             if (result) setYear(result);
-        } catch (error) {
-            console.error("Gagal fetch school year:", error);
-        }
+        } catch (error) {}
     }, []);
 
     const handleUpdate = async (formData) => {
@@ -80,3 +76,4 @@ export default function useProfileOperator() {
         handleUpdate
     };
 }
+

@@ -19,9 +19,7 @@ export default function AttendanceTable() {
         } else if (Array.isArray(response)) {
           setAttendanceData(response);
         }
-      } catch (error) {
-        console.error("Failed to fetch RFID logs:", error);
-      } finally {
+      } catch (error) {} finally {
         setTimeout(() => setLoading(false), 800);
       }
     };
@@ -127,3 +125,4 @@ export default function AttendanceTable() {
     </div>
   );
 }
+

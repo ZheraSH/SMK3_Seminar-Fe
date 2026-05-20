@@ -11,9 +11,7 @@ export function useAttendanceMonitoring() {
         try {
             const result = await getAttendance();
             setAttendance(result);
-        } catch (error) {
-            console.error('Fetch attendance gagal:', error);
-        } finally {
+        } catch (error) {} finally {
             setLoading(false);
         }
     }
@@ -29,3 +27,4 @@ export function useAttendanceMonitoring() {
         
     };
 }
+

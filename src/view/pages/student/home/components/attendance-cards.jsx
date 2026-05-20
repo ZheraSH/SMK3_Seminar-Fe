@@ -69,7 +69,6 @@ export default function BodyDashboard({ summary, loading}) {
   ];
 
 
- 
   return (
     <div className=" bg-gray-50">
       <h1 className="font-semibold text-xl mb-4 text-gray-700">
@@ -95,4 +94,5 @@ export default function BodyDashboard({ summary, loading}) {
     </div>
   );
 }
+
 

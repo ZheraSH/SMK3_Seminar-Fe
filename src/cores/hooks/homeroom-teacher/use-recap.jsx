@@ -16,9 +16,7 @@ export function UseRecap(selectedDate) {
     try {
       const data = await getHeaderAPI();
       setHeader(data);
-    } catch (error) {
-      console.error("Gagal fetch summary:", error);
-      setHeader(null);
+    } catch (error) {setHeader(null);
     } finally {
       setLoading(false);
     }
@@ -29,9 +27,7 @@ export function UseRecap(selectedDate) {
     try {
       const response = await getCardApi();
       setCard(response);
-    } catch (error) {
-      console.error("Gagal fetch summary:", error);
-      setCard({});
+    } catch (error) {setCard({});
     } finally {
       setLoading(false);
     }
@@ -50,9 +46,7 @@ export function UseRecap(selectedDate) {
           per_page: res.meta.per_page
         });
       }
-    } catch (error) {
-      console.error("Gagal fetch summary:", error);
-      setTable([]);
+    } catch (error) {setTable([]);
     } finally {
       setLoading(false);
     }
@@ -64,7 +58,7 @@ export function UseRecap(selectedDate) {
 
     setDownloading(true);
     try {
-      console.log("Mendownload dengan filter:", { selectedDate, searchQuery, selectedStatus });
+
       const response = await getCetakRecap(selectedDate, selectedStatus);
 
       const blob = new Blob([response], {
@@ -83,9 +77,7 @@ export function UseRecap(selectedDate) {
 
       link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Gagal download:", error);
-      alert("Terjadi kesalahan saat mengunduh file.");
+    } catch (error) {alert("Terjadi kesalahan saat mengunduh file.");
     } finally {
       setDownloading(false);
     }
@@ -124,3 +116,4 @@ export function UseRecap(selectedDate) {
     }
   };
 }
+

@@ -36,9 +36,7 @@ export default function useAttendanceStatistics() {
             }
 
             setStatistics({ counts, monthly_trend });
-        } catch (err) {
-            console.error("Gagal fetch statistik:", err);
-            setErrorStatistics("Gagal mengambil data statistik");
+        } catch (err) {setErrorStatistics("Gagal mengambil data statistik");
         } finally {
             setIsLoadingStatistics(false);
         }
@@ -57,3 +55,4 @@ export default function useAttendanceStatistics() {
         refreshStatistics: fetchStatistics,
     };
 }
+

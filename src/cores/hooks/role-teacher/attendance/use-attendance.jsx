@@ -39,9 +39,7 @@ export function useAttendanceTeacher() {
 
         setClassrooms(data);
       })
-      .catch((err) => {
-        console.error("Error fetching classroom:", err);
-        setError("Gagal memuat data kelas");
+      .catch((err) => {setError("Gagal memuat data kelas");
         setClassrooms([]);
       })
       .finally(() => setLoading(false));
@@ -63,3 +61,4 @@ export function useAttendanceTeacher() {
     setSubmittedClasses,
   };
 }
+

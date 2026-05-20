@@ -12,13 +12,12 @@ export const getAbsenteeismMonitoring = async (params = {}) => {
         });
         return res.data.data;
 
-    } catch (err) {
-        console.error("Gagal fetch data:", err);
-        return {
+    } catch (err) {return {
             recap: { present: 0, permission: 0, sick: 0, alpha: 0 },
             students: [],
         };
     }
 };
+
 
 

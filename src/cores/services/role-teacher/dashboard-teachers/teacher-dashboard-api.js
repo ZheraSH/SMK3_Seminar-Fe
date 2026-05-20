@@ -13,9 +13,7 @@ export const getDashboardClassroom = async (day) => {
         );
 
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal memuat daftar kelas:", err.message);
-        return [];
+    } catch (err) {return [];
     }
 };
 
@@ -33,9 +31,7 @@ export const getDashboardSchedule = async (day) => {
         );
 
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal memuat daftar kelas:", err.message);
-        return [];
+    } catch (err) {return [];
     }
 };
 

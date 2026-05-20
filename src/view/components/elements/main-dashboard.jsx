@@ -9,7 +9,6 @@ import useProfileOperator from "@core/hooks/operator/profile/use-profile-operato
 import api from "@services/axios-config";
 
 
-
 export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
   const [user, setUser] = useState({ name: "", email: "", image: "", roles: [] });
   const { schoolInfo } = useProfileOperator();
@@ -46,9 +45,7 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
       if (typeof clearAttendanceState === "function") {
         clearAttendanceState();
       }
-    } catch (err) {
-      console.error("Logout gagal:", err);
-    } finally {
+    } catch (err) {} finally {
       localStorage.removeItem("token");
       localStorage.removeItem("userData");
       window.location.href = "/login";
@@ -234,4 +231,6 @@ export default function MainDashboard({ toggleSidebar, sidebarOpen }) {
     </>
   );
 }
+
+
 

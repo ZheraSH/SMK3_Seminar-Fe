@@ -16,9 +16,7 @@ export const useMonitoring = () => {
         setData(response.data);
         setMeta(response.meta);
       }
-    } catch (error) {
-      console.error("Error fetching monitoring data:", error);
-    } finally {
+    } catch (error) {} finally {
       setLoading(false);
     }
   }, [params]);
@@ -63,3 +61,4 @@ export const useMonitoring = () => {
     refreshData
   };
 };
+

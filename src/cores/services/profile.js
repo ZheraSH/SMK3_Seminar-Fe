@@ -4,9 +4,7 @@ export const getProfile = async () => {
     try {
         const res = await api.get("/auth/profile");
         return res.data?.data ?? [];
-    } catch (error) {
-        console.error("API Error:", error);
-        return [];
+    } catch (error) {return [];
     }
 }
 
@@ -22,9 +20,7 @@ export const updatePhoto = async (photoData) => {
             }
         );
         return res.data; 
-    } catch (error) {
-        console.error("API Error: ", error.response?.data || error.message);
-        throw error; 
+    } catch (error) {throw error; 
     }
 }
 
@@ -40,9 +36,7 @@ export const updateEmail = async (emailData) => {
             }
         );
         return res.data; 
-    } catch (error) {
-        console.error("API Error: ", error.response?.data || error.message);
-        throw error; 
+    } catch (error) {throw error; 
     }
 }
 
@@ -58,13 +52,9 @@ export const updatePassword = async (passwordData) => {
             }
         );
         return res.data; 
-    } catch (error) {
-        console.error("API Error: ", error.response?.data || error.message);
-        throw error; 
+    } catch (error) {throw error; 
     }
 }
-
-
 
 
 

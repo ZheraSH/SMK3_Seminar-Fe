@@ -1,6 +1,5 @@
 
 
-
 export const data = [
   { hari: "Senin", hadir: 100, izin: 10 },
   { hari: "Selasa", hadir: 80, izin: 70 },
@@ -25,7 +24,6 @@ export const aktivitas = [
   { id: 13, checkin_time: "07.15", student_name: "Lilis", classroom: "XII PPLG 3", status: "hadir" },
   { id: 14, checkin_time: "07.40", student_name: "Gunawan", classroom: "XII PPLG 2", status: "terlambat" },
 ];
-
 
 
 //data guru
@@ -58,3 +56,4 @@ export const studentDummy = [
   { id: 7, name: "Fifi Anggraini", nisn: "008663667178", class: "X AKL 2", year: "2024/2025", rfid: "12356739i" },
   { id: 8, name: "Gita Lestari", nisn: "008663667179", class: "XII PPLG 3", year: "2024/2025", rfid: "Tambahkan RFID" },
 ];
+

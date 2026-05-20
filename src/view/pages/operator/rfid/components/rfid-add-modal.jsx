@@ -28,9 +28,7 @@ export default function RfidAddModal({
       try {
         const data = await fetchAvailableStudents();
         setStudents(data);
-      } catch (err) {
-        console.error("Gagal fetch students:", err);
-      }
+      } catch (err) {}
     };
 
     load();
@@ -166,4 +164,5 @@ export default function RfidAddModal({
     </div>
   );
 }
+
 

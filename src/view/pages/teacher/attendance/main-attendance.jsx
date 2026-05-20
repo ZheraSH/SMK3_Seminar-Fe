@@ -23,7 +23,6 @@ export default function AttendanceTeacher() {
   } = useAttendanceTeacher();
 
 
-
   if (isOpenClass) {
     return (
       <ClassAttendance selectedClass={selectedClass} date={selectedClass.date} setIsOpenClass={setIsOpenClass} globalChanges={globalChanges} setGlobalChanges={setGlobalChanges} submittedClasses={submittedClasses} setSubmittedClasses={setSubmittedClasses}/>
@@ -72,4 +71,5 @@ export default function AttendanceTeacher() {
     </div>
   );
 }
+
 

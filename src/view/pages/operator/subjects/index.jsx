@@ -95,16 +95,13 @@ export default function SubjectsPage() {
       fetchSubjects(currentPage, search);
       setGlobalTotal((prev) => (prev > 0 ? prev - 1 : 0));
       setDeleteModal({ isOpen: false, id: null, loading: false });
-    } catch (error) {
-      console.error("Error deleting subject:", error);
-      setDeleteModal((prev) => ({ ...prev, loading: false }));
+    } catch (error) {setDeleteModal((prev) => ({ ...prev, loading: false }));
     }
   };
 
   const handlePageChange = (newPage) => {
     fetchSubjects(newPage, search);
   };
-
 
 
   return (
@@ -209,4 +206,6 @@ export default function SubjectsPage() {
     </div>
   );
 }
+
+
 

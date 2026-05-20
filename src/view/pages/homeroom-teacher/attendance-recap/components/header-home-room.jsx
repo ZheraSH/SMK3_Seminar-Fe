@@ -13,9 +13,7 @@ const HeaderHomeRoom = () => {
         const today = new Date().toISOString().split("T")[0];
         const res = await fetchSummaryClass(today);
         setSummary(res.data ?? null);
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     };
     fetchData();
   }, []);
@@ -46,3 +44,4 @@ const HeaderHomeRoom = () => {
 };
 
 export default HeaderHomeRoom;
+

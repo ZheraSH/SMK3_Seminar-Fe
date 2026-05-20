@@ -16,9 +16,7 @@ export function useTeacher(searchTerm = "", role = "", gender = "", subject = ""
       const res = await fetchTeachersApi(page, searchTerm, role, gender, subject)
       setTeacher(res.data)
       setMeta(res.meta)
-    } catch (err) {
-      console.error(err)
-    }
+    } catch (err) {}
     setLoading(false)
   }
 
@@ -35,3 +33,4 @@ export function useTeacher(searchTerm = "", role = "", gender = "", subject = ""
     reload: load,
   }
 }
+

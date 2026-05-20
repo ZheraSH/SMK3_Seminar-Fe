@@ -25,8 +25,6 @@ import {
 import { FaPhone } from "react-icons/fa";
 
 
-
-
 export const ROLE_MENUS = {
   school_operator: [
     { name: "Dashboard", icon: <LayoutGrid size={20} />, path: "/home" },
@@ -74,8 +72,7 @@ export const ROLE_MENUS = {
 };
 
 
-
-
 export const multiRoleCommon = [
   { name: "Dashboard", icon: <LayoutGrid size={20} />, path: "/dashboard" },
 ];
+

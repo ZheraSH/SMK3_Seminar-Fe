@@ -24,7 +24,6 @@ export default function AttendanceRulesPage() {
   } = useAttendanceRules();
 
 
-
   return (
     <div className="">
       <style jsx global>{`
@@ -226,4 +225,5 @@ export default function AttendanceRulesPage() {
     </div>
   );
 }
+
 

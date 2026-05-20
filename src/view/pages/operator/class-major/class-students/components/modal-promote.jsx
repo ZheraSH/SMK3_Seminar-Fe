@@ -59,8 +59,7 @@ function ModalPromoteClass({ open, onClose, classroom, teachers, teachersLoading
                         </p>
                     </div>
 
-                    
-                    
+
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="relative">
                             <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
@@ -155,3 +154,4 @@ function ModalPromoteClass({ open, onClose, classroom, teachers, teachersLoading
 }
 
 export default ModalPromoteClass;
+

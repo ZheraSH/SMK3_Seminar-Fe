@@ -151,9 +151,7 @@ export default function TeachersPage() {
         ]);
         setReligions(religionsData);
         setAllTeachersForMasters(allTeachersData);
-      } catch (error) {
-        console.error("Gagal memuat data awal:", error);
-      } finally {
+      } catch (error) {} finally {
         setTimeout(() => setLoading(false), 800);
       }
     };
@@ -229,9 +227,7 @@ export default function TeachersPage() {
       if (ok) reload();
       setShowDeleteModal(false);
       setDeleteId(null);
-    } catch (e) {
-      console.error(e);
-    } finally {
+    } catch (e) {} finally {
       setDeleteLoading(false);
     }
   };
@@ -342,7 +338,6 @@ export default function TeachersPage() {
                 />
 
 
-
                 <div className=" block md:hidden w-full">
                   <TeacherFilterDropdown
                     category={category}
@@ -433,4 +428,6 @@ export default function TeachersPage() {
     </div>
   );
 };
+
+
 

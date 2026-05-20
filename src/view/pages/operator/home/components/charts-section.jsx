@@ -150,9 +150,7 @@ export default function ChartsSection() {
         } else {
           setMonthlyTrendData(trend);
         }
-      } catch (err) {
-        console.error("❌ DASHBOARD LOAD ERROR:", err);
-      } finally {
+      } catch (err) {} finally {
         setTimeout(() => setLoading(false), 800);
       }
     };
@@ -370,3 +368,4 @@ export default function ChartsSection() {
     </div>
   );
 }
+

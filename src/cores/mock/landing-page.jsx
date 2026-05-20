@@ -143,7 +143,6 @@ export const mentor = [
 ];
 
 
-
 export const NEWS_DATA = {
     "Pengumuman": [
         {
@@ -184,3 +183,4 @@ export const NEWS_DATA = {
         },
     ]
 };
+

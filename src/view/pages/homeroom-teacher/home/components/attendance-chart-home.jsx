@@ -38,9 +38,7 @@ export default function AttendanceChart() {
             day_name: resData.day_name,
           });
         }
-      } catch (error) {
-        console.error("Failed to load chart data", error);
-      } finally {
+      } catch (error) {} finally {
         setTimeout(() => setLoading(false), 800);
       }
     };
@@ -122,3 +120,4 @@ export default function AttendanceChart() {
     </div>
   );
 }
+

@@ -104,9 +104,7 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
         
         setIsInitialLoaded(true);
       }
-    } catch (err) {
-      console.error("Gagal sinkronisasi summary seluruh halaman:", err);
-    }
+    } catch (err) {}
   }, [selectedClass?.id, date, setGlobalChanges]);
 
   useEffect(() => {
@@ -282,3 +280,4 @@ export function useClassAttendance(selectedClass, date, globalChanges, setGlobal
     isTimeValid: canResubmit && !isPastDate && !isFutureDate
   };
 }
+

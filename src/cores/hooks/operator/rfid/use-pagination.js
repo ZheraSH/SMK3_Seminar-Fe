@@ -18,9 +18,7 @@ export function useRfid() {
       const res = await fetchRfid(page, search);
       setRfid(res.data);
       setMeta(res.meta);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
     setLoading(false);
   };
 
@@ -40,3 +38,4 @@ export function useRfid() {
     setRefresh,
   };
 }
+

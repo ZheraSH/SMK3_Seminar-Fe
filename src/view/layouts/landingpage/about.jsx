@@ -27,8 +27,7 @@ export default function AboutLp() {
         triggerOnce: true, 
         threshold: 0.5,    
     });
-    
-   
+
 
     return (
         <div className=" font-sans overflow-hidden">
@@ -172,4 +171,5 @@ export default function AboutLp() {
         </div>
     );
 }
+
 

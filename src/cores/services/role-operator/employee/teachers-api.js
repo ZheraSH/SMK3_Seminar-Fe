@@ -17,9 +17,7 @@ export const fetchTeachersApi = async (page = 1, search = "", role = "", gender 
       data: res.data.data || [],
       meta: res.data.meta || {},
     };
-  } catch (err) {
-    console.error("Gagal mengambil Teachers:", err);
-    throw err;
+  } catch (err) {throw err;
   }
 };
 
@@ -28,9 +26,7 @@ export const fetchReligionsApi = async () => {
   try {
     const res = await api.get("/religions");
     return res.data.data;
-  } catch (err) {
-    console.error("gagal", err);
-    return [];
+  } catch (err) {return [];
   }
 };
 
@@ -81,12 +77,12 @@ export const submitTeacherApi = async (editingId, post) => {
 
     return { success: true };
   } catch (err) {
-    console.log("ERROR RESPONSE:", err.response?.data);
+
 
     if (err.response?.data?.errors) {
       return { success: false, errors: err.response.data.errors };
     } else {
-      console.log(" Tidak ada field 'errors' di response");
+
       return { success: false };
     }
   }
@@ -98,9 +94,7 @@ export const deleteTeacherApi = async (id) => {
 
     notify("Guru Berhasil Di Hapus");
     return true;
-  } catch (err) {
-    console.error(err);
-    notify("Gagal menghapus data guru", "error");
+  } catch (err) {notify("Gagal menghapus data guru", "error");
     return false;
   }
 };
@@ -140,3 +134,4 @@ export const importTeachersApi = async (file) => {
     throw err;
   }
 };
+

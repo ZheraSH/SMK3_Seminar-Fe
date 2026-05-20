@@ -63,7 +63,7 @@ const ScheduleDetailPage = ({ selectedClassroomData, handleBackToClasses, setAct
     };
 
     const openEditModal = (item) => {
-        console.log("Data yang akan diedit:", item);
+
 
         const formattedData = {
             id: item.id,

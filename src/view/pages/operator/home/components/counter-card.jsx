@@ -38,9 +38,7 @@ export default function CounterCardsSection() {
       try {
         const data = await fetchDashboardCounters();
         setCounters(data);
-      } catch (err) {
-        console.error("❌ LOAD COUNTERS FAILED:", err);
-      } finally {
+      } catch (err) {} finally {
         setLoading(false);
       }
     };
@@ -80,4 +78,5 @@ export default function CounterCardsSection() {
     </div>
   );
 }
+
 

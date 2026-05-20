@@ -46,9 +46,7 @@ export default function AttendanceDashboard() {
       setData(students)
       setSummary(summaryResult)
       setLastPage(pagination.last_page || 1)
-    } catch (err) {
-      console.error('Fetch monitoring-global gagal:', err)
-    } finally {
+    } catch (err) {} finally {
       setLoading(false)
       setIsSyncing(false)
     }
@@ -136,9 +134,8 @@ export default function AttendanceDashboard() {
               </div>
             </div>
       )}
-        
-         
-  
+
+
    {loading ? (
         <LoadingData loading={loading} type='create' count={4} />
       ) : (
@@ -265,4 +262,6 @@ export default function AttendanceDashboard() {
     </div>
   )
 }
+
+
 

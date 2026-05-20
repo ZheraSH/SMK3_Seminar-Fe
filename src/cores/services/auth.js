@@ -17,10 +17,7 @@ export const loginUserApi = async ({ email, password }) => {
     } else {
       throw new Error("Format respons tidak sesuai. Silakan coba lagi.");
     }
-  } catch (error) {
-    console.error("Login API Error:", error);
-
-    // Tampilkan pesan error spesifik jika ada dari backend
+  } catch (error) {// Tampilkan pesan error spesifik jika ada dari backend
     if (error.response?.data?.message) {
       throw new Error(error.response.data.message);
     }
@@ -28,3 +25,4 @@ export const loginUserApi = async ({ email, password }) => {
     throw new Error("Gagal login. Periksa kembali email dan password Anda.");
   }
 };
+

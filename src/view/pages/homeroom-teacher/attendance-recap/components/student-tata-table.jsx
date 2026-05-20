@@ -14,9 +14,7 @@ export function StudentDataTable() {
         const today = new Date().toISOString().split("T")[0];
         const data = await fetchSummaryClassdaily(today);
         setStudents(data?.students ?? []);
-      } catch (err) {
-        console.error(err);
-      } finally {
+      } catch (err) {} finally {
         setLoading(false);
       }
     };
@@ -119,3 +117,4 @@ export function StudentDataTable() {
     </div>
   );
 }
+

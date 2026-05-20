@@ -17,9 +17,7 @@ export default function ClassDropdown({ onSelect, selectedId }) {
         if (Array.isArray(data)) {
           setClassrooms(data);
         }
-      } catch (error) {
-        console.error("Failed to load classrooms:", error);
-      } finally {
+      } catch (error) {} finally {
         setLoading(false);
       }
     };
@@ -84,3 +82,4 @@ export default function ClassDropdown({ onSelect, selectedId }) {
     </div>
   );
 }
+

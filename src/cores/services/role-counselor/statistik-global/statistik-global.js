@@ -14,9 +14,7 @@ export const getAttendanceStatistics = async () => {
       }
     );
     return res.data.data;
-  } catch (err) {
-    console.error("Gagal mengambil statistik global:", err);
-    return null;
+  } catch (err) {return null;
   }
 };
 
@@ -34,9 +32,7 @@ export const getMonthlyAttendanceTrend = async () => {
       }
     );
     return res.data.data;
-  } catch (err) {
-    console.error("Gagal mengambil statistik bulanan:", err);
-    return [];
+  } catch (err) {return [];
   }
 };
 
