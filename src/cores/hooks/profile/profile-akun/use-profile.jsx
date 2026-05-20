@@ -23,9 +23,7 @@ export default function fetchProfile () {
             setData(data)
             
         }
-        catch (error) {
-            console.error(error);
-            setError("Terjadi Kesalahan Saat Memuat Data.");
+        catch (error) {setError("Terjadi Kesalahan Saat Memuat Data.");
         } finally {
             setLoading(false);
         }
@@ -40,9 +38,7 @@ export default function fetchProfile () {
             const res = await updatePhoto(formData, token);
             await profile(); 
             return res;
-        } catch (err) {
-            console.error("Upload Foto Error:", err);
-            throw err;
+        } catch (err) {throw err;
         } finally {
             setIsUpdating(false);
         }
@@ -57,9 +53,7 @@ export default function fetchProfile () {
             const res = await updateEmail(formData, token);
             await profile();
             return res;
-        } catch (err) {
-            console.error("Update Email Error:", err);
-            throw err;
+        } catch (err) {throw err;
         } finally {
             setIsUpdating(false);
         }
@@ -70,9 +64,7 @@ export default function fetchProfile () {
         try {
             const res = await updatePassword(passwordPayload, token);
             return res;
-        } catch (err) {
-            console.error("Update Password Error:", err);
-            throw err;
+        } catch (err) {throw err;
         } finally {
             setIsUpdating(false);
         }
@@ -93,3 +85,4 @@ export default function fetchProfile () {
         profile
     };
 }
+

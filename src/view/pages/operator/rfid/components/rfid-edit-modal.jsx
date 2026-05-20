@@ -26,9 +26,7 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
     try {
       const data = await fetchAvailableStudents();
       setStudents(data);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
   };
 
   if (!show || !selected) return null;
@@ -72,9 +70,7 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
       } else {
         setErrors({ general: "Terjadi kesalahan yang tidak terduga." });
         notify("Gagal memperbarui data", "error");
-      }
-      console.error("Save error:", err);
-    } finally {
+      }} finally {
       setLoading(false);
     }
   };
@@ -134,4 +130,5 @@ export default function RfidEditModal({ show, selected, onDataChange, onSave, on
     </div>
   );
 }
+
 

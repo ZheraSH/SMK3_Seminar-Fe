@@ -14,8 +14,7 @@ export const getAlphaStudents = async () => {
         );
 
         return res.data.data; 
-    } catch (err) {
-        console.error("Gagal mengambil Dashboard:", err);
+    } catch (err) {throw err; 
     }
 };
 
@@ -31,9 +30,7 @@ export const getAttendance = async () => {
             }
         );
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal mengambil data kehadiran:", err);  
-    }
+    } catch (err) {}
 }
 
 
@@ -49,9 +46,7 @@ export const getAttendancePending = async () => {
             }
         );
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal mengambil data pending attendance:", err);
-    }
+    } catch (err) {}
 }
 
 

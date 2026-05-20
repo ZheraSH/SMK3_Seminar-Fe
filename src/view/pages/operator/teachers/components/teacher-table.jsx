@@ -1,26 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Edit3, Trash2, Eye } from "lucide-react";
 import { createPortal } from "react-dom";
+import { getBgColorRole } from "@core/utils/subject-helper";
 
-const ROLE_COLORS = {
-  admin: "bg-red-100 text-red-700",
-  teacher: "bg-blue-100 text-blue-700",
-  homeroom_teacher: "bg-green-100 text-green-700",
-  staff_tu: "bg-purple-100 text-purple-700",
-  counselor: "bg-orange-100 text-orange-700",
-  default: "bg-gray-100 text-gray-700",
-};
-
-const getRoleStyle = (role) => {
-  if (!role) return ROLE_COLORS.default;
-
-  const key =
-    typeof role === "string"
-      ? role.toLowerCase()
-      : role.value?.toLowerCase() || role.label?.toLowerCase();
-
-  return ROLE_COLORS[key] || ROLE_COLORS.default;
-};
 
 export const TeacherTable = ({
   currentTeachers = [],
@@ -147,7 +129,7 @@ export const TeacherTable = ({
                     teacher.roles.map((role, i) => (
                       <span
                         key={i}
-                        className={`px-2 py-[2px] rounded-full text-xs font-medium ${getRoleStyle(
+                        className={`px-2 py-[3px] rounded-full text-[12px] font-medium ${getBgColorRole(
                           role
                         )}`}
                       >

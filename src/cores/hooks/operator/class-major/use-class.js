@@ -41,9 +41,7 @@ export default function useClasses({ initialMajor = "" }) {
             setLastPage(res.meta.last_page);
             setTotal(res.meta.total);
 
-        } catch (error) {
-            console.error("Error fetching Class:", error.response?.data || error);
-            setData([]);
+        } catch (error) {setData([]);
             setLastPage(1);
             setTotal(0);
         } finally {
@@ -81,9 +79,7 @@ export default function useClasses({ initialMajor = "" }) {
             const result = await createClass(formData);
             await fetchClass(1, filters, searchText);
             return { success: true, data: result };
-        } catch (error) {
-            console.error("Error adding class:", error);
-            setLoading(false);
+        } catch (error) {setLoading(false);
             throw error;
         }
     };
@@ -113,3 +109,4 @@ export default function useClasses({ initialMajor = "" }) {
         },
     };
 }
+

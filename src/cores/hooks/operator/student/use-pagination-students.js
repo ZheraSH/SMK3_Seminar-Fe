@@ -14,9 +14,7 @@ export function useStudents() {
       const res = await fetchStudents(page, search);
       setStudents(res.data);
       setMeta(res.meta);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
     setLoading(false);
   };
 
@@ -34,3 +32,4 @@ export function useStudents() {
     setSearch,
   };
 }
+

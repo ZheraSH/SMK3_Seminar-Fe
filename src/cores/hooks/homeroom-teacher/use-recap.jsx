@@ -16,9 +16,7 @@ export function UseRecap(selectedDate) {
     try {
       const data = await getHeaderAPI();
       setHeader(data);
-    } catch (error) {
-      console.error("Gagal fetch summary:", error);
-      setHeader(null);
+    } catch (error) {setHeader(null);
     } finally {
       setLoading(false);
     }
@@ -29,9 +27,7 @@ export function UseRecap(selectedDate) {
     try {
       const response = await getCardApi();
       setCard(response);
-    } catch (error) {
-      console.error("Gagal fetch summary:", error);
-      setCard({});
+    } catch (error) {setCard({});
     } finally {
       setLoading(false);
     }
@@ -42,17 +38,15 @@ export function UseRecap(selectedDate) {
     try {
       const res = await getTableApi(selectedDate, page, search, status);
       setTable(res?.students || []);
-      if (res?.pagination) {
+      if (res?.meta) {
         setPagination({
-          current_page: res.pagination.current_page,
-          last_page: res.pagination.last_page,
-          total: res.pagination.total,
-          per_page: res.pagination.per_page
+          current_page: res.meta.current_page,
+          last_page: res.meta.last_page,
+          total: res.meta.total,
+          per_page: res.meta.per_page
         });
       }
-    } catch (error) {
-      console.error("Gagal fetch summary:", error);
-      setTable([]);
+    } catch (error) {setTable([]);
     } finally {
       setLoading(false);
     }
@@ -64,7 +58,7 @@ export function UseRecap(selectedDate) {
 
     setDownloading(true);
     try {
-      console.log("Mendownload dengan filter:", { selectedDate, searchQuery, selectedStatus });
+
       const response = await getCetakRecap(selectedDate, selectedStatus);
 
       const blob = new Blob([response], {
@@ -83,9 +77,7 @@ export function UseRecap(selectedDate) {
 
       link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Gagal download:", error);
-      alert("Terjadi kesalahan saat mengunduh file.");
+    } catch (error) {alert("Terjadi kesalahan saat mengunduh file.");
     } finally {
       setDownloading(false);
     }
@@ -124,3 +116,4 @@ export function UseRecap(selectedDate) {
     }
   };
 }
+

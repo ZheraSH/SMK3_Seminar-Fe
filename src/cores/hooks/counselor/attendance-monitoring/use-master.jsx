@@ -9,9 +9,7 @@ const fetchAndCache = async (apiFunc, key) => {
         const dataToCache = res?.data || res || []; 
         masterDataCache[key] = dataToCache;
         return dataToCache;
-    } catch (error) {
-        console.error(`Error fetching ${key}:`, error);
-        return []
+    } catch (error) {return []
     }
 };
 
@@ -41,9 +39,7 @@ export default function useMaster() {
 
             setMajors(masterDataCache.majors || []);
             setClassroom(masterDataCache.classroom || []);
-        } catch (err) {
-            console.error("Error fetching master data:", err);
-            setError(err);
+        } catch (err) {setError(err);
         } finally {
             setLoading(false);
         }
@@ -55,3 +51,4 @@ export default function useMaster() {
 
     return { majors, classroom, loading, error };
 }
+

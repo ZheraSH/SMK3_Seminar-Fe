@@ -66,9 +66,7 @@ export default function StudentPage() {
     try {
       const religionsData = await fetchReligions();
       setReligions(religionsData);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
   };
 
   const loadFilterMasters = async () => {
@@ -83,9 +81,7 @@ export default function StudentPage() {
       setAllLevels(levelsData || []);
       setAllClasses(classesData || []);
       setAllStudentsForFilter(allStudentsData || []);
-    } catch (err) {
-      console.error("Gagal load masters:", err);
-    }
+    } catch (err) {}
   };
 
   const {
@@ -107,9 +103,7 @@ export default function StudentPage() {
       const res = await fetchStudents(page, searchTerm, filters);
       setStudents(res.data || []);
       setMeta(res.meta || { current_page: 1, last_page: 1, total: 0 });
-    } catch (err) {
-      console.error(err);
-      setStudents([]);
+    } catch (err) {setStudents([]);
     } finally {
       if (showLoading) {
         setTimeout(() => {
@@ -142,7 +136,7 @@ export default function StudentPage() {
   }, [allMajors, allLevels]);
 
   const isLocalOnly = useMemo(() => {
-    return ["gender"].includes(category.type);
+    return ["gender", "level_class"].includes(category.type);
   }, [category.type]);
 
   const { filteredStudents, localMeta } = useMemo(() => {
@@ -152,6 +146,12 @@ export default function StudentPage() {
       if (category.type === "gender") {
         filtered = filtered.filter(
           (s) => s.gender?.value?.toLowerCase() === category.value?.toLowerCase()
+        );
+      }
+
+      if (category.type === "level_class") {
+        filtered = filtered.filter(
+          (s) => s.classroom?.name?.split(" ")[0] === category.value
         );
       }
 
@@ -231,13 +231,10 @@ export default function StudentPage() {
           setErrors(res.errors);
         }
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
+    } catch (err) {} finally {
       setIsSubmitting(false);
     }
   };
-
 
 
   const handleEdit = (student) => {
@@ -281,9 +278,7 @@ export default function StudentPage() {
       loadFilterMasters();
       setShowDeleteModal(false);
       setDeleteId(null);
-    } catch (err) {
-      console.error(err);
-    } finally {
+    } catch (err) {} finally {
       setDeleteLoading(false);
     }
   };
@@ -422,4 +417,6 @@ export default function StudentPage() {
     </div>
   );
 };
+
+
 

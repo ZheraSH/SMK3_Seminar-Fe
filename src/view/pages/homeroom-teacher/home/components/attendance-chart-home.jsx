@@ -26,10 +26,10 @@ export default function AttendanceChart() {
           const count = resData.count;
 
           setData([
-            { name: "Hadir", value: count.present },
-            { name: "Telat", value: count.late },
-            { name: "Izin", value: count.permission },
-            { name: "Alfa", value: count.alpha },
+            { name: "Hadir", value: count.present || 0 },
+            { name: "Telat", value: count.late || 0 },
+            { name: "Izin", value: count.permission || 0 },
+            { name: "Alfa", value: count.alpa || 0 },
           ]);
 
           setPercentage(resData.attendance_percentage || 0);
@@ -38,9 +38,7 @@ export default function AttendanceChart() {
             day_name: resData.day_name,
           });
         }
-      } catch (error) {
-        console.error("Failed to load chart data", error);
-      } finally {
+      } catch (error) {} finally {
         setTimeout(() => setLoading(false), 800);
       }
     };
@@ -122,3 +120,4 @@ export default function AttendanceChart() {
     </div>
   );
 }
+

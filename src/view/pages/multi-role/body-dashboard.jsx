@@ -13,11 +13,12 @@ export default function BodyDashboardMultiRole() {
     const data = JSON.parse(localStorage.getItem("userData"));
     if (data) {
       setUser(data);
-      const roles = Array.isArray(data.roles)
+      const rawRoles = Array.isArray(data.roles)
         ? data.roles
         : data.role
           ? [data.role]
           : [];
+      const roles = rawRoles.map(r => r?.value ?? r);
       setUserRoles(roles);
     }
 
@@ -31,7 +32,7 @@ export default function BodyDashboardMultiRole() {
       dashboards.push(<div key="teacher" className="w-full"><MainTeacher classrooms={[]} schedule={[]} /></div>);
     }
     if (userRoles.includes("counselor")) {
-      dashboards.push(<div key="bk" className="w-full"><DashboardContent /></div>);
+      dashboards.push(<div key="counselor" className="w-full"><DashboardContent /></div>);
     }
     if (userRoles.includes("homeroom_teacher")) {
       dashboards.push(<div key="homeroom" className="w-full"><HomeRoomHome /></div>);

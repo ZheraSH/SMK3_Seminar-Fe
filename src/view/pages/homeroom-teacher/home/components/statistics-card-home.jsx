@@ -70,43 +70,41 @@ export default function StatisticsCard() {
               id: 1,
               title: "Total Siswa Hadir",
               subtitle: "Total Siswa Hadir",
-              value: data.count.present.toString(),
+              value: (data.count?.present ?? 0).toString(),
               color: "green",
               icon: <CircleCheckBig size={20} />,
-              progress: Math.round((data.count.present / totalStudents) * 100),
+              progress: Math.round(((data.count?.present ?? 0) / totalStudents) * 100),
             },
             {
               id: 2,
               title: "Total Siswa Telat",
               subtitle: "Total Siswa Telat",
-              value: data.count.late.toString(),
+              value: (data.count?.late ?? 0).toString(),
               color: "yellow",
               icon: <ClockAlert size={20} />,
-              progress: Math.round((data.count.late / totalStudents) * 100),
+              progress: Math.round(((data.count?.late ?? 0) / totalStudents) * 100),
             },
             {
               id: 3,
               title: "Total Siswa Izin",
               subtitle: "Total Siswa Izin",
-              value: data.count.permission.toString(),
+              value: (data.count?.permission ?? 0).toString(),
               color: "blue",
               icon: <ClipboardCheck size={20} />,
-              progress: Math.round((data.count.permission / totalStudents) * 100),
+              progress: Math.round(((data.count?.permission ?? 0) / totalStudents) * 100),
             },
             {
               id: 4,
               title: "Total Siswa Alfa",
               subtitle: "Total Siswa Alfa",
-              value: data.count.alpha.toString(),
+              value: (data.count?.alpa ?? 0).toString(),
               color: "red",
               icon: <TriangleAlert size={20} />,
-              progress: Math.round((data.count.alpha / totalStudents) * 100),
+              progress: Math.round(((data.count?.alpa ?? 0) / totalStudents) * 100),
             },
           ]);
         }
-      } catch (error) {
-        console.error("Failed to load statistics", error);
-      } finally {
+      } catch (error) {} finally {
         setTimeout(() => {
           setLoading(false);
         }, 800);
@@ -141,3 +139,4 @@ export default function StatisticsCard() {
     </div>
   );
 }
+

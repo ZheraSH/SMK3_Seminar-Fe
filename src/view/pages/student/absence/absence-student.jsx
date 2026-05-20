@@ -11,16 +11,25 @@ import { LogIn, LogOut } from 'lucide-react';
 const getStatusColor = (status) => {
     const statusValue = status?.value || status;
     switch (statusValue) {
+        case 'present':
         case 'hadir':
-            return 'bg-green-500 text-white';
+        case 'Masuk':
+            return 'bg-[#22C55E] text-white';
+        case 'sick':
         case 'sakit':
-            return 'bg-yellow-500 text-white';
+        case 'Sakit':
+            return 'bg-[#F59E0B] text-white';
         case 'alpha':
         case 'alpa':
-            return 'bg-red-500 text-white';
+        case 'Alpha':
+            return 'bg-[#EF4444] text-white';
+        case 'late':
         case 'terlambat':
-            return 'bg-orange-500 text-white';
+        case 'Terlambat':
+            return 'bg-[#F59E0B] text-white';
+        case 'permission':
         case 'izin':
+        case 'Izin':
             return 'bg-blue-500 text-white';
         default:
             return 'bg-gray-500 text-white';
@@ -48,9 +57,7 @@ export default function AbsentStudentMain() {
                     setPagination(response.data.meta);
                 }
             }
-        } catch (error) {
-            console.error("Error fetching attendance:", error);
-        } finally {
+        } catch (error) {} finally {
             setLoading(false);
         }
     };
@@ -64,7 +71,7 @@ export default function AbsentStudentMain() {
     };
 
     return (
-        <div className="w-full bg-gray-50 p-4 mb-10">
+        <div className="w-full bg-gray-50 mb-10">
             {loading ? (
                 <LoadingData loading={true} type="header1" />
             ) : (
@@ -133,9 +140,9 @@ export default function AbsentStudentMain() {
                                             <td className="px-4 py-3 text-[14px] text-gray-800 text-center">
                                                 {record.date || '-'}
                                             </td>
-                                            <td className="px-4 py-3 text-center align-middle">
+                                            <td className="px-4 py-3  text-center align-middle">
                                                 <span
-                                                    className={`inline-block px-3 py-1 rounded-full text-[12px] ${getStatusColor(
+                                                    className={`inline-block px-3 w-[86px] py-1 rounded-full text-[12px] ${getStatusColor(
                                                         record.status
                                                     )}`}
                                                 >
@@ -166,7 +173,7 @@ export default function AbsentStudentMain() {
                                             </span>
                                             <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Riwayat Absensi</span>
                                         </div>
-                                        <div className={`px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider shadow-sm ${getStatusColor(record.status)}`}>
+                                        <div className={`px-2.5 py-1 w-[86px] text-center rounded-full text-[9px] font-black uppercase tracking-wider shadow-sm ${getStatusColor(record.status)}`}>
                                             {record.status?.label}
                                         </div>
                                     </div>
@@ -214,4 +221,5 @@ export default function AbsentStudentMain() {
         </div>
     );
 }
+
 

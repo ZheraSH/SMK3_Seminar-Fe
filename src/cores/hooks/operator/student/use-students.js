@@ -54,9 +54,7 @@ export const useStudents = () => {
       setReligions(religionsData)
       setMajors(majorsData)
       setlevelclasses(levelclassesData)
-    } catch (err) {
-      console.error("Error loading data:", err)
-    }
+    } catch (err) {}
   }
 
   useEffect(() => {
@@ -116,13 +114,13 @@ export const useStudents = () => {
       if (err.response?.data?.errors) {
         setErrors(err.response.data.errors)
       } else {
-        console.log("Tidak ada field 'errors' di response")
+
       }
     }
   }
 
   const handleEdit = (student) => {
-    console.log(" Student data for edit:", student)
+
 
     let normalizedGender = student.gender || ""
     if (student.gender === "L" || student.gender === "laki-laki") {
@@ -164,9 +162,7 @@ export const useStudents = () => {
       const updatedStudents = await fetchStudents()
       setStudents(updatedStudents)
       setAllStudents(updatedStudents)
-    } catch (err) {
-      console.error(err)
-    }
+    } catch (err) {}
   }
 
   const validateForm = () => {
@@ -245,3 +241,4 @@ export const useStudents = () => {
     handlePageChange,
   }
 }
+

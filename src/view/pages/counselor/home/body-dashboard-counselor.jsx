@@ -36,8 +36,8 @@ export const DashboardContent = () => {
       colorBar: "bg-green-500",
     },
     {
-      label: "Total Siswa Telat",
-      count: attendance?.telat || 0,
+      label: "Total Siswa Sakit",
+      count: attendance?.sakit || 0,
       iconPath: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
       iconColor: "text-yellow-500",
       bgIcon: "bg-yellow-100",
@@ -52,8 +52,8 @@ export const DashboardContent = () => {
       colorBar: "bg-blue-500",
     },
     {
-      label: "Total Siswa Alpha",
-      count: attendance?.alpha || 0,
+      label: "Total Siswa Alpa",
+      count: attendance?.alpa || 0,
       iconPath: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z",
       iconColor: "text-red-500",
       bgIcon: "bg-red-100",
@@ -241,8 +241,8 @@ export const DashboardContent = () => {
                         );
                         const roles = userData.roles || [];
                         const basePath =
-                          roles.length > 1 ? "/dashboard" : "/bk-home";
-                        navigate(`${basePath}/verifikasi-izin`);
+                          roles.length > 1 ? "/dashboard" : "/counselor-home";
+                        navigate(`${basePath}/permission-verification`);
                       }}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md text-xs font-medium transition shadow-sm"
                     >

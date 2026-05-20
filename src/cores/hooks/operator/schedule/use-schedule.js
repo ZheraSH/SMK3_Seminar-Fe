@@ -42,9 +42,7 @@ export default function useSchedule({ initialMajor = "" }) {
             setPage(res.meta.current_page);
             setLastPage(res.meta.last_page);
             setFilters(currentFilters);
-        } catch (error) {
-            console.error("Error fetching schedule:", error);
-            setScheduleData([]);
+        } catch (error) {setScheduleData([]);
             setLastPage(1);
 
         } finally {
@@ -112,3 +110,4 @@ export default function useSchedule({ initialMajor = "" }) {
         handleSearchChange,
     };
 }
+

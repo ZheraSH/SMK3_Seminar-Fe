@@ -29,9 +29,7 @@ export function AttendanceBarWeekly() {
           sunday.toISOString().split("T")[0]
         );
         setWeeklyData(res?.data ?? null);
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     }; 
     fetchData();
   }, []);
@@ -85,3 +83,4 @@ export function AttendanceBarWeekly() {
     </div>
   );
 }
+

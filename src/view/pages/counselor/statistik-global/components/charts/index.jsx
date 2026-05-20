@@ -222,13 +222,15 @@ export const LineChartPlaceholder = ({ monthlyTrendData }) => {
 export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
   const rawData = useMemo(() => {
     const totalPresent = proportionData.hadir ?? 0;
+    const totalSick = proportionData.sakit ?? 0;
     const totalLeave = proportionData.izin ?? 0;
     const totalAlpha = proportionData.alpha ?? 0;
 
-    const finalTotal = totalPresent + totalLeave + totalAlpha;
+    const finalTotal = totalPresent + totalSick + totalLeave + totalAlpha;
 
     const formattedData = [
       { label: "Hadir", value: totalPresent, color: " #22C55E", textColor: " #047857" },
+      { label: "Sakit", value: totalSick, color: "#F59E0B", textColor: "#B45309" },
       { label: "Izin", value: totalLeave, color: "#0EA5E9", textColor: "#1d4ed8" },
       { label: "Alpha", value: totalAlpha, color: "#EF4444", textColor: "#b91c1c" },
     ];
@@ -241,6 +243,7 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
 
   const data = rawData;
   const hadirData = data.find((d) => d.label === "Hadir");
+  const hadirPercentage = hadirData?.percentage || 0;
   const totalLog = data.reduce((sum, item) => sum + item.value, 0);
 
   if (totalLog === 0) {
@@ -313,8 +316,8 @@ export const PieChartPlaceholder = ({ proportionData, totalStudents }) => {
             );
           })}
 
-          <text x={CENTER} y={CENTER + 10} textAnchor="middle" fontSize="18" fill={hadirData?.textColor || "#4b5563"} fontWeight="bold">
-            {hadirData ? `${hadirData.percentage.toFixed(2)}%` : "0%"}
+          <text x={CENTER} y={CENTER + 10} textAnchor="middle" fontSize="18" fill="#4b5563" fontWeight="bold">
+            {hadirPercentage.toFixed(2)}%
           </text>
         </svg>
 

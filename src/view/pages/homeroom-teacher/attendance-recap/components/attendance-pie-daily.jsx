@@ -14,9 +14,7 @@ export function AttendancePieDaily() {
         const res = await fetchSummaryClassWeekly(today, today); // ambil 1 hari aja
         const todayData = res?.data?.daily_data?.[0] ?? null;
         setDailyData(todayData);
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     };
     fetchData();
   }, []);
@@ -73,3 +71,4 @@ export function AttendancePieDaily() {
     </div>
   );
 }
+

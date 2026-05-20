@@ -27,9 +27,7 @@ export function useDashboardStudent () {
                 }
 
                 setSchedule(data.data.schedules);
-            } catch (error) {
-                console.error(error);
-                setError("Terjadi kesalahan saat memuat jadwal.");
+            } catch (error) {setError("Terjadi kesalahan saat memuat jadwal.");
             } finally {
                 setLoading(false);
             }
@@ -46,9 +44,7 @@ export function useDashboardStudent () {
                     return;
                     }
                     setPermissions(res.data.slice(0, 3));
-                } catch (error) {
-                    console.error(error);
-                    setPermissions([]);
+                } catch (error) {setPermissions([]);
                 }
                 };
 
@@ -68,9 +64,7 @@ export function useDashboardStudent () {
                 setSummary(data.data)
     
             }
-            catch (error) {
-                console.error(error);
-                setError("Terjadi kesalahan saat memuat data.");
+            catch (error) {setError("Terjadi kesalahan saat memuat data.");
             } finally {
                 setLoading(false);
             }
@@ -91,9 +85,7 @@ export function useDashboardStudent () {
                 setStatistik(data.data);
     
             }
-            catch (error) {
-                console.error(error);
-                setError("Terjadi kesalahan saat memuat data.");
+            catch (error) {setError("Terjadi kesalahan saat memuat data.");
             } finally {
                 setLoading(false);
             }
@@ -110,3 +102,4 @@ export function useDashboardStudent () {
         scheduleDashboard,schedule,error,loading,permissions,summary,statistik
     }
 }
+

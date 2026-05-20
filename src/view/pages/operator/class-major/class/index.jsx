@@ -52,7 +52,7 @@ const ClassPage = () => {
                                 </button>
                             </div>
                         </div>
-                        <button onClick={toggleForm} className="w-full md:w-auto  hidden md:block px-4 py-2 bg-[#3B82F6] text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
+                        <button onClick={toggleForm} className="w-full md:w-auto  hidden md:block px-4 py-2 bg-[#3B82F6] hover:bg-blue-700 text-white font-medium text-[16px] rounded-lg shadow-md transition flex items-center justify-center space-x-1">
                             <span className="flex flex-row items-center gap-2"> <Plus size={18} /> Tambah Kelas</span>
                         </button>
                         <div className=" block md:hidden w-full">

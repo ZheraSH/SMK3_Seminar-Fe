@@ -3,13 +3,13 @@ import { getStatusBadgeColor } from "../utils/status-helpers";
 
 const formatDate = (dateString) => {
   if (!dateString) return "-";
-  
+
   const date = new Date(dateString);
-  
+
   if (isNaN(date.getTime())) return "-";
 
   const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0"); 
+  const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
 
   return `${day}-${month}-${year}`;
@@ -30,11 +30,11 @@ export const PermissionTable = ({ permissions = [], onViewDetail }) => {
       <table className="w-full">
         <thead className="bg-[#3B82F6] text-white">
           <tr>
-            <th className="px-6 py-3 whitespace-nowrap text-center font-medium">No</th>
+            <th className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-center font-medium">No</th>
             <th className="px-6 py-3 whitespace-nowrap text-center font-medium">Jenis Izin</th>
-            <th className="px-6 py-3 whitespace-nowrap text-center font-medium">Tanggal</th>
+            <th className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-center font-medium">Tanggal</th>
             <th className="px-6 py-3 whitespace-nowrap text-center font-medium">Status</th>
-            <th className="px-6 py-3 whitespace-nowrap text-center font-medium">Verifikator</th>
+            <th className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-center font-medium">Verifikator</th>
             <th className="px-6 py-3 whitespace-nowrap text-center font-medium">Aksi</th>
           </tr>
         </thead>
@@ -45,11 +45,11 @@ export const PermissionTable = ({ permissions = [], onViewDetail }) => {
               key={perm.id}
               className={index % 2 === 1 ? "bg-[#EFF6FF]" : "bg-white"}
             >
-              <td className="px-6 py-4 text-center">{index + 1}</td>
+              <td className="hidden md:table-cell px-6 py-4 text-center">{index + 1}</td>
               <td className="px-6 py-4 text-center whitespace-nowrap">
                 {perm.type.label || "kosong"}
               </td>
-              <td className="px-6 py-4 text-center whitespace-nowrap">
+              <td className="hidden md:table-cell px-6 py-4 text-center whitespace-nowrap">
                 {formatDate(perm.counselor?.verified_at)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
@@ -63,7 +63,7 @@ export const PermissionTable = ({ permissions = [], onViewDetail }) => {
                   </span>
                 </div>
               </td>
-              <td className="px-6 py-4 text-center whitespace-nowrap">
+              <td className="hidden md:table-cell px-6 py-4 text-center whitespace-nowrap">
                 {perm.counselor?.name || "-"}
               </td>
               <td className="px-6 py-4 text-center whitespace-nowrap">
@@ -81,4 +81,3 @@ export const PermissionTable = ({ permissions = [], onViewDetail }) => {
     </div>
   );
 };
-

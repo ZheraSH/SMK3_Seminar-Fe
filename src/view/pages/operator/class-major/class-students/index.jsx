@@ -5,6 +5,7 @@ import DataTable from './components/table-class-student';
 import PaginationComponent from './components/pagination-component';
 import FormStudents from "./components/form-class-student";
 import FormImportStudent from "./components/form-import-student";
+import ModalPromoteClass from "./components/modal-promote";
 import useClassroomDetail from '@core/hooks/operator/class-major/use-classroom-detail';
 import Header2 from "@elements/header/header-new-2";
 import LoadingData from '@elements/loading-data/loading';
@@ -39,16 +40,12 @@ function ModalImportStudent({ open, onClose, classroom, onImport, loading }) {
                 <h2 className="text-start text-[20px] font-semibold mb-6 pr-10">
                     Import Siswa ke {classroom?.name}
                 </h2>
-                <FormImportStudent 
-                    classroom={classroom} 
-                    onImport={onImport} 
-                    onClose={onClose} 
-                    loading={loading} 
-                />
+                <FormImportStudent  classroom={classroom}  onImport={onImport}  onClose={onClose}  loading={loading} />
             </div>
         </div>
     );
 }
+
 
 const ClassStudentsPage = () => {
     const location = useLocation();
@@ -57,9 +54,10 @@ const ClassStudentsPage = () => {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [openImportModal, setOpenImportModal] = useState(false);
+    const [openPromoteModal, setOpenPromoteModal] = useState(false);
     const [search, setSearch] = useState("");
 
-    const { classroom, students, paginationMeta, loading, studentsLoading, availableStudents, actionLoading, addStudents, removeStudent, fetchStudents, fetchAvailableStudents, fetchStudentDetail, selectedStudentDetail, detailLoading, importStudents } = useClassroomDetail(classroomUUID);
+    const { classroom, students, paginationMeta, loading, studentsLoading, availableStudents, teachers, teachersLoading, actionLoading, addStudents, removeStudent, fetchStudents, fetchAvailableStudents, fetchStudentDetail, selectedStudentDetail, detailLoading, importStudents, promoteClass } = useClassroomDetail(classroomUUID);
 
     useEffect(() => {
         const delaySearch = setTimeout(() => {
@@ -91,12 +89,25 @@ const ClassStudentsPage = () => {
     };
 
     const BackButton = () => (
-        <Link to="/home/class">
+        <Link to="/home/class-students">
             <button className="flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg lg:text-[14px] text-[10px] gap-1 shadow-md whitespace-nowrap w-full md:w-auto">
                 <ArrowLeftToLine size={16} /> Kembali
             </button>
         </Link>
     );
+
+    const handlePromote = async (teacherId) => {
+        try {
+            await promoteClass(teacherId);
+            setOpenPromoteModal(false);
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    const onPromoteClick = () => {
+        setOpenPromoteModal(true);
+    };
 
 
     const currentPage = paginationMeta?.current_page || 1;
@@ -117,14 +128,20 @@ const ClassStudentsPage = () => {
                             </div>
 
                             <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-end gap-2 w-full md:w-auto">
-                                <button onClick={onSyncClick} className="flex flex-row items-center justify-center px-4 py-2 bg-[#22C55E] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white shadow-md whitespace-nowrap w-full md:w-auto">
-                                    <RefreshCw size={16} className={`${isSyncing ? 'animate-spin' : ''}`} /><span className="ml-2">Sync</span>
+                                <button  onClick={onPromoteClick}  disabled={actionLoading} className={`flex flex-row items-center justify-center px-4 py-2 rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white shadow-md whitespace-nowrap w-full md:w-auto 
+                                ${actionLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#F59E0B] hover:bg-[#D97706]'}`}>
+                                    {actionLoading ? (
+                                        <RefreshCw size={16} className="animate-spin mr-2" />
+                                    ) : (
+                                        <ArrowUpSquare size={16} className="mr-2" />
+                                    )}
+                                    <span>Tingkatkan Kelas</span>
+                                </button>
+                                 <button onClick={() => setOpenImportModal(true)} className="flex items-center justify-center px-3 py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md whitespace-nowrap w-full md:w-auto">
+                                    <Plus size={16} /> Import Siswa
                                 </button>
                                 <button onClick={() => setOpenModal(true)} className="flex items-center justify-center px-3 py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md whitespace-nowrap w-full md:w-auto">
                                     <Plus size={16} /> Tambah Siswa
-                                </button>
-                                <button onClick={() => setOpenImportModal(true)} className="flex items-center justify-center px-3 py-2 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition duration-150 text-[10px] xl:text-[14px] text-white gap-2 shadow-md whitespace-nowrap w-full md:w-auto">
-                                    <Plus size={16} /> Import Siswa
                                 </button>
                                 <BackButton />
                             </div>
@@ -155,6 +172,7 @@ const ClassStudentsPage = () => {
                         )}
                         <ModalAddStudent open={openModal} onClose={() => setOpenModal(false)} classroom={classroom} availableStudents={availableStudents} addStudents={addStudents} />
                         <ModalImportStudent open={openImportModal} onClose={() => setOpenImportModal(false)} classroom={classroom} onImport={importStudents} loading={actionLoading} />
+                        <ModalPromoteClass open={openPromoteModal} onClose={() => setOpenPromoteModal(false)} classroom={classroom} teachers={teachers} teachersLoading={teachersLoading} onPromote={handlePromote} loading={actionLoading} />
                     </>
                 )}
             </div>
@@ -162,4 +180,5 @@ const ClassStudentsPage = () => {
     );
 };
 export default ClassStudentsPage;
+
 

@@ -15,7 +15,7 @@ export const getDashboardSummary = async  () => {
         return res.data;
     }
     catch (error) {
-        console.log("Gagal mengambil jadwal: ", error);
+
         return null;
     }
 }
@@ -35,7 +35,7 @@ export async function fetchStudentSchedule(Day) {
 
     return res.data;
   } catch (error) {
-    console.log("Gagal mengambil jadwal:", error);
+
     return null;
   }
 }
@@ -54,9 +54,7 @@ export async function fetchAttendancePermissions() {
     );
 
     return res.data;
-  } catch (error) {
-    console.error("Gagal ambil izin:", error);
-    return null;
+  } catch (error) {return null;
   }
 }
 
@@ -74,9 +72,7 @@ export async function fetchAttendanceMonthly() {
     );
 
     return res.data;
-  } catch (error) {
-    console.error("Gagal ambil izin:", error);
-    return null;
+  } catch (error) {return null;
   }
 }
 

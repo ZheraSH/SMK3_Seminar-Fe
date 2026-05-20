@@ -3,16 +3,12 @@ import { notify } from "@core/hooks/notification/notify";
 
 
 export const fetchLessonHoursByDay = async (day) => {
-    if (!day) {
-        console.error("Hari harus disediakan.");
-        return [];
+    if (!day) {return [];
     }
     try {
         const res = await api.get(`/lesson-hours/${day}`);
         return res.data.data;
-    } catch (err) {
-        console.error("gagal mengambil data per hari", err);
-        return [];
+    } catch (err) {return [];
     }
 };
 

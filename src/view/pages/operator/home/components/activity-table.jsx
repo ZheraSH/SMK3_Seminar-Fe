@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -14,9 +15,7 @@ export default function AttendanceTableSection() {
         if (Array.isArray(result)) {
           setData(result);
         }
-      } catch (error) {
-        console.error("Failed to fetch tap history:", error);
-      } finally {
+      } catch (error) {} finally {
         setLoading(false);
       }
     };
@@ -54,9 +53,9 @@ export default function AttendanceTableSection() {
                 (h, i) => (
                   <th
                     key={i}
-                    className={`px-4 py-3 text-xs font-medium ${i === 0 ? "rounded-tl-lg" : ""
+                    className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider ${i === 0 ? "rounded-tl-lg" : ""
                       } ${i === 4 ? "rounded-tr-lg" : ""
-                      } border-b border-blue-700`}
+                      } border-b border-blue-600`}
                   >
                     {h}
                   </th>

@@ -87,9 +87,7 @@ export const fetchSubject = async () => {
         } while (currentPage <= lastPage);
 
         return allSubjects;
-    } catch (err) {
-        console.error("Error fetching subjects:", err);
-        return allSubjects; 
+    } catch (err) {return allSubjects; 
     }
 };
 
@@ -125,9 +123,7 @@ export const fetchTeacher = async () => {
         
         return allTeachers;
         
-    } catch (err) {
-        console.error("Gagal mengambil SEMUA Guru/Wali Kelas:", err.response ? err.response.data : err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
 

@@ -30,7 +30,7 @@ export function PaginationAbsenceStudent({ currentPage, totalPages, onPageChange
                     (page) =>
                         page === 1 ||
                         page === finalTotalPages ||
-                        (page >= currentPage - 1 && page <= currentPage + 1)
+                        (page >= currentPage - 1 && page <= currentPage + 2)
                 )
                 .map((page, i, arr) => (
                     <React.Fragment key={page}>

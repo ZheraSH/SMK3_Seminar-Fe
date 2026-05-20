@@ -135,7 +135,7 @@ export const TeacherForm = ({
               type="number"
               min="0"
               step="1"
-              className={`border rounded-lg p-2 w-full ${errors.nik || (submitted && post.nik && post.nik.toString().length !== 16) ? "border-red-500" : "border-gray-300"
+              className={`border rounded-lg p-2 w-full ${errors.nik ? "border-red-500" : "border-gray-300"
                 }`}
               placeholder="Masukkan NIK"
               name="nik"
@@ -151,9 +151,6 @@ export const TeacherForm = ({
             {errors.nik && (
               <p className="text-red-500 text-sm mt-1">{errors.nik[0]}</p>
             )}
-            {submitted && post.nik && post.nik.toString().length !== 16 && !errors.nik && (
-              <p className="text-red-500 text-sm mt-1">NIK harus 16 digit</p>
-            )}
           </div>
 
           <div>
@@ -164,7 +161,7 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${errors.nip || (submitted && post.nip && post.nip.toString().length !== 18) ? "border-red-500" : "border-gray-300"
+              className={`border rounded-lg p-2 w-full ${errors.nip ? "border-red-500" : "border-gray-300"
                 }`}
               type="number"
               min="0"
@@ -181,9 +178,6 @@ export const TeacherForm = ({
             />
             {errors.nip && (
               <p className="text-red-500 text-sm mt-1">{errors.nip[0]}</p>
-            )}
-            {submitted && post.nip && post.nip.toString().length !== 18 && !errors.nip && (
-              <p className="text-red-500 text-sm mt-1">NIP harus 18 digit</p>
             )}
           </div>
 
@@ -269,7 +263,7 @@ export const TeacherForm = ({
               </p>
             </label>
             <input
-              className={`border rounded-lg p-2 w-full ${errors.phone_number || (submitted && post.phone_number && (post.phone_number.toString().length < 12 || post.phone_number.toString().length > 20)) ? "border-red-500" : "border-gray-300"
+              className={`border rounded-lg p-2 w-full ${errors.phone_number ? "border-red-500" : "border-gray-300"
                 }`}
               type="number"
               min={0}
@@ -287,9 +281,6 @@ export const TeacherForm = ({
               <p className="text-red-500 text-sm mt-1">
                 {errors.phone_number[0]}
               </p>
-            )}
-            {submitted && post.phone_number && (post.phone_number.toString().length < 12 || post.phone_number.toString().length > 15) && !errors.phone_number && (
-              <p className="text-red-500 text-sm mt-1">Nomor telepon harus antara 12 dan 15 digit</p>
             )}
           </div>
           <div className="relative">

@@ -43,7 +43,7 @@ export default function FormStudent({ onClose, availableStudents, addStudents })
             await addStudents(selectedStudents);
             onClose();
         } catch (error) {
-            console.log(error)
+
              setFormError("Gagal menambahkan siswa. Silakan coba lagi.");
         } finally {
             setIsLoading(false);

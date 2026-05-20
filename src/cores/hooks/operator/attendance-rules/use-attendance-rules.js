@@ -60,9 +60,7 @@ export default function useAttendanceRules() {
       setIsExistingData(false);
       setAttendanceRules((prev) =>
         prev.map((r) => (r.day === selectedDay ? { ...r, checkin_start: "", checkin_end: "", checkout_start: "", checkout_end: "", is_holiday: false } : r))
-      );
-      console.warn(`Data hari ${selectedDay} belum ada.`);
-    } finally {
+      );} finally {
       setLoading(false);
     }
   };
@@ -139,3 +137,4 @@ export default function useAttendanceRules() {
     setFieldErrors,
   };
 }
+

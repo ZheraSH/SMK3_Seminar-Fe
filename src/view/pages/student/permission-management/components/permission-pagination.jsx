@@ -27,7 +27,7 @@ export function PaginationPermissionStudent({ page, lastPage, onPrev, onNext, on
   const chevronStyle = "p-2 text-[#3B82F6] disabled:text-gray-300 disabled:cursor-not-allowed hover:bg-gray-50 rounded-md transition-colors";
 
   return (
-    <div className="flex items-center justify-end space-x-2 font-sans mt-6"> 
+    <div className="flex items-center justify-center space-x-2 font-sans mt-6"> 
       <button onClick={onPrev} disabled={page === 1} className={chevronStyle}>
         <ChevronLeft size={24} strokeWidth={2.5} />
       </button>

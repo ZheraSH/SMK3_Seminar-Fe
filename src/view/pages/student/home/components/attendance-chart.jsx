@@ -67,7 +67,7 @@ export default function AttendanceChart({ statistik = [] }) {
 
   return (
     <div className="w-full h-full rounded-2xl border border-gray-100 bg-white shadow-sm p-4 md:p-6">
-      
+
       <div className="flex flex-col md:flex-row justify-between items-start mb-4 md:mb-6 gap-2 md:gap-0">
         <div>
           <h2 className="text-lg md:text-[24px] font-bold text-gray-900 leading-tight">
@@ -82,13 +82,13 @@ export default function AttendanceChart({ statistik = [] }) {
         </div>
       </div>
 
-      
+
       <div className="w-full h-[250px] md:h-[367px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={statistik}
-            barGap={4} 
-            margin={{ top: 10, right: 0, left: -25, bottom: 0 }} 
+            barGap={4}
+            margin={{ top: 10, right: 0, left: -25, bottom: 0 }}
           >
             <CartesianGrid
               stroke="#E5E7EB"
@@ -102,7 +102,8 @@ export default function AttendanceChart({ statistik = [] }) {
               axisLine={false}
               tickLine={false}
               dy={10}
-              minTickGap={10} 
+              interval={0}
+              tickFormatter={(value) => value.substring(0, 3)}
             />
 
             <YAxis
@@ -128,7 +129,7 @@ export default function AttendanceChart({ statistik = [] }) {
             <Bar
               dataKey="hadir"
               fill="#4ade80"
-              radius={[4, 4, 0, 0]} 
+              radius={[4, 4, 0, 0]}
               maxBarSize={12}
               name="Siswa Hadir"
             />
@@ -140,7 +141,7 @@ export default function AttendanceChart({ statistik = [] }) {
               name="Siswa Telat"
             />
             <Bar
-              dataKey="alpha"
+              dataKey="alpa"
               fill="#f87171"
               radius={[4, 4, 0, 0]}
               maxBarSize={12}

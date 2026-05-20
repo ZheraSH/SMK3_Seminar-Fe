@@ -30,9 +30,7 @@ export default function VerifyPermission() {
             try {
                 const detail = await getPermissionDetailbk(permission.id);
                 setSelectedPermission(detail);
-            } catch (err) {
-                console.error("Gagal mengambil detail:", err);
-                setIsModalOpen(false);
+            } catch (err) {setIsModalOpen(false);
             } finally {
                 setIsLoadingDetail(false);
             }
@@ -57,9 +55,7 @@ export default function VerifyPermission() {
             setIsConfirmOpen(false);
             setSelectedPermission(null);
             refetchData?.();
-        } catch (err) {
-            console.error("Gagal memproses verifikasi:", err);
-        }
+        } catch (err) {}
     };
 
     const closeModal = () => {
@@ -131,4 +127,5 @@ export default function VerifyPermission() {
         </div>
     );
 }
+
 

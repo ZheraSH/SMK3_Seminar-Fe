@@ -13,9 +13,7 @@ export const getAttendanceClassroom = async (day) => {
         );
 
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal memuat daftar kelas:", err.message);
-        return [];
+    } catch (err) {return [];
     }
 };
 

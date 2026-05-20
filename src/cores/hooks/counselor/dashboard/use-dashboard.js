@@ -23,9 +23,7 @@ export const useDashboardData = () => {
             setAttendance(attendanceData || []);
             setAttendancePending(pendingAttendance || []);
 
-        } catch (err) {
-            console.error("Gagal memuat data dashboard:", err);
-            setError("Gagal memuat data dashboard. Silakan coba lagi.");
+        } catch (err) {setError("Gagal memuat data dashboard. Silakan coba lagi.");
         } finally {
             setIsLoading(false);
         }
@@ -44,3 +42,4 @@ export const useDashboardData = () => {
         attendancePending
     };
 };
+

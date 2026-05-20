@@ -5,9 +5,7 @@ export const getClass = async (params = {}) => {
     try {
         const res = await api.get(`/classrooms`, { params });
         return res.data;
-    } catch (err) {
-        console.error("Gagal ambil classroom:", err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
 
@@ -16,9 +14,7 @@ export const createClass = async (formData) => {
         const res = await api.post(`/classrooms`, formData)
         notify("Data Berhasil Ditambah");
         return res.data;
-    } catch (err) {
-        console.error("Gagal menambah classroom:", err.response ? err.response.data : err)
-        throw err.response ? err.response.data : err;
+    } catch (err) {throw err.response ? err.response.data : err;
     }
 }
 
@@ -27,9 +23,7 @@ export const getMajors = async () => {
     try {
         const res = await api.get(`/majors`);
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal mengambil Jurusan:", err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
 
@@ -37,9 +31,7 @@ export const getSchoolYears = async () => {
     try {
         const res = await api.get(`/school-years`);
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal mengambil Tahun Ajaran:", err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
 
@@ -47,9 +39,7 @@ export const getLevelClass = async () => {
     try {
         const res = await api.get(`/level-classes`);
         return res.data.data;
-    } catch (err) {
-        console.error("Gagal mengambil class Ajaran:", err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
 
@@ -86,9 +76,7 @@ export const getTeachers = async () => {
 
         return allTeachers;
 
-    } catch (err) {
-        console.error("Gagal mengambil SEMUA Guru/Wali Kelas:", err.response ? err.response.data : err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
 
@@ -122,12 +110,9 @@ export const getAllClasses = async () => {
 
         return allClasses;
 
-    } catch (err) {
-        console.error("Gagal mengambil SEMUA Kelas:", err.response ? err.response.data : err);
-        throw err;
+    } catch (err) {throw err;
     }
 };
-
 
 
 

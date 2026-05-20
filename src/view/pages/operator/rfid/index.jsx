@@ -67,9 +67,7 @@ export default function RfidPage() {
       setShowDeleteModal(false);
       setDeleteId(null);
     } catch (e) {
-      notify("Gagal menghapus RFID", "error");
-      console.error("Gagal hapus RFID", e);
-    } finally {
+      notify("Gagal menghapus RFID", "error");} finally {
       setDeleteLoading(false);
     }
   };
@@ -157,4 +155,5 @@ export default function RfidPage() {
     </div>
   );
 }
+
 

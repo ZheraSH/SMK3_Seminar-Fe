@@ -24,9 +24,7 @@ export function useTeacherDashboard() {
       setClassrooms(classroomData || []);
       setSchedule(scheduleData || []);
       
-    } catch (error) {
-      console.error("Error loading dashboard data:", error);
-    } finally {
+    } catch (error) {} finally {
       setIsLoading(false);
     }
   }, []);
@@ -43,3 +41,4 @@ export function useTeacherDashboard() {
     isLoading,
   };
 }
+

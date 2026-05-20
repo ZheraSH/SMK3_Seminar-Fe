@@ -3,7 +3,7 @@ import {Link,useNavigate} from "react-router-dom";
 const ClassCard = ({ classData }) => {
   const navigate = useNavigate();
   const handleViewDetail = () => {
-    navigate(`/home/classStudents/detail`, { state: { classroomId: classData.id } });
+    navigate(`/home/class-students/detail`, { state: { classroomId: classData.id } });
   };
   const schoolYear = classData.school_year?.name || classData.school_year || '-';
   return (
@@ -27,7 +27,7 @@ const ClassCard = ({ classData }) => {
           <span className="font-medium text-[12px] text-gray-700">{classData.total_students}</span>
         </div>
       </div>
-        <button onClick={handleViewDetail} className="w-full text-[14px]  px-4 bg-[#3B82F6] text-white font-medium rounded-lg transition h-[37px] duration-150 shadow-md cursor-pointer">
+        <button onClick={handleViewDetail} className="w-full text-[14px]  px-4 bg-[#3B82F6] hover:bg-blue-700 text-white font-medium rounded-lg transition h-[37px] duration-150 shadow-md cursor-pointer">
           Lihat Detail
       </button>
     </div>

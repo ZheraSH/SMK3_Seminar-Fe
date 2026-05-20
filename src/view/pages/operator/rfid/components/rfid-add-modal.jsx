@@ -28,9 +28,7 @@ export default function RfidAddModal({
       try {
         const data = await fetchAvailableStudents();
         setStudents(data);
-      } catch (err) {
-        console.error("Gagal fetch students:", err);
-      }
+      } catch (err) {}
     };
 
     load();
@@ -120,7 +118,7 @@ export default function RfidAddModal({
             <option value="">-- Pilih Siswa --</option>
             {students.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.name} ({s.nisn})
+                {s.name} 
               </option>
             ))}
           </select>
@@ -166,4 +164,5 @@ export default function RfidAddModal({
     </div>
   );
 }
+
 

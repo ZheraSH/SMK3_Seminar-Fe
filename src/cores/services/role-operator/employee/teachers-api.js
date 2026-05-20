@@ -17,9 +17,7 @@ export const fetchTeachersApi = async (page = 1, search = "", role = "", gender 
       data: res.data.data || [],
       meta: res.data.meta || {},
     };
-  } catch (err) {
-    console.error("Gagal mengambil Teachers:", err);
-    throw err;
+  } catch (err) {throw err;
   }
 };
 
@@ -28,9 +26,7 @@ export const fetchReligionsApi = async () => {
   try {
     const res = await api.get("/religions");
     return res.data.data;
-  } catch (err) {
-    console.error("gagal", err);
-    return [];
+  } catch (err) {return [];
   }
 };
 
@@ -81,12 +77,12 @@ export const submitTeacherApi = async (editingId, post) => {
 
     return { success: true };
   } catch (err) {
-    console.log("ERROR RESPONSE:", err.response?.data);
+
 
     if (err.response?.data?.errors) {
       return { success: false, errors: err.response.data.errors };
     } else {
-      console.log(" Tidak ada field 'errors' di response");
+
       return { success: false };
     }
   }
@@ -98,9 +94,7 @@ export const deleteTeacherApi = async (id) => {
 
     notify("Guru Berhasil Di Hapus");
     return true;
-  } catch (err) {
-    console.error(err);
-    notify("Gagal menghapus data guru", "error");
+  } catch (err) {notify("Gagal menghapus data guru", "error");
     return false;
   }
 };
@@ -109,5 +103,35 @@ export const deleteTeacherApi = async (id) => {
 export const submitTeacher = submitTeacherApi;
 export const deleteTeacher = deleteTeacherApi;
 
+export const importTeachersApi = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const res = await api.post('/employees-import', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
+    const payload = res.data.data;
+    if (payload && payload.error_count > 0) {
+      if (payload.imported_count > 0) {
+        notify(`Berhasil mengimpor ${payload.imported_count} guru. ${payload.error_count} baris gagal.`, "warning");
+      } else {
+        notify("Gagal mengimpor data guru", "error");
+      }
+      return { success: true, hasErrors: true, data: payload };
+    }
+
+    notify("Berhasil mengimpor data guru");
+    return { success: true, hasErrors: false, data: payload };
+  } catch (err) {
+    if (err.response?.data?.message) {
+      notify("Gagal mengimpor data guru", "error");
+    } else {
+      notify("Gagal mengimpor data guru", "error");
+    }
+    throw err;
+  }
+};
 

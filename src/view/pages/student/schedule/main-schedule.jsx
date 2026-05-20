@@ -17,7 +17,7 @@ export default function MainScheduleStudent() {
   } = useStudentSchedule(activeDay);
 
   return (
-    <div className="justify-center p-4 mb-10">
+    <div className="justify-center mb-10">
       <div className="hidden md:block">
           {loading? (<LoadingData loading={loading} type="header1"/>) 
           : (
@@ -31,7 +31,7 @@ export default function MainScheduleStudent() {
 
       {loading? (<LoadingData loading={loading} type="tombolday" count={5} />) 
       : (
-        <div className="mt-6 flex gap-2 flex-wrap bg-white shadow-md p-2 rounded-lg">
+        <div className=" mt-0 md:mt-6 flex gap-2 flex-wrap bg-white shadow-md p-2 rounded-lg">
           <ButtonSchedule
             setActiveDay={setActiveDay}
             activeDay={activeDay}
@@ -40,9 +40,18 @@ export default function MainScheduleStudent() {
       )}
 
       <div className="mt-4 w-full overflow-x-auto">
-        {loading? (<LoadingData loading={loading} type="tableSchedule" count={10}/>)
-        : (
-          <TableSchedule scheduleData={schedule}  />
+        {loading ? (
+          <>
+            <div className="block md:hidden">
+              <LoadingData loading={loading} type="scheduleMobile" count={8} />
+            </div>
+
+            <div className="hidden md:block">
+              <LoadingData loading={loading} type="tableSchedule" count={10} />
+            </div>
+          </>
+        ) : (
+          <TableSchedule scheduleData={schedule} />
         )}
       </div>
     </div>

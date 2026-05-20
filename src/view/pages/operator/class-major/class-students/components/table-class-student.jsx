@@ -83,7 +83,7 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
         setOpenDetailModal(true); 
         closeDropdown();
         const studentId = data.id; 
-        if (!studentId) { console.error("ID Siswa tidak ditemukan:", data); return;}
+        if (!studentId) {return;}
         await fetchStudentDetail(studentId); 
     };
 
@@ -206,4 +206,5 @@ const DataTable = ({ students, loading, removeStudent, paginationMeta, actionLoa
 };
 
 export default DataTable;
+
 

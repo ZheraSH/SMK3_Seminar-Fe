@@ -23,16 +23,10 @@ export default function TableHistory({ history, error, loading }) {
     return (
       <div className="w-full min-h-[250px] flex flex-col items-center justify-center p-6 transition-all">
 
-        {/* Container Gambar */}
         <div className="mb-4 transform transition-transform hover:scale-105">
-          <img
-            src="/images/null/null5.png"
-            alt="Data Kosong"
-            className="w-26 h-26 md:w-36 md:h-36 object-contain opacity-80"
-          />
+          <img src="/images/null/null5.png" alt="Data Kosong" className="w-26 h-26 md:w-36 md:h-36 object-contain opacity-80"/>
         </div>
 
-        {/* Konten Teks */}
         <div className="text-center">
           <h3 className="text-sm md:text-base font-bold text-gray-700 tracking-tight">
             Riwayat Belum Ada
@@ -59,13 +53,13 @@ export default function TableHistory({ history, error, loading }) {
     <table className="w-full table-fixed border-collapse rounded-lg">
       <thead className="block">
         <tr className="table w-full table-fixed bg-[#3B82F6] h-[37px] text-white text-[12px] font-semibold rounded-t-md">
-          <th className="w-[15%] text-left pl-3 py-2 rounded-tl-md">
+          <th className="w-[15%] text-center pl-3 py-2 rounded-tl-md">
             No
           </th>
-          <th className="w-[30%] text-left  ">
+          <th className="w-[30%] text-center  ">
             Tanggal
           </th>
-          <th className="w-[30%] text-left ">
+          <th className="w-[30%] text-center ">
             Alasan
           </th>
           <th className="w-[42%] text-center rounded-tr-md">
@@ -87,7 +81,7 @@ export default function TableHistory({ history, error, loading }) {
               key={index}
               className={`${rowClassName} table w-full table-fixed border border-[#000000]/20 text-[10px] md:text-[9px] lg:text-[13px]`}
             >
-              <td className="w-[10%] pl-5 py-3.5 font-normal">
+              <td className="w-[15%] pl-5 py-3.5 font-normal text-center">
                 {index + 1}.
               </td>
 
@@ -95,11 +89,11 @@ export default function TableHistory({ history, error, loading }) {
                 {h.counselor?.verified_at}
               </td>
 
-              <td className="w-[35%] px-[5px] text-left py-3.5 overflow-hidden text-ellipsis whitespace-nowrap">
+              <td className="w-[30%] px-[5px] text-center py-3.5 overflow-hidden text-ellipsis whitespace-nowrap">
                 {h.reason}
               </td>
 
-              <td className="w-[30%] text-center">
+              <td className="w-[42%] text-center">
                 <span
                   className={`px-4 py-1 rounded-3xl w-[88px] inline-flex justify-center items-center font-medium text-[12px] ${matchStatus?.style ?? ""
                     }`}

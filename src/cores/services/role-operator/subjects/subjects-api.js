@@ -12,9 +12,7 @@ export const getSubjects = async (page = 1, search = "") => {
       },
     })
     return res.data
-  } catch (err) {
-    console.error("Gagal ambil data subjects:", err)
-    throw err
+  } catch (err) {throw err
   }
 }
 
@@ -45,9 +43,7 @@ export const updateSubject = async (id, name) => {
     })
     notify("Data Berhasil Diperbarui")
     return response.data
-  } catch (err) {
-    console.error(" Gagal edit mapel:", err)
-    throw err
+  } catch (err) {throw err
   }
 }
 
@@ -59,12 +55,10 @@ export const deleteSubject = async (id) => {
         Accept: "application/json",
       },
     })
-    console.log(` Subject ${id} berhasil di hapus`)
+
     notify("Data Berhasil Dihapus")
     return response.data
-  } catch (error) {
-    console.error(" Gagal menghapus mapel:", error)
-    throw error
+  } catch (error) {throw error
   }
 }
 

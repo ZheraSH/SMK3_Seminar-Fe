@@ -18,8 +18,8 @@ export const StudentRoutes = [
         children: [
           { index: true, element: <BodyDashboard /> },
           { path: "dashboard", element: <MainDashboard /> },
-          { path: "student-class", element: <MainClassStudent /> },
-          { path: "absen-student", element: <AbsentStudentMain /> },
+          { path: "student-classroom", element: <MainClassStudent /> },
+          { path: "absence-student", element: <AbsentStudentMain /> },
           { path: "student-schedule", element: <MainScheduleStudent /> },
           { path: "student-license", element: <PermissionManagement /> },
           { path: "profile", element: <ProfileUser /> },

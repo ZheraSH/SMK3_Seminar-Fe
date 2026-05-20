@@ -23,9 +23,7 @@ export function RfidTable({
       await updateRfidStatus(id, newStatus);
       notify("Data Berhasil Diperbarui");
       onStatusUpdate();
-    } catch (err) {
-      console.error(err);
-      notify("Gagal memperbarui status", "error");
+    } catch (err) {notify("Gagal memperbarui status", "error");
     } finally {
       setUpdatingId(null);
       onMenuClick(-1);
@@ -53,11 +51,11 @@ export function RfidTable({
       <table className="min-w-[800px] w-full text-sm">
         <thead>
           <tr className="bg-blue-500">
-            <th className="px-6 py-3 text-left text-white">No</th>
-            <th className="px-6 py-3 text-left text-white">Nama Pengguna</th>
-            <th className="px-6 py-3 text-left text-white">ID Kartu</th>
-            <th className="px-6 py-3 text-left text-white">Status</th>
-            <th className="px-6 py-3 text-left text-white">Aksi</th>
+            <th className="px-6 py-3 text-left text-white font-medium">No</th>
+            <th className="px-6 py-3 text-left text-white font-medium">Nama Pengguna</th>
+            <th className="px-6 py-3 text-left text-white font-medium">ID Kartu</th>
+            <th className="px-6 py-3 text-center text-white font-medium">Status</th>
+            <th className="px-6 py-3 text-center text-white font-medium">Aksi</th>
           </tr>
         </thead>
 
@@ -165,7 +163,7 @@ function TableRow({
       <td className="px-6 py-2">{item.student?.name || "-"}</td>
       <td className="px-6 py-2">{item.rfid || "-"}</td>
 
-      <td className="px-6 py-2">
+      <td className="px-6 py-2 text-center">
         <span
           className={`px-3 py-1 rounded-full text-xs font-medium ${statusValue === "active"
             ? "bg-green-500 text-white"
@@ -176,7 +174,7 @@ function TableRow({
         </span>
       </td>
 
-      <td className="px-6 py-2 relative">
+      <td className="px-6 py-2 relative text-center">
         <button
           ref={btnRef}
           onClick={handleMenuClick}
@@ -221,4 +219,5 @@ function TableRow({
     </tr>
   );
 }
+
 

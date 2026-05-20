@@ -93,9 +93,14 @@ export function useVerifyPermissionData(fetchApi) {
 
                 setPermissions(response.data || []);
                 if (response.meta) {
-                    setLastPage(response.meta.last_page || 1);
+                    const newLastPage = response.meta.last_page || 1;
+                    setLastPage(newLastPage);
                     setTotalItems(response.meta.total || 0);
                     setPerPage(response.meta.per_page || 8);
+                    
+                    if (currentPage > newLastPage) {
+                        setCurrentPage(1);
+                    }
                 }
             } catch (err) {
                 setError("Gagal memuat data");
